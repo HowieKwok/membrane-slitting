@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="LightControl.View.LightView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LightControl.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Margin="0,198,0,0">
+        <HeaderedContentControl >
+            <HeaderedContentControl.HeaderTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text=" 光源名称 "  />
+                        <TextBlock Text=" 光源类型 " />
+                        <TextBlock Text=" 光源亮度-通道1 " />
+                        <TextBlock Text=" 光源亮度-通道2 " />
+                        <TextBlock Text=" 光源亮度-通道3 " />
+                        <TextBlock Text=" 光源亮度-通道4" />
+                        <TextBlock Text=" 光源亮度-通道5" />
+                        <TextBlock Text=" 光源亮度-通道6 " />
+                        <TextBlock Text=" 光源亮度-通道7" />
+                        <TextBlock Text=" 光源亮度-通道8" />
+                    </StackPanel>
+                    </DataTemplate>
+            </HeaderedContentControl.HeaderTemplate>
+            <ListBox ItemsSource="{Binding LightModel}" >
+                <ListBox.ItemTemplate >
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox Text="{Binding LightName}" Width="100" />
+                            <ComboBox  SelectedValue="{Binding LightType}" Width="100">
+                                <ComboBoxItem Content="OPTv1（9600）" />
+                                <ComboBoxItem Content="OPTv2（38400）" />
+                                <ComboBoxItem Content="OPTControllerAPI" />
+                                <ComboBoxItem Content="OPTv3" />
+                                <ComboBoxItem Content="乐视1" />
+                                <ComboBoxItem Content="乐视2" />
+                                <ComboBoxItem Content="乐视3" />
+                                <ComboBoxItem Content="CST（康视达）" />
+                                <ComboBoxItem Content="WDP（沃德普38400）" />
+                                <ComboBoxItem Content="WDP（沃德普19200）" />
+                                <ComboBoxItem Content="嘉励（19200）" />
+                            </ComboBox>
+                            <TextBox Text="{Binding LightCOM}" Width="100" />
+                            <TextBox Text="{Binding LightChannel1}" Width="100" />
+                            <TextBox Text="{Binding LightChannel2}" Width="100" />
+                            <TextBox Text="{Binding LightChannel3}" Width="100" />
+                            <TextBox Text="{Binding LightChannel4}" Width="100" />
+                            <TextBox Text="{Binding LightChannel5}" Width="100" />
+                            <TextBox Text="{Binding LightChannel6}" Width="100" />
+                            <TextBox Text="{Binding LightChannel7}" Width="100" />
+                            <TextBox Text="{Binding LightChannel8}" Width="100" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+
+            </ListBox>
+        </HeaderedContentControl>
+
+    </Grid>
+</UserControl>

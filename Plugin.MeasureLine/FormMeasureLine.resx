@@ -1,0 +1,3024 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="tableLayoutPanel2.ColumnCount" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="tableLayoutPanel3.ColumnCount" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="LB_IMageSize.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="LB_IMageSize.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="LB_IMageSize.Font" type="System.Drawing.Font, System.Drawing">
+    <value>黑体, 12pt</value>
+  </data>
+  <data name="LB_IMageSize.Location" type="System.Drawing.Point, System.Drawing">
+    <value>304, 5</value>
+  </data>
+  <data name="LB_IMageSize.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>13, 5, 3, 3</value>
+  </data>
+  <data name="LB_IMageSize.Size" type="System.Drawing.Size, System.Drawing">
+    <value>245, 27</value>
+  </data>
+  <data name="LB_IMageSize.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="LB_IMageSize.Text" xml:space="preserve">
+    <value>Size  R:—   C:—</value>
+  </data>
+  <data name="LB_IMageSize.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;LB_IMageSize.Name" xml:space="preserve">
+    <value>LB_IMageSize</value>
+  </data>
+  <data name="&gt;&gt;LB_IMageSize.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LB_IMageSize.Parent" xml:space="preserve">
+    <value>tableLayoutPanel3</value>
+  </data>
+  <data name="&gt;&gt;LB_IMageSize.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="TB_PositionAndGray.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="TB_PositionAndGray.Font" type="System.Drawing.Font, System.Drawing">
+    <value>黑体, 12pt</value>
+  </data>
+  <data name="TB_PositionAndGray.Location" type="System.Drawing.Point, System.Drawing">
+    <value>209, 524</value>
+  </data>
+  <data name="TB_PositionAndGray.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>5, 8, 5, 6</value>
+  </data>
+  <data name="TB_PositionAndGray.Size" type="System.Drawing.Size, System.Drawing">
+    <value>251, 19</value>
+  </data>
+  <data name="TB_PositionAndGray.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="TB_PositionAndGray.Text" xml:space="preserve">
+    <value>R: —  C: —  Value: — </value>
+  </data>
+  <data name="&gt;&gt;TB_PositionAndGray.Name" xml:space="preserve">
+    <value>TB_PositionAndGray</value>
+  </data>
+  <data name="&gt;&gt;TB_PositionAndGray.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TB_PositionAndGray.Parent" xml:space="preserve">
+    <value>tableLayoutPanel3</value>
+  </data>
+  <data name="&gt;&gt;TB_PositionAndGray.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="LB_ModleName.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LB_ModleName.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="LB_ModleName.Font" type="System.Drawing.Font, System.Drawing">
+    <value>黑体, 12.75pt</value>
+  </data>
+  <data name="LB_ModleName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 5</value>
+  </data>
+  <data name="LB_ModleName.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>13, 5, 3, 3</value>
+  </data>
+  <data name="LB_ModleName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>188, 27</value>
+  </data>
+  <data name="LB_ModleName.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="LB_ModleName.Text" xml:space="preserve">
+    <value>直线测量：</value>
+  </data>
+  <data name="LB_ModleName.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;LB_ModleName.Name" xml:space="preserve">
+    <value>LB_ModleName</value>
+  </data>
+  <data name="&gt;&gt;LB_ModleName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LB_ModleName.Parent" xml:space="preserve">
+    <value>tableLayoutPanel3</value>
+  </data>
+  <data name="&gt;&gt;LB_ModleName.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="LoadImage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 519</value>
+  </data>
+  <data name="LoadImage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 29</value>
+  </data>
+  <data name="LoadImage.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;LoadImage.Name" xml:space="preserve">
+    <value>LoadImage</value>
+  </data>
+  <data name="&gt;&gt;LoadImage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LoadImage.Parent" xml:space="preserve">
+    <value>tableLayoutPanel3</value>
+  </data>
+  <data name="&gt;&gt;LoadImage.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <metadata name="HWC_Display.LayoutBitmap" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value />
+  </metadata>
+  <data name="HWC_Display.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="HWC_Display.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 38</value>
+  </data>
+  <data name="HWC_Display.Size" type="System.Drawing.Size, System.Drawing">
+    <value>579, 475</value>
+  </data>
+  <data name="HWC_Display.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;HWC_Display.Name" xml:space="preserve">
+    <value>HWC_Display</value>
+  </data>
+  <data name="&gt;&gt;HWC_Display.Type" xml:space="preserve">
+    <value>HalconDotNet.HWindowControl, halcondotnetxl, Version=20.11.1.0, Culture=neutral, PublicKeyToken=4973bed59ddbf2b8</value>
+  </data>
+  <data name="&gt;&gt;HWC_Display.Parent" xml:space="preserve">
+    <value>tableLayoutPanel3</value>
+  </data>
+  <data name="&gt;&gt;HWC_Display.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="FullScrean.Location" type="System.Drawing.Point, System.Drawing">
+    <value>555, 519</value>
+  </data>
+  <data name="FullScrean.Size" type="System.Drawing.Size, System.Drawing">
+    <value>27, 29</value>
+  </data>
+  <data name="FullScrean.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;FullScrean.Name" xml:space="preserve">
+    <value>FullScrean</value>
+  </data>
+  <data name="&gt;&gt;FullScrean.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FullScrean.Parent" xml:space="preserve">
+    <value>tableLayoutPanel3</value>
+  </data>
+  <data name="&gt;&gt;FullScrean.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="tableLayoutPanel3.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="tableLayoutPanel3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 5</value>
+  </data>
+  <data name="tableLayoutPanel3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 5, 8, 5</value>
+  </data>
+  <data name="tableLayoutPanel3.RowCount" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="tableLayoutPanel3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>585, 551</value>
+  </data>
+  <data name="tableLayoutPanel3.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel3.Name" xml:space="preserve">
+    <value>tableLayoutPanel3</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel3.Parent" xml:space="preserve">
+    <value>tableLayoutPanel2</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel3.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tableLayoutPanel3.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="LB_IMageSize" Row="0" RowSpan="1" Column="4" ColumnSpan="3" /&gt;&lt;Control Name="TB_PositionAndGray" Row="2" RowSpan="1" Column="3" ColumnSpan="3" /&gt;&lt;Control Name="LB_ModleName" Row="0" RowSpan="1" Column="0" ColumnSpan="3" /&gt;&lt;Control Name="LoadImage" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="HWC_Display" Row="1" RowSpan="1" Column="0" ColumnSpan="8" /&gt;&lt;Control Name="FullScrean" Row="2" RowSpan="1" Column="7" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,30,Percent,16.66667,Percent,16.66667,Percent,16.66667,Percent,16.66667,Percent,16.66667,Percent,16.66667,Absolute,33" /&gt;&lt;Rows Styles="Absolute,35,Percent,100,Absolute,35" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="tableLayoutPanel7.ColumnCount" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="label19.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="label19.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label19.Location" type="System.Drawing.Point, System.Drawing">
+    <value>258, 146</value>
+  </data>
+  <data name="label19.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 21</value>
+  </data>
+  <data name="label19.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="label19.Text" xml:space="preserve">
+    <value>结果图</value>
+  </data>
+  <data name="&gt;&gt;label19.Name" xml:space="preserve">
+    <value>label19</value>
+  </data>
+  <data name="&gt;&gt;label19.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label19.Parent" xml:space="preserve">
+    <value>tableLayoutPanel7</value>
+  </data>
+  <data name="&gt;&gt;label19.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label18.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="label18.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label18.Location" type="System.Drawing.Point, System.Drawing">
+    <value>135, 146</value>
+  </data>
+  <data name="label18.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 21</value>
+  </data>
+  <data name="label18.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="label18.Text" xml:space="preserve">
+    <value>图像处理</value>
+  </data>
+  <data name="&gt;&gt;label18.Name" xml:space="preserve">
+    <value>label18</value>
+  </data>
+  <data name="&gt;&gt;label18.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label18.Parent" xml:space="preserve">
+    <value>tableLayoutPanel7</value>
+  </data>
+  <data name="&gt;&gt;label18.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <metadata name="HWC_Image3.LayoutBitmap" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value />
+  </metadata>
+  <data name="HWC_Image3.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="HWC_Image3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>233, 3</value>
+  </data>
+  <data name="HWC_Image3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>109, 136</value>
+  </data>
+  <data name="HWC_Image3.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;HWC_Image3.Name" xml:space="preserve">
+    <value>HWC_Image3</value>
+  </data>
+  <data name="&gt;&gt;HWC_Image3.Type" xml:space="preserve">
+    <value>HalconDotNet.HWindowControl, halcondotnetxl, Version=20.11.1.0, Culture=neutral, PublicKeyToken=4973bed59ddbf2b8</value>
+  </data>
+  <data name="&gt;&gt;HWC_Image3.Parent" xml:space="preserve">
+    <value>tableLayoutPanel7</value>
+  </data>
+  <data name="&gt;&gt;HWC_Image3.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <metadata name="HWC_Image2.LayoutBitmap" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value />
+  </metadata>
+  <data name="HWC_Image2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="HWC_Image2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>118, 3</value>
+  </data>
+  <data name="HWC_Image2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>109, 136</value>
+  </data>
+  <data name="HWC_Image2.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;HWC_Image2.Name" xml:space="preserve">
+    <value>HWC_Image2</value>
+  </data>
+  <data name="&gt;&gt;HWC_Image2.Type" xml:space="preserve">
+    <value>HalconDotNet.HWindowControl, halcondotnetxl, Version=20.11.1.0, Culture=neutral, PublicKeyToken=4973bed59ddbf2b8</value>
+  </data>
+  <data name="&gt;&gt;HWC_Image2.Parent" xml:space="preserve">
+    <value>tableLayoutPanel7</value>
+  </data>
+  <data name="&gt;&gt;HWC_Image2.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <metadata name="HWC_Image1.LayoutBitmap" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value />
+  </metadata>
+  <data name="HWC_Image1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="HWC_Image1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="HWC_Image1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>109, 136</value>
+  </data>
+  <data name="HWC_Image1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;HWC_Image1.Name" xml:space="preserve">
+    <value>HWC_Image1</value>
+  </data>
+  <data name="&gt;&gt;HWC_Image1.Type" xml:space="preserve">
+    <value>HalconDotNet.HWindowControl, halcondotnetxl, Version=20.11.1.0, Culture=neutral, PublicKeyToken=4973bed59ddbf2b8</value>
+  </data>
+  <data name="&gt;&gt;HWC_Image1.Parent" xml:space="preserve">
+    <value>tableLayoutPanel7</value>
+  </data>
+  <data name="&gt;&gt;HWC_Image1.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="label16.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="label16.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label16.Location" type="System.Drawing.Point, System.Drawing">
+    <value>36, 146</value>
+  </data>
+  <data name="label16.Size" type="System.Drawing.Size, System.Drawing">
+    <value>42, 21</value>
+  </data>
+  <data name="label16.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="label16.Text" xml:space="preserve">
+    <value>原图</value>
+  </data>
+  <data name="&gt;&gt;label16.Name" xml:space="preserve">
+    <value>label16</value>
+  </data>
+  <data name="&gt;&gt;label16.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label16.Parent" xml:space="preserve">
+    <value>tableLayoutPanel7</value>
+  </data>
+  <data name="&gt;&gt;label16.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="tableLayoutPanel7.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="tableLayoutPanel7.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 27</value>
+  </data>
+  <data name="tableLayoutPanel7.RowCount" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="tableLayoutPanel7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>579, 172</value>
+  </data>
+  <data name="tableLayoutPanel7.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel7.Name" xml:space="preserve">
+    <value>tableLayoutPanel7</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel7.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel7.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel7.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tableLayoutPanel7.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label19" Row="2" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="label18" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="HWC_Image3" Row="0" RowSpan="2" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="HWC_Image2" Row="0" RowSpan="2" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="HWC_Image1" Row="0" RowSpan="2" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label16" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,20,Percent,20,Percent,20,Percent,20,Percent,20" /&gt;&lt;Rows Styles="Percent,50,Percent,50,Absolute,30" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="groupBox1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="groupBox1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 12pt</value>
+  </data>
+  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 564</value>
+  </data>
+  <data name="groupBox1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 5, 8, 5</value>
+  </data>
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>595, 204</value>
+  </data>
+  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>图形变量</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+    <value>tableLayoutPanel2</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="tableLayoutPanel5.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="tableLayoutPanel5.ColumnCount" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="NUD_RoiMidColumn.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="NUD_RoiMidColumn.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 11pt</value>
+  </data>
+  <data name="NUD_RoiMidColumn.Location" type="System.Drawing.Point, System.Drawing">
+    <value>158, 240</value>
+  </data>
+  <data name="NUD_RoiMidColumn.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 5, 5, 5</value>
+  </data>
+  <data name="NUD_RoiMidColumn.Size" type="System.Drawing.Size, System.Drawing">
+    <value>154, 27</value>
+  </data>
+  <data name="NUD_RoiMidColumn.TabIndex" type="System.Int32, mscorlib">
+    <value>29</value>
+  </data>
+  <data name="NUD_RoiMidColumn.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiMidColumn.Name" xml:space="preserve">
+    <value>NUD_RoiMidColumn</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiMidColumn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiMidColumn.Parent" xml:space="preserve">
+    <value>tableLayoutPanel5</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiMidColumn.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="NUD_RoiMidRow.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="NUD_RoiMidRow.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 11pt</value>
+  </data>
+  <data name="NUD_RoiMidRow.Location" type="System.Drawing.Point, System.Drawing">
+    <value>158, 190</value>
+  </data>
+  <data name="NUD_RoiMidRow.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 5, 5, 5</value>
+  </data>
+  <data name="NUD_RoiMidRow.Size" type="System.Drawing.Size, System.Drawing">
+    <value>154, 27</value>
+  </data>
+  <data name="NUD_RoiMidRow.TabIndex" type="System.Int32, mscorlib">
+    <value>28</value>
+  </data>
+  <data name="NUD_RoiMidRow.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiMidRow.Name" xml:space="preserve">
+    <value>NUD_RoiMidRow</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiMidRow.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiMidRow.Parent" xml:space="preserve">
+    <value>tableLayoutPanel5</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiMidRow.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label15.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label15.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="label15.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 9pt</value>
+  </data>
+  <data name="label15.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 236</value>
+  </data>
+  <data name="label15.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 1, 1, 1</value>
+  </data>
+  <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
+    <value>155, 48</value>
+  </data>
+  <data name="label15.TabIndex" type="System.Int32, mscorlib">
+    <value>27</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>ROI中心点
+列坐标C：</value>
+  </data>
+  <data name="label15.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;label15.Name" xml:space="preserve">
+    <value>label15</value>
+  </data>
+  <data name="&gt;&gt;label15.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label15.Parent" xml:space="preserve">
+    <value>tableLayoutPanel5</value>
+  </data>
+  <data name="&gt;&gt;label15.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label14.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label14.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="label14.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 9pt</value>
+  </data>
+  <data name="label14.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 186</value>
+  </data>
+  <data name="label14.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 1, 1, 1</value>
+  </data>
+  <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
+    <value>155, 48</value>
+  </data>
+  <data name="label14.TabIndex" type="System.Int32, mscorlib">
+    <value>26</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>ROI中心点
+行坐标R：</value>
+  </data>
+  <data name="label14.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;label14.Name" xml:space="preserve">
+    <value>label14</value>
+  </data>
+  <data name="&gt;&gt;label14.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label14.Parent" xml:space="preserve">
+    <value>tableLayoutPanel5</value>
+  </data>
+  <data name="&gt;&gt;label14.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="NUD_RoiHeight.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="NUD_RoiHeight.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 11pt</value>
+  </data>
+  <data name="NUD_RoiHeight.Location" type="System.Drawing.Point, System.Drawing">
+    <value>158, 90</value>
+  </data>
+  <data name="NUD_RoiHeight.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 5, 5, 5</value>
+  </data>
+  <data name="NUD_RoiHeight.Size" type="System.Drawing.Size, System.Drawing">
+    <value>154, 27</value>
+  </data>
+  <data name="NUD_RoiHeight.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="NUD_RoiHeight.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiHeight.Name" xml:space="preserve">
+    <value>NUD_RoiHeight</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiHeight.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiHeight.Parent" xml:space="preserve">
+    <value>tableLayoutPanel5</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiHeight.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="NUD_RoiWidth.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="NUD_RoiWidth.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 11pt</value>
+  </data>
+  <data name="NUD_RoiWidth.Location" type="System.Drawing.Point, System.Drawing">
+    <value>158, 45</value>
+  </data>
+  <data name="NUD_RoiWidth.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 5, 5, 5</value>
+  </data>
+  <data name="NUD_RoiWidth.Size" type="System.Drawing.Size, System.Drawing">
+    <value>154, 27</value>
+  </data>
+  <data name="NUD_RoiWidth.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="NUD_RoiWidth.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiWidth.Name" xml:space="preserve">
+    <value>NUD_RoiWidth</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiWidth.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiWidth.Parent" xml:space="preserve">
+    <value>tableLayoutPanel5</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiWidth.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="NUD_RoiNum.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="NUD_RoiNum.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 11pt</value>
+  </data>
+  <data name="NUD_RoiNum.Location" type="System.Drawing.Point, System.Drawing">
+    <value>158, 5</value>
+  </data>
+  <data name="NUD_RoiNum.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 5, 5, 5</value>
+  </data>
+  <data name="NUD_RoiNum.Size" type="System.Drawing.Size, System.Drawing">
+    <value>154, 27</value>
+  </data>
+  <data name="NUD_RoiNum.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="NUD_RoiNum.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiNum.Name" xml:space="preserve">
+    <value>NUD_RoiNum</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiNum.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiNum.Parent" xml:space="preserve">
+    <value>tableLayoutPanel5</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiNum.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="label17.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label17.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="label17.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label17.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 1</value>
+  </data>
+  <data name="label17.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 1, 1, 1</value>
+  </data>
+  <data name="label17.Size" type="System.Drawing.Size, System.Drawing">
+    <value>155, 38</value>
+  </data>
+  <data name="label17.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="label17.Text" xml:space="preserve">
+    <value>ROI密度：</value>
+  </data>
+  <data name="label17.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;label17.Name" xml:space="preserve">
+    <value>label17</value>
+  </data>
+  <data name="&gt;&gt;label17.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label17.Parent" xml:space="preserve">
+    <value>tableLayoutPanel5</value>
+  </data>
+  <data name="&gt;&gt;label17.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="label12.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label12.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="label12.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label12.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 136</value>
+  </data>
+  <data name="label12.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 1, 1, 1</value>
+  </data>
+  <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
+    <value>155, 48</value>
+  </data>
+  <data name="label12.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>ROI角度：</value>
+  </data>
+  <data name="label12.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;label12.Name" xml:space="preserve">
+    <value>label12</value>
+  </data>
+  <data name="&gt;&gt;label12.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label12.Parent" xml:space="preserve">
+    <value>tableLayoutPanel5</value>
+  </data>
+  <data name="&gt;&gt;label12.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="label13.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label13.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="label13.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label13.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 86</value>
+  </data>
+  <data name="label13.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 1, 1, 1</value>
+  </data>
+  <data name="label13.Size" type="System.Drawing.Size, System.Drawing">
+    <value>155, 48</value>
+  </data>
+  <data name="label13.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>ROI高度：</value>
+  </data>
+  <data name="label13.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;label13.Name" xml:space="preserve">
+    <value>label13</value>
+  </data>
+  <data name="&gt;&gt;label13.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label13.Parent" xml:space="preserve">
+    <value>tableLayoutPanel5</value>
+  </data>
+  <data name="&gt;&gt;label13.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="label11.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label11.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="label11.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label11.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 41</value>
+  </data>
+  <data name="label11.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 1, 1, 1</value>
+  </data>
+  <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
+    <value>155, 43</value>
+  </data>
+  <data name="label11.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>ROI宽度：</value>
+  </data>
+  <data name="label11.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;label11.Name" xml:space="preserve">
+    <value>label11</value>
+  </data>
+  <data name="&gt;&gt;label11.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label11.Parent" xml:space="preserve">
+    <value>tableLayoutPanel5</value>
+  </data>
+  <data name="&gt;&gt;label11.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="NUD_RoiAngle.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="NUD_RoiAngle.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 11pt</value>
+  </data>
+  <data name="NUD_RoiAngle.Location" type="System.Drawing.Point, System.Drawing">
+    <value>158, 140</value>
+  </data>
+  <data name="NUD_RoiAngle.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 5, 5, 5</value>
+  </data>
+  <data name="NUD_RoiAngle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>154, 27</value>
+  </data>
+  <data name="NUD_RoiAngle.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="NUD_RoiAngle.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiAngle.Name" xml:space="preserve">
+    <value>NUD_RoiAngle</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiAngle.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiAngle.Parent" xml:space="preserve">
+    <value>tableLayoutPanel5</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiAngle.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="tableLayoutPanel5.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="tableLayoutPanel5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="tableLayoutPanel5.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="tableLayoutPanel5.RowCount" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="tableLayoutPanel5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>371, 381</value>
+  </data>
+  <data name="tableLayoutPanel5.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel5.Name" xml:space="preserve">
+    <value>tableLayoutPanel5</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel5.Parent" xml:space="preserve">
+    <value>tabPage4</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel5.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tableLayoutPanel5.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="NUD_RoiMidColumn" Row="10" RowSpan="2" Column="3" ColumnSpan="3" /&gt;&lt;Control Name="NUD_RoiMidRow" Row="8" RowSpan="2" Column="3" ColumnSpan="3" /&gt;&lt;Control Name="label15" Row="10" RowSpan="2" Column="0" ColumnSpan="3" /&gt;&lt;Control Name="label14" Row="8" RowSpan="2" Column="0" ColumnSpan="3" /&gt;&lt;Control Name="NUD_RoiHeight" Row="4" RowSpan="2" Column="3" ColumnSpan="3" /&gt;&lt;Control Name="NUD_RoiWidth" Row="2" RowSpan="2" Column="3" ColumnSpan="3" /&gt;&lt;Control Name="NUD_RoiNum" Row="0" RowSpan="2" Column="3" ColumnSpan="3" /&gt;&lt;Control Name="label17" Row="0" RowSpan="2" Column="0" ColumnSpan="3" /&gt;&lt;Control Name="label12" Row="6" RowSpan="2" Column="0" ColumnSpan="3" /&gt;&lt;Control Name="label13" Row="4" RowSpan="2" Column="0" ColumnSpan="3" /&gt;&lt;Control Name="label11" Row="2" RowSpan="2" Column="0" ColumnSpan="3" /&gt;&lt;Control Name="NUD_RoiAngle" Row="6" RowSpan="2" Column="3" ColumnSpan="3" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,14.28571,Percent,14.28572,Percent,14.28572,Percent,14.28572,Percent,14.28572,Percent,14.28572,Percent,14.28572,Absolute,20,Absolute,20,Absolute,20,Absolute,20,Absolute,20" /&gt;&lt;Rows Styles="Absolute,20,Absolute,20,Absolute,20,Absolute,25,Absolute,25,Absolute,25,Absolute,25,Absolute,25,Absolute,25,Absolute,25,Absolute,25,Absolute,25,Absolute,25,Absolute,25,Absolute,25,Absolute,25,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="tabPage4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 30</value>
+  </data>
+  <data name="tabPage4.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tabPage4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>377, 387</value>
+  </data>
+  <data name="tabPage4.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="tabPage4.Text" xml:space="preserve">
+    <value>ROI控制</value>
+  </data>
+  <data name="&gt;&gt;tabPage4.Name" xml:space="preserve">
+    <value>tabPage4</value>
+  </data>
+  <data name="&gt;&gt;tabPage4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabPage4.Parent" xml:space="preserve">
+    <value>TB_ROIMoveIndex</value>
+  </data>
+  <data name="&gt;&gt;tabPage4.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="CB_DefaultLine.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CB_DefaultLine.Location" type="System.Drawing.Point, System.Drawing">
+    <value>140, 247</value>
+  </data>
+  <data name="CB_DefaultLine.Size" type="System.Drawing.Size, System.Drawing">
+    <value>173, 25</value>
+  </data>
+  <data name="CB_DefaultLine.TabIndex" type="System.Int32, mscorlib">
+    <value>32</value>
+  </data>
+  <data name="CB_DefaultLine.Text" xml:space="preserve">
+    <value>未抓到边输出默认边</value>
+  </data>
+  <data name="&gt;&gt;CB_DefaultLine.Name" xml:space="preserve">
+    <value>CB_DefaultLine</value>
+  </data>
+  <data name="&gt;&gt;CB_DefaultLine.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CB_DefaultLine.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;CB_DefaultLine.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="CB_PeakValleySelect.Font" type="System.Drawing.Font, System.Drawing">
+    <value>黑体, 12pt</value>
+  </data>
+  <data name="CB_PeakValleySelect.Location" type="System.Drawing.Point, System.Drawing">
+    <value>140, 195</value>
+  </data>
+  <data name="CB_PeakValleySelect.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="CB_PeakValleySelect.Size" type="System.Drawing.Size, System.Drawing">
+    <value>104, 24</value>
+  </data>
+  <data name="CB_PeakValleySelect.TabIndex" type="System.Int32, mscorlib">
+    <value>78</value>
+  </data>
+  <data name="&gt;&gt;CB_PeakValleySelect.Name" xml:space="preserve">
+    <value>CB_PeakValleySelect</value>
+  </data>
+  <data name="&gt;&gt;CB_PeakValleySelect.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CB_PeakValleySelect.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;CB_PeakValleySelect.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>23, 195</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 21</value>
+  </data>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>77</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>峰谷值：</value>
+  </data>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="CB_MeasureSelect.Font" type="System.Drawing.Font, System.Drawing">
+    <value>黑体, 12pt</value>
+  </data>
+  <data name="CB_MeasureSelect.Location" type="System.Drawing.Point, System.Drawing">
+    <value>140, 141</value>
+  </data>
+  <data name="CB_MeasureSelect.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="CB_MeasureSelect.Size" type="System.Drawing.Size, System.Drawing">
+    <value>104, 24</value>
+  </data>
+  <data name="CB_MeasureSelect.TabIndex" type="System.Int32, mscorlib">
+    <value>76</value>
+  </data>
+  <data name="&gt;&gt;CB_MeasureSelect.Name" xml:space="preserve">
+    <value>CB_MeasureSelect</value>
+  </data>
+  <data name="&gt;&gt;CB_MeasureSelect.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CB_MeasureSelect.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;CB_MeasureSelect.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="CB_MeasureTransition.Font" type="System.Drawing.Font, System.Drawing">
+    <value>黑体, 12pt</value>
+  </data>
+  <data name="CB_MeasureTransition.Location" type="System.Drawing.Point, System.Drawing">
+    <value>140, 103</value>
+  </data>
+  <data name="CB_MeasureTransition.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="CB_MeasureTransition.Size" type="System.Drawing.Size, System.Drawing">
+    <value>104, 24</value>
+  </data>
+  <data name="CB_MeasureTransition.TabIndex" type="System.Int32, mscorlib">
+    <value>75</value>
+  </data>
+  <data name="&gt;&gt;CB_MeasureTransition.Name" xml:space="preserve">
+    <value>CB_MeasureTransition</value>
+  </data>
+  <data name="&gt;&gt;CB_MeasureTransition.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CB_MeasureTransition.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;CB_MeasureTransition.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="NUD_MeasureSigma.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="NUD_MeasureSigma.Font" type="System.Drawing.Font, System.Drawing">
+    <value>黑体, 11pt</value>
+  </data>
+  <data name="NUD_MeasureSigma.Location" type="System.Drawing.Point, System.Drawing">
+    <value>140, 70</value>
+  </data>
+  <data name="NUD_MeasureSigma.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="NUD_MeasureSigma.Size" type="System.Drawing.Size, System.Drawing">
+    <value>104, 24</value>
+  </data>
+  <data name="NUD_MeasureSigma.TabIndex" type="System.Int32, mscorlib">
+    <value>74</value>
+  </data>
+  <data name="NUD_MeasureSigma.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="&gt;&gt;NUD_MeasureSigma.Name" xml:space="preserve">
+    <value>NUD_MeasureSigma</value>
+  </data>
+  <data name="&gt;&gt;NUD_MeasureSigma.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUD_MeasureSigma.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;NUD_MeasureSigma.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="NUD_MeasureThreshold.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="NUD_MeasureThreshold.Font" type="System.Drawing.Font, System.Drawing">
+    <value>黑体, 11pt</value>
+  </data>
+  <data name="NUD_MeasureThreshold.Location" type="System.Drawing.Point, System.Drawing">
+    <value>140, 28</value>
+  </data>
+  <data name="NUD_MeasureThreshold.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="NUD_MeasureThreshold.Size" type="System.Drawing.Size, System.Drawing">
+    <value>104, 24</value>
+  </data>
+  <data name="NUD_MeasureThreshold.TabIndex" type="System.Int32, mscorlib">
+    <value>73</value>
+  </data>
+  <data name="NUD_MeasureThreshold.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="&gt;&gt;NUD_MeasureThreshold.Name" xml:space="preserve">
+    <value>NUD_MeasureThreshold</value>
+  </data>
+  <data name="&gt;&gt;NUD_MeasureThreshold.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUD_MeasureThreshold.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;NUD_MeasureThreshold.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="label23.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label23.Location" type="System.Drawing.Point, System.Drawing">
+    <value>23, 141</value>
+  </data>
+  <data name="label23.Size" type="System.Drawing.Size, System.Drawing">
+    <value>90, 21</value>
+  </data>
+  <data name="label23.TabIndex" type="System.Int32, mscorlib">
+    <value>72</value>
+  </data>
+  <data name="label23.Text" xml:space="preserve">
+    <value>边缘选取：</value>
+  </data>
+  <data name="&gt;&gt;label23.Name" xml:space="preserve">
+    <value>label23</value>
+  </data>
+  <data name="&gt;&gt;label23.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label23.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;label23.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="label22.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label22.Location" type="System.Drawing.Point, System.Drawing">
+    <value>23, 101</value>
+  </data>
+  <data name="label22.Size" type="System.Drawing.Size, System.Drawing">
+    <value>90, 21</value>
+  </data>
+  <data name="label22.TabIndex" type="System.Int32, mscorlib">
+    <value>71</value>
+  </data>
+  <data name="label22.Text" xml:space="preserve">
+    <value>明暗方向：</value>
+  </data>
+  <data name="&gt;&gt;label22.Name" xml:space="preserve">
+    <value>label22</value>
+  </data>
+  <data name="&gt;&gt;label22.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label22.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;label22.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="label20.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label20.Location" type="System.Drawing.Point, System.Drawing">
+    <value>23, 66</value>
+  </data>
+  <data name="label20.Size" type="System.Drawing.Size, System.Drawing">
+    <value>90, 21</value>
+  </data>
+  <data name="label20.TabIndex" type="System.Int32, mscorlib">
+    <value>70</value>
+  </data>
+  <data name="label20.Text" xml:space="preserve">
+    <value>平滑系数：</value>
+  </data>
+  <data name="&gt;&gt;label20.Name" xml:space="preserve">
+    <value>label20</value>
+  </data>
+  <data name="&gt;&gt;label20.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label20.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;label20.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="label21.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label21.Location" type="System.Drawing.Point, System.Drawing">
+    <value>23, 26</value>
+  </data>
+  <data name="label21.Size" type="System.Drawing.Size, System.Drawing">
+    <value>90, 21</value>
+  </data>
+  <data name="label21.TabIndex" type="System.Int32, mscorlib">
+    <value>69</value>
+  </data>
+  <data name="label21.Text" xml:space="preserve">
+    <value>灰度阈值：</value>
+  </data>
+  <data name="&gt;&gt;label21.Name" xml:space="preserve">
+    <value>label21</value>
+  </data>
+  <data name="&gt;&gt;label21.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label21.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;label21.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="panel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>371, 381</value>
+  </data>
+  <data name="panel1.TabIndex" type="System.Int32, mscorlib">
+    <value>31</value>
+  </data>
+  <data name="&gt;&gt;panel1.Name" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panel1.Parent" xml:space="preserve">
+    <value>tabPage1</value>
+  </data>
+  <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tabPage1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 30</value>
+  </data>
+  <data name="tabPage1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tabPage1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>377, 387</value>
+  </data>
+  <data name="tabPage1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="tabPage1.Text" xml:space="preserve">
+    <value>基础参数</value>
+  </data>
+  <data name="&gt;&gt;tabPage1.Name" xml:space="preserve">
+    <value>tabPage1</value>
+  </data>
+  <data name="&gt;&gt;tabPage1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabPage1.Parent" xml:space="preserve">
+    <value>TB_ROIMoveIndex</value>
+  </data>
+  <data name="&gt;&gt;tabPage1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="CB_MeasureInterpolation.Font" type="System.Drawing.Font, System.Drawing">
+    <value>黑体, 12pt</value>
+  </data>
+  <data name="CB_MeasureInterpolation.Location" type="System.Drawing.Point, System.Drawing">
+    <value>144, 202</value>
+  </data>
+  <data name="CB_MeasureInterpolation.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="CB_MeasureInterpolation.Size" type="System.Drawing.Size, System.Drawing">
+    <value>179, 24</value>
+  </data>
+  <data name="CB_MeasureInterpolation.TabIndex" type="System.Int32, mscorlib">
+    <value>88</value>
+  </data>
+  <data name="&gt;&gt;CB_MeasureInterpolation.Name" xml:space="preserve">
+    <value>CB_MeasureInterpolation</value>
+  </data>
+  <data name="&gt;&gt;CB_MeasureInterpolation.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CB_MeasureInterpolation.Parent" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;CB_MeasureInterpolation.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="CB_MeasureIORegions.Font" type="System.Drawing.Font, System.Drawing">
+    <value>黑体, 12pt</value>
+  </data>
+  <data name="CB_MeasureIORegions.Location" type="System.Drawing.Point, System.Drawing">
+    <value>144, 162</value>
+  </data>
+  <data name="CB_MeasureIORegions.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="CB_MeasureIORegions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>103, 24</value>
+  </data>
+  <data name="CB_MeasureIORegions.TabIndex" type="System.Int32, mscorlib">
+    <value>87</value>
+  </data>
+  <data name="&gt;&gt;CB_MeasureIORegions.Name" xml:space="preserve">
+    <value>CB_MeasureIORegions</value>
+  </data>
+  <data name="&gt;&gt;CB_MeasureIORegions.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CB_MeasureIORegions.Parent" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;CB_MeasureIORegions.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="NUD_MaxNumIterations.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="NUD_MaxNumIterations.Font" type="System.Drawing.Font, System.Drawing">
+    <value>黑体, 11pt</value>
+  </data>
+  <data name="NUD_MaxNumIterations.Location" type="System.Drawing.Point, System.Drawing">
+    <value>144, 123</value>
+  </data>
+  <data name="NUD_MaxNumIterations.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="NUD_MaxNumIterations.Size" type="System.Drawing.Size, System.Drawing">
+    <value>103, 24</value>
+  </data>
+  <data name="NUD_MaxNumIterations.TabIndex" type="System.Int32, mscorlib">
+    <value>86</value>
+  </data>
+  <data name="NUD_MaxNumIterations.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="&gt;&gt;NUD_MaxNumIterations.Name" xml:space="preserve">
+    <value>NUD_MaxNumIterations</value>
+  </data>
+  <data name="&gt;&gt;NUD_MaxNumIterations.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUD_MaxNumIterations.Parent" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;NUD_MaxNumIterations.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="NUD_MeasureDistThreshold.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="NUD_MeasureDistThreshold.Font" type="System.Drawing.Font, System.Drawing">
+    <value>黑体, 11pt</value>
+  </data>
+  <data name="NUD_MeasureDistThreshold.Location" type="System.Drawing.Point, System.Drawing">
+    <value>144, 83</value>
+  </data>
+  <data name="NUD_MeasureDistThreshold.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="NUD_MeasureDistThreshold.Size" type="System.Drawing.Size, System.Drawing">
+    <value>103, 24</value>
+  </data>
+  <data name="NUD_MeasureDistThreshold.TabIndex" type="System.Int32, mscorlib">
+    <value>85</value>
+  </data>
+  <data name="NUD_MeasureDistThreshold.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="&gt;&gt;NUD_MeasureDistThreshold.Name" xml:space="preserve">
+    <value>NUD_MeasureDistThreshold</value>
+  </data>
+  <data name="&gt;&gt;NUD_MeasureDistThreshold.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUD_MeasureDistThreshold.Parent" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;NUD_MeasureDistThreshold.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="NUD_MeasureNumInstances.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="NUD_MeasureNumInstances.Font" type="System.Drawing.Font, System.Drawing">
+    <value>黑体, 11pt</value>
+  </data>
+  <data name="NUD_MeasureNumInstances.Location" type="System.Drawing.Point, System.Drawing">
+    <value>144, 53</value>
+  </data>
+  <data name="NUD_MeasureNumInstances.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="NUD_MeasureNumInstances.Size" type="System.Drawing.Size, System.Drawing">
+    <value>103, 24</value>
+  </data>
+  <data name="NUD_MeasureNumInstances.TabIndex" type="System.Int32, mscorlib">
+    <value>84</value>
+  </data>
+  <data name="NUD_MeasureNumInstances.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="&gt;&gt;NUD_MeasureNumInstances.Name" xml:space="preserve">
+    <value>NUD_MeasureNumInstances</value>
+  </data>
+  <data name="&gt;&gt;NUD_MeasureNumInstances.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUD_MeasureNumInstances.Parent" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;NUD_MeasureNumInstances.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="NUD_MeasureMinScore.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="NUD_MeasureMinScore.Font" type="System.Drawing.Font, System.Drawing">
+    <value>黑体, 11pt</value>
+  </data>
+  <data name="NUD_MeasureMinScore.Location" type="System.Drawing.Point, System.Drawing">
+    <value>144, 13</value>
+  </data>
+  <data name="NUD_MeasureMinScore.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="NUD_MeasureMinScore.Size" type="System.Drawing.Size, System.Drawing">
+    <value>103, 24</value>
+  </data>
+  <data name="NUD_MeasureMinScore.TabIndex" type="System.Int32, mscorlib">
+    <value>83</value>
+  </data>
+  <data name="NUD_MeasureMinScore.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="&gt;&gt;NUD_MeasureMinScore.Name" xml:space="preserve">
+    <value>NUD_MeasureMinScore</value>
+  </data>
+  <data name="&gt;&gt;NUD_MeasureMinScore.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUD_MeasureMinScore.Parent" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;NUD_MeasureMinScore.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="label28.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label28.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 205</value>
+  </data>
+  <data name="label28.Size" type="System.Drawing.Size, System.Drawing">
+    <value>90, 21</value>
+  </data>
+  <data name="label28.TabIndex" type="System.Int32, mscorlib">
+    <value>82</value>
+  </data>
+  <data name="label28.Text" xml:space="preserve">
+    <value>插值类型：</value>
+  </data>
+  <data name="&gt;&gt;label28.Name" xml:space="preserve">
+    <value>label28</value>
+  </data>
+  <data name="&gt;&gt;label28.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label28.Parent" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;label28.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="label29.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label29.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 165</value>
+  </data>
+  <data name="label29.Size" type="System.Drawing.Size, System.Drawing">
+    <value>106, 21</value>
+  </data>
+  <data name="label29.TabIndex" type="System.Int32, mscorlib">
+    <value>81</value>
+  </data>
+  <data name="label29.Text" xml:space="preserve">
+    <value>外侧点验证：</value>
+  </data>
+  <data name="&gt;&gt;label29.Name" xml:space="preserve">
+    <value>label29</value>
+  </data>
+  <data name="&gt;&gt;label29.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label29.Parent" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;label29.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="label24.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label24.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 126</value>
+  </data>
+  <data name="label24.Size" type="System.Drawing.Size, System.Drawing">
+    <value>90, 21</value>
+  </data>
+  <data name="label24.TabIndex" type="System.Int32, mscorlib">
+    <value>80</value>
+  </data>
+  <data name="label24.Text" xml:space="preserve">
+    <value>迭代次数：</value>
+  </data>
+  <data name="&gt;&gt;label24.Name" xml:space="preserve">
+    <value>label24</value>
+  </data>
+  <data name="&gt;&gt;label24.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label24.Parent" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;label24.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="label27.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label27.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 11</value>
+  </data>
+  <data name="label27.Size" type="System.Drawing.Size, System.Drawing">
+    <value>90, 21</value>
+  </data>
+  <data name="label27.TabIndex" type="System.Int32, mscorlib">
+    <value>77</value>
+  </data>
+  <data name="label27.Text" xml:space="preserve">
+    <value>最低得分：</value>
+  </data>
+  <data name="&gt;&gt;label27.Name" xml:space="preserve">
+    <value>label27</value>
+  </data>
+  <data name="&gt;&gt;label27.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label27.Parent" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;label27.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="label25.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label25.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 86</value>
+  </data>
+  <data name="label25.Size" type="System.Drawing.Size, System.Drawing">
+    <value>90, 21</value>
+  </data>
+  <data name="label25.TabIndex" type="System.Int32, mscorlib">
+    <value>79</value>
+  </data>
+  <data name="label25.Text" xml:space="preserve">
+    <value>距离阈值：</value>
+  </data>
+  <data name="&gt;&gt;label25.Name" xml:space="preserve">
+    <value>label25</value>
+  </data>
+  <data name="&gt;&gt;label25.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label25.Parent" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;label25.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="label26.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label26.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 51</value>
+  </data>
+  <data name="label26.Size" type="System.Drawing.Size, System.Drawing">
+    <value>122, 21</value>
+  </data>
+  <data name="label26.TabIndex" type="System.Int32, mscorlib">
+    <value>78</value>
+  </data>
+  <data name="label26.Text" xml:space="preserve">
+    <value>直线拟合数量：</value>
+  </data>
+  <data name="&gt;&gt;label26.Name" xml:space="preserve">
+    <value>label26</value>
+  </data>
+  <data name="&gt;&gt;label26.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label26.Parent" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;label26.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="panel2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="panel2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="panel2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>371, 381</value>
+  </data>
+  <data name="panel2.TabIndex" type="System.Int32, mscorlib">
+    <value>32</value>
+  </data>
+  <data name="&gt;&gt;panel2.Name" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;panel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panel2.Parent" xml:space="preserve">
+    <value>tabPage2</value>
+  </data>
+  <data name="&gt;&gt;panel2.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tabPage2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 30</value>
+  </data>
+  <data name="tabPage2.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tabPage2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>377, 387</value>
+  </data>
+  <data name="tabPage2.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="tabPage2.Text" xml:space="preserve">
+    <value>高级参数</value>
+  </data>
+  <data name="&gt;&gt;tabPage2.Name" xml:space="preserve">
+    <value>tabPage2</value>
+  </data>
+  <data name="&gt;&gt;tabPage2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabPage2.Parent" xml:space="preserve">
+    <value>TB_ROIMoveIndex</value>
+  </data>
+  <data name="&gt;&gt;tabPage2.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="NUD_SharpenSigma.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="NUD_SharpenSigma.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="NUD_SharpenSigma.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 10pt</value>
+  </data>
+  <data name="NUD_SharpenSigma.Location" type="System.Drawing.Point, System.Drawing">
+    <value>235, 314</value>
+  </data>
+  <data name="NUD_SharpenSigma.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 15</value>
+  </data>
+  <data name="NUD_SharpenSigma.Size" type="System.Drawing.Size, System.Drawing">
+    <value>104, 23</value>
+  </data>
+  <data name="NUD_SharpenSigma.TabIndex" type="System.Int32, mscorlib">
+    <value>106</value>
+  </data>
+  <data name="NUD_SharpenSigma.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="&gt;&gt;NUD_SharpenSigma.Name" xml:space="preserve">
+    <value>NUD_SharpenSigma</value>
+  </data>
+  <data name="&gt;&gt;NUD_SharpenSigma.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUD_SharpenSigma.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;NUD_SharpenSigma.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="LB_SharpenSigma.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LB_SharpenSigma.Font" type="System.Drawing.Font, System.Drawing">
+    <value>黑体, 12pt</value>
+  </data>
+  <data name="LB_SharpenSigma.Location" type="System.Drawing.Point, System.Drawing">
+    <value>125, 317</value>
+  </data>
+  <data name="LB_SharpenSigma.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>15, 3, 0, 0</value>
+  </data>
+  <data name="LB_SharpenSigma.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 16</value>
+  </data>
+  <data name="LB_SharpenSigma.TabIndex" type="System.Int32, mscorlib">
+    <value>105</value>
+  </data>
+  <data name="LB_SharpenSigma.Text" xml:space="preserve">
+    <value>锐化平滑系数：</value>
+  </data>
+  <data name="&gt;&gt;LB_SharpenSigma.Name" xml:space="preserve">
+    <value>LB_SharpenSigma</value>
+  </data>
+  <data name="&gt;&gt;LB_SharpenSigma.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LB_SharpenSigma.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;LB_SharpenSigma.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="NUD_SharpenIterations.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="NUD_SharpenIterations.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 10pt</value>
+  </data>
+  <data name="NUD_SharpenIterations.Location" type="System.Drawing.Point, System.Drawing">
+    <value>235, 281</value>
+  </data>
+  <data name="NUD_SharpenIterations.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 12, 0, 0</value>
+  </data>
+  <data name="NUD_SharpenIterations.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 23</value>
+  </data>
+  <data name="NUD_SharpenIterations.TabIndex" type="System.Int32, mscorlib">
+    <value>104</value>
+  </data>
+  <data name="NUD_SharpenIterations.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="&gt;&gt;NUD_SharpenIterations.Name" xml:space="preserve">
+    <value>NUD_SharpenIterations</value>
+  </data>
+  <data name="&gt;&gt;NUD_SharpenIterations.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUD_SharpenIterations.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;NUD_SharpenIterations.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="LB_SharpenIterations.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LB_SharpenIterations.Font" type="System.Drawing.Font, System.Drawing">
+    <value>黑体, 12pt</value>
+  </data>
+  <data name="LB_SharpenIterations.Location" type="System.Drawing.Point, System.Drawing">
+    <value>125, 284</value>
+  </data>
+  <data name="LB_SharpenIterations.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>15, 0, 0, 0</value>
+  </data>
+  <data name="LB_SharpenIterations.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 16</value>
+  </data>
+  <data name="LB_SharpenIterations.TabIndex" type="System.Int32, mscorlib">
+    <value>103</value>
+  </data>
+  <data name="LB_SharpenIterations.Text" xml:space="preserve">
+    <value>锐化迭代次数：</value>
+  </data>
+  <data name="LB_SharpenIterations.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;LB_SharpenIterations.Name" xml:space="preserve">
+    <value>LB_SharpenIterations</value>
+  </data>
+  <data name="&gt;&gt;LB_SharpenIterations.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LB_SharpenIterations.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;LB_SharpenIterations.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="NUD_ScaleFactor.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="NUD_ScaleFactor.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 10pt</value>
+  </data>
+  <data name="NUD_ScaleFactor.Location" type="System.Drawing.Point, System.Drawing">
+    <value>235, 252</value>
+  </data>
+  <data name="NUD_ScaleFactor.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="NUD_ScaleFactor.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 23</value>
+  </data>
+  <data name="NUD_ScaleFactor.TabIndex" type="System.Int32, mscorlib">
+    <value>102</value>
+  </data>
+  <data name="NUD_ScaleFactor.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="&gt;&gt;NUD_ScaleFactor.Name" xml:space="preserve">
+    <value>NUD_ScaleFactor</value>
+  </data>
+  <data name="&gt;&gt;NUD_ScaleFactor.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUD_ScaleFactor.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;NUD_ScaleFactor.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="LB_ScaleFactor.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LB_ScaleFactor.Font" type="System.Drawing.Font, System.Drawing">
+    <value>黑体, 12pt</value>
+  </data>
+  <data name="LB_ScaleFactor.Location" type="System.Drawing.Point, System.Drawing">
+    <value>125, 254</value>
+  </data>
+  <data name="LB_ScaleFactor.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>15, 3, 0, 0</value>
+  </data>
+  <data name="LB_ScaleFactor.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 16</value>
+  </data>
+  <data name="LB_ScaleFactor.TabIndex" type="System.Int32, mscorlib">
+    <value>101</value>
+  </data>
+  <data name="LB_ScaleFactor.Text" xml:space="preserve">
+    <value>灰度拉伸因子：</value>
+  </data>
+  <data name="&gt;&gt;LB_ScaleFactor.Name" xml:space="preserve">
+    <value>LB_ScaleFactor</value>
+  </data>
+  <data name="&gt;&gt;LB_ScaleFactor.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LB_ScaleFactor.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;LB_ScaleFactor.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="NUD_ScaleMean.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="NUD_ScaleMean.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 10pt</value>
+  </data>
+  <data name="NUD_ScaleMean.Location" type="System.Drawing.Point, System.Drawing">
+    <value>235, 228</value>
+  </data>
+  <data name="NUD_ScaleMean.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 12, 0, 0</value>
+  </data>
+  <data name="NUD_ScaleMean.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 23</value>
+  </data>
+  <data name="NUD_ScaleMean.TabIndex" type="System.Int32, mscorlib">
+    <value>100</value>
+  </data>
+  <data name="NUD_ScaleMean.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="&gt;&gt;NUD_ScaleMean.Name" xml:space="preserve">
+    <value>NUD_ScaleMean</value>
+  </data>
+  <data name="&gt;&gt;NUD_ScaleMean.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUD_ScaleMean.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;NUD_ScaleMean.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="PB_SelectColor.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Stretch</value>
+  </data>
+  <data name="PB_SelectColor.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="PB_SelectColor.Location" type="System.Drawing.Point, System.Drawing">
+    <value>306, 220</value>
+  </data>
+  <data name="PB_SelectColor.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>10, 5, 0, 5</value>
+  </data>
+  <data name="PB_SelectColor.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 31</value>
+  </data>
+  <data name="PB_SelectColor.TabIndex" type="System.Int32, mscorlib">
+    <value>99</value>
+  </data>
+  <data name="&gt;&gt;PB_SelectColor.Name" xml:space="preserve">
+    <value>PB_SelectColor</value>
+  </data>
+  <data name="&gt;&gt;PB_SelectColor.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PB_SelectColor.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;PB_SelectColor.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="LB_ScaleMean.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LB_ScaleMean.Font" type="System.Drawing.Font, System.Drawing">
+    <value>黑体, 12pt</value>
+  </data>
+  <data name="LB_ScaleMean.Location" type="System.Drawing.Point, System.Drawing">
+    <value>125, 230</value>
+  </data>
+  <data name="LB_ScaleMean.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>15, 0, 0, 0</value>
+  </data>
+  <data name="LB_ScaleMean.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 16</value>
+  </data>
+  <data name="LB_ScaleMean.TabIndex" type="System.Int32, mscorlib">
+    <value>98</value>
+  </data>
+  <data name="LB_ScaleMean.Text" xml:space="preserve">
+    <value>过滤底色拾取：</value>
+  </data>
+  <data name="LB_ScaleMean.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;LB_ScaleMean.Name" xml:space="preserve">
+    <value>LB_ScaleMean</value>
+  </data>
+  <data name="&gt;&gt;LB_ScaleMean.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LB_ScaleMean.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;LB_ScaleMean.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="RB_ScaleSharpen.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="RB_ScaleSharpen.Location" type="System.Drawing.Point, System.Drawing">
+    <value>106, 202</value>
+  </data>
+  <data name="RB_ScaleSharpen.Size" type="System.Drawing.Size, System.Drawing">
+    <value>167, 24</value>
+  </data>
+  <data name="RB_ScaleSharpen.TabIndex" type="System.Int32, mscorlib">
+    <value>97</value>
+  </data>
+  <data name="RB_ScaleSharpen.Text" xml:space="preserve">
+    <value>增强对比度、锐化处理</value>
+  </data>
+  <data name="&gt;&gt;RB_ScaleSharpen.Name" xml:space="preserve">
+    <value>RB_ScaleSharpen</value>
+  </data>
+  <data name="&gt;&gt;RB_ScaleSharpen.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RB_ScaleSharpen.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;RB_ScaleSharpen.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="RB_ProcessNone.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="RB_ProcessNone.Location" type="System.Drawing.Point, System.Drawing">
+    <value>24, 202</value>
+  </data>
+  <data name="RB_ProcessNone.Size" type="System.Drawing.Size, System.Drawing">
+    <value>69, 24</value>
+  </data>
+  <data name="RB_ProcessNone.TabIndex" type="System.Int32, mscorlib">
+    <value>96</value>
+  </data>
+  <data name="RB_ProcessNone.Text" xml:space="preserve">
+    <value>无处理</value>
+  </data>
+  <data name="&gt;&gt;RB_ProcessNone.Name" xml:space="preserve">
+    <value>RB_ProcessNone</value>
+  </data>
+  <data name="&gt;&gt;RB_ProcessNone.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RB_ProcessNone.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;RB_ProcessNone.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="NUD_RoiStandardColumn.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="NUD_RoiStandardColumn.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 9pt</value>
+  </data>
+  <data name="NUD_RoiStandardColumn.Location" type="System.Drawing.Point, System.Drawing">
+    <value>262, 87</value>
+  </data>
+  <data name="NUD_RoiStandardColumn.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 5, 0, 0</value>
+  </data>
+  <data name="NUD_RoiStandardColumn.Size" type="System.Drawing.Size, System.Drawing">
+    <value>63, 23</value>
+  </data>
+  <data name="NUD_RoiStandardColumn.TabIndex" type="System.Int32, mscorlib">
+    <value>48</value>
+  </data>
+  <data name="NUD_RoiStandardColumn.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiStandardColumn.Name" xml:space="preserve">
+    <value>NUD_RoiStandardColumn</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiStandardColumn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiStandardColumn.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiStandardColumn.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="NUD_RoiStandardRow.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="NUD_RoiStandardRow.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 9pt</value>
+  </data>
+  <data name="NUD_RoiStandardRow.Location" type="System.Drawing.Point, System.Drawing">
+    <value>262, 53</value>
+  </data>
+  <data name="NUD_RoiStandardRow.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 5, 0, 0</value>
+  </data>
+  <data name="NUD_RoiStandardRow.Size" type="System.Drawing.Size, System.Drawing">
+    <value>63, 23</value>
+  </data>
+  <data name="NUD_RoiStandardRow.TabIndex" type="System.Int32, mscorlib">
+    <value>47</value>
+  </data>
+  <data name="NUD_RoiStandardRow.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiStandardRow.Name" xml:space="preserve">
+    <value>NUD_RoiStandardRow</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiStandardRow.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiStandardRow.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiStandardRow.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="LB_RoiStandardColumn.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LB_RoiStandardColumn.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 8pt</value>
+  </data>
+  <data name="LB_RoiStandardColumn.Location" type="System.Drawing.Point, System.Drawing">
+    <value>199, 82</value>
+  </data>
+  <data name="LB_RoiStandardColumn.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="LB_RoiStandardColumn.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 32</value>
+  </data>
+  <data name="LB_RoiStandardColumn.TabIndex" type="System.Int32, mscorlib">
+    <value>46</value>
+  </data>
+  <data name="LB_RoiStandardColumn.Text" xml:space="preserve">
+    <value>基准点
+列坐标C：</value>
+  </data>
+  <data name="LB_RoiStandardColumn.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;LB_RoiStandardColumn.Name" xml:space="preserve">
+    <value>LB_RoiStandardColumn</value>
+  </data>
+  <data name="&gt;&gt;LB_RoiStandardColumn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LB_RoiStandardColumn.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;LB_RoiStandardColumn.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="LB_RoiStandardRow.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LB_RoiStandardRow.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 8pt</value>
+  </data>
+  <data name="LB_RoiStandardRow.Location" type="System.Drawing.Point, System.Drawing">
+    <value>199, 48</value>
+  </data>
+  <data name="LB_RoiStandardRow.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="LB_RoiStandardRow.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 32</value>
+  </data>
+  <data name="LB_RoiStandardRow.TabIndex" type="System.Int32, mscorlib">
+    <value>45</value>
+  </data>
+  <data name="LB_RoiStandardRow.Text" xml:space="preserve">
+    <value>基准点
+行坐标R：</value>
+  </data>
+  <data name="LB_RoiStandardRow.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;LB_RoiStandardRow.Name" xml:space="preserve">
+    <value>LB_RoiStandardRow</value>
+  </data>
+  <data name="&gt;&gt;LB_RoiStandardRow.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LB_RoiStandardRow.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;LB_RoiStandardRow.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="NUD_RoiStandardOffsetColumn.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="NUD_RoiStandardOffsetColumn.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 9pt</value>
+  </data>
+  <data name="NUD_RoiStandardOffsetColumn.Location" type="System.Drawing.Point, System.Drawing">
+    <value>262, 155</value>
+  </data>
+  <data name="NUD_RoiStandardOffsetColumn.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 5, 0, 0</value>
+  </data>
+  <data name="NUD_RoiStandardOffsetColumn.Size" type="System.Drawing.Size, System.Drawing">
+    <value>63, 23</value>
+  </data>
+  <data name="NUD_RoiStandardOffsetColumn.TabIndex" type="System.Int32, mscorlib">
+    <value>44</value>
+  </data>
+  <data name="NUD_RoiStandardOffsetColumn.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiStandardOffsetColumn.Name" xml:space="preserve">
+    <value>NUD_RoiStandardOffsetColumn</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiStandardOffsetColumn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiStandardOffsetColumn.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiStandardOffsetColumn.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="NUD_RoiStandardOffsetRow.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="NUD_RoiStandardOffsetRow.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 9pt</value>
+  </data>
+  <data name="NUD_RoiStandardOffsetRow.Location" type="System.Drawing.Point, System.Drawing">
+    <value>262, 121</value>
+  </data>
+  <data name="NUD_RoiStandardOffsetRow.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 5, 0, 0</value>
+  </data>
+  <data name="NUD_RoiStandardOffsetRow.Size" type="System.Drawing.Size, System.Drawing">
+    <value>63, 23</value>
+  </data>
+  <data name="NUD_RoiStandardOffsetRow.TabIndex" type="System.Int32, mscorlib">
+    <value>43</value>
+  </data>
+  <data name="NUD_RoiStandardOffsetRow.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiStandardOffsetRow.Name" xml:space="preserve">
+    <value>NUD_RoiStandardOffsetRow</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiStandardOffsetRow.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiStandardOffsetRow.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiStandardOffsetRow.ZOrder" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="LB_RoiStandardOffsetColumn.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LB_RoiStandardOffsetColumn.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 8pt</value>
+  </data>
+  <data name="LB_RoiStandardOffsetColumn.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
+  </data>
+  <data name="LB_RoiStandardOffsetColumn.Location" type="System.Drawing.Point, System.Drawing">
+    <value>199, 150</value>
+  </data>
+  <data name="LB_RoiStandardOffsetColumn.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="LB_RoiStandardOffsetColumn.Size" type="System.Drawing.Size, System.Drawing">
+    <value>69, 32</value>
+  </data>
+  <data name="LB_RoiStandardOffsetColumn.TabIndex" type="System.Int32, mscorlib">
+    <value>40</value>
+  </data>
+  <data name="LB_RoiStandardOffsetColumn.Text" xml:space="preserve">
+    <value>ROI与基准
+列偏移量C：</value>
+  </data>
+  <data name="LB_RoiStandardOffsetColumn.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;LB_RoiStandardOffsetColumn.Name" xml:space="preserve">
+    <value>LB_RoiStandardOffsetColumn</value>
+  </data>
+  <data name="&gt;&gt;LB_RoiStandardOffsetColumn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LB_RoiStandardOffsetColumn.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;LB_RoiStandardOffsetColumn.ZOrder" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="LB_RoiStandardOffsetRow.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LB_RoiStandardOffsetRow.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 8pt</value>
+  </data>
+  <data name="LB_RoiStandardOffsetRow.Location" type="System.Drawing.Point, System.Drawing">
+    <value>199, 116</value>
+  </data>
+  <data name="LB_RoiStandardOffsetRow.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="LB_RoiStandardOffsetRow.Size" type="System.Drawing.Size, System.Drawing">
+    <value>69, 32</value>
+  </data>
+  <data name="LB_RoiStandardOffsetRow.TabIndex" type="System.Int32, mscorlib">
+    <value>39</value>
+  </data>
+  <data name="LB_RoiStandardOffsetRow.Text" xml:space="preserve">
+    <value>ROI与基准
+行偏移量R：</value>
+  </data>
+  <data name="LB_RoiStandardOffsetRow.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;LB_RoiStandardOffsetRow.Name" xml:space="preserve">
+    <value>LB_RoiStandardOffsetRow</value>
+  </data>
+  <data name="&gt;&gt;LB_RoiStandardOffsetRow.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LB_RoiStandardOffsetRow.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;LB_RoiStandardOffsetRow.ZOrder" xml:space="preserve">
+    <value>18</value>
+  </data>
+  <data name="NUD_RoiIncreaseColumn.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="NUD_RoiIncreaseColumn.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 9pt</value>
+  </data>
+  <data name="NUD_RoiIncreaseColumn.Location" type="System.Drawing.Point, System.Drawing">
+    <value>102, 136</value>
+  </data>
+  <data name="NUD_RoiIncreaseColumn.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 5, 0, 0</value>
+  </data>
+  <data name="NUD_RoiIncreaseColumn.Size" type="System.Drawing.Size, System.Drawing">
+    <value>63, 23</value>
+  </data>
+  <data name="NUD_RoiIncreaseColumn.TabIndex" type="System.Int32, mscorlib">
+    <value>38</value>
+  </data>
+  <data name="NUD_RoiIncreaseColumn.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiIncreaseColumn.Name" xml:space="preserve">
+    <value>NUD_RoiIncreaseColumn</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiIncreaseColumn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiIncreaseColumn.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiIncreaseColumn.ZOrder" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="NUD_RoiIncreaseRow.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="NUD_RoiIncreaseRow.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 9pt</value>
+  </data>
+  <data name="NUD_RoiIncreaseRow.Location" type="System.Drawing.Point, System.Drawing">
+    <value>102, 104</value>
+  </data>
+  <data name="NUD_RoiIncreaseRow.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 5, 0, 0</value>
+  </data>
+  <data name="NUD_RoiIncreaseRow.Size" type="System.Drawing.Size, System.Drawing">
+    <value>63, 23</value>
+  </data>
+  <data name="NUD_RoiIncreaseRow.TabIndex" type="System.Int32, mscorlib">
+    <value>37</value>
+  </data>
+  <data name="NUD_RoiIncreaseRow.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiIncreaseRow.Name" xml:space="preserve">
+    <value>NUD_RoiIncreaseRow</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiIncreaseRow.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiIncreaseRow.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiIncreaseRow.ZOrder" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="NUD_RoiIncreaseNum.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="NUD_RoiIncreaseNum.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 9pt</value>
+  </data>
+  <data name="NUD_RoiIncreaseNum.Location" type="System.Drawing.Point, System.Drawing">
+    <value>102, 72</value>
+  </data>
+  <data name="NUD_RoiIncreaseNum.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 5, 0, 0</value>
+  </data>
+  <data name="NUD_RoiIncreaseNum.Size" type="System.Drawing.Size, System.Drawing">
+    <value>63, 23</value>
+  </data>
+  <data name="NUD_RoiIncreaseNum.TabIndex" type="System.Int32, mscorlib">
+    <value>36</value>
+  </data>
+  <data name="NUD_RoiIncreaseNum.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiIncreaseNum.Name" xml:space="preserve">
+    <value>NUD_RoiIncreaseNum</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiIncreaseNum.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiIncreaseNum.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;NUD_RoiIncreaseNum.ZOrder" xml:space="preserve">
+    <value>21</value>
+  </data>
+  <data name="LB_RoiIncreaseNum.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LB_RoiIncreaseNum.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 8pt</value>
+  </data>
+  <data name="LB_RoiIncreaseNum.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
+  </data>
+  <data name="LB_RoiIncreaseNum.Location" type="System.Drawing.Point, System.Drawing">
+    <value>39, 68</value>
+  </data>
+  <data name="LB_RoiIncreaseNum.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="LB_RoiIncreaseNum.Size" type="System.Drawing.Size, System.Drawing">
+    <value>51, 32</value>
+  </data>
+  <data name="LB_RoiIncreaseNum.TabIndex" type="System.Int32, mscorlib">
+    <value>35</value>
+  </data>
+  <data name="LB_RoiIncreaseNum.Text" xml:space="preserve">
+    <value>测试递增
+次数：</value>
+  </data>
+  <data name="LB_RoiIncreaseNum.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;LB_RoiIncreaseNum.Name" xml:space="preserve">
+    <value>LB_RoiIncreaseNum</value>
+  </data>
+  <data name="&gt;&gt;LB_RoiIncreaseNum.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LB_RoiIncreaseNum.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;LB_RoiIncreaseNum.ZOrder" xml:space="preserve">
+    <value>22</value>
+  </data>
+  <data name="LB_RoiIncreaseRow.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LB_RoiIncreaseRow.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 8pt</value>
+  </data>
+  <data name="LB_RoiIncreaseRow.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
+  </data>
+  <data name="LB_RoiIncreaseRow.Location" type="System.Drawing.Point, System.Drawing">
+    <value>39, 100</value>
+  </data>
+  <data name="LB_RoiIncreaseRow.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="LB_RoiIncreaseRow.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 32</value>
+  </data>
+  <data name="LB_RoiIncreaseRow.TabIndex" type="System.Int32, mscorlib">
+    <value>34</value>
+  </data>
+  <data name="LB_RoiIncreaseRow.Text" xml:space="preserve">
+    <value>ROI行偏移
+递增量R：</value>
+  </data>
+  <data name="LB_RoiIncreaseRow.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;LB_RoiIncreaseRow.Name" xml:space="preserve">
+    <value>LB_RoiIncreaseRow</value>
+  </data>
+  <data name="&gt;&gt;LB_RoiIncreaseRow.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LB_RoiIncreaseRow.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;LB_RoiIncreaseRow.ZOrder" xml:space="preserve">
+    <value>23</value>
+  </data>
+  <data name="LB_RoiIncreaseColumn.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LB_RoiIncreaseColumn.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 8pt</value>
+  </data>
+  <data name="LB_RoiIncreaseColumn.Location" type="System.Drawing.Point, System.Drawing">
+    <value>39, 132</value>
+  </data>
+  <data name="LB_RoiIncreaseColumn.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="LB_RoiIncreaseColumn.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 32</value>
+  </data>
+  <data name="LB_RoiIncreaseColumn.TabIndex" type="System.Int32, mscorlib">
+    <value>33</value>
+  </data>
+  <data name="LB_RoiIncreaseColumn.Text" xml:space="preserve">
+    <value>ROI列偏移
+递增量C：</value>
+  </data>
+  <data name="LB_RoiIncreaseColumn.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;LB_RoiIncreaseColumn.Name" xml:space="preserve">
+    <value>LB_RoiIncreaseColumn</value>
+  </data>
+  <data name="&gt;&gt;LB_RoiIncreaseColumn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LB_RoiIncreaseColumn.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;LB_RoiIncreaseColumn.ZOrder" xml:space="preserve">
+    <value>24</value>
+  </data>
+  <data name="RB_IncreaseROI.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="RB_IncreaseROI.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 9pt</value>
+  </data>
+  <data name="RB_IncreaseROI.Location" type="System.Drawing.Point, System.Drawing">
+    <value>21, 51</value>
+  </data>
+  <data name="RB_IncreaseROI.Size" type="System.Drawing.Size, System.Drawing">
+    <value>96, 21</value>
+  </data>
+  <data name="RB_IncreaseROI.TabIndex" type="System.Int32, mscorlib">
+    <value>32</value>
+  </data>
+  <data name="RB_IncreaseROI.Text" xml:space="preserve">
+    <value>递增偏移ROI</value>
+  </data>
+  <data name="&gt;&gt;RB_IncreaseROI.Name" xml:space="preserve">
+    <value>RB_IncreaseROI</value>
+  </data>
+  <data name="&gt;&gt;RB_IncreaseROI.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RB_IncreaseROI.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;RB_IncreaseROI.ZOrder" xml:space="preserve">
+    <value>25</value>
+  </data>
+  <data name="RB_StandardROI.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="RB_StandardROI.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 9pt</value>
+  </data>
+  <data name="RB_StandardROI.Location" type="System.Drawing.Point, System.Drawing">
+    <value>180, 24</value>
+  </data>
+  <data name="RB_StandardROI.Size" type="System.Drawing.Size, System.Drawing">
+    <value>96, 21</value>
+  </data>
+  <data name="RB_StandardROI.TabIndex" type="System.Int32, mscorlib">
+    <value>31</value>
+  </data>
+  <data name="RB_StandardROI.Text" xml:space="preserve">
+    <value>基准偏移ROI</value>
+  </data>
+  <data name="&gt;&gt;RB_StandardROI.Name" xml:space="preserve">
+    <value>RB_StandardROI</value>
+  </data>
+  <data name="&gt;&gt;RB_StandardROI.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RB_StandardROI.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;RB_StandardROI.ZOrder" xml:space="preserve">
+    <value>26</value>
+  </data>
+  <data name="RB_StaticROI.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="RB_StaticROI.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 9pt</value>
+  </data>
+  <data name="RB_StaticROI.Location" type="System.Drawing.Point, System.Drawing">
+    <value>21, 24</value>
+  </data>
+  <data name="RB_StaticROI.Size" type="System.Drawing.Size, System.Drawing">
+    <value>72, 21</value>
+  </data>
+  <data name="RB_StaticROI.TabIndex" type="System.Int32, mscorlib">
+    <value>30</value>
+  </data>
+  <data name="RB_StaticROI.Text" xml:space="preserve">
+    <value>固定ROI</value>
+  </data>
+  <data name="&gt;&gt;RB_StaticROI.Name" xml:space="preserve">
+    <value>RB_StaticROI</value>
+  </data>
+  <data name="&gt;&gt;RB_StaticROI.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RB_StaticROI.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;RB_StaticROI.ZOrder" xml:space="preserve">
+    <value>27</value>
+  </data>
+  <data name="groupBox4.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 8</value>
+  </data>
+  <data name="groupBox4.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 10, 3, 3</value>
+  </data>
+  <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>366, 403</value>
+  </data>
+  <data name="groupBox4.TabIndex" type="System.Int32, mscorlib">
+    <value>32</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>ROI运动方式</value>
+  </data>
+  <data name="groupBox4.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Name" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Parent" xml:space="preserve">
+    <value>tabPage5</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tabPage5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 30</value>
+  </data>
+  <data name="tabPage5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>377, 387</value>
+  </data>
+  <data name="tabPage5.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="tabPage5.Text" xml:space="preserve">
+    <value>ROI运动</value>
+  </data>
+  <data name="&gt;&gt;tabPage5.Name" xml:space="preserve">
+    <value>tabPage5</value>
+  </data>
+  <data name="&gt;&gt;tabPage5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabPage5.Parent" xml:space="preserve">
+    <value>TB_ROIMoveIndex</value>
+  </data>
+  <data name="&gt;&gt;tabPage5.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="TB_ROIMoveIndex.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="TB_ROIMoveIndex.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 12pt</value>
+  </data>
+  <data name="TB_ROIMoveIndex.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 25</value>
+  </data>
+  <data name="TB_ROIMoveIndex.Size" type="System.Drawing.Size, System.Drawing">
+    <value>385, 421</value>
+  </data>
+  <data name="TB_ROIMoveIndex.TabIndex" type="System.Int32, mscorlib">
+    <value>68</value>
+  </data>
+  <data name="&gt;&gt;TB_ROIMoveIndex.Name" xml:space="preserve">
+    <value>TB_ROIMoveIndex</value>
+  </data>
+  <data name="&gt;&gt;TB_ROIMoveIndex.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TB_ROIMoveIndex.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;TB_ROIMoveIndex.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="groupBox2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="groupBox2.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 12pt</value>
+  </data>
+  <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>609, 5</value>
+  </data>
+  <data name="groupBox2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 5, 8, 5</value>
+  </data>
+  <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>391, 449</value>
+  </data>
+  <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>抓边参数</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Name" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Parent" xml:space="preserve">
+    <value>tableLayoutPanel2</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="TrB_ROIIndex.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="TrB_ROIIndex.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 25</value>
+  </data>
+  <data name="TrB_ROIIndex.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 34</value>
+  </data>
+  <data name="TrB_ROIIndex.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
+    <value>Vertical</value>
+  </data>
+  <data name="TrB_ROIIndex.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
+    <value>No</value>
+  </data>
+  <data name="TrB_ROIIndex.Size" type="System.Drawing.Size, System.Drawing">
+    <value>385, 274</value>
+  </data>
+  <data name="TrB_ROIIndex.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;TrB_ROIIndex.Name" xml:space="preserve">
+    <value>TrB_ROIIndex</value>
+  </data>
+  <data name="&gt;&gt;TrB_ROIIndex.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TrackBar, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TrB_ROIIndex.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;TrB_ROIIndex.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="groupBox3.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="groupBox3.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 12pt</value>
+  </data>
+  <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>609, 464</value>
+  </data>
+  <data name="groupBox3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 5, 8, 5</value>
+  </data>
+  <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>391, 302</value>
+  </data>
+  <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>灰度曲线</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Name" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Parent" xml:space="preserve">
+    <value>tableLayoutPanel2</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="tableLayoutPanel2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="tableLayoutPanel2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="tableLayoutPanel2.RowCount" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="tableLayoutPanel2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1008, 771</value>
+  </data>
+  <data name="tableLayoutPanel2.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel2.Name" xml:space="preserve">
+    <value>tableLayoutPanel2</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel2.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel2.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tableLayoutPanel2.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="tableLayoutPanel3" Row="0" RowSpan="11" Column="0" ColumnSpan="9" /&gt;&lt;Control Name="groupBox1" Row="11" RowSpan="4" Column="0" ColumnSpan="9" /&gt;&lt;Control Name="groupBox2" Row="0" RowSpan="9" Column="9" ColumnSpan="6" /&gt;&lt;Control Name="groupBox3" Row="9" RowSpan="6" Column="9" ColumnSpan="6" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.461864,Percent,6.673729,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667" /&gt;&lt;Rows Styles="Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <metadata name="timer1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>1008, 811</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>FormMeasureLine</value>
+  </data>
+  <data name="&gt;&gt;timer1.Name" xml:space="preserve">
+    <value>timer1</value>
+  </data>
+  <data name="&gt;&gt;timer1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>FormMeasureLine</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>Frame_Core.FormPluginBase, Frame_Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+</root>

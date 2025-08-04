@@ -1,0 +1,1562 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="label51.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 143</value>
+  </data>
+  <data name="label51.Size" type="System.Drawing.Size, System.Drawing">
+    <value>465, 27</value>
+  </data>
+  <data name="label51.Text" xml:space="preserve">
+    <value>Greater than the minimum brightness threshold</value>
+  </data>
+  <data name="label50.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 274</value>
+  </data>
+  <data name="label50.Size" type="System.Drawing.Size, System.Drawing">
+    <value>393, 54</value>
+  </data>
+  <data name="label50.Text" xml:space="preserve">
+    <value>Then it is considered a band; otherwise, 
+it is classified as leaky metal.</value>
+  </data>
+  <data name="num_JDMaxH.Location" type="System.Drawing.Point, System.Drawing">
+    <value>297, 225</value>
+  </data>
+  <data name="label49.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 232</value>
+  </data>
+  <data name="label49.Size" type="System.Drawing.Size, System.Drawing">
+    <value>220, 27</value>
+  </data>
+  <data name="label49.Text" xml:space="preserve">
+    <value>The height is less than</value>
+  </data>
+  <data name="num_JDMinW.Location" type="System.Drawing.Point, System.Drawing">
+    <value>297, 181</value>
+  </data>
+  <data name="num_JDMinW.Size" type="System.Drawing.Size, System.Drawing">
+    <value>76, 34</value>
+  </data>
+  <data name="label48.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 183</value>
+  </data>
+  <data name="label48.Size" type="System.Drawing.Size, System.Drawing">
+    <value>263, 27</value>
+  </data>
+  <data name="label48.Text" xml:space="preserve">
+    <value>If the width is greater than</value>
+  </data>
+  <data name="num_GrayDifference.Location" type="System.Drawing.Point, System.Drawing">
+    <value>221, 106</value>
+  </data>
+  <data name="label47.Size" type="System.Drawing.Size, System.Drawing">
+    <value>296, 54</value>
+  </data>
+  <data name="label47.Text" xml:space="preserve">
+    <value>And the average gray level in 
+the area adds up</value>
+  </data>
+  <data name="num_JDAreaNG.Location" type="System.Drawing.Point, System.Drawing">
+    <value>233, 34</value>
+  </data>
+  <data name="label43.Size" type="System.Drawing.Size, System.Drawing">
+    <value>199, 27</value>
+  </data>
+  <data name="label43.Text" xml:space="preserve">
+    <value>TotalAreaExceeding</value>
+  </data>
+  <data name="groupBox16.Size" type="System.Drawing.Size, System.Drawing">
+    <value>398, 347</value>
+  </data>
+  <data name="groupBox16.Text" xml:space="preserve">
+    <value>BandAndLeakyMetalDetermination</value>
+  </data>
+  <data name="num_NgMaxNum.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_NgMaxNum.Location" type="System.Drawing.Point, System.Drawing">
+    <value>257, 36</value>
+  </data>
+  <data name="num_NgMaxNum.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 29</value>
+  </data>
+  <data name="label38.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label38.Size" type="System.Drawing.Size, System.Drawing">
+    <value>252, 23</value>
+  </data>
+  <data name="label38.Text" xml:space="preserve">
+    <value>DefectsClassifyMaxNumber：</value>
+  </data>
+  <data name="groupBox15.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt, style=Bold</value>
+  </data>
+  <data name="groupBox15.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 666</value>
+  </data>
+  <data name="groupBox15.Text" xml:space="preserve">
+    <value>ClassifierSetup</value>
+  </data>
+  <data name="cb_OpenDec_WLY.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="cb_OpenDec_WLY.Size" type="System.Drawing.Size, System.Drawing">
+    <value>86, 27</value>
+  </data>
+  <data name="cb_OpenDec_WLY.Text" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="num_WLY_GrayUnder.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_WLY_GrayUnder.Location" type="System.Drawing.Point, System.Drawing">
+    <value>328, 67</value>
+  </data>
+  <data name="num_WLY_GrayUnder.Size" type="System.Drawing.Size, System.Drawing">
+    <value>46, 29</value>
+  </data>
+  <data name="num_WLY_GrayDifference.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_WLY_GrayDifference.Location" type="System.Drawing.Point, System.Drawing">
+    <value>144, 66</value>
+  </data>
+  <data name="num_WLY_GrayDifference.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 29</value>
+  </data>
+  <data name="label44.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label44.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 23</value>
+  </data>
+  <data name="label44.Text" xml:space="preserve">
+    <value>GrayDifference：</value>
+  </data>
+  <data name="label116.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label116.Location" type="System.Drawing.Point, System.Drawing">
+    <value>200, 69</value>
+  </data>
+  <data name="label116.Size" type="System.Drawing.Size, System.Drawing">
+    <value>121, 23</value>
+  </data>
+  <data name="label116.Text" xml:space="preserve">
+    <value>OrBelowGray:</value>
+  </data>
+  <data name="groupBox_WLY.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt, style=Bold</value>
+  </data>
+  <data name="groupBox_WLY.Text" xml:space="preserve">
+    <value>NoneColdPressing</value>
+  </data>
+  <data name="num_MinArea_Black.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_MinArea_Black.Location" type="System.Drawing.Point, System.Drawing">
+    <value>222, 128</value>
+  </data>
+  <data name="num_MinArea_Black.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 29</value>
+  </data>
+  <data name="label57.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label57.Size" type="System.Drawing.Size, System.Drawing">
+    <value>184, 23</value>
+  </data>
+  <data name="label57.Text" xml:space="preserve">
+    <value>DarkMinArea(mm²)：</value>
+  </data>
+  <data name="label29.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label29.Location" type="System.Drawing.Point, System.Drawing">
+    <value>290, 94</value>
+  </data>
+  <data name="label29.Size" type="System.Drawing.Size, System.Drawing">
+    <value>17, 23</value>
+  </data>
+  <data name="num_BlackThreshold_Max.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_BlackThreshold_Max.Location" type="System.Drawing.Point, System.Drawing">
+    <value>313, 92</value>
+  </data>
+  <data name="num_BlackThreshold_Max.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 29</value>
+  </data>
+  <data name="num_BlackThreshold_Min.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_BlackThreshold_Min.Location" type="System.Drawing.Point, System.Drawing">
+    <value>222, 92</value>
+  </data>
+  <data name="num_BlackThreshold_Min.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 29</value>
+  </data>
+  <data name="label28.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label28.Size" type="System.Drawing.Size, System.Drawing">
+    <value>199, 23</value>
+  </data>
+  <data name="label28.Text" xml:space="preserve">
+    <value>DarkDefectThreshold：</value>
+  </data>
+  <data name="num_MinArea_White.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_MinArea_White.Location" type="System.Drawing.Point, System.Drawing">
+    <value>222, 57</value>
+  </data>
+  <data name="num_MinArea_White.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 29</value>
+  </data>
+  <data name="label30.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label30.Size" type="System.Drawing.Size, System.Drawing">
+    <value>201, 23</value>
+  </data>
+  <data name="label30.Text" xml:space="preserve">
+    <value>BrightMinArea (mm²)：</value>
+  </data>
+  <data name="num_WhiteThreshold_Max.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_WhiteThreshold_Max.Location" type="System.Drawing.Point, System.Drawing">
+    <value>314, 21</value>
+  </data>
+  <data name="num_WhiteThreshold_Max.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 29</value>
+  </data>
+  <data name="num_WhiteThreshold_Min.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_WhiteThreshold_Min.Location" type="System.Drawing.Point, System.Drawing">
+    <value>222, 21</value>
+  </data>
+  <data name="num_WhiteThreshold_Min.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 29</value>
+  </data>
+  <data name="label46.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label46.Location" type="System.Drawing.Point, System.Drawing">
+    <value>290, 26</value>
+  </data>
+  <data name="label46.Size" type="System.Drawing.Size, System.Drawing">
+    <value>17, 23</value>
+  </data>
+  <data name="lbl_WriteThreshold_Range.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="lbl_WriteThreshold_Range.Size" type="System.Drawing.Size, System.Drawing">
+    <value>211, 23</value>
+  </data>
+  <data name="lbl_WriteThreshold_Range.Text" xml:space="preserve">
+    <value>BrightDefectThreshold：</value>
+  </data>
+  <data name="groupBox_ThresholdRange.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt, style=Bold</value>
+  </data>
+  <data name="groupBox_ThresholdRange.Text" xml:space="preserve">
+    <value>MembraneDetectionSettings</value>
+  </data>
+  <data name="tabPage1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 32</value>
+  </data>
+  <data name="tabPage1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>432, 389</value>
+  </data>
+  <data name="tabPage1.Text" xml:space="preserve">
+    <value>Membrane Detection</value>
+  </data>
+  <data name="num_ZBPS_MinArea.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_ZBPS_MinArea.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 29</value>
+  </data>
+  <data name="label112.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label112.Size" type="System.Drawing.Size, System.Drawing">
+    <value>211, 23</value>
+  </data>
+  <data name="label112.Text" xml:space="preserve">
+    <value>DamagrMinArea(mm²)：</value>
+  </data>
+  <data name="num_ZBPS_Threshold.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_ZBPS_Threshold.Location" type="System.Drawing.Point, System.Drawing">
+    <value>214, 22</value>
+  </data>
+  <data name="num_ZBPS_Threshold.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 29</value>
+  </data>
+  <data name="label117.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label117.Size" type="System.Drawing.Size, System.Drawing">
+    <value>163, 23</value>
+  </data>
+  <data name="label117.Text" xml:space="preserve">
+    <value>DamageThreshold:</value>
+  </data>
+  <data name="groupBox11.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt, style=Bold</value>
+  </data>
+  <data name="groupBox11.Text" xml:space="preserve">
+    <value>EdgeDamage</value>
+  </data>
+  <data name="tabPage2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 32</value>
+  </data>
+  <data name="tabPage2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>432, 389</value>
+  </data>
+  <data name="tabPage2.Text" xml:space="preserve">
+    <value>Straight Edge Breakage</value>
+  </data>
+  <data name="num_BYDL_MinArea.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_BYDL_MinArea.Location" type="System.Drawing.Point, System.Drawing">
+    <value>187, 62</value>
+  </data>
+  <data name="num_BYDL_MinArea.Size" type="System.Drawing.Size, System.Drawing">
+    <value>68, 29</value>
+  </data>
+  <data name="label118.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label118.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 23</value>
+  </data>
+  <data name="label118.Text" xml:space="preserve">
+    <value>MinArea(mm²)：</value>
+  </data>
+  <data name="num_BYDL_Threshold.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_BYDL_Threshold.Location" type="System.Drawing.Point, System.Drawing">
+    <value>188, 26</value>
+  </data>
+  <data name="num_BYDL_Threshold.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 29</value>
+  </data>
+  <data name="label120.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label120.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 23</value>
+  </data>
+  <data name="label120.Text" xml:space="preserve">
+    <value>BrightThreshold:</value>
+  </data>
+  <data name="groupBox_BYDL.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt, style=Bold</value>
+  </data>
+  <data name="groupBox_BYDL.Text" xml:space="preserve">
+    <value>EdgeMaterialDrop</value>
+  </data>
+  <data name="tabPage3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 32</value>
+  </data>
+  <data name="tabPage3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>432, 389</value>
+  </data>
+  <data name="tabPage3.Text" xml:space="preserve">
+    <value>Edge Material Drop Settings</value>
+  </data>
+  <data name="num_ZBYL_Threshold_Max.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_ZBYL_Threshold_Max.Location" type="System.Drawing.Point, System.Drawing">
+    <value>349, 26</value>
+  </data>
+  <data name="num_ZBYL_Threshold_Max.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 29</value>
+  </data>
+  <data name="label6.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>217, 28</value>
+  </data>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>130, 23</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>MaxThreshold:</value>
+  </data>
+  <data name="num_ZBYL_MinArea.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_ZBYL_MinArea.Location" type="System.Drawing.Point, System.Drawing">
+    <value>147, 62</value>
+  </data>
+  <data name="num_ZBYL_MinArea.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 29</value>
+  </data>
+  <data name="label3.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 23</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>MinArea(mm²)：</value>
+  </data>
+  <data name="num_ZBYL_Threshold_Min.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_ZBYL_Threshold_Min.Location" type="System.Drawing.Point, System.Drawing">
+    <value>147, 26</value>
+  </data>
+  <data name="num_ZBYL_Threshold_Min.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 29</value>
+  </data>
+  <data name="label5.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>132, 23</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>MiniThreshold:</value>
+  </data>
+  <data name="groupBox3.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt, style=Bold</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Parameter</value>
+  </data>
+  <data name="tabPage4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 32</value>
+  </data>
+  <data name="tabPage4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>432, 389</value>
+  </data>
+  <data name="tabPage4.Text" xml:space="preserve">
+    <value>Straight Edge Residual Material</value>
+  </data>
+  <data name="num_AT_PoSun_Threshold_Max.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_AT_PoSun_Threshold_Max.Location" type="System.Drawing.Point, System.Drawing">
+    <value>354, 26</value>
+  </data>
+  <data name="num_AT_PoSun_Threshold_Max.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 29</value>
+  </data>
+  <data name="label18.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label18.Location" type="System.Drawing.Point, System.Drawing">
+    <value>216, 28</value>
+  </data>
+  <data name="label18.Size" type="System.Drawing.Size, System.Drawing">
+    <value>130, 23</value>
+  </data>
+  <data name="label18.Text" xml:space="preserve">
+    <value>MaxThreshold:</value>
+  </data>
+  <data name="num_AT_PoSun_MinArea.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_AT_PoSun_MinArea.Size" type="System.Drawing.Size, System.Drawing">
+    <value>68, 29</value>
+  </data>
+  <data name="label19.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label19.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 23</value>
+  </data>
+  <data name="label19.Text" xml:space="preserve">
+    <value>MinArea(mm²)：</value>
+  </data>
+  <data name="num_AT_PoSun_Threshold_Min.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_AT_PoSun_Threshold_Min.Location" type="System.Drawing.Point, System.Drawing">
+    <value>133, 26</value>
+  </data>
+  <data name="num_AT_PoSun_Threshold_Min.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 29</value>
+  </data>
+  <data name="label21.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label21.Size" type="System.Drawing.Size, System.Drawing">
+    <value>127, 23</value>
+  </data>
+  <data name="label21.Text" xml:space="preserve">
+    <value>MinThreshold:</value>
+  </data>
+  <data name="groupBox7.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt, style=Bold</value>
+  </data>
+  <data name="groupBox7.Text" xml:space="preserve">
+    <value>ATDamageSettings</value>
+  </data>
+  <data name="num_AT_LouJinShu_Threshold_Max.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_AT_LouJinShu_Threshold_Max.Location" type="System.Drawing.Point, System.Drawing">
+    <value>354, 26</value>
+  </data>
+  <data name="num_AT_LouJinShu_Threshold_Max.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 29</value>
+  </data>
+  <data name="label15.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label15.Location" type="System.Drawing.Point, System.Drawing">
+    <value>216, 28</value>
+  </data>
+  <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
+    <value>130, 23</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>MaxThreshold:</value>
+  </data>
+  <data name="num_AT_LouJinShu_MinArea.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_AT_LouJinShu_MinArea.Size" type="System.Drawing.Size, System.Drawing">
+    <value>68, 29</value>
+  </data>
+  <data name="label16.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label16.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 23</value>
+  </data>
+  <data name="label16.Text" xml:space="preserve">
+    <value>MinArea(mm²)：</value>
+  </data>
+  <data name="num_AT_LouJinShu_Threshold_Min.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_AT_LouJinShu_Threshold_Min.Location" type="System.Drawing.Point, System.Drawing">
+    <value>133, 26</value>
+  </data>
+  <data name="num_AT_LouJinShu_Threshold_Min.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 29</value>
+  </data>
+  <data name="label14.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
+    <value>127, 23</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>MinThreshold:</value>
+  </data>
+  <data name="groupBox6.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt, style=Bold</value>
+  </data>
+  <data name="groupBox6.Text" xml:space="preserve">
+    <value>ATMetalLeakage</value>
+  </data>
+  <data name="tabPage5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 32</value>
+  </data>
+  <data name="tabPage5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>432, 389</value>
+  </data>
+  <data name="tabPage5.Text" xml:space="preserve">
+    <value>AT Leakage</value>
+  </data>
+  <data name="num_TimeOut.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_TimeOut.Location" type="System.Drawing.Point, System.Drawing">
+    <value>288, 28</value>
+  </data>
+  <data name="num_TimeOut.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 29</value>
+  </data>
+  <data name="label37.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label37.Size" type="System.Drawing.Size, System.Drawing">
+    <value>285, 23</value>
+  </data>
+  <data name="label37.Text" xml:space="preserve">
+    <value>TemplateMatchingTimeout(ms)：</value>
+  </data>
+  <data name="groupBox12.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt, style=Bold</value>
+  </data>
+  <data name="groupBox12.Text" xml:space="preserve">
+    <value>BasicSettings</value>
+  </data>
+  <data name="num_JR_PoSun_ModelXld_ShiftLeft_1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_JR_PoSun_ModelXld_ShiftLeft_1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>288, 29</value>
+  </data>
+  <data name="num_JR_PoSun_ModelXld_ShiftLeft_1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 29</value>
+  </data>
+  <data name="label36.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label36.Size" type="System.Drawing.Size, System.Drawing">
+    <value>259, 23</value>
+  </data>
+  <data name="label36.Text" xml:space="preserve">
+    <value>TemplateContourShiftLeftby 1:</value>
+  </data>
+  <data name="cb_Show_JR_PoSun_DetectionROI.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="cb_Show_JR_PoSun_DetectionROI.Size" type="System.Drawing.Size, System.Drawing">
+    <value>172, 27</value>
+  </data>
+  <data name="cb_Show_JR_PoSun_DetectionROI.Text" xml:space="preserve">
+    <value>DisplayDetection</value>
+  </data>
+  <data name="num_JR_PoSun_Threshold_Max.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_JR_PoSun_Threshold_Max.Location" type="System.Drawing.Point, System.Drawing">
+    <value>334, 70</value>
+  </data>
+  <data name="num_JR_PoSun_Threshold_Max.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 29</value>
+  </data>
+  <data name="label22.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label22.Location" type="System.Drawing.Point, System.Drawing">
+    <value>196, 72</value>
+  </data>
+  <data name="label22.Size" type="System.Drawing.Size, System.Drawing">
+    <value>130, 23</value>
+  </data>
+  <data name="label22.Text" xml:space="preserve">
+    <value>MaxThreshold:</value>
+  </data>
+  <data name="num_JR_PoSun_MinArea.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_JR_PoSun_MinArea.Location" type="System.Drawing.Point, System.Drawing">
+    <value>143, 106</value>
+  </data>
+  <data name="num_JR_PoSun_MinArea.Size" type="System.Drawing.Size, System.Drawing">
+    <value>68, 29</value>
+  </data>
+  <data name="label23.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label23.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 23</value>
+  </data>
+  <data name="label23.Text" xml:space="preserve">
+    <value>MinArea(mm²)：</value>
+  </data>
+  <data name="num_JR_PoSun_Threshold_Min.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_JR_PoSun_Threshold_Min.Location" type="System.Drawing.Point, System.Drawing">
+    <value>139, 70</value>
+  </data>
+  <data name="num_JR_PoSun_Threshold_Min.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 29</value>
+  </data>
+  <data name="label26.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label26.Size" type="System.Drawing.Size, System.Drawing">
+    <value>127, 23</value>
+  </data>
+  <data name="label26.Text" xml:space="preserve">
+    <value>MinThreshold:</value>
+  </data>
+  <data name="groupBox9.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt, style=Bold</value>
+  </data>
+  <data name="groupBox9.Text" xml:space="preserve">
+    <value>TabDamageSettings</value>
+  </data>
+  <data name="cb_Show_JR_ModelXld.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="cb_Show_JR_ModelXld.Size" type="System.Drawing.Size, System.Drawing">
+    <value>234, 27</value>
+  </data>
+  <data name="cb_Show_JR_ModelXld.Text" xml:space="preserve">
+    <value>DisplayTemplateContour</value>
+  </data>
+  <data name="num_JR_DaiLiao_ModelXld_ShiftRight_2.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_JR_DaiLiao_ModelXld_ShiftRight_2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>291, 55</value>
+  </data>
+  <data name="num_JR_DaiLiao_ModelXld_ShiftRight_2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 29</value>
+  </data>
+  <data name="label35.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label35.Size" type="System.Drawing.Size, System.Drawing">
+    <value>271, 23</value>
+  </data>
+  <data name="label35.Text" xml:space="preserve">
+    <value>TemplateContourShiftRightby 2:</value>
+  </data>
+  <data name="num_JR_DaiLiao_ModelXld_ShiftRight_1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_JR_DaiLiao_ModelXld_ShiftRight_1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>291, 20</value>
+  </data>
+  <data name="num_JR_DaiLiao_ModelXld_ShiftRight_1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 29</value>
+  </data>
+  <data name="label34.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label34.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 26</value>
+  </data>
+  <data name="label34.Size" type="System.Drawing.Size, System.Drawing">
+    <value>271, 23</value>
+  </data>
+  <data name="label34.Text" xml:space="preserve">
+    <value>TemplateContourShiftRightby 1:</value>
+  </data>
+  <data name="cb_Show_JR_DaiLiao_DetectionROI.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="cb_Show_JR_DaiLiao_DetectionROI.Size" type="System.Drawing.Size, System.Drawing">
+    <value>172, 27</value>
+  </data>
+  <data name="cb_Show_JR_DaiLiao_DetectionROI.Text" xml:space="preserve">
+    <value>DisplayDetection</value>
+  </data>
+  <data name="num_JR_DaiLiao_Threshold_Max.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_JR_DaiLiao_Threshold_Max.Location" type="System.Drawing.Point, System.Drawing">
+    <value>334, 95</value>
+  </data>
+  <data name="num_JR_DaiLiao_Threshold_Max.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 29</value>
+  </data>
+  <data name="label27.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label27.Location" type="System.Drawing.Point, System.Drawing">
+    <value>196, 97</value>
+  </data>
+  <data name="label27.Size" type="System.Drawing.Size, System.Drawing">
+    <value>130, 23</value>
+  </data>
+  <data name="label27.Text" xml:space="preserve">
+    <value>MaxThreshold:</value>
+  </data>
+  <data name="num_JR_DaiLiao_MinArea.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_JR_DaiLiao_MinArea.Size" type="System.Drawing.Size, System.Drawing">
+    <value>60, 29</value>
+  </data>
+  <data name="label31.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label31.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 23</value>
+  </data>
+  <data name="label31.Text" xml:space="preserve">
+    <value>MinArea(mm²)：</value>
+  </data>
+  <data name="num_JR_DaiLiao_Threshold_Min.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_JR_DaiLiao_Threshold_Min.Location" type="System.Drawing.Point, System.Drawing">
+    <value>139, 95</value>
+  </data>
+  <data name="num_JR_DaiLiao_Threshold_Min.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 29</value>
+  </data>
+  <data name="label33.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label33.Size" type="System.Drawing.Size, System.Drawing">
+    <value>127, 23</value>
+  </data>
+  <data name="label33.Text" xml:space="preserve">
+    <value>MinThreshold:</value>
+  </data>
+  <data name="groupBox10.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt, style=Bold</value>
+  </data>
+  <data name="groupBox10.Text" xml:space="preserve">
+    <value>TabMaterialCarry-overSettings</value>
+  </data>
+  <data name="but_SaveModel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>126, 46</value>
+  </data>
+  <data name="but_SaveModel.Text" xml:space="preserve">
+    <value>SaveTemplate</value>
+  </data>
+  <data name="but_CreateModel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>126, 46</value>
+  </data>
+  <data name="but_CreateModel.Text" xml:space="preserve">
+    <value>CreateTemplate</value>
+  </data>
+  <data name="but_SelectROI.Size" type="System.Drawing.Size, System.Drawing">
+    <value>126, 46</value>
+  </data>
+  <data name="but_SelectROI.Text" xml:space="preserve">
+    <value>AdjustROI</value>
+  </data>
+  <data name="tableLayoutPanel5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 26</value>
+  </data>
+  <data name="tableLayoutPanel5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>396, 52</value>
+  </data>
+  <data name="groupBox8.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt, style=Bold</value>
+  </data>
+  <data name="groupBox8.Text" xml:space="preserve">
+    <value>TemplateOperations</value>
+  </data>
+  <data name="tabPage6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 32</value>
+  </data>
+  <data name="tabPage6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>432, 389</value>
+  </data>
+  <data name="tabPage6.Text" xml:space="preserve">
+    <value>Threshold Parameter</value>
+  </data>
+  <data name="tabPage7.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 32</value>
+  </data>
+  <data name="tabPage7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>432, 389</value>
+  </data>
+  <data name="tabPage8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 32</value>
+  </data>
+  <data name="tabPage8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>432, 389</value>
+  </data>
+  <data name="lab51.Size" type="System.Drawing.Size, System.Drawing">
+    <value>192, 23</value>
+  </data>
+  <data name="lab51.Text" xml:space="preserve">
+    <value>Tab Bottom Shielding:</value>
+  </data>
+  <data name="num_topAngleR_Shielded_X1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 29</value>
+  </data>
+  <data name="lab58.Size" type="System.Drawing.Size, System.Drawing">
+    <value>174, 23</value>
+  </data>
+  <data name="lab58.Text" xml:space="preserve">
+    <value>Top Edge Shielding:</value>
+  </data>
+  <data name="lab47.Size" type="System.Drawing.Size, System.Drawing">
+    <value>163, 23</value>
+  </data>
+  <data name="lab47.Text" xml:space="preserve">
+    <value>Top Tab Shielding:</value>
+  </data>
+  <data name="num_bottomAngleR_Shielded_X1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 29</value>
+  </data>
+  <data name="num_topAngleR_Shielded_Y1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 29</value>
+  </data>
+  <data name="lab57.Size" type="System.Drawing.Size, System.Drawing">
+    <value>205, 23</value>
+  </data>
+  <data name="lab57.Text" xml:space="preserve">
+    <value>Straight Edge Shielding:</value>
+  </data>
+  <data name="num_bottomAngleR_Shielded_Y1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 29</value>
+  </data>
+  <data name="num_hypotenuse_Shielded_Y1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 29</value>
+  </data>
+  <data name="lab50.Size" type="System.Drawing.Size, System.Drawing">
+    <value>190, 23</value>
+  </data>
+  <data name="lab50.Text" xml:space="preserve">
+    <value>Middle Tab Shielding:</value>
+  </data>
+  <data name="gb_JR_broken_params.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 614</value>
+  </data>
+  <data name="gb_JR_broken_params.Size" type="System.Drawing.Size, System.Drawing">
+    <value>398, 253</value>
+  </data>
+  <data name="gb_JR_broken_params.Text" xml:space="preserve">
+    <value>Damage Detection Shielding</value>
+  </data>
+  <data name="lab53.Size" type="System.Drawing.Size, System.Drawing">
+    <value>192, 23</value>
+  </data>
+  <data name="lab53.Text" xml:space="preserve">
+    <value>Tab Bottom Shielding:</value>
+  </data>
+  <data name="num_bottomAngleR_Shielded_Y.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 29</value>
+  </data>
+  <data name="lab46.Size" type="System.Drawing.Size, System.Drawing">
+    <value>163, 23</value>
+  </data>
+  <data name="lab46.Text" xml:space="preserve">
+    <value>Tab Top Shielding:</value>
+  </data>
+  <data name="num_hypotenuse_Shielded_Y.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 29</value>
+  </data>
+  <data name="num_topAngleR_Shielded_Y.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 29</value>
+  </data>
+  <data name="lab52.Size" type="System.Drawing.Size, System.Drawing">
+    <value>190, 23</value>
+  </data>
+  <data name="lab52.Text" xml:space="preserve">
+    <value>Tab Middle Shielding:</value>
+  </data>
+  <data name="num_bottomAngleR_Shielded_X.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 29</value>
+  </data>
+  <data name="num_topAngleR_Shielded_X.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 29</value>
+  </data>
+  <data name="lab48.Size" type="System.Drawing.Size, System.Drawing">
+    <value>174, 23</value>
+  </data>
+  <data name="lab48.Text" xml:space="preserve">
+    <value>Top Edge Shielding:</value>
+  </data>
+  <data name="lab49.Size" type="System.Drawing.Size, System.Drawing">
+    <value>205, 23</value>
+  </data>
+  <data name="lab49.Text" xml:space="preserve">
+    <value>Straight Edge Shielding:</value>
+  </data>
+  <data name="gb_JR_remaints_params.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 339</value>
+  </data>
+  <data name="gb_JR_remaints_params.Size" type="System.Drawing.Size, System.Drawing">
+    <value>398, 253</value>
+  </data>
+  <data name="gb_JR_remaints_params.Text" xml:space="preserve">
+    <value>Scrap Detection Shielding</value>
+  </data>
+  <data name="lab45.Size" type="System.Drawing.Size, System.Drawing">
+    <value>201, 23</value>
+  </data>
+  <data name="lab45.Text" xml:space="preserve">
+    <value>BottomR-CornerRadius:</value>
+  </data>
+  <data name="num_bottomAngleR_ridus.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 29</value>
+  </data>
+  <data name="num_topAngleR_ridus.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 29</value>
+  </data>
+  <data name="lab6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>139, 23</value>
+  </data>
+  <data name="lab6.Text" xml:space="preserve">
+    <value>BevelAngle(°)：</value>
+  </data>
+  <data name="lab40.Size" type="System.Drawing.Size, System.Drawing">
+    <value>172, 23</value>
+  </data>
+  <data name="lab40.Text" xml:space="preserve">
+    <value>TopR-CornerRadius:</value>
+  </data>
+  <data name="num_hypotenuse_length.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 29</value>
+  </data>
+  <data name="num_hypotenuse_angle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 29</value>
+  </data>
+  <data name="lab7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>179, 23</value>
+  </data>
+  <data name="lab7.Text" xml:space="preserve">
+    <value>TopR-CornerAngle：</value>
+  </data>
+  <data name="lab38.Size" type="System.Drawing.Size, System.Drawing">
+    <value>159, 23</value>
+  </data>
+  <data name="lab38.Text" xml:space="preserve">
+    <value>BevelLength(mm):</value>
+  </data>
+  <data name="num_topAngleR_CompensationAngle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 29</value>
+  </data>
+  <data name="num_bottomAngleR_CompensationAngle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 29</value>
+  </data>
+  <data name="lab8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>208, 23</value>
+  </data>
+  <data name="lab8.Text" xml:space="preserve">
+    <value>BottomR-CornerAngle：</value>
+  </data>
+  <data name="lab556.Size" type="System.Drawing.Size, System.Drawing">
+    <value>137, 23</value>
+  </data>
+  <data name="lab556.Text" xml:space="preserve">
+    <value>TabWidth(mm):</value>
+  </data>
+  <data name="num_JR_width.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 29</value>
+  </data>
+  <data name="groupBox13.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 5</value>
+  </data>
+  <data name="groupBox13.Size" type="System.Drawing.Size, System.Drawing">
+    <value>399, 314</value>
+  </data>
+  <data name="groupBox13.Text" xml:space="preserve">
+    <value>StandardTabParameters</value>
+  </data>
+  <data name="tabPage9.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 32</value>
+  </data>
+  <data name="tabPage9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>432, 389</value>
+  </data>
+  <data name="tabPage9.Text" xml:space="preserve">
+    <value>Dimension Parameter</value>
+  </data>
+  <data name="num_JRCenter_Row.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_JRCenter_Row.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 29</value>
+  </data>
+  <data name="label40.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label40.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 23</value>
+  </data>
+  <data name="num_JRCenter_column.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_JRCenter_column.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 29</value>
+  </data>
+  <data name="label42.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label42.Size" type="System.Drawing.Size, System.Drawing">
+    <value>25, 23</value>
+  </data>
+  <data name="groupBox14.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt, style=Bold</value>
+  </data>
+  <data name="groupBox14.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 260</value>
+  </data>
+  <data name="groupBox14.Size" type="System.Drawing.Size, System.Drawing">
+    <value>419, 135</value>
+  </data>
+  <data name="groupBox14.Text" xml:space="preserve">
+    <value>Center Coordinates Of The Tab</value>
+  </data>
+  <data name="cb_Enable_SimulationRegion.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="cb_Enable_SimulationRegion.Size" type="System.Drawing.Size, System.Drawing">
+    <value>260, 27</value>
+  </data>
+  <data name="cb_Enable_SimulationRegion.Text" xml:space="preserve">
+    <value>Activate The Simulation ROI</value>
+  </data>
+  <data name="groupBox5.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt, style=Bold</value>
+  </data>
+  <data name="groupBox5.Text" xml:space="preserve">
+    <value>Whether To Enable</value>
+  </data>
+  <data name="Detection_Right_Down_Y.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="Detection_Right_Down_Y.Location" type="System.Drawing.Point, System.Drawing">
+    <value>201, 113</value>
+  </data>
+  <data name="Detection_Right_Down_Y.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 29</value>
+  </data>
+  <data name="label8.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 115</value>
+  </data>
+  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>185, 23</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Right Bottom Point Y:</value>
+  </data>
+  <data name="Detection_Right_Down_X.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="Detection_Right_Down_X.Location" type="System.Drawing.Point, System.Drawing">
+    <value>201, 75</value>
+  </data>
+  <data name="Detection_Right_Down_X.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 29</value>
+  </data>
+  <data name="label12.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
+    <value>186, 23</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>Right Bottom Point X:</value>
+  </data>
+  <data name="Detection_Left_UP_Y.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="Detection_Left_UP_Y.Location" type="System.Drawing.Point, System.Drawing">
+    <value>350, 33</value>
+  </data>
+  <data name="Detection_Left_UP_Y.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 29</value>
+  </data>
+  <data name="label7.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
+    <value>208, 35</value>
+  </data>
+  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>118, 23</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Left Vertex Y:</value>
+  </data>
+  <data name="Detection_Left_UP_X.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="Detection_Left_UP_X.Location" type="System.Drawing.Point, System.Drawing">
+    <value>134, 33</value>
+  </data>
+  <data name="Detection_Left_UP_X.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 29</value>
+  </data>
+  <data name="label10.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 23</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>Left Vertex X:</value>
+  </data>
+  <data name="groupBox4.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt, style=Bold</value>
+  </data>
+  <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>419, 153</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>Parameters For Detection  Region</value>
+  </data>
+  <data name="tabPage10.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 32</value>
+  </data>
+  <data name="tabPage10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>432, 389</value>
+  </data>
+  <data name="tabPage10.Text" xml:space="preserve">
+    <value>Regional Setting</value>
+  </data>
+  <data name="TB_Params.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="TB_Params.Size" type="System.Drawing.Size, System.Drawing">
+    <value>440, 425</value>
+  </data>
+  <data name="num_timeOutPeriod.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_timeOutPeriod.Location" type="System.Drawing.Point, System.Drawing">
+    <value>374, 103</value>
+  </data>
+  <data name="num_timeOutPeriod.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 29</value>
+  </data>
+  <data name="label13.Location" type="System.Drawing.Point, System.Drawing">
+    <value>191, 108</value>
+  </data>
+  <data name="label13.Size" type="System.Drawing.Size, System.Drawing">
+    <value>197, 17</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Time Out Period(ms)：</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>161, 17</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Detection Method:</value>
+  </data>
+  <data name="com_DetectionMethod.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="com_DetectionMethod.Items" xml:space="preserve">
+    <value>Membrane Detection</value>
+  </data>
+  <data name="com_DetectionMethod.Items1" xml:space="preserve">
+    <value>Straight Edge Breakage</value>
+  </data>
+  <data name="com_DetectionMethod.Items2" xml:space="preserve">
+    <value>Straight Edge Drop-off</value>
+  </data>
+  <data name="com_DetectionMethod.Items3" xml:space="preserve">
+    <value>Straight Edge Residual Material</value>
+  </data>
+  <data name="com_DetectionMethod.Items4" xml:space="preserve">
+    <value>AT Leakage</value>
+  </data>
+  <data name="com_DetectionMethod.Items5" xml:space="preserve">
+    <value>Backlight JR</value>
+  </data>
+  <data name="com_DetectionMethod.Location" type="System.Drawing.Point, System.Drawing">
+    <value>192, 32</value>
+  </data>
+  <data name="com_DetectionMethod.Size" type="System.Drawing.Size, System.Drawing">
+    <value>187, 31</value>
+  </data>
+  <data name="cb_Enable_Classify.Size" type="System.Drawing.Size, System.Drawing">
+    <value>165, 21</value>
+  </data>
+  <data name="cb_Enable_Classify.Text" xml:space="preserve">
+    <value>Enable Classify</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>89, 17</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Polarity:</value>
+  </data>
+  <data name="com_Cathode.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="com_Cathode.Items" xml:space="preserve">
+    <value>PositiveElectrode</value>
+  </data>
+  <data name="com_Cathode.Items1" xml:space="preserve">
+    <value>NegativeElectrode</value>
+  </data>
+  <data name="com_Cathode.Location" type="System.Drawing.Point, System.Drawing">
+    <value>192, 68</value>
+  </data>
+  <data name="com_Cathode.Size" type="System.Drawing.Size, System.Drawing">
+    <value>187, 31</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Function Selection</value>
+  </data>
+  <data name="tableLayoutPanel4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 23</value>
+  </data>
+  <data name="tableLayoutPanel4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>446, 574</value>
+  </data>
+  <data name="GB_DetectParams.Font" type="System.Drawing.Font, System.Drawing">
+    <value>黑体, 10pt</value>
+  </data>
+  <data name="GB_DetectParams.Text" xml:space="preserve">
+    <value>Detection Parameter</value>
+  </data>
+  <data name="Label_Image.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 42</value>
+  </data>
+  <data name="TLP_Image1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>95, 178</value>
+  </data>
+  <data name="tableLayoutPanel3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 23</value>
+  </data>
+  <data name="tableLayoutPanel3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>492, 198</value>
+  </data>
+  <data name="groupBox1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>黑体, 10pt</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>GraphicVariable</value>
+  </data>
+  <data name="ImageReset.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        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
+        rkJggg==
+</value>
+  </data>
+  <data name="LoadImage.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        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
+        jz5YB/UUPXcACCCEQVvV4esAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="LB_ModleName.Font" type="System.Drawing.Font, System.Drawing">
+    <value>黑体, 10pt</value>
+  </data>
+  <data name="LB_ModleName.Text" xml:space="preserve">
+    <value>DefectDetection</value>
+  </data>
+</root>

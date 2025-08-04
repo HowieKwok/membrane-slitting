@@ -1,0 +1,29 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Frame_Core
+{
+    public class ExecuteResult
+    {
+        //
+        // 摘要:
+        //     具体的错误代码。 The specific error code.
+        public int ErrorCode { get; set; }
+
+        //
+        // 摘要:
+        //     具体的警告代码。 The specific warning code.
+        public int WarningCode { get; set; }
+        //
+        // 摘要:
+        //     指示本次操作是否成功。 Indicates whether this operation was successful.
+        public bool IsSuccess { get; set; }
+        //
+        // 摘要:
+        //     具体的错误描述。 Specific error description.
+        public string Message { get; set; }
+    }
+}

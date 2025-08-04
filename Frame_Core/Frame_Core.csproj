@@ -1,0 +1,850 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{01127398-2CC7-4124-B966-FBFF69A7A0E5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Frame_Core</RootNamespace>
+    <AssemblyName>Frame_Core</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Basler.Pylon, Version=1.2.0.0, Culture=neutral, PublicKeyToken=e389355f398382ab, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\Basler.Pylon.dll</HintPath>
+    </Reference>
+    <Reference Include="BatteryLugClassLibrary, Version=1.1.1.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\BatteryLugClassLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="BitMiracle.LibTiff.NET">
+      <HintPath>..\Mef_VisionFrame\bin\Release\BitMiracle.LibTiff.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="DALSA.SaperaLT.SapClassBasic, Version=8.60.0.2120, Culture=neutral, PublicKeyToken=4d8604101dcb6b58, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Mef_VisionFrame\bin\Release\DALSA.SaperaLT.SapClassBasic.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetDetour">
+      <HintPath>DLL\CommunicationDLL\DotNetDetour.dll</HintPath>
+    </Reference>
+    <Reference Include="EHolly.ImageTool, Version=1.0.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Mef_VisionFrame\bin\Release\EHolly.ImageTool.dll</HintPath>
+    </Reference>
+    <Reference Include="FlyCapture2Managed_v100">
+      <HintPath>DLL\FlyCapture2Managed_v100.dll</HintPath>
+    </Reference>
+    <Reference Include="GoSdkNet">
+      <HintPath>..\Mef_VisionFrame\bin\Release\GoSdkNet.dll</HintPath>
+    </Reference>
+    <Reference Include="halcondotnetxl">
+      <HintPath>..\Mef_VisionFrame\bin\Release\halcondotnetxl.dll</HintPath>
+    </Reference>
+    <Reference Include="HookHSL">
+      <HintPath>DLL\CommunicationDLL\HookHSL.dll</HintPath>
+    </Reference>
+    <Reference Include="HslCommunication, Version=10.4.2.0, Culture=neutral, PublicKeyToken=3d72ad3b6b5ec0e3, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\CommunicationDLL\HslCommunication.dll</HintPath>
+    </Reference>
+    <Reference Include="IKapBoardClassLibrary, Version=1.8.5.2, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\IKapBoardClassLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="IKapC.NET">
+      <HintPath>DLL\IKapC.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="kApiNet">
+      <HintPath>..\Mef_VisionFrame\bin\Release\kApiNet.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MvCameraControl.Net">
+      <HintPath>DLL\MvCameraControl.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="MvFGCtrlC.Net">
+      <HintPath>DLL\MvFGCtrlC.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="NModbus4">
+      <HintPath>DLL\NModbus4.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="PriorityQueue, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5e136dbf0437dacd, processorArchitecture=MSIL">
+      <HintPath>..\packages\OptimizedPriorityQueue.5.1.0\lib\net45\PriorityQueue.dll</HintPath>
+    </Reference>
+    <Reference Include="remoteObj">
+      <HintPath>DLL\remoteObj.dll</HintPath>
+    </Reference>
+    <Reference Include="S7.Net, Version=0.20.0.0, Culture=neutral, PublicKeyToken=d5812d469e84c693, processorArchitecture=MSIL">
+      <HintPath>..\packages\S7netplus.0.20.0\lib\net462\S7.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Sharp7, Version=1.1.84.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sharp7.1.1.84\lib\net40\Sharp7.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Craft\CraftBase.cs" />
+    <Compile Include="Craft\OverHangCraft.cs" />
+    <Compile Include="Craft\PFTCleanCraft.cs" />
+    <Compile Include="Craft\Slice1to2Craft.cs" />
+    <Compile Include="Craft\FormCraftBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Craft\FormCraftBase.Designer.cs">
+      <DependentUpon>FormCraftBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Craft\StackEACraft.cs" />
+    <Compile Include="DataOperation\Json\JsonSerialization.cs" />
+    <Compile Include="DataOperation\Json\JsonSerializationOperation.cs" />
+    <Compile Include="DataOperation\XML1\SaveAndLoad_Data.cs" />
+    <Compile Include="DataOperation\XML1\XmlExSerializer.cs" />
+    <Compile Include="Language\Chinese_Language.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Chinese_Language.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Language\LanguageProject.cs" />
+    <Compile Include="pluginParams\ParamsD3MeasureDepth.cs" />
+    <Compile Include="pluginParams\ParamsDaMianBurr.cs" />
+    <Compile Include="pluginParams\ParamsEndBurr.cs" />
+    <Compile Include="pluginParams\ParamsFindMark.cs" />
+    <Compile Include="pluginParams\ParamsFindModel.cs" />
+    <Compile Include="pluginParams\ParamsHandEyeCalibration.cs" />
+    <Compile Include="Process\ProcessServices.cs" />
+    <Compile Include="StandardData\Image3DClass.cs" />
+    <Compile Include="StandardData\LineInfo.cs" />
+    <Compile Include="tools\C#二次封装类\ListPackage.cs" />
+    <Compile Include="tools\C#二次封装类\PopUpWindowsShow.cs" />
+    <Compile Include="tools\C#二次封装类\QueuePackage.cs" />
+    <Compile Include="tools\IntervalExecution.cs" />
+    <Compile Include="tools\Log\用户参数修改日志\ParamChangeLog.cs" />
+    <Compile Include="tools\Log\文件操作日志\FileOperation.cs" />
+    <Compile Include="tools\Log\文件操作日志\FileOperationCSV.cs" />
+    <Compile Include="tools\Log\文件操作日志\FileOperationImage.cs" />
+    <Compile Include="tools\Log\文件操作日志\FileOperationINI.cs" />
+    <Compile Include="tools\Log\文件操作日志\FileOperationXls.cs" />
+    <Compile Include="tools\Log\文件操作日志\FileOperationXml.cs" />
+    <Compile Include="tools\Log\软件报错日志_弃用\Log4netRecord.cs" />
+    <Compile Include="tools\Log\软件报错日志_弃用\LogHelper.cs" />
+    <Compile Include="tools\Log\软件报错日志_弃用\NlogRecord.cs" />
+    <Compile Include="pluginParams\ParamsCropImage.cs" />
+    <Compile Include="pluginParams\ParamsCropPartCore.cs" />
+    <Compile Include="pluginParams\ParamsDetectDefect.cs" />
+    <Compile Include="pluginParams\ParamsDetectEar.cs" />
+    <Compile Include="pluginParams\ParamsEarBurr.cs" />
+    <Compile Include="pluginParams\ParamsEdgeBurr.cs" />
+    <Compile Include="pluginParams\ParamsFindHeadCore.cs" />
+    <Compile Include="pluginParams\ParamsMeasureEar.cs" />
+    <Compile Include="pluginParams\ParamsMeasureLineCore.cs" />
+    <Compile Include="pluginParams\ParamsMQDefects.cs" />
+    <Compile Include="pluginParams\ParamsRectDetectEar.cs" />
+    <Compile Include="StandardData\DetectParam.cs" />
+    <Compile Include="StandardData\FontInfo.cs" />
+    <Compile Include="System\ParamPathSet.cs" />
+    <Compile Include="StandardData\RowData.cs" />
+    <Compile Include="tools\ExecuteResult.cs" />
+    <Compile Include="tools\HWindowTool.cs" />
+    <Compile Include="tools\MumUPDown滚轮禁用\toolClass.cs" />
+    <Compile Include="tools\OtherAlgorithm.cs" />
+    <Compile Include="tools\OVHPackgeNumLayerSim.cs" />
+    <Compile Include="tools\UI刷新\UIService.cs" />
+    <Compile Include="tools\ViewROI3\ControlValueSaver.cs" />
+    <Compile Include="tools\ViewROI3\ROIFormBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="tools\ViewROI3\ROIFormBase.Designer.cs">
+      <DependentUpon>ROIFormBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="tools\ViewROI3\ROIParams.cs" />
+    <Compile Include="tools\其他\TableLayoutPanelSerializer.cs" />
+    <Compile Include="tools\保存和显示图像\CombinationHWindowControl.cs" />
+    <Compile Include="tools\保存和显示图像\DisplayWindowClass.cs" />
+    <Compile Include="tools\保存和显示图像\Operation_ImageProcessor.cs" />
+    <Compile Include="tools\保存和显示图像\SaveImageTool.cs" />
+    <Compile Include="tools\其他\CsvWriter.cs" />
+    <Compile Include="tools\其他\Other.cs" />
+    <Compile Include="tools\图像算法工具\Algorithm_CutImage_3D.cs" />
+    <Compile Include="tools\图像算法工具\HObjectExtensions.cs" />
+    <Compile Include="tools\图像算法工具\ImageAlgorithm.cs" />
+    <Compile Include="tools\图像算法工具\TiffProcessForHalcon.cs" />
+    <Compile Include="tools\图像算法工具\Transform_Image.cs" />
+    <Compile Include="tools\控件模块\ControlTool.cs" />
+    <Compile Include="tools\控件模块\NDataGridView.cs" />
+    <Compile Include="tools\控件模块\NLabel.cs" />
+    <Compile Include="tools\控件模块\NListView.cs" />
+    <Compile Include="tools\控件模块\NListView2.cs" />
+    <Compile Include="tools\控件模块\NStatusStrip.cs" />
+    <Compile Include="tools\控件模块\NTextBox.cs" />
+    <Compile Include="tools\日志通知工具\MessageNotify.cs" />
+    <Compile Include="tools\日志通知工具\UC_Message.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="tools\日志通知工具\UC_Message.Designer.cs">
+      <DependentUpon>UC_Message.cs</DependentUpon>
+    </Compile>
+    <Compile Include="tools\标准数据类\DetectionData.cs" />
+    <Compile Include="tools\标准数据类\HalconParam.cs" />
+    <Compile Include="tools\状态栏\StateManage.cs" />
+    <Compile Include="tools\线程执行结构\Thd_Instance.cs" />
+    <Compile Include="tools\线程控制\ThreadPool.cs" />
+    <Compile Include="tools\自定义控件\ControlComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="tools\通信模块\FinsTCP\FinsTcp.cs" />
+    <Compile Include="tools\通信模块\ModBusTCP\EH_Modbus.cs" />
+    <Compile Include="tools\通信模块\Remoting\RemotingCom.cs" />
+    <Compile Include="tools\通信模块\RS232\RS232.cs" />
+    <Compile Include="tools\通信模块\S7\S7Net.cs" />
+    <Compile Include="tools\通信模块\TCPIP\TCP.cs" />
+    <Compile Include="tools\通信模块\UDP\UDPClient.cs" />
+    <Compile Include="tools\通信模块\数据转换\DigitalTrans.cs" />
+    <Compile Include="ViewROI2\GraphicsContext.cs" />
+    <Compile Include="ViewROI2\HObjectEntry.cs" />
+    <Compile Include="ViewROI2\HWndCtrl.cs" />
+    <Compile Include="ViewROI2\ROI.cs" />
+    <Compile Include="ViewROI2\ROICircle.cs" />
+    <Compile Include="ViewROI2\ROICircularArc.cs" />
+    <Compile Include="ViewROI2\ROIController.cs" />
+    <Compile Include="ViewROI2\ROILine.cs" />
+    <Compile Include="ViewROI2\ROIRectangle1.cs" />
+    <Compile Include="ViewROI2\ROIRectangle2.cs" />
+    <Compile Include="StandardData\EnumInfo.cs" />
+    <Compile Include="Plugin\PluginBase\FormPluginBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Plugin\PluginBase\FormPluginBase.Designer.cs">
+      <DependentUpon>FormPluginBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataOperation\Binary1\BinarySerialization.cs" />
+    <Compile Include="DataOperation\Binary1\BinarySerializationOperation.cs" />
+    <Compile Include="DataOperation\XML1\XmlSerialization.cs" />
+    <Compile Include="DataOperation\XML1\XmlSerializationOperation.cs" />
+    <Compile Include="Plugin\PluginBase\IPlugin.cs" />
+    <Compile Include="Plugin\PluginBase\ParamPluginBase.cs" />
+    <Compile Include="Plugin\PluginInformation\PluginsInfo.cs" />
+    <Compile Include="Plugin\PluginService\PluginService.cs" />
+    <Compile Include="Process\Process.cs" />
+    <Compile Include="Process\ProcessInformation\ProcessInfo.cs" />
+    <Compile Include="Project\Project.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="StandardData\DetectItemInfo.cs" />
+    <Compile Include="StandardData\ImageInfo.cs" />
+    <Compile Include="StandardData\PoleEarsInfo.cs" />
+    <Compile Include="StandardData\ShowHalconWindow.cs" />
+    <Compile Include="System\SystemInfo.cs" />
+    <Compile Include="tools\CloneObject.cs" />
+    <Compile Include="tools\ViewROI3\GraphicsContext.cs" />
+    <Compile Include="tools\ViewROI3\HObjectEntry.cs" />
+    <Compile Include="tools\ViewROI3\HWndCtrl.cs" />
+    <Compile Include="tools\ViewROI3\ROI.cs" />
+    <Compile Include="tools\ViewROI3\ROICircle.cs" />
+    <Compile Include="tools\ViewROI3\ROICircularArc.cs" />
+    <Compile Include="tools\ViewROI3\ROIController.cs" />
+    <Compile Include="tools\ViewROI3\ROILine.cs" />
+    <Compile Include="tools\ViewROI3\ROIRectangle1.cs" />
+    <Compile Include="tools\ViewROI3\ROIRectangle2.cs" />
+    <Compile Include="业务参数类\AreaCamParam.cs" />
+    <Compile Include="业务参数类\BaseProParam.cs" />
+    <Compile Include="业务参数类\DieCutSliceParam.cs" />
+    <Compile Include="业务参数类\PFTCleanProParams.cs" />
+    <Compile Include="业务参数类\Slice1To2Paramter.cs" />
+    <Compile Include="业务类\BaseProDevice.cs" />
+    <Compile Include="业务类\DoubleAnodeProDevice.cs" />
+    <Compile Include="业务类\DoubleCathodeProDevice.cs" />
+    <Compile Include="业务类\OverHangProDevice.cs" />
+    <Compile Include="业务类\PFTCleanProDevice.cs" />
+    <Compile Include="业务类\PretargetingProDevice.cs" />
+    <Compile Include="业务类\SingleAnodeProDevice.cs" />
+    <Compile Include="产品类\DieCutSliceProduct.cs" />
+    <Compile Include="产品类\AreaCamProduct.cs" />
+    <Compile Include="业务类\Slice1To2ProDevice.cs" />
+    <Compile Include="产品类\PFTImageProduct.cs" />
+    <Compile Include="产品类\ProductBase.cs" />
+    <Compile Include="产品类\SingleSliceProduct.cs" />
+    <Compile Include="修改记录类\Control\IYCustomAttribute.cs" />
+    <Compile Include="修改记录类\Control\IYCustomControl.cs" />
+    <Compile Include="修改记录类\Control\YCheckBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="修改记录类\Control\YCheckBox.Designer.cs">
+      <DependentUpon>YCheckBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="修改记录类\Control\YComboBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="修改记录类\Control\YComboBox.Designer.cs">
+      <DependentUpon>YComboBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="修改记录类\Control\YControlAutobind.cs" />
+    <Compile Include="修改记录类\Control\YNumericUpDown.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="修改记录类\Control\YNumericUpDown.Designer.cs">
+      <DependentUpon>YNumericUpDown.cs</DependentUpon>
+    </Compile>
+    <Compile Include="修改记录类\Control\YReflectionHelper.cs" />
+    <Compile Include="修改记录类\Control\YTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="修改记录类\Control\YTextBox.Designer.cs">
+      <DependentUpon>YTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="修改记录类\ExtensionsObject.cs" />
+    <Compile Include="修改记录类\FileSettingsLog.cs" />
+    <Compile Include="修改记录类\通用方法\CommonApproach.cs" />
+    <Compile Include="模块\外设部分\3D测厚纠偏\Form_Thick3DSet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\外设部分\3D测厚纠偏\Form_Thick3DSet.Designer.cs">
+      <DependentUpon>Form_Thick3DSet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\外设部分\3D测厚纠偏\Param_Thick3DSet.cs" />
+    <Compile Include="模块\EventCallback.cs" />
+    <Compile Include="模块\TempData.cs" />
+    <Compile Include="模块\外设部分\3D测厚纠偏\Thick3DManage.cs" />
+    <Compile Include="模块\外设部分\AddressData.cs" />
+    <Compile Include="模块\外设部分\PLCCommunicationBase.cs" />
+    <Compile Include="模块\外设部分\主副机通讯\ViceMachine.cs" />
+    <Compile Include="模块\外设部分\主副机通讯\MainViceMachineForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\外设部分\主副机通讯\MainViceMachineForm.Designer.cs">
+      <DependentUpon>MainViceMachineForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\外设部分\主副机通讯\MainViceMachineParameter.cs" />
+    <Compile Include="模块\外设部分\主设备-北京纯锂分条\Form_MianDevPLC.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\外设部分\主设备-北京纯锂分条\Form_MianDevPLC.Designer.cs">
+      <DependentUpon>Form_MianDevPLC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\外设部分\主设备-北京纯锂分条\MDevAddress_Slice1to2.cs" />
+    <Compile Include="模块\外设部分\主设备-北京纯锂分条\MDevParam_Slice1to2.cs" />
+    <Compile Include="模块\外设部分\主设备-北京纯锂分条\MDevPLCManage_Slice1to2.cs" />
+    <Compile Include="模块\外设部分\主设备PLC通讯\冠宇窄幅\PFTFinsAddress.cs" />
+    <Compile Include="模块\外设部分\主设备PLC通讯\冠宇窄幅\PFTPLCManage.cs" />
+    <Compile Include="模块\外设部分\光源\Control\CSTController.cs" />
+    <Compile Include="模块\外设部分\光源\Control\JiaLiControl.cs" />
+    <Compile Include="模块\外设部分\光源\Control\LightControl.cs" />
+    <Compile Include="模块\外设部分\光源\Control\LightManager.cs" />
+    <Compile Include="模块\外设部分\光源\Control\LTSController.cs" />
+    <Compile Include="模块\外设部分\光源\Control\OPT1.cs" />
+    <Compile Include="模块\外设部分\光源\Control\OPT2.cs" />
+    <Compile Include="模块\外设部分\光源\Control\OPT3.cs" />
+    <Compile Include="模块\外设部分\光源\Control\OPTControllerAPI.cs" />
+    <Compile Include="模块\外设部分\光源\Control\WDPController.cs" />
+    <Compile Include="模块\外设部分\光源\Model\LightPamater.cs" />
+    <Compile Include="模块\外设部分\光源\View\Light_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\外设部分\光源\View\Light_Form.Designer.cs">
+      <DependentUpon>Light_Form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\外设部分\主设备PLC通讯\CutOverlayPLCAddress.cs" />
+    <Compile Include="模块\外设部分\主设备PLC通讯\MainPLCManage.cs" />
+    <Compile Include="模块\外设部分\主设备PLC通讯\MainPLCParam.cs" />
+    <Compile Include="模块\外设部分\主设备PLC通讯\Form_MainPLC.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\外设部分\主设备PLC通讯\Form_MainPLC.Designer.cs">
+      <DependentUpon>Form_MainPLC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\外设部分\打标机软件\Control\DBJCardManager.cs" />
+    <Compile Include="模块\外设部分\打标机软件\Model\DBJCardParam.cs" />
+    <Compile Include="模块\外设部分\打标机软件\View\DBJCardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\外设部分\打标机软件\View\DBJCardForm.Designer.cs">
+      <DependentUpon>DBJCardForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\外设部分\控制卡\Control\BIZ_ControlCard.cs" />
+    <Compile Include="模块\外设部分\控制卡\Control\config.cs" />
+    <Compile Include="模块\外设部分\控制卡\Control\GenClass1.cs" />
+    <Compile Include="模块\外设部分\控制卡\Control\gtgl500.cs" />
+    <Compile Include="模块\外设部分\控制卡\Control\gts.cs" />
+    <Compile Include="模块\外设部分\控制卡\Control\LookAheadEx.cs" />
+    <Compile Include="模块\外设部分\控制卡\Model\Param_ControlCard.cs" />
+    <Compile Include="模块\外设部分\控制卡\View\Form_ControlCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\外设部分\控制卡\View\Form_ControlCard.Designer.cs">
+      <DependentUpon>Form_ControlCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\外设部分\相机SDK\Control\CameraBasler.cs" />
+    <Compile Include="模块\外设部分\相机SDK\Control\CameraDalsaCameraLink.cs" />
+    <Compile Include="模块\外设部分\相机SDK\Control\CameraDalsaCameraLink2.cs" />
+    <Compile Include="模块\外设部分\相机SDK\Control\CameraDalsaGigEVision.cs" />
+    <Compile Include="模块\外设部分\相机SDK\Control\CameraFLY.cs" />
+    <Compile Include="模块\外设部分\相机SDK\Control\CameraHIK.cs" />
+    <Compile Include="模块\外设部分\相机SDK\Control\CameraHK.cs" />
+    <Compile Include="模块\外设部分\相机SDK\Control\CameraHKRGB.cs" />
+    <Compile Include="模块\外设部分\相机SDK\Control\CameraLMI.cs" />
+    <Compile Include="模块\外设部分\相机SDK\Control\CameraManager.cs" />
+    <Compile Include="模块\外设部分\相机SDK\Control\CameraObj.cs" />
+    <Compile Include="模块\外设部分\相机SDK\Control\HKSDK.cs" />
+    <Compile Include="模块\外设部分\相机SDK\Control\IKBoardSDK.cs" />
+    <Compile Include="模块\外设部分\相机SDK\Control\IKCXPBoard.cs" />
+    <Compile Include="模块\外设部分\相机SDK\Model\Camera_Parameter.cs" />
+    <Compile Include="模块\外设部分\相机SDK\View\Cam_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\外设部分\相机SDK\View\Cam_Form.Designer.cs">
+      <DependentUpon>Cam_Form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\外设部分\纠偏\BTS\BTS.cs" />
+    <Compile Include="模块\外设部分\纠偏\BTS\Control\CorrectBTS_Control.cs" />
+    <Compile Include="模块\外设部分\纠偏\BTS\View\Form_BTSCorrect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\外设部分\纠偏\BTS\View\Form_BTSCorrect.Designer.cs">
+      <DependentUpon>Form_BTSCorrect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\外设部分\纠偏\CorrectControl.cs" />
+    <Compile Include="模块\外设部分\纠偏\CorrectTool.cs" />
+    <Compile Include="模块\外设部分\纠偏\E+L\Control\CorrectManage.cs" />
+    <Compile Include="模块\外设部分\纠偏\E+L\EL.cs" />
+    <Compile Include="模块\外设部分\纠偏\E+L\Model\CorrectParam.cs" />
+    <Compile Include="模块\外设部分\纠偏\E+L\View\CorrectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\外设部分\纠偏\E+L\View\CorrectForm.Designer.cs">
+      <DependentUpon>CorrectForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\报警停机\AlarmShowType.cs" />
+    <Compile Include="模块\报警停机\Form_StopAlarm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\报警停机\Form_StopAlarm.Designer.cs">
+      <DependentUpon>Form_StopAlarm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\报警停机\TJBJInfo.cs" />
+    <Compile Include="模块\标定\Mark设置\Form_MarkSet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\标定\Mark设置\Form_MarkSet.Designer.cs">
+      <DependentUpon>Form_MarkSet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\标定\Mark设置\Param_MarkSet.cs" />
+    <Compile Include="模块\标定\MSA3D\Form_MsaMeasureThick3D.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\标定\MSA3D\Form_MsaMeasureThick3D.Designer.cs">
+      <DependentUpon>Form_MsaMeasureThick3D.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\标定\MSA3D\Param_MsaThick3D.cs" />
+    <Compile Include="模块\标定\MSA圆点\Form_MsaCircle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\标定\MSA圆点\Form_MsaCircle.Designer.cs">
+      <DependentUpon>Form_MsaCircle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\标定\MSA圆点\Param_MsaCircle.cs" />
+    <Compile Include="模块\标定\MSA棋盘格线宽\Form_MsaCheckBoardLine.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\标定\MSA棋盘格线宽\Form_MsaCheckBoardLine.Designer.cs">
+      <DependentUpon>Form_MsaCheckBoardLine.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\标定\MSA线宽\FittingLine.cs" />
+    <Compile Include="模块\标定\MSA线宽\Form_MsaLineWidth.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\标定\MSA线宽\Form_MsaLineWidth.Designer.cs">
+      <DependentUpon>Form_MsaLineWidth.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\标定\MSA线宽\Param_MsaLineWidth.cs" />
+    <Compile Include="模块\标定\标定板标定\Form_CalibrationPlate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\标定\标定板标定\Form_CalibrationPlate.Designer.cs">
+      <DependentUpon>Form_CalibrationPlate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\标定\标定板标定\Form_SelectCamCalibrationPlate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\标定\标定板标定\Form_SelectCamCalibrationPlate.Designer.cs">
+      <DependentUpon>Form_SelectCamCalibrationPlate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\标定\标定板标定\Param_CalibrationPlate.cs" />
+    <Compile Include="模块\标定\棋盘格标定\Form_Checkerboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\标定\棋盘格标定\Form_Checkerboard.Designer.cs">
+      <DependentUpon>Form_Checkerboard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\标定\棋盘格标定\Form_SelectCamCheckerboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\标定\棋盘格标定\Form_SelectCamCheckerboard.Designer.cs">
+      <DependentUpon>Form_SelectCamCheckerboard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\标定\棋盘格标定\Param_Checkerboard.cs" />
+    <Compile Include="模块\标定\预定位标定\Form_PretargetingCalibration.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\标定\预定位标定\Form_PretargetingCalibration.Designer.cs">
+      <DependentUpon>Form_PretargetingCalibration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\标定\预定位标定\Param_PretargetingCalib.cs" />
+    <Compile Include="模块\模块管理\ModelControl.cs" />
+    <Compile Include="模块\模块管理\ModelServiceManage.cs" />
+    <Compile Include="模块\点检校验\PointCheck.cs" />
+    <Compile Include="模块\点检校验\尺寸点检\CheckPointForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\点检校验\尺寸点检\CheckPointForm.Designer.cs">
+      <DependentUpon>CheckPointForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\点检校验\尺寸点检\SizeCheckPointAlgorithm.cs" />
+    <Compile Include="模块\点检校验\尺寸点检\SizeCheckPointManage.cs" />
+    <Compile Include="模块\点检校验\尺寸点检\SizeCheckPointParam.cs" />
+    <Compile Include="模块\系统设置\仿真设置\Control\SimControl.cs" />
+    <Compile Include="模块\系统设置\仿真设置\EmulationPathForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\系统设置\仿真设置\EmulationPathForm.Designer.cs">
+      <DependentUpon>EmulationPathForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\系统设置\仿真设置\EmulationSetForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\系统设置\仿真设置\EmulationSetForm.Designer.cs">
+      <DependentUpon>EmulationSetForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\系统设置\仿真设置\ImageSimManage.cs" />
+    <Compile Include="模块\系统设置\保存设置\SaveSetingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\系统设置\保存设置\SaveSetingForm.Designer.cs">
+      <DependentUpon>SaveSetingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\系统设置\保存设置\ImageSaveParamer.cs" />
+    <Compile Include="模块\系统设置\保存设置\SaveImageControl.cs" />
+    <Compile Include="模块\系统设置\磁盘\DriveParameter.cs" />
+    <Compile Include="模块\系统设置\磁盘\Drive_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\系统设置\磁盘\Drive_Form.Designer.cs">
+      <DependentUpon>Drive_Form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\账户管理\Control\SecurityHelper.cs" />
+    <Compile Include="模块\账户管理\Control\UserManage.cs" />
+    <Compile Include="模块\权限管理\PurviewManage.cs" />
+    <Compile Include="模块\权限管理\PurviewParam.cs" />
+    <Compile Include="模块\账户管理\Model\UserData.cs" />
+    <Compile Include="模块\账户管理\View\AddUserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\账户管理\View\AddUserForm.Designer.cs">
+      <DependentUpon>AddUserForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\账户管理\View\ModifyPwdForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\账户管理\View\ModifyPwdForm.Designer.cs">
+      <DependentUpon>ModifyPwdForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\权限管理\PurviewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\权限管理\PurviewForm.Designer.cs">
+      <DependentUpon>PurviewForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\账户管理\View\UserLogionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\账户管理\View\UserLogionForm.Designer.cs">
+      <DependentUpon>UserLogionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\账户管理\View\UserManagerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\账户管理\View\UserManagerForm.Designer.cs">
+      <DependentUpon>UserManagerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\权限管理\AFormPrivilege.cs" />
+    <Compile Include="模块\账户管理\语言切换\LanguageSwitch.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Plugin\ProcessBase\" />
+    <Folder Include="模块\外设部分\纠偏\BTS\Model\" />
+    <Folder Include="模块\数据显示\" />
+    <Folder Include="模块\点检校验\瑕疵点检\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Craft\FormCraftBase.resx">
+      <DependentUpon>FormCraftBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Language\Chinese_Language.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Chinese_Language.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Plugin\PluginBase\FormPluginBase.resx">
+      <DependentUpon>FormPluginBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="tools\ViewROI3\ROIFormBase.resx">
+      <DependentUpon>ROIFormBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="tools\日志通知工具\UC_Message.en.resx">
+      <DependentUpon>UC_Message.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="tools\日志通知工具\UC_Message.fr.resx">
+      <DependentUpon>UC_Message.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="tools\日志通知工具\UC_Message.resx">
+      <DependentUpon>UC_Message.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="修改记录类\Control\YCheckBox.resx">
+      <DependentUpon>YCheckBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="修改记录类\Control\YComboBox.resx">
+      <DependentUpon>YComboBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="修改记录类\Control\YNumericUpDown.resx">
+      <DependentUpon>YNumericUpDown.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="修改记录类\Control\YTextBox.resx">
+      <DependentUpon>YTextBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\外设部分\3D测厚纠偏\Form_Thick3DSet.resx">
+      <DependentUpon>Form_Thick3DSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\外设部分\主副机通讯\MainViceMachineForm.resx">
+      <DependentUpon>MainViceMachineForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\外设部分\主设备-北京纯锂分条\Form_MianDevPLC.resx">
+      <DependentUpon>Form_MianDevPLC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\外设部分\光源\View\Light_Form.resx">
+      <DependentUpon>Light_Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\外设部分\主设备PLC通讯\Form_MainPLC.resx">
+      <DependentUpon>Form_MainPLC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\外设部分\打标机软件\View\DBJCardForm.resx">
+      <DependentUpon>DBJCardForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\外设部分\控制卡\View\Form_ControlCard.resx">
+      <DependentUpon>Form_ControlCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\外设部分\相机SDK\View\Cam_Form.resx">
+      <DependentUpon>Cam_Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\外设部分\纠偏\BTS\View\Form_BTSCorrect.resx">
+      <DependentUpon>Form_BTSCorrect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\外设部分\纠偏\E+L\View\CorrectForm.resx">
+      <DependentUpon>CorrectForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\报警停机\Form_StopAlarm.resx">
+      <DependentUpon>Form_StopAlarm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\标定\Mark设置\Form_MarkSet.resx">
+      <DependentUpon>Form_MarkSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\标定\MSA3D\Form_MsaMeasureThick3D.resx">
+      <DependentUpon>Form_MsaMeasureThick3D.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\标定\MSA圆点\Form_MsaCircle.resx">
+      <DependentUpon>Form_MsaCircle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\标定\MSA棋盘格线宽\Form_MsaCheckBoardLine.resx">
+      <DependentUpon>Form_MsaCheckBoardLine.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\标定\MSA线宽\Form_MsaLineWidth.resx">
+      <DependentUpon>Form_MsaLineWidth.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\标定\标定板标定\Form_CalibrationPlate.resx">
+      <DependentUpon>Form_CalibrationPlate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\标定\标定板标定\Form_SelectCamCalibrationPlate.resx">
+      <DependentUpon>Form_SelectCamCalibrationPlate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\标定\棋盘格标定\Form_Checkerboard.resx">
+      <DependentUpon>Form_Checkerboard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\标定\棋盘格标定\Form_SelectCamCheckerboard.resx">
+      <DependentUpon>Form_SelectCamCheckerboard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\标定\预定位标定\Form_PretargetingCalibration.resx">
+      <DependentUpon>Form_PretargetingCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\点检校验\尺寸点检\CheckPointForm.resx">
+      <DependentUpon>CheckPointForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\系统设置\仿真设置\EmulationPathForm.resx">
+      <DependentUpon>EmulationPathForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\系统设置\仿真设置\EmulationSetForm.resx">
+      <DependentUpon>EmulationSetForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\系统设置\保存设置\SaveSetingForm.resx">
+      <DependentUpon>SaveSetingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\系统设置\磁盘\Drive_Form.resx">
+      <DependentUpon>Drive_Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\账户管理\View\AddUserForm.resx">
+      <DependentUpon>AddUserForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\账户管理\View\ModifyPwdForm.resx">
+      <DependentUpon>ModifyPwdForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\权限管理\PurviewForm.resx">
+      <DependentUpon>PurviewForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\账户管理\View\UserLogionForm.resx">
+      <DependentUpon>UserLogionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\账户管理\View\UserManagerForm.resx">
+      <DependentUpon>UserManagerForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LogTool\LogTool.csproj">
+      <Project>{ee6d8f10-4cb8-4312-8847-5d7568be4fa0}</Project>
+      <Name>LogTool</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

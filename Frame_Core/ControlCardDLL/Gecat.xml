@@ -1,0 +1,346 @@
+<EtherCATConfig>
+  <Config>
+    <Master AdapterIndex="0" IoUpdateFreq="4" StackDebugLevel="0">
+      <Info>
+        <Name>GOOGOL EtherCAT Master</Name>
+        <Destination>FFFFFFFFFFFF</Destination>
+        <Source>000000000000</Source>
+        <EtherType>A488</EtherType>
+      </Info>
+    </Master>
+    <Slave>
+      <Info>
+        <Name>DM3J-EC522(COE)</Name>
+        <VendorId>17185</VendorId>
+        <ProductCode>102656</ProductCode>
+        <RevisionNo>1</RevisionNo>
+        <SerialNo>1</SerialNo>
+        <DevType>1</DevType>
+        <NChannel>1</NChannel>
+      </Info>
+      <ProcessData>
+        <Sm2>
+          <Type>Outputs</Type>
+          <MaxSize>100</MaxSize>
+          <StartAddress>4608</StartAddress>
+          <ControlByte>100</ControlByte>
+          <Enable>true</Enable>
+          <Pdo>5632</Pdo>
+        </Sm2>
+        <Sm3>
+          <Type>Inputs</Type>
+          <MaxSize>100</MaxSize>
+          <StartAddress>5120</StartAddress>
+          <ControlByte>32</ControlByte>
+          <Enable>true</Enable>
+          <Pdo>6656</Pdo>
+        </Sm3>
+        <RxPdo Fixed="false" Mandatory="false" Sm="2" Virtual="false">
+          <Index>#x1600</Index>
+          <Name LcId="1033">Receive PDO 1</Name>
+          <Exclude>#x1601</Exclude>
+          <Exclude>#x1602</Exclude>
+          <Exclude>#x1603</Exclude>
+          <Entry Fixed="false">
+            <Index>#x6040</Index>
+            <SubIndex>#x0</SubIndex>
+            <BitLen>16</BitLen>
+            <Name LcId="1033">Control Word</Name>
+            <Comment></Comment>
+            <DataType>UINT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+          <Entry Fixed="false">
+            <Index>#x607a</Index>
+            <SubIndex>#x0</SubIndex>
+            <BitLen>32</BitLen>
+            <Name LcId="1033">Profile Target Position</Name>
+            <Comment></Comment>
+            <DataType>DINT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+          <Entry Fixed="false">
+            <Index>#x60b8</Index>
+            <SubIndex>#x0</SubIndex>
+            <BitLen>16</BitLen>
+            <Name LcId="1033">Touch Probe Function</Name>
+            <Comment></Comment>
+            <DataType>UINT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+        </RxPdo>
+        <TxPdo Fixed="false" Mandatory="false" Sm="3" Virtual="false">
+          <Index>#x1a00</Index>
+          <Name LcId="1033">Transmit PDO 1</Name>
+          <Exclude>#x1a01</Exclude>
+          <Entry Fixed="false">
+            <Index>#x603f</Index>
+            <SubIndex>#x0</SubIndex>
+            <BitLen>16</BitLen>
+            <Name LcId="1033">Last Error Code</Name>
+            <Comment></Comment>
+            <DataType>UINT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+          <Entry Fixed="false">
+            <Index>#x6041</Index>
+            <SubIndex>#x0</SubIndex>
+            <BitLen>16</BitLen>
+            <Name LcId="1033">Status Word</Name>
+            <Comment></Comment>
+            <DataType>UINT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+          <Entry Fixed="false">
+            <Index>#x6061</Index>
+            <SubIndex>#x0</SubIndex>
+            <BitLen>8</BitLen>
+            <Name LcId="1033">Modes of Operation display</Name>
+            <Comment></Comment>
+            <DataType>SINT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+          <Entry Fixed="false">
+            <Index>#x6064</Index>
+            <SubIndex>#x0</SubIndex>
+            <BitLen>32</BitLen>
+            <Name LcId="1033">Position Actual Value</Name>
+            <Comment></Comment>
+            <DataType>DINT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+          <Entry Fixed="false">
+            <Index>#x60b9</Index>
+            <SubIndex>#x0</SubIndex>
+            <BitLen>16</BitLen>
+            <Name LcId="1033">Touch Probe Status</Name>
+            <Comment></Comment>
+            <DataType>UINT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+          <Entry Fixed="false">
+            <Index>#x60ba</Index>
+            <SubIndex>#x0</SubIndex>
+            <BitLen>32</BitLen>
+            <Name LcId="1033">Touch Probe 1 Positive Value</Name>
+            <Comment></Comment>
+            <DataType>DINT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+          <Entry Fixed="false">
+            <Index>#x60fd</Index>
+            <SubIndex>#x0</SubIndex>
+            <BitLen>32</BitLen>
+            <Name LcId="1033">Digital Inputs</Name>
+            <Comment></Comment>
+            <DataType>UDINT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+        </TxPdo>
+      </ProcessData>
+      <Mailbox>
+        <Send>
+          <Start>4096</Start>
+          <Length>64</Length>
+        </Send>
+        <Recv>
+          <Start>4352</Start>
+          <Length>64</Length>
+        </Recv>
+        <Protocol>CoE</Protocol>
+        <CoE>
+          <InitCmds>
+            <InitCmd Fixed="false">
+              <Transition>PS</Transition>
+              <Comment>Modes of Operation</Comment>
+              <Timeout>0</Timeout>
+              <Ccs>1</Ccs>
+              <Index>24672</Index>
+              <SubIndex>0</SubIndex>
+              <Data>08</Data>
+            </InitCmd>
+          </InitCmds>
+        </CoE>
+      </Mailbox>
+      <DC>
+        <AssignActivate>768</AssignActivate>
+        <CycleTime0>1000000</CycleTime0>
+        <CycleTime1>1000000</CycleTime1>
+        <ShiftTime0>0</ShiftTime0>
+        <ShiftTime1>0</ShiftTime1>
+      </DC>
+    </Slave>
+    <Slave>
+      <Info>
+        <Name>UC1-EC</Name>
+        <VendorId>2855</VendorId>
+        <ProductCode>8960</ProductCode>
+        <RevisionNo>1</RevisionNo>
+        <SerialNo>1</SerialNo>
+        <DevType>0</DevType>
+        <NChannel>0</NChannel>
+      </Info>
+      <ProcessData>
+        <Sm2>
+          <Type>Outputs</Type>
+          <DefaultSize>4</DefaultSize>
+          <StartAddress>4352</StartAddress>
+          <ControlByte>116</ControlByte>
+          <Enable>true</Enable>
+          <Pdo>5887</Pdo>
+          <Pdo>5632</Pdo>
+          <Pdo>5889</Pdo>
+        </Sm2>
+        <Sm3>
+          <Type>Inputs</Type>
+          <DefaultSize>8</DefaultSize>
+          <StartAddress>7424</StartAddress>
+          <ControlByte>48</ControlByte>
+          <Enable>true</Enable>
+          <Pdo>6911</Pdo>
+          <Pdo>6656</Pdo>
+        </Sm3>
+        <RxPdo Fixed="true" Mandatory="true" Sm="2" Virtual="false">
+          <Index>#x16ff</Index>
+          <Name LcId="1033">Gateway Outputs</Name>
+          <Entry Fixed="false">
+            <Index>#xf700</Index>
+            <SubIndex>#x1</SubIndex>
+            <BitLen>16</BitLen>
+            <Name LcId="1033">Teach</Name>
+            <Comment></Comment>
+            <DataType>UINT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+          <Entry Fixed="false">
+            <Index>#xf700</Index>
+            <SubIndex>#x2</SubIndex>
+            <BitLen>16</BitLen>
+            <Name LcId="1033">Error Clear</Name>
+            <Comment></Comment>
+            <DataType>UINT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+        </RxPdo>
+        <RxPdo Fixed="true" Mandatory="false" Sm="2" Virtual="false">
+          <Index DependOnSlot="true">#x1600</Index>
+          <Name LcId="1033">TD1 Outputs</Name>
+          <Entry Fixed="false">
+            <Index DependOnSlot="true">#x7000</Index>
+            <SubIndex>#x2</SubIndex>
+            <BitLen>8</BitLen>
+            <Name LcId="1033">Error clear</Name>
+            <Comment></Comment>
+            <DataType>USINT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+        </RxPdo>
+        <RxPdo Fixed="false" Mandatory="false" Sm="2" Virtual="false">
+          <Index>#x1701</Index>
+          <Name LcId="1033">ModulePdoAllignOut 2byte(s)</Name>
+          <Entry Fixed="false">
+            <Index>#x0</Index>
+            <SubIndex>#x0</SubIndex>
+            <BitLen>8</BitLen>
+            <Name LcId="1033"></Name>
+            <Comment></Comment>
+            <DataType></DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+        </RxPdo>
+        <TxPdo Fixed="true" Mandatory="true" Sm="3" Virtual="false">
+          <Index>#x1aff</Index>
+          <Name LcId="1033">Gateway Inputs</Name>
+          <Entry Fixed="false">
+            <Index>#xf600</Index>
+            <SubIndex>#x1</SubIndex>
+            <BitLen>16</BitLen>
+            <Name LcId="1033">Channel 1 (Q1 / Go)</Name>
+            <Comment></Comment>
+            <DataType>UINT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+          <Entry Fixed="false">
+            <Index>#xf600</Index>
+            <SubIndex>#x2</SubIndex>
+            <BitLen>16</BitLen>
+            <Name LcId="1033">Channel 2 (Q2 / Lo)</Name>
+            <Comment></Comment>
+            <DataType>UINT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+          <Entry Fixed="false">
+            <Index>#xf600</Index>
+            <SubIndex>#x3</SubIndex>
+            <BitLen>16</BitLen>
+            <Name LcId="1033">Channel 3 (Ext.In / Hi)</Name>
+            <Comment></Comment>
+            <DataType>UINT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+          <Entry Fixed="false">
+            <Index>#xf600</Index>
+            <SubIndex>#x4</SubIndex>
+            <BitLen>16</BitLen>
+            <Name LcId="1033">Error Indication</Name>
+            <Comment></Comment>
+            <DataType>UINT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+        </TxPdo>
+        <TxPdo Fixed="true" Mandatory="false" Sm="3" Virtual="false">
+          <Index DependOnSlot="true">#x1a00</Index>
+          <Name LcId="1033">TD1 Inputs</Name>
+          <Entry Fixed="false">
+            <Index DependOnSlot="true">#x6000</Index>
+            <SubIndex>#x4</SubIndex>
+            <BitLen>8</BitLen>
+            <Name LcId="1033">Error indication</Name>
+            <Comment></Comment>
+            <DataType>USINT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+          <Entry Fixed="false">
+            <Index DependOnSlot="true">#x6000</Index>
+            <SubIndex>#x5</SubIndex>
+            <BitLen>8</BitLen>
+            <Name LcId="1033">Process data status</Name>
+            <Comment></Comment>
+            <DataType>USINT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+          <Entry Fixed="false">
+            <Index DependOnSlot="true">#x6000</Index>
+            <SubIndex>#x6</SubIndex>
+            <BitLen>16</BitLen>
+            <Name LcId="1033">Distance value</Name>
+            <Comment></Comment>
+            <DataType>UINT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+        </TxPdo>
+      </ProcessData>
+      <Mailbox>
+        <Send>
+          <Start>4096</Start>
+          <Length>128</Length>
+        </Send>
+        <Recv>
+          <Start>4224</Start>
+          <Length>128</Length>
+        </Recv>
+        <Protocol>CoE</Protocol>
+        <CoE>
+          <InitCmds></InitCmds>
+        </CoE>
+      </Mailbox>
+      <DC>
+        <AssignActivate>0</AssignActivate>
+        <CycleTime0>0</CycleTime0>
+        <CycleTime1>0</CycleTime1>
+        <ShiftTime0>0</ShiftTime0>
+        <ShiftTime1>0</ShiftTime1>
+      </DC>
+    </Slave>
+  </Config>
+</EtherCATConfig>
