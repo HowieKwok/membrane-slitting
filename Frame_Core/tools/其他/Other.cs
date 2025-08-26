@@ -10,6 +10,15 @@ using System.Threading.Tasks;
 
 namespace Frame_Core
 {
+
+    // 4. 扩展：给 IEnumerable<T> 加 ForEach
+    public static class Ext
+    {
+        public static void ForEach<T>(this IEnumerable<T> src, Action<T> act)
+        {
+            foreach (var t in src) act(t);
+        }
+    }
     public class Other
     {
         public static Type[] allTypes = new Type[] {typeof(bool), typeof(bool[]), typeof(short), typeof(short[]), typeof(int), typeof(int[]), typeof(long), typeof(long[]),

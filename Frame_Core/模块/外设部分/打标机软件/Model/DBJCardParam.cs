@@ -11,32 +11,32 @@ namespace Frame_Core
     /// <summary>
     /// 打标机板卡参数类
     /// </summary>
-    public class DBJCardParam : XmlSerializationOperation
+    public class DBJCardParam : TCPClientParam
     {
-        [Description("通讯选择类型")]
-        public int ComType { set; get; }
-
-        [Description("启用通讯")]
-        public bool IsConnect { set; get; }
-
-        [Description("电脑端IP")]
-        public string LocalPC_IP { set; get; }
-
-        [Description("设备IP")]
-        public string PLC_IP { set; get; }
-
-        [Description("设备端口号")]
-        public int DevPort { set; get; }
-
+      
         [Description("自动打标")]
         public bool AutoDB { set; get; }
+
+        public BindingList<CoatingZone> Zones { get; } = new BindingList<CoatingZone>();
 
 
         public DBJCardParam()
         {
             //Init();
         }
-        public void Init()
+        public void ZonesInit()
+        {
+            if(Zones.Count!=12)
+            {
+                Zones?.Clear();
+                for (int i = 0; i < 12; i++)
+                {
+                    Zones.Add(new CoatingZone() { ZoneNumber=i+1});
+                }
+                this.Save();
+            }
+        }
+        public override void Init()
         {
             ComType = 0;
             IsConnect = true;
@@ -44,6 +44,7 @@ namespace Frame_Core
             PLC_IP = "127.0.0.1";
             DevPort = 2000;
             AutoDB = false;
+
         }
 
     }

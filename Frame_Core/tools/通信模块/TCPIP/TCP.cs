@@ -564,7 +564,7 @@ namespace Frame_Core
                     for (int j = 0; j < tmp_Str1.Length; j++)
                     {
                         char ch = tmp_Str1[j];
-                        if ((ch >= 48 && ch <= 57) || (ch >= 65 && ch <= 90) || ((ch >= 97 && ch <= 122)) || ch == 46)
+                        if ((ch >= 48 && ch <= 57) || (ch >= 65 && ch <= 90) || ((ch >= 97 && ch <= 122)) || ch == 46 || ch == 44 || ch == 124)//44[,]
                         {
                             outStr += ch;
                         }

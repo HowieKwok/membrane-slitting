@@ -106,7 +106,7 @@ namespace Frame_Core
                                 }
                                 ExecuteImageOperationSaveAsync(imageInfo, target_DisposeQueue, text);
                                 isSaveOperationInProgress = false;
-                                MessageNotify.AddDebugLog($"当前相机：{imageInfo.showHalconWindow.m_strCamName}_模式：{imageInfo.showHalconWindow.m_nMode}_释放队列个数：{target_DisposeQueue.Count}");
+                              //  MessageNotify.AddDebugLog($"当前相机：{imageInfo.showHalconWindow.m_strCamName}_模式：{imageInfo.showHalconWindow.m_nMode}_释放队列个数：{target_DisposeQueue.Count}");
                             });
                         }
                     }
@@ -133,17 +133,22 @@ namespace Frame_Core
             try
             {
                 TryDequeue(source_DisposeQueue, out imageInfo, N, text);
-                //if (TryDequeue(source_DisposeQueue, out  imageInfo, N, text))
-                //{
-                //    imageInfo.Dispose(); // 模拟释放操作
+                if(imageInfo!=null)
+                {
+                    int count = imageInfo.showHalconWindow.m_hImage.GetReferenceCount();
+                    MessageNotify.AddDebugLog($"当前相机：{imageInfo.showHalconWindow.m_strCamName}当前ID:{imageInfo.showHalconWindow.m_nImageFrameID}图像内部剩余数：{count}");
+                }
+         
 
-                //}
             }
             catch (Exception ex)
             {
                 Log4netRecord.ErrorLog.Debug("异步释放图像错误" + $"来源：{Source}-{text}", ex);
             }
+           
             imageInfo?.Dispose();
+
+
         }
 
         public async Task SaveDisposeScreenshotImagesAsync(QueuePackage<Operation_ImageInfo> source_SaveScreenshotQueue)
@@ -190,7 +195,13 @@ namespace Frame_Core
             try
             {
                 Operation_ImageInfo screenshotImage = null;
+                //UIService.Instance.AddAction(() => { });
                 displayWindowClass?.RepaintCam(imageInfo, out screenshotImage);
+                if (imageInfo != null)
+                {
+                    int count = imageInfo.showHalconWindow.m_hImage.GetReferenceCount();
+                    MessageNotify.AddDebugLog($"显示方法_当前相机：{imageInfo.showHalconWindow.m_strCamName}当前ID:{imageInfo.showHalconWindow.m_nImageFrameID}图像内部剩余数：{count}");
+                }
                 target_SaveQueue.Enqueue(imageInfo);
                 if (screenshotImage != null)
                 {
@@ -209,6 +220,7 @@ namespace Frame_Core
                     else
                     {
                         target_SaveScreenshotQueue.Enqueue(screenshotImage);
+
                     }
                 }
 
@@ -288,6 +300,7 @@ namespace Frame_Core
                     Log4netRecord.ErrorLog.Info("保存图像异常" + $"来源：{Source}-{operation}" + "\r\n" + executeResult.Message);
                 }
                 target_DisposeQueue.Enqueue(imageInfo);
+             
             }
             catch (Exception ex)
             {
@@ -320,14 +333,7 @@ namespace Frame_Core
         {
             try
             {
-                if (queue.Count > 1)
-                {
-                    if (queue.Peek().showHalconWindow.m_nMode == 1 || queue.Peek().showHalconWindow.m_nMode == 2)
-                    {
-                        imageInfo = queue.Dequeue();
-                        return true;
-                    }
-                }
+           
 
                 if (queue.Count > N)
                 {

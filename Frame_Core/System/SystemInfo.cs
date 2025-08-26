@@ -23,7 +23,7 @@ namespace Frame_Core
         /// <summary>
         /// 当前生产类型
         /// </summary>
-        public MaterialCrafEnum CurrentMaterial = MaterialCrafEnum.分条机1出2;
+        public MaterialCrafEnum CurrentMaterial = MaterialCrafEnum.PFT清洗机;
         /// <summary>
         /// 当前设备为主机设备
         /// </summary>

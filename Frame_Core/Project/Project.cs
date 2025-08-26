@@ -253,58 +253,10 @@ namespace Frame_Core
 
                 //主机
                 cameraManager.Clear();
-                if (systemInfo.CurrentMaterial == MaterialCrafEnum.分条机1出2)
+               if (systemInfo.CurrentMaterial == MaterialCrafEnum.PFT清洗机)
                 {
                     InitCam(2);
-                    baseProDevice = new Slice1To2ProDevice();
-
-                    // cameraManager.Add(CameraEnum.Cam3, new CameraManager() { CameraNameEnum = CameraEnum.Cam3 });
-
-                    lightNum = 1;
-
-
-                }
-                else if (systemInfo.CurrentMaterial == MaterialCrafEnum.叠片预定位PP)
-                {
-                    InitCam(4);
-                    baseProDevice = new PretargetingProDevice();
-
-                    lightNum = 1;
-
-                }
-                else if (systemInfo.CurrentMaterial == MaterialCrafEnum.叠片对齐度OVH)
-                {
-                    InitCam(8);
-                    baseProDevice = new OverHangProDevice();
-
-                    lightNum = 1;
-                }
-                else if (systemInfo.CurrentMaterial == MaterialCrafEnum.叠片阳极单面制片CS)
-                {
-                    InitCam(5);
-                    baseProDevice = new SingleAnodeProDevice();
-
-                    lightNum = 1;
-                }
-                else if (systemInfo.CurrentMaterial == MaterialCrafEnum.叠片阳极双面制片CD)
-                {
-                    InitCam(7);
-                    baseProDevice = new DoubleAnodeProDevice();
-
-                    lightNum = 1;
-                }
-                else if (systemInfo.CurrentMaterial == MaterialCrafEnum.叠片阴极双面制片AD)
-                {
-                    InitCam(7);
-                    baseProDevice = new DoubleCathodeProDevice();
-
-
-                    lightNum = 1;
-                }
-                else if (systemInfo.CurrentMaterial == MaterialCrafEnum.PFT清洗机)
-                {
-                    InitCam(4);
-                    Init3DThickManage(2);
+                   // Init3DThickManage(2);
                     baseProDevice = new PFTCleanProDevice();
 
                     lightNum = 1;
@@ -552,68 +504,7 @@ namespace Frame_Core
                 //craftInfo.fileFullPath = paramPathSet.craftParamPath;
                 switch (_Currentmaterial)
                 {
-                    case MaterialCrafEnum.分条机1出2:
-                        craftBase = craftBase.Read<Slice1to2Craft>();
-                        if (craftBase == null)
-                        {
-                            flag1 = false;
-                            craftBase = new Slice1to2Craft();
-                            craftBase.Init();
-                        }
-
-                        break;
-
-                    case MaterialCrafEnum.叠片阳极单面制片CS:
-                        craftBase = craftBase.Read<StackEACraft>();
-                        if (craftBase == null)
-                        {
-                            flag1 = false;
-                            craftBase = new StackEACraft();
-                            craftBase.Init();
-                        }
-
-                        break;
-                    case MaterialCrafEnum.叠片阳极双面制片CD:
-                        craftBase = craftBase.Read<StackEACraft>();
-                        if (craftBase == null)
-                        {
-                            flag1 = false;
-                            craftBase = new StackEACraft();
-                            craftBase.Init();
-                        }
-
-                        break;
-
-                    case MaterialCrafEnum.叠片阴极双面制片AD:
-                        craftBase = craftBase.Read<StackEACraft>();
-                        if (craftBase == null)
-                        {
-                            flag1 = false;
-                            craftBase = new StackEACraft();
-                            craftBase.Init();
-                        }
-                        break;
-
-                    case MaterialCrafEnum.叠片预定位PP:
-                        craftBase = craftBase.Read<OverHangCraft>();
-                        if (craftBase == null)
-                        {
-                            flag1 = false;
-                            craftBase = new OverHangCraft();
-                            craftBase.Init();
-                        }
-
-                        break;
-                    case MaterialCrafEnum.叠片对齐度OVH:
-                        craftBase = craftBase.Read<OverHangCraft>();
-                        if (craftBase == null)
-                        {
-                            flag1 = false;
-                            craftBase = new OverHangCraft();
-                            craftBase.Init();
-                        }
-                        break;
-
+                   
                     case MaterialCrafEnum.PFT清洗机:
                         craftBase = craftBase.Read<PFTCleanCraft>();
                         if (craftBase == null)
@@ -626,7 +517,7 @@ namespace Frame_Core
 
 
                     default:
-                        craftBase = new Slice1to2Craft();
+                        craftBase = new PFTCleanCraft();
                         break;
                 }
                 if (flag1 == false)

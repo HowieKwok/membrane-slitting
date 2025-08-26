@@ -9,65 +9,51 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
+
 namespace Frame_Core
 {
-    public partial class DBJCardForm : Form
+    public partial class DBJCardForm : TCPClientForm
     {
-        DBJCardManager dBJCardManager;
+
+        public DBJCardForm()
+        {
+            InitializeComponent();
+            
+        }
 
 
         public DBJCardForm(DBJCardManager _DBJCardManager)
         {
-            dBJCardManager = _DBJCardManager;
+
             InitializeComponent();
+            tcpCientManager = (DBJCardManager)_DBJCardManager;
+           
         }
 
-        private void MDevPLCForm_Load(object sender, EventArgs e)
-        {
-            try
-            {
-                string pathTemp = dBJCardManager.dBJCardParam.filePath;
-                dBJCardManager.dBJCardParam = (DBJCardParam)dBJCardManager.dBJCardParam.Read();
-                dBJCardManager.dBJCardParam.filePath = pathTemp;
-                cbx_ComType.Items.Clear();
-                cbx_ComType.Items.Add("TCP");
 
-                cbx_ComType.SelectedIndex = dBJCardManager.dBJCardParam.ComType;
-                cbx_IsConnect.Checked = dBJCardManager.dBJCardParam.IsConnect;
-                tbx_Local_IP.Text = dBJCardManager.dBJCardParam.LocalPC_IP;
-                tbx_Dev_IP.Text = dBJCardManager.dBJCardParam.PLC_IP;
-                num_DevPort.Value = dBJCardManager.dBJCardParam.DevPort;
-
-                cbx_AutoDB.Checked = dBJCardManager.dBJCardParam.AutoDB;
-
-            }
-            catch (Exception ex)
-            {
-
-                System.Windows.Forms.MessageBox.Show(ex.ToString());
-            }
-
-        }
 
         private void MDevPLCForm_FormClosing(object sender, FormClosingEventArgs e)
         {
 
 
         }
-        private void btn_Save_Click(object sender, EventArgs e)
+        protected override void btn_Save_Click(object sender, EventArgs e)
         {
             try
             {
-                dBJCardManager.dBJCardParam.ComType = cbx_ComType.SelectedIndex;
-                dBJCardManager.dBJCardParam.IsConnect = cbx_IsConnect.Checked;
-                dBJCardManager.dBJCardParam.LocalPC_IP = tbx_Local_IP.Text.Replace(" ", "");
-                dBJCardManager.dBJCardParam.PLC_IP = tbx_Dev_IP.Text.Replace(" ", "");
-                dBJCardManager.dBJCardParam.DevPort = (int)num_DevPort.Value;
+                DBJCardParam dBJCardParam = (DBJCardParam)tcpCientManager.tcpClientParam;
+                DBJCardManager dBJCardManager = (DBJCardManager)tcpCientManager;
+                dBJCardParam.ComType = cbx_ComType.SelectedIndex;
+                dBJCardParam.IsConnect = cbx_IsConnect.Checked;
+                dBJCardParam.LocalPC_IP = tbx_Local_IP.Text.Replace(" ", "");
+                dBJCardParam.PLC_IP = tbx_Dev_IP.Text.Replace(" ", "");
+                dBJCardParam.DevPort = (int)num_DevPort.Value;
 
-                dBJCardManager.dBJCardParam.AutoDB = cbx_AutoDB.Checked;
-                dBJCardManager.dBJCardParam.Save();
+                dBJCardParam.AutoDB = cbx_AutoDB.Checked;
+                dBJCardParam.Save();
 
-                dBJCardManager.SendAutoDB(dBJCardManager.dBJCardParam.AutoDB);
+                dBJCardManager.SendAutoDB(dBJCardParam.AutoDB);
             }
             catch (Exception ex)
             {
@@ -75,16 +61,58 @@ namespace Frame_Core
                 System.Windows.Forms.MessageBox.Show(ex.ToString());
             }
         }
-        private string GetComTypeName(int index)
-        {
-            return cbx_ComType.Items[index].ToString();
-        }
+        //private string GetComTypeName(int index)
+        //{
+        //    return cbx_ComType.Items[index].ToString();
+        //}
 
-        private void btn_connectPLC_Click(object sender, EventArgs e)
+        protected override void btn_connectPLC_Click(object sender, EventArgs e)
         {
+            DBJCardManager dBJCardManager = (DBJCardManager)tcpCientManager;
             dBJCardManager.InitPLC();
         }
 
+    
 
+        protected override void TCPClientForm_Load(object sender, EventArgs e)
+        {
+            try
+            {
+
+             
+                tcpCientManager.tcpClientParam = (DBJCardParam)tcpCientManager.tcpClientParam.Read();
+                string pathTemp = tcpCientManager.tcpClientParam.filePath;
+               
+
+                cbx_ComType.Items.Clear();
+                cbx_ComType.Items.Add("TCP");
+
+                cbx_ComType.SelectedIndex = tcpCientManager.tcpClientParam.ComType;
+                cbx_IsConnect.Checked = tcpCientManager.tcpClientParam.IsConnect;
+                tbx_Local_IP.Text = tcpCientManager.tcpClientParam.LocalPC_IP;
+                tbx_Dev_IP.Text = tcpCientManager.tcpClientParam.PLC_IP;
+                num_DevPort.Value = tcpCientManager.tcpClientParam.DevPort;
+                cbx_AutoDB.Checked = ((DBJCardParam)(tcpCientManager.tcpClientParam)).AutoDB;
+
+
+            }
+            catch (Exception ex)
+            {
+
+                System.Windows.Forms.MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            DBJCardManager dBJCardManager = (DBJCardManager)tcpCientManager;
+            using (DBJChanelForm dBJCardForm = new DBJChanelForm(dBJCardManager))
+            {
+                dBJCardForm.StartPosition = FormStartPosition.CenterScreen;
+                dBJCardForm.ShowDialog();
+            }
+
+
+        }
     }
 }

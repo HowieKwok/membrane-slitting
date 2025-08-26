@@ -32,13 +32,15 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.gBCraftEdit = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.Btn_ForwardDefect = new System.Windows.Forms.Button();
             this.Btn_Forwardtem = new System.Windows.Forms.Button();
             this.btn_RebuildDefect = new System.Windows.Forms.Button();
             this.Btn_DeleteDefect = new System.Windows.Forms.Button();
+            this.Btn_ReDefault = new System.Windows.Forms.Button();
             this.Btn_AddDefect = new System.Windows.Forms.Button();
             this.Btn_DeleteItem = new System.Windows.Forms.Button();
             this.Btn_AddItem = new System.Windows.Forms.Button();
@@ -50,10 +52,11 @@
             this.button_RebuildLine = new System.Windows.Forms.Button();
             this.Cb_IsStandLine = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.button_RebuildSlice = new System.Windows.Forms.Button();
+            this.button_RebuildSlot = new System.Windows.Forms.Button();
+            this.button_RebuildSlotLimit = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.CB_ShowByCam = new System.Windows.Forms.CheckBox();
-            this.Btn_ReDefaultSize = new System.Windows.Forms.Button();
-            this.Btn_ReDefault = new System.Windows.Forms.Button();
             this.comb_SelectCam = new System.Windows.Forms.ComboBox();
             this.label31 = new System.Windows.Forms.Label();
             this.comb_Electrode = new System.Windows.Forms.ComboBox();
@@ -66,25 +69,26 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.DataGridView_SlotInfo = new System.Windows.Forms.DataGridView();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.nud_Cam1BaseCol = new System.Windows.Forms.NumericUpDown();
+            this.label37 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.nud_EXCam1Col = new System.Windows.Forms.NumericUpDown();
+            this.nud_EXCam2Col = new System.Windows.Forms.NumericUpDown();
+            this.label21 = new System.Windows.Forms.Label();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.CB_IsBurrHead = new System.Windows.Forms.CheckBox();
-            this.nud_HeadMis_AtoB = new System.Windows.Forms.NumericUpDown();
-            this.label7 = new System.Windows.Forms.Label();
-            this.nud_ShaveNum_A = new System.Windows.Forms.NumericUpDown();
-            this.label8 = new System.Windows.Forms.Label();
-            this.nud_SlotNum_A = new System.Windows.Forms.NumericUpDown();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label28 = new System.Windows.Forms.Label();
-            this.nud_ShaveNum_B = new System.Windows.Forms.NumericUpDown();
-            this.nud_SlotNum_B = new System.Windows.Forms.NumericUpDown();
-            this.nud_CoatSizeMD_A = new System.Windows.Forms.NumericUpDown();
+            this.nud_LeftFoilSizeTD = new System.Windows.Forms.NumericUpDown();
+            this.label19 = new System.Windows.Forms.Label();
+            this.nud_RightFoilSizeTD = new System.Windows.Forms.NumericUpDown();
+            this.label20 = new System.Windows.Forms.Label();
+            this.checkBox_MaterialType = new System.Windows.Forms.CheckBox();
+            this.nud_SliceCount = new System.Windows.Forms.NumericUpDown();
+            this.label16 = new System.Windows.Forms.Label();
+            this.nud_CoatSizeTD = new System.Windows.Forms.NumericUpDown();
             this.label12 = new System.Windows.Forms.Label();
             this.nud_EASizeMD = new System.Windows.Forms.NumericUpDown();
             this.label59 = new System.Windows.Forms.Label();
-            this.nud_CoatSizeMD_B = new System.Windows.Forms.NumericUpDown();
+            this.nud_CoatSizeMD = new System.Windows.Forms.NumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.nud_EASizeTD = new System.Windows.Forms.NumericUpDown();
@@ -100,7 +104,19 @@
             this.label13 = new System.Windows.Forms.Label();
             this.nud_CoatShieldMDHead = new System.Windows.Forms.NumericUpDown();
             this.label11 = new System.Windows.Forms.Label();
+            this.nud_HeadMis_AtoB = new System.Windows.Forms.NumericUpDown();
+            this.label7 = new System.Windows.Forms.Label();
             this.table1 = new AntdUI.Table();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.DataGridView_SlotLimit = new System.Windows.Forms.DataGridView();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.Comb_CamSlice = new System.Windows.Forms.ComboBox();
+            this.DataGridView_SliceSet = new System.Windows.Forms.DataGridView();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.DataGridView_SlotInfo = new System.Windows.Forms.DataGridView();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -121,6 +137,8 @@
             this.tSMI_RenameLine = new System.Windows.Forms.ToolStripMenuItem();
             this.tSMI_DeleteLine = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.nud_Cam2BaseCol = new System.Windows.Forms.NumericUpDown();
+            this.label8 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.gBCraftEdit.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -129,17 +147,17 @@
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
-            this.groupBox6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DataGridView_SlotInfo)).BeginInit();
+            this.groupBox8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_Cam1BaseCol)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_EXCam1Col)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_EXCam2Col)).BeginInit();
             this.groupBox7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_HeadMis_AtoB)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_ShaveNum_A)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_SlotNum_A)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_ShaveNum_B)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_SlotNum_B)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_CoatSizeMD_A)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_LeftFoilSizeTD)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_RightFoilSizeTD)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_SliceCount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_CoatSizeTD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_EASizeMD)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_CoatSizeMD_B)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_CoatSizeMD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_EASizeTD)).BeginInit();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_EACropShiledMD)).BeginInit();
@@ -147,6 +165,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_CoatShieldTDLeft)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_CoatShieldMDTile)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_CoatShieldMDHead)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_HeadMis_AtoB)).BeginInit();
+            this.tabPage6.SuspendLayout();
+            this.tableLayoutPanel7.SuspendLayout();
+            this.groupBox10.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DataGridView_SlotLimit)).BeginInit();
+            this.groupBox9.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DataGridView_SliceSet)).BeginInit();
+            this.tabPage5.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DataGridView_SlotInfo)).BeginInit();
             this.tabPage4.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -160,13 +188,14 @@
             this.groupBox3.SuspendLayout();
             this.cMS_Line.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_Cam2BaseCol)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 400F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 450F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 550F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.gBCraftEdit, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.groupBox2, 0, 0);
@@ -179,8 +208,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 35F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 35F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1435, 902);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1562, 965);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
             // gBCraftEdit
@@ -189,33 +217,37 @@
             this.gBCraftEdit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gBCraftEdit.Location = new System.Drawing.Point(403, 3);
             this.gBCraftEdit.Name = "gBCraftEdit";
-            this.gBCraftEdit.Size = new System.Drawing.Size(444, 309);
+            this.gBCraftEdit.Size = new System.Drawing.Size(544, 331);
             this.gBCraftEdit.TabIndex = 216;
             this.gBCraftEdit.TabStop = false;
             this.gBCraftEdit.Text = "工艺编辑";
             // 
             // tableLayoutPanel2
             // 
-            this.tableLayoutPanel2.ColumnCount = 4;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
-            this.tableLayoutPanel2.Controls.Add(this.Btn_ForwardDefect, 3, 5);
-            this.tableLayoutPanel2.Controls.Add(this.Btn_Forwardtem, 1, 5);
-            this.tableLayoutPanel2.Controls.Add(this.btn_RebuildDefect, 3, 4);
-            this.tableLayoutPanel2.Controls.Add(this.Btn_DeleteDefect, 3, 3);
-            this.tableLayoutPanel2.Controls.Add(this.Btn_AddDefect, 3, 2);
-            this.tableLayoutPanel2.Controls.Add(this.Btn_DeleteItem, 1, 3);
-            this.tableLayoutPanel2.Controls.Add(this.Btn_AddItem, 1, 2);
-            this.tableLayoutPanel2.Controls.Add(this.Tb_Name, 2, 0);
-            this.tableLayoutPanel2.Controls.Add(this.btn_RebuildItem, 1, 4);
-            this.tableLayoutPanel2.Controls.Add(this.label3, 1, 1);
-            this.tableLayoutPanel2.Controls.Add(this.Tb_Description, 2, 1);
-            this.tableLayoutPanel2.Controls.Add(this.Btn_AddLine, 0, 2);
-            this.tableLayoutPanel2.Controls.Add(this.button_RebuildLine, 0, 4);
-            this.tableLayoutPanel2.Controls.Add(this.Cb_IsStandLine, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.label2, 1, 0);
+            this.tableLayoutPanel2.ColumnCount = 5;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 23.07692F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 23.07692F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.38461F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.53846F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 26.92308F));
+            this.tableLayoutPanel2.Controls.Add(this.Btn_Forwardtem, 2, 5);
+            this.tableLayoutPanel2.Controls.Add(this.btn_RebuildDefect, 4, 4);
+            this.tableLayoutPanel2.Controls.Add(this.Btn_DeleteDefect, 4, 3);
+            this.tableLayoutPanel2.Controls.Add(this.Btn_ReDefault, 0, 2);
+            this.tableLayoutPanel2.Controls.Add(this.Btn_AddDefect, 4, 2);
+            this.tableLayoutPanel2.Controls.Add(this.Btn_DeleteItem, 2, 3);
+            this.tableLayoutPanel2.Controls.Add(this.Btn_AddItem, 2, 2);
+            this.tableLayoutPanel2.Controls.Add(this.Tb_Name, 3, 0);
+            this.tableLayoutPanel2.Controls.Add(this.btn_RebuildItem, 2, 4);
+            this.tableLayoutPanel2.Controls.Add(this.label3, 2, 1);
+            this.tableLayoutPanel2.Controls.Add(this.Tb_Description, 3, 1);
+            this.tableLayoutPanel2.Controls.Add(this.Btn_AddLine, 1, 2);
+            this.tableLayoutPanel2.Controls.Add(this.button_RebuildLine, 1, 4);
+            this.tableLayoutPanel2.Controls.Add(this.Cb_IsStandLine, 1, 1);
+            this.tableLayoutPanel2.Controls.Add(this.label2, 2, 0);
+            this.tableLayoutPanel2.Controls.Add(this.button_RebuildSlice, 0, 3);
+            this.tableLayoutPanel2.Controls.Add(this.button_RebuildSlot, 0, 5);
+            this.tableLayoutPanel2.Controls.Add(this.button_RebuildSlotLimit, 0, 4);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 25);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -226,29 +258,17 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(438, 281);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(538, 303);
             this.tableLayoutPanel2.TabIndex = 1;
-            // 
-            // Btn_ForwardDefect
-            // 
-            this.Btn_ForwardDefect.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_ForwardDefect.ForeColor = System.Drawing.Color.Blue;
-            this.Btn_ForwardDefect.Location = new System.Drawing.Point(286, 229);
-            this.Btn_ForwardDefect.Name = "Btn_ForwardDefect";
-            this.Btn_ForwardDefect.Size = new System.Drawing.Size(149, 49);
-            this.Btn_ForwardDefect.TabIndex = 363;
-            this.Btn_ForwardDefect.Text = "前移缺陷项";
-            this.Btn_ForwardDefect.UseVisualStyleBackColor = true;
             // 
             // Btn_Forwardtem
             // 
             this.tableLayoutPanel2.SetColumnSpan(this.Btn_Forwardtem, 2);
             this.Btn_Forwardtem.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_Forwardtem.ForeColor = System.Drawing.Color.Blue;
-            this.Btn_Forwardtem.Location = new System.Drawing.Point(134, 229);
+            this.Btn_Forwardtem.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.Btn_Forwardtem.Location = new System.Drawing.Point(251, 247);
             this.Btn_Forwardtem.Name = "Btn_Forwardtem";
-            this.Btn_Forwardtem.Size = new System.Drawing.Size(146, 49);
+            this.Btn_Forwardtem.Size = new System.Drawing.Size(138, 53);
             this.Btn_Forwardtem.TabIndex = 362;
             this.Btn_Forwardtem.Text = "前移检测项";
             this.Btn_Forwardtem.UseVisualStyleBackColor = true;
@@ -257,12 +277,12 @@
             // btn_RebuildDefect
             // 
             this.btn_RebuildDefect.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_RebuildDefect.ForeColor = System.Drawing.Color.Red;
-            this.btn_RebuildDefect.Location = new System.Drawing.Point(286, 177);
+            this.btn_RebuildDefect.ForeColor = System.Drawing.Color.Blue;
+            this.btn_RebuildDefect.Location = new System.Drawing.Point(395, 189);
             this.btn_RebuildDefect.Name = "btn_RebuildDefect";
-            this.btn_RebuildDefect.Size = new System.Drawing.Size(149, 46);
+            this.btn_RebuildDefect.Size = new System.Drawing.Size(140, 52);
             this.btn_RebuildDefect.TabIndex = 348;
-            this.btn_RebuildDefect.Text = "重建缺陷项";
+            this.btn_RebuildDefect.Text = "6预设缺陷项";
             this.btn_RebuildDefect.UseVisualStyleBackColor = true;
             this.btn_RebuildDefect.Click += new System.EventHandler(this.btn_RebuildDefect_Click);
             // 
@@ -270,20 +290,31 @@
             // 
             this.Btn_DeleteDefect.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Btn_DeleteDefect.ForeColor = System.Drawing.Color.Red;
-            this.Btn_DeleteDefect.Location = new System.Drawing.Point(286, 125);
+            this.Btn_DeleteDefect.Location = new System.Drawing.Point(395, 131);
             this.Btn_DeleteDefect.Name = "Btn_DeleteDefect";
-            this.Btn_DeleteDefect.Size = new System.Drawing.Size(149, 46);
+            this.Btn_DeleteDefect.Size = new System.Drawing.Size(140, 52);
             this.Btn_DeleteDefect.TabIndex = 356;
             this.Btn_DeleteDefect.Text = "删除缺陷项";
             this.Btn_DeleteDefect.UseVisualStyleBackColor = true;
             this.Btn_DeleteDefect.Click += new System.EventHandler(this.Btn_DeleteDefect_Click);
             // 
+            // Btn_ReDefault
+            // 
+            this.Btn_ReDefault.ForeColor = System.Drawing.Color.Blue;
+            this.Btn_ReDefault.Location = new System.Drawing.Point(3, 73);
+            this.Btn_ReDefault.Name = "Btn_ReDefault";
+            this.Btn_ReDefault.Size = new System.Drawing.Size(118, 52);
+            this.Btn_ReDefault.TabIndex = 357;
+            this.Btn_ReDefault.Text = "0工艺初始化";
+            this.Btn_ReDefault.UseVisualStyleBackColor = true;
+            this.Btn_ReDefault.Click += new System.EventHandler(this.Btn_ReDefault_Click);
+            // 
             // Btn_AddDefect
             // 
             this.Btn_AddDefect.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_AddDefect.Location = new System.Drawing.Point(286, 73);
+            this.Btn_AddDefect.Location = new System.Drawing.Point(395, 73);
             this.Btn_AddDefect.Name = "Btn_AddDefect";
-            this.Btn_AddDefect.Size = new System.Drawing.Size(149, 46);
+            this.Btn_AddDefect.Size = new System.Drawing.Size(140, 52);
             this.Btn_AddDefect.TabIndex = 355;
             this.Btn_AddDefect.Text = "添加缺陷项";
             this.Btn_AddDefect.UseVisualStyleBackColor = true;
@@ -294,9 +325,9 @@
             this.tableLayoutPanel2.SetColumnSpan(this.Btn_DeleteItem, 2);
             this.Btn_DeleteItem.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Btn_DeleteItem.ForeColor = System.Drawing.Color.Red;
-            this.Btn_DeleteItem.Location = new System.Drawing.Point(134, 125);
+            this.Btn_DeleteItem.Location = new System.Drawing.Point(251, 131);
             this.Btn_DeleteItem.Name = "Btn_DeleteItem";
-            this.Btn_DeleteItem.Size = new System.Drawing.Size(146, 46);
+            this.Btn_DeleteItem.Size = new System.Drawing.Size(138, 52);
             this.Btn_DeleteItem.TabIndex = 353;
             this.Btn_DeleteItem.Text = "删除检测项";
             this.Btn_DeleteItem.UseVisualStyleBackColor = true;
@@ -306,9 +337,9 @@
             // 
             this.tableLayoutPanel2.SetColumnSpan(this.Btn_AddItem, 2);
             this.Btn_AddItem.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_AddItem.Location = new System.Drawing.Point(134, 73);
+            this.Btn_AddItem.Location = new System.Drawing.Point(251, 73);
             this.Btn_AddItem.Name = "Btn_AddItem";
-            this.Btn_AddItem.Size = new System.Drawing.Size(146, 46);
+            this.Btn_AddItem.Size = new System.Drawing.Size(138, 52);
             this.Btn_AddItem.TabIndex = 348;
             this.Btn_AddItem.Text = "添加检测项";
             this.Btn_AddItem.UseVisualStyleBackColor = true;
@@ -318,10 +349,10 @@
             // 
             this.tableLayoutPanel2.SetColumnSpan(this.Tb_Name, 2);
             this.Tb_Name.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Tb_Name.Location = new System.Drawing.Point(221, 3);
+            this.Tb_Name.Location = new System.Drawing.Point(333, 3);
             this.Tb_Name.Multiline = true;
             this.Tb_Name.Name = "Tb_Name";
-            this.Tb_Name.Size = new System.Drawing.Size(214, 29);
+            this.Tb_Name.Size = new System.Drawing.Size(202, 29);
             this.Tb_Name.TabIndex = 349;
             this.Tb_Name.Text = "默认检测项";
             // 
@@ -329,12 +360,12 @@
             // 
             this.tableLayoutPanel2.SetColumnSpan(this.btn_RebuildItem, 2);
             this.btn_RebuildItem.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_RebuildItem.ForeColor = System.Drawing.Color.Red;
-            this.btn_RebuildItem.Location = new System.Drawing.Point(134, 177);
+            this.btn_RebuildItem.ForeColor = System.Drawing.Color.Blue;
+            this.btn_RebuildItem.Location = new System.Drawing.Point(251, 189);
             this.btn_RebuildItem.Name = "btn_RebuildItem";
-            this.btn_RebuildItem.Size = new System.Drawing.Size(146, 46);
+            this.btn_RebuildItem.Size = new System.Drawing.Size(138, 52);
             this.btn_RebuildItem.TabIndex = 283;
-            this.btn_RebuildItem.Text = "重建检测项";
+            this.btn_RebuildItem.Text = "5预设检测项";
             this.btn_RebuildItem.UseVisualStyleBackColor = true;
             this.btn_RebuildItem.Click += new System.EventHandler(this.btn_RebuildItem_Click);
             // 
@@ -343,7 +374,7 @@
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label3.AutoSize = true;
             this.label3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label3.Location = new System.Drawing.Point(134, 42);
+            this.label3.Location = new System.Drawing.Point(251, 42);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(42, 21);
             this.label3.TabIndex = 352;
@@ -353,19 +384,19 @@
             // 
             this.tableLayoutPanel2.SetColumnSpan(this.Tb_Description, 2);
             this.Tb_Description.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Tb_Description.Location = new System.Drawing.Point(221, 38);
+            this.Tb_Description.Location = new System.Drawing.Point(333, 38);
             this.Tb_Description.Multiline = true;
             this.Tb_Description.Name = "Tb_Description";
-            this.Tb_Description.Size = new System.Drawing.Size(214, 29);
+            this.Tb_Description.Size = new System.Drawing.Size(202, 29);
             this.Tb_Description.TabIndex = 350;
             this.Tb_Description.Text = "默认备注";
             // 
             // Btn_AddLine
             // 
             this.Btn_AddLine.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_AddLine.Location = new System.Drawing.Point(3, 73);
+            this.Btn_AddLine.Location = new System.Drawing.Point(127, 73);
             this.Btn_AddLine.Name = "Btn_AddLine";
-            this.Btn_AddLine.Size = new System.Drawing.Size(125, 46);
+            this.Btn_AddLine.Size = new System.Drawing.Size(118, 52);
             this.Btn_AddLine.TabIndex = 345;
             this.Btn_AddLine.Text = "添加抓边";
             this.Btn_AddLine.UseVisualStyleBackColor = true;
@@ -374,12 +405,12 @@
             // button_RebuildLine
             // 
             this.button_RebuildLine.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button_RebuildLine.ForeColor = System.Drawing.Color.Red;
-            this.button_RebuildLine.Location = new System.Drawing.Point(3, 177);
+            this.button_RebuildLine.ForeColor = System.Drawing.Color.Blue;
+            this.button_RebuildLine.Location = new System.Drawing.Point(127, 189);
             this.button_RebuildLine.Name = "button_RebuildLine";
-            this.button_RebuildLine.Size = new System.Drawing.Size(125, 46);
+            this.button_RebuildLine.Size = new System.Drawing.Size(118, 52);
             this.button_RebuildLine.TabIndex = 342;
-            this.button_RebuildLine.Text = "重建抓边";
+            this.button_RebuildLine.Text = "4预设抓边";
             this.button_RebuildLine.UseVisualStyleBackColor = true;
             this.button_RebuildLine.Click += new System.EventHandler(this.button_RebuildLine_Click);
             // 
@@ -387,9 +418,9 @@
             // 
             this.Cb_IsStandLine.AutoSize = true;
             this.Cb_IsStandLine.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Cb_IsStandLine.Location = new System.Drawing.Point(3, 38);
+            this.Cb_IsStandLine.Location = new System.Drawing.Point(127, 38);
             this.Cb_IsStandLine.Name = "Cb_IsStandLine";
-            this.Cb_IsStandLine.Size = new System.Drawing.Size(125, 29);
+            this.Cb_IsStandLine.Size = new System.Drawing.Size(118, 29);
             this.Cb_IsStandLine.TabIndex = 354;
             this.Cb_IsStandLine.Text = "基准边";
             this.Cb_IsStandLine.UseVisualStyleBackColor = true;
@@ -399,17 +430,48 @@
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label2.AutoSize = true;
             this.label2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label2.Location = new System.Drawing.Point(134, 7);
+            this.label2.Location = new System.Drawing.Point(251, 7);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(74, 21);
             this.label2.TabIndex = 351;
             this.label2.Text = "项目名称";
             // 
+            // button_RebuildSlice
+            // 
+            this.button_RebuildSlice.ForeColor = System.Drawing.Color.Blue;
+            this.button_RebuildSlice.Location = new System.Drawing.Point(3, 131);
+            this.button_RebuildSlice.Name = "button_RebuildSlice";
+            this.button_RebuildSlice.Size = new System.Drawing.Size(118, 52);
+            this.button_RebuildSlice.TabIndex = 366;
+            this.button_RebuildSlice.Text = "1预设分条";
+            this.button_RebuildSlice.UseVisualStyleBackColor = true;
+            this.button_RebuildSlice.Click += new System.EventHandler(this.button_RebuildSlice_Click);
+            // 
+            // button_RebuildSlot
+            // 
+            this.button_RebuildSlot.ForeColor = System.Drawing.Color.Blue;
+            this.button_RebuildSlot.Location = new System.Drawing.Point(3, 247);
+            this.button_RebuildSlot.Name = "button_RebuildSlot";
+            this.button_RebuildSlot.Size = new System.Drawing.Size(118, 52);
+            this.button_RebuildSlot.TabIndex = 364;
+            this.button_RebuildSlot.Text = "3预设打孔区";
+            this.button_RebuildSlot.UseVisualStyleBackColor = true;
+            this.button_RebuildSlot.Click += new System.EventHandler(this.button_RebuildSlot_Click);
+            // 
+            // button_RebuildSlotLimit
+            // 
+            this.button_RebuildSlotLimit.ForeColor = System.Drawing.Color.Blue;
+            this.button_RebuildSlotLimit.Location = new System.Drawing.Point(3, 189);
+            this.button_RebuildSlotLimit.Name = "button_RebuildSlotLimit";
+            this.button_RebuildSlotLimit.Size = new System.Drawing.Size(118, 52);
+            this.button_RebuildSlotLimit.TabIndex = 365;
+            this.button_RebuildSlotLimit.Text = "2预设打孔公差";
+            this.button_RebuildSlotLimit.UseVisualStyleBackColor = true;
+            this.button_RebuildSlotLimit.Click += new System.EventHandler(this.button_RebuildSlotLimit_Click);
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.CB_ShowByCam);
-            this.groupBox2.Controls.Add(this.Btn_ReDefaultSize);
-            this.groupBox2.Controls.Add(this.Btn_ReDefault);
             this.groupBox2.Controls.Add(this.comb_SelectCam);
             this.groupBox2.Controls.Add(this.label31);
             this.groupBox2.Controls.Add(this.comb_Electrode);
@@ -424,7 +486,7 @@
             this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox2.Size = new System.Drawing.Size(392, 307);
+            this.groupBox2.Size = new System.Drawing.Size(392, 329);
             this.groupBox2.TabIndex = 210;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "基础设置";
@@ -442,35 +504,13 @@
             this.CB_ShowByCam.UseVisualStyleBackColor = true;
             this.CB_ShowByCam.CheckedChanged += new System.EventHandler(this.CB_ShowByCam_CheckedChanged);
             // 
-            // Btn_ReDefaultSize
-            // 
-            this.Btn_ReDefaultSize.ForeColor = System.Drawing.Color.Blue;
-            this.Btn_ReDefaultSize.Location = new System.Drawing.Point(246, 181);
-            this.Btn_ReDefaultSize.Name = "Btn_ReDefaultSize";
-            this.Btn_ReDefaultSize.Size = new System.Drawing.Size(134, 55);
-            this.Btn_ReDefaultSize.TabIndex = 361;
-            this.Btn_ReDefaultSize.Text = "工艺尺寸初始化";
-            this.Btn_ReDefaultSize.UseVisualStyleBackColor = true;
-            this.Btn_ReDefaultSize.Click += new System.EventHandler(this.Btn_ReDefaultSize_Click);
-            // 
-            // Btn_ReDefault
-            // 
-            this.Btn_ReDefault.ForeColor = System.Drawing.Color.Blue;
-            this.Btn_ReDefault.Location = new System.Drawing.Point(246, 120);
-            this.Btn_ReDefault.Name = "Btn_ReDefault";
-            this.Btn_ReDefault.Size = new System.Drawing.Size(135, 55);
-            this.Btn_ReDefault.TabIndex = 357;
-            this.Btn_ReDefault.Text = "工艺预设初始化";
-            this.Btn_ReDefault.UseVisualStyleBackColor = true;
-            this.Btn_ReDefault.Click += new System.EventHandler(this.Btn_ReDefault_Click);
-            // 
             // comb_SelectCam
             // 
             this.comb_SelectCam.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.comb_SelectCam.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comb_SelectCam.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.comb_SelectCam.FormattingEnabled = true;
-            this.comb_SelectCam.Location = new System.Drawing.Point(4, 268);
+            this.comb_SelectCam.Location = new System.Drawing.Point(4, 290);
             this.comb_SelectCam.Name = "comb_SelectCam";
             this.comb_SelectCam.Size = new System.Drawing.Size(384, 35);
             this.comb_SelectCam.TabIndex = 346;
@@ -579,16 +619,18 @@
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.tabControl1, 3);
             this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage6);
+            this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.ItemSize = new System.Drawing.Size(190, 26);
-            this.tabControl1.Location = new System.Drawing.Point(3, 318);
+            this.tabControl1.Location = new System.Drawing.Point(3, 340);
             this.tabControl1.Name = "tabControl1";
             this.tableLayoutPanel1.SetRowSpan(this.tabControl1, 2);
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1429, 581);
+            this.tabControl1.Size = new System.Drawing.Size(1556, 622);
             this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabControl1.TabIndex = 217;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
@@ -601,7 +643,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1421, 547);
+            this.tabPage1.Size = new System.Drawing.Size(1548, 588);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "标准极片工艺";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -613,7 +655,7 @@
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 300F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 300F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Controls.Add(this.groupBox6, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.groupBox8, 0, 1);
             this.tableLayoutPanel3.Controls.Add(this.groupBox7, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.groupBox4, 3, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -623,55 +665,112 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(1415, 541);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(1542, 582);
             this.tableLayoutPanel3.TabIndex = 1;
             // 
-            // groupBox6
+            // groupBox8
             // 
-            this.tableLayoutPanel3.SetColumnSpan(this.groupBox6, 4);
-            this.groupBox6.Controls.Add(this.DataGridView_SlotInfo);
-            this.groupBox6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox6.Location = new System.Drawing.Point(3, 273);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(1409, 265);
-            this.groupBox6.TabIndex = 331;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "槽位削薄区列表";
+            this.tableLayoutPanel3.SetColumnSpan(this.groupBox8, 3);
+            this.groupBox8.Controls.Add(this.nud_Cam2BaseCol);
+            this.groupBox8.Controls.Add(this.label8);
+            this.groupBox8.Controls.Add(this.nud_Cam1BaseCol);
+            this.groupBox8.Controls.Add(this.label37);
+            this.groupBox8.Controls.Add(this.label23);
+            this.groupBox8.Controls.Add(this.nud_EXCam1Col);
+            this.groupBox8.Controls.Add(this.nud_EXCam2Col);
+            this.groupBox8.Controls.Add(this.label21);
+            this.groupBox8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox8.Location = new System.Drawing.Point(3, 294);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(894, 285);
+            this.groupBox8.TabIndex = 361;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "相机侧向联合";
             // 
-            // DataGridView_SlotInfo
+            // nud_Cam1BaseCol
             // 
-            this.DataGridView_SlotInfo.AllowUserToAddRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.DataGridView_SlotInfo.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.DataGridView_SlotInfo.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.DataGridView_SlotInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DataGridView_SlotInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DataGridView_SlotInfo.Location = new System.Drawing.Point(3, 25);
-            this.DataGridView_SlotInfo.MultiSelect = false;
-            this.DataGridView_SlotInfo.Name = "DataGridView_SlotInfo";
-            this.DataGridView_SlotInfo.RowTemplate.Height = 23;
-            this.DataGridView_SlotInfo.Size = new System.Drawing.Size(1403, 237);
-            this.DataGridView_SlotInfo.TabIndex = 212;
+            this.nud_Cam1BaseCol.DecimalPlaces = 2;
+            this.nud_Cam1BaseCol.Location = new System.Drawing.Point(227, 40);
+            this.nud_Cam1BaseCol.Maximum = new decimal(new int[] {
+            99999999,
+            0,
+            0,
+            0});
+            this.nud_Cam1BaseCol.Name = "nud_Cam1BaseCol";
+            this.nud_Cam1BaseCol.Size = new System.Drawing.Size(107, 29);
+            this.nud_Cam1BaseCol.TabIndex = 360;
+            // 
+            // label37
+            // 
+            this.label37.AutoSize = true;
+            this.label37.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label37.Location = new System.Drawing.Point(375, 44);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(182, 21);
+            this.label37.TabIndex = 355;
+            this.label37.Text = "特征在Cam1中的列坐标";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label23.Location = new System.Drawing.Point(19, 44);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(182, 21);
+            this.label23.TabIndex = 359;
+            this.label23.Text = "Cam1左侧基准边列坐标";
+            // 
+            // nud_EXCam1Col
+            // 
+            this.nud_EXCam1Col.DecimalPlaces = 2;
+            this.nud_EXCam1Col.Location = new System.Drawing.Point(584, 40);
+            this.nud_EXCam1Col.Maximum = new decimal(new int[] {
+            99999999,
+            0,
+            0,
+            0});
+            this.nud_EXCam1Col.Name = "nud_EXCam1Col";
+            this.nud_EXCam1Col.Size = new System.Drawing.Size(107, 29);
+            this.nud_EXCam1Col.TabIndex = 356;
+            // 
+            // nud_EXCam2Col
+            // 
+            this.nud_EXCam2Col.DecimalPlaces = 2;
+            this.nud_EXCam2Col.Location = new System.Drawing.Point(583, 93);
+            this.nud_EXCam2Col.Maximum = new decimal(new int[] {
+            99999999,
+            0,
+            0,
+            0});
+            this.nud_EXCam2Col.Name = "nud_EXCam2Col";
+            this.nud_EXCam2Col.Size = new System.Drawing.Size(107, 29);
+            this.nud_EXCam2Col.TabIndex = 358;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label21.Location = new System.Drawing.Point(375, 97);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(182, 21);
+            this.label21.TabIndex = 357;
+            this.label21.Text = "特征在Cam2中的列坐标";
             // 
             // groupBox7
             // 
             this.tableLayoutPanel3.SetColumnSpan(this.groupBox7, 3);
-            this.groupBox7.Controls.Add(this.CB_IsBurrHead);
-            this.groupBox7.Controls.Add(this.nud_HeadMis_AtoB);
-            this.groupBox7.Controls.Add(this.label7);
-            this.groupBox7.Controls.Add(this.nud_ShaveNum_A);
-            this.groupBox7.Controls.Add(this.label8);
-            this.groupBox7.Controls.Add(this.nud_SlotNum_A);
-            this.groupBox7.Controls.Add(this.label9);
-            this.groupBox7.Controls.Add(this.label10);
-            this.groupBox7.Controls.Add(this.label28);
-            this.groupBox7.Controls.Add(this.nud_ShaveNum_B);
-            this.groupBox7.Controls.Add(this.nud_SlotNum_B);
-            this.groupBox7.Controls.Add(this.nud_CoatSizeMD_A);
+            this.groupBox7.Controls.Add(this.nud_LeftFoilSizeTD);
+            this.groupBox7.Controls.Add(this.label19);
+            this.groupBox7.Controls.Add(this.nud_RightFoilSizeTD);
+            this.groupBox7.Controls.Add(this.label20);
+            this.groupBox7.Controls.Add(this.checkBox_MaterialType);
+            this.groupBox7.Controls.Add(this.nud_SliceCount);
+            this.groupBox7.Controls.Add(this.label16);
+            this.groupBox7.Controls.Add(this.nud_CoatSizeTD);
             this.groupBox7.Controls.Add(this.label12);
             this.groupBox7.Controls.Add(this.nud_EASizeMD);
             this.groupBox7.Controls.Add(this.label59);
-            this.groupBox7.Controls.Add(this.nud_CoatSizeMD_B);
+            this.groupBox7.Controls.Add(this.nud_CoatSizeMD);
             this.groupBox7.Controls.Add(this.label5);
             this.groupBox7.Controls.Add(this.label22);
             this.groupBox7.Controls.Add(this.nud_EASizeTD);
@@ -679,159 +778,116 @@
             this.groupBox7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox7.Location = new System.Drawing.Point(3, 3);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(894, 264);
+            this.groupBox7.Size = new System.Drawing.Size(894, 285);
             this.groupBox7.TabIndex = 327;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "标准极片(单位mm)";
             // 
-            // CB_IsBurrHead
+            // nud_LeftFoilSizeTD
             // 
-            this.CB_IsBurrHead.AutoSize = true;
-            this.CB_IsBurrHead.Location = new System.Drawing.Point(286, 213);
-            this.CB_IsBurrHead.Name = "CB_IsBurrHead";
-            this.CB_IsBurrHead.Size = new System.Drawing.Size(161, 25);
-            this.CB_IsBurrHead.TabIndex = 342;
-            this.CB_IsBurrHead.Text = "EA料头是毛边料头";
-            this.CB_IsBurrHead.UseVisualStyleBackColor = true;
-            // 
-            // nud_HeadMis_AtoB
-            // 
-            this.nud_HeadMis_AtoB.DecimalPlaces = 2;
-            this.nud_HeadMis_AtoB.Location = new System.Drawing.Point(173, 212);
-            this.nud_HeadMis_AtoB.Maximum = new decimal(new int[] {
+            this.nud_LeftFoilSizeTD.DecimalPlaces = 2;
+            this.nud_LeftFoilSizeTD.Location = new System.Drawing.Point(730, 39);
+            this.nud_LeftFoilSizeTD.Maximum = new decimal(new int[] {
             99999999,
             0,
             0,
             0});
-            this.nud_HeadMis_AtoB.Name = "nud_HeadMis_AtoB";
-            this.nud_HeadMis_AtoB.Size = new System.Drawing.Size(107, 29);
-            this.nud_HeadMis_AtoB.TabIndex = 341;
+            this.nud_LeftFoilSizeTD.Name = "nud_LeftFoilSizeTD";
+            this.nud_LeftFoilSizeTD.Size = new System.Drawing.Size(107, 29);
+            this.nud_LeftFoilSizeTD.TabIndex = 354;
             // 
-            // label7
+            // label19
             // 
-            this.label7.AutoSize = true;
-            this.label7.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label7.Location = new System.Drawing.Point(31, 212);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(111, 21);
-            this.label7.TabIndex = 340;
-            this.label7.Text = "AB面料头距离";
+            this.label19.AutoSize = true;
+            this.label19.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label19.Location = new System.Drawing.Point(591, 43);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(111, 21);
+            this.label19.TabIndex = 353;
+            this.label19.Text = "左留白尺寸TD";
             // 
-            // nud_ShaveNum_A
+            // nud_RightFoilSizeTD
             // 
-            this.nud_ShaveNum_A.Location = new System.Drawing.Point(575, 115);
-            this.nud_ShaveNum_A.Maximum = new decimal(new int[] {
+            this.nud_RightFoilSizeTD.DecimalPlaces = 2;
+            this.nud_RightFoilSizeTD.Location = new System.Drawing.Point(731, 78);
+            this.nud_RightFoilSizeTD.Maximum = new decimal(new int[] {
             99999999,
             0,
             0,
             0});
-            this.nud_ShaveNum_A.Name = "nud_ShaveNum_A";
-            this.nud_ShaveNum_A.Size = new System.Drawing.Size(78, 29);
-            this.nud_ShaveNum_A.TabIndex = 339;
+            this.nud_RightFoilSizeTD.Name = "nud_RightFoilSizeTD";
+            this.nud_RightFoilSizeTD.Size = new System.Drawing.Size(107, 29);
+            this.nud_RightFoilSizeTD.TabIndex = 352;
             // 
-            // label8
+            // label20
             // 
-            this.label8.AutoSize = true;
-            this.label8.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label8.Location = new System.Drawing.Point(433, 118);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(117, 21);
-            this.label8.TabIndex = 338;
-            this.label8.Text = "A面削薄区个数";
+            this.label20.AutoSize = true;
+            this.label20.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label20.Location = new System.Drawing.Point(591, 83);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(118, 21);
+            this.label20.TabIndex = 351;
+            this.label20.Text = "右留白尺寸MD";
             // 
-            // nud_SlotNum_A
+            // checkBox_MaterialType
             // 
-            this.nud_SlotNum_A.Location = new System.Drawing.Point(575, 37);
-            this.nud_SlotNum_A.Maximum = new decimal(new int[] {
+            this.checkBox_MaterialType.AutoSize = true;
+            this.checkBox_MaterialType.Location = new System.Drawing.Point(21, 92);
+            this.checkBox_MaterialType.Name = "checkBox_MaterialType";
+            this.checkBox_MaterialType.Size = new System.Drawing.Size(168, 25);
+            this.checkBox_MaterialType.TabIndex = 348;
+            this.checkBox_MaterialType.Text = "常规料(F)/CTP料(T)";
+            this.checkBox_MaterialType.UseVisualStyleBackColor = true;
+            // 
+            // nud_SliceCount
+            // 
+            this.nud_SliceCount.Location = new System.Drawing.Point(125, 45);
+            this.nud_SliceCount.Maximum = new decimal(new int[] {
+            9,
+            0,
+            0,
+            0});
+            this.nud_SliceCount.Name = "nud_SliceCount";
+            this.nud_SliceCount.Size = new System.Drawing.Size(103, 29);
+            this.nud_SliceCount.TabIndex = 347;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label16.Location = new System.Drawing.Point(17, 45);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(90, 21);
+            this.label16.TabIndex = 346;
+            this.label16.Text = "目标分条数";
+            // 
+            // nud_CoatSizeTD
+            // 
+            this.nud_CoatSizeTD.DecimalPlaces = 2;
+            this.nud_CoatSizeTD.Location = new System.Drawing.Point(439, 121);
+            this.nud_CoatSizeTD.Maximum = new decimal(new int[] {
             99999999,
             0,
             0,
             0});
-            this.nud_SlotNum_A.Name = "nud_SlotNum_A";
-            this.nud_SlotNum_A.Size = new System.Drawing.Size(78, 29);
-            this.nud_SlotNum_A.TabIndex = 335;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label9.Location = new System.Drawing.Point(433, 80);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(100, 21);
-            this.label9.TabIndex = 334;
-            this.label9.Text = "B面槽位个数";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label10.Location = new System.Drawing.Point(433, 41);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(101, 21);
-            this.label10.TabIndex = 333;
-            this.label10.Text = "A面槽位个数";
-            // 
-            // label28
-            // 
-            this.label28.AutoSize = true;
-            this.label28.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label28.Location = new System.Drawing.Point(434, 162);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(116, 21);
-            this.label28.TabIndex = 320;
-            this.label28.Text = "B面削薄区个数";
-            // 
-            // nud_ShaveNum_B
-            // 
-            this.nud_ShaveNum_B.Location = new System.Drawing.Point(576, 159);
-            this.nud_ShaveNum_B.Maximum = new decimal(new int[] {
-            99999999,
-            0,
-            0,
-            0});
-            this.nud_ShaveNum_B.Name = "nud_ShaveNum_B";
-            this.nud_ShaveNum_B.Size = new System.Drawing.Size(77, 29);
-            this.nud_ShaveNum_B.TabIndex = 321;
-            // 
-            // nud_SlotNum_B
-            // 
-            this.nud_SlotNum_B.Location = new System.Drawing.Point(575, 77);
-            this.nud_SlotNum_B.Maximum = new decimal(new int[] {
-            99999999,
-            0,
-            0,
-            0});
-            this.nud_SlotNum_B.Name = "nud_SlotNum_B";
-            this.nud_SlotNum_B.Size = new System.Drawing.Size(78, 29);
-            this.nud_SlotNum_B.TabIndex = 332;
-            // 
-            // nud_CoatSizeMD_A
-            // 
-            this.nud_CoatSizeMD_A.DecimalPlaces = 2;
-            this.nud_CoatSizeMD_A.Location = new System.Drawing.Point(173, 123);
-            this.nud_CoatSizeMD_A.Maximum = new decimal(new int[] {
-            99999999,
-            0,
-            0,
-            0});
-            this.nud_CoatSizeMD_A.Name = "nud_CoatSizeMD_A";
-            this.nud_CoatSizeMD_A.Size = new System.Drawing.Size(107, 29);
-            this.nud_CoatSizeMD_A.TabIndex = 331;
+            this.nud_CoatSizeTD.Name = "nud_CoatSizeTD";
+            this.nud_CoatSizeTD.Size = new System.Drawing.Size(107, 29);
+            this.nud_CoatSizeTD.TabIndex = 331;
             // 
             // label12
             // 
             this.label12.AutoSize = true;
             this.label12.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label12.Location = new System.Drawing.Point(31, 127);
+            this.label12.Location = new System.Drawing.Point(298, 125);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(136, 21);
+            this.label12.Size = new System.Drawing.Size(95, 21);
             this.label12.TabIndex = 330;
-            this.label12.Text = "涂布尺寸MD_A面";
+            this.label12.Text = "涂布尺寸TD";
             // 
             // nud_EASizeMD
             // 
             this.nud_EASizeMD.DecimalPlaces = 2;
-            this.nud_EASizeMD.Location = new System.Drawing.Point(173, 78);
+            this.nud_EASizeMD.Location = new System.Drawing.Point(439, 82);
             this.nud_EASizeMD.Maximum = new decimal(new int[] {
             99999999,
             0,
@@ -845,30 +901,30 @@
             // 
             this.label59.AutoSize = true;
             this.label59.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label59.Location = new System.Drawing.Point(31, 82);
+            this.label59.Location = new System.Drawing.Point(298, 86);
             this.label59.Name = "label59";
             this.label59.Size = new System.Drawing.Size(102, 21);
             this.label59.TabIndex = 322;
             this.label59.Text = "极片尺寸MD";
             // 
-            // nud_CoatSizeMD_B
+            // nud_CoatSizeMD
             // 
-            this.nud_CoatSizeMD_B.DecimalPlaces = 2;
-            this.nud_CoatSizeMD_B.Location = new System.Drawing.Point(173, 162);
-            this.nud_CoatSizeMD_B.Maximum = new decimal(new int[] {
+            this.nud_CoatSizeMD.DecimalPlaces = 2;
+            this.nud_CoatSizeMD.Location = new System.Drawing.Point(440, 160);
+            this.nud_CoatSizeMD.Maximum = new decimal(new int[] {
             99999999,
             0,
             0,
             0});
-            this.nud_CoatSizeMD_B.Name = "nud_CoatSizeMD_B";
-            this.nud_CoatSizeMD_B.Size = new System.Drawing.Size(107, 29);
-            this.nud_CoatSizeMD_B.TabIndex = 316;
+            this.nud_CoatSizeMD.Name = "nud_CoatSizeMD";
+            this.nud_CoatSizeMD.Size = new System.Drawing.Size(107, 29);
+            this.nud_CoatSizeMD.TabIndex = 316;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label5.Location = new System.Drawing.Point(31, 43);
+            this.label5.Location = new System.Drawing.Point(298, 47);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(95, 21);
             this.label5.TabIndex = 315;
@@ -878,16 +934,16 @@
             // 
             this.label22.AutoSize = true;
             this.label22.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label22.Location = new System.Drawing.Point(31, 167);
+            this.label22.Location = new System.Drawing.Point(298, 165);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(135, 21);
+            this.label22.Size = new System.Drawing.Size(102, 21);
             this.label22.TabIndex = 314;
-            this.label22.Text = "涂布尺寸MD_B面";
+            this.label22.Text = "涂布尺寸MD";
             // 
             // nud_EASizeTD
             // 
             this.nud_EASizeTD.DecimalPlaces = 2;
-            this.nud_EASizeTD.Location = new System.Drawing.Point(173, 39);
+            this.nud_EASizeTD.Location = new System.Drawing.Point(439, 43);
             this.nud_EASizeTD.Maximum = new decimal(new int[] {
             99999999,
             0,
@@ -919,10 +975,13 @@
             this.groupBox4.Controls.Add(this.label13);
             this.groupBox4.Controls.Add(this.nud_CoatShieldMDHead);
             this.groupBox4.Controls.Add(this.label11);
+            this.groupBox4.Controls.Add(this.nud_HeadMis_AtoB);
+            this.groupBox4.Controls.Add(this.label7);
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox4.Location = new System.Drawing.Point(903, 3);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(509, 264);
+            this.tableLayoutPanel3.SetRowSpan(this.groupBox4, 2);
+            this.groupBox4.Size = new System.Drawing.Size(636, 576);
             this.groupBox4.TabIndex = 332;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "缺陷检测缩进(单位mm)";
@@ -930,7 +989,7 @@
             // nud_EACropShiledMD
             // 
             this.nud_EACropShiledMD.DecimalPlaces = 2;
-            this.nud_EACropShiledMD.Location = new System.Drawing.Point(185, 225);
+            this.nud_EACropShiledMD.Location = new System.Drawing.Point(185, 197);
             this.nud_EACropShiledMD.Maximum = new decimal(new int[] {
             99999999,
             0,
@@ -943,7 +1002,7 @@
             // nud_CoatShieldTDRight
             // 
             this.nud_CoatShieldTDRight.DecimalPlaces = 2;
-            this.nud_CoatShieldTDRight.Location = new System.Drawing.Point(162, 179);
+            this.nud_CoatShieldTDRight.Location = new System.Drawing.Point(185, 141);
             this.nud_CoatShieldTDRight.Maximum = new decimal(new int[] {
             99999999,
             0,
@@ -957,7 +1016,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label4.Location = new System.Drawing.Point(21, 227);
+            this.label4.Location = new System.Drawing.Point(21, 199);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(158, 21);
             this.label4.TabIndex = 343;
@@ -967,7 +1026,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label14.Location = new System.Drawing.Point(21, 181);
+            this.label14.Location = new System.Drawing.Point(21, 143);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(111, 21);
             this.label14.TabIndex = 351;
@@ -976,7 +1035,7 @@
             // nud_CoatShieldTDLeft
             // 
             this.nud_CoatShieldTDLeft.DecimalPlaces = 2;
-            this.nud_CoatShieldTDLeft.Location = new System.Drawing.Point(162, 135);
+            this.nud_CoatShieldTDLeft.Location = new System.Drawing.Point(185, 108);
             this.nud_CoatShieldTDLeft.Maximum = new decimal(new int[] {
             99999999,
             0,
@@ -990,7 +1049,7 @@
             // 
             this.label15.AutoSize = true;
             this.label15.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label15.Location = new System.Drawing.Point(21, 137);
+            this.label15.Location = new System.Drawing.Point(21, 110);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(111, 21);
             this.label15.TabIndex = 349;
@@ -999,7 +1058,7 @@
             // nud_CoatShieldMDTile
             // 
             this.nud_CoatShieldMDTile.DecimalPlaces = 2;
-            this.nud_CoatShieldMDTile.Location = new System.Drawing.Point(162, 87);
+            this.nud_CoatShieldMDTile.Location = new System.Drawing.Point(185, 76);
             this.nud_CoatShieldMDTile.Maximum = new decimal(new int[] {
             99999999,
             0,
@@ -1013,7 +1072,7 @@
             // 
             this.label13.AutoSize = true;
             this.label13.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label13.Location = new System.Drawing.Point(21, 89);
+            this.label13.Location = new System.Drawing.Point(21, 78);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(134, 21);
             this.label13.TabIndex = 347;
@@ -1022,7 +1081,7 @@
             // nud_CoatShieldMDHead
             // 
             this.nud_CoatShieldMDHead.DecimalPlaces = 2;
-            this.nud_CoatShieldMDHead.Location = new System.Drawing.Point(162, 43);
+            this.nud_CoatShieldMDHead.Location = new System.Drawing.Point(185, 43);
             this.nud_CoatShieldMDHead.Maximum = new decimal(new int[] {
             99999999,
             0,
@@ -1042,6 +1101,29 @@
             this.label11.TabIndex = 345;
             this.label11.Text = "涂布MD料头缩进";
             // 
+            // nud_HeadMis_AtoB
+            // 
+            this.nud_HeadMis_AtoB.DecimalPlaces = 2;
+            this.nud_HeadMis_AtoB.Location = new System.Drawing.Point(163, 241);
+            this.nud_HeadMis_AtoB.Maximum = new decimal(new int[] {
+            99999999,
+            0,
+            0,
+            0});
+            this.nud_HeadMis_AtoB.Name = "nud_HeadMis_AtoB";
+            this.nud_HeadMis_AtoB.Size = new System.Drawing.Size(65, 29);
+            this.nud_HeadMis_AtoB.TabIndex = 341;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label7.Location = new System.Drawing.Point(21, 245);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(111, 21);
+            this.label7.TabIndex = 340;
+            this.label7.Text = "AB面料头距离";
+            // 
             // table1
             // 
             this.table1.Location = new System.Drawing.Point(0, 0);
@@ -1050,13 +1132,144 @@
             this.table1.TabIndex = 0;
             this.table1.Text = "table1";
             // 
+            // tabPage6
+            // 
+            this.tabPage6.Controls.Add(this.tableLayoutPanel7);
+            this.tabPage6.Location = new System.Drawing.Point(4, 30);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage6.Size = new System.Drawing.Size(1548, 588);
+            this.tabPage6.TabIndex = 5;
+            this.tabPage6.Text = "分条工艺";
+            this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel7
+            // 
+            this.tableLayoutPanel7.ColumnCount = 2;
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel7.Controls.Add(this.groupBox10, 0, 1);
+            this.tableLayoutPanel7.Controls.Add(this.groupBox9, 0, 0);
+            this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel7.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel7.Name = "tableLayoutPanel7";
+            this.tableLayoutPanel7.RowCount = 2;
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(1542, 582);
+            this.tableLayoutPanel7.TabIndex = 0;
+            // 
+            // groupBox10
+            // 
+            this.groupBox10.Controls.Add(this.DataGridView_SlotLimit);
+            this.groupBox10.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox10.Location = new System.Drawing.Point(3, 294);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(765, 285);
+            this.groupBox10.TabIndex = 335;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "打孔区上下限设置";
+            // 
+            // DataGridView_SlotLimit
+            // 
+            this.DataGridView_SlotLimit.AllowUserToAddRows = false;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.DataGridView_SlotLimit.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.DataGridView_SlotLimit.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.DataGridView_SlotLimit.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DataGridView_SlotLimit.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.DataGridView_SlotLimit.Location = new System.Drawing.Point(3, 25);
+            this.DataGridView_SlotLimit.MultiSelect = false;
+            this.DataGridView_SlotLimit.Name = "DataGridView_SlotLimit";
+            this.DataGridView_SlotLimit.RowTemplate.Height = 23;
+            this.DataGridView_SlotLimit.Size = new System.Drawing.Size(759, 257);
+            this.DataGridView_SlotLimit.TabIndex = 214;
+            // 
+            // groupBox9
+            // 
+            this.tableLayoutPanel7.SetColumnSpan(this.groupBox9, 2);
+            this.groupBox9.Controls.Add(this.Comb_CamSlice);
+            this.groupBox9.Controls.Add(this.DataGridView_SliceSet);
+            this.groupBox9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox9.Location = new System.Drawing.Point(3, 3);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(1536, 285);
+            this.groupBox9.TabIndex = 217;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "分条基础";
+            // 
+            // Comb_CamSlice
+            // 
+            this.Comb_CamSlice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.Comb_CamSlice.FormattingEnabled = true;
+            this.Comb_CamSlice.Location = new System.Drawing.Point(214, 101);
+            this.Comb_CamSlice.Name = "Comb_CamSlice";
+            this.Comb_CamSlice.Size = new System.Drawing.Size(121, 29);
+            this.Comb_CamSlice.TabIndex = 368;
+            this.Comb_CamSlice.Visible = false;
+            this.Comb_CamSlice.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.Comb_CamSlice_DrawItem);
+            this.Comb_CamSlice.SelectedIndexChanged += new System.EventHandler(this.Comb_CamSlice_SelectedIndexChanged);
+            // 
+            // DataGridView_SliceSet
+            // 
+            this.DataGridView_SliceSet.AllowUserToAddRows = false;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.DataGridView_SliceSet.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
+            this.DataGridView_SliceSet.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.DataGridView_SliceSet.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DataGridView_SliceSet.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.DataGridView_SliceSet.Location = new System.Drawing.Point(3, 25);
+            this.DataGridView_SliceSet.MultiSelect = false;
+            this.DataGridView_SliceSet.Name = "DataGridView_SliceSet";
+            this.DataGridView_SliceSet.RowTemplate.Height = 23;
+            this.DataGridView_SliceSet.Size = new System.Drawing.Size(1530, 257);
+            this.DataGridView_SliceSet.TabIndex = 217;
+            this.DataGridView_SliceSet.CurrentCellChanged += new System.EventHandler(this.DataGridView_SliceSet_CurrentCellChanged);
+            // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this.groupBox6);
+            this.tabPage5.Location = new System.Drawing.Point(4, 30);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Size = new System.Drawing.Size(1548, 588);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "打孔区工艺";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.DataGridView_SlotInfo);
+            this.groupBox6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox6.Location = new System.Drawing.Point(0, 0);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(1548, 588);
+            this.groupBox6.TabIndex = 332;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "槽位/打孔区/削薄区列表";
+            // 
+            // DataGridView_SlotInfo
+            // 
+            this.DataGridView_SlotInfo.AllowUserToAddRows = false;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.DataGridView_SlotInfo.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            this.DataGridView_SlotInfo.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.DataGridView_SlotInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DataGridView_SlotInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.DataGridView_SlotInfo.Location = new System.Drawing.Point(3, 25);
+            this.DataGridView_SlotInfo.MultiSelect = false;
+            this.DataGridView_SlotInfo.Name = "DataGridView_SlotInfo";
+            this.DataGridView_SlotInfo.RowTemplate.Height = 23;
+            this.DataGridView_SlotInfo.Size = new System.Drawing.Size(1542, 560);
+            this.DataGridView_SlotInfo.TabIndex = 212;
+            this.DataGridView_SlotInfo.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_SlotInfo_RowHeaderMouseDoubleClick);
+            // 
             // tabPage4
             // 
             this.tabPage4.Controls.Add(this.tableLayoutPanel6);
             this.tabPage4.Location = new System.Drawing.Point(4, 30);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(1421, 547);
+            this.tabPage4.Size = new System.Drawing.Size(1548, 588);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "尺寸工艺";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -1075,7 +1288,7 @@
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(1415, 541);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(1542, 582);
             this.tableLayoutPanel6.TabIndex = 0;
             // 
             // groupBox1
@@ -1089,10 +1302,10 @@
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
             this.tableLayoutPanel6.SetRowSpan(this.groupBox1, 2);
-            this.groupBox1.Size = new System.Drawing.Size(1409, 535);
+            this.groupBox1.Size = new System.Drawing.Size(1536, 576);
             this.groupBox1.TabIndex = 214;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "检测项列表";
+            this.groupBox1.Text = "尺寸检测项列表";
             // 
             // Comb_CamS
             // 
@@ -1133,8 +1346,8 @@
             // DataGridView_ESize
             // 
             this.DataGridView_ESize.AllowUserToAddRows = false;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.DataGridView_ESize.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.DataGridView_ESize.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
             this.DataGridView_ESize.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.DataGridView_ESize.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DataGridView_ESize.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1142,7 +1355,7 @@
             this.DataGridView_ESize.MultiSelect = false;
             this.DataGridView_ESize.Name = "DataGridView_ESize";
             this.DataGridView_ESize.RowTemplate.Height = 23;
-            this.DataGridView_ESize.Size = new System.Drawing.Size(1403, 507);
+            this.DataGridView_ESize.Size = new System.Drawing.Size(1530, 548);
             this.DataGridView_ESize.TabIndex = 212;
             this.DataGridView_ESize.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_Editor_CellEndEdit);
             this.DataGridView_ESize.CurrentCellChanged += new System.EventHandler(this.DataGridView_Editor_CurrentCellChanged);
@@ -1154,7 +1367,7 @@
             this.tabPage3.Controls.Add(this.tableLayoutPanel5);
             this.tabPage3.Location = new System.Drawing.Point(4, 30);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1421, 547);
+            this.tabPage3.Size = new System.Drawing.Size(1548, 588);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "缺陷工艺";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -1171,7 +1384,7 @@
             this.tableLayoutPanel5.RowCount = 2;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(1421, 547);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(1548, 588);
             this.tableLayoutPanel5.TabIndex = 0;
             // 
             // groupBox5
@@ -1182,7 +1395,7 @@
             this.groupBox5.Location = new System.Drawing.Point(3, 3);
             this.groupBox5.Name = "groupBox5";
             this.tableLayoutPanel5.SetRowSpan(this.groupBox5, 2);
-            this.groupBox5.Size = new System.Drawing.Size(1415, 541);
+            this.groupBox5.Size = new System.Drawing.Size(1542, 582);
             this.groupBox5.TabIndex = 216;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "缺陷项列表";
@@ -1190,8 +1403,8 @@
             // DataGridView_Defect
             // 
             this.DataGridView_Defect.AllowUserToAddRows = false;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.DataGridView_Defect.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.DataGridView_Defect.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
             this.DataGridView_Defect.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.DataGridView_Defect.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DataGridView_Defect.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1199,7 +1412,7 @@
             this.DataGridView_Defect.MultiSelect = false;
             this.DataGridView_Defect.Name = "DataGridView_Defect";
             this.DataGridView_Defect.RowTemplate.Height = 23;
-            this.DataGridView_Defect.Size = new System.Drawing.Size(1409, 513);
+            this.DataGridView_Defect.Size = new System.Drawing.Size(1536, 554);
             this.DataGridView_Defect.TabIndex = 212;
             // 
             // tabPage2
@@ -1208,7 +1421,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 30);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1421, 547);
+            this.tabPage2.Size = new System.Drawing.Size(1548, 588);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "相机抓边";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -1226,7 +1439,7 @@
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(1415, 541);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(1542, 582);
             this.tableLayoutPanel4.TabIndex = 0;
             // 
             // groupBox3
@@ -1237,7 +1450,7 @@
             this.groupBox3.Location = new System.Drawing.Point(3, 3);
             this.groupBox3.Name = "groupBox3";
             this.tableLayoutPanel4.SetRowSpan(this.groupBox3, 3);
-            this.groupBox3.Size = new System.Drawing.Size(374, 535);
+            this.groupBox3.Size = new System.Drawing.Size(374, 576);
             this.groupBox3.TabIndex = 211;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "抓边列表";
@@ -1262,7 +1475,7 @@
             this.lV_LineList.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.lV_LineList.MultiSelect = false;
             this.lV_LineList.Name = "lV_LineList";
-            this.lV_LineList.Size = new System.Drawing.Size(368, 507);
+            this.lV_LineList.Size = new System.Drawing.Size(368, 548);
             this.lV_LineList.TabIndex = 2;
             this.lV_LineList.UseCompatibleStateImageBehavior = false;
             // 
@@ -1292,17 +1505,40 @@
             // 
             this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox2.Image = global::Mef_VisionFrame.Properties.Resources.叠片阳极铜箔;
-            this.pictureBox2.Location = new System.Drawing.Point(853, 3);
+            this.pictureBox2.Location = new System.Drawing.Point(953, 3);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(579, 309);
+            this.pictureBox2.Size = new System.Drawing.Size(606, 331);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 218;
             this.pictureBox2.TabStop = false;
             // 
+            // nud_Cam2BaseCol
+            // 
+            this.nud_Cam2BaseCol.DecimalPlaces = 2;
+            this.nud_Cam2BaseCol.Location = new System.Drawing.Point(227, 93);
+            this.nud_Cam2BaseCol.Maximum = new decimal(new int[] {
+            99999999,
+            0,
+            0,
+            0});
+            this.nud_Cam2BaseCol.Name = "nud_Cam2BaseCol";
+            this.nud_Cam2BaseCol.Size = new System.Drawing.Size(107, 29);
+            this.nud_Cam2BaseCol.TabIndex = 362;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label8.Location = new System.Drawing.Point(19, 97);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(182, 21);
+            this.label8.TabIndex = 361;
+            this.label8.Text = "Cam2右侧基准边列坐标";
+            // 
             // FormPFTCleanCraft
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.ClientSize = new System.Drawing.Size(1435, 902);
+            this.ClientSize = new System.Drawing.Size(1562, 965);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Name = "FormPFTCleanCraft";
@@ -1317,18 +1553,19 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
-            this.groupBox6.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.DataGridView_SlotInfo)).EndInit();
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_Cam1BaseCol)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_EXCam1Col)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_EXCam2Col)).EndInit();
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_HeadMis_AtoB)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_ShaveNum_A)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_SlotNum_A)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_ShaveNum_B)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_SlotNum_B)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_CoatSizeMD_A)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_LeftFoilSizeTD)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_RightFoilSizeTD)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_SliceCount)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_CoatSizeTD)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_EASizeMD)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_CoatSizeMD_B)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_CoatSizeMD)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_EASizeTD)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
@@ -1337,6 +1574,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_CoatShieldTDLeft)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_CoatShieldMDTile)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_CoatShieldMDHead)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_HeadMis_AtoB)).EndInit();
+            this.tabPage6.ResumeLayout(false);
+            this.tableLayoutPanel7.ResumeLayout(false);
+            this.groupBox10.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.DataGridView_SlotLimit)).EndInit();
+            this.groupBox9.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.DataGridView_SliceSet)).EndInit();
+            this.tabPage5.ResumeLayout(false);
+            this.groupBox6.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.DataGridView_SlotInfo)).EndInit();
             this.tabPage4.ResumeLayout(false);
             this.tableLayoutPanel6.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
@@ -1351,6 +1598,7 @@
             this.groupBox3.PerformLayout();
             this.cMS_Line.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_Cam2BaseCol)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1402,26 +1650,13 @@
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.NumericUpDown nud_HeadMis_AtoB;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.NumericUpDown nud_ShaveNum_A;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.NumericUpDown nud_SlotNum_A;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label28;
-        private System.Windows.Forms.NumericUpDown nud_ShaveNum_B;
-        private System.Windows.Forms.NumericUpDown nud_SlotNum_B;
-        private System.Windows.Forms.NumericUpDown nud_CoatSizeMD_A;
-        private System.Windows.Forms.Label label12;
         private System.Windows.Forms.NumericUpDown nud_EASizeMD;
         private System.Windows.Forms.Label label59;
-        private System.Windows.Forms.NumericUpDown nud_CoatSizeMD_B;
+        private System.Windows.Forms.NumericUpDown nud_CoatSizeMD;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.NumericUpDown nud_EASizeTD;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.CheckBox CB_IsBurrHead;
-        private System.Windows.Forms.GroupBox groupBox6;
-        private System.Windows.Forms.DataGridView DataGridView_SlotInfo;
         private System.Windows.Forms.NumericUpDown nud_EACropShiledMD;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.GroupBox groupBox4;
@@ -1433,7 +1668,6 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.NumericUpDown nud_CoatShieldTDLeft;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Button Btn_ReDefaultSize;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -1443,8 +1677,38 @@
         private System.Windows.Forms.DataGridView DataGridView_ESize;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.DataGridView DataGridView_Defect;
-        private System.Windows.Forms.Button Btn_ForwardDefect;
         private System.Windows.Forms.Button Btn_Forwardtem;
         private System.Windows.Forms.CheckBox CB_ShowByCam;
+        private System.Windows.Forms.NumericUpDown nud_SliceCount;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.DataGridView DataGridView_SlotInfo;
+        private System.Windows.Forms.CheckBox checkBox_MaterialType;
+        private System.Windows.Forms.NumericUpDown nud_CoatSizeTD;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.NumericUpDown nud_LeftFoilSizeTD;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.NumericUpDown nud_RightFoilSizeTD;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label37;
+        private System.Windows.Forms.NumericUpDown nud_EXCam1Col;
+        private System.Windows.Forms.Button button_RebuildSlot;
+        private System.Windows.Forms.Button button_RebuildSlotLimit;
+        private System.Windows.Forms.Button button_RebuildSlice;
+        private System.Windows.Forms.TabPage tabPage6;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel7;
+        private System.Windows.Forms.GroupBox groupBox10;
+        private System.Windows.Forms.DataGridView DataGridView_SlotLimit;
+        private System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.DataGridView DataGridView_SliceSet;
+        private System.Windows.Forms.ComboBox Comb_CamSlice;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.NumericUpDown nud_Cam1BaseCol;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.NumericUpDown nud_EXCam2Col;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.NumericUpDown nud_Cam2BaseCol;
+        private System.Windows.Forms.Label label8;
     }
 }

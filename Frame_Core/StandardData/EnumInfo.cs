@@ -35,18 +35,7 @@ namespace Frame_Core
     }
     public enum MaterialCrafEnum
     {
-        分条机1出2,
-
-        叠片预定位PP,
-
-        叠片对齐度OVH,
-
-        叠片阳极单面制片CS,
-
-        叠片阳极双面制片CD,
-
-        叠片阴极双面制片AD,
-
+        [Language("宽幅打孔机", "BottomEdge1", "france")]
         PFT清洗机,
 
     }
@@ -587,5 +576,19 @@ namespace Frame_Core
         右边,
         上边,
         下边,
+    }
+
+    /// <summary>
+    /// TD定位距,MD定位距,TD尺寸,MD尺寸
+    /// </summary>
+    public enum MeasureSlotEnum
+    {
+        TD定位距,
+        MD定位距,
+        TD尺寸,
+        MD尺寸,
+        TD间距,
+        MD间距
+
     }
 }

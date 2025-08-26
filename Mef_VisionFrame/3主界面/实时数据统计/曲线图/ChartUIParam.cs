@@ -1,12 +1,17 @@
-﻿using Frame_Core;
+﻿using Extensions;
+
+using Frame_Core;
 using ScottPlot;
 using ScottPlot.Plottable;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -23,9 +28,28 @@ namespace Mef_VisionFrame
 
         public List<HLine> lHLines { get; set; } = new List<HLine>();
 
+        public int TabIndex { get; set; } = 0;
+
+
         public float fBarWidth { get; set; } = 0.5f;
 
         private List<PiePlot> _lPiePlot = new List<PiePlot>();
+
+        // 三维空间数据缓存：dim1 → dim2 → dim3 → Queue<ParamsChart>
+        public ConcurrentDictionary<
+                int,
+                ConcurrentDictionary<
+                    int,
+                    ConcurrentDictionary<
+                        int,
+                        Queue<ParamsChart>>>> _data3DCache =
+            new ConcurrentDictionary<
+                int,
+                ConcurrentDictionary<
+                    int,
+                    ConcurrentDictionary<
+                        int,
+                        Queue<ParamsChart>>>>();
 
 
         private Crosshair Crosshair;
@@ -180,7 +204,7 @@ namespace Mef_VisionFrame
             lHLines.Add(hLine);
 
             Refresh();
-
+         
             if (lSignalPlot?.Count == 0)
             {
                 for (int i = 0; i < param.points.Count(); i++)
@@ -210,6 +234,8 @@ namespace Mef_VisionFrame
                     //lSignalPlot[i].MarkerColor = Color.Green; ;
 
                 }
+               // _data3DCache?.Clear();
+
                // UpDataCurve(param);
                 Refresh();
             }
@@ -238,55 +264,131 @@ namespace Mef_VisionFrame
                     dSignalPlots[i][dSignalPlots[i].Length - 1] = param.points[i].pointInfo.Row;
                 }
 
-                //  lSignalPlot[i].Update(dSignalPlots[i].ToArray());
-
-
 
             }
+
             Refresh();
 
 
-            //if (lDataLogger[i].Count > 200)
-            //{
-
-            //    lDataLogger[i].Clear();
-            //    lDataLogger[i].Plot.SetViewLimits(param.points[i].Point.X);
-            //}
-
-            //if (lDataLogger?.Count == 0)
-            //{
-            //    for (int i = 0; i < param.points.Count(); i++)
-            //    {
-            //        lDataLogger.Add(plotView.Plot.AddDataLogger());
-            //        lDataLogger[i].Label = param.points[i].CurName;
-            //        lDataLogger[i].ViewSlide(30);
-            //        lDataLogger[i].Plot.SetViewLimits(0);
-
-            //        lDataLogger[i].MarkerSize = 5;
-            //        lDataLogger[i].MarkerShape = ScottPlot.MarkerShape.openCircle;
-            //        lDataLogger[i].MarkerColor = Color.Green; ;
-            //        lDataLogger[i].ManageAxisLimits = true;
-            //    }
-            //}
-
-            //for (int i = 0; i < param.points.Count(); i++)
-            //{
-            //    lDataLogger[i].Add(param.points[i].Point.X, param.points[i].Point.Y);
-            //    if (lDataLogger[i].Count > 200)
-            //    {
-
-            //        lDataLogger[i].Clear();
-            //        lDataLogger[i].Plot.SetViewLimits(param.points[i].Point.X);
-            //    }
-
-
-            //}
-
-           // plotView.Plot.Legend(location: Alignment.LowerLeft);
-            Refresh();
 
         }
 
+        /// <summary>
+        /// 更新曲线数据,3维数据
+        /// </summary>
+        /// <param name="param"></param>
+        /// <param name="one1D"></param>
+        /// <param name="two2D"></param>
+        /// <param name="three3D"></param>
+        public void UpDataCurve(ParamsChart param, int one1D, int two2D, int three3D,bool isShow=true)
+        {
+            if (isShow)
+            {
+                nSignalIndex++;
+
+
+                for (int i = 0; i < param.points.Count(); i++)
+                {
+                    if (nSignalIndex < nSignalCount - 1)
+                    {
+                        dSignalPlots[i][nSignalIndex] = param.points[i].pointInfo.Row;
+                    }
+                    else
+                    {
+                        nSignalIndex = 1000;
+                        Array.Copy(dSignalPlots[i], 1, dSignalPlots[i], 0, dSignalPlots[i].Length - 1);
+                        dSignalPlots[i][dSignalPlots[i].Length - 1] = param.points[i].pointInfo.Row;
+                    }
+
+
+                }
+            }
+
+            Enqueue3D(_data3DCache, one1D, two2D, three3D, param);
+
+            Refresh();
+
+
+
+        }
+
+        /// <summary>
+        /// 初始化3维数据缓存
+        /// </summary>
+        /// <param name="one1D"></param>
+        /// <param name="two2D"></param>
+        /// <param name="three3D"></param>
+        public void Init3DCache( int[] two2_3D, int three3D)
+        {
+            ExecuteMethod(() =>
+            {
+                _data3DCache?.Clear();
+                if (two2_3D?.Length>0)
+                {
+                    for (int i = 0; i < two2_3D.Length; i++)
+                    {
+                        _data3DCache.GetOrAdd(i, _ => new ConcurrentDictionary<int, ConcurrentDictionary<int, Queue<ParamsChart>>>());
+                        for (int j = 0; j < two2_3D[i]; j++)
+                        {
+                            _data3DCache[i].GetOrAdd(j, _ => new ConcurrentDictionary<int, Queue<ParamsChart>>());
+                            for (int k = 0; k < three3D; k++)
+                            {
+                                _data3DCache[i][j].GetOrAdd(k, _ => new Queue<ParamsChart>());
+                            }
+                        }
+                    }
+                }
+               
+            });
+        }
+
+        public void UpData3DCache(int one1D, int two2D, int three3D)
+        {
+
+            ExecuteMethod(() =>
+            {
+                var q = _data3DCache[one1D][two2D][three3D];
+                Queue<ParamsChart> temp = new Queue<ParamsChart>();
+                int count = q.Count;
+
+               for(int i=0;i<count;i++)
+                {
+                    //刷新曲线
+                    ParamsChart paramsChart = q.Dequeue();
+                    UpDataCurve(paramsChart, one1D, two2D, three3D,true);
+               
+                }
+       
+             
+            });
+        }
+
+
+
+
+        /// <summary>线程安全地把数据压入三维缓存；队列长度超过 maxLen 时自动出队。</summary>
+        private void Enqueue3D<T>(
+              ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, Queue<T>>>> cache,
+             int d1, int d2, int d3, T item, int maxLen = 100)
+        {
+            ExecuteMethod(() =>
+            {
+                // 一次性拿到第三级队列，不存在则自动创建
+                var q = cache
+                    .GetOrAdd(d1, _ => new ConcurrentDictionary<int, ConcurrentDictionary<int, Queue<T>>>())
+                    .GetOrAdd(d2, _ => new ConcurrentDictionary<int, Queue<T>>())
+                    .GetOrAdd(d3, _ => new Queue<T>());
+
+                lock (q)                // Queue<T> 本身非线程安全，需加锁
+                {
+                  
+                    q.Enqueue(item);
+                    if (q.Count > maxLen)
+                        q.Dequeue();
+                }
+            });
+
+        }
 
         public void RootDataCurve()
         {
@@ -314,10 +416,34 @@ namespace Mef_VisionFrame
 
         }
 
+
+        #region 方法模板
+        /// <summary>
+        /// 方法调用模板
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="methodName"></param>
+        public void ExecuteMethod(Action action, [CallerMemberName] string methodName = "")
+        {
+            string className = MethodBase.GetCurrentMethod().DeclaringType?.FullName ?? "UnknownClass";
+            try
+            {
+                // 执行传入的委托
+                action();
+            }
+            catch (Exception ee)
+            {
+                // 构造完整的异常信息，包含类名、方法名和异常详情
+                string fullErrorMessage = $"[{className}.{methodName}] 发生异常: {ee.ToString()}";
+                // 输出带调用堆栈的详细错误信息
+                MessageNotify.AddErrorLog(fullErrorMessage);
+            }
+        }
+        #endregion
     }
 
-
-    public class ParamsChart
+    [Serializable]
+    public class ParamsChart:XmlSerializationOperation
     {
         public double f_UpLimit { get; set; } = 10;
         public double f_StandarValue { get; set; } = 0;

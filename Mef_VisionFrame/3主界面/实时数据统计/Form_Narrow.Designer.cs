@@ -52,6 +52,16 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.splitMainContainer = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.TLPanal_Cam1 = new System.Windows.Forms.TableLayoutPanel();
+            this.LB_Process1 = new System.Windows.Forms.Label();
+            this.HWC1 = new HalconDotNet.HWindowControl();
+            this.TB_PositionAndGray1 = new System.Windows.Forms.TextBox();
+            this.PB_FitWin1 = new System.Windows.Forms.PictureBox();
+            this.TLPanal_Cam3 = new System.Windows.Forms.TableLayoutPanel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.HWC3 = new HalconDotNet.HWindowControl();
+            this.TB_PositionAndGray3 = new System.Windows.Forms.TextBox();
+            this.PB_FitWin3 = new System.Windows.Forms.PictureBox();
             this.TLPanal_Cam5 = new System.Windows.Forms.TableLayoutPanel();
             this.label5 = new System.Windows.Forms.Label();
             this.HWC5 = new HalconDotNet.HWindowControl();
@@ -62,16 +72,6 @@
             this.HWC6 = new HalconDotNet.HWindowControl();
             this.TB_PositionAndGray6 = new System.Windows.Forms.TextBox();
             this.PB_FitWin6 = new System.Windows.Forms.PictureBox();
-            this.TLPanal_Cam3 = new System.Windows.Forms.TableLayoutPanel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.HWC3 = new HalconDotNet.HWindowControl();
-            this.TB_PositionAndGray3 = new System.Windows.Forms.TextBox();
-            this.PB_FitWin3 = new System.Windows.Forms.PictureBox();
-            this.TLPanal_Cam1 = new System.Windows.Forms.TableLayoutPanel();
-            this.LB_Process1 = new System.Windows.Forms.Label();
-            this.HWC1 = new HalconDotNet.HWindowControl();
-            this.TB_PositionAndGray1 = new System.Windows.Forms.TextBox();
-            this.PB_FitWin1 = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
@@ -145,7 +145,8 @@
             this.listView2 = new System.Windows.Forms.ListView();
             this.tableLayoutPanel20 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.elementHost2 = new System.Windows.Forms.Integration.ElementHost();
+            this.HostDataView1 = new Eholly.Lib.Controls.DataPanel();
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel29 = new System.Windows.Forms.TableLayoutPanel();
             this.GroupEA_AABB = new System.Windows.Forms.GroupBox();
@@ -194,14 +195,14 @@
             this.splitMainContainer.Panel2.SuspendLayout();
             this.splitMainContainer.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
+            this.TLPanal_Cam1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_FitWin1)).BeginInit();
+            this.TLPanal_Cam3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_FitWin3)).BeginInit();
             this.TLPanal_Cam5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_FitWin5)).BeginInit();
             this.TLPanal_Cam6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_FitWin6)).BeginInit();
-            this.TLPanal_Cam3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_FitWin3)).BeginInit();
-            this.TLPanal_Cam1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_FitWin1)).BeginInit();
             this.tableLayoutPanel9.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tabPage3.SuspendLayout();
@@ -632,6 +633,178 @@
             this.tableLayoutPanel3.Size = new System.Drawing.Size(894, 892);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
+            // TLPanal_Cam1
+            // 
+            this.TLPanal_Cam1.BackColor = System.Drawing.Color.Black;
+            this.TLPanal_Cam1.ColumnCount = 8;
+            this.TLPanal_Cam1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.TLPanal_Cam1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.TLPanal_Cam1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.TLPanal_Cam1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.TLPanal_Cam1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.TLPanal_Cam1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.TLPanal_Cam1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.TLPanal_Cam1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 49F));
+            this.TLPanal_Cam1.Controls.Add(this.LB_Process1, 0, 0);
+            this.TLPanal_Cam1.Controls.Add(this.HWC1, 0, 1);
+            this.TLPanal_Cam1.Controls.Add(this.TB_PositionAndGray1, 4, 0);
+            this.TLPanal_Cam1.Controls.Add(this.PB_FitWin1, 7, 0);
+            this.TLPanal_Cam1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TLPanal_Cam1.Location = new System.Drawing.Point(2, 2);
+            this.TLPanal_Cam1.Margin = new System.Windows.Forms.Padding(0);
+            this.TLPanal_Cam1.Name = "TLPanal_Cam1";
+            this.TLPanal_Cam1.RowCount = 2;
+            this.tableLayoutPanel3.SetRowSpan(this.TLPanal_Cam1, 2);
+            this.TLPanal_Cam1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.TLPanal_Cam1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.TLPanal_Cam1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.TLPanal_Cam1.Size = new System.Drawing.Size(379, 442);
+            this.TLPanal_Cam1.TabIndex = 16;
+            // 
+            // LB_Process1
+            // 
+            this.LB_Process1.AutoSize = true;
+            this.TLPanal_Cam1.SetColumnSpan(this.LB_Process1, 4);
+            this.LB_Process1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.LB_Process1.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LB_Process1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.LB_Process1.Location = new System.Drawing.Point(3, 0);
+            this.LB_Process1.Name = "LB_Process1";
+            this.LB_Process1.Size = new System.Drawing.Size(186, 25);
+            this.LB_Process1.TabIndex = 15;
+            this.LB_Process1.Text = "A面#涂布检测";
+            this.LB_Process1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // HWC1
+            // 
+            this.HWC1.BackColor = System.Drawing.Color.White;
+            this.HWC1.BorderColor = System.Drawing.Color.White;
+            this.TLPanal_Cam1.SetColumnSpan(this.HWC1, 8);
+            this.HWC1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.HWC1.ImagePart = new System.Drawing.Rectangle(0, 0, 640, 480);
+            this.HWC1.Location = new System.Drawing.Point(3, 28);
+            this.HWC1.Name = "HWC1";
+            this.HWC1.Size = new System.Drawing.Size(373, 411);
+            this.HWC1.TabIndex = 13;
+            this.HWC1.WindowSize = new System.Drawing.Size(373, 411);
+            // 
+            // TB_PositionAndGray1
+            // 
+            this.TB_PositionAndGray1.BackColor = System.Drawing.Color.Black;
+            this.TB_PositionAndGray1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.TLPanal_Cam1.SetColumnSpan(this.TB_PositionAndGray1, 3);
+            this.TB_PositionAndGray1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.TB_PositionAndGray1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TB_PositionAndGray1.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.TB_PositionAndGray1.ForeColor = System.Drawing.Color.White;
+            this.TB_PositionAndGray1.Location = new System.Drawing.Point(197, 8);
+            this.TB_PositionAndGray1.Margin = new System.Windows.Forms.Padding(5, 8, 5, 6);
+            this.TB_PositionAndGray1.Name = "TB_PositionAndGray1";
+            this.TB_PositionAndGray1.ShortcutsEnabled = false;
+            this.TB_PositionAndGray1.Size = new System.Drawing.Size(128, 16);
+            this.TB_PositionAndGray1.TabIndex = 9;
+            this.TB_PositionAndGray1.TabStop = false;
+            this.TB_PositionAndGray1.Text = "R: —  C: —  Value: — ";
+            // 
+            // PB_FitWin1
+            // 
+            this.PB_FitWin1.BackColor = System.Drawing.SystemColors.Control;
+            this.PB_FitWin1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PB_FitWin1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PB_FitWin1.Image = global::Mef_VisionFrame.Properties.Resources.全屏11;
+            this.PB_FitWin1.Location = new System.Drawing.Point(333, 3);
+            this.PB_FitWin1.Name = "PB_FitWin1";
+            this.PB_FitWin1.Size = new System.Drawing.Size(43, 19);
+            this.PB_FitWin1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PB_FitWin1.TabIndex = 10;
+            this.PB_FitWin1.TabStop = false;
+            // 
+            // TLPanal_Cam3
+            // 
+            this.TLPanal_Cam3.BackColor = System.Drawing.Color.Black;
+            this.TLPanal_Cam3.ColumnCount = 8;
+            this.TLPanal_Cam3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.TLPanal_Cam3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.TLPanal_Cam3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.TLPanal_Cam3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.TLPanal_Cam3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.TLPanal_Cam3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.TLPanal_Cam3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.TLPanal_Cam3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 49F));
+            this.TLPanal_Cam3.Controls.Add(this.label2, 0, 0);
+            this.TLPanal_Cam3.Controls.Add(this.HWC3, 0, 1);
+            this.TLPanal_Cam3.Controls.Add(this.TB_PositionAndGray3, 4, 0);
+            this.TLPanal_Cam3.Controls.Add(this.PB_FitWin3, 7, 0);
+            this.TLPanal_Cam3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TLPanal_Cam3.Location = new System.Drawing.Point(2, 446);
+            this.TLPanal_Cam3.Margin = new System.Windows.Forms.Padding(0);
+            this.TLPanal_Cam3.Name = "TLPanal_Cam3";
+            this.TLPanal_Cam3.RowCount = 2;
+            this.tableLayoutPanel3.SetRowSpan(this.TLPanal_Cam3, 2);
+            this.TLPanal_Cam3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.TLPanal_Cam3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.TLPanal_Cam3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.TLPanal_Cam3.Size = new System.Drawing.Size(379, 444);
+            this.TLPanal_Cam3.TabIndex = 18;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.TLPanal_Cam3.SetColumnSpan(this.label2, 4);
+            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label2.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label2.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label2.Location = new System.Drawing.Point(3, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(186, 25);
+            this.label2.TabIndex = 15;
+            this.label2.Text = "B面#涂布检测";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // HWC3
+            // 
+            this.HWC3.BackColor = System.Drawing.Color.White;
+            this.HWC3.BorderColor = System.Drawing.Color.White;
+            this.TLPanal_Cam3.SetColumnSpan(this.HWC3, 8);
+            this.HWC3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.HWC3.ImagePart = new System.Drawing.Rectangle(0, 0, 640, 480);
+            this.HWC3.Location = new System.Drawing.Point(3, 28);
+            this.HWC3.Name = "HWC3";
+            this.HWC3.Size = new System.Drawing.Size(373, 413);
+            this.HWC3.TabIndex = 13;
+            this.HWC3.WindowSize = new System.Drawing.Size(373, 413);
+            // 
+            // TB_PositionAndGray3
+            // 
+            this.TB_PositionAndGray3.BackColor = System.Drawing.Color.Black;
+            this.TB_PositionAndGray3.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.TLPanal_Cam3.SetColumnSpan(this.TB_PositionAndGray3, 3);
+            this.TB_PositionAndGray3.Cursor = System.Windows.Forms.Cursors.Default;
+            this.TB_PositionAndGray3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TB_PositionAndGray3.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.TB_PositionAndGray3.ForeColor = System.Drawing.Color.White;
+            this.TB_PositionAndGray3.Location = new System.Drawing.Point(197, 8);
+            this.TB_PositionAndGray3.Margin = new System.Windows.Forms.Padding(5, 8, 5, 6);
+            this.TB_PositionAndGray3.Name = "TB_PositionAndGray3";
+            this.TB_PositionAndGray3.ShortcutsEnabled = false;
+            this.TB_PositionAndGray3.Size = new System.Drawing.Size(128, 16);
+            this.TB_PositionAndGray3.TabIndex = 9;
+            this.TB_PositionAndGray3.TabStop = false;
+            this.TB_PositionAndGray3.Text = "R: —  C: —  Value: — ";
+            // 
+            // PB_FitWin3
+            // 
+            this.PB_FitWin3.BackColor = System.Drawing.SystemColors.Control;
+            this.PB_FitWin3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PB_FitWin3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PB_FitWin3.Image = global::Mef_VisionFrame.Properties.Resources.全屏11;
+            this.PB_FitWin3.Location = new System.Drawing.Point(333, 3);
+            this.PB_FitWin3.Name = "PB_FitWin3";
+            this.PB_FitWin3.Size = new System.Drawing.Size(43, 19);
+            this.PB_FitWin3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PB_FitWin3.TabIndex = 10;
+            this.PB_FitWin3.TabStop = false;
+            // 
             // TLPanal_Cam5
             // 
             this.TLPanal_Cam5.BackColor = System.Drawing.Color.Black;
@@ -643,7 +816,7 @@
             this.TLPanal_Cam5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.TLPanal_Cam5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.TLPanal_Cam5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.TLPanal_Cam5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 49F));
+            this.TLPanal_Cam5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 52F));
             this.TLPanal_Cam5.Controls.Add(this.label5, 0, 0);
             this.TLPanal_Cam5.Controls.Add(this.HWC5, 0, 1);
             this.TLPanal_Cam5.Controls.Add(this.TB_PositionAndGray5, 4, 0);
@@ -805,178 +978,6 @@
             this.PB_FitWin6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PB_FitWin6.TabIndex = 10;
             this.PB_FitWin6.TabStop = false;
-            // 
-            // TLPanal_Cam3
-            // 
-            this.TLPanal_Cam3.BackColor = System.Drawing.Color.Black;
-            this.TLPanal_Cam3.ColumnCount = 8;
-            this.TLPanal_Cam3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.TLPanal_Cam3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.TLPanal_Cam3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.TLPanal_Cam3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.TLPanal_Cam3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.TLPanal_Cam3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.TLPanal_Cam3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.TLPanal_Cam3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 49F));
-            this.TLPanal_Cam3.Controls.Add(this.label2, 0, 0);
-            this.TLPanal_Cam3.Controls.Add(this.HWC3, 0, 1);
-            this.TLPanal_Cam3.Controls.Add(this.TB_PositionAndGray3, 4, 0);
-            this.TLPanal_Cam3.Controls.Add(this.PB_FitWin3, 7, 0);
-            this.TLPanal_Cam3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TLPanal_Cam3.Location = new System.Drawing.Point(2, 446);
-            this.TLPanal_Cam3.Margin = new System.Windows.Forms.Padding(0);
-            this.TLPanal_Cam3.Name = "TLPanal_Cam3";
-            this.TLPanal_Cam3.RowCount = 2;
-            this.tableLayoutPanel3.SetRowSpan(this.TLPanal_Cam3, 2);
-            this.TLPanal_Cam3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.TLPanal_Cam3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.TLPanal_Cam3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.TLPanal_Cam3.Size = new System.Drawing.Size(379, 444);
-            this.TLPanal_Cam3.TabIndex = 18;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.TLPanal_Cam3.SetColumnSpan(this.label2, 4);
-            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label2.Location = new System.Drawing.Point(3, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(186, 25);
-            this.label2.TabIndex = 15;
-            this.label2.Text = "B面#涂布检测";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // HWC3
-            // 
-            this.HWC3.BackColor = System.Drawing.Color.White;
-            this.HWC3.BorderColor = System.Drawing.Color.White;
-            this.TLPanal_Cam3.SetColumnSpan(this.HWC3, 8);
-            this.HWC3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.HWC3.ImagePart = new System.Drawing.Rectangle(0, 0, 640, 480);
-            this.HWC3.Location = new System.Drawing.Point(3, 28);
-            this.HWC3.Name = "HWC3";
-            this.HWC3.Size = new System.Drawing.Size(373, 413);
-            this.HWC3.TabIndex = 13;
-            this.HWC3.WindowSize = new System.Drawing.Size(373, 413);
-            // 
-            // TB_PositionAndGray3
-            // 
-            this.TB_PositionAndGray3.BackColor = System.Drawing.Color.Black;
-            this.TB_PositionAndGray3.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.TLPanal_Cam3.SetColumnSpan(this.TB_PositionAndGray3, 3);
-            this.TB_PositionAndGray3.Cursor = System.Windows.Forms.Cursors.Default;
-            this.TB_PositionAndGray3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TB_PositionAndGray3.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.TB_PositionAndGray3.ForeColor = System.Drawing.Color.White;
-            this.TB_PositionAndGray3.Location = new System.Drawing.Point(197, 8);
-            this.TB_PositionAndGray3.Margin = new System.Windows.Forms.Padding(5, 8, 5, 6);
-            this.TB_PositionAndGray3.Name = "TB_PositionAndGray3";
-            this.TB_PositionAndGray3.ShortcutsEnabled = false;
-            this.TB_PositionAndGray3.Size = new System.Drawing.Size(128, 16);
-            this.TB_PositionAndGray3.TabIndex = 9;
-            this.TB_PositionAndGray3.TabStop = false;
-            this.TB_PositionAndGray3.Text = "R: —  C: —  Value: — ";
-            // 
-            // PB_FitWin3
-            // 
-            this.PB_FitWin3.BackColor = System.Drawing.SystemColors.Control;
-            this.PB_FitWin3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PB_FitWin3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PB_FitWin3.Image = global::Mef_VisionFrame.Properties.Resources.全屏11;
-            this.PB_FitWin3.Location = new System.Drawing.Point(333, 3);
-            this.PB_FitWin3.Name = "PB_FitWin3";
-            this.PB_FitWin3.Size = new System.Drawing.Size(43, 19);
-            this.PB_FitWin3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PB_FitWin3.TabIndex = 10;
-            this.PB_FitWin3.TabStop = false;
-            // 
-            // TLPanal_Cam1
-            // 
-            this.TLPanal_Cam1.BackColor = System.Drawing.Color.Black;
-            this.TLPanal_Cam1.ColumnCount = 8;
-            this.TLPanal_Cam1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.TLPanal_Cam1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.TLPanal_Cam1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.TLPanal_Cam1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.TLPanal_Cam1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.TLPanal_Cam1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.TLPanal_Cam1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.TLPanal_Cam1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 49F));
-            this.TLPanal_Cam1.Controls.Add(this.LB_Process1, 0, 0);
-            this.TLPanal_Cam1.Controls.Add(this.HWC1, 0, 1);
-            this.TLPanal_Cam1.Controls.Add(this.TB_PositionAndGray1, 4, 0);
-            this.TLPanal_Cam1.Controls.Add(this.PB_FitWin1, 7, 0);
-            this.TLPanal_Cam1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TLPanal_Cam1.Location = new System.Drawing.Point(2, 2);
-            this.TLPanal_Cam1.Margin = new System.Windows.Forms.Padding(0);
-            this.TLPanal_Cam1.Name = "TLPanal_Cam1";
-            this.TLPanal_Cam1.RowCount = 2;
-            this.tableLayoutPanel3.SetRowSpan(this.TLPanal_Cam1, 2);
-            this.TLPanal_Cam1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.TLPanal_Cam1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.TLPanal_Cam1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.TLPanal_Cam1.Size = new System.Drawing.Size(379, 442);
-            this.TLPanal_Cam1.TabIndex = 16;
-            // 
-            // LB_Process1
-            // 
-            this.LB_Process1.AutoSize = true;
-            this.TLPanal_Cam1.SetColumnSpan(this.LB_Process1, 4);
-            this.LB_Process1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.LB_Process1.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.LB_Process1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.LB_Process1.Location = new System.Drawing.Point(3, 0);
-            this.LB_Process1.Name = "LB_Process1";
-            this.LB_Process1.Size = new System.Drawing.Size(186, 25);
-            this.LB_Process1.TabIndex = 15;
-            this.LB_Process1.Text = "A面#涂布检测";
-            this.LB_Process1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // HWC1
-            // 
-            this.HWC1.BackColor = System.Drawing.Color.White;
-            this.HWC1.BorderColor = System.Drawing.Color.White;
-            this.TLPanal_Cam1.SetColumnSpan(this.HWC1, 8);
-            this.HWC1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.HWC1.ImagePart = new System.Drawing.Rectangle(0, 0, 640, 480);
-            this.HWC1.Location = new System.Drawing.Point(3, 28);
-            this.HWC1.Name = "HWC1";
-            this.HWC1.Size = new System.Drawing.Size(373, 411);
-            this.HWC1.TabIndex = 13;
-            this.HWC1.WindowSize = new System.Drawing.Size(373, 411);
-            // 
-            // TB_PositionAndGray1
-            // 
-            this.TB_PositionAndGray1.BackColor = System.Drawing.Color.Black;
-            this.TB_PositionAndGray1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.TLPanal_Cam1.SetColumnSpan(this.TB_PositionAndGray1, 3);
-            this.TB_PositionAndGray1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.TB_PositionAndGray1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TB_PositionAndGray1.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.TB_PositionAndGray1.ForeColor = System.Drawing.Color.White;
-            this.TB_PositionAndGray1.Location = new System.Drawing.Point(197, 8);
-            this.TB_PositionAndGray1.Margin = new System.Windows.Forms.Padding(5, 8, 5, 6);
-            this.TB_PositionAndGray1.Name = "TB_PositionAndGray1";
-            this.TB_PositionAndGray1.ShortcutsEnabled = false;
-            this.TB_PositionAndGray1.Size = new System.Drawing.Size(128, 16);
-            this.TB_PositionAndGray1.TabIndex = 9;
-            this.TB_PositionAndGray1.TabStop = false;
-            this.TB_PositionAndGray1.Text = "R: —  C: —  Value: — ";
-            // 
-            // PB_FitWin1
-            // 
-            this.PB_FitWin1.BackColor = System.Drawing.SystemColors.Control;
-            this.PB_FitWin1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PB_FitWin1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PB_FitWin1.Image = global::Mef_VisionFrame.Properties.Resources.全屏11;
-            this.PB_FitWin1.Location = new System.Drawing.Point(333, 3);
-            this.PB_FitWin1.Name = "PB_FitWin1";
-            this.PB_FitWin1.Size = new System.Drawing.Size(43, 19);
-            this.PB_FitWin1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PB_FitWin1.TabIndex = 10;
-            this.PB_FitWin1.TabStop = false;
             // 
             // tableLayoutPanel9
             // 
@@ -1463,6 +1464,7 @@
             this.tableLayoutPanel16.RowCount = 2;
             this.tableLayoutPanel16.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel16.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel16.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel16.Size = new System.Drawing.Size(133, 72);
             this.tableLayoutPanel16.TabIndex = 9;
             // 
@@ -2007,7 +2009,7 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.listView1);
+            this.groupBox2.Controls.Add(this.elementHost2);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(2, 2);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(0);
@@ -2019,16 +2021,15 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "A面#缺项过程检测";
             // 
-            // listView1
+            // elementHost2
             // 
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(0, 19);
-            this.listView1.Margin = new System.Windows.Forms.Padding(0);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(425, 191);
-            this.listView1.TabIndex = 0;
-            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.elementHost2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.elementHost2.Location = new System.Drawing.Point(0, 19);
+            this.elementHost2.Name = "elementHost2";
+            this.elementHost2.Size = new System.Drawing.Size(425, 191);
+            this.elementHost2.TabIndex = 2;
+            this.elementHost2.Text = "elementHost2";
+            this.elementHost2.Child = this.HostDataView1;
             // 
             // tabPage7
             // 
@@ -2419,18 +2420,18 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitMainContainer)).EndInit();
             this.splitMainContainer.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
+            this.TLPanal_Cam1.ResumeLayout(false);
+            this.TLPanal_Cam1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_FitWin1)).EndInit();
+            this.TLPanal_Cam3.ResumeLayout(false);
+            this.TLPanal_Cam3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_FitWin3)).EndInit();
             this.TLPanal_Cam5.ResumeLayout(false);
             this.TLPanal_Cam5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_FitWin5)).EndInit();
             this.TLPanal_Cam6.ResumeLayout(false);
             this.TLPanal_Cam6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_FitWin6)).EndInit();
-            this.TLPanal_Cam3.ResumeLayout(false);
-            this.TLPanal_Cam3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_FitWin3)).EndInit();
-            this.TLPanal_Cam1.ResumeLayout(false);
-            this.TLPanal_Cam1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_FitWin1)).EndInit();
             this.tableLayoutPanel9.ResumeLayout(false);
             this.tabControl2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
@@ -2609,7 +2610,6 @@
         public System.Windows.Forms.ListView listView2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel20;
         private System.Windows.Forms.GroupBox groupBox2;
-        public System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.TabPage tabPage7;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel29;
         private System.Windows.Forms.GroupBox GroupEA_AABB;
@@ -2637,5 +2637,7 @@
         private System.Windows.Forms.GroupBox groupBox8;
         public System.Windows.Forms.TabControl tabChartControl;
         private System.Windows.Forms.TabPage tabPage11;
+        private System.Windows.Forms.Integration.ElementHost elementHost2;
+        private Eholly.Lib.Controls.DataPanel HostDataView1;
     }
 }

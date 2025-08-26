@@ -20,10 +20,11 @@ namespace Frame_Core
         public bool bIs3D = false;
         public bool m_bIsNG = false;//NG为true
         public bool m_bIsDispose = false;
+       
 
         public string m_strCamName = "Default";
         /// <summary>
-        /// 0：原图；1：产品图；2：3D图
+        /// 0：原图；1：产品图；2：3D图 3：NG小图
         /// </summary>
         public int m_nMode = 0;
         public List<MessageShowInfo> m_messageShowInfos;

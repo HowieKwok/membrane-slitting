@@ -108,7 +108,6 @@ namespace Mef_VisionFrame
         /// <param name="TargetCraftName"></param>
         public void SelectTargetItem(string TargetCraftName)
         {
-
             int index = 0;
             for (int i = 0; i < lV_ProjectList.Items.Count; i++)
             {
@@ -121,7 +120,6 @@ namespace Mef_VisionFrame
             lV_ProjectList.FocusedItem = lV_ProjectList.Items[index]; // 设置焦点
             lV_ProjectList.EnsureVisible(0); // 确保项目可见
             SelectCraftName = lV_ProjectList.Items[index].Text;
-
 
             string path = Project.Instance.paramPathSet.CraftPath + CurrentMateriarl.ToString() + "\\" + SelectCraftName;
             M_craftBase = formCraftBase.ReadCraft(path);
@@ -391,6 +389,7 @@ namespace Mef_VisionFrame
                     M_craftBase.filePath = path;
                     formCraftBase.SaveCraft(path);
 
+
                     //修改记录设置
                     M_craftBase.FilePath = (Project.Instance.logParam.LogSavePath + "\\ParamsChangeLog\\");
                     string error = YControlAutobind.Saveing<CraftBase, IYCustomAttribute>(this, M_craftBase);
@@ -398,7 +397,9 @@ namespace Mef_VisionFrame
                     M_craftBase.saveChangeLog(M_craftBase, String.Format("工艺视觉设置:{0} 中 {1}", CurrentMateriarl.ToString(), SelectCraftName));
                     M_craftBase.backup(M_craftBase);
                     if (error != "") System.Windows.Forms.MessageBox.Show(error);
+
                     formCraftBase.CraftToView();
+
                     //
                     //if (M_craftBase.CraftName == CurrentCraftName)
                     //{
@@ -427,31 +428,11 @@ namespace Mef_VisionFrame
                 GC.Collect();
                 switch (Materiarl)
                 {
-                    case MaterialCrafEnum.分条机1出2:
-                        formCraftBase = new FormSlice1to2Craft();
-                        break;
-                    case MaterialCrafEnum.叠片对齐度OVH:
-                        formCraftBase = new FormOverHangCraft(Materiarl);
-                        break;
-                    case MaterialCrafEnum.叠片预定位PP:
-                        formCraftBase = new FormOverHangCraft(Materiarl);
-                        break;
-
-                    case MaterialCrafEnum.叠片阳极单面制片CS:
-                        formCraftBase = new FormStackEACraft(Materiarl);
-                        break;
-                    case MaterialCrafEnum.叠片阳极双面制片CD:
-                        formCraftBase = new FormStackEACraft(Materiarl);
-                        break;
-
-                    case MaterialCrafEnum.叠片阴极双面制片AD:
-                        formCraftBase = new FormStackEACraft(Materiarl);
-                        break;
                     case MaterialCrafEnum.PFT清洗机:
                         formCraftBase = new FormPFTCleanCraft(Materiarl);
                         break;
                     default:
-                        formCraftBase = new FormSlice1to2Craft();
+                        formCraftBase = new FormPFTCleanCraft(Materiarl);
                         break;
                 }
                 panel_Main.Controls.Clear();

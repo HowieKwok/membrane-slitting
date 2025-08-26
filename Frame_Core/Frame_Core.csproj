@@ -88,9 +88,16 @@
     <Reference Include="DotNetDetour">
       <HintPath>DLL\CommunicationDLL\DotNetDetour.dll</HintPath>
     </Reference>
+    <Reference Include="EHolly.FormControl, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Mef_VisionFrame\bin\Release\EHolly.FormControl.dll</HintPath>
+    </Reference>
     <Reference Include="EHolly.ImageTool, Version=1.0.9.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Mef_VisionFrame\bin\Release\EHolly.ImageTool.dll</HintPath>
+    </Reference>
+    <Reference Include="Eholly.Lib.Controls">
+      <HintPath>..\Mef_VisionFrame\bin\Release\Eholly.Lib.Controls.dll</HintPath>
     </Reference>
     <Reference Include="FlyCapture2Managed_v100">
       <HintPath>DLL\FlyCapture2Managed_v100.dll</HintPath>
@@ -122,6 +129,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>DLL\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="MvCameraControl.Net">
       <HintPath>DLL\MvCameraControl.Net.dll</HintPath>
     </Reference>
@@ -201,16 +209,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Craft\CraftBase.cs" />
-    <Compile Include="Craft\OverHangCraft.cs" />
     <Compile Include="Craft\PFTCleanCraft.cs" />
-    <Compile Include="Craft\Slice1to2Craft.cs" />
     <Compile Include="Craft\FormCraftBase.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Craft\FormCraftBase.Designer.cs">
       <DependentUpon>FormCraftBase.cs</DependentUpon>
     </Compile>
-    <Compile Include="Craft\StackEACraft.cs" />
     <Compile Include="DataOperation\Json\JsonSerialization.cs" />
     <Compile Include="DataOperation\Json\JsonSerializationOperation.cs" />
     <Compile Include="DataOperation\XML1\SaveAndLoad_Data.cs" />
@@ -287,6 +292,7 @@
     <Compile Include="tools\图像算法工具\Transform_Image.cs" />
     <Compile Include="tools\控件模块\ControlTool.cs" />
     <Compile Include="tools\控件模块\NDataGridView.cs" />
+    <Compile Include="tools\控件模块\NDataPanelViewModel.cs" />
     <Compile Include="tools\控件模块\NLabel.cs" />
     <Compile Include="tools\控件模块\NListView.cs" />
     <Compile Include="tools\控件模块\NListView2.cs" />
@@ -306,6 +312,12 @@
     <Compile Include="tools\线程控制\ThreadPool.cs" />
     <Compile Include="tools\自定义控件\ControlComboBox.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="tools\自定义控件\UC_HalconWindow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="tools\自定义控件\UC_HalconWindow.Designer.cs">
+      <DependentUpon>UC_HalconWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="tools\通信模块\FinsTCP\FinsTcp.cs" />
     <Compile Include="tools\通信模块\ModBusTCP\EH_Modbus.cs" />
@@ -365,24 +377,12 @@
     <Compile Include="tools\ViewROI3\ROILine.cs" />
     <Compile Include="tools\ViewROI3\ROIRectangle1.cs" />
     <Compile Include="tools\ViewROI3\ROIRectangle2.cs" />
-    <Compile Include="业务参数类\AreaCamParam.cs" />
     <Compile Include="业务参数类\BaseProParam.cs" />
-    <Compile Include="业务参数类\DieCutSliceParam.cs" />
     <Compile Include="业务参数类\PFTCleanProParams.cs" />
-    <Compile Include="业务参数类\Slice1To2Paramter.cs" />
     <Compile Include="业务类\BaseProDevice.cs" />
-    <Compile Include="业务类\DoubleAnodeProDevice.cs" />
-    <Compile Include="业务类\DoubleCathodeProDevice.cs" />
-    <Compile Include="业务类\OverHangProDevice.cs" />
     <Compile Include="业务类\PFTCleanProDevice.cs" />
-    <Compile Include="业务类\PretargetingProDevice.cs" />
-    <Compile Include="业务类\SingleAnodeProDevice.cs" />
-    <Compile Include="产品类\DieCutSliceProduct.cs" />
-    <Compile Include="产品类\AreaCamProduct.cs" />
-    <Compile Include="业务类\Slice1To2ProDevice.cs" />
     <Compile Include="产品类\PFTImageProduct.cs" />
     <Compile Include="产品类\ProductBase.cs" />
-    <Compile Include="产品类\SingleSliceProduct.cs" />
     <Compile Include="修改记录类\Control\IYCustomAttribute.cs" />
     <Compile Include="修改记录类\Control\IYCustomControl.cs" />
     <Compile Include="修改记录类\Control\YCheckBox.cs">
@@ -426,6 +426,14 @@
     <Compile Include="模块\外设部分\3D测厚纠偏\Thick3DManage.cs" />
     <Compile Include="模块\外设部分\AddressData.cs" />
     <Compile Include="模块\外设部分\PLCCommunicationBase.cs" />
+    <Compile Include="模块\外设部分\TCP客户端模块\Control\TCPCientManager.cs" />
+    <Compile Include="模块\外设部分\TCP客户端模块\Model\TCPClientParam.cs" />
+    <Compile Include="模块\外设部分\TCP客户端模块\View\TCPClientForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\外设部分\TCP客户端模块\View\TCPClientForm.Designer.cs">
+      <DependentUpon>TCPClientForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="模块\外设部分\主副机通讯\ViceMachine.cs" />
     <Compile Include="模块\外设部分\主副机通讯\MainViceMachineForm.cs">
       <SubType>Form</SubType>
@@ -473,11 +481,23 @@
     </Compile>
     <Compile Include="模块\外设部分\打标机软件\Control\DBJCardManager.cs" />
     <Compile Include="模块\外设部分\打标机软件\Model\DBJCardParam.cs" />
+    <Compile Include="模块\外设部分\打标机软件\View\ChannelEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\外设部分\打标机软件\View\ChannelEditorForm.Designer.cs">
+      <DependentUpon>ChannelEditorForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="模块\外设部分\打标机软件\View\DBJCardForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="模块\外设部分\打标机软件\View\DBJCardForm.Designer.cs">
       <DependentUpon>DBJCardForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\外设部分\打标机软件\View\DBJChanelForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\外设部分\打标机软件\View\DBJChanelForm.Designer.cs">
+      <DependentUpon>DBJChanelForm.cs</DependentUpon>
     </Compile>
     <Compile Include="模块\外设部分\控制卡\Control\BIZ_ControlCard.cs" />
     <Compile Include="模块\外设部分\控制卡\Control\config.cs" />
@@ -721,6 +741,9 @@
     <EmbeddedResource Include="tools\日志通知工具\UC_Message.resx">
       <DependentUpon>UC_Message.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="tools\自定义控件\UC_HalconWindow.resx">
+      <DependentUpon>UC_HalconWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="修改记录类\Control\YCheckBox.resx">
       <DependentUpon>YCheckBox.cs</DependentUpon>
     </EmbeddedResource>
@@ -735,6 +758,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="模块\外设部分\3D测厚纠偏\Form_Thick3DSet.resx">
       <DependentUpon>Form_Thick3DSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\外设部分\TCP客户端模块\View\TCPClientForm.resx">
+      <DependentUpon>TCPClientForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="模块\外设部分\主副机通讯\MainViceMachineForm.resx">
       <DependentUpon>MainViceMachineForm.cs</DependentUpon>

@@ -181,7 +181,7 @@ namespace Frame_Core
                     string tittle = "";
                     tittle = String.Join(",", dataTitles);
                     DstTxtString.Append(tittle);
-                    writer.WriteLine(fileFullPath, DstTxtString);
+                    writer.WriteHeader(fileFullPath, DstTxtString);
 
                 }
 

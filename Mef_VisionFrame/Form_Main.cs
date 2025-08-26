@@ -29,12 +29,12 @@ namespace Mef_VisionFrame
 
 
         //界面
-        public UC_BaseSetting BaseSetting = new UC_BaseSetting();//系统设置
+        public UC_BaseSetting BaseSetting ;//系统设置
         public UC_MainDetection MainDetection;//主界面
-        public UC_ProcessSetting ProcessSetting = new UC_ProcessSetting();//调试界面
-        public Form_CraftSetting CraftSetting = new Form_CraftSetting();//工艺参数界面
+        public UC_ProcessSetting ProcessSetting ;//调试界面
+        public Form_CraftSetting CraftSetting ;//工艺参数界面
 
-
+        Form_LoadProgressBar form_LoadProgressBar;
         static Form_Main form_Main;
         public Form_Main()
         {
@@ -45,37 +45,39 @@ namespace Mef_VisionFrame
             {
                 //加载进度条
                 this.Hide();
-                Form_LoadProgressBar form_LoadProgressBar = new Form_LoadProgressBar();
+                 form_LoadProgressBar = new Form_LoadProgressBar();
                 Task.Run(() => { form_LoadProgressBar.SendToBack(); form_LoadProgressBar.ShowDialog(); });
 
                 Project.Instance.INIProject();//初始化项目
+                //CraftSetting=new Form_CraftSetting();
+                //MainDetection = new UC_MainDetection();
+                //ProcessSetting = new UC_ProcessSetting();
+                //BaseSetting = new UC_BaseSetting();
+                //BIZ_Switchover.InitBizDataAndForm();
 
-                MainDetection = new UC_MainDetection();
-                BIZ_Switchover.InitBizDataAndForm();
+                ////初始化流程
+                ////Project.Instance.IFactory.INIPro();
+                ////Project.Instance.IFactory.INIProduct();
 
-                //初始化流程
-                //Project.Instance.IFactory.INIPro();
-                //Project.Instance.IFactory.INIProduct();
+                //////主副机通讯回调函数注册
+                ////Project.Instance.m_SlaveMachine.BeginEvent -= MainDetection.Begin;
+                ////Project.Instance.m_SlaveMachine.BeginEvent += MainDetection.Begin;
 
-                ////主副机通讯回调函数注册
-                //Project.Instance.m_SlaveMachine.BeginEvent -= MainDetection.Begin;
-                //Project.Instance.m_SlaveMachine.BeginEvent += MainDetection.Begin;
+                ////软件版本显示
+                //string MainSlaveMachine = "MainMachine";
+                //if (!Project.Instance.systemInfo.IsHostMachine)
+                //    MainSlaveMachine = "SlaveMachine";
+                //ComStationsanwahlEnum comStationsanwahlEnum = (ComStationsanwahlEnum)Project.Instance.systemInfo.ComStationsanwahl;
+                //Init_LatestTimeProgram(comStationsanwahlEnum.ToString());
 
-                //软件版本显示
-                string MainSlaveMachine = "MainMachine";
-                if (!Project.Instance.systemInfo.IsHostMachine)
-                    MainSlaveMachine = "SlaveMachine";
-                ComStationsanwahlEnum comStationsanwahlEnum = (ComStationsanwahlEnum)Project.Instance.systemInfo.ComStationsanwahl;
-                Init_LatestTimeProgram(comStationsanwahlEnum.ToString());
-
-                //翻译
-                MenuStripTranslate();
+                ////翻译
+                //MenuStripTranslate();
 
 
 
-                //初始化状态
-                InitStateBar_Flag = true;
-                form_LoadProgressBar.closingFlag = true;
+                ////初始化状态
+                //InitStateBar_Flag = true;
+                //form_LoadProgressBar.closingFlag = true;
 
             }
             catch (Exception ex)
@@ -100,8 +102,34 @@ namespace Mef_VisionFrame
         }
         private void Form_Main_Load(object sender, EventArgs e)
         {
-            主界面ToolStripMenuItem_Click(null, null);
-            new UIService(100, this, ThreadPriority.Normal);
+            new UIService(85, this, ThreadPriority.Normal);
+           
+            UIService.Instance.AddAction(() => {
+                CraftSetting = new Form_CraftSetting();
+                MainDetection = new UC_MainDetection();
+                ProcessSetting = new UC_ProcessSetting();
+                BaseSetting = new UC_BaseSetting();
+                BIZ_Switchover.InitBizDataAndForm();
+
+                //软件版本显示
+                string MainSlaveMachine = "MainMachine";
+                if (!Project.Instance.systemInfo.IsHostMachine)
+                    MainSlaveMachine = "SlaveMachine";
+                ComStationsanwahlEnum comStationsanwahlEnum = (ComStationsanwahlEnum)Project.Instance.systemInfo.ComStationsanwahl;
+                Init_LatestTimeProgram(comStationsanwahlEnum.ToString());
+
+                //翻译
+                MenuStripTranslate();
+
+                //初始化状态
+                InitStateBar_Flag = true;
+                form_LoadProgressBar.closingFlag = true;
+                主界面ToolStripMenuItem_Click(null, null);
+            });
+          
+
+        
+           
         }
         /// <summary>
         /// 禁用窗体双击放大缩小
@@ -333,64 +361,64 @@ namespace Mef_VisionFrame
         private void 相机标定ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.相机标定)) { return; }
-            if (Project.Instance.systemInfo.CurrentMaterial == MaterialCrafEnum.叠片阳极单面制片CS)
-            {
-                using (Form_SelectCamCalibrationPlate form = new Form_SelectCamCalibrationPlate(Project.Instance.cameraManager))
-                {
-                    form.StartPosition = FormStartPosition.CenterScreen;
-                    form.ShowDialog();
-                }
-            }
-            else if (Project.Instance.systemInfo.CurrentMaterial == MaterialCrafEnum.叠片阳极双面制片CD)
-            {
-                using (Form_SelectCamCalibrationPlate form = new Form_SelectCamCalibrationPlate(Project.Instance.cameraManager))
-                {
-                    form.StartPosition = FormStartPosition.CenterScreen;
-                    form.ShowDialog();
-                }
-            }
-            else if (Project.Instance.systemInfo.CurrentMaterial == MaterialCrafEnum.叠片阴极双面制片AD)
-            {
-                using (Form_SelectCamCalibrationPlate form = new Form_SelectCamCalibrationPlate(Project.Instance.cameraManager))
-                {
-                    form.StartPosition = FormStartPosition.CenterScreen;
-                    form.ShowDialog();
-                }
-            }
-            else if (Project.Instance.systemInfo.CurrentMaterial == MaterialCrafEnum.叠片预定位PP)
-            {
-                using (Form_SelectCamCheckerboard form = new Form_SelectCamCheckerboard(Project.Instance.cameraManager))
-                {
-                    form.StartPosition = FormStartPosition.CenterScreen;
-                    form.ShowDialog();
-                }
-            }
-            else if (Project.Instance.systemInfo.CurrentMaterial == MaterialCrafEnum.叠片对齐度OVH)
-            {
-                using (Form_SelectCamCheckerboard form = new Form_SelectCamCheckerboard(Project.Instance.cameraManager))
-                {
-                    form.StartPosition = FormStartPosition.CenterScreen;
-                    form.ShowDialog();
-                }
-            }
+            //if (Project.Instance.systemInfo.CurrentMaterial == MaterialCrafEnum.叠片阳极单面制片CS)
+            //{
+            //    using (Form_SelectCamCalibrationPlate form = new Form_SelectCamCalibrationPlate(Project.Instance.cameraManager))
+            //    {
+            //        form.StartPosition = FormStartPosition.CenterScreen;
+            //        form.ShowDialog();
+            //    }
+            //}
+            //else if (Project.Instance.systemInfo.CurrentMaterial == MaterialCrafEnum.叠片阳极双面制片CD)
+            //{
+            //    using (Form_SelectCamCalibrationPlate form = new Form_SelectCamCalibrationPlate(Project.Instance.cameraManager))
+            //    {
+            //        form.StartPosition = FormStartPosition.CenterScreen;
+            //        form.ShowDialog();
+            //    }
+            //}
+            //else if (Project.Instance.systemInfo.CurrentMaterial == MaterialCrafEnum.叠片阴极双面制片AD)
+            //{
+            //    using (Form_SelectCamCalibrationPlate form = new Form_SelectCamCalibrationPlate(Project.Instance.cameraManager))
+            //    {
+            //        form.StartPosition = FormStartPosition.CenterScreen;
+            //        form.ShowDialog();
+            //    }
+            //}
+            //else if (Project.Instance.systemInfo.CurrentMaterial == MaterialCrafEnum.叠片预定位PP)
+            //{
+            //    using (Form_SelectCamCheckerboard form = new Form_SelectCamCheckerboard(Project.Instance.cameraManager))
+            //    {
+            //        form.StartPosition = FormStartPosition.CenterScreen;
+            //        form.ShowDialog();
+            //    }
+            //}
+            //else if (Project.Instance.systemInfo.CurrentMaterial == MaterialCrafEnum.叠片对齐度OVH)
+            //{
+            //    using (Form_SelectCamCheckerboard form = new Form_SelectCamCheckerboard(Project.Instance.cameraManager))
+            //    {
+            //        form.StartPosition = FormStartPosition.CenterScreen;
+            //        form.ShowDialog();
+            //    }
+            //}
 
         }
 
         private void 预定位平台标定ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.相机标定)) { return; }
-            if (Project.Instance.systemInfo.CurrentMaterial == MaterialCrafEnum.叠片预定位PP)
-            {
-                using (Form_PretargetingCalibration form = new Form_PretargetingCalibration(Project.Instance.cameraManager))
-                {
-                    form.StartPosition = FormStartPosition.CenterScreen;
-                    form.ShowDialog();
-                }
+            //if (Project.Instance.systemInfo.CurrentMaterial == MaterialCrafEnum.叠片预定位PP)
+            //{
+            //    using (Form_PretargetingCalibration form = new Form_PretargetingCalibration(Project.Instance.cameraManager))
+            //    {
+            //        form.StartPosition = FormStartPosition.CenterScreen;
+            //        form.ShowDialog();
+            //    }
 
-                //Form_PretargetingCalibration form = new Form_PretargetingCalibration(Project.Instance.cameraManager);
-                // form.StartPosition = FormStartPosition.CenterScreen;
-                //form.Show();
-            }
+            //    //Form_PretargetingCalibration form = new Form_PretargetingCalibration(Project.Instance.cameraManager);
+            //    // form.StartPosition = FormStartPosition.CenterScreen;
+            //    //form.Show();
+            //}
 
         }
 
@@ -401,6 +429,12 @@ namespace Mef_VisionFrame
                 dBJCardForm.StartPosition = FormStartPosition.CenterScreen;
                 dBJCardForm.ShowDialog();
             }
+
+            //using (TCPClientForm dBJCardForm = new TCPClientForm(Project.Instance.dbjCardManager))
+            //{
+            //    dBJCardForm.StartPosition = FormStartPosition.CenterScreen;
+            //    dBJCardForm.ShowDialog();
+            //}
         }
 
         private void 生产统计ToolStripMenuItem_Click(object sender, EventArgs e)

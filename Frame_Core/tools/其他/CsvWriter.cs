@@ -206,6 +206,30 @@ namespace Frame_Core
         }
 
         /// <summary>
+        /// 写入头，如果文件存在会忽略该操作，即只在新新
+        /// </summary>
+        /// <param name="csvFile"></param>
+        /// <param name="value"></param>
+        public void WriteHeader(string csvFile, string value)
+        {
+            CsvData data = new CsvData(csvFile, value, true);
+            data.IsHeader = true;
+            queueList.Enqueue(data);
+            csvEvent.Set();
+        }
+
+        /// <summary>
+        /// 写入头，如果文件存在会忽略该操作，即只在新新
+        /// </summary>
+        /// <param name="csvFile"></param>
+        /// <param name="sringBuilder"></param>
+        public void WriteHeader(string csvFile, StringBuilder sringBuilder)
+        {
+            WriteHeader(csvFile, sringBuilder.ToString());
+        }
+
+
+        /// <summary>
         /// 关闭
         /// </summary>
         public void Close()
@@ -261,7 +285,7 @@ namespace Frame_Core
                         }
                         catch (Exception ex)
                         {
-                            Log4netRecord.ErrorLog.Error("CSV后台线程写入文件出错:"+ex);
+                            Log4netRecord.ErrorLog.Error("CSV后台线程写入文件出错:" + ex);
                         }
                     }
                     else
@@ -363,6 +387,7 @@ namespace Frame_Core
         private string csvFile = string.Empty;
         private DateTime lastWriteTime;
         private bool isFlush = false;
+        private bool isNewFile = false;
 
         /// <summary>
         /// 初始化
@@ -373,6 +398,7 @@ namespace Frame_Core
         public WriterModel(string csvFile, Encoding encoding, int bufferSize, bool isAppend = true)
         {
             this.csvFile = csvFile;
+            this.isNewFile = !File.Exists(csvFile);
             //如果CSV文件对应的目录不存在则创建
             FileInfo fileInfo = new FileInfo(csvFile);
             if (!fileInfo.Directory.Exists)
@@ -401,10 +427,15 @@ namespace Frame_Core
         /// <param name="data"></param>
         public void WriteData(CsvData data)
         {
+            if (data.IsHeader && !isNewFile)
+                return;
             if (data.IsLine)
                 WriteLine(data.Value);
             else
                 Write(data.Value);
+
+            if (isNewFile)
+                isNewFile = false;
         }
 
         /// <summary>
@@ -471,7 +502,7 @@ namespace Frame_Core
                     writer.Dispose();
                     writer = null;
                     File.SetAttributes(csvFile, FileAttributes.ReadOnly);
-                   // Log4netRecord.run.Debug($"CSV文档关闭【{csvFile}】");
+                    // Log4netRecord.run.Debug($"CSV文档关闭【{csvFile}】");
                 }
             }
             catch (Exception ex)
@@ -487,6 +518,7 @@ namespace Frame_Core
         public string CsvFile = null;
         public string Value = string.Empty;
         public bool IsLine = false;
+        public bool IsHeader = false;
 
         public CsvData(string csvFile, string value, bool isLine)
         {

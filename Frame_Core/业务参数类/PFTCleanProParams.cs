@@ -6,6 +6,7 @@ using HalconDotNet;
 
 using HslCommunication.Core.Net;
 using LogTool;
+using NPOI.SS.Formula.Functions;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -19,14 +20,24 @@ namespace Frame_Core
 {
     public class PFTCleanProParams : BaseProParam
     {
+        private static readonly ConcurrentDictionary<int, SemaphoreSlim> camSemaphoreMap = new ConcurrentDictionary<int, SemaphoreSlim>();
+
+        public SemaphoreSlim semaphoreSlimCam => camSemaphoreMap.GetOrAdd(_camID, _ => new SemaphoreSlim(0, 100));
+
+        private readonly int _camID;
+
+        private static readonly ConcurrentDictionary<int, SemaphoreSlim> camSemaphoreMapSlim = new ConcurrentDictionary<int, SemaphoreSlim>();
+        public SemaphoreSlim semaphoreSlim => camSemaphoreMapSlim.GetOrAdd(_camID, _ => new SemaphoreSlim(0, 100));
+
         /// <summary>
         /// 相机图片检测信号量
         /// </summary>
-        public SemaphoreSlim semaphoreSlimCam = new SemaphoreSlim(0, 100);
+        //public SemaphoreSlim semaphoreSlimCam = new SemaphoreSlim(0, 100);
+
         /// <summary>
         /// 局部裁切图片检测信号量。
         /// </summary>
-        public SemaphoreSlim semaphoreSlim = new SemaphoreSlim(0, 100);
+        //public SemaphoreSlim semaphoreSlim = new SemaphoreSlim(0, 100);
 
         /// <summary>
         /// 相机图像队列，用于传入插件，list
@@ -80,18 +91,13 @@ namespace Frame_Core
         /// </summary>
         public QueuePackage<ImageInfo> PFTImageProdQueue = new QueuePackage<ImageInfo>();
 
-        /// <summary>
-        /// 相机图像队列，用于传入裁拼图插件，list
-        /// </summary>
-        public List<ImageInfo> EAimageInfos = new List<ImageInfo>();
-
         public PFTCleanProParams(string cameraName)
         {
             strCamreaName = cameraName;
         }
         public override void CallBackImgDataDeal()
         {
-     
+
 
             if (QueueGrabImage.Count > 0)
             {
@@ -156,7 +162,7 @@ namespace Frame_Core
                     InfoImgInfo.Image3D.CopyImage(out image3DClass.Image3D);
                     InfoImgInfo.Image2D.CopyImage(out image3DClass.Image2D);
                     image3DClass.Info3D = InfoImgInfo.Info3D.DeepClone();
-                    image3DClass.Info= InfoImgInfo.Info.DeepClone();
+                    image3DClass.Info = InfoImgInfo.Info.DeepClone();
                     InfoImgInfo.Dispose();
                     try
                     {
@@ -179,9 +185,9 @@ namespace Frame_Core
                     {
                         MessageBox.Show(strCamreaName + "图像来源为空:" + ee.ToString());
                     }
-              
+
                 }
-             
+
             }
 
         }
@@ -209,11 +215,25 @@ namespace Frame_Core
                 item?.Dispose();
             }
             imageInfos.Clear();
+
+            foreach (var item in EAlistimageInfos)
+            {
+                item?.Dispose();
+            }
+            EAlistimageInfos.Clear();
+            
+
             foreach (var item in dic_EAproductsInfo)
             {
                 item.Value.Dispose();
             }
             dic_EAproductsInfo.Clear();
+
+            while (PFTImageProdQueue.Count > 0)
+            {
+                PFTImageProdQueue.Dequeue()?.Dispose();
+            }
+            
         }
 
     }

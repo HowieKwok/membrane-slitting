@@ -49,6 +49,6 @@ namespace Frame_Core
         /// <summary>
         /// 当前设备为主机设备
         /// </summary>
-        ////public bool IsHostMachine { get; set; } = true;
+        public bool IsHostMachine { get; set; } = true;
     }
 }

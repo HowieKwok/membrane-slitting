@@ -1,4 +1,5 @@
 ﻿using HalconDotNet;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,7 +19,11 @@ namespace Frame_Core
         public int EAID = 0;
         //尺寸计算项
         public bool EAFinfished = false;
-
+        public List<ResultType> resultSliceDefectNg = new List<ResultType>();
+        public List<ResultType> resultSliceSizeNg = new List<ResultType>();
+        public List<ResultType> resultSliceAllResult = new List<ResultType>();
+        public List<ResultType> resultSliceConfigSizeNg = new List<ResultType>();
+        public List<ResultType> resultSliceGrooveSizeNg = new List<ResultType>();
 
         #region 主相机产品
         /// <summary>
@@ -35,9 +40,13 @@ namespace Frame_Core
         public RegionSE CropEArange = new RegionSE();
 
         //槽位区域裁图队列
+        //N条，每条最多一个槽位。
         public List<SlotProduct> listEASlot = new List<SlotProduct>();
+
         //削薄区区域队列
-        public List<SlotProduct> listEAShave = new List<SlotProduct>();
+        //N条，每条M个削薄打孔区
+        public List<List<SlotProduct>> list2EAShave = new List<List<SlotProduct>>();
+
 
         //料头检测完成
         public bool BlHeadDone = false;
@@ -48,9 +57,12 @@ namespace Frame_Core
         public int curSlotIndex = 0;
         //待检测槽位编号
         public int curSlShaveIndex = 0;
+        //待检测槽位编号
+        public int[] ArraycurShaveIndex = new int[8] { 0, 0, 0, 0, 0, 0, 0, 0 };
+
 
         /// <summary>
-        /// EALine抓边项 ,id+行的
+        /// EALine抓边项 ,id+行
         /// </summary>
         public List<LineInfo> ListEAlines = new List<LineInfo>();
         /// <summary>
@@ -62,17 +74,15 @@ namespace Frame_Core
         /// </summary>
         public List<NgTypeInfo> ListEADefects = new List<NgTypeInfo>();
 
-
-        /// <summary>
-        /// 当前EA的完整拼图
-        /// </summary>
-        public HObject TotalEAImage = new HObject();
-
         /// <summary>
         /// 当前EA的图像集合
         /// </summary>
         public HObject EAImageCollection = new HObject();
 
+        /// <summary>
+        /// 当前EA的完整拼图
+        /// </summary>
+        public HObject TotalEAImage = new HObject();
         /// <summary>
         /// 当前EA的完整拼图开始标志位
         /// </summary>
@@ -92,13 +102,34 @@ namespace Frame_Core
                 item?.Dispose();
             }
             listEASlot.Clear();
-            foreach (SlotProduct item in listEAShave)
+
+            foreach (List<SlotProduct> item in list2EAShave)
+            {
+                foreach (SlotProduct subitem in item)
+                {
+                    subitem?.Dispose();
+                }
+            }
+            list2EAShave.Clear();
+
+            ListEAlines.Clear();
+            foreach (var item in ListEASizes)
             {
                 item?.Dispose();
             }
+            ListEASizes.Clear();
+            foreach (var item in ListEADefects)
+            {
+                item?.Dispose();
+            }
+            ListEADefects.Clear();
+            resultSliceDefectNg?.Clear();
+            resultSliceSizeNg?.Clear();
+            resultSliceAllResult?.Clear();
+
             EAImageCollection.DisposeEx();
-            listEAShave.Clear();
             TotalEAImage.DisposeEx();
+
 
         }
     }
@@ -138,12 +169,13 @@ namespace Frame_Core
         /// </summary>
         public List<NgTypeInfo> ListImageDefects = new List<NgTypeInfo>();
 
-     
+
 
         //涂布区域缺陷直接放Base里面的line和NgType。
         public override void Dispose()
         {
             base.Dispose();
+
             foreach (SlotProduct item in listSlot)
             {
                 item.Dispose();
@@ -154,6 +186,20 @@ namespace Frame_Core
                 item.Dispose();
             }
             listShave.Clear();
+
+            ListImagelines.Clear();
+            foreach (var item in ListImageDefects)
+            {
+                item?.Dispose();
+            }
+            ListImageDefects.Clear();
+            foreach (var item in ListImageSizes)
+            {
+                item?.Dispose();
+            }
+            ListImageSizes.Clear();
+
+
         }
 
 
@@ -203,8 +249,31 @@ namespace Frame_Core
         /// </summary>
         public RegionSE Croprange = new RegionSE();
 
+        /// <summary>
+        /// 槽位槽位/削薄区Line抓边项，id+行的，转换成原图位置 -上边，下边，左边，右边。
+        /// </summary>
+        public List<LineInfo> Slotlines = new List<LineInfo>();
+        /// <summary>
+        /// 槽位/削薄区Size工艺检测项-TD定位距，MD定位距，TD尺寸，MD尺寸。
+        /// </summary>
+        public List<SizeInfo> SlotSizes = new List<SizeInfo>();
+        /// <summary>
+        /// EADefect缺陷检 ，id+行的，转换成原图位置
+        /// </summary>
+        public List<NgTypeInfo> SlotDefects = new List<NgTypeInfo>();
         public override void Dispose()
         {
+            Slotlines.Clear();
+            foreach (var item in SlotDefects)
+            {
+                item?.Dispose();
+            }
+            SlotDefects.Clear();
+            foreach (var item in SlotSizes)
+            {
+                item?.Dispose();
+            }
+            SlotSizes.Clear();
             base.Dispose();
         }
     }

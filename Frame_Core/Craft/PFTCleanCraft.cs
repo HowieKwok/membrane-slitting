@@ -30,25 +30,32 @@ namespace Frame_Core
         /// </summary>
         [Description("极片尺寸裁图预留MD")]
         public double EACropShiledMD { get; set; } = 100;
-        
+
 
         /// <summary>
-        /// 涂布尺寸MD_A面
+        /// 涂布尺寸TD
         /// </summary>
-        [Description("涂布尺寸MD_A面")]
-        public double CoatSizeMD_A { get; set; } = 100;
+        [Description("涂布尺寸TD")]
+        public double CoatSizeTD { get; set; } = 100;
 
         /// <summary>
-        /// 涂布尺寸MD_B面
+        /// 涂布尺寸MD
         /// </summary>
-        [Description("涂布尺寸MD_B面")]
-        public double CoatSizeMD_B { get; set; } = 100;
+        [Description("涂布尺寸MD")]
+        public double CoatSizeMD { get; set; } = 100;
 
         /// <summary>
-        /// EA料头是毛边料头
+        /// 左留白尺寸TD
         /// </summary>
-        [Description("EA料头是毛边料头")]
-        public bool IsBurrHead { get; set; } = false;
+        [Description("左留白尺寸TD")]
+        public double LeftFoilSizeTD { get; set; } = 100;
+
+        /// <summary>
+        /// 右留白尺寸TD
+        /// </summary>
+        [Description("右留白尺寸TD")]
+        public double RightFoilSizeTD { get; set; } = 100;
+
 
         /// <summary>
         /// A面料头到B面料头距离
@@ -78,46 +85,50 @@ namespace Frame_Core
         [Description("涂布TD右缩进")]
         public double CoatShieldTDRight { get; set; } = 0;
 
+        /// <summary>
+        /// 目标分条数
+        /// </summary>
+        [Description("目标分条数")]
+        public int SliceCount { get; set; } = 8;
+
+        /// <summary>
+        /// 常规料(F)/CTP料(T)
+        /// </summary>
+        [Description("常规料(F)/CTP料(T)")]
+        public bool MaterialType { get; set; } = false;
 
 
         /// <summary>
-        /// A面槽位个数
+        /// Cam1左侧基准边列坐标
         /// </summary>
-        [Description("A面槽位个数")]
-        public int SlotNum_A { get; set; } = 1;
+        [Description("Cam1左侧基准边列坐标")]
+        public double Cam1BaseCol { get; set; } = 1000;
+        /// <summary>
+        /// Cam2左侧基准边列坐标
+        /// </summary>
+        [Description("Cam2左侧基准边列坐标")]
+        public double Cam2BaseCol { get; set; } = 1000;
 
         /// <summary>
-        /// B面槽位个数
+        /// 特征在Cam1中的列坐标
         /// </summary>
-        [Description("B面槽位个数")]
-        public int SlotNum_B { get; set; } = 1;
+        [Description("特征在Cam1中的列坐标")]
+        public double EXCam1Col { get; set; } = 14000;
 
         /// <summary>
-        /// A面削薄区个数
+        /// 特征在Cam2中的列坐标
         /// </summary>
-        [Description("A面削薄区个数")]
-        public int ShaveNum_A { get; set; } = 1;
+        [Description("特征在Cam2中的列坐标")]
+        public double EXCam2Col { get; set; } = 1000;
 
-        /// <summary>
-        /// B面削薄区个数
-        /// </summary>
-        [Description("B面削薄区个数")]
-        public int ShaveNum_B { get; set; } = 1;
+
+        #endregion
 
         /// <summary>
         /// 槽位削薄区信息队列-AB面公用
         /// </summary>
         [Description("槽位削薄区信息队列")]
         public List<SlotInfo> ListSlotInfos { get; set; }
-
-
-
-
-
-        #endregion
-
-
-
 
         /// <summary>
         /// 抓边队列(所有相机的抓边集合)
@@ -138,6 +149,17 @@ namespace Frame_Core
         [Description("极片Defect缺陷检测项")]
         public List<DefectItemInfo> ListDefectInfos { get; set; }
 
+        /// <summary>
+        /// 极片槽位公差值检测项
+        /// </summary>
+        [Description("极片槽位公差值检测项")]
+        public List<SlotSizeLimit> ListSlotSizeLimits { get; set; }
+
+        /// <summary>
+        /// 极片分条工艺设置
+        /// </summary>
+        [Description("极片分条工艺设置")]
+        public List<SliceInfo> ListSliceSet { get; set; }
         public override void Init()
         {
             CraftName = "PFT工艺测试";
@@ -145,12 +167,6 @@ namespace Frame_Core
             electrode = ElectrodeEnum.阴极;
             materialCrafEnum = MaterialCrafEnum.PFT清洗机;
 
-            //初始化槽位信息
-            if (ListSlotInfos == null)
-            {
-                ListSlotInfos = new List<SlotInfo>();
-            }
-            else { ListSlotInfos.Clear(); }
 
 
             //初始化抓边
@@ -177,7 +193,31 @@ namespace Frame_Core
                 ListDefectInfos = new List<DefectItemInfo>();
             }
             else { ListDefectInfos.Clear(); }
+
+            //初始化槽位信息
+            if (ListSlotInfos == null)
+            {
+                ListSlotInfos = new List<SlotInfo>();
+            }
+            else { ListSlotInfos.Clear(); }
+
+            //添加槽位上下限表格
+            if (ListSlotSizeLimits == null)
+            {
+                ListSlotSizeLimits = new List<SlotSizeLimit>();
+            }
+            else { ListSlotSizeLimits.Clear(); }
+
+            //极片分条工艺设置
+            if (ListSliceSet == null)
+            {
+                ListSliceSet = new List<SliceInfo>();
+            }
+            else { ListSliceSet.Clear(); }
+
         }
+
+
     }
     /// <summary>
     /// 单个槽位标准工艺信息
@@ -185,8 +225,7 @@ namespace Frame_Core
     [Serializable]
     public class SlotInfo
     {
-
-        //编号 槽位名 A/B面 MD定位距(上边)   TD尺寸 MD尺寸    深度(3D)  内屏蔽左TD 内屏蔽右TD  内屏蔽上MD 内屏蔽下MD  外屏蔽左TD 外屏蔽右TD  外屏蔽上MD 外屏蔽下MD
+        //编号 槽位名 A/B面  第几条  MD定位距(上边)   TD尺寸 MD尺寸    深度(3D)  内屏蔽左TD 内屏蔽右TD  内屏蔽上MD 内屏蔽下MD  外屏蔽左TD 外屏蔽右TD  外屏蔽上MD 外屏蔽下MD
         /// <summary>
         /// 槽位编号
         /// </summary>
@@ -209,11 +248,34 @@ namespace Frame_Core
         public bool IsASide { get; set; } = true;
 
         /// <summary>
+        /// A/B面
+        /// </summary>
+        [My("所属相机")]
+        [Description("所属相机")]
+        public CameraEnum BelongCam { get; set; } = 0;
+
+
+        /// <summary>
+        /// 第几条
+        /// </summary>
+        [My("第几条")]
+        [Description("第几条")]
+        public int SliceID { get; set; } = 0;
+
+        /// <summary>
+        /// 第几条
+        /// </summary>
+        [My("第几个打孔区")]
+        [Description("第几个打孔区")]
+        public int ShaveID { get; set; } = 0;
+
+        /// <summary>
         /// TD定位距(左边)
         /// </summary>
         [My("TD定位距(左边)")]
         [Description("TD定位距(左边)")]
         public double SlotTDPosition { get; set; } = 0;
+
         /// <summary>
         /// MD定位距(上边)
         /// </summary>
@@ -236,11 +298,50 @@ namespace Frame_Core
         public double SlotMDSize { get; set; } = 100;
 
         /// <summary>
-        /// 深度(3D)
+        /// TD间距
         /// </summary>
-        [My("深度(3D)")]
-        [Description("深度(3D)")]
-        public double SlotDeepSize { get; set; } = 100;
+        [My("TD间距")]
+        [Description("TD间距")]
+        public double SlotTDDist { get; set; } = 100;
+
+        /// <summary>
+        /// MD间距
+        /// </summary>
+        [My("MD间距")]
+        [Description("MD间距")]
+        public double SlotMDDist { get; set; } = 100;
+
+        /// <summary>
+        /// // 数组属性：通过索引器一次性访问所有值
+        /// </summary>
+        [My("校准系数", false)]
+        [Description("校准系数")]
+        public double[] RealFixRito = new double[6] { 1, 1, 1, 1, 1, 1 };
+        /// <summary>
+        /// // 数组属性：通过索引器一次性访问所有值
+        /// </summary>
+        [My("测量校准偏移", false)]
+        [Description("测量校准偏移")]
+        public double[] RealFixOffset = new double[6] { 0, 0, 0, 0, 0, 0 };
+
+
+        /// <summary>
+        /// // 数组属性：通过索引器一次性访问所有值
+        /// </summary>
+        [My("数组属性", false)]
+        [Description("数组属性")]
+        public double[] AllValues
+        {
+            get => new double[] { SlotTDPosition, SlotMDPosition, SlotTDSize, SlotMDSize, SlotTDDist, SlotMDDist }; // 返回新数组
+            set { }
+        }
+
+        ///// <summary>
+        ///// 深度(3D)
+        ///// </summary>
+        //[My("深度(3D)")]
+        //[Description("深度(3D)")]
+        //public double SlotDeepSize { get; set; } = 100;
 
 
         /// <summary>
@@ -274,28 +375,156 @@ namespace Frame_Core
         /// </summary>
         [My("外左屏蔽TD")]
         [Description("外左屏蔽TD")]
-        public double OutwardShieldLeft { get; set; } = 5;
+        public double OutwardShieldLeft { get; set; } = 1;
         /// <summary>
         /// 外右屏蔽TD
         /// </summary>
         [My("外右屏蔽TD")]
         [Description("外右屏蔽TD")]
-        public double OutwardShieldRight { get; set; } = 5;
+        public double OutwardShieldRight { get; set; } = 1;
         /// <summary>
         /// 外上屏蔽MD
         /// </summary>
         [My("外上屏蔽MD")]
         [Description("外上屏蔽MD")]
-        public double OutwardShieldUp { get; set; } = 5;
+        public double OutwardShieldUp { get; set; } = 1;
         /// <summary>
         /// 外下屏蔽MD
         /// </summary>
         [My("外下屏蔽MD")]
         [Description("外下屏蔽MD")]
-        public double OutwardShieldDown { get; set; } = 5;
-
-
+        public double OutwardShieldDown { get; set; } = 1;
 
 
     }
+
+    [Serializable]
+    public class SlotSizeLimit
+    {
+        [My("编号")]
+        [Description("编号")]
+        public int Index { get; set; } = 0;//名称
+        [My("启用")]
+        [Description("启用")]
+        public bool Enable { get; set; } = true;//打标
+        [My("名称")]
+        [Description("名称")]
+        public string Name { get; set; } = "名称";//名称   
+
+        [My("备注")]
+        [Description("备注")]
+        public string Description { get; set; } = "备注";
+
+        /// <summary>
+        /// 负公差
+        /// </summary>
+        [My("负公差")]
+        [Description("负公差")]
+        public double lowLimitValue { get; set; } = -0.5;
+        /// <summary>
+        /// 正公差
+        /// </summary>
+        [My("正公差")]
+        [Description("正公差")]
+        public double UpLimitValue { get; set; } = 0.5;
+
+        /// <summary>
+        /// 启用报警
+        /// </summary>
+        [My("启用报警")]
+        [Description("启用报警")]
+        public bool IsBJ { get; set; } = true;
+
+        /// <summary>
+        /// NGEA报警计数
+        /// </summary>
+        [My("NGEA报警计数")]
+        [Description("NGEA报警计数")]
+        public int NGEACount { get; set; } = 5;
+    }
+
+    /// <summary>
+    /// 单个槽位标准工艺信息
+    /// </summary>
+    [Serializable]
+    public class SliceInfo
+    {
+        /// <summary>
+        /// 槽位编号
+        /// </summary>
+        [My("编号")]
+        [Description("编号")]
+        public int SliceID { get; set; } = 0;
+
+        /// <summary>
+        /// 分条名称
+        /// </summary>
+        [My("分条名称")]
+        [Description("分条名称")]
+        public string InfoName { get; set; } = "默认名称";
+
+        /// <summary>
+        /// A/B面
+        /// </summary>
+        [My("所属相机")]
+        [Description("所属相机")]
+        public string BelongCam { get; set; } = ((CameraEnum)0).ToString();
+
+        /// <summary>
+        /// 分条起始TD
+        /// </summary>
+        [My("分条起始TD")]
+        [Description("分条起始TD")]
+        public double SliceStartPos { get; set; } = 0;
+        /// <summary>
+        /// 分条结束TD
+        /// </summary>
+        [My("分条结束TD")]
+        [Description("分条结束TD")]
+        public double SliceEndPos { get; set; } = 0;
+
+
+        /// <summary>
+        /// 打孔区数量
+        /// </summary>
+        [My("打孔区数量")]
+        [Description("打孔区数量")]
+        public int ShaveNum { get; set; } = 0;
+
+        /// <summary>
+        /// 打孔TD定位距
+        /// </summary>
+        [My("打孔TD定位距")]
+        [Description("打孔TD定位距")]
+        public double ShaveDisTD { get; set; } = 0;
+
+        /// <summary>
+        /// 打孔MD定位距(起始)
+        /// </summary>
+        [My("打孔MD定位距(起始)")]
+        [Description("打孔MD定位距(起始)")]
+        public double ShaveDisMDStart { get; set; } = 0;
+
+        /// <summary>
+        /// 打孔MD定位距(步长)
+        /// </summary>
+        [My("打孔MD定位距(步长)")]
+        [Description("打孔MD定位距(步长)")]
+        public double ShaveDisMDStep { get; set; } = 0;
+
+        /// <summary>
+        /// 打孔区TD尺寸
+        /// </summary>
+        [My("打孔区TD尺寸")]
+        [Description("打孔区TD尺寸")]
+        public double ShaveSizeTD { get; set; } = 0;
+        /// <summary>
+        /// 打孔区MD尺寸
+        /// </summary>
+        [My("打孔区MD尺寸")]
+        [Description("打孔区MD尺寸")]
+        public double ShaveSizeMD { get; set; } = 0;
+
+    }
+
 }

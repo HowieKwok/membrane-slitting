@@ -43,6 +43,7 @@ namespace Plugin.MeasureLine
         public ROIController roiController = new ROIController();
         public ROIRectangle2 roiRectangle2 = new ROIRectangle2();
 
+        public int showHwindIndex = 0;
         Thread thread_RunObj;
         public override void Init()
         {
@@ -457,11 +458,24 @@ namespace Plugin.MeasureLine
                 bl_RefreshObj = false;
                 if (roiController.activeROIidx == -1)
                 {
-                    if (HWC_Image1.ImagePart != null)
+                    if (showHwindIndex == 0)
                     {
-                        if (PluginParams.ho_Image.CountObj() != 0)
+                        if (HWC_Image1.ImagePart != null)
                         {
-                            hWndCtrl_Display.ho_Image_Changed = PluginParams.ho_Image;
+                            if (PluginParams.ho_Image.CountObj() != 0)
+                            {
+                                hWndCtrl_Display.ho_Image_Changed = PluginParams.ho_Image;
+                            }
+                        }
+                    }
+                    else if (showHwindIndex == 1)
+                    {
+                        if (HWC_Image2.ImagePart != null)
+                        {
+                            if (PluginParams.ho_ImageProcessed.CountObj() != 0)
+                            {
+                                hWndCtrl_Display.ho_Image_Changed = PluginParams.ho_ImageProcessed;
+                            }
                         }
                     }
                     else
@@ -903,6 +917,58 @@ namespace Plugin.MeasureLine
             bl_ShowObj = true;
         }
 
+        private void RB_ImageProcess_CheckedChanged(object sender, EventArgs e)
+        {
+            PluginParams.bl_ImageProcessIndex = false;
+            NUD_ScaleMean.Enabled = false;
+            PB_SelectColor.Enabled = false;
+            NUD_ScaleFactor.Enabled = false;
+            NUD_SharpenIterations.Enabled = false;
+            NUD_SharpenSigma.Enabled = false;
+
+            if (RB_ScaleSharpen.Checked == true)
+            {
+                PluginParams.bl_ImageProcessIndex = true;
+                NUD_ScaleMean.Enabled = true;
+                PB_SelectColor.Enabled = true;
+                NUD_ScaleFactor.Enabled = true;
+                NUD_SharpenIterations.Enabled = true;
+                NUD_SharpenSigma.Enabled = true;
+            }
+            bl_ShowObj = true;
+            //bl_ShowChart = true;
+            //hWndCtrl_Display.repaint();
+
+        }
+
+
+        private void NUD_ScaleMean_ValueChanged(object sender, EventArgs e)
+        {
+            PluginParams.hv_ScaleMean = Convert.ToInt32(NUD_ScaleMean.Value);
+            bl_ShowObj = true;
+            //bl_ShowChart = true;
+        }
+
+        private void NUD_ScaleFactor_ValueChanged(object sender, EventArgs e)
+        {
+            PluginParams.hv_ScaleFactor = Convert.ToDouble(NUD_ScaleFactor.Value);
+            bl_ShowObj = true;
+            //bl_ShowChart = true;
+        }
+
+        private void NUD_SharpenIterations_ValueChanged(object sender, EventArgs e)
+        {
+            PluginParams.hv_SharpenIterations = Convert.ToInt32(NUD_SharpenIterations.Value);
+            bl_ShowObj = true;
+            // bl_ShowChart = true;
+        }
+
+        private void NUD_SharpenSigma_ValueChanged(object sender, EventArgs e)
+        {
+            PluginParams.hv_SharpenSigma = Convert.ToDouble(NUD_SharpenSigma.Value);
+            bl_ShowObj = true;
+            // bl_ShowChart = true;
+        }
 
         #region 窗体控件重绘，防止闪烁
         [System.Runtime.InteropServices.DllImport("user32")]
@@ -952,6 +1018,54 @@ namespace Plugin.MeasureLine
         {
             PluginParams.bl_DefaultLine = CB_DefaultLine.Checked;
             bl_ShowObj = true;
+        }
+
+        private void HWC_Image1_HMouseDown(object sender, HMouseEventArgs e)
+        {
+            try
+            {
+                if (PluginParams.ho_Image.CountObj() != 0)
+                {
+                    hWndCtrl_Display.bl_RoiOperateFlag = true;
+                    //显示原图
+                    HImage hImage = new HImage();
+                    HobjectToHimage(PluginParams.ho_Image, ref hImage);
+                    hWndCtrl_Display.addIconicVar(hImage);
+                    hWndCtrl_Display.resetAll();
+                    hWndCtrl_Display.repaint();
+                    LB_IMageSize.Text = ShowIMageSize(hImage);
+                    showHwindIndex = 0;
+                }
+            }
+            catch (Exception)
+            {
+
+
+            }
+        }
+
+        private void HWC_Image2_HMouseDown(object sender, HMouseEventArgs e)
+        {
+            try
+            {
+                if (PluginParams.ho_ImageProcessed.CountObj() != 0)
+                {
+                    hWndCtrl_Display.bl_RoiOperateFlag = true;
+                    //显示原图
+                    HImage hImage = new HImage();
+                    HobjectToHimage(PluginParams.ho_ImageProcessed, ref hImage);
+                    hWndCtrl_Display.addIconicVar(hImage);
+                    hWndCtrl_Display.resetAll();
+                    hWndCtrl_Display.repaint();
+                    LB_IMageSize.Text = ShowIMageSize(hImage);
+                    showHwindIndex = 1;
+                }
+            }
+            catch (Exception)
+            {
+
+
+            }
         }
     }
 }

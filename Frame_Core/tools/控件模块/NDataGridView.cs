@@ -283,6 +283,132 @@ namespace Frame_Core
                 dataGridView.Rows.Clear();
             }));
         }
+
+
+        /// <summary>
+        /// 一次性把 dgv 初始化成指定结构：
+        /// 列全部来自 colHeaders；行全部来自 rowHeaders；
+        /// 每行第 0 列写对应的行标题。
+        /// </summary>
+        public static void InitGrid(DataGridView dgv,
+                                    List<string> colHeaders,
+                                    List<string> rowHeaders)
+        {
+            if (dgv == null) throw new ArgumentNullException(nameof(dgv));
+            if (colHeaders == null || rowHeaders == null)
+                MessageNotify.AddErrorLog("表头不能为空");
+            
+
+            dgv.SuspendLayout();
+            dgv.Columns.Clear();
+            dgv.Rows.Clear();
+
+            // 1. 列
+            foreach (var h in colHeaders)
+                dgv.Columns.Add(h, h);
+
+            // 2. 行
+            foreach (var r in rowHeaders)
+            {
+                int idx = dgv.Rows.Add();
+                dgv.Rows[idx].Cells[0].Value = r;
+            }
+            for (int r = 0; r < dgv.RowCount; r++)
+            {
+                for (int c = 1; c < dgv.ColumnCount; c++)
+                {
+                    dgv.Rows[r].Cells[c].Value = 0;   // 设置默认值为0
+                                                      // dgv.Rows[r].Cells[c].Style.Alignment = DataGridViewContentAlignment.MiddleCenter; // 设置居中对齐
+                }
+            }
+            dgv.AllowUserToAddRows = false;
+            dgv.AllowUserToDeleteRows = false;
+            dgv.RowHeadersVisible = false;
+            dgv.ResumeLayout();
+            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgv.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+            //dgv.RowTemplate.Height = dgv.Height /
+            //                        dgv.Rows.Count/* Math.Max(1, dgv.Rows.Count)*/;
+
+            //foreach(DataGridViewRow row in dgv.Rows)
+            //{
+
+            //    row.Height = dgv.Height  /
+            //                       dgv.Rows.Count; 
+            //}
+        }
+
+        /// <summary>
+        /// 根据列标题 + 行标题写单元格
+        /// </summary>
+        public static void SetCellValue(DataGridView dgv,
+                                        string colHeader,
+                                        string rowHeader,
+                                        object value)
+        {
+            int c = ColumnIndex(dgv, colHeader);
+            int r = RowIndex(dgv, rowHeader);
+            dgv.Rows[r].Cells[c].Value = value;
+        }
+
+        /// <summary>
+        /// 根据列标题 + 行标题读单元格
+        /// </summary>
+        public static object GetCellValue(DataGridView dgv,
+                                          string colHeader,
+                                          string rowHeader)
+        {
+            int c = ColumnIndex(dgv, colHeader);
+            int r = RowIndex(dgv, rowHeader);
+            return dgv.Rows[r].Cells[c].Value;
+        }
+
+        /* ---------- 内部小工具 ---------- */
+        private static int ColumnIndex(DataGridView dgv, string header)
+        {
+            try
+            {
+                foreach (DataGridViewColumn col in dgv.Columns)
+                {
+                    if (string.Equals(col.HeaderText, header, StringComparison.OrdinalIgnoreCase))
+                        return col.Index;
+                }
+
+                // 未找到
+                MessageNotify.AddErrorLog($"未找到列标题：{header}");
+                return -1;
+            }
+            catch (Exception ex)
+            {
+                MessageNotify.AddErrorLog($"查找列标题异常：{ex.Message}");
+                return -1;
+            }
+        }
+
+        private static int RowIndex(DataGridView dgv, string header)
+        {
+            try
+            {
+                foreach (DataGridViewRow row in dgv.Rows)
+                {
+                    if (row.Cells[0].Value != null &&
+                        string.Equals(row.Cells[0].Value.ToString(), header,
+                                      StringComparison.OrdinalIgnoreCase))
+                    {
+                        return row.Index;
+                    }
+                }
+
+                // 走到这里说明没找到
+                MessageNotify.AddErrorLog($"未找到行标题：{header}");
+                return -1;
+            }
+            catch (Exception ex)
+            {
+                MessageNotify.AddErrorLog($"查找行标题异常：{ex.Message}");
+                return -1;
+            }
+        }
     }
 
     public class MessageShow

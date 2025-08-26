@@ -1,4 +1,5 @@
 ﻿using Frame_Core;
+using LogTool;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,6 +20,7 @@ namespace Mef_VisionFrame._5工艺标准
         {
             InitializeComponent();
             toolClass.AllNumericUpDownControlSubscribeMouseWheelEvent(this);
+     
         }
         public SizeItemInfo size = new SizeItemInfo();
         bool FirstCalib = true;
@@ -27,27 +29,12 @@ namespace Mef_VisionFrame._5工艺标准
             linkLabel_SizeItem.Text = size.Name;
             TextBox_Desp.Text = size.Description;
 
-
             nud_CCDMeasureValue.Value = 1;
             nud_ArtificialMeasureValue.Value = 1;
 
             nud_CalibValue.Value = (decimal)size.StD_RealFixRito;//旧校准系数
             nud_CalibValueNew.Value = (decimal)size.StD_RealFixRito;//新校准系数
             nud_CalibCompensateValue.Value = (decimal)size.StD_RealFixOffset;//校准补偿值
-            nud_DownCellDownOffset.Value = (decimal)size.StD_DownCellDownOffset;
-            nud_DownCellUpOffset.Value = (decimal)size.StD_DownCellUpOffset;
-            nud_UpCellDownOffset.Value = (decimal)size.StD_UpCellDownOffset;
-            nud_UpCellUpOffset.Value = (decimal)size.StD_UpCellUpOffset;
-
-            nud_DownCellDownOffsetAA.Value = (decimal)size.StD_DownCellDownOffsetAA;
-            nud_DownCellUpOffsetAA.Value = (decimal)size.StD_DownCellUpOffsetAA;
-            nud_UpCellDownOffsetAA.Value = (decimal)size.StD_UpCellDownOffsetAA;
-            nud_UpCellUpOffsetAA.Value = (decimal)size.StD_UpCellUpOffsetAA;
-
-            nud_DownCellDownOffsetGM.Value = (decimal)size.StD_DownCellDownOffsetGM;
-            nud_DownCellUpOffsetGM.Value = (decimal)size.StD_DownCellUpOffsetGM;
-            nud_UpCellDownOffsetGM.Value = (decimal)size.StD_UpCellDownOffsetGM;
-            nud_UpCellUpOffsetGM.Value = (decimal)size.StD_UpCellUpOffsetGM;
 
             //顶级模式系数
             CB_EnableTopModel.Checked = size.EnableTopModel;
@@ -66,6 +53,8 @@ namespace Mef_VisionFrame._5工艺标准
 
             FirstCalib = true;
             btn_AutoCalib.BackColor = Color.Green;
+
+            INi_DGV_Offset(dataGridView1);
         }
         public void closeSet()
         {
@@ -73,26 +62,14 @@ namespace Mef_VisionFrame._5工艺标准
 
             size.StD_RealFixRito = (double)nud_CalibValueNew.Value;//新校准系数
             size.StD_RealFixOffset = (double)nud_CalibCompensateValue.Value;//校准补偿值
-            size.StD_DownCellDownOffset = (double)nud_DownCellDownOffset.Value;
-            size.StD_DownCellUpOffset = (double)nud_DownCellUpOffset.Value;
-            size.StD_UpCellDownOffset = (double)nud_UpCellDownOffset.Value;
-            size.StD_UpCellUpOffset = (double)nud_UpCellUpOffset.Value;
-
-            size.StD_DownCellDownOffsetAA = (double)nud_DownCellDownOffsetAA.Value;
-            size.StD_DownCellUpOffsetAA = (double)nud_DownCellUpOffsetAA.Value;
-            size.StD_UpCellDownOffsetAA = (double)nud_UpCellDownOffsetAA.Value;
-            size.StD_UpCellUpOffsetAA = (double)nud_UpCellUpOffsetAA.Value;
-
-            size.StD_DownCellDownOffsetGM = (double)nud_DownCellDownOffsetGM.Value;
-            size.StD_DownCellUpOffsetGM = (double)nud_DownCellUpOffsetGM.Value;
-            size.StD_UpCellDownOffsetGM = (double)nud_UpCellDownOffsetGM.Value;
-            size.StD_UpCellUpOffsetGM = (double)nud_UpCellUpOffsetGM.Value;
 
 
             //顶级模式系数
             size.EnableTopModel = CB_EnableTopModel.Checked;
             size.StD_TopModelRito = (double)nud_Factor.Value;
             size.StD_TopModelOffset = (double)nud_Offset.Value;
+
+            RefreshData(dataGridView1);
         }
 
         private void FormSizeFix_FormClosing(object sender, FormClosingEventArgs e)
@@ -149,5 +126,78 @@ namespace Mef_VisionFrame._5工艺标准
         }
 
 
+        public void INi_DGV_Offset(DataGridView DGView)
+        {
+            DGView.Rows.Clear();
+            DGView.Columns.Clear();
+            //根据Header和所有单元格的内容自动调整行的高度
+            DGView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            //设置对齐方式和字体
+            DGView.RowsDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DGView.Font = new Font("黑体", 14);
+
+            DataGridViewColumn dgvitem = new DataGridViewTextBoxColumn();
+            dgvitem.Name = $"项目";
+            dgvitem.HeaderText = $"项目";
+            dgvitem.SortMode = DataGridViewColumnSortMode.NotSortable;//禁用排序
+            dgvitem.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;  //设置所有列自适应宽度
+            DGView.Columns.Add(dgvitem);
+            DGView.Columns[0].ReadOnly = true;
+
+            for (int i = 0; i < 8; i++)
+            {
+                DataGridViewColumn dgvC = new DataGridViewTextBoxColumn();
+                dgvC.Name = $"分条{i + 1}";
+                dgvC.HeaderText = $"分条{i + 1}";
+                dgvC.SortMode = DataGridViewColumnSortMode.NotSortable;//禁用排序
+                dgvC.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;  //设置所有列自适应宽度
+                DGView.Columns.Add(dgvC);
+            }
+
+            try
+            {
+                if (size.ArrayBelongSlice == null)
+                {
+                    size.ArrayBelongSlice = new double[8] { 0, 0, 0, 0, 1, 1, 1, 1 };
+                }
+
+                AddOffSetData(DGView, size.ArrayBelongSlice, "所属分条");
+
+            }
+            catch (Exception ee)
+            {
+                Log4netRecord.ErrorLog.Debug(ee);
+            }
+        }
+
+        /// <summary>
+        /// 添加尺寸DataGridView数据
+        /// </summary>
+        /// <param name="DGView"></param>
+        /// <param name="item"></param>
+        public void AddOffSetData(DataGridView DGView, double[] ArrayOffset, string ItemName)
+        {
+            int count = DGView.Rows.Count;
+            DGView.Rows.Add();
+            DGView.Rows[count - 1].Cells[0].Value = ItemName.ToString();
+            for (int i = 0; i < ArrayOffset.Length; i++)
+            {
+                DGView.Rows[count - 1].Cells[i + 1].Value = ArrayOffset[i];
+            }
+        }
+        public void RefreshData(DataGridView DGView)
+        {
+            for (int i = 0; i < DGView.Rows.Count - 1; i++)
+            {
+                string str0 = DGView.Rows[i].Cells[0].Value.ToString();
+                if (str0.Contains("所属分条"))
+                {
+                    for (int j = 1; j < DGView.Columns.Count; j++)
+                    {
+                        size.ArrayBelongSlice[j - 1] = Convert.ToDouble(DGView.Rows[i].Cells[j].Value.ToString());
+                    }
+                }
+            }
+        }
     }
 }

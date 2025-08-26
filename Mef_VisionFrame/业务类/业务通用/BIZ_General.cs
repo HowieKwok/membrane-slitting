@@ -287,7 +287,7 @@ namespace Mef_VisionFrame
                 operation_ImageInfo.imageSaveFormat = imageSaveFormat;
                 operation_ImageInfo.bIsSaveImage = isSaveImage;
                 operation_ImageInfo.bIsShowImage = isShowImage;
-
+                operation_ImageInfo.showHalconWindow.m_nMode = 3;
                 int rowLocation = 20;
                 int rowInterval = 20;
 
@@ -534,6 +534,57 @@ namespace Mef_VisionFrame
                     string imageSavePath = "";
                     if (abnormal) imageSavePath = in_imageSaveParamer.ImageSave_Path_Min + "\\" + "异常";
                     else imageSavePath = in_imageSaveParamer.ImageSave_Path_Min + "\\" + (isDB ? "打标" : "不打标");
+                    imageSavePath += $"\\{ngTypeInfo.m_strNgTypeName}\\";
+                    ImageSaveFormat saveImageFormat = (ImageSaveFormat)in_imageSaveParamer.SaveImageFormat_Min;
+                    bool isSaveImage = in_imageSaveParamer.IsSaveImage_Min;
+                    bool isShowImage = in_imageSaveParamer.IsShowImage_Min;
+                    string imageSaveName = ngTypeInfo.m_nImgIndex.ToString().PadLeft(5, '0') + "_" + (ngTypeInfo.m_iProductIndex).ToString();
+                    Operation_ImageInfo operation_ImageInfo = BIZ_General.NGImageDataTypeTransition(ngTypeInfo, Project.Instance.paramPathSet.ProductMojuanPath, imageSavePath, imageSaveName, saveImageFormat, isSaveImage, isShowImage,
+                        cameraEnum.ToString());
+
+                    out_operationImageInfos.Enqueue(operation_ImageInfo);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log4netRecord.ErrorLog.Error(cameraEnum.ToString(), ex);
+            }
+
+
+        }
+
+
+        /// <summary>
+        /// 将图像队列转换为显示图像队列
+        /// </summary>
+        /// <param name="_source"></param>
+        /// <param name="imageSaveParamer"></param>
+        /// <param name="imageInfosShow"></param>
+        /// <param name="ngTypeInfos"></param>
+        public static void NGImageQueueTransition_Slice(CameraEnum cameraEnum, List<NgTypeInfo> ngTypeInfos, long frame, bool isDB, ref QueuePackage<Operation_ImageInfo> out_operationImageInfos, bool abnormal = false, int nSliceIndex = 0)
+        {
+            try
+            {
+                if (ngTypeInfos == null || ngTypeInfos.Count == 0) return;
+
+                ImageSaveParamer in_imageSaveParamer = Project.Instance.cameraManager[cameraEnum].m_ImageSaveParamer;
+                //获取显示图像
+                int count = ngTypeInfos.Count;
+                for (int i = 0; i < count; i++)
+                {
+                    NgTypeInfo ngTypeInfo = ngTypeInfos[i];
+                    string imageSavePath = "";
+
+                    if (nSliceIndex > 0)
+                    {
+                        imageSavePath = in_imageSaveParamer.ImageSave_Path_Min + $"\\{nSliceIndex}条";
+                    }
+                    else
+                    {
+                        imageSavePath = in_imageSaveParamer.ImageSave_Path_Min;
+                    }
+                    if (abnormal) imageSavePath = imageSavePath + "\\" + "异常";
+                    else imageSavePath = imageSavePath + "\\" + (isDB ? "打标" : "不打标");
                     imageSavePath += $"\\{ngTypeInfo.m_strNgTypeName}\\";
                     ImageSaveFormat saveImageFormat = (ImageSaveFormat)in_imageSaveParamer.SaveImageFormat_Min;
                     bool isSaveImage = in_imageSaveParamer.IsSaveImage_Min;
@@ -1427,6 +1478,33 @@ namespace Mef_VisionFrame
                 }
             }
         }
+
+        public static void AddMessageShowWindow(List<NgTypeInfo> ngTypeInfos, ShowHalconWindow showHalconWindow, int sliceIndex)
+        {
+            for (int i = 0; i < ngTypeInfos.Count; i++)
+            {
+                string message = $"S{sliceIndex}_{ngTypeInfos[i].m_strNgTypeName.ToString()}：{ngTypeInfos[i].m_fNgTypArea.ToString("F3")}";
+                showHalconWindow.m_regionShowInfos.Add(new RegionShowInfo() { m_hRegion = ngTypeInfos[i].m_hRegion, m_stuGetColor = BIZ_General.Color(ngTypeInfos[i].resultType) }); ;
+                if (ngTypeInfos[i].resultType == ResultType.OK)
+                {
+                    showHalconWindow.m_messageShowInfos.Add(new MessageShowInfo() { m_strMessage = message, m_stuGetColor = HalconColor.green });
+
+                }
+                else if (ngTypeInfos[i].resultType == ResultType.NG)
+                {
+                    showHalconWindow.m_messageShowInfos.Add(new MessageShowInfo() { m_strMessage = message, m_stuGetColor = HalconColor.red });
+
+                }
+                else if (ngTypeInfos[i].resultType == ResultType.Warn)
+                {
+                    showHalconWindow.m_messageShowInfos.Add(new MessageShowInfo() { m_strMessage = message, m_stuGetColor = HalconColor.yellow });
+
+                }
+            }
+        }
+
+       
+
         public static void AddMessageShowWindow(List<NgTypeInfo> ngTypeInfos, ShowHalconWindow showHalconWindow)
         {
             for (int i = 0; i < ngTypeInfos.Count; i++)

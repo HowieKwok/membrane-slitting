@@ -174,6 +174,7 @@ namespace Frame_Core
     /// <summary>
     /// 统计数据
     /// </summary>
+    [Serializable]
     public class StatisticalData
     {
         /// <summary>

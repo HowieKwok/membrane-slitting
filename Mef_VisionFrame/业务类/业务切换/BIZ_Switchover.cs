@@ -1,7 +1,7 @@
 ﻿using Eholly.ZChart;
 using Frame_Core;
 using LogTool;
-using Mef_VisionFram;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -106,184 +106,63 @@ namespace Mef_VisionFrame
 
         public static void InitBizDataAndForm()
         {
+            //Form_Main.FormMain.mark设置ToolStripMenuItem.Visible = false;
+            //Form_Main.FormMain.相机标定ToolStripMenuItem.Visible = false;
+            //Form_Main.FormMain.预定位平台标定ToolStripMenuItem.Visible = false;
+            //if(Project.Instance.systemInfo.CurrentMaterial == MaterialCrafEnum.PFT清洗机)
+            //{
+            //    UI_DataShowForm = new Form_WidthLaserDetect() { FormBorderStyle = FormBorderStyle.None, Dock = DockStyle.Fill, TopLevel = false };
+            //    UI_DataShowForm.Show();
+            //    Form_Main.FormMain.MainDetection.panel_DataShow.Controls.Clear();
+            //    Form_Main.FormMain.MainDetection.panel_DataShow.Controls.Add(UI_DataShowForm);
+            //    BIZ_DataWorker_WidthLaser BIZ_DataWorker = new BIZ_DataWorker_WidthLaser(UI_DataShowForm as Form_WidthLaserDetect);
+            //    BIZ_DataWorker.BIZ_Variable.dic_EAproductsInfo_A= ((PFTCleanProParams)Project.Instance.baseProDevice.m_DicCamOperaParam[0]).dic_EAproductsInfo;
+            //    BIZ_DataWorker.BIZ_Variable.dic_EAproductsInfo_B= ((PFTCleanProParams)Project.Instance.baseProDevice.m_DicCamOperaParam[1]).dic_EAproductsInfo;
+
+            //    BIZ_DataWorker.BIZ_Variable.dic_EAproductsInfo_SimA = ((PFTCleanProParams)Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[0]).dic_EAproductsInfo;
+            //    BIZ_DataWorker.BIZ_Variable.dic_EAproductsInfo_SimB = ((PFTCleanProParams)Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[1]).dic_EAproductsInfo;
+
+            //    IBIZWorkerBase = BIZ_DataWorker;
+            //    IBIZWorkerBase.InitVariable();
+            //    IBIZWorkerBase.InitForm();
+
+            //    Project.Instance.baseProDevice.m_DicCamOperaParam[0].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_FrameCam1);
+            //    Project.Instance.baseProDevice.m_DicCamOperaParam[0].ProductCallBackCraft = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_EACam1);
+
+
+            //    Project.Instance.baseProDevice.m_DicCamOperaParam[1].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_FrameCam2);
+            //    Project.Instance.baseProDevice.m_DicCamOperaParam[1].ProductCallBackCraft = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_EACam2);
+
+
+
+
+            //    Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[0].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_FrameCam1);
+            //    Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[0].ProductCallBackCraft = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_EACam1);
+
+            //    Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[1].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_FrameCam2);
+            //    Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[1].ProductCallBackCraft = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_EACam2);
+
+
+
+            //    Form_Main.FormMain.相机标定ToolStripMenuItem.Visible = false;
+            //    Form_Main.FormMain.打标机软件通讯ToolStripMenuItem.Visible = true;
+            //    Form_Main.FormMain.尺寸点检ToolStripMenuItem.Visible = true;
+            //    Form_Main.FormMain.纠偏设置ToolStripMenuItem.Visible = true;
+
+            //}
+
             Form_Main.FormMain.mark设置ToolStripMenuItem.Visible = false;
             Form_Main.FormMain.相机标定ToolStripMenuItem.Visible = false;
             Form_Main.FormMain.预定位平台标定ToolStripMenuItem.Visible = false;
-            if (Project.Instance.systemInfo.CurrentMaterial == MaterialCrafEnum.叠片预定位PP)
+            if (Project.Instance.systemInfo.CurrentMaterial == MaterialCrafEnum.PFT清洗机)
             {
-                foreach (var item in Project.Instance.cameraManager)
-                {
-                    if (item.Value.initState)
-                        if (!item.Value.Camera.IsCameraStatue)
-                            item.Value.Camera.StartGrabImage();
-                }
-
-                UI_DataShowForm = new Form_Pretargeting() { FormBorderStyle = FormBorderStyle.None, Dock = DockStyle.Fill, TopLevel = false };
+                UI_DataShowForm = new Form_WidthLaserDetect() { FormBorderStyle = FormBorderStyle.None, Dock = DockStyle.Fill, TopLevel = false };
                 UI_DataShowForm.Show();
                 Form_Main.FormMain.MainDetection.panel_DataShow.Controls.Clear();
                 Form_Main.FormMain.MainDetection.panel_DataShow.Controls.Add(UI_DataShowForm);
-                BIZ_DataWorker_Pretargeting BIZ_DataWorker = new BIZ_DataWorker_Pretargeting(UI_DataShowForm as Form_Pretargeting);
-                IBIZWorkerBase = BIZ_DataWorker;
-                IBIZWorkerBase.InitVariable();
-                IBIZWorkerBase.InitForm();
-
-            
-
-                Project.Instance.baseProDevice.m_DicCamOperaParam[0].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam1);
-                Project.Instance.baseProDevice.m_DicCamOperaParam[1].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam2);
-                Project.Instance.baseProDevice.m_DicCamOperaParam[2].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam3);
-                Project.Instance.baseProDevice.m_DicCamOperaParam[3].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam4);
-
-
-                Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[0].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam1);
-                Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[1].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam2);
-                Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[2].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam3);
-                Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[3].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam4);
-
-                Form_Main.FormMain.相机标定ToolStripMenuItem.Visible = true;
-                Form_Main.FormMain.预定位平台标定ToolStripMenuItem.Visible = true;
-            }
-            else if (Project.Instance.systemInfo.CurrentMaterial == MaterialCrafEnum.叠片对齐度OVH)
-            {
-                UI_DataShowForm = new Form_OverHang() { FormBorderStyle = FormBorderStyle.None, Dock = DockStyle.Fill, TopLevel = false };
-                UI_DataShowForm.Show();
-                Form_Main.FormMain.MainDetection.panel_DataShow.Controls.Clear();
-                Form_Main.FormMain.MainDetection.panel_DataShow.Controls.Add(UI_DataShowForm);
-                BIZ_DataWorker_OverHang BIZ_DataWorker = new BIZ_DataWorker_OverHang(UI_DataShowForm as Form_OverHang);
-                IBIZWorkerBase = BIZ_DataWorker;
-                IBIZWorkerBase.InitVariable();
-                IBIZWorkerBase.InitForm();
-
-                Project.Instance.baseProDevice.m_DicCamOperaParam[0].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam1);
-                Project.Instance.baseProDevice.m_DicCamOperaParam[1].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam2);
-                Project.Instance.baseProDevice.m_DicCamOperaParam[2].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam3);
-                Project.Instance.baseProDevice.m_DicCamOperaParam[3].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam4);
-
-                Project.Instance.baseProDevice.m_DicCamOperaParam[4].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam5);
-                Project.Instance.baseProDevice.m_DicCamOperaParam[5].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam6);
-                Project.Instance.baseProDevice.m_DicCamOperaParam[6].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam7);
-                Project.Instance.baseProDevice.m_DicCamOperaParam[7].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam8);
-
-                Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[0].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam1);
-                Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[1].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam2);
-                Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[2].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam3);
-                Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[3].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam4);
-
-                Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[4].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam5);
-                Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[5].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam6);
-                Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[6].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam7);
-                Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[7].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam8);
-
-                Form_Main.FormMain.mark设置ToolStripMenuItem.Visible = true;
-                Form_Main.FormMain.相机标定ToolStripMenuItem.Visible = true;
-            }
-            else if (Project.Instance.systemInfo.CurrentMaterial == MaterialCrafEnum.叠片阳极单面制片CS)
-            {
-                UI_DataShowForm = new Form_SingleAnode() { FormBorderStyle = FormBorderStyle.None, Dock = DockStyle.Fill, TopLevel = false };
-                UI_DataShowForm.Show();
-                Form_Main.FormMain.MainDetection.panel_DataShow.Controls.Clear();
-                Form_Main.FormMain.MainDetection.panel_DataShow.Controls.Add(UI_DataShowForm);
-                BIZ_DataWorker_SingleAnode BIZ_DataWorker = new BIZ_DataWorker_SingleAnode(UI_DataShowForm as Form_SingleAnode);
-                IBIZWorkerBase = BIZ_DataWorker;
-                IBIZWorkerBase.InitVariable();
-                IBIZWorkerBase.InitForm();
-
-                Project.Instance.baseProDevice.m_DicCamOperaParam[0].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam1);
-                //   Project.Instance.baseProDevice.m_DicCamOperaParam[0].ProductCallBackCraft = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam1Prod);
-                Project.Instance.baseProDevice.m_DicCamOperaParam[1].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam2);
-                // Project.Instance.baseProDevice.m_DicCamOperaParam[1].ProductCallBackCraft = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam2Prod);
-
-                Project.Instance.baseProDevice.m_DicCamOperaParam[2].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam3);
-                Project.Instance.baseProDevice.m_DicCamOperaParam[3].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam4);
-                Project.Instance.baseProDevice.m_DicCamOperaParam[4].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam5);
-
-
-                Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[0].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam1);
-                //  Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[0].ProductCallBackCraft = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam1Prod);
-                Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[1].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam2);
-                // Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[1].ProductCallBackCraft = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam2Prod);
-
-                Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[2].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam3);
-                Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[3].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam4);
-                Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[4].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam5);
-            }
-            else if (Project.Instance.systemInfo.CurrentMaterial == MaterialCrafEnum.叠片阳极双面制片CD)
-            {
-                UI_DataShowForm = new Form_DoubleAnode() { FormBorderStyle = FormBorderStyle.None, Dock = DockStyle.Fill, TopLevel = false };
-                UI_DataShowForm.Show();
-                Form_Main.FormMain.MainDetection.panel_DataShow.Controls.Clear();
-                Form_Main.FormMain.MainDetection.panel_DataShow.Controls.Add(UI_DataShowForm);
-                BIZ_DataWorker_DoubleAnode BIZ_DataWorker = new BIZ_DataWorker_DoubleAnode(UI_DataShowForm as Form_DoubleAnode);
-                IBIZWorkerBase = BIZ_DataWorker;
-                IBIZWorkerBase.InitVariable();
-                IBIZWorkerBase.InitForm();
-
-                Project.Instance.baseProDevice.m_DicCamOperaParam[0].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam1);
-                //  Project.Instance.baseProDevice.m_DicCamOperaParam[0].ProductCallBackCraft = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam1Prod);
-                Project.Instance.baseProDevice.m_DicCamOperaParam[1].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam2);
-                // Project.Instance.baseProDevice.m_DicCamOperaParam[1].ProductCallBackCraft = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam2Prod);
-
-                Project.Instance.baseProDevice.m_DicCamOperaParam[2].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam3);
-                Project.Instance.baseProDevice.m_DicCamOperaParam[3].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam4);
-                Project.Instance.baseProDevice.m_DicCamOperaParam[4].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam5);
-                Project.Instance.baseProDevice.m_DicCamOperaParam[5].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam6);
-                Project.Instance.baseProDevice.m_DicCamOperaParam[6].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam7);
-
-
-                Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[0].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam1);
-                //   Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[0].ProductCallBackCraft = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam1Prod);
-                Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[1].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam2);
-                //  Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[1].ProductCallBackCraft = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam2Prod);
-
-                Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[2].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam3);
-                Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[3].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam4);
-                Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[4].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam5);
-                Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[5].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam6);
-                Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[6].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam7);
-            }
-            else if (Project.Instance.systemInfo.CurrentMaterial == MaterialCrafEnum.叠片阴极双面制片AD)
-            {
-                UI_DataShowForm = new Form_DoubleCathode() { FormBorderStyle = FormBorderStyle.None, Dock = DockStyle.Fill, TopLevel = false };
-                UI_DataShowForm.Show();
-                Form_Main.FormMain.MainDetection.panel_DataShow.Controls.Clear();
-                Form_Main.FormMain.MainDetection.panel_DataShow.Controls.Add(UI_DataShowForm);
-                BIZ_DataWorker_DoubleCathode BIZ_DataWorker = new BIZ_DataWorker_DoubleCathode(UI_DataShowForm as Form_DoubleCathode);
-                IBIZWorkerBase = BIZ_DataWorker;
-                IBIZWorkerBase.InitVariable();
-                IBIZWorkerBase.InitForm();
-
-                Project.Instance.baseProDevice.m_DicCamOperaParam[0].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam1);
-                //  Project.Instance.baseProDevice.m_DicCamOperaParam[0].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam1Prod);
-                Project.Instance.baseProDevice.m_DicCamOperaParam[1].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam2);
-                //  Project.Instance.baseProDevice.m_DicCamOperaParam[1].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam2Prod);
-
-                Project.Instance.baseProDevice.m_DicCamOperaParam[2].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam3);
-                Project.Instance.baseProDevice.m_DicCamOperaParam[3].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam4);
-                Project.Instance.baseProDevice.m_DicCamOperaParam[4].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam5);
-                Project.Instance.baseProDevice.m_DicCamOperaParam[5].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam6);
-                Project.Instance.baseProDevice.m_DicCamOperaParam[6].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam7);
-
-
-                Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[0].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam1);
-                //  Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[0].ProductCallBackCraft = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam1Prod);
-                Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[1].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam2);
-                // Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[1].ProductCallBackCraft = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam2Prod);
-
-                Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[2].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam3);
-                Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[3].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam4);
-                Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[4].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam5);
-                Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[5].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam6);
-                Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[6].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_Cam7);
-            }
-            else if(Project.Instance.systemInfo.CurrentMaterial == MaterialCrafEnum.PFT清洗机)
-            {
-                UI_DataShowForm = new Form_Narrow() { FormBorderStyle = FormBorderStyle.None, Dock = DockStyle.Fill, TopLevel = false };
-                UI_DataShowForm.Show();
-                Form_Main.FormMain.MainDetection.panel_DataShow.Controls.Clear();
-                Form_Main.FormMain.MainDetection.panel_DataShow.Controls.Add(UI_DataShowForm);
-                BIZ_DataWorker_Narrow BIZ_DataWorker = new BIZ_DataWorker_Narrow(UI_DataShowForm as Form_Narrow);
-                BIZ_DataWorker.BIZ_Variable.dic_EAproductsInfo_A= ((PFTCleanProParams)Project.Instance.baseProDevice.m_DicCamOperaParam[0]).dic_EAproductsInfo;
-                BIZ_DataWorker.BIZ_Variable.dic_EAproductsInfo_B= ((PFTCleanProParams)Project.Instance.baseProDevice.m_DicCamOperaParam[1]).dic_EAproductsInfo;
+                BIZ_DataWorker_WidthLaser BIZ_DataWorker = new BIZ_DataWorker_WidthLaser(UI_DataShowForm as Form_WidthLaserDetect);
+                BIZ_DataWorker.BIZ_Variable.dic_EAproductsInfo_A = ((PFTCleanProParams)Project.Instance.baseProDevice.m_DicCamOperaParam[0]).dic_EAproductsInfo;
+                BIZ_DataWorker.BIZ_Variable.dic_EAproductsInfo_B = ((PFTCleanProParams)Project.Instance.baseProDevice.m_DicCamOperaParam[1]).dic_EAproductsInfo;
 
                 BIZ_DataWorker.BIZ_Variable.dic_EAproductsInfo_SimA = ((PFTCleanProParams)Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[0]).dic_EAproductsInfo;
                 BIZ_DataWorker.BIZ_Variable.dic_EAproductsInfo_SimB = ((PFTCleanProParams)Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[1]).dic_EAproductsInfo;
@@ -294,13 +173,12 @@ namespace Mef_VisionFrame
 
                 Project.Instance.baseProDevice.m_DicCamOperaParam[0].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_FrameCam1);
                 Project.Instance.baseProDevice.m_DicCamOperaParam[0].ProductCallBackCraft = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_EACam1);
-        
+
 
                 Project.Instance.baseProDevice.m_DicCamOperaParam[1].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_FrameCam2);
                 Project.Instance.baseProDevice.m_DicCamOperaParam[1].ProductCallBackCraft = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_EACam2);
 
-                Project.Instance.baseProDevice.m_DicCamOperaParam[2].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData3D_A);
-                Project.Instance.baseProDevice.m_DicCamOperaParam[3].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData3D_B);
+
 
 
                 Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[0].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_FrameCam1);
@@ -309,14 +187,13 @@ namespace Mef_VisionFrame
                 Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[1].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_FrameCam2);
                 Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[1].ProductCallBackCraft = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_EACam2);
 
-                Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[2].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData3D_A);
-                Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[3].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData3D_B);
+
 
                 Form_Main.FormMain.相机标定ToolStripMenuItem.Visible = false;
                 Form_Main.FormMain.打标机软件通讯ToolStripMenuItem.Visible = true;
                 Form_Main.FormMain.尺寸点检ToolStripMenuItem.Visible = true;
                 Form_Main.FormMain.纠偏设置ToolStripMenuItem.Visible = true;
-             
+
             }
 
 

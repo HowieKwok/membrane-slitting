@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,12 +14,15 @@ namespace Frame_Core
         /// </summary>
         public string dataStr = "";
 
+
+        public int mode = 0;
+
         /// <summary>
         /// 检测结果类型
         /// </summary>
         public ResultType resultType = ResultType.OK;
     }
-
+    [Serializable]
     public enum ResultType
     {
    

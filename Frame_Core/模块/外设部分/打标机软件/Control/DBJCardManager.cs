@@ -6,6 +6,7 @@ using LogTool;
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -22,22 +23,9 @@ namespace Frame_Core
     /// <summary>
     /// 打标机设备管理
     /// </summary>
-    public class DBJCardManager
+    public class DBJCardManager: TCPCientManager
     {
-        /// <summary>
-        /// 读取信息路径
-        /// </summary>
-        public string ReadLogPath = $"E:\\检测数据\\NewProduct\\打标机软件日志记录-接收.ini";
-
-        /// <summary>
-        /// 发送信息路径
-        /// </summary>
-        public string SendLogPath = $"E:\\检测数据\\NewProduct\\打标机软件日志记录-发送.ini";
-        /// <summary>
-        /// 发送心跳路径
-        /// </summary>
-        public string SendHeartPath = $"E:\\检测数据\\NewProduct\\打标机软件日志记录-心跳.ini";
-
+       
         /// <summary>
         /// 发送打标信息路径
         /// </summary>
@@ -48,37 +36,39 @@ namespace Frame_Core
         /// </summary>
         public string SendJPPath = $"E:\\检测数据\\NewProduct\\打标机软件日志记录-纠偏.ini";
 
-        /// <summary>
-        /// 初始化状态
-        /// </summary>
-        public bool initState;
-
-        /// <summary>
-        /// 主设备运行状态
-        /// </summary>
-        public bool MDevRun_Flag = false;
-
-        private int WriteFailNum = 1;//写入失败次数
-        private int ReadFailNum = 1;//读取失败次数
-        private int WriteFailCount = 0;//写入失败计数
-        private int ReadFailCount = 0;//读取失败计数
-
-        public DBJCardParam dBJCardParam;
+        public int ZoneNumber { get; set; } = 8;
 
 
-        public FinsTcp FinsTCP = new FinsTcp();              //调用FinsTcp协议的类
-        public TCP TCPIP = new TCP();               //调用TCPClient里面现有的方法（TCP/IP)通讯     
-        public EH_Modbus ModbusTcp = new EH_Modbus();
 
 
-        public Thread thd_Send = null;
-        public Thread thd_Read = null;
-        public bool bFlag_Thd_PLC = false;
+        public BindingList<CoatingZone> Zones()
+        {
+            DBJCardParam dBJCardParam = tcpClientParam as DBJCardParam;
+            return dBJCardParam.Zones;
+        }
 
-        public bool InitParam(string path, Boolean isCopy = false)
+
+        public void SetZoneCount(int newCount)
+        {
+           DBJCardParam dBJCardParam=tcpClientParam as DBJCardParam;
+            int oldCount =dBJCardParam.Zones.Count;
+
+            // 1. 需要新增
+            for (int i = oldCount + 1; i <= newCount; i++)
+                dBJCardParam.Zones.Add(new CoatingZone { ZoneNumber = i });
+
+            // 2. 需要删除
+            while (dBJCardParam.Zones.Count > newCount)
+                dBJCardParam.Zones.RemoveAt(dBJCardParam.Zones.Count - 1);
+        }
+
+
+
+        public override bool InitParam(string path, Boolean isCopy = false)
         {
             try
             {
+                DBJCardParam dBJCardParam = tcpClientParam as DBJCardParam;
                 if (!isCopy)
                 {
                     if (dBJCardParam == null) dBJCardParam = new DBJCardParam();
@@ -86,12 +76,21 @@ namespace Frame_Core
                     dBJCardParam.Init();
                     dBJCardParam = (DBJCardParam)dBJCardParam.Read();
                     dBJCardParam.filePath = path;
+                    if(dBJCardParam!=null)
+                    {
+                        dBJCardParam.ZonesInit();
+                    }
+                    tcpClientParam = dBJCardParam;
+                
                 }
                 else
                 {
                     if (dBJCardParam == null) dBJCardParam = new DBJCardParam();
                     dBJCardParam.filePath = path;
+                    dBJCardParam.Init();
+                    dBJCardParam.ZonesInit();
                     dBJCardParam.Save();
+                    tcpClientParam =dBJCardParam;
                 }
             }
             catch (Exception ex)
@@ -121,8 +120,9 @@ namespace Frame_Core
         /// 出标反馈产品ID
         /// </summary>
         public QueuePackage<long> MarkFeedbackProdID = new QueuePackage<long>();
-        public bool InitPLC()
+        public override  bool InitPLC()
         {
+            DBJCardParam dBJCardParam = tcpClientParam as DBJCardParam;
             if (!dBJCardParam.IsConnect) return false;
 
             bool T = false;
@@ -162,7 +162,7 @@ namespace Frame_Core
             return initState;
         }
 
-        public bool Close()
+        public override bool Close()
         {
             try
             {
@@ -288,12 +288,11 @@ namespace Frame_Core
         #region 信息交互
 
         #region 发送
-        object sendLock = new object();
-        DateTime HeartTimer = DateTime.Now;
+     
         /// <summary>
         /// 发送心跳
         /// </summary>
-        private void SendHeart()
+        protected override void SendHeart()
         {
             if (!initState) return;
             try
@@ -593,6 +592,50 @@ namespace Frame_Core
 
         }
 
+
+        public void SendDBInfo(long frame, (int, string)[] DBChannalArray, int CameraNum)
+        {
+
+
+            if (!initState) return;
+            try
+            {
+                lock (sendLock)
+                {
+
+                    string str = "DB12";
+                    for (int i = 0; i < DBChannalArray.Count(); i++)
+                    {
+                        str += DBChannalArray[i].Item2;
+                    }
+                    str += $"{FormatChannelCode((int)frame)}{FormatChannelCode((int)CameraNum)}";
+                    HOperatorSet.CountSeconds(out HTuple start1);
+                    HOperatorSet.CountSeconds(out HTuple start);
+                    bool F = TCPIP.TCP_Send(str, SendDBPath);
+                    HOperatorSet.CountSeconds(out HTuple end);
+                    double hTime4 = ((end - start) * 1000).D;//数据处理总耗时
+                    MessageNotify.AddDebugLog("发送打标耗时：" + hTime4.ToString());
+                    MessageNotify.AddCommLog("输出打标字符串：" + str);
+                    if (!F) WriteFailCount++;
+
+                }
+
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+
+
+
+        }
+
+        private string FormatChannelCode(int channel)
+          => channel.ToString().PadLeft(4, '0'); // 生成"0001"格式
+
         /// <summary>
         /// 发送面阵相机检测结果
         /// </summary>
@@ -732,7 +775,7 @@ namespace Frame_Core
         /// <summary>
         /// 打标机接收信息解析
         /// </summary>
-        private void DBJReadResponse(string RedPlcData_str)
+        protected override void DBJReadResponse(string RedPlcData_str)
         {
             try
             {
@@ -885,12 +928,12 @@ namespace Frame_Core
 
         }
 
-        DateTime HeartFeedbark_CCD1 = DateTime.Now;
+       
         /// <summary>
         /// 读取 心跳反馈
         /// </summary>
         /// <returns></returns>
-        private void ReadPLC_Hart(bool isHeartFeedbark)
+        protected override void ReadPLC_Hart(bool isHeartFeedbark)
         {
             DateTime date1 = DateTime.Now;
             if (isHeartFeedbark) HeartFeedbark_CCD1 = date1;
@@ -904,6 +947,21 @@ namespace Frame_Core
         #endregion
         #endregion
 
+    }
+
+    [Serializable]
+    public class CoatingZone
+    {
+        public int ZoneNumber { get; set; }
+        public BindingList<MarkerChannel> Channels { get; } = new BindingList<MarkerChannel>();
+    }
+
+    [Serializable]
+    public class MarkerChannel
+    {
+        public int Id { get; set; } = 1;
+        public string Name { get; set; } = "CH1";
+        public override string ToString() => Name;
     }
 
 }

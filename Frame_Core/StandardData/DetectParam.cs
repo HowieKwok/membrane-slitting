@@ -44,6 +44,8 @@ namespace Frame_Core
         public long m_iProductIndex { get; set; } = 0;
 
 
+        public long m_iSliceIndex { get; set; } = 0;
+
         /// <summary>
         /// 结果类型
         /// </summary>
@@ -128,9 +130,10 @@ namespace Frame_Core
         {
             m_stdNgTypeInfoCopy = new NgTypeInfo();
             m_stdNgTypeInfoCopy.cameraEnum = cameraEnum;
-            m_stdNgTypeInfoCopy.m_strNgTypeName= m_strNgTypeName;
+            m_stdNgTypeInfoCopy.m_strNgTypeName = m_strNgTypeName;
             m_stdNgTypeInfoCopy.m_iProductIndex = m_iProductIndex;
             m_stdNgTypeInfoCopy.m_nImgIndex = m_nImgIndex;
+            m_stdNgTypeInfoCopy.m_iSliceIndex = m_iSliceIndex; //分条数
             m_stdNgTypeInfoCopy.m_fMeasureSize = m_fMeasureSize;
             m_stdNgTypeInfoCopy.NgMidRow = NgMidRow;
             m_stdNgTypeInfoCopy.NgMidColumn = NgMidColumn;
@@ -150,12 +153,11 @@ namespace Frame_Core
         }
         public void Dispose()
         {
-            m_hRegion?.DisposeEx();
-            m_hImage?.DisposeEx();
+            m_hRegion?.Dispose();
+            m_hImage?.Dispose();
         }
     }
-
-
+    [Serializable]
     public class AlarmCraftInfo
     {
         public double UpTolerance = 0;
@@ -163,7 +165,7 @@ namespace Frame_Core
         public bool IsAlarm = false;
     }
 
-
+    [Serializable]
     public class SizeInfo : IDisposable
     {
         public bool IsCalcued = false;
@@ -173,6 +175,8 @@ namespace Frame_Core
         public double DataResult = -999;
 
         public SizeEnum sizeEnum = SizeEnum.AT9宽度;
+
+        public int Index = 0;
 
         public string Name = "默认";
 

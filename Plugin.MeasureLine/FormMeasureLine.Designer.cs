@@ -91,17 +91,6 @@
             this.label26 = new System.Windows.Forms.Label();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.NUD_SharpenSigma = new System.Windows.Forms.NumericUpDown();
-            this.LB_SharpenSigma = new System.Windows.Forms.Label();
-            this.NUD_SharpenIterations = new System.Windows.Forms.NumericUpDown();
-            this.LB_SharpenIterations = new System.Windows.Forms.Label();
-            this.NUD_ScaleFactor = new System.Windows.Forms.NumericUpDown();
-            this.LB_ScaleFactor = new System.Windows.Forms.Label();
-            this.NUD_ScaleMean = new System.Windows.Forms.NumericUpDown();
-            this.PB_SelectColor = new System.Windows.Forms.PictureBox();
-            this.LB_ScaleMean = new System.Windows.Forms.Label();
-            this.RB_ScaleSharpen = new System.Windows.Forms.RadioButton();
-            this.RB_ProcessNone = new System.Windows.Forms.RadioButton();
             this.NUD_RoiStandardColumn = new System.Windows.Forms.NumericUpDown();
             this.NUD_RoiStandardRow = new System.Windows.Forms.NumericUpDown();
             this.LB_RoiStandardColumn = new System.Windows.Forms.Label();
@@ -122,6 +111,17 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.TrB_ROIIndex = new System.Windows.Forms.TrackBar();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.NUD_ScaleMean = new System.Windows.Forms.NumericUpDown();
+            this.LB_ScaleMean = new System.Windows.Forms.Label();
+            this.RB_ScaleSharpen = new System.Windows.Forms.RadioButton();
+            this.RB_ProcessNone = new System.Windows.Forms.RadioButton();
+            this.PB_SelectColor = new System.Windows.Forms.PictureBox();
+            this.LB_ScaleFactor = new System.Windows.Forms.Label();
+            this.NUD_ScaleFactor = new System.Windows.Forms.NumericUpDown();
+            this.LB_SharpenIterations = new System.Windows.Forms.Label();
+            this.NUD_SharpenIterations = new System.Windows.Forms.NumericUpDown();
+            this.LB_SharpenSigma = new System.Windows.Forms.Label();
+            this.NUD_SharpenSigma = new System.Windows.Forms.NumericUpDown();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LoadImage)).BeginInit();
@@ -150,11 +150,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_MeasureMinScore)).BeginInit();
             this.tabPage5.SuspendLayout();
             this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_SharpenSigma)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_SharpenIterations)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_ScaleFactor)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_ScaleMean)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_SelectColor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RoiStandardColumn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RoiStandardRow)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RoiStandardOffsetColumn)).BeginInit();
@@ -164,6 +159,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RoiIncreaseNum)).BeginInit();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TrB_ROIIndex)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ScaleMean)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_SelectColor)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ScaleFactor)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_SharpenIterations)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_SharpenSigma)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel2
@@ -172,7 +172,7 @@
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel3, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.groupBox1, 0, 11);
             this.tableLayoutPanel2.Controls.Add(this.groupBox2, 9, 0);
-            this.tableLayoutPanel2.Controls.Add(this.groupBox3, 9, 9);
+            this.tableLayoutPanel2.Controls.Add(this.groupBox3, 9, 10);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             // 
             // tableLayoutPanel3
@@ -233,7 +233,7 @@
             resources.ApplyResources(this.HWC_Display, "HWC_Display");
             this.HWC_Display.ImagePart = new System.Drawing.Rectangle(0, 0, 640, 480);
             this.HWC_Display.Name = "HWC_Display";
-            this.HWC_Display.WindowSize = new System.Drawing.Size(579, 475);
+            this.HWC_Display.WindowSize = new System.Drawing.Size(579, 508);
             this.HWC_Display.HMouseMove += new HalconDotNet.HMouseEventHandler(this.HWC_Display_HMouseMove);
             // 
             // FullScrean
@@ -283,7 +283,7 @@
             this.HWC_Image3.ImagePart = new System.Drawing.Rectangle(0, 0, 640, 480);
             this.HWC_Image3.Name = "HWC_Image3";
             this.tableLayoutPanel7.SetRowSpan(this.HWC_Image3, 2);
-            this.HWC_Image3.WindowSize = new System.Drawing.Size(109, 136);
+            this.HWC_Image3.WindowSize = new System.Drawing.Size(109, 142);
             // 
             // HWC_Image2
             // 
@@ -293,7 +293,8 @@
             this.HWC_Image2.ImagePart = new System.Drawing.Rectangle(0, 0, 640, 480);
             this.HWC_Image2.Name = "HWC_Image2";
             this.tableLayoutPanel7.SetRowSpan(this.HWC_Image2, 2);
-            this.HWC_Image2.WindowSize = new System.Drawing.Size(109, 136);
+            this.HWC_Image2.WindowSize = new System.Drawing.Size(109, 142);
+            this.HWC_Image2.HMouseDown += new HalconDotNet.HMouseEventHandler(this.HWC_Image2_HMouseDown);
             // 
             // HWC_Image1
             // 
@@ -303,7 +304,8 @@
             this.HWC_Image1.ImagePart = new System.Drawing.Rectangle(0, 0, 640, 480);
             this.HWC_Image1.Name = "HWC_Image1";
             this.tableLayoutPanel7.SetRowSpan(this.HWC_Image1, 2);
-            this.HWC_Image1.WindowSize = new System.Drawing.Size(109, 136);
+            this.HWC_Image1.WindowSize = new System.Drawing.Size(109, 142);
+            this.HWC_Image1.HMouseDown += new HalconDotNet.HMouseEventHandler(this.HWC_Image1_HMouseDown);
             // 
             // label16
             // 
@@ -317,7 +319,7 @@
             this.groupBox2.Controls.Add(this.TB_ROIMoveIndex);
             resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
-            this.tableLayoutPanel2.SetRowSpan(this.groupBox2, 9);
+            this.tableLayoutPanel2.SetRowSpan(this.groupBox2, 10);
             this.groupBox2.TabStop = false;
             // 
             // TB_ROIMoveIndex
@@ -513,6 +515,17 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.NUD_SharpenSigma);
+            this.panel1.Controls.Add(this.LB_SharpenSigma);
+            this.panel1.Controls.Add(this.NUD_SharpenIterations);
+            this.panel1.Controls.Add(this.LB_SharpenIterations);
+            this.panel1.Controls.Add(this.NUD_ScaleFactor);
+            this.panel1.Controls.Add(this.LB_ScaleFactor);
+            this.panel1.Controls.Add(this.NUD_ScaleMean);
+            this.panel1.Controls.Add(this.PB_SelectColor);
+            this.panel1.Controls.Add(this.LB_ScaleMean);
+            this.panel1.Controls.Add(this.RB_ScaleSharpen);
+            this.panel1.Controls.Add(this.RB_ProcessNone);
             this.panel1.Controls.Add(this.CB_DefaultLine);
             this.panel1.Controls.Add(this.CB_PeakValleySelect);
             this.panel1.Controls.Add(this.label1);
@@ -801,17 +814,6 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.NUD_SharpenSigma);
-            this.groupBox4.Controls.Add(this.LB_SharpenSigma);
-            this.groupBox4.Controls.Add(this.NUD_SharpenIterations);
-            this.groupBox4.Controls.Add(this.LB_SharpenIterations);
-            this.groupBox4.Controls.Add(this.NUD_ScaleFactor);
-            this.groupBox4.Controls.Add(this.LB_ScaleFactor);
-            this.groupBox4.Controls.Add(this.NUD_ScaleMean);
-            this.groupBox4.Controls.Add(this.PB_SelectColor);
-            this.groupBox4.Controls.Add(this.LB_ScaleMean);
-            this.groupBox4.Controls.Add(this.RB_ScaleSharpen);
-            this.groupBox4.Controls.Add(this.RB_ProcessNone);
             this.groupBox4.Controls.Add(this.NUD_RoiStandardColumn);
             this.groupBox4.Controls.Add(this.NUD_RoiStandardRow);
             this.groupBox4.Controls.Add(this.LB_RoiStandardColumn);
@@ -832,122 +834,6 @@
             resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.TabStop = false;
-            // 
-            // NUD_SharpenSigma
-            // 
-            resources.ApplyResources(this.NUD_SharpenSigma, "NUD_SharpenSigma");
-            this.NUD_SharpenSigma.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.NUD_SharpenSigma.DecimalPlaces = 1;
-            this.NUD_SharpenSigma.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.NUD_SharpenSigma.Maximum = new decimal(new int[] {
-            30,
-            0,
-            0,
-            65536});
-            this.NUD_SharpenSigma.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.NUD_SharpenSigma.Name = "NUD_SharpenSigma";
-            this.NUD_SharpenSigma.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            65536});
-            // 
-            // LB_SharpenSigma
-            // 
-            resources.ApplyResources(this.LB_SharpenSigma, "LB_SharpenSigma");
-            this.LB_SharpenSigma.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.LB_SharpenSigma.Name = "LB_SharpenSigma";
-            // 
-            // NUD_SharpenIterations
-            // 
-            this.NUD_SharpenIterations.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            resources.ApplyResources(this.NUD_SharpenIterations, "NUD_SharpenIterations");
-            this.NUD_SharpenIterations.Maximum = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.NUD_SharpenIterations.Name = "NUD_SharpenIterations";
-            // 
-            // LB_SharpenIterations
-            // 
-            resources.ApplyResources(this.LB_SharpenIterations, "LB_SharpenIterations");
-            this.LB_SharpenIterations.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.LB_SharpenIterations.Name = "LB_SharpenIterations";
-            // 
-            // NUD_ScaleFactor
-            // 
-            this.NUD_ScaleFactor.DecimalPlaces = 1;
-            resources.ApplyResources(this.NUD_ScaleFactor, "NUD_ScaleFactor");
-            this.NUD_ScaleFactor.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.NUD_ScaleFactor.Maximum = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
-            this.NUD_ScaleFactor.Name = "NUD_ScaleFactor";
-            // 
-            // LB_ScaleFactor
-            // 
-            resources.ApplyResources(this.LB_ScaleFactor, "LB_ScaleFactor");
-            this.LB_ScaleFactor.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.LB_ScaleFactor.Name = "LB_ScaleFactor";
-            // 
-            // NUD_ScaleMean
-            // 
-            resources.ApplyResources(this.NUD_ScaleMean, "NUD_ScaleMean");
-            this.NUD_ScaleMean.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.NUD_ScaleMean.Name = "NUD_ScaleMean";
-            this.NUD_ScaleMean.Value = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            // 
-            // PB_SelectColor
-            // 
-            this.PB_SelectColor.BackColor = System.Drawing.Color.White;
-            resources.ApplyResources(this.PB_SelectColor, "PB_SelectColor");
-            this.PB_SelectColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PB_SelectColor.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.PB_SelectColor.Name = "PB_SelectColor";
-            this.PB_SelectColor.TabStop = false;
-            // 
-            // LB_ScaleMean
-            // 
-            resources.ApplyResources(this.LB_ScaleMean, "LB_ScaleMean");
-            this.LB_ScaleMean.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.LB_ScaleMean.Name = "LB_ScaleMean";
-            // 
-            // RB_ScaleSharpen
-            // 
-            resources.ApplyResources(this.RB_ScaleSharpen, "RB_ScaleSharpen");
-            this.RB_ScaleSharpen.Name = "RB_ScaleSharpen";
-            this.RB_ScaleSharpen.UseVisualStyleBackColor = true;
-            // 
-            // RB_ProcessNone
-            // 
-            resources.ApplyResources(this.RB_ProcessNone, "RB_ProcessNone");
-            this.RB_ProcessNone.Checked = true;
-            this.RB_ProcessNone.Name = "RB_ProcessNone";
-            this.RB_ProcessNone.TabStop = true;
-            this.RB_ProcessNone.UseVisualStyleBackColor = true;
             // 
             // NUD_RoiStandardColumn
             // 
@@ -1124,7 +1010,7 @@
             this.groupBox3.Controls.Add(this.TrB_ROIIndex);
             resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
-            this.tableLayoutPanel2.SetRowSpan(this.groupBox3, 6);
+            this.tableLayoutPanel2.SetRowSpan(this.groupBox3, 5);
             this.groupBox3.TabStop = false;
             // 
             // TrB_ROIIndex
@@ -1142,6 +1028,128 @@
             // 
             this.timer1.Enabled = true;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // NUD_ScaleMean
+            // 
+            resources.ApplyResources(this.NUD_ScaleMean, "NUD_ScaleMean");
+            this.NUD_ScaleMean.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.NUD_ScaleMean.Name = "NUD_ScaleMean";
+            this.NUD_ScaleMean.Value = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.NUD_ScaleMean.ValueChanged += new System.EventHandler(this.NUD_ScaleMean_ValueChanged);
+            // 
+            // LB_ScaleMean
+            // 
+            resources.ApplyResources(this.LB_ScaleMean, "LB_ScaleMean");
+            this.LB_ScaleMean.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.LB_ScaleMean.Name = "LB_ScaleMean";
+            // 
+            // RB_ScaleSharpen
+            // 
+            resources.ApplyResources(this.RB_ScaleSharpen, "RB_ScaleSharpen");
+            this.RB_ScaleSharpen.Name = "RB_ScaleSharpen";
+            this.RB_ScaleSharpen.UseVisualStyleBackColor = true;
+            this.RB_ScaleSharpen.CheckedChanged += new System.EventHandler(this.RB_ImageProcess_CheckedChanged);
+            // 
+            // RB_ProcessNone
+            // 
+            resources.ApplyResources(this.RB_ProcessNone, "RB_ProcessNone");
+            this.RB_ProcessNone.Checked = true;
+            this.RB_ProcessNone.Name = "RB_ProcessNone";
+            this.RB_ProcessNone.TabStop = true;
+            this.RB_ProcessNone.UseVisualStyleBackColor = true;
+            this.RB_ProcessNone.CheckedChanged += new System.EventHandler(this.RB_ImageProcess_CheckedChanged);
+            // 
+            // PB_SelectColor
+            // 
+            this.PB_SelectColor.BackColor = System.Drawing.Color.White;
+            resources.ApplyResources(this.PB_SelectColor, "PB_SelectColor");
+            this.PB_SelectColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PB_SelectColor.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.PB_SelectColor.Name = "PB_SelectColor";
+            this.PB_SelectColor.TabStop = false;
+            // 
+            // LB_ScaleFactor
+            // 
+            resources.ApplyResources(this.LB_ScaleFactor, "LB_ScaleFactor");
+            this.LB_ScaleFactor.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.LB_ScaleFactor.Name = "LB_ScaleFactor";
+            // 
+            // NUD_ScaleFactor
+            // 
+            this.NUD_ScaleFactor.DecimalPlaces = 1;
+            resources.ApplyResources(this.NUD_ScaleFactor, "NUD_ScaleFactor");
+            this.NUD_ScaleFactor.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.NUD_ScaleFactor.Maximum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.NUD_ScaleFactor.Name = "NUD_ScaleFactor";
+            this.NUD_ScaleFactor.ValueChanged += new System.EventHandler(this.NUD_ScaleFactor_ValueChanged);
+            // 
+            // LB_SharpenIterations
+            // 
+            resources.ApplyResources(this.LB_SharpenIterations, "LB_SharpenIterations");
+            this.LB_SharpenIterations.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.LB_SharpenIterations.Name = "LB_SharpenIterations";
+            // 
+            // NUD_SharpenIterations
+            // 
+            this.NUD_SharpenIterations.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            resources.ApplyResources(this.NUD_SharpenIterations, "NUD_SharpenIterations");
+            this.NUD_SharpenIterations.Maximum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.NUD_SharpenIterations.Name = "NUD_SharpenIterations";
+            this.NUD_SharpenIterations.ValueChanged += new System.EventHandler(this.NUD_SharpenIterations_ValueChanged);
+            // 
+            // LB_SharpenSigma
+            // 
+            resources.ApplyResources(this.LB_SharpenSigma, "LB_SharpenSigma");
+            this.LB_SharpenSigma.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.LB_SharpenSigma.Name = "LB_SharpenSigma";
+            // 
+            // NUD_SharpenSigma
+            // 
+            resources.ApplyResources(this.NUD_SharpenSigma, "NUD_SharpenSigma");
+            this.NUD_SharpenSigma.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.NUD_SharpenSigma.DecimalPlaces = 1;
+            this.NUD_SharpenSigma.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.NUD_SharpenSigma.Maximum = new decimal(new int[] {
+            30,
+            0,
+            0,
+            65536});
+            this.NUD_SharpenSigma.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.NUD_SharpenSigma.Name = "NUD_SharpenSigma";
+            this.NUD_SharpenSigma.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
+            this.NUD_SharpenSigma.ValueChanged += new System.EventHandler(this.NUD_SharpenSigma_ValueChanged);
             // 
             // FormMeasureLine
             // 
@@ -1187,11 +1195,6 @@
             this.tabPage5.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_SharpenSigma)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_SharpenIterations)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_ScaleFactor)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_ScaleMean)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_SelectColor)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RoiStandardColumn)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RoiStandardRow)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RoiStandardOffsetColumn)).EndInit();
@@ -1202,6 +1205,11 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TrB_ROIIndex)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ScaleMean)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_SelectColor)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ScaleFactor)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_SharpenIterations)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_SharpenSigma)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1251,17 +1259,6 @@
         private System.Windows.Forms.RadioButton RB_IncreaseROI;
         private System.Windows.Forms.RadioButton RB_StandardROI;
         private System.Windows.Forms.RadioButton RB_StaticROI;
-        public System.Windows.Forms.NumericUpDown NUD_SharpenSigma;
-        private System.Windows.Forms.Label LB_SharpenSigma;
-        public System.Windows.Forms.NumericUpDown NUD_SharpenIterations;
-        private System.Windows.Forms.Label LB_SharpenIterations;
-        public System.Windows.Forms.NumericUpDown NUD_ScaleFactor;
-        private System.Windows.Forms.Label LB_ScaleFactor;
-        public System.Windows.Forms.NumericUpDown NUD_ScaleMean;
-        private System.Windows.Forms.PictureBox PB_SelectColor;
-        private System.Windows.Forms.Label LB_ScaleMean;
-        private System.Windows.Forms.RadioButton RB_ScaleSharpen;
-        private System.Windows.Forms.RadioButton RB_ProcessNone;
         private System.Windows.Forms.NumericUpDown NUD_RoiMidColumn;
         private System.Windows.Forms.NumericUpDown NUD_RoiMidRow;
         private System.Windows.Forms.Label label15;
@@ -1300,5 +1297,16 @@
         private System.Windows.Forms.ComboBox CB_PeakValleySelect;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox CB_DefaultLine;
+        public System.Windows.Forms.NumericUpDown NUD_SharpenSigma;
+        private System.Windows.Forms.Label LB_SharpenSigma;
+        public System.Windows.Forms.NumericUpDown NUD_SharpenIterations;
+        private System.Windows.Forms.Label LB_SharpenIterations;
+        public System.Windows.Forms.NumericUpDown NUD_ScaleFactor;
+        private System.Windows.Forms.Label LB_ScaleFactor;
+        public System.Windows.Forms.NumericUpDown NUD_ScaleMean;
+        private System.Windows.Forms.PictureBox PB_SelectColor;
+        private System.Windows.Forms.Label LB_ScaleMean;
+        private System.Windows.Forms.RadioButton RB_ScaleSharpen;
+        private System.Windows.Forms.RadioButton RB_ProcessNone;
     }
 }

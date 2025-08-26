@@ -17,7 +17,7 @@ namespace HalconAlgorithm
         /// <param name="ho_ImagePart">裁切图</param>
         public static void ImageCrop(HObject ho_Image, HObject ho_Region, out HObject ho_ImagePart)
         {
-            HObject ho_ImageReduced; 
+            HObject ho_ImageReduced;
             HOperatorSet.ReduceDomain(ho_Image, ho_Region, out ho_ImageReduced);
             HOperatorSet.CropDomain(ho_ImageReduced, out ho_ImagePart);
             ho_ImageReduced.Dispose();
@@ -49,17 +49,17 @@ namespace HalconAlgorithm
             HTuple hv_Area;
             HTuple hv_Row;
             HTuple hv_Column;
-            HOperatorSet.GetImageSize(ho_Image, out  hv_Width, out  hv_Height);
-            HOperatorSet.PaintRegion(ho_Reigion, ho_Image, out  ho_ImagePaint, 0, "fill");
+            HOperatorSet.GetImageSize(ho_Image, out hv_Width, out hv_Height);
+            HOperatorSet.PaintRegion(ho_Reigion, ho_Image, out ho_ImagePaint, 0, "fill");
 
-            HOperatorSet.GetImageSize(ho_ImagePart, out  hv_WidthPart, out  hv_HeightPart);
-            HOperatorSet.GenRectangle1(out  ho_RectanglePart, 0, 0, hv_HeightPart - 1, hv_WidthPart - 1);
-            HOperatorSet.AreaCenter(ho_ImagePart, out  hv_AreaPart, out  hv_RowPart, out hv_ColumnPart);
-            HOperatorSet.GetRegionPoints(ho_RectanglePart, out  hv_RowsPart, out  hv_ColumnsPart);
-            HOperatorSet.GetGrayval(ho_ImagePart, hv_RowsPart, hv_ColumnsPart, out  hv_GrayvalPart);
+            HOperatorSet.GetImageSize(ho_ImagePart, out hv_WidthPart, out hv_HeightPart);
+            HOperatorSet.GenRectangle1(out ho_RectanglePart, 0, 0, hv_HeightPart - 1, hv_WidthPart - 1);
+            HOperatorSet.AreaCenter(ho_ImagePart, out hv_AreaPart, out hv_RowPart, out hv_ColumnPart);
+            HOperatorSet.GetRegionPoints(ho_RectanglePart, out hv_RowsPart, out hv_ColumnsPart);
+            HOperatorSet.GetGrayval(ho_ImagePart, hv_RowsPart, hv_ColumnsPart, out hv_GrayvalPart);
 
-            HOperatorSet.GenImageConst(out  ho_ImagePartPaint, "byte", hv_Width, hv_Height);
-            HOperatorSet.AreaCenter(ho_Reigion, out  hv_Area, out  hv_Row, out  hv_Column);
+            HOperatorSet.GenImageConst(out ho_ImagePartPaint, "byte", hv_Width, hv_Height);
+            HOperatorSet.AreaCenter(ho_Reigion, out hv_Area, out hv_Row, out hv_Column);
             HOperatorSet.SetGrayval(ho_ImagePartPaint, (hv_RowsPart + hv_Row) - (hv_HeightPart / 2), (hv_ColumnsPart + hv_Column) - (hv_WidthPart / 2), hv_GrayvalPart);
             HOperatorSet.AddImage(ho_ImagePaint, ho_ImagePartPaint, out ho_ImageStich, 1, 0);
 
@@ -74,7 +74,7 @@ namespace HalconAlgorithm
         ///图像拼接
         ///</summary>
         public static void ImageStitching(HObject ho_ImageResult, HObject ho_Image, HTuple hv_CenterRow, HTuple hv_CenterCol, HTuple hv_Phi, HTuple hv_Length1,
-                                   HTuple hv_Length2,  out HObject ho_ImageStich)
+                                   HTuple hv_Length2, out HObject ho_ImageStich)
         {
             // Local iconic variables 
 
@@ -144,12 +144,12 @@ namespace HalconAlgorithm
 
             HOperatorSet.Decompose3(ho_ImageRGB, out ho_ImageR, out ho_ImageG, out ho_ImageB);
 
-            HOperatorSet.ScaleImage(ho_ImageR, out  ho_ImageScaledR, hv_ValueR / ((hv_ValueR + hv_ValueG) + hv_ValueB), 0);
-            HOperatorSet.ScaleImage(ho_ImageG, out  ho_ImageScaledG, hv_ValueG / ((hv_ValueR + hv_ValueG) + hv_ValueB), 0);
-            HOperatorSet.ScaleImage(ho_ImageB, out  ho_ImageScaledB, hv_ValueB / ((hv_ValueR + hv_ValueG) + hv_ValueB), 0);
+            HOperatorSet.ScaleImage(ho_ImageR, out ho_ImageScaledR, hv_ValueR / ((hv_ValueR + hv_ValueG) + hv_ValueB), 0);
+            HOperatorSet.ScaleImage(ho_ImageG, out ho_ImageScaledG, hv_ValueG / ((hv_ValueR + hv_ValueG) + hv_ValueB), 0);
+            HOperatorSet.ScaleImage(ho_ImageB, out ho_ImageScaledB, hv_ValueB / ((hv_ValueR + hv_ValueG) + hv_ValueB), 0);
 
-            HOperatorSet.AddImage(ho_ImageScaledR, ho_ImageScaledG, out  ho_ImageResult1, 1, 0);
-            HOperatorSet.AddImage(ho_ImageResult1, ho_ImageScaledB, out  ho_ImageResult2, 1, 0);
+            HOperatorSet.AddImage(ho_ImageScaledR, ho_ImageScaledG, out ho_ImageResult1, 1, 0);
+            HOperatorSet.AddImage(ho_ImageResult1, ho_ImageScaledB, out ho_ImageResult2, 1, 0);
 
             HOperatorSet.ScaleImage(ho_ImageResult2, out ho_ImageRGBEmphasis,
                                     255 * (hv_ValueR + hv_ValueG + hv_ValueB) / (hv_ValueR * hv_ValueR + hv_ValueG * hv_ValueG + hv_ValueB * hv_ValueB), 0);
@@ -173,8 +173,8 @@ namespace HalconAlgorithm
         {
             HObject ho_ImageMean;
             HObject ho_ImageSub;
-            HOperatorSet.MeanImage(ho_Image, out  ho_ImageMean, hv_MaskSize, hv_MaskSize);
-            HOperatorSet.SubImage(ho_Image, ho_ImageMean, out  ho_ImageSub, hv_MultiValue * (-1), 128);
+            HOperatorSet.MeanImage(ho_Image, out ho_ImageMean, hv_MaskSize, hv_MaskSize);
+            HOperatorSet.SubImage(ho_Image, ho_ImageMean, out ho_ImageSub, hv_MultiValue * (-1), 128);
             HOperatorSet.SubImage(ho_Image, ho_ImageSub, out ho_ImageEmphasis, 1, 128);
             ho_ImageMean.Dispose();
             ho_ImageSub.Dispose();
@@ -206,10 +206,10 @@ namespace HalconAlgorithm
             HObject ho_ImageScaled1;
             HObject ho_ImageScaled2;
             HObject ho_ImageScaled3;
-            HOperatorSet.ScaleImage(ho_Image, out  ho_ImageScaled1, 255 / hv_Mean.D, 0);
+            HOperatorSet.ScaleImage(ho_Image, out ho_ImageScaled1, 255 / hv_Mean.D, 0);
 
-            HOperatorSet.ScaleImage(ho_ImageScaled1, out  ho_ImageScaled2, -1, 255);
-            HOperatorSet.ScaleImage(ho_ImageScaled2, out  ho_ImageScaled3, hv_ScaleFactor, 0);
+            HOperatorSet.ScaleImage(ho_ImageScaled1, out ho_ImageScaled2, -1, 255);
+            HOperatorSet.ScaleImage(ho_ImageScaled2, out ho_ImageScaled3, hv_ScaleFactor, 0);
             HOperatorSet.ScaleImage(ho_ImageScaled3, out ho_ImageEmphasize, -1, 255);
 
             ho_ImageScaled1.Dispose();
@@ -244,8 +244,8 @@ namespace HalconAlgorithm
             HOperatorSet.SobelAmp(ho_Image3, out ho_EdgeAmplitude3, "sum_abs", hv_MaskSize);
             HOperatorSet.SobelAmp(ho_Image4, out ho_EdgeAmplitude4, "sum_abs", hv_MaskSize);
 
-            HOperatorSet.AddImage(ho_EdgeAmplitude1, ho_EdgeAmplitude2, out  ho_ImageResult1, hv_MultiValue, 0);
-            HOperatorSet.AddImage(ho_EdgeAmplitude3, ho_EdgeAmplitude4, out  ho_ImageResult2, hv_MultiValue, 0);
+            HOperatorSet.AddImage(ho_EdgeAmplitude1, ho_EdgeAmplitude2, out ho_ImageResult1, hv_MultiValue, 0);
+            HOperatorSet.AddImage(ho_EdgeAmplitude3, ho_EdgeAmplitude4, out ho_ImageResult2, hv_MultiValue, 0);
             HOperatorSet.AddImage(ho_ImageResult1, ho_ImageResult2, out ho_ImageOutline, -1 * hv_MultiValue, 256);
 
             HOperatorSet.ShockFilter(ho_ImageOutline, out ho_SharpenedImage, 0.7, 3, "canny", 2);
@@ -276,14 +276,14 @@ namespace HalconAlgorithm
             HObject ho_Rectangle;
             HObject ho_Image1;
             HObject ho_ImageResult;
-            HOperatorSet.BinaryThreshold(ho_Image, out  ho_region, "max_separability", "dark", out  hv_UsedThreshold);
-            HOperatorSet.Skeleton(ho_region, out  ho_Skeleton);
-            HOperatorSet.DilationCircle(ho_Skeleton, out  ho_RegionDilation, hv_NumLevel);
+            HOperatorSet.BinaryThreshold(ho_Image, out ho_region, "max_separability", "dark", out hv_UsedThreshold);
+            HOperatorSet.Skeleton(ho_region, out ho_Skeleton);
+            HOperatorSet.DilationCircle(ho_Skeleton, out ho_RegionDilation, hv_NumLevel);
 
-            HOperatorSet.GetImageSize(ho_Image, out  hv_Width, out  hv_Height);
-            HOperatorSet.GenRectangle1(out  ho_Rectangle, 0, 0, hv_Height - 1, hv_Width - 1);
-            HOperatorSet.GenImageConst(out  ho_Image1, "byte", hv_Width, hv_Height);
-            HOperatorSet.PaintRegion(ho_Rectangle, ho_Image1, out  ho_ImageResult, 255, "fill");
+            HOperatorSet.GetImageSize(ho_Image, out hv_Width, out hv_Height);
+            HOperatorSet.GenRectangle1(out ho_Rectangle, 0, 0, hv_Height - 1, hv_Width - 1);
+            HOperatorSet.GenImageConst(out ho_Image1, "byte", hv_Width, hv_Height);
+            HOperatorSet.PaintRegion(ho_Rectangle, ho_Image1, out ho_ImageResult, 255, "fill");
             HOperatorSet.PaintRegion(ho_RegionDilation, ho_ImageResult, out ho_ImageSkeleton, 0, "fill");
 
             ho_region.Dispose();
@@ -323,16 +323,16 @@ namespace HalconAlgorithm
             HOperatorSet.Decompose3(ho_Image, out ho_ImageR, out ho_ImageG, out ho_ImageB);
 
             //R通道筛选
-            HOperatorSet.Threshold(ho_ImageR, out  ho_RegionR, hv_ValueR_Min, hv_ValueR_Max);
-            HOperatorSet.ReduceDomain(ho_Image, ho_RegionR, out  ho_ImageReducedR);
+            HOperatorSet.Threshold(ho_ImageR, out ho_RegionR, hv_ValueR_Min, hv_ValueR_Max);
+            HOperatorSet.ReduceDomain(ho_Image, ho_RegionR, out ho_ImageReducedR);
 
             //G通道筛选
-            HOperatorSet.Threshold(ho_ImageG, out  ho_RegionG, hv_ValueG_Min, hv_ValueG_Max);
-            HOperatorSet.ReduceDomain(ho_ImageReducedR, ho_RegionG, out  ho_ImageReducedG);
+            HOperatorSet.Threshold(ho_ImageG, out ho_RegionG, hv_ValueG_Min, hv_ValueG_Max);
+            HOperatorSet.ReduceDomain(ho_ImageReducedR, ho_RegionG, out ho_ImageReducedG);
 
             //B通道筛选
-            HOperatorSet.Threshold(ho_ImageB, out  ho_RegionB, hv_ValueB_Min, hv_ValueB_Max);
-            HOperatorSet.ReduceDomain(ho_ImageReducedG, ho_RegionB, out  ho_ImageReducedB);
+            HOperatorSet.Threshold(ho_ImageB, out ho_RegionB, hv_ValueB_Min, hv_ValueB_Max);
+            HOperatorSet.ReduceDomain(ho_ImageReducedG, ho_RegionB, out ho_ImageReducedB);
 
             HOperatorSet.Connection(ho_RegionB, out ho_ConnectionRegions);
 
@@ -365,9 +365,9 @@ namespace HalconAlgorithm
         {
             HObject ho_ReduceImage;
             HObject ho_Region;
-            HOperatorSet.ReduceDomain(ho_Image, ho_ReduceRigion, out  ho_ReduceImage);
+            HOperatorSet.ReduceDomain(ho_Image, ho_ReduceRigion, out ho_ReduceImage);
             //阈值分割
-            HOperatorSet.Threshold(ho_ReduceImage, out  ho_Region, threshold, 255);
+            HOperatorSet.Threshold(ho_ReduceImage, out ho_Region, threshold, 255);
 
             //区域拆分
             HOperatorSet.Connection(ho_Region, out ho_ConnectionRegions);
@@ -395,7 +395,7 @@ namespace HalconAlgorithm
         {
             HObject ho_Region;
             //阈值分割
-            HOperatorSet.Threshold(ho_Image, out  ho_Region, 0, threshold);
+            HOperatorSet.Threshold(ho_Image, out ho_Region, 0, threshold);
 
             //区域拆分
             HOperatorSet.Connection(ho_Region, out ho_ConnectionRegions);
@@ -419,10 +419,10 @@ namespace HalconAlgorithm
         public static void FoldDetect(HObject ho_Image, HObject ho_Region, HTuple hv_ThresholdMin, HTuple hv_ThresholdMax, out HObject ho_ResultRegion)
         {
             HObject ho_ImageReduced;
-            HOperatorSet.ReduceDomain(ho_Image, ho_Region, out  ho_ImageReduced);
+            HOperatorSet.ReduceDomain(ho_Image, ho_Region, out ho_ImageReduced);
 
             //阈值分割
-            HOperatorSet.Threshold(ho_Image, out  ho_ResultRegion, hv_ThresholdMin, hv_ThresholdMax);
+            HOperatorSet.Threshold(ho_Image, out ho_ResultRegion, hv_ThresholdMin, hv_ThresholdMax);
 
             ho_ImageReduced.Dispose();
         }
@@ -437,20 +437,20 @@ namespace HalconAlgorithm
         /// <param name="hv_ThresholdMin">最小对比度</param>
         /// <param name="hv_ThresholdMax">最大对比度</param>
         /// <param name="ho_ResultContours">输出轮廓</param>
-        public static void EdgeDetection(HObject ho_Image, HObject ho_Region, HTuple hv_MeanSize, HTuple hv_ThresholdMin, HTuple hv_ThresholdMax, out HObject ho_ImagePorcess,out HObject ho_ResultContours)
+        public static void EdgeDetection(HObject ho_Image, HObject ho_Region, HTuple hv_MeanSize, HTuple hv_ThresholdMin, HTuple hv_ThresholdMax, out HObject ho_ImagePorcess, out HObject ho_ResultContours)
         {
             HObject ho_ImageReduced;
             HObject ho_ImageMean;
             HObject ho_ImageSub;
             HObject ho_RegionEorsion;
-            HOperatorSet.ReduceDomain(ho_Image, ho_Region, out  ho_ImageReduced);
-            HOperatorSet.MeanImage(ho_ImageReduced,out ho_ImageMean,hv_MeanSize, hv_MeanSize);
+            HOperatorSet.ReduceDomain(ho_Image, ho_Region, out ho_ImageReduced);
+            HOperatorSet.MeanImage(ho_ImageReduced, out ho_ImageMean, hv_MeanSize, hv_MeanSize);
 
-            HOperatorSet.SubImage(ho_ImageMean, ho_Image,out  ho_ImageSub,1,128);
-            HOperatorSet.ErosionCircle(ho_Region,out  ho_RegionEorsion, hv_MeanSize);
+            HOperatorSet.SubImage(ho_ImageMean, ho_Image, out ho_ImageSub, 1, 128);
+            HOperatorSet.ErosionCircle(ho_Region, out ho_RegionEorsion, hv_MeanSize);
 
             HOperatorSet.ReduceDomain(ho_ImageSub, ho_RegionEorsion, out ho_ImagePorcess);
-            HOperatorSet.EdgesSubPix(ho_ImageSub,out ho_ResultContours, "canny", 1,hv_ThresholdMin, hv_ThresholdMax);
+            HOperatorSet.EdgesSubPix(ho_ImageSub, out ho_ResultContours, "canny", 1, hv_ThresholdMin, hv_ThresholdMax);
 
             ho_ImageReduced.Dispose();
             ho_ImageMean.Dispose();
@@ -474,10 +474,10 @@ namespace HalconAlgorithm
             HTuple hv_Row;
             HTuple hv_Column;
             HTuple hv_HomMat2D;
-            HOperatorSet.GetImageSize(ho_ImagePart, out  hv_WidthPart, out  hv_HeightPart);
-            HOperatorSet.AreaCenter(ho_PaintRegion, out  hv_Area, out  hv_Row, out  hv_Column);
+            HOperatorSet.GetImageSize(ho_ImagePart, out hv_WidthPart, out hv_HeightPart);
+            HOperatorSet.AreaCenter(ho_PaintRegion, out hv_Area, out hv_Row, out hv_Column);
 
-            HOperatorSet.HomMat2dIdentity(out  hv_HomMat2D);
+            HOperatorSet.HomMat2dIdentity(out hv_HomMat2D);
             HOperatorSet.HomMat2dTranslate(hv_HomMat2D, hv_Row - (hv_HeightPart / 2), hv_Column - (hv_WidthPart / 2), out hv_HomMat2D);
             HOperatorSet.AffineTransRegion(ho_SelectedRegions, out ho_RegionAffineTrans, hv_HomMat2D, "nearest_neighbor");
 
@@ -499,9 +499,9 @@ namespace HalconAlgorithm
             HTuple hv_Row;
             HTuple hv_Column;
             HTuple hv_HomMat2D;
-            HOperatorSet.GetImageSize(ho_ImagePart, out  hv_WidthPart, out  hv_HeightPart);
-            HOperatorSet.AreaCenter(ho_PaintRegion, out  hv_Area, out  hv_Row, out  hv_Column);
-            HOperatorSet.VectorAngleToRigid(hv_HeightPart / 2, hv_WidthPart / 2, 0, hv_Row, hv_Column, 0, out  hv_HomMat2D);
+            HOperatorSet.GetImageSize(ho_ImagePart, out hv_WidthPart, out hv_HeightPart);
+            HOperatorSet.AreaCenter(ho_PaintRegion, out hv_Area, out hv_Row, out hv_Column);
+            HOperatorSet.VectorAngleToRigid(hv_HeightPart / 2, hv_WidthPart / 2, 0, hv_Row, hv_Column, 0, out hv_HomMat2D);
             HOperatorSet.AffineTransImage(ho_ImagePart, out ho_ImageAffineTrans, hv_HomMat2D, "constant", "false");
         }
 
@@ -521,7 +521,7 @@ namespace HalconAlgorithm
             HOperatorSet.CountObj(ho_Region, out hv_Num);
             if (hv_Num > 0)
             {
-                HOperatorSet.SmallestCircle(ho_Region, out  hv_CircleRows, out  hv_CircleColumns, out  hv_CircleRadius);
+                HOperatorSet.SmallestCircle(ho_Region, out hv_CircleRows, out hv_CircleColumns, out hv_CircleRadius);
                 HOperatorSet.GenCircle(out ho_RegionCircle, hv_CircleRows, hv_CircleColumns, hv_CircleRadius);
                 hv_Diameters = hv_CircleRadius * 2;
             }
@@ -564,22 +564,22 @@ namespace HalconAlgorithm
             HTuple hv_Row1;
             HTuple hv_Column1;
             HTuple hv_HomMat2D1;
-            HOperatorSet.HomMat2dIdentity(out  hv_HomMat2D);
+            HOperatorSet.HomMat2dIdentity(out hv_HomMat2D);
             HOperatorSet.HomMat2dScale(hv_HomMat2D, 1 / Convert.ToDouble(hv_NumLevel.ToString()), 1 / Convert.ToDouble(hv_NumLevel.ToString()), 0, 0, out hv_HomMat2D);
-            HOperatorSet.AffineTransContourXld(ho_Contours, out  ho_TransContours, hv_HomMat2D);
-            HOperatorSet.AffineTransRegion(ho_RegionReduced, out  ho_TransRegionReduced, hv_HomMat2D, "nearest_neighbor");
+            HOperatorSet.AffineTransContourXld(ho_Contours, out ho_TransContours, hv_HomMat2D);
+            HOperatorSet.AffineTransRegion(ho_RegionReduced, out ho_TransRegionReduced, hv_HomMat2D, "nearest_neighbor");
 
-            HOperatorSet.GetImageSize(ho_Image, out  hv_Width, out  hv_Height);
-            HOperatorSet.ZoomImageSize(ho_Image, out  ho_ImageZoom, hv_Width / hv_NumLevel, hv_Height / hv_NumLevel, "constant");
-            HOperatorSet.ReduceDomain(ho_ImageZoom, ho_TransRegionReduced, out  ho_ImageZoomReduced);
+            HOperatorSet.GetImageSize(ho_Image, out hv_Width, out hv_Height);
+            HOperatorSet.ZoomImageSize(ho_Image, out ho_ImageZoom, hv_Width / hv_NumLevel, hv_Height / hv_NumLevel, "constant");
+            HOperatorSet.ReduceDomain(ho_ImageZoom, ho_TransRegionReduced, out ho_ImageZoomReduced);
 
             HOperatorSet.CreateScaledShapeModelXld(ho_TransContours, 1, (-1 * hv_AngleRange).TupleRad(), (hv_AngleRange).TupleRad(), (new HTuple(hv_AngleRange / 10 + 0.5)).TupleRad(), (1 - hv_ScaleRange),
-                                                   (1 + hv_ScaleRange), hv_ScaleRange / 10 + 0.01, "auto", "ignore_local_polarity", 5, out  hv_ModelID);
+                                                   (1 + hv_ScaleRange), hv_ScaleRange / 10 + 0.01, "auto", "ignore_local_polarity", 5, out hv_ModelID);
 
-            HOperatorSet.GetShapeModelContours(out  Contours1, hv_ModelID, 1);
+            HOperatorSet.GetShapeModelContours(out Contours1, hv_ModelID, 1);
 
             HOperatorSet.FindScaledShapeModel(ho_ImageZoomReduced, hv_ModelID, (-1 * hv_AngleRange).TupleRad(), (hv_AngleRange).TupleRad(), (1 - hv_ScaleRange), (1 + hv_ScaleRange), hv_MinScore, hv_Count,
-                                              hv_MinScore, "least_squares", 1, hv_MinScore, out  hv_Row1, out  hv_Column1, out hv_Angle, out hv_Scale, out hv_Score);
+                                              hv_MinScore, "least_squares", 1, hv_MinScore, out hv_Row1, out hv_Column1, out hv_Angle, out hv_Scale, out hv_Score);
 
             hv_Row = hv_Row1 * hv_NumLevel;
             hv_Column = hv_Column1 * hv_NumLevel;
@@ -617,17 +617,28 @@ namespace HalconAlgorithm
             HObject ho_Rectangle;
             HTuple hv_Mean;
             HTuple hv_Deviation;
-            HOperatorSet.GetImageSize(ho_Image, out  hv_Width, out  hv_Height);
+            HOperatorSet.GetImageSize(ho_Image, out hv_Width, out hv_Height);
             for (int i = 0; i < hv_RegionNum; i++)
             {
-                HOperatorSet.GenRectangle1(out  ho_Rectangle, hv_Height / hv_RegionNum * i, hv_ColumnStart, hv_Height / hv_RegionNum * (i + 1) - 1, hv_ColumnEnd);
-                HOperatorSet.Intensity(ho_Rectangle, ho_Image, out  hv_Mean, out  hv_Deviation);
+                HOperatorSet.GenRectangle1(out ho_Rectangle, hv_Height / hv_RegionNum * i, hv_ColumnStart, hv_Height / hv_RegionNum * (i + 1) - 1, hv_ColumnEnd);
+                HOperatorSet.Intensity(ho_Rectangle, ho_Image, out hv_Mean, out hv_Deviation);
                 if (hv_Mean >= hv_Threshold)
                     HOperatorSet.TupleConcat(hv_Result, 1, out hv_Result);
                 else
                     HOperatorSet.TupleConcat(hv_Result, 0, out hv_Result);
             }
 
+        }
+
+        public static void AffineObj(HObject InputObj, HTuple R1, HTuple C1, HTuple Angle1, HTuple R2, HTuple C2, HTuple Angle2, out HObject OutPutObj, bool IsImage = false)
+        {
+            HOperatorSet.GenEmptyObj(out OutPutObj);
+
+            HOperatorSet.VectorAngleToRigid(R1, C1, Angle1, R2, C2, Angle2, out HTuple homMat2D);
+            if (IsImage)
+                HOperatorSet.AffineTransImage(InputObj, out OutPutObj, homMat2D, "constant", "true");
+            else
+                HOperatorSet.AffineTransRegion(InputObj, out OutPutObj, homMat2D, "nearest_neighbor");
         }
     }
 }

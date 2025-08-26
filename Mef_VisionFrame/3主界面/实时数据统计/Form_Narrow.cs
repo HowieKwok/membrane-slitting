@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using Eholly.Lib.Controls;
 using Frame_Core;
 
 namespace Mef_VisionFrame
@@ -17,6 +17,10 @@ namespace Mef_VisionFrame
     public partial class Form_Narrow : Form
     {
 
+     
+    
+
+       
         public ListView ListView_A { get; set; }
         public ListView ListView_B { get; set; }
         public ListView ListView_AB{ get; set; }
@@ -31,6 +35,7 @@ namespace Mef_VisionFrame
             InitializeComponent();
             // 设置自定义绘制模式
             //tabChartControl.DrawMode = TabDrawMode.OwnerDrawFixed;
+        
             ListView_A = new ListView();
             ListView_B = new ListView();
             ListView_AB = new ListView();
@@ -41,24 +46,27 @@ namespace Mef_VisionFrame
 
             ListView_AA.Dock = DockStyle.Fill;
             ListView_BB.Dock = DockStyle.Fill;
-           // ListView_AABB.Dock = DockStyle.Fill;
+            // ListView_AABB.Dock = DockStyle.Fill;
 
             //ListView_AA.BackColor = Color.Gray;
             //ListView_BB.BackColor = Color.Gray;
             //ListView_AABB.BackColor = Color.Gray;
+          
 
             GroupEA_AA.Controls.Add(ListView_AA);
             GroupEA_BB.Controls.Add(ListView_BB);
             //GroupEA_AABB.Controls.Add(ListView_AABB);
 
-            ListView_A.Dock = DockStyle.Fill;
+            //ListView_A.Dock = DockStyle.Fill;
             ListView_B.Dock = DockStyle.Fill;
             ListView_AB.Dock = DockStyle.Fill;
 
             //ListView_A.BackColor = Color.Gray;
             //ListView_B.BackColor = Color.Gray;
             //ListView_AB.BackColor = Color.Gray;
-
+      
+  
+         
             GroupEA_A.Controls.Add(ListView_A);
             
             GroupEA_B.Controls.Add(ListView_B);
@@ -75,6 +83,7 @@ namespace Mef_VisionFrame
             // 订阅 Tick 事件
             Timer_Narrow.Tick += (sender, e) =>
             {
+               
                 if (Project.Instance.Is_Run)
                 {
                     tableLayoutPanel3.Enabled = false;

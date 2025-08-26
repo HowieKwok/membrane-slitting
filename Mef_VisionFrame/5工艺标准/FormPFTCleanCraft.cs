@@ -3,6 +3,7 @@ using IKapBoardClassLibrary;
 using LogTool;
 using Mef_VisionFrame._5工艺标准;
 using NLog.Time;
+using NPOI.OpenXmlFormats.Wordprocessing;
 using NPOI.SS.Formula.Functions;
 
 
@@ -26,6 +27,7 @@ namespace Mef_VisionFrame
     {
         public PFTCleanCraft craft;
         FormSizeFix formSizeFix = new FormSizeFix();
+        FormSlotFix formSlotFix = new FormSlotFix();
         public MaterialCrafEnum material;
 
         public FormPFTCleanCraft(MaterialCrafEnum Tempmaterial)
@@ -38,11 +40,13 @@ namespace Mef_VisionFrame
 
             List<string> camName = new List<string>();
             List<string> camNameS = new List<string>();
+            List<string> camNameSlice = new List<string>();
 
             foreach (var item in Project.Instance.cameraManager)
             {
                 camName.Add(item.Value.m_CamParam.CameraName);
                 camNameS.Add(item.Key.ToString());
+                camNameSlice.Add(item.Key.ToString());
             }
             comb_materialCraf.DataSource = Enum.GetNames(typeof(MaterialCrafEnum));
             //相机名称
@@ -53,17 +57,20 @@ namespace Mef_VisionFrame
             Comb_EditorType.DataSource = Enum.GetNames(typeof(EditorTypeEnum));
             comb_Electrode.DataSource = Enum.GetNames(typeof(ElectrodeEnum));
             Comb_CamS.DataSource = camNameS;
-
+            Comb_CamSlice.DataSource = camNameSlice;
 
             InitListView();
             InitDataGridView(DataGridView_ESize, typeof(SizeItemInfo));
             InitDataGridView(DataGridView_Defect, typeof(DefectItemInfo));
-
             InitDataGridView(DataGridView_SlotInfo, typeof(SlotInfo));
+            InitDataGridView(DataGridView_SlotLimit, typeof(SlotSizeLimit));
+            InitDataGridView(DataGridView_SliceSet, typeof(SliceInfo));
 
             DataGridView_ESize.Controls.Add(Comb_EditorType);
             DataGridView_ESize.Controls.Add(Comb_Line);
             DataGridView_ESize.Controls.Add(Comb_CamS);
+
+            DataGridView_SliceSet.Controls.Add(Comb_CamSlice);
 
         }
 
@@ -75,19 +82,32 @@ namespace Mef_VisionFrame
         public int SelectCamIndex = 0;
 
         public bool IsLinelistChanged = false;
-
+        public bool IsSliceChanged = false;
 
         public override void CraftToView()
         {
+            //基础分条参数
+            nud_SliceCount.Value = (decimal)craft.SliceCount;
+            checkBox_MaterialType.Checked = craft.MaterialType;
+
+            //相机TD联合
+            nud_Cam1BaseCol.Value = (decimal)craft.Cam1BaseCol;
+            nud_Cam2BaseCol.Value = (decimal)craft.Cam2BaseCol;
+            nud_EXCam1Col.Value = (decimal)craft.EXCam1Col;
+            nud_EXCam2Col.Value = (decimal)craft.EXCam2Col;
+
             //基础EA参数
             nud_EASizeTD.Value = (decimal)craft.EASizeTD;
             nud_EASizeMD.Value = (decimal)craft.EASizeMD;
             nud_EACropShiledMD.Value = (decimal)craft.EACropShiledMD;
-            nud_CoatSizeMD_A.Value = (decimal)craft.CoatSizeMD_A;
-            nud_CoatSizeMD_B.Value = (decimal)craft.CoatSizeMD_B;
+            nud_CoatSizeTD.Value = (decimal)craft.CoatSizeTD;
+            nud_CoatSizeMD.Value = (decimal)craft.CoatSizeMD;
+
+            nud_LeftFoilSizeTD.Value = (decimal)craft.LeftFoilSizeTD;
+            nud_RightFoilSizeTD.Value = (decimal)craft.RightFoilSizeTD;
 
             //料头参数
-            CB_IsBurrHead.Checked = craft.IsBurrHead;
+
             nud_HeadMis_AtoB.Value = (decimal)craft.HeadMis_AtoB;
             //涂布屏蔽区参数
             nud_CoatShieldMDHead.Value = (decimal)craft.CoatShieldMDHead;
@@ -95,11 +115,6 @@ namespace Mef_VisionFrame
             nud_CoatShieldTDLeft.Value = (decimal)craft.CoatShieldTDLeft;
             nud_CoatShieldTDRight.Value = (decimal)craft.CoatShieldTDRight;
 
-            //槽位、削薄区参数
-            nud_SlotNum_A.Value = (decimal)craft.SlotNum_A;
-            nud_SlotNum_B.Value = (decimal)craft.SlotNum_B;
-            nud_ShaveNum_A.Value = (decimal)craft.ShaveNum_A;
-            nud_ShaveNum_B.Value = (decimal)craft.ShaveNum_B;
 
 
             //显示基础参数
@@ -136,36 +151,73 @@ namespace Mef_VisionFrame
                 SizeCount = craft.ListDefectInfos.Count();
                 Camdefects = craft.ListDefectInfos;
             }
-
             for (int i = 0; i < SizeCount; i++)
             {
                 AddGridData<DefectItemInfo>(DataGridView_Defect, Camdefects[i], true);
-
-
             }
 
             //添加槽位检测项表格
             DataGridView_SlotInfo.Rows.Clear();
-            SizeCount = craft.ListSlotInfos.Count();
-            UIService.Instance.AddAction(() => { });
+            List<SlotInfo> Camslots = craft.ListSlotInfos.FindAll(i => i.BelongCam == (CameraEnum)comb_SelectCam.SelectedIndex);
+            SizeCount = Camslots.Count();
+            if (!CB_ShowByCam.Checked)
+            {
+                SizeCount = craft.ListSlotInfos.Count();
+                Camslots = craft.ListSlotInfos;
+            }
+            //UIService.Instance.AddAction(() => { });
             for (int i = 0; i < SizeCount; i++)
             {
-                AddGridData<SlotInfo>(DataGridView_SlotInfo, craft.ListSlotInfos[i], true);
+                AddGridData<SlotInfo>(DataGridView_SlotInfo, Camslots[i], true);
             }
 
+            //添加槽位上下限表格
+            DataGridView_SlotLimit.Rows.Clear();
+            SizeCount = craft.ListSlotSizeLimits.Count();
+            // UIService.Instance.AddAction(() => { });
+            for (int i = 0; i < SizeCount; i++)
+            {
+                AddGridData<SlotSizeLimit>(DataGridView_SlotLimit, craft.ListSlotSizeLimits[i], true);
+            }
+
+            //添加分条工艺设置
+            DataGridView_SliceSet.Rows.Clear();
+            SizeCount = craft.ListSliceSet.Count();
+            //  UIService.Instance.AddAction(() => { });
+            for (int i = 0; i < SizeCount; i++)
+            {
+                AddGridData<SliceInfo>(DataGridView_SliceSet, craft.ListSliceSet[i], true);
+            }
         }
 
         public override CraftBase CraftFromView()
         {
+            //基础分条参数
+            if (craft.SliceCount != (int)nud_SliceCount.Value)
+            {
+                IsSliceChanged = true;
+            }
+            craft.SliceCount = (int)nud_SliceCount.Value;
+            craft.MaterialType = checkBox_MaterialType.Checked;
+
+            //相机TD联合
+            craft.Cam1BaseCol = (double)nud_Cam1BaseCol.Value;
+            craft.Cam2BaseCol = (double)nud_Cam2BaseCol.Value;
+            craft.EXCam1Col = (double)nud_EXCam1Col.Value;
+            craft.EXCam2Col = (double)nud_EXCam2Col.Value;
+
             //标准极耳工艺
             craft.EASizeTD = (double)nud_EASizeTD.Value;
             craft.EASizeMD = (double)nud_EASizeMD.Value;
             craft.EACropShiledMD = (double)nud_EACropShiledMD.Value;
 
-            craft.CoatSizeMD_A = (double)nud_CoatSizeMD_A.Value;
-            craft.CoatSizeMD_B = (double)nud_CoatSizeMD_B.Value;
+            craft.CoatSizeTD = (double)nud_CoatSizeTD.Value;
+            craft.CoatSizeMD = (double)nud_CoatSizeMD.Value;
+
+            craft.LeftFoilSizeTD = (double)nud_LeftFoilSizeTD.Value;
+            craft.RightFoilSizeTD = (double)nud_RightFoilSizeTD.Value;
+
             //料头参数
-            craft.IsBurrHead = CB_IsBurrHead.Checked;
             craft.HeadMis_AtoB = (double)nud_HeadMis_AtoB.Value;
 
             //涂布屏蔽区参数
@@ -174,12 +226,6 @@ namespace Mef_VisionFrame
             craft.CoatShieldTDLeft = (double)nud_CoatShieldTDLeft.Value;
             craft.CoatShieldTDRight = (double)nud_CoatShieldTDRight.Value;
 
-
-            //槽位、削薄区参数
-            craft.SlotNum_A = (int)nud_SlotNum_A.Value;
-            craft.SlotNum_B = (int)nud_SlotNum_B.Value;
-            craft.ShaveNum_A = (int)nud_ShaveNum_A.Value;
-            craft.ShaveNum_B = (int)nud_ShaveNum_B.Value;
 
 
             //显示基础参数
@@ -250,6 +296,39 @@ namespace Mef_VisionFrame
                 }
             }
 
+            //添加槽位上下限表格
+            count0 = DataGridView_SlotLimit.Rows.Count;
+            for (int i = 0; i < count0; i++)
+            {
+                SlotSizeLimit item = craft.ListSlotSizeLimits[i];
+                PropertyInfo[] infos = typeof(SlotSizeLimit).GetProperties();
+                foreach (PropertyInfo pi in infos)
+                {
+                    var fieldIfno = typeof(SlotSizeLimit).GetProperty(pi.Name).GetCustomAttribute<MyAttribute>();
+                    if (fieldIfno.Is_ShowCol)
+                    {
+                        pi.SetValue(item, Convert.ChangeType(DataGridView_SlotLimit[pi.Name, i].Value, pi.PropertyType), null);
+                    }
+                }
+            }
+            //添加分条工艺设置
+            count0 = DataGridView_SliceSet.Rows.Count;
+            for (int i = 0; i < count0; i++)
+            {
+                SliceInfo item = craft.ListSliceSet[i];
+                PropertyInfo[] infos = typeof(SliceInfo).GetProperties();
+                foreach (PropertyInfo pi in infos)
+                {
+                    var fieldIfno = typeof(SliceInfo).GetProperty(pi.Name).GetCustomAttribute<MyAttribute>();
+                    if (fieldIfno.Is_ShowCol)
+                    {
+                        pi.SetValue(item, Convert.ChangeType(DataGridView_SliceSet[pi.Name, i].Value, pi.PropertyType), null);
+                    }
+                }
+            }
+
+
+
             return craft;
         }
 
@@ -264,7 +343,52 @@ namespace Mef_VisionFrame
                 }
                 IsLinelistChanged = false;
             }
+            if (IsSliceChanged)
+            {
+                string str = $"分条数已经修改，确认根据新分条数重建工艺?\r\n " + $"工艺生产型号:{craft.materialCrafEnum}\r\n" + $"工艺配方名:{craft.CraftName}\r\n" + "初始化工艺会将工艺全部修改为预设默认值";
 
+                if (MessageBox.Show(str, "初始化工艺", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    // 初始化槽位信息
+                    if (craft.ListSlotInfos == null)
+                    {
+                        craft.ListSlotInfos = new List<SlotInfo>();
+                    }
+                    else { craft.ListSlotInfos.Clear(); }
+
+                    //初始化抓边
+                    if (craft.ListLines == null)
+                    {
+                        craft.ListLines = new List<List<LineInfo>>();
+                    }
+                    else { craft.ListLines.Clear(); }
+                    for (int i = 0; i < craft.CamNum; i++)
+                    {
+                        craft.ListLines.Add(new List<LineInfo>());
+                    }
+
+
+                    //初始化公差值
+                    if (craft.ListSlotSizeLimits == null)
+                    {
+                        craft.ListSlotSizeLimits = new List<SlotSizeLimit>();
+                    }
+                    else { craft.ListSlotSizeLimits.Clear(); }
+
+                    //初始化公差值
+                    if (craft.ListSliceSet == null)
+                    {
+                        craft.ListSliceSet = new List<SliceInfo>();
+                    }
+                    else { craft.ListSliceSet.Clear(); }
+
+                    ReDefaultSlice();
+                    ReDefaultLimit();
+                    ReDefaultSlot();
+                    ReDefaultLine();
+                }
+            }
+            IsSliceChanged = false;
             craft.filePath = Path;
             return craft.Save();
         }
@@ -274,6 +398,47 @@ namespace Mef_VisionFrame
             try
             {
                 craft = craft.Read<PFTCleanCraft>();
+                //初始化槽位信息
+                if (craft.ListSlotInfos == null)
+                {
+                    craft.ListSlotInfos = new List<SlotInfo>();
+                }
+
+
+
+                //初始化抓边
+                if (craft.ListLines == null)
+                {
+                    craft.ListLines = new List<List<LineInfo>>();
+                    for (int i = 0; i < craft.CamNum; i++)
+                    {
+                        craft.ListLines.Add(new List<LineInfo>());
+                    }
+                }
+
+                //初始化检测项
+                if (craft.ListEASizes == null)
+                {
+                    craft.ListEASizes = new List<SizeItemInfo>();
+                }
+
+                //初始化缺陷检测项
+                if (craft.ListDefectInfos == null)
+                {
+                    craft.ListDefectInfos = new List<DefectItemInfo>();
+                }
+
+                //添加槽位上下限表格
+                if (craft.ListSlotSizeLimits == null)
+                {
+                    craft.ListSlotSizeLimits = new List<SlotSizeLimit>();
+                }
+
+                //极片分条工艺设置
+                if (craft.ListSliceSet == null)
+                {
+                    craft.ListSliceSet = new List<SliceInfo>();
+                }
             }
             catch (Exception ee)
             {
@@ -510,6 +675,8 @@ namespace Mef_VisionFrame
                 {
                     craft.ListLines.Add(new List<LineInfo>());
                 }
+                ReDefaultLine();
+
                 LoadLinetList();
                 GC.Collect();
             }
@@ -571,7 +738,7 @@ namespace Mef_VisionFrame
 
                     int Indexc = (int)DataGridView_ESize.SelectedRows[0].Cells[0].Value;
                     craft.ListEASizes.Remove(craft.ListEASizes.Find(c => c.Index == Indexc));
-    
+
                     int Index = (int)DataGridView_ESize.SelectedRows[0].Index;
                     DataGridView_ESize.Rows.RemoveAt(Index);
 
@@ -600,10 +767,12 @@ namespace Mef_VisionFrame
                 }
                 else { craft.ListEASizes.Clear(); }
 
-                for (int i = 0; i < craft.CamNum; i++)
-                {
-                    craft.ListEASizes.Add(new SizeItemInfo());
-                }
+                //for (int i = 0; i < craft.CamNum; i++)
+                //{
+                //    craft.ListEASizes.Add(new SizeItemInfo());
+                //}
+
+                ReBuildCraftSize(craft);
                 CraftToView();
                 GC.Collect();
             }
@@ -719,10 +888,12 @@ namespace Mef_VisionFrame
                 }
                 else { craft.ListDefectInfos.Clear(); }
 
-                for (int i = 0; i < craft.CamNum; i++)
-                {
-                    craft.ListDefectInfos.Add(new DefectItemInfo());
-                }
+                //for (int i = 0; i < craft.CamNum; i++)
+                //{
+                //    craft.ListDefectInfos.Add(new DefectItemInfo());
+                //}
+
+                ReBuildCraftDefect(craft);
                 CraftToView();
                 GC.Collect();
             }
@@ -825,6 +996,7 @@ namespace Mef_VisionFrame
                 { tB_ConfigName.Visible = false; }
             }
         }
+
         #endregion
 
         #region datagridview下拉选择抓边，下拉选择计算方式
@@ -916,7 +1088,6 @@ namespace Mef_VisionFrame
                 Comb_CamS.Visible = false;
             }
         }
-
         private void Comb_Line_DrawItem(object sender, DrawItemEventArgs e)
         {
             e.DrawBackground();
@@ -1145,7 +1316,6 @@ namespace Mef_VisionFrame
                     craft.ListLines.Add(new List<LineInfo>());
                 }
 
-
                 //初始化检测项
                 if (craft.ListEASizes == null)
                 {
@@ -1160,7 +1330,23 @@ namespace Mef_VisionFrame
                 }
                 else { craft.ListDefectInfos.Clear(); }
 
-                ReDefault();
+
+                //初始化公差值
+                if (craft.ListSlotSizeLimits == null)
+                {
+                    craft.ListSlotSizeLimits = new List<SlotSizeLimit>();
+                }
+                else { craft.ListSlotSizeLimits.Clear(); }
+
+                //初始化公差值
+                if (craft.ListSliceSet == null)
+                {
+                    craft.ListSliceSet = new List<SliceInfo>();
+                }
+                else { craft.ListSliceSet.Clear(); }
+                //ReDefaultLine();
+                //ReDefaultSlot();
+                //ReDefaultLimit();
 
 
                 LoadLinetList();
@@ -1169,10 +1355,12 @@ namespace Mef_VisionFrame
             }
         }
 
-
-        public void ReDefault()
+        /// <summary>
+        /// 预设抓边
+        /// </summary>
+        public void ReDefaultLine()
         {
-            craft.CamNum = 4;
+            craft.CamNum = 2;
             //添加左右侧测基准边插件
             for (int i = 0; i < craft.CamNum; i++)
             {
@@ -1199,35 +1387,101 @@ namespace Mef_VisionFrame
                 lineInfo1.m_camera = (CameraEnum)i;
                 lineInfo1.IsStandLine = false;
                 craft.ListLines[i].Add(lineInfo1);
+
+                for (int j = 0; j < craft.SliceCount; j++)
+                {
+                    if (craft.ListSliceSet[j].BelongCam == ((CameraEnum)i).ToString())
+                    {
+                        AddSlotLine($"第{j + 1}条打孔区", i);
+                    }
+                }
             }
+
+        }
+        /// <summary>
+        /// 预设打孔区公差
+        /// </summary>
+        public void ReDefaultLimit()
+        {
+            int count = Enum.GetValues(typeof(MeasureSlotEnum)).Length;
+            //初始化相机0的尺寸。
+            for (int i = 0; i < count; i++)
+            {
+                craft.ListSlotSizeLimits.Add(new SlotSizeLimit()
+                {
+                    Index = i + 1,
+                    Enable = true,
+                    Name = ((MeasureSlotEnum)i).ToString(),
+                    Description = ((MeasureSlotEnum)i).ToString(),
+                    lowLimitValue = -0.5,
+                    UpLimitValue = 0.5,
+                    IsBJ = true,
+                    NGEACount = 5
+                }); ;
+
+            }
+        }
+        /// <summary>
+        /// 预设打孔区
+        /// </summary>
+        public void ReDefaultSlot()
+        {
+            craft.CamNum = 2;
             int index = 0;
-            for (int i = 0; i < craft.SlotNum_A; i++)
+            //添加左右侧测基准边插件
+            for (int i = 0; i < craft.CamNum; i++)
             {
-                craft.ListSlotInfos.Add(new SlotInfo() { InfoID = index, InfoName = $"A面槽位{i}", IsASide = true });
-                index++;
-                AddSlotLine($"A面槽位{i}", 0);
-            }
-            for (int i = 0; i < craft.ShaveNum_A; i++)
-            {
-                craft.ListSlotInfos.Add(new SlotInfo() { InfoID = index, InfoName = $"A面削薄{i}", IsASide = true });
-                index++;
-                AddSlotLine($"A面削薄{i}", 0);
-            }
 
-            for (int i = 0; i < craft.SlotNum_B; i++)
-            {
-                craft.ListSlotInfos.Add(new SlotInfo() { InfoID = index, InfoName = $"B面槽位{i}", IsASide = false });
-                index++;
-                AddSlotLine($"B面槽位{i}", 1);
-            }
-            for (int i = 0; i < craft.ShaveNum_B; i++)
-            {
-                craft.ListSlotInfos.Add(new SlotInfo() { InfoID = index, InfoName = $"B面削薄{i}", IsASide = false });
-                index++;
-                AddSlotLine($"B面削薄{i}", 1);
-            }
+                for (int j = 0; j < craft.SliceCount; j++)
+                {
+                    if (craft.ListSliceSet[j].BelongCam == ((CameraEnum)i).ToString())
+                    {
+                        if (craft.MaterialType)
+                        {
+                            CameraEnum cam = 0;
+                            Enum.TryParse(craft.ListSliceSet[j].BelongCam, out cam);
+                            craft.ListSlotInfos.Add(new SlotInfo()
+                            {
+                                InfoID = index,
+                                InfoName = $"第{j + 1}条槽位区",
+                                IsASide = true,
+                                BelongCam = cam,
+                                SliceID = j,
+                                ShaveID = 0,
+                                SlotTDPosition = craft.ListSliceSet[j].ShaveDisTD,
+                                SlotMDPosition = craft.ListSliceSet[j].ShaveDisMDStart,
+                                SlotTDSize = craft.ListSliceSet[j].ShaveSizeTD,
+                                SlotMDSize = craft.ListSliceSet[j].ShaveSizeMD,
+                                SlotTDDist = craft.ListSliceSet[j].ShaveDisTD,
+                                SlotMDDist = craft.ListSliceSet[j].ShaveDisMDStep,
+                            });
+                            index++;
+                        }
 
-
+                        for (int k = 0; k < craft.ListSliceSet[j].ShaveNum; k++)
+                        {
+                            CameraEnum cam = 0;
+                            Enum.TryParse(craft.ListSliceSet[j].BelongCam, out cam);
+                            craft.ListSlotInfos.Add(new SlotInfo()
+                            {
+                                InfoID = index,
+                                InfoName = $"第{j + 1}条打孔{k + 1}区",
+                                IsASide = true,
+                                BelongCam = cam,
+                                SliceID = j,
+                                ShaveID = k + 1,
+                                SlotTDPosition = craft.ListSliceSet[j].ShaveDisTD,
+                                SlotMDPosition = craft.ListSliceSet[j].ShaveDisMDStart + k * craft.ListSliceSet[j].ShaveDisMDStep,
+                                SlotTDSize = craft.ListSliceSet[j].ShaveSizeTD,
+                                SlotMDSize = craft.ListSliceSet[j].ShaveSizeMD,
+                                SlotTDDist = craft.ListSliceSet[j].ShaveDisTD,
+                                SlotMDDist = craft.ListSliceSet[j].ShaveDisMDStep,
+                            });
+                            index++;
+                        }
+                    }
+                }
+            }
 
         }
 
@@ -1245,6 +1499,37 @@ namespace Mef_VisionFrame
             }
         }
 
+        /// <summary>
+        /// 预设打孔区公差
+        /// </summary>
+        public void ReDefaultSlice()
+        {
+            int count = craft.SliceCount;
+            CameraEnum basecam = CameraEnum.Cam1;
+            //初始化相机0的尺寸。
+            for (int i = 0; i < count; i++)
+            {
+                if (i >= count / 2)
+                {
+                    basecam = CameraEnum.Cam2;
+                }
+                craft.ListSliceSet.Add(new SliceInfo()
+                {
+                    SliceID = i + 1,
+                    InfoName = $"第{i + 1}条",
+                    BelongCam = basecam.ToString(),
+                    SliceStartPos = 5 + 10 * i,
+                    SliceEndPos = 15 + 10 * i,
+                    ShaveNum = 5,
+                    ShaveDisTD = 5 + 10 * i,
+                    ShaveDisMDStart = 200,
+                    ShaveDisMDStep = 100,
+                    ShaveSizeTD = 5,
+                    ShaveSizeMD = 5,
+                });
+
+            }
+        }
 
         /// <summary>
         /// DataGridView重新初始化槽位尺寸工艺
@@ -1253,217 +1538,12 @@ namespace Mef_VisionFrame
         private void ReBuildCraftSize(PFTCleanCraft craftInfo)
         {
             craftInfo.ListEASizes.Clear();
-            int index = 0;
+            int index = 1;
             string name = $"A面槽位";
             SizeItemInfo size0;
             CameraEnum cam01 = CameraEnum.Cam1;
             CameraEnum cam02 = CameraEnum.Cam2;
-            for (int i = 0; i < craft.SlotNum_A; i++)
-            {
-                name = $"A面槽位{i}";
 
-                size0 = new SizeItemInfo();
-                size0.Name = name + "定位距";
-                size0.Description = size0.Name;
-                size0.Index = index;
-                size0.camera = cam01;
-                size0.camera1 = cam01.ToString();
-                size0.Line1 = $"涂布料头边";
-                size0.camera2 = cam01.ToString();
-                size0.Line2 = name + DirectionEnum.上边.ToString();
-                size0.EditorType = EditorTypeEnum.线距离Y.ToString();
-                craftInfo.ListEASizes.Add(size0);
-                index++;
-
-                size0 = new SizeItemInfo();
-                size0.Name = name + "TD尺寸";
-                size0.Description = size0.Name;
-                size0.Index = index;
-                size0.camera = cam01;
-                size0.camera1 = cam01.ToString();
-                size0.Line1 = name + DirectionEnum.上边.ToString();
-                size0.camera2 = cam01.ToString();
-                size0.Line2 = name + DirectionEnum.下边.ToString();
-                size0.EditorType = EditorTypeEnum.线距离Y.ToString();
-                craftInfo.ListEASizes.Add(size0);
-                index++;
-
-                size0 = new SizeItemInfo();
-                size0.Name = name + "MD尺寸";
-                size0.Description = size0.Name;
-                size0.Index = index;
-                size0.camera = cam01;
-                size0.camera1 = cam01.ToString();
-                size0.Line1 = name + DirectionEnum.左边.ToString();
-                size0.camera2 = cam01.ToString();
-                size0.Line2 = name + DirectionEnum.右边.ToString();
-                size0.EditorType = EditorTypeEnum.线距离X.ToString();
-                craftInfo.ListEASizes.Add(size0);
-                index++;
-            }
-            for (int i = 0; i < craft.ShaveNum_A; i++)
-            {
-                name = $"A面削薄{i}";
-
-                size0 = new SizeItemInfo();
-                size0.Name = name + "定位距";
-                size0.Description = size0.Name;
-                size0.Index = index;
-                size0.camera = cam01;
-                size0.camera1 = cam01.ToString();
-                size0.Line1 = $"涂布料头边";
-                size0.camera2 = cam01.ToString();
-                size0.Line2 = name + DirectionEnum.上边.ToString();
-                size0.EditorType = EditorTypeEnum.线距离Y.ToString();
-                craftInfo.ListEASizes.Add(size0);
-                index++;
-
-                size0 = new SizeItemInfo();
-                size0.Name = name + "TD尺寸";
-                size0.Description = size0.Name;
-                size0.Index = index;
-                size0.camera = cam01;
-                size0.camera1 = cam01.ToString();
-                size0.Line1 = name + DirectionEnum.上边.ToString();
-                size0.camera2 = cam01.ToString();
-                size0.Line2 = name + DirectionEnum.下边.ToString();
-                size0.EditorType = EditorTypeEnum.线距离Y.ToString();
-                craftInfo.ListEASizes.Add(size0);
-                index++;
-
-                size0 = new SizeItemInfo();
-                size0.Name = name + "MD尺寸";
-                size0.Description = size0.Name;
-                size0.Index = index;
-                size0.camera = cam01;
-                size0.camera1 = cam01.ToString();
-                size0.Line1 = name + DirectionEnum.左边.ToString();
-                size0.camera2 = cam01.ToString();
-                size0.Line2 = name + DirectionEnum.右边.ToString();
-                size0.EditorType = EditorTypeEnum.线距离X.ToString();
-                craftInfo.ListEASizes.Add(size0);
-                index++;
-            }
-            for (int i = 0; i < craft.SlotNum_B; i++)
-            {
-                name = $"B面槽位{i}";
-
-                size0 = new SizeItemInfo();
-                size0.Name = name + "定位距";
-                size0.Description = size0.Name;
-                size0.Index = index;
-                size0.camera = cam02;
-                size0.camera1 = cam02.ToString();
-                size0.Line1 = $"涂布料头边";
-                size0.camera2 = cam02.ToString();
-                size0.Line2 = name + DirectionEnum.上边.ToString();
-                size0.EditorType = EditorTypeEnum.线距离Y.ToString();
-                craftInfo.ListEASizes.Add(size0);
-                index++;
-
-                size0 = new SizeItemInfo();
-                size0.Name = name + "TD尺寸";
-                size0.Description = size0.Name;
-                size0.Index = index;
-                size0.camera = cam02;
-                size0.camera1 = cam02.ToString();
-                size0.Line1 = name + DirectionEnum.上边.ToString();
-                size0.camera2 = cam02.ToString();
-                size0.Line2 = name + DirectionEnum.下边.ToString();
-                size0.EditorType = EditorTypeEnum.线距离Y.ToString();
-                craftInfo.ListEASizes.Add(size0);
-                index++;
-
-                size0 = new SizeItemInfo();
-                size0.Name = name + "MD尺寸";
-                size0.Description = size0.Name;
-                size0.Index = index;
-                size0.camera = cam02;
-                size0.camera1 = cam02.ToString();
-                size0.Line1 = name + DirectionEnum.左边.ToString();
-                size0.camera2 = cam02.ToString();
-                size0.Line2 = name + DirectionEnum.右边.ToString();
-                size0.EditorType = EditorTypeEnum.线距离X.ToString();
-                craftInfo.ListEASizes.Add(size0);
-                index++;
-
-            }
-            for (int i = 0; i < craft.ShaveNum_B; i++)
-            {
-                name = $"B面削薄{i}";
-
-                size0 = new SizeItemInfo();
-                size0.Name = name + "定位距";
-                size0.Description = size0.Name;
-                size0.Index = index;
-                size0.camera = cam02;
-                size0.camera1 = cam02.ToString();
-                size0.Line1 = $"涂布料头边";
-                size0.camera2 = cam02.ToString();
-                size0.Line2 = name + DirectionEnum.上边.ToString();
-                size0.EditorType = EditorTypeEnum.线距离Y.ToString();
-                craftInfo.ListEASizes.Add(size0);
-                index++;
-
-                size0 = new SizeItemInfo();
-                size0.Name = name + "TD尺寸";
-                size0.Description = size0.Name;
-                size0.Index = index;
-                size0.camera = cam02;
-                size0.camera1 = cam02.ToString();
-                size0.Line1 = name + DirectionEnum.上边.ToString();
-                size0.camera2 = cam02.ToString();
-                size0.Line2 = name + DirectionEnum.下边.ToString();
-                size0.EditorType = EditorTypeEnum.线距离Y.ToString();
-                craftInfo.ListEASizes.Add(size0);
-                index++;
-
-                size0 = new SizeItemInfo();
-                size0.Name = name + "MD尺寸";
-                size0.Description = size0.Name;
-                size0.Index = index;
-                size0.camera = cam02;
-                size0.camera1 = cam02.ToString();
-                size0.Line1 = name + DirectionEnum.左边.ToString();
-                size0.camera2 = cam02.ToString();
-                size0.Line2 = name + DirectionEnum.右边.ToString();
-                size0.EditorType = EditorTypeEnum.线距离X.ToString();
-                craftInfo.ListEASizes.Add(size0);
-                index++;
-
-            }
-
-            CameraEnum cam03 = CameraEnum.Cam3;
-            CameraEnum cam04 = CameraEnum.Cam4;
-
-            size0 = new SizeItemInfo();
-            size0.Name = cam03.ToString() + "3D深度";
-            size0.Description = size0.Name;
-            size0.Index = index;
-            size0.camera = cam03;
-            size0.camera1 = cam03.ToString();
-            size0.Line1 = $"涂布料头边";
-            size0.camera2 = cam03.ToString();
-            size0.Line2 = $"涂布料头边";
-            size0.EditorType = EditorTypeEnum.线距离Y.ToString();
-            craftInfo.ListEASizes.Add(size0);
-            index++;
-
-
-            size0 = new SizeItemInfo();
-            size0.Name = cam04.ToString() + "3D深度";
-            size0.Description = size0.Name;
-            size0.Index = index;
-            size0.camera = cam04;
-            size0.camera1 = cam04.ToString();
-            size0.Line1 = $"涂布料头边";
-            size0.camera2 = cam04.ToString();
-            size0.Line2 = $"涂布料头边";
-            size0.EditorType = EditorTypeEnum.线距离Y.ToString();
-            craftInfo.ListEASizes.Add(size0);
-            index++;
-
-            ReBuildCraftDefect(craft);
         }
 
 
@@ -1524,11 +1604,7 @@ namespace Mef_VisionFrame
             return id;
         }
 
-        private void Btn_ReDefaultSize_Click(object sender, EventArgs e)
-        {
-            ReBuildCraftSize(craft);
-            CraftToView();
-        }
+
 
         private void CB_ShowByCam_CheckedChanged(object sender, EventArgs e)
         {
@@ -1547,6 +1623,148 @@ namespace Mef_VisionFrame
             {
                 Log4netRecord.ErrorLog.Error(ee);
             }
+        }
+
+        private void button_RebuildSlot_Click(object sender, EventArgs e)
+        {
+            string str = $"是否预设打孔工艺?\r\n " + $"工艺生产型号:{craft.materialCrafEnum}\r\n" + $"工艺配方名:{craft.CraftName}\r\n" + "预设打孔";
+
+            if (MessageBox.Show(str, "预设打孔", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                //初始化槽位信息
+                if (craft.ListSlotInfos == null)
+                {
+                    craft.ListSlotInfos = new List<SlotInfo>();
+                }
+                else { craft.ListSlotInfos.Clear(); }
+
+                //for (int i = 0; i < craft.CamNum; i++)
+                //{
+                //    craft.ListSlotInfos.Add(new SlotInfo());
+                //}
+
+                ReDefaultSlot();
+
+                CraftToView();
+                GC.Collect();
+            }
+        }
+
+        private void button_RebuildSlotLimit_Click(object sender, EventArgs e)
+        {
+            string str = $"是否预设打孔公差?\r\n " + $"工艺生产型号:{craft.materialCrafEnum}\r\n" + $"工艺配方名:{craft.CraftName}\r\n" + "预设打孔公差";
+
+            if (MessageBox.Show(str, "预设打孔公差", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                //初始化槽位信息
+                if (craft.ListSlotSizeLimits == null)
+                {
+                    craft.ListSlotSizeLimits = new List<SlotSizeLimit>();
+                }
+                else { craft.ListSlotSizeLimits.Clear(); }
+
+                //for (int i = 0; i < craft.CamNum; i++)
+                //{
+                //    craft.ListSlotInfos.Add(new SlotInfo());
+                //}
+
+                ReDefaultLimit();
+
+                CraftToView();
+                GC.Collect();
+            }
+
+        }
+
+        private void button_RebuildSlice_Click(object sender, EventArgs e)
+        {
+            string str = $"是否预设分条设置?\r\n " + $"工艺生产型号:{craft.materialCrafEnum}\r\n" + $"工艺配方名:{craft.CraftName}\r\n" + "预设分条设置";
+
+            if (MessageBox.Show(str, "预设分条设置", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                //初始化槽位信息
+                if (craft.ListSliceSet == null)
+                {
+                    craft.ListSliceSet = new List<SliceInfo>();
+                }
+                else { craft.ListSliceSet.Clear(); }
+
+                ReDefaultSlice();
+
+                CraftToView();
+                GC.Collect();
+            }
+        }
+
+        private void DataGridView_SliceSet_CurrentCellChanged(object sender, EventArgs e)
+        {
+            if (DataGridView_SliceSet.CurrentCell == null) return;
+
+            DataGridViewColumn column = DataGridView_SliceSet.CurrentCell.OwningColumn;
+            //如果是要显示下拉列表的列的话
+            if (column.Name.Equals("BelongCam"))
+            {
+                int columnIndex = DataGridView_SliceSet.CurrentCell.ColumnIndex;
+                int rowIndex = DataGridView_SliceSet.CurrentCell.RowIndex;
+                Rectangle rect = DataGridView_SliceSet.GetCellDisplayRectangle(columnIndex, rowIndex, false);
+                Comb_CamSlice.Left = rect.Left;
+                Comb_CamSlice.Top = rect.Top;
+                Comb_CamSlice.Width = rect.Width;
+                Comb_CamSlice.Height = rect.Height;
+                //将单元格的内容显示为下拉列表的当前项
+                try
+                {
+                    string consultingRoom = DataGridView_SliceSet.Rows[rowIndex].Cells[columnIndex].Value.ToString();
+                    int index = Comb_CamSlice.Items.IndexOf(consultingRoom);
+                    Comb_CamSlice.SelectedIndex = index;
+                    Comb_CamSlice.Visible = true;
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+            else
+            {
+                Comb_CamSlice.Visible = false;
+            }
+        }
+
+
+        private void Comb_CamSlice_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            e.DrawBackground();
+            e.Graphics.DrawString(Comb_CamSlice.Items[e.Index].ToString(), e.Font, Brushes.Black,
+                e.Bounds, StringFormat.GenericDefault);
+        }
+        private void Comb_CamSlice_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (DataGridView_SliceSet.CurrentCell != null)
+                    DataGridView_SliceSet.CurrentCell.Value = Comb_CamSlice.Items[Comb_CamSlice.SelectedIndex];
+            }
+            catch (Exception ee)
+            {
+
+            }
+
+        }
+        /// <summary>
+        /// 槽位列头双击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DataGridView_SlotInfo_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            int Index = (int)DataGridView_SlotInfo.CurrentRow.Cells[0].Value;
+            formSlotFix.slot = craft.ListSlotInfos[Index];
+            formSlotFix.ShowSet();
+            formSlotFix.StartPosition = FormStartPosition.CenterScreen;
+
+            formSlotFix.ShowDialog(this);
+            craft.ListSlotInfos[Index] = formSlotFix.slot;
+            craft.Save();
+            CraftToView();
         }
     }
 }

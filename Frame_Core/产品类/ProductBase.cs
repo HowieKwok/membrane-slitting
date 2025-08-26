@@ -12,12 +12,16 @@ namespace Frame_Core
     /// <summary>
     /// 产品参数基类
     /// </summary>
-    public class ProductBase: IDisposable
+    public class ProductBase : IDisposable
     {
         public ShowHalconWindow showHalconWindow { get; set; }
+
+        //抓边插件查找的边，用于计算。
+        public List<LineInfo> lineInfos { get; set; }
         public List<NgTypeInfo> NgTypeInfos { get; set; }
         public List<SizeInfo> sizeInfos { get; set; }
 
+ 
         /// <summary>
         /// 尺寸监控信息
         /// </summary>
@@ -60,23 +64,27 @@ namespace Frame_Core
 
         public ProductBase()
         {
-            showHalconWindow=new ShowHalconWindow();
-            NgTypeInfos=new List<NgTypeInfo>();
-            sizeInfos=new List<SizeInfo>();
+            showHalconWindow = new ShowHalconWindow();
+            lineInfos = new List<LineInfo>();
+            NgTypeInfos = new List<NgTypeInfo>();
+            sizeInfos = new List<SizeInfo>();
         }
 
-     
+
         public virtual void Dispose()
         {
             showHalconWindow?.Dispose();
-            foreach(var item in NgTypeInfos)
+            lineInfos.Clear();
+            foreach (var item in NgTypeInfos)
             {
                 item?.Dispose();
             }
+            NgTypeInfos.Clear();
             foreach (var item in sizeInfos)
             {
                 item?.Dispose();
             }
+            sizeInfos.Clear();
         }
     }
 }

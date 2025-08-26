@@ -33,16 +33,24 @@ namespace Frame_Core
         public CameraEnum camera { get; set; } = 0;
 
 
+        [My("打孔编号1")]
+        [Description("打孔编号1")]
+        public int ShaveIndex1 { get; set; } = 0;//名称
         [My("当前相机")]
         [Description("当前相机")]
         public string camera1 { get; set; } = ((CameraEnum)0).ToString();
+
         [My("抓边1")]
         [Description("抓边1")]
         public string Line1 { get; set; } = "默认抓边1";
 
+        [My("打孔编号2")]
+        [Description("打孔编号2")]
+        public int ShaveIndex2 { get; set; } = 0;//名称
         [My("目标相机")]
         [Description("目标相机")]
         public string camera2 { get; set; } = ((CameraEnum)0).ToString();
+
         [My("抓边2")]
         [Description("抓边2")]
         public string Line2 { get; set; } = "默认抓边2";
@@ -50,14 +58,17 @@ namespace Frame_Core
         [My("线线计算类型")]
         [Description("线线计算类型")]
         public string EditorType { get; set; } = EditorTypeEnum.线距离X.ToString();//线线计算类型 EditorTypeEnum转int
+         
+        //--------------边缘选择-------------------------------------
 
+        //--------------标准值--------------------------------------
         [My("标准值")]
         [Description("标准值")]
         public double StDValue { get; set; } = 10;//标准值
 
-        [My("实际测量值", false)]
-        [Description("实际测量值")]
-        public double StD_Real { get; set; } = 0;//实际测量值
+        //[My("实际测量值", false)]
+        //[Description("实际测量值")]
+        //public double StD_Real { get; set; } = 0;//实际测量值
         [My("校准系数")]
         [Description("校准系数")]
         public double StD_RealFixRito { get; set; } = 1;//测量值校准
@@ -65,55 +76,7 @@ namespace Frame_Core
         [Description("测量校准偏移")]
         public double StD_RealFixOffset { get; set; } = 0;//实际测量值
 
-        [My("OVH下电芯下单面补偿", false)]
-        [Description("OVH下电芯下单面补偿")]
-        public double StD_DownCellDownOffset { get; set; } = 0;
-
-        [My("OVH下电芯上单面补偿", false)]
-        [Description("OVH下电芯上单面补偿")]
-        public double StD_DownCellUpOffset { get; set; } = 0;
-
-        [My("OVH上电芯下单面补偿", false)]
-        [Description("OVH上电芯下单面补偿")]
-        public double StD_UpCellDownOffset { get; set; } = 0;
-
-        [My("OVH上电芯上单面补偿", false)]
-        [Description("OVH上电芯上单面补偿")]
-        public double StD_UpCellUpOffset { get; set; } = 0;
-
-        [My("OVH下电芯下单面AA补偿", false)]
-        [Description("OVH下电芯下单面AA补偿")]
-        public double StD_DownCellDownOffsetAA { get; set; } = 0;
-
-        [My("OVH下电芯上单面AA补偿", false)]
-        [Description("OVH下电芯上单面AA补偿")]
-        public double StD_DownCellUpOffsetAA { get; set; } = 0;
-
-        [My("OVH上电芯下单面AA补偿", false)]
-        [Description("OVH上电芯下单面AA补偿")]
-        public double StD_UpCellDownOffsetAA { get; set; } = 0;
-
-        [My("OVH上电芯上单面AA补偿", false)]
-        [Description("OVH上电芯上单面AA补偿")]
-        public double StD_UpCellUpOffsetAA { get; set; } = 0;
-
-        [My("OVH下电芯下单面隔膜补偿", false)]
-        [Description("OVH下电芯下单面隔膜补偿")]
-        public double StD_DownCellDownOffsetGM { get; set; } = 0;
-
-        [My("OVH下电芯上单面隔膜补偿", false)]
-        [Description("OVH下电芯上单面隔膜补偿")]
-        public double StD_DownCellUpOffsetGM { get; set; } = 0;
-
-        [My("OVH上电芯下单面隔膜补偿", false)]
-        [Description("OVH上电芯下单面隔膜补偿")]
-        public double StD_UpCellDownOffsetGM { get; set; } = 0;
-
-        [My("OVH上电芯上单面隔膜补偿", false)]
-        [Description("OVH上电芯上单面隔膜补偿")]
-        public double StD_UpCellUpOffsetGM { get; set; } = 0;
-
-
+        //--------------顶级模式--------------------------------------
         [My("启用顶级模式", false)]
         [Description("启用顶级模式")]
         public bool EnableTopModel { get; set; } = false;//打标
@@ -124,24 +87,26 @@ namespace Frame_Core
         [Description("顶级模式偏移")]
         public double StD_TopModelOffset { get; set; } = 0;//顶级模式偏移
 
-
-        [My("打标下限")]
-        [Description("打标下限")]
+        //--------------打标--------------------------------------
+        [My("打标下公差", true)]
+        [Description("打标下公差")]
         public double StD_Down { get; set; } = -1;//标准值
-        [My("打标上限")]
-        [Description("打标上限")]
+        [My("打标上公差", true)]
+        [Description("打标上公差")]
         public double StD_Up { get; set; } = 1;//标准值
-        [My("累计DB")]
+
+        [My("累计DB", true)]
          public int CountNGDB { get; set; } = 1;//累计NG打标
-        [My("打标")]
+        [My("打标", true)]
         [Description("打标")]
         public bool DB { get; set; } = false;//打标
 
-        [My("报警下限", true)]
-        [Description("报警下限")]
+        //--------------报警------------------------------------------
+        [My("报警下公差", true)]
+        [Description("报警下公差")]
         public double StD_BJ_Down { get; set; } = -1;//标准值
-        [My("报警上限", true)]
-        [Description("报警上限")]
+        [My("报警上公差", true)]
+        [Description("报警上公差")]
         public double StD_BJ_Up { get; set; } = 1;//标准值
         [My("EA数量报警", true)]
         [Description("EA数量报警")]
@@ -149,22 +114,25 @@ namespace Frame_Core
         [My("报警", true)]
         [Description("报警")]
         public bool BJ { get; set; } = false;//报警
-        [My("停机下限", true)]
-        [Description("停机下限")]
+
+        //--------------停机------------------------------------------
+        [My("停机下公差", false)]
+        [Description("停机下公差")]
         public double StD_TJ_Down { get; set; } = -1;//标准值
-        [My("停机上限", true)]
-        [Description("停机上限")]
+        [My("停机上公差", false)]
+        [Description("停机上公差")]
         public double StD_TJ_Up { get; set; } = 1;//标准值
-        [My("EA累计停机", true)]
+        [My("EA累计停机", false)]
         [Description("EA累计停机")]
         public int CountNGTJ { get; set; } = 1;//累计NG停机
-        [My("停机", true)]
+        [My("停机", false)]
         [Description("停机")]
         public bool TJ { get; set; } = false;//停机
 
-        [My("隔膜类型")]
-        [Description("隔膜类型")]
-        public bool DiaphragmType { get; set; } = false;
+        [My("所属分条")]
+        [Description("所属分条")]
+        public double[] ArrayBelongSlice { get; set; } = new double[8];//所属分条
+
         /// <summary>
         /// 序列化时调用
         /// </summary>

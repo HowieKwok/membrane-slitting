@@ -97,26 +97,46 @@ namespace Plugin.MeasureLine
                         measLineParams.ho_ImageProcessed = measLineParams.ho_Image;
                     }
 
-                    if (measLineParams.hv_ScaleFactor != 0 || measLineParams.hv_SharpenIterations != 0)
+                    if (measLineParams.hv_ScaleMean > 0)
                     {
-                        HOperatorSet.GenRectangle2(out ho_Rectangle2, hv_RoiMidRow, hv_RoiMidColumn, -hv_RoiPhi, measLineParams.hv_RoiHeight / 2, measLineParams.hv_RoiWidth / 2);
-                        DefectDetection.ImageCrop(measLineParams.ho_ImageProcessed, ho_Rectangle2, out ho_ImagePart);
-
-                        if (measLineParams.hv_ScaleFactor != 0 && measLineParams.hv_ScaleMean != 0)
+                        try
                         {
-                            DefectDetection.ScaleEmphasis(ho_ImagePart, measLineParams.hv_ScaleMean, measLineParams.hv_ScaleFactor, out ho_ImagePartProcessed);
+                            HOperatorSet.GenRectangle2(out ho_Rectangle2, hv_RoiMidRow, hv_RoiMidColumn, -hv_RoiPhi, measLineParams.hv_RoiHeight / 2, measLineParams.hv_RoiWidth / 2);
+                            if (measLineParams.hv_ScaleMean < 2)
+                            {
+                                measLineParams.hv_ScaleMean = 2;
+                            }
+                            HOperatorSet.GrayOpeningRect(measLineParams.ho_ImageProcessed, out measLineParams.ho_ImageProcessed, measLineParams.hv_ScaleMean, measLineParams.hv_ScaleMean);
                         }
-                        else
+                        catch (Exception ee)
                         {
-                            ho_ImagePartProcessed = ho_ImagePart;
+                            measLineParams.ho_ImageProcessed = measLineParams.ho_Image;
+                            Log4netRecord.ErrorLog.Debug("抓边模块执行失败！原因：图像预处理-捕获异常" + ee.ToString());
                         }
-
-                        if (measLineParams.hv_SharpenIterations != 0)
-                        {
-                            DefectDetection.OutlineSharpen(ho_ImagePartProcessed, out ho_ImagePartProcessed, measLineParams.hv_SharpenIterations, measLineParams.hv_SharpenSigma);
-                        }
-                        DefectDetection.ImageStitching(measLineParams.ho_ImageProcessed, ho_ImagePartProcessed, ho_Rectangle2, out measLineParams.ho_ImageProcessed);
                     }
+
+                    //if (measLineParams.hv_ScaleFactor != 0 || measLineParams.hv_SharpenIterations != 0)
+                    //{
+                    // DefectDetection.ImageCrop(measLineParams.ho_ImageProcessed, ho_Rectangle2, out ho_ImagePart);
+                    // HOperatorSet.ReduceDomain(measLineParams.ho_ImageProcessed, ho_Rectangle2, out HObject imageReduced);
+
+                    // DefectDetection.AffineObj(ho_ImagePart, measLineParams.hv_RoiHeight / 2, measLineParams.hv_RoiWidth / 2, -hv_RoiPhi, hv_RoiMidRow, hv_RoiMidColumn,0, out measLineParams.ho_ImageProcessed);
+
+                    //if (measLineParams.hv_ScaleFactor != 0 && measLineParams.hv_ScaleMean != 0)
+                    //{
+                    //    DefectDetection.ScaleEmphasis(ho_ImagePart, measLineParams.hv_ScaleMean, measLineParams.hv_ScaleFactor, out ho_ImagePartProcessed);
+                    //}
+                    //else
+                    //{
+                    //    ho_ImagePartProcessed = ho_ImagePart;
+                    //}
+
+                    //if (measLineParams.hv_SharpenIterations != 0)
+                    //{
+                    //    DefectDetection.OutlineSharpen(ho_ImagePartProcessed, out ho_ImagePartProcessed, measLineParams.hv_SharpenIterations, measLineParams.hv_SharpenSigma);
+                    //}
+                    //DefectDetection.ImageStitching(measLineParams.ho_ImageProcessed, ho_ImagePartProcessed, ho_Rectangle2, out measLineParams.ho_ImageProcessed);
+                    // }
                 }
                 hv_MeasureRow1 = hv_RoiMidRow - measLineParams.hv_RoiHeight * Math.Sin(hv_RoiPhi) / 2;
                 hv_MeasureColumn1 = hv_RoiMidColumn - measLineParams.hv_RoiHeight * Math.Cos(hv_RoiPhi) / 2;

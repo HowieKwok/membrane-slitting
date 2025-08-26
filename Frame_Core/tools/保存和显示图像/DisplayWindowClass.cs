@@ -93,6 +93,33 @@ namespace Frame_Core
 
         }
 
+        public DisplayWindowClass(UC_HalconWindow hWindowControl)
+        {
+            textBox = hWindowControl.TB_GrayInfo;
+            pictureBox = hWindowControl.PB_FitWinOutter;
+            pictureBox.Click -= btn_Click;
+            pictureBox.Click += btn_Click;
+
+            source = hWindowControl.Name;
+            if (operation_Image == null) operation_Image = new Operation_ImageProcessor(source);
+            if (hWindowControl != null)
+            {
+                m_hWindowControl_Cam = hWindowControl.hWindow;
+                m_hWndCtrl_Display_Cam = new HWndCtrl(m_hWindowControl_Cam);
+                m_roiController_Cam = new ROIController();
+                m_hWndCtrl_Display_Cam.setViewState(HWndCtrl.MODE_VIEW_ZOOM);
+                m_hWndCtrl_Display_Cam.setViewState(HWndCtrl.MODE_VIEW_MOVE);
+                m_hWndCtrl_Display_Cam.ReDrawEvent += new HWndCtrl.ReDrawDelegate(ShowRoiResult);     //更改测量矩形，重绘测量结果
+                m_hWndCtrl_Display_Cam.viewPort.HMouseMove += HWC_HMouseMove;
+
+                //Resize window
+                HOperatorSet.SetWindowAttr("background_color", "black");
+                HOperatorSet.OpenWindow(0, 0, 512, 512, 0, "buffer", "", out hv_dumpWindowHandle);
+            }
+
+
+        }
+
         public DisplayWindowClass(HWindowControl hWindowControl, TextBox _textBox, PictureBox _pictureBox, string _source)
         {
             textBox = _textBox;
@@ -273,7 +300,7 @@ namespace Frame_Core
             double scaleX = 1;
             double scaleY = 1.0;
             HObject m_hImage = null;
-            HTuple HomMat2dScale=null;
+            HTuple HomMat2dScale = null;
             try
             {
                 if (imageInfo.bIsSaveScreenshot)
@@ -285,18 +312,18 @@ namespace Frame_Core
                         HOperatorSet.CountSeconds(out HTuple StartTime);
                         HTuple hv_Height = 0; HTuple hv_Width = 0;
                         HOperatorSet.HomMat2dIdentity(out HTuple HomMat2dIdentity);
-                        if (imageInfo.showHalconWindow.m_nMode ==1)
+                        if (imageInfo.showHalconWindow.m_nMode == 1)
                         {
                             HOperatorSet.GetImageSize(imageInfo.showHalconWindow.m_hImage, out hv_Width, out hv_Height);
                             if ((hv_Height / hv_Width) > 1.25)
                             {
                                 double a = (hv_Width / hv_Height);
-                                a=a<0.25?0.25:a;
+                                a = a < 0.25 ? 0.25 : a;
                                 a = a * 0.75;
                                 scaleX = a;
                                 scaleY = a;
                             }
-                            HOperatorSet.HomMat2dScale(HomMat2dIdentity, scaleX, scaleY, 0, 0, out  HomMat2dScale);
+                            HOperatorSet.HomMat2dScale(HomMat2dIdentity, scaleX, scaleY, 0, 0, out HomMat2dScale);
 
                             HOperatorSet.AffineTransImage(imageInfo.showHalconWindow.m_hImage, out m_hImage, HomMat2dScale, "nearest_neighbor", "true");
                             HOperatorSet.CountSeconds(out HTuple EndTime1);
@@ -305,11 +332,11 @@ namespace Frame_Core
                             MessageNotify.AddDebugLog("压缩产品高清截图耗时：" + hTime2.ToString());
                         }
 
-                     
+
                         // HOperatorSet.ZoomImageFactor(operation_ImageInfo.showHalconWindow.m_hImage, out operation_ImageInfo.showHalconWindow.m_hImage, 0.1, 0.1, "constant");
                         if (!imageInfo.showHalconWindow.bIs3D)
                         {
-                            if(imageInfo.showHalconWindow.m_nMode==1)
+                            if (imageInfo.showHalconWindow.m_nMode == 1)
                             {
                                 HOperatorSet.GetImageSize(m_hImage, out hv_Width, out hv_Height);
                             }
@@ -317,7 +344,7 @@ namespace Frame_Core
                             {
                                 HOperatorSet.GetImageSize(imageInfo.showHalconWindow.m_hImage, out hv_Width, out hv_Height);
                             }
-                           
+
 
                         }
                         else
@@ -336,7 +363,7 @@ namespace Frame_Core
                         //Console.WriteLine("开窗口耗时：" + hTime1.ToString());
                         if (!imageInfo.showHalconWindow.bIs3D)
                         {
-                            if(imageInfo.showHalconWindow.m_nMode == 1)
+                            if (imageInfo.showHalconWindow.m_nMode == 1)
                             {
                                 HOperatorSet.DispObj(m_hImage, hv_dumpWindowHandle);
                             }
@@ -344,13 +371,13 @@ namespace Frame_Core
                             {
                                 HOperatorSet.DispObj(imageInfo.showHalconWindow.m_hImage, hv_dumpWindowHandle);
                             }
-                           
+
                         }
                         else
                         {
                             HOperatorSet.DispObj(imageInfo.showHalconWindow.Image3DClass.Image2D, hv_dumpWindowHandle);
                         }
-                        if(imageInfo.showHalconWindow.m_nMode == 1)
+                        if (imageInfo.showHalconWindow.m_nMode == 1)
                         {
                             ShowRoiResult(hv_dumpWindowHandle, scaleX, scaleY);
                         }
@@ -358,14 +385,14 @@ namespace Frame_Core
                         {
                             ShowRoiResult(hv_dumpWindowHandle);
                         }
-                      
+
                         HOperatorSet.DumpWindowImage(out Copy_Win_Image, hv_dumpWindowHandle);
                         HOperatorSet.CountSeconds(out EndTime);
                         hTime1 = ((EndTime - StartTime) * 1000).D;//抓边算法耗时
                         MessageNotify.AddDebugLog("开高清窗口总耗时：" + hTime1.ToString());
                         screenshotImageTemp = new Operation_ImageInfo();
                         screenshotImageTemp.showHalconWindow = new ShowHalconWindow();
-                        screenshotImageTemp.showHalconWindow.m_strCamName=imageInfo.showHalconWindow.m_strCamName;
+                        screenshotImageTemp.showHalconWindow.m_strCamName = imageInfo.showHalconWindow.m_strCamName;
                         screenshotImageTemp.showHalconWindow.m_nMode = imageInfo.showHalconWindow.m_nMode;
                         screenshotImageTemp.showHalconWindow.bIs3D = imageInfo.showHalconWindow.bIs3D;
                         screenshotImageTemp.showHalconWindow.m_nProductID = imageInfo.showHalconWindow.m_nProductID;
@@ -534,7 +561,8 @@ namespace Frame_Core
                                     }
 
                                 }
-                            if (operation_ImageInfo.showHalconWindow.m_regionShowInfos != null)
+
+                            if (operation_ImageInfo.showHalconWindow.m_regionShowInfos != null&& operation_ImageInfo.showHalconWindow.m_nMode<3)
                                 foreach (var item in operation_ImageInfo.showHalconWindow.m_regionShowInfos)
                                 {
                                     try
@@ -568,6 +596,7 @@ namespace Frame_Core
                     catch (Exception ex)
                     {
                         Log4netRecord.ErrorLog.Error(source, ex);
+                    
                     }
 
                 }));

@@ -57,7 +57,7 @@ namespace Frame_Core
 
         public virtual void INIPro()
         {
-      
+
             //m_stdCraftInfo = Project.Instance.craftInfo;  //加载系统参数之后加载，选择配方后加载
             //m_CraftBase = Project.Instance.craftBase;
             //  m_stdCalibrationInfo = Project.Instance.calibrationInfo;//加载系统参数之后加载，修改标定参数后加载         
@@ -66,7 +66,7 @@ namespace Frame_Core
 
         public virtual void BuildProcessServiceList()
         {
-      
+
         }
 
         public virtual bool INIProduct()
@@ -139,7 +139,6 @@ namespace Frame_Core
             return OffsetPos;
         }
 
-
         public int GetCamID(ProcessInfo info)
         {
             int id = 0;
@@ -153,7 +152,6 @@ namespace Frame_Core
             }
             return id;
         }
-
 
         public bool CalculateLinesX(LineInfo lineInfo1, LineInfo lineInfo2, out double Val)
         {
@@ -173,67 +171,36 @@ namespace Frame_Core
 
         }
 
-        public bool CalculateLines(LineInfo lineInfo1, LineInfo lineInfo2, string Edtype, out double Val)
-        {
-            Val = -999;
-            try
-            {
-
-                if (Edtype == EditorTypeEnum.线距离X.ToString())
-                {
-                    double line1midcol = (lineInfo1.ColBegin + lineInfo1.ColEnd) / 2;
-                    double line2midcol = (lineInfo2.ColBegin + lineInfo2.ColEnd) / 2;
-                    Val = line1midcol - line2midcol;
-                }
-                else if (Edtype == EditorTypeEnum.线距离Y.ToString())
-                {
-                    double line1midrow = (lineInfo1.RowBegin + lineInfo1.RowEnd) / 2;
-                    double line2midrow = (lineInfo2.RowBegin + lineInfo2.RowEnd) / 2;
-                    Val = line1midrow - line2midrow;
-                }
-                Val = Math.Round(Val, 2);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-
-        }
-
-
-
-
         public bool CalculateLines(CameraEnum cameraEnum, LineInfo lineInfo1, LineInfo lineInfo2, string Edtype, double coefficient, double RealFixOffset, out double Val)
         {
             Val = -999;
             try
             {
 
-                double calibValueX = Project.Instance.cameraManager[cameraEnum].m_CamParam.CalibrationValue_X;
-                double calibValueY = Project.Instance.cameraManager[cameraEnum].m_CamParam.CalibrationValue_Y;
-                if (Edtype == EditorTypeEnum.线距离X.ToString())
-                {
-                    double line1midcol = (lineInfo1.ColBegin + lineInfo1.ColEnd) / 2;
-                    double line2midcol = (lineInfo2.ColBegin + lineInfo2.ColEnd) / 2;
-                    Val = line1midcol - line2midcol;
-                    Val = Val * calibValueX * coefficient + RealFixOffset;
-                }
-                else if (Edtype == EditorTypeEnum.线距离Y.ToString())
-                {
-                    double line1midrow = (lineInfo1.RowBegin + lineInfo1.RowEnd) / 2;
-                    double line2midrow = (lineInfo2.RowBegin + lineInfo2.RowEnd) / 2;
-                    Val = line1midrow - line2midrow;
-                    Val = Val * calibValueY * coefficient + RealFixOffset;
-                }
-                else if (Edtype == EditorTypeEnum.线线夹角.ToString())
-                {
-                    HOperatorSet.AngleLl(lineInfo1.RowBegin, lineInfo1.ColBegin, lineInfo1.RowEnd, lineInfo1.ColEnd, lineInfo2.RowBegin, lineInfo2.ColBegin, lineInfo2.RowEnd, lineInfo2.ColEnd, out HTuple angle);
-                    Val = angle.TupleDeg();
-                    Val = Val * coefficient + RealFixOffset;
-                }
+                //double calibValueX = Project.Instance.cameraManager[cameraEnum].m_CamParam.CalibrationValue_X;
+                //double calibValueY = Project.Instance.cameraManager[cameraEnum].m_CamParam.CalibrationValue_Y;
+                //if (Edtype == EditorTypeEnum.线距离X.ToString())
+                //{
+                //    double line1midcol = (lineInfo1.ColBegin + lineInfo1.ColEnd) / 2;
+                //    double line2midcol = (lineInfo2.ColBegin + lineInfo2.ColEnd) / 2;
+                //    Val = line1midcol - line2midcol;
+                //    Val = Val * calibValueX * coefficient + RealFixOffset;
+                //}
+                //else if (Edtype == EditorTypeEnum.线距离Y.ToString())
+                //{
+                //    double line1midrow = (lineInfo1.RowBegin + lineInfo1.RowEnd) / 2;
+                //    double line2midrow = (lineInfo2.RowBegin + lineInfo2.RowEnd) / 2;
+                //    Val = line1midrow - line2midrow;
+                //    Val = Val * calibValueY * coefficient + RealFixOffset;
+                //}
+                //else if (Edtype == EditorTypeEnum.线线夹角.ToString())
+                //{
+                //    HOperatorSet.AngleLl(lineInfo1.RowBegin, lineInfo1.ColBegin, lineInfo1.RowEnd, lineInfo1.ColEnd, lineInfo2.RowBegin, lineInfo2.ColBegin, lineInfo2.RowEnd, lineInfo2.ColEnd, out HTuple angle);
+                //    Val = angle.TupleDeg();
+                //    Val = Val * coefficient + RealFixOffset;
+                //}
 
-                Val = Math.Round(Val, 3);
+                //Val = Math.Round(Val, 3);
                 return true;
             }
             catch (Exception)
@@ -349,7 +316,6 @@ namespace Frame_Core
         }
 
 
-
         /// <summary>
         /// 从抓边插件到lineinfo和显示
         /// </summary>
@@ -461,16 +427,6 @@ namespace Frame_Core
                 return false;
             }
 
-        }
-
-        /// <summary>
-        /// 相机坐标转换
-        /// </summary>
-        /// <param name="point"></param>
-        public void AffinePoint(CoorPoint point)
-        {
-            point.AffinePointX = point.OffsetX;
-            point.AffinePointY = point.OffsetY;
         }
 
         #endregion
