@@ -164,15 +164,7 @@ namespace Mef_VisionFrame
                                 //数据来源分析
                                 EADataAnalysis(cameraEnum, Calipix_x, Calipix_y, productInfoA, productInfoB, out List<string> OutDBChannel);
                                 //发送打标数据
-                                if(pFTCleanCraft.MaterialType)
-                                {
-                                    SendDBInfoIfNeeded(InnerkeyA, productInfoA.EArange.StartImageID, productInfoA.resultSliceAllResult, 5);
-                                }
-                                else
-                                {
-                                    SendDBInfoIfNeeded(InnerkeyA, productInfoA.EArange.StartImageID, productInfoA.resultSliceAllResult, 6);
-                                }
-                                
+                                SendDBInfoIfNeeded(InnerkeyA, productInfoA.EArange.StartImageID, productInfoA.resultSliceAllResult, ((DBJCardParam)Project.Instance.dbjCardManager.tcpClientParam).nCamDBIndex);
                                 UIAndFileDataSave(InnerkeyA, OutDBChannel, productInfoA, productInfoB);
                             });
                           

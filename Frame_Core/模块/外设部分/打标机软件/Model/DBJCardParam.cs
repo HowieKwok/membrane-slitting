@@ -17,6 +17,9 @@ namespace Frame_Core
         [Description("自动打标")]
         public bool AutoDB { set; get; }
 
+        [Description("相机打标编号")]
+        public int nCamDBIndex { set; get; } = 6;
+
         public BindingList<CoatingZone> Zones { get; } = new BindingList<CoatingZone>();
 
 

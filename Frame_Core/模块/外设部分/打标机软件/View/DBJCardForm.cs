@@ -49,7 +49,7 @@ namespace Frame_Core
                 dBJCardParam.LocalPC_IP = tbx_Local_IP.Text.Replace(" ", "");
                 dBJCardParam.PLC_IP = tbx_Dev_IP.Text.Replace(" ", "");
                 dBJCardParam.DevPort = (int)num_DevPort.Value;
-
+                dBJCardParam.nCamDBIndex = (int)num_CamDBIndex.Value;
                 dBJCardParam.AutoDB = cbx_AutoDB.Checked;
                 dBJCardParam.Save();
 
@@ -92,6 +92,7 @@ namespace Frame_Core
                 tbx_Local_IP.Text = tcpCientManager.tcpClientParam.LocalPC_IP;
                 tbx_Dev_IP.Text = tcpCientManager.tcpClientParam.PLC_IP;
                 num_DevPort.Value = tcpCientManager.tcpClientParam.DevPort;
+                num_CamDBIndex.Value = ((DBJCardParam)(tcpCientManager.tcpClientParam)).nCamDBIndex;
                 cbx_AutoDB.Checked = ((DBJCardParam)(tcpCientManager.tcpClientParam)).AutoDB;
 
 
