@@ -209,7 +209,7 @@ namespace Frame_Core
             //thd_Read.Start();
         }
 
-        public void SendData()
+        public override void SendData()
         {
             if (!initState) return;
             try
@@ -236,7 +236,7 @@ namespace Frame_Core
             }
         }
 
-        public void ReadData()
+        public override void ReadData()
         {
             if (!initState) return;
             bool RedPlcData_Bool;
@@ -593,17 +593,22 @@ namespace Frame_Core
         }
 
 
-        public void SendDBInfo(long frame, (int, string)[] DBChannalArray, int CameraNum)
+        public void SendDBInfo(long frame, (int, string)[] DBChannalArray, int CameraNum,out string strSend)
         {
 
-
-            if (!initState) return;
+            string str = "DB12";
+            if (!initState)
+            {
+                 strSend = "";
+                 return;
+            }
+               
             try
             {
                 lock (sendLock)
                 {
 
-                    string str = "DB12";
+                  
                     for (int i = 0; i < DBChannalArray.Count(); i++)
                     {
                         str += DBChannalArray[i].Item2;
@@ -628,7 +633,7 @@ namespace Frame_Core
                 throw;
             }
 
-
+            strSend = str;
 
 
         }

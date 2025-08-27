@@ -12,6 +12,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using System.Windows.Interop;
 
 using AntdUI;
 
@@ -97,8 +98,15 @@ namespace Mef_VisionFrame
             }
 
             // 3. 异步发送
-            bIZ_ThreadManage.limitThreadPool.RunAction(() =>
-             Project.Instance.dbjCardManager.SendDBInfo(FrameID, dbTypes, CamID));
+            bIZ_ThreadManage.limitThreadPool.RunAction(() => 
+            { 
+                Project.Instance.dbjCardManager.SendDBInfo(FrameID, dbTypes, CamID, out string msg);
+                if (Project.Instance.slaveMachineManager.initState)
+                {
+                    Project.Instance.slaveMachineManager.SendOwnDB(msg);
+                }
+            });
+
             HOperatorSet.CountSeconds(out HTuple EndSendDB);
             EndSendDB = (EndSendDB - StartSendDB) * 1000;
             MessageNotify.AddDebugLog($"第{keyA}EA发送DB信息处理时长::{EndSendDB.D}");
@@ -124,7 +132,7 @@ namespace Mef_VisionFrame
             {
                 // 报警：切片数量不一致
                 MessageNotify.AddErrorLog("ProcessingData_FrameCam2()_切片数量不一致");
-                MessageNotify.AddStopAlarm(new StopAlarmMessage() { StopAlarmState = StopAlarmStateEnum.停机, name = "切片数量不一致", describe = "切片数量不一致" });
+                MessageNotify.AddStopAlarm(new StopAlarmMessage() {time=DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"), StopAlarmState = StopAlarmStateEnum.停机, name = "切片数量不一致", describe = "切片数量不一致" });
             }
             else
             {
@@ -266,7 +274,7 @@ namespace Mef_VisionFrame
 
                             if (slotProduct == null)
                             {
-                                MessageNotify.AddStopAlarm(new StopAlarmMessage() { StopAlarmState = StopAlarmStateEnum.报警, name = $"第{i + 1}片第{j}个槽位尺寸数据缺失", describe = $"第{i + 1}片第{j + 1}个槽位尺寸数据缺失" });
+                                MessageNotify.AddStopAlarm(new StopAlarmMessage() { time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"), StopAlarmState = StopAlarmStateEnum.报警, name = $"第{i + 1}片第{j}个槽位尺寸数据缺失", describe = $"第{i + 1}片第{j + 1}个槽位尺寸数据缺失" });
                                 continue;
                             }
                             SizeInfo sizeInfo = slotProduct.SlotSizes[k];
@@ -319,7 +327,7 @@ namespace Mef_VisionFrame
 
                 if (zones == null || zones?.Count != 12)
                 {
-                    MessageNotify.AddStopAlarm(new StopAlarmMessage { StopAlarmState = StopAlarmStateEnum.停机, name = "打标机未正确设置条数", describe = "打标机未正确设置条数" });
+                    MessageNotify.AddStopAlarm(new StopAlarmMessage() { time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"), StopAlarmState = StopAlarmStateEnum.停机, name = "打标机未正确设置条数", describe = "打标机未正确设置条数" });
 
                 }
                 else
@@ -421,7 +429,7 @@ namespace Mef_VisionFrame
 
                         if (slotProduct == null)
                         {
-                            MessageNotify.AddStopAlarm(new StopAlarmMessage() { StopAlarmState = StopAlarmStateEnum.报警, name = $"第{i + 1}片第{j}个槽位尺寸数据缺失", describe = $"第{i + 1}片第{j + 1}个槽位尺寸数据缺失" });
+                            MessageNotify.AddStopAlarm(new StopAlarmMessage() { time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"), StopAlarmState = StopAlarmStateEnum.报警, name = $"第{i + 1}片第{j}个槽位尺寸数据缺失", describe = $"第{i + 1}片第{j + 1}个槽位尺寸数据缺失" });
                             continue;
                         }
                         SizeInfo sizeInfo = slotProduct.SlotSizes[k];
@@ -577,7 +585,7 @@ namespace Mef_VisionFrame
                 if (!pFTImageProduct.EAFinfished)
                 {
                     //报警：未完成切片
-                    MessageNotify.AddStopAlarm(new StopAlarmMessage() { StopAlarmState = StopAlarmStateEnum.停机, name = $"相机{cameraEnum}第{pFTImageProduct.EAID}个产品未完成切片", describe = $"相机{cameraEnum}第{pFTImageProduct.EAID}个产品未完成切片" });
+                    MessageNotify.AddStopAlarm(new StopAlarmMessage() { time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"), StopAlarmState = StopAlarmStateEnum.停机, name = $"相机{cameraEnum}第{pFTImageProduct.EAID}个产品未完成切片", describe = $"相机{cameraEnum}第{pFTImageProduct.EAID}个产品未完成切片" });
                     MessageNotify.AddErrorLog($"相机{cameraEnum}第{pFTImageProduct.EAID}个产品未完成切片");
                     pFTImageProduct.resultSliceSizeNg?.Clear();
                     pFTImageProduct.resultSliceDefectNg?.Clear();
@@ -1536,7 +1544,7 @@ namespace Mef_VisionFrame
 
             if (TJBJSizeInfos.CountNGBJ > CraftSizeInfo.CountNGBJ && CraftSizeInfo.BJ)
             {
-                MessageNotify.AddStopAlarm(new StopAlarmMessage() { StopAlarmState = StopAlarmStateEnum.报警, name = cameraEnum.ToString() + $"_第{nsliceIndex + 1}条_" + sizeInfo.Description, describe = cameraEnum.ToString() + $"_第{nsliceIndex + 1}条_" + sizeInfo.Description });
+                MessageNotify.AddStopAlarm(new StopAlarmMessage() { time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"), StopAlarmState = StopAlarmStateEnum.报警, name = cameraEnum.ToString() + $"_第{nsliceIndex + 1}条_" + sizeInfo.Description, describe = cameraEnum.ToString() + $"_第{nsliceIndex + 1}条_" + sizeInfo.Description });
                 //TJBJInfo.AlarmWriteState(AlarmName.检测项报警停机, StopAlarmStateEnum.报警, cameraEnum.ToString() + $"_第{nsliceIndex + 1}条_" + sizeInfo.Description);
                 TJBJSizeInfos.CountNGBJ = 0;
             }
@@ -1550,7 +1558,7 @@ namespace Mef_VisionFrame
 
             if (TJBJSizeInfos.CountNGTJ > CraftSizeInfo.CountNGTJ && CraftSizeInfo.TJ)
             {
-                MessageNotify.AddStopAlarm(new StopAlarmMessage() { StopAlarmState = StopAlarmStateEnum.停机, name = cameraEnum.ToString() + $"_第{nsliceIndex + 1}条_" + sizeInfo.Description, describe = cameraEnum.ToString() + $"_第{nsliceIndex + 1}条_" + sizeInfo.Description });
+                MessageNotify.AddStopAlarm(new StopAlarmMessage() { time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"), StopAlarmState = StopAlarmStateEnum.停机, name = cameraEnum.ToString() + $"_第{nsliceIndex + 1}条_" + sizeInfo.Description, describe = cameraEnum.ToString() + $"_第{nsliceIndex + 1}条_" + sizeInfo.Description });
                 // TJBJInfo.AlarmWriteState(AlarmName.检测项报警停机, StopAlarmStateEnum.停机, cameraEnum.ToString() + $"_第{nsliceIndex + 1}条_" + sizeInfo.Description);
                 TJBJSizeInfos.CountNGTJ = 0;
             }

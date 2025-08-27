@@ -752,5 +752,15 @@ namespace Mef_VisionFrame
                 form.ShowDialog();
             }
         }
+
+        private void 主副机通讯ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.主副机通讯)) { return; }
+            using (SlaveMachineForm form = new SlaveMachineForm(Project.Instance.slaveMachineManager))
+            {
+                form.StartPosition = FormStartPosition.CenterScreen;
+                form.ShowDialog();
+            }
+        }
     }
 }

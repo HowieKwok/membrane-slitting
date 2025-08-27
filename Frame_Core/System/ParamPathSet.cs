@@ -54,6 +54,7 @@ namespace Frame_Core
         public string DevtParamPathName;//主设备参数
         public string DevtParamPathName_Pocket;//主设备参数
         public string DBJParamPathName;//打标机参数
+        public string SlaveParamPathName;//副机路径参数
         public string JPParamPathName;//纠偏参数
         public string BaseSetParamPathName;//基础设置参数保存路径名称
         public string EmulationParamPath;//仿真参数路径
@@ -252,6 +253,7 @@ namespace Frame_Core
             DevtParamPathName = SystemPath + $"\\{relativePath}" + "\\mDevPLCParam";
             DevtParamPathName_Pocket = SystemPath + $"\\{relativePath}" + "\\mDevPLCParamPocket";
             DBJParamPathName = SystemPath + $"\\{relativePath}" + "\\DBJPLCParam";
+            SlaveParamPathName = SystemPath + $"\\{relativePath}" + "\\SlaveParamPathName";
             JPParamPathName = SystemPath + $"\\{relativePath}" + "\\JPParam";
 
             //图像保存参数路径

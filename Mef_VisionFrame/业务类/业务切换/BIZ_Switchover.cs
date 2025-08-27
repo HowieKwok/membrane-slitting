@@ -190,12 +190,22 @@ namespace Mef_VisionFrame
 
 
                 Form_Main.FormMain.相机标定ToolStripMenuItem.Visible = false;
+                Form_Main.FormMain.mSA3D测厚ToolStripMenuItem.Visible = false;
                 Form_Main.FormMain.打标机软件通讯ToolStripMenuItem.Visible = true;
                 Form_Main.FormMain.尺寸点检ToolStripMenuItem.Visible = true;
                 Form_Main.FormMain.纠偏设置ToolStripMenuItem.Visible = true;
 
             }
 
+            //主副机通讯回调函数注册
+            Project.Instance.slaveMachineManager.StartMJEvent -= Form_Main.FormMain.MainDetection.StartMojuan;
+            Project.Instance.slaveMachineManager.StartMJEvent += Form_Main.FormMain.MainDetection.StartMojuan;
+            Project.Instance.slaveMachineManager.StopMJEvent -= Form_Main.FormMain.MainDetection.StopMojuan;
+            Project.Instance.slaveMachineManager.StopMJEvent += Form_Main.FormMain.MainDetection.StopMojuan;
+            Project.Instance.slaveMachineManager.StartRunEvent -= Form_Main.FormMain.MainDetection.StartRun;
+            Project.Instance.slaveMachineManager.StartRunEvent += Form_Main.FormMain.MainDetection.StartRun;
+            Project.Instance.slaveMachineManager.StopRunEvent -= Form_Main.FormMain.MainDetection.StopRun;
+            Project.Instance.slaveMachineManager.StopRunEvent += Form_Main.FormMain.MainDetection.StopRun;
 
 
             if (IBIZWorkerBase != null)
@@ -264,6 +274,9 @@ namespace Mef_VisionFrame
                 NStatusStrip.AddSoftwareState("打标机", Project.Instance.dbjCardManager.initState ? 1 : 0, ref softwareState);
 
 
+                //仪器
+                //设备PLC
+                NStatusStrip.AddSoftwareState("主副机通讯", Project.Instance.slaveMachineManager.initState ? 1 : 0, ref softwareState);
 
 
                 //磁盘检测

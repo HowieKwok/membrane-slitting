@@ -479,6 +479,14 @@
     <Compile Include="模块\外设部分\主设备PLC通讯\Form_MainPLC.Designer.cs">
       <DependentUpon>Form_MainPLC.cs</DependentUpon>
     </Compile>
+    <Compile Include="模块\外设部分\宽幅打孔主副机通讯\Control\SlaveMachineManager.cs" />
+    <Compile Include="模块\外设部分\宽幅打孔主副机通讯\Model\SlaveMachineParam.cs" />
+    <Compile Include="模块\外设部分\宽幅打孔主副机通讯\View\SlaveMachineForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\外设部分\宽幅打孔主副机通讯\View\SlaveMachineForm.Designer.cs">
+      <DependentUpon>SlaveMachineForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="模块\外设部分\打标机软件\Control\DBJCardManager.cs" />
     <Compile Include="模块\外设部分\打标机软件\Model\DBJCardParam.cs" />
     <Compile Include="模块\外设部分\打标机软件\View\ChannelEditorForm.cs">
@@ -773,6 +781,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="模块\外设部分\主设备PLC通讯\Form_MainPLC.resx">
       <DependentUpon>Form_MainPLC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\外设部分\宽幅打孔主副机通讯\View\SlaveMachineForm.resx">
+      <DependentUpon>SlaveMachineForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="模块\外设部分\打标机软件\View\DBJCardForm.resx">
       <DependentUpon>DBJCardForm.cs</DependentUpon>

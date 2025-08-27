@@ -102,6 +102,11 @@ namespace Frame_Core
         /// </summary>
         public DBJCardManager dbjCardManager = new DBJCardManager();
 
+        /// <summary>
+        ///  副机管理
+        /// </summary>
+        public SlaveMachineManager slaveMachineManager = new SlaveMachineManager();
+
 
         //状态
         public bool Is_MojuanStart = false;//膜卷开始标志
@@ -176,6 +181,11 @@ namespace Frame_Core
                 if (dbjCardManager != null)
                 {
                     dbjCardManager.Close();
+                }
+
+                if (slaveMachineManager != null)
+                {
+                    slaveMachineManager.Close();
                 }
 
                 //if (correctManage != null)
@@ -329,6 +339,13 @@ namespace Frame_Core
                 paramPath = paramPathSet.DBJParamPathName;
                 initParamResult &= dbjCardManager.InitParam(paramPath);
                 initObjectResult &= dbjCardManager.InitPLC();
+
+
+                //加载副机参数
+                slaveMachineManager = new SlaveMachineManager();
+                paramPath = paramPathSet.SlaveParamPathName;
+                initParamResult &= slaveMachineManager.InitParam(paramPath);
+                initObjectResult &= slaveMachineManager.InitPLC();
 
 
                 //新建膜卷路径
@@ -562,6 +579,13 @@ namespace Frame_Core
                 dbjCardManager.SendHeartPath = strPath + "打标软件发送记录-心跳MarkingSoftwareHeartbeatRecord.ini";
                 dbjCardManager.SendDBPath = strPath + "打标软件发送记录-打标MarkingSoftwareMarkingRecord.ini";
                 dbjCardManager.SendJPPath = strPath + "打标软件发送记录-纠偏MarkingSoftwareOffsetRecord.ini";
+
+                ////重开膜卷初始化主副机软件参数和信息路径
+                slaveMachineManager.ReadLogPath = strPath + "主副机接收记录-接收MarkingSoftwareReceiveRecord.ini";
+                slaveMachineManager.SendLogPath = strPath + "主副机发送记录-发送MarkingSoftwareSendRecord.ini";
+                slaveMachineManager.SendHeartPath = strPath + "主副机发送记录-心跳MarkingSoftwareHeartbeatRecord.ini";
+            
+
 
             }
         }

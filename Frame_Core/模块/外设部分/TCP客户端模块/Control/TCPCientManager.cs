@@ -162,6 +162,19 @@ namespace Frame_Core
         #region 发送
        protected  object sendLock = new object();
         protected DateTime HeartTimer = DateTime.Now;
+
+
+        public virtual void SendData()
+        {
+
+        }
+
+
+
+        public virtual void ReadData()
+        {
+
+        }
         /// <summary>
         /// 发送心跳
         /// </summary>

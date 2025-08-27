@@ -48,6 +48,7 @@
             this.保存设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.仿真设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.磁盘设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.基础设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.用户设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.用户登录ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.账户管理ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,7 +82,7 @@
             this.timer_StatusBarUpdate = new System.Windows.Forms.Timer(this.components);
             this.timer_DataShow = new System.Windows.Forms.Timer(this.components);
             this.timer_SimLoadImage = new System.Windows.Forms.Timer(this.components);
-            this.基础设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.主副机通讯ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -241,23 +242,30 @@
             // 保存设置ToolStripMenuItem
             // 
             this.保存设置ToolStripMenuItem.Name = "保存设置ToolStripMenuItem";
-            this.保存设置ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.保存设置ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.保存设置ToolStripMenuItem.Text = "保存设置";
             this.保存设置ToolStripMenuItem.Click += new System.EventHandler(this.保存设置ToolStripMenuItem_Click);
             // 
             // 仿真设置ToolStripMenuItem
             // 
             this.仿真设置ToolStripMenuItem.Name = "仿真设置ToolStripMenuItem";
-            this.仿真设置ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.仿真设置ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.仿真设置ToolStripMenuItem.Text = "仿真设置";
             this.仿真设置ToolStripMenuItem.Click += new System.EventHandler(this.仿真设置ToolStripMenuItem_Click);
             // 
             // 磁盘设置ToolStripMenuItem
             // 
             this.磁盘设置ToolStripMenuItem.Name = "磁盘设置ToolStripMenuItem";
-            this.磁盘设置ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.磁盘设置ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.磁盘设置ToolStripMenuItem.Text = "磁盘设置";
             this.磁盘设置ToolStripMenuItem.Click += new System.EventHandler(this.磁盘设置ToolStripMenuItem_Click);
+            // 
+            // 基础设置ToolStripMenuItem
+            // 
+            this.基础设置ToolStripMenuItem.Name = "基础设置ToolStripMenuItem";
+            this.基础设置ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.基础设置ToolStripMenuItem.Text = "基础设置";
+            this.基础设置ToolStripMenuItem.Click += new System.EventHandler(this.基础设置ToolStripMenuItem_Click);
             // 
             // 用户设置ToolStripMenuItem
             // 
@@ -312,7 +320,8 @@
             this.打标机软件通讯ToolStripMenuItem,
             this.纠偏设置ToolStripMenuItem,
             this.pC通讯设置ToolStripMenuItem,
-            this.控制卡ToolStripMenuItem});
+            this.控制卡ToolStripMenuItem,
+            this.主副机通讯ToolStripMenuItem});
             this.外联设置ToolStripMenuItem.Name = "外联设置ToolStripMenuItem";
             this.外联设置ToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
             this.外联设置ToolStripMenuItem.Text = "外联设置";
@@ -321,28 +330,28 @@
             // 相机toolStripMenuItem1
             // 
             this.相机toolStripMenuItem1.Name = "相机toolStripMenuItem1";
-            this.相机toolStripMenuItem1.Size = new System.Drawing.Size(160, 22);
+            this.相机toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.相机toolStripMenuItem1.Text = "相机设置";
             this.相机toolStripMenuItem1.Click += new System.EventHandler(this.相机toolStripMenuItem1_Click);
             // 
             // 光源ToolStripMenuItem
             // 
             this.光源ToolStripMenuItem.Name = "光源ToolStripMenuItem";
-            this.光源ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.光源ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.光源ToolStripMenuItem.Text = "光源设置";
             this.光源ToolStripMenuItem.Click += new System.EventHandler(this.光源ToolStripMenuItem_Click);
             // 
             // pLC通讯ToolStripMenuItem
             // 
             this.pLC通讯ToolStripMenuItem.Name = "pLC通讯ToolStripMenuItem";
-            this.pLC通讯ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.pLC通讯ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.pLC通讯ToolStripMenuItem.Text = "主设备通讯";
             this.pLC通讯ToolStripMenuItem.Click += new System.EventHandler(this.pLC通讯ToolStripMenuItem_Click);
             // 
             // 打标机软件通讯ToolStripMenuItem
             // 
             this.打标机软件通讯ToolStripMenuItem.Name = "打标机软件通讯ToolStripMenuItem";
-            this.打标机软件通讯ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.打标机软件通讯ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.打标机软件通讯ToolStripMenuItem.Text = "打标机软件通讯";
             this.打标机软件通讯ToolStripMenuItem.Visible = false;
             this.打标机软件通讯ToolStripMenuItem.Click += new System.EventHandler(this.打标机软件通讯ToolStripMenuItem_Click);
@@ -350,7 +359,7 @@
             // 纠偏设置ToolStripMenuItem
             // 
             this.纠偏设置ToolStripMenuItem.Name = "纠偏设置ToolStripMenuItem";
-            this.纠偏设置ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.纠偏设置ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.纠偏设置ToolStripMenuItem.Text = "纠偏设置";
             this.纠偏设置ToolStripMenuItem.Visible = false;
             this.纠偏设置ToolStripMenuItem.Click += new System.EventHandler(this.纠偏设置ToolStripMenuItem_Click);
@@ -358,7 +367,7 @@
             // pC通讯设置ToolStripMenuItem
             // 
             this.pC通讯设置ToolStripMenuItem.Name = "pC通讯设置ToolStripMenuItem";
-            this.pC通讯设置ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.pC通讯设置ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.pC通讯设置ToolStripMenuItem.Text = "PC通讯设置";
             this.pC通讯设置ToolStripMenuItem.Visible = false;
             this.pC通讯设置ToolStripMenuItem.Click += new System.EventHandler(this.pC通讯设置ToolStripMenuItem_Click);
@@ -366,7 +375,7 @@
             // 控制卡ToolStripMenuItem
             // 
             this.控制卡ToolStripMenuItem.Name = "控制卡ToolStripMenuItem";
-            this.控制卡ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.控制卡ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.控制卡ToolStripMenuItem.Text = "控制卡";
             this.控制卡ToolStripMenuItem.Visible = false;
             this.控制卡ToolStripMenuItem.Click += new System.EventHandler(this.控制卡ToolStripMenuItem_Click);
@@ -519,12 +528,12 @@
             this.timer_SimLoadImage.Interval = 500;
             this.timer_SimLoadImage.Tick += new System.EventHandler(this.timer_SimLoadImage_Tick);
             // 
-            // 基础设置ToolStripMenuItem
+            // 主副机通讯ToolStripMenuItem
             // 
-            this.基础设置ToolStripMenuItem.Name = "基础设置ToolStripMenuItem";
-            this.基础设置ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.基础设置ToolStripMenuItem.Text = "基础设置";
-            this.基础设置ToolStripMenuItem.Click += new System.EventHandler(this.基础设置ToolStripMenuItem_Click);
+            this.主副机通讯ToolStripMenuItem.Name = "主副机通讯ToolStripMenuItem";
+            this.主副机通讯ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.主副机通讯ToolStripMenuItem.Text = "主副机通讯";
+            this.主副机通讯ToolStripMenuItem.Click += new System.EventHandler(this.主副机通讯ToolStripMenuItem_Click);
             // 
             // Form_Main
             // 
@@ -602,8 +611,9 @@
         private System.Windows.Forms.ToolStripMenuItem 磁盘设置ToolStripMenuItem;
         public System.Windows.Forms.ToolStripMenuItem 尺寸点检ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mSA棋盘格线宽设置ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem mSA3D测厚ToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem mSA3D测厚ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 基础设置ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 主副机通讯ToolStripMenuItem;
     }
 }
 

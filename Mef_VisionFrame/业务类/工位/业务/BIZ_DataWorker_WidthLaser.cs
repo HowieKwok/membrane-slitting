@@ -61,7 +61,8 @@ namespace Mef_VisionFrame
 
         CombinationHWindowControl CombinationHWindowControl_cam1;
         CombinationHWindowControl CombinationHWindowControl_cam2;
-
+        IntervalExecution intervalExecution = new IntervalExecution();
+        IntervalExecution intervalExecutionStas = new IntervalExecution();
 
         public BIZ_DataWorker_WidthLaser(Form_WidthLaserDetect _form)
         {
@@ -163,7 +164,15 @@ namespace Mef_VisionFrame
                                 //数据来源分析
                                 EADataAnalysis(cameraEnum, Calipix_x, Calipix_y, productInfoA, productInfoB, out List<string> OutDBChannel);
                                 //发送打标数据
-                                SendDBInfoIfNeeded(InnerkeyA, productInfoA.EArange.EndImageID, productInfoA.resultSliceAllResult, 6);
+                                if(pFTCleanCraft.MaterialType)
+                                {
+                                    SendDBInfoIfNeeded(InnerkeyA, productInfoA.EArange.StartImageID, productInfoA.resultSliceAllResult, 5);
+                                }
+                                else
+                                {
+                                    SendDBInfoIfNeeded(InnerkeyA, productInfoA.EArange.StartImageID, productInfoA.resultSliceAllResult, 6);
+                                }
+                                
                                 UIAndFileDataSave(InnerkeyA, OutDBChannel, productInfoA, productInfoB);
                             });
                           
@@ -174,7 +183,7 @@ namespace Mef_VisionFrame
 
                             // 报警：未找到对应的产品信息
                             MessageNotify.AddErrorLog("ProcessingData_FrameCam2()_未找到对应的产品信息");
-                            MessageNotify.AddStopAlarm(new StopAlarmMessage() { StopAlarmState = StopAlarmStateEnum.停机, name = "未找到对应的产品信息", describe = "未找到对应的产品信息" });
+                            MessageNotify.AddStopAlarm(new StopAlarmMessage() { time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"), StopAlarmState = StopAlarmStateEnum.停机, name = "未找到对应的产品信息", describe = "未找到对应的产品信息" });
                         }
 
 
@@ -275,7 +284,43 @@ namespace Mef_VisionFrame
 
         public void Communication()
         {
+            try
+            {
 
+                bool IsIntervalTime = intervalExecution.GetWhetherToReachIntervalTime(1000);
+                //=========================================================================
+                //读取打标机信息
+                if (Project.Instance.dbjCardManager != null && Project.Instance.dbjCardManager.initState == true)
+                {
+                 
+                    if(IsIntervalTime)
+                    {
+                        Project.Instance.dbjCardManager.SendData();
+                    }
+                   
+
+                    Project.Instance.dbjCardManager.ReadData();
+
+                }
+                
+                //读取主机通讯信息
+                if (Project.Instance.slaveMachineManager != null && Project.Instance.slaveMachineManager.initState == true)
+                {
+                    if (IsIntervalTime)
+                    {
+                        Project.Instance.slaveMachineManager.SendData();
+                    }
+
+                    Project.Instance.slaveMachineManager.ReadData();
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                Log4netRecord.ErrorLog.Error(ex);
+            }
         }
 
         public void AlarmReset()

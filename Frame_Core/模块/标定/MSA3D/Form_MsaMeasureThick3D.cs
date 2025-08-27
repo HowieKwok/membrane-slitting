@@ -89,7 +89,7 @@ namespace Frame_Core
             }
 
 
-            cbx_CamSelect.SelectedIndex = 2;
+            cbx_CamSelect.SelectedIndex = 0;
 
             LineMethodSelect.SelectedIndex = 1;
           

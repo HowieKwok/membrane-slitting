@@ -396,7 +396,6 @@
     <Compile Include="业务类\工位\业务\BIZ_DataWorker_WidthLaser.cs" />
     <Compile Include="业务类\工位\业务\BIZ_DataWorker_WidthLaserMethod.cs" />
     <Compile Include="业务类\工位\业务\BIZ_ThreadManage_WidthLaser.cs" />
-    <Compile Include="业务类\工位\业务变量\BIZ_Variable_Narrow.cs" />
     <Compile Include="业务类\业务切换\AThreadManageBase.cs" />
     <Compile Include="业务类\业务切换\IBizWorkerBase.cs" />
     <Compile Include="业务类\业务通用\BIZ_General.cs" />
