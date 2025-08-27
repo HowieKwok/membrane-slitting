@@ -763,9 +763,20 @@ namespace Mef_VisionFrame
 
         }
 
+        public void SendStopAlarm(string msg)
+        {
+            if(Project.Instance.slaveMachineManager.initState)
+            {
+                Project.Instance.slaveMachineManager.SendAlarmStop(msg);
+            }
+        }
 
-
-
-
+        public void SendAlarm(string msg)
+        {
+            if (Project.Instance.slaveMachineManager.initState)
+            {
+                Project.Instance.slaveMachineManager.SendAlarm(msg);
+            }
+        }
     }
 }

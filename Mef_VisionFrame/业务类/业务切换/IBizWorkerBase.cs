@@ -91,9 +91,19 @@ namespace Mef_VisionFrame
         void SendStopAlarm(int index);
 
         /// <summary>
+        /// 发送停机报警
+        /// </summary>
+        void SendStopAlarm(string msg);
+
+        /// <summary>
         /// 发送报警
         /// </summary>
         void SendAlarm(int index);
+
+        /// <summary>
+        /// 发送报警
+        /// </summary>
+        void SendAlarm(string msg);
 
     }
 }

@@ -65,15 +65,16 @@ namespace Mef_VisionFrame
                 //发送停机报警
                 if (stopInfo != null || stopSizeInfo != null || stopDefectInfo != null)
                 {
-                    if (stopInfo != null) stopInfo.CurrentStopAlarmState = StopAlarmStateEnum.正常;
+                    if (stopInfo != null) { stopInfo.CurrentStopAlarmState = StopAlarmStateEnum.正常; BIZ_Switchover.IBIZWorkerBase?.SendStopAlarm(stopInfo.stopAlarmMessage.describe); } 
                     if (stopSizeInfo != null) stopSizeInfo.CurrentStopAlarmState = StopAlarmStateEnum.正常;
                     if (stopDefectInfo != null) stopDefectInfo.CurrentStopAlarmState = StopAlarmStateEnum.正常;
                     BIZ_Switchover.IBIZWorkerBase?.SendStopAlarm(30);
+                   
 
                 }
                 if (alarmInfo != null || alarmSizeInfo != null || alarmDefectInfo != null)
                 {
-                    if (alarmInfo != null) alarmInfo.CurrentStopAlarmState = StopAlarmStateEnum.正常;
+                    if (alarmInfo != null) { BIZ_Switchover.IBIZWorkerBase?.SendAlarm(alarmInfo.stopAlarmMessage.describe); alarmInfo.CurrentStopAlarmState = StopAlarmStateEnum.正常; } 
                     if (alarmSizeInfo != null) alarmSizeInfo.CurrentStopAlarmState = StopAlarmStateEnum.正常;
                     if (alarmDefectInfo != null) alarmDefectInfo.CurrentStopAlarmState = StopAlarmStateEnum.正常;
                     BIZ_Switchover.IBIZWorkerBase?.SendAlarm(30);

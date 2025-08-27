@@ -1025,14 +1025,11 @@ namespace Frame_Core
 
                     //主相机图像参数
                     ImageInfo InfoImgInfo = PFTimageQueue.Dequeue();
-                    if(InfoImgInfo.ho_image?.CountObj()==null|| InfoImgInfo.ho_image?.CountObj()==0)
-                    {
-
-                    }
+             
                     CleanEAParamBase.EAlistimageInfos.Add(InfoImgInfo);
-                    if (CleanEAParamBase.EAlistimageInfos.Count > 10)
+                    if (CleanEAParamBase.EAlistimageInfos.Count > 3)
                     {
-                        long removeID =InfoImgInfo.image_ID - 10;
+                        long removeID =InfoImgInfo.image_ID - 3;
                         var tempIMfo = CleanEAParamBase.EAlistimageInfos.FindIndex(c => c.image_ID == removeID);
                         if (tempIMfo != -1)
                         {
@@ -1696,9 +1693,9 @@ namespace Frame_Core
                     //主相机图像参数
                     ImageInfo InfoImgInfo = PFTimageQueue.Dequeue();
                     PFTCleanParamFrom.EAlistimageInfos.Add(InfoImgInfo);
-                    if (PFTCleanParamFrom.EAlistimageInfos.Count > 10)
+                    if (PFTCleanParamFrom.EAlistimageInfos.Count > 3)
                     {
-                        long removeID = InfoImgInfo.image_ID - 10;
+                        long removeID = InfoImgInfo.image_ID - 3;
                         var tempIMfo = PFTCleanParamFrom.EAlistimageInfos.FindIndex(c => c.image_ID == removeID);
                         if (tempIMfo != -1)
                         {
