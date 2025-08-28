@@ -94,6 +94,8 @@ namespace Frame_Core
         public PFTCleanProParams(string cameraName)
         {
             strCamreaName = cameraName;
+            Enum.TryParse(cameraName, out CameraEnum camEnum);
+           _camID = (int)camEnum;
         }
         public override void CallBackImgDataDeal()
         {
