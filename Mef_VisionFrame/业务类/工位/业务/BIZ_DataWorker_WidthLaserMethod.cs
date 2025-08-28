@@ -92,7 +92,7 @@ namespace Mef_VisionFrame
                     if (index >= 0 && index < dbTypes.Length &&
                         resultSliceAllResult[index] == ResultType.NG)
                     {
-                        dbTypes[index] = (index, index.ToString().PadLeft(4, '0'));
+                        dbTypes[index] = (index, (ch.Id).ToString().PadLeft(4, '0'));
                     }
                 }
             }
