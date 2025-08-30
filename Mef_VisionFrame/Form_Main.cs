@@ -45,9 +45,9 @@ namespace Mef_VisionFrame
             {
                 //加载进度条
                 this.Hide();
-                 form_LoadProgressBar = new Form_LoadProgressBar();
-                Task.Run(() => { form_LoadProgressBar.SendToBack(); form_LoadProgressBar.ShowDialog(); });
-
+                form_LoadProgressBar = new Form_LoadProgressBar();
+                Thread thBar = new Thread(() => { form_LoadProgressBar.SendToBack(); form_LoadProgressBar.ShowDialog(); });
+                thBar.IsBackground = true; thBar.Start();
                 Project.Instance.INIProject();//初始化项目
                 //CraftSetting=new Form_CraftSetting();
                 //MainDetection = new UC_MainDetection();
