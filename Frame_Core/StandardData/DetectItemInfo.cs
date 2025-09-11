@@ -147,6 +147,7 @@ namespace Frame_Core
     /// 缺陷检测项
     /// </summary>
     [Serializable]
+
     public class DefectItemInfo
     {
         [My("编号")]
@@ -164,54 +165,56 @@ namespace Frame_Core
         [My("所属相机")]
         [Description("所属相机")]
         public CameraEnum camera { get; set; } = 0;
-
+        [My("启用面积")]
+        [Description("启用面积")]
+        public bool EnableArea { get; set; } = true;//打标
         [My("面积")]
         [Description("面积")]
         public double Area { get; set; } = 1;//面积
-        [My("CCD测面积", false)]
-        [Description("CCD测面积")]
-        public double Area_Real { get; set; } = 0;//CCD测面积
 
 
+        [My("启用宽度")]
+        [Description("启用宽度")]
+        public bool EnableWidth { get; set; } = true;//打标
         [My("宽或逻辑")]
         [Description("宽或逻辑")]
         public bool WidthLogic { get; set; } = true;//宽或逻辑
         [My("宽度")]
         [Description("宽度")]
         public double Width { get; set; } = 1;//宽度
-        [My("CCD测宽度", false)]
-        [Description("CCD测宽度")]
-        public double Width_Real { get; set; } = 0;//CCD测宽度
 
+        [My("启用高度")]
+        [Description("启用高度")]
+        public bool EnableHeight { get; set; } = true;//打标
         [My("高或逻辑")]
         [Description("高或逻辑")]
         public bool HeightLogic { get; set; } = true;//高或逻辑
         [My("高度")]
         [Description("高度")]
         public double Height { get; set; } = 1;//高度
-        [My("CCD测高度", false)]
-        [Description("CCD测高度")]
-        public double Height_Real { get; set; } = 0;//CCD测高度
 
 
-        [My("累计DB")]
-        [Description("累计DB")]
-        public int CountNGDB { get; set; } = 1;//累计NG打标
         [My("打标")]
         [Description("打标")]
         public bool DB { get; set; } = false;//打标
-        [My("累计BJ")]
-        [Description("累计BJ")]
-        public int CountNGBJ { get; set; } = 1;//累计NG报警
+        [My("累计DB")]
+        [Description("累计DB")]
+        public int CountNGDB { get; set; } = 1;//累计NG打标
+
         [My("报警")]
         [Description("报警")]
         public bool BJ { get; set; } = false;//报警
-        [My("累计TJ")]
-        [Description("累计TJ")]
-        public int CountNGTJ { get; set; } = 1;//累计NG停机
+        [My("累计BJ")]
+        [Description("累计BJ")]
+        public int CountNGBJ { get; set; } = 1;//累计NG报警
+
         [My("停机")]
         [Description("停机")]
         public bool TJ { get; set; } = false;//停机
+        [My("累计TJ")]
+        [Description("累计TJ")]
+        public int CountNGTJ { get; set; } = 1;//累计NG停机
+
     }
 
     /// <summary>

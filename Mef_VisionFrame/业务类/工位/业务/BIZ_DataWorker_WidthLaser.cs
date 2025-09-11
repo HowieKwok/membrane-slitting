@@ -322,6 +322,7 @@ namespace Mef_VisionFrame
 
         public void ClearForm()
         {
+            InitForm();
             InitChart();
             InitGrooveChart();
         }

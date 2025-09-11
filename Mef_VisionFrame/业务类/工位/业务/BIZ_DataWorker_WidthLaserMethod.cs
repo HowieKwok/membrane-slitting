@@ -218,13 +218,31 @@ namespace Mef_VisionFrame
                     var defects = productInfoA.ListEADefects.Concat(productInfoB.ListEADefects)
                                                  .Where(d => d.m_iSliceIndex == i)
                                                  .ToList();
+                    var defectTJDBBJItemInfos=   BIZ_Variable.StatisticalData_EASlices[i].defectTJDBBJItemInfos;
+                    //初始化defectTJDBBJItemInfos数据
+                    for(int j=0;j<defectTJDBBJItemInfos.Count;j++)
+                    {
+                        defectTJDBBJItemInfos[j].CountNGBJ = 0;
+                        defectTJDBBJItemInfos[j].CountNGDB = 0;
+                        defectTJDBBJItemInfos[j].CountNGTJ = 0;
+
+                    }
+
 
                     ListEADefects.Add(defects.Count > 0 ? defects : new List<NgTypeInfo>());
                     ProcessImageDefects(ListEADefects[i], cameraEnum, true, i + 1);
-                    ProductDataDefectStastic(ListEADefects[i], BIZ_Variable.StatisticalData_EASlices[i].defectItemInfos);
-                    TJBJDeftInfo_WriteState(cameraEnum, ListEADefects[i], BIZ_Variable.StatisticalData_EASlices[i].defectItemInfos, pFTCleanCraft.ListDefectInfos, i);
                     resultSliceDefectNg[i] = ListEADefects[i].Count == 0 ? ResultType.OK
                                           : ListEADefects[i].Max(d => d.resultType);
+                    if (resultSliceDefectNg[i] == ResultType.NG)
+                    {
+                        resultSliceDefectNg[i] = ResultType.Warn;
+                    }
+                    resultSliceDefectNg[i] = ListEADefects[i].Count == 0 ? ResultType.OK
+                                         : ListEADefects[i].Max(d => d.resultType);
+                    ProductDataDefectStastic(ListEADefects[i], BIZ_Variable.StatisticalData_EASlices[i].defectItemInfos);
+                    
+                    TJBJDeftInfo_WriteState(cameraEnum, ListEADefects[i], defectTJDBBJItemInfos, pFTCleanCraft.ListDefectInfos, i, resultSliceDefectNg[i]);
+        
                     HOperatorSet.CountSeconds(out HTuple EndDeftTime);
                     EndDeftTime = (EndDeftTime - startDeftTime) * 1000;
                     MessageNotify.AddDebugLog($"第{productInfoA.EAID}_第{i + 1}条EA计算缺陷处理时长::{EndDeftTime.D}");
@@ -1098,8 +1116,8 @@ namespace Mef_VisionFrame
                         }
 
                         double tdWidth = Math.Abs(
-                            (next.Slotlines[(int)DirectionEnum.左边].ColBegin +
-                             next.Slotlines[(int)DirectionEnum.左边].ColEnd -
+                            (next.Slotlines[(int)DirectionEnum.右边].ColBegin +
+                             next.Slotlines[(int)DirectionEnum.右边].ColEnd -
                              cur.Slotlines[(int)DirectionEnum.左边].ColBegin -
                              cur.Slotlines[(int)DirectionEnum.左边].ColEnd) * 0.5 * pixelSizeX);
 
@@ -1107,8 +1125,8 @@ namespace Mef_VisionFrame
                         {
                             double exOffset = cleanCraft.EXCam1Col - cleanCraft.EXCam2Col - cleanCraft.Cam1BaseCol;
                             tdWidth = Math.Abs(
-                            ((next.Slotlines[(int)DirectionEnum.左边].ColBegin +
-                             next.Slotlines[(int)DirectionEnum.左边].ColEnd -
+                            ((next.Slotlines[(int)DirectionEnum.右边].ColBegin +
+                             next.Slotlines[(int)DirectionEnum.右边].ColEnd -
                              cur.Slotlines[(int)DirectionEnum.左边].ColBegin -
                              cur.Slotlines[(int)DirectionEnum.左边].ColEnd) * 0.5 + exOffset) * pixelSizeX);
 
@@ -1275,8 +1293,8 @@ namespace Mef_VisionFrame
 
                 // 标准值与尺寸公差
                 StDValue = size.StandardValue,
-                StD_Up = size.DBInfo.UpTolerance,
-                StD_Down = size.DBInfo.DownTolerance,
+                StD_Up = size.upperLimitValue- size.StandardValue,
+                StD_Down = size.lowerLimitValue- size.StandardValue,
 
                 // 报警配置
                 BJ = limit.IsBJ,
@@ -1400,17 +1418,19 @@ namespace Mef_VisionFrame
                         item.resultType = ResultType.Warn;
 
                         // 检查缺陷面积是否超过阈值
-                        if (item.m_fNgTypArea > defectInfo.Area)
+                        if(defectInfo.EnableArea)
                         {
-                            if (defectInfo.DB)
+                            if (item.m_fNgTypArea > defectInfo.Area)
                             {
-                                item.resultType = ResultType.NG;
+                                if (defectInfo.DB)
+                                {
+                                    item.resultType = ResultType.NG;
+                                }
+
+                                // 将缺陷信息添加到图像队列（启用报警）
                             }
-
-                            // 将缺陷信息添加到图像队列（启用报警）
-
-
                         }
+                       
 
                         if (defectInfo.HeightLogic)
                         {
@@ -1534,6 +1554,78 @@ namespace Mef_VisionFrame
 
 
         }
+        public void TJBJDeftInfo_WriteState(CameraEnum cameraEnum, List<NgTypeInfo> deftInfos, List<DefectItemInfo> TJBJDeftInfos, List<DefectItemInfo> CraftDeftInfos, int nsliceIndex, ResultType resultType = ResultType.NG)
+        {
+            foreach (var item in deftInfos)
+            {
+                var deftIndex = TJBJDeftInfos.FindIndex(x => x.Name == item.m_strNgTypeName.ToString() && x.camera == cameraEnum);
+                var deftCraftIndex = CraftDeftInfos.FindIndex(x => x.Name == item.m_strNgTypeName.ToString() && x.camera == cameraEnum);
+                if (deftIndex == -1)
+                {
+                    MessageNotify.AddErrorLog($"第{nsliceIndex + 1}条缺项_BIZ_Variable.ListDefectInfos_结果{item.m_strNgTypeName.ToString()}未找到对应的缺项信息");
+                    continue;
+                }
+
+                if (deftCraftIndex == -1)
+                {
+                    MessageNotify.AddErrorLog($"第{nsliceIndex + 1}条缺项_pFTCleanCraft.ListDefectInfos_结果{item.m_strNgTypeName.ToString()}未找到对应的缺项信息");
+                    continue;
+                }
+
+                if (item.resultType == ResultType.NG)
+                {
+                    TJBJDeftInfos[deftIndex].CountNGDB++;
+                }
+
+
+                if (item.resultType == ResultType.NG)
+                {
+                    TJBJDeftInfos[deftIndex].CountNGBJ++;
+                }
+
+
+
+
+                if (item.resultType == ResultType.NG)
+                {
+                    TJBJDeftInfos[deftIndex].CountNGTJ++;
+                }
+
+
+
+                for (int i = 0; i < TJBJDeftInfos.Count; i++)
+                {
+                    deftCraftIndex = CraftDeftInfos.FindIndex(x => x.Name == item.m_strNgTypeName.ToString() && x.camera == cameraEnum);
+                    if (deftCraftIndex == -1)
+                    {
+                        MessageNotify.AddErrorLog($"第{nsliceIndex + 1}条缺项_BIZ_Variable.ListDefectInfos_结果{item.m_strNgTypeName.ToString()}未找到对应的缺项信息");
+                        continue;
+                    }
+                    if (TJBJDeftInfos[i].CountNGBJ > CraftDeftInfos[i].CountNGBJ && CraftDeftInfos[deftCraftIndex].BJ)
+                    {
+                        TJBJInfo.AlarmWriteState(AlarmName.检测项报警停机, StopAlarmStateEnum.报警, cameraEnum.ToString() + $"_第{nsliceIndex + 1}条_" + item.m_strNgTypeName.ToString() + $"_当前个数：{TJBJDeftInfos[i].CountNGBJ}> 设定个数{CraftDeftInfos[deftCraftIndex].CountNGBJ}");
+
+                    }
+                    if (TJBJDeftInfos[i].CountNGTJ > CraftDeftInfos[deftCraftIndex].CountNGTJ && CraftDeftInfos[deftCraftIndex].TJ)
+                    {
+                        TJBJInfo.AlarmWriteState(AlarmName.检测项报警停机, StopAlarmStateEnum.停机, cameraEnum.ToString() + $"_第{nsliceIndex + 1}条_" + item.m_strNgTypeName.ToString() + $"_当前个数：{TJBJDeftInfos[i].CountNGTJ}> 设定个数{CraftDeftInfos[deftCraftIndex].CountNGTJ}");
+                    }
+                    if (TJBJDeftInfos[i].CountNGDB > CraftDeftInfos[deftCraftIndex].CountNGDB && CraftDeftInfos[deftCraftIndex].DB)
+                    {
+                        resultType = ResultType.NG;
+                        //记录
+                        MessageNotify.AddDebugLog($"当前缺陷项目_{TJBJDeftInfos[i].Description}达到DB设定个数条件,当前个数：{TJBJDeftInfos[i].CountNGDB}>设定个数{CraftDeftInfos[deftCraftIndex].CountNGDB}");
+                    }
+
+
+                }
+
+            }
+
+
+        }
+
+
 
         public void TJBJSize_WriteState(CameraEnum cameraEnum, SizeInfo sizeInfo, SizeItemInfo TJBJSizeInfos, SizeItemInfo CraftSizeInfo, int nsliceIndex)
         {
@@ -1795,7 +1887,9 @@ namespace Mef_VisionFrame
                             CountNGTJ = 0
                         }); ;
                     }
+                    
                 }
+              
 
 
                 // 2. 添加启用的EA尺寸项
@@ -1823,7 +1917,8 @@ namespace Mef_VisionFrame
                         slice.defectItemInfos.Add(clonedDefect);
                     }
                 }
-
+                slice.sizeTJDBBJItemInfos = slice.sizeItemInfos.DeepClone();
+                slice.defectTJDBBJItemInfos = slice.defectItemInfos.DeepClone();
                 statisticalData.Add(slice);
             }
 

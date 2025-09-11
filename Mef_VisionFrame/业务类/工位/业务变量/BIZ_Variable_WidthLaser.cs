@@ -150,6 +150,10 @@ namespace Mef_VisionFrame
 
         public List<DefectItemInfo> defectItemInfos { get; set; } = new List<DefectItemInfo>();
 
+        public List<SizeItemInfo> sizeTJDBBJItemInfos { get; set; } = new List<SizeItemInfo>();
+
+        public List<DefectItemInfo> defectTJDBBJItemInfos { get; set; } = new List<DefectItemInfo>();
+
 
     }
 
