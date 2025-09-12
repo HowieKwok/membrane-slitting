@@ -684,9 +684,9 @@ namespace Mef_VisionFrame
                                 resultTypeDefect = (new ResultType[] { resultTypeDefect, pFTImageProduct.resultSliceDefectNg[i] }).Max();
                                 resultTypeAll = (new ResultType[] { resultTypeAll, pFTImageProduct.resultSliceAllResult[i] }).Max();
                                 BIZ_General.AddMessageShowWindow(defects, pFTImageProduct.showHalconWindow, i + 1);
-                                pFTImageProduct.showHalconWindow.m_messageShowInfos.Add(new MessageShowInfo() { m_strMessage = $"第{i + 1}切片尺寸结果：{pFTImageProduct.resultSliceSizeNg[i].ToString()}", m_stuGetColor = BIZ_General.Color(pFTImageProduct.resultSliceSizeNg[i]) });
-                                pFTImageProduct.showHalconWindow.m_messageShowInfos.Add(new MessageShowInfo() { m_strMessage = $"第{i + 1}切片缺陷结果：{pFTImageProduct.resultSliceDefectNg[i].ToString()}", m_stuGetColor = BIZ_General.Color(pFTImageProduct.resultSliceDefectNg[i]) });
-                                pFTImageProduct.showHalconWindow.m_messageShowInfos.Add(new MessageShowInfo() { m_strMessage = $"第{i + 1}切片总结果：{pFTImageProduct.resultSliceAllResult[i].ToString()}", m_stuGetColor = BIZ_General.Color(pFTImageProduct.resultSliceAllResult[i]) });
+                                pFTImageProduct.showHalconWindow.m_messageShowInfos.Add(new MessageShowInfo() { m_strMessage = $"S{i + 1}尺寸结果：{pFTImageProduct.resultSliceSizeNg[i].ToString()}", m_stuGetColor = BIZ_General.Color(pFTImageProduct.resultSliceSizeNg[i]) });
+                                pFTImageProduct.showHalconWindow.m_messageShowInfos.Add(new MessageShowInfo() { m_strMessage = $"S{i + 1}缺陷结果：{pFTImageProduct.resultSliceDefectNg[i].ToString()}", m_stuGetColor = BIZ_General.Color(pFTImageProduct.resultSliceDefectNg[i]) });
+                                pFTImageProduct.showHalconWindow.m_messageShowInfos.Add(new MessageShowInfo() { m_strMessage = $"S{i + 1}总结果：{pFTImageProduct.resultSliceAllResult[i].ToString()}", m_stuGetColor = BIZ_General.Color(pFTImageProduct.resultSliceAllResult[i]) });
 
                             }
 
@@ -995,7 +995,7 @@ namespace Mef_VisionFrame
                     }
 
                     var slot = pFTCleanCraft.ListSlotInfos?
-                       .FirstOrDefault(s => s.SliceID == sliceIndex + 1 && s.ShaveID == grooveIndex + 1);
+                       .FirstOrDefault(s => s.SliceID == sliceIndex  && s.ShaveID == grooveIndex + 1);
                     if (slot == null)
                     {
                         MessageNotify.AddErrorLog("InitGrooveChart()_切片信息为空");
@@ -1521,59 +1521,12 @@ namespace Mef_VisionFrame
                 }
             }
         }
-        public void TJBJDeftInfo_WriteState(CameraEnum cameraEnum, List<NgTypeInfo> deftInfos, List<DefectItemInfo> TJBJDeftInfos, List<DefectItemInfo> CraftDeftInfos, int nsliceIndex)
-        {
-            foreach (var item in deftInfos)
-            {
-                var deftIndex = TJBJDeftInfos.FindIndex(x => x.Name == item.m_strNgTypeName.ToString());
-                var deftCraftIndex = CraftDeftInfos.FindIndex(x => x.Name == item.m_strNgTypeName.ToString());
-                if (deftIndex == -1)
-                {
-                    MessageNotify.AddErrorLog($"第{nsliceIndex + 1}条缺项_BIZ_Variable.ListDefectInfos_结果{item.m_strNgTypeName.ToString()}未找到对应的缺项信息");
-                    continue;
-                }
-
-                if (deftCraftIndex == -1)
-                {
-                    MessageNotify.AddErrorLog($"第{nsliceIndex + 1}条缺项_pFTCleanCraft.ListDefectInfos_结果{item.m_strNgTypeName.ToString()}未找到对应的缺项信息");
-                    continue;
-                }
-
-                if (item.resultType == ResultType.NG)
-                {
-                    TJBJDeftInfos[deftIndex].CountNGBJ++;
-                }
-                if (TJBJDeftInfos[deftIndex].CountNGBJ > CraftDeftInfos[deftIndex].CountNGBJ && CraftDeftInfos[deftIndex].BJ)
-                {
-                    TJBJInfo.AlarmWriteState(AlarmName.检测项报警停机, StopAlarmStateEnum.报警, cameraEnum.ToString() + $"_第{nsliceIndex + 1}条_" + item.m_strNgTypeName.ToString());
-                    TJBJDeftInfos[deftIndex].CountNGBJ = 0;
-                }
-
-
-
-                if (item.resultType == ResultType.NG)
-                {
-                    TJBJDeftInfos[deftIndex].CountNGTJ++;
-                }
-
-                if (TJBJDeftInfos[deftIndex].CountNGTJ > CraftDeftInfos[deftIndex].CountNGTJ && CraftDeftInfos[deftIndex].TJ)
-                {
-                    TJBJInfo.AlarmWriteState(AlarmName.检测项报警停机, StopAlarmStateEnum.停机, cameraEnum.ToString() + $"_第{nsliceIndex + 1}条_" + item.m_strNgTypeName.ToString());
-                    TJBJDeftInfos[deftIndex].CountNGTJ = 0;
-                }
-
-
-
-            }
-
-
-        }
         public void TJBJDeftInfo_WriteState(CameraEnum cameraEnum, List<NgTypeInfo> deftInfos, List<DefectItemInfo> TJBJDeftInfos, List<DefectItemInfo> CraftDeftInfos, int nsliceIndex, ResultType resultType = ResultType.NG)
         {
             foreach (var item in deftInfos)
             {
-                var deftIndex = TJBJDeftInfos.FindIndex(x => x.Name == item.m_strNgTypeName.ToString() && x.camera == cameraEnum);
-                var deftCraftIndex = CraftDeftInfos.FindIndex(x => x.Name == item.m_strNgTypeName.ToString() && x.camera == cameraEnum);
+                var deftIndex = TJBJDeftInfos.FindIndex(x => x.Name == item.m_strNgTypeName.ToString() && x.camera == CameraEnum.Cam1);
+                var deftCraftIndex = CraftDeftInfos.FindIndex(x => x.Name == item.m_strNgTypeName.ToString() && x.camera == CameraEnum.Cam1);
                 if (deftIndex == -1)
                 {
                     MessageNotify.AddErrorLog($"第{nsliceIndex + 1}条缺项_BIZ_Variable.ListDefectInfos_结果{item.m_strNgTypeName.ToString()}未找到对应的缺项信息");

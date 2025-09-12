@@ -1499,7 +1499,7 @@ namespace Mef_VisionFrame
                 }
                 else if (ngTypeInfos[i].resultType == ResultType.Warn)
                 {
-                    showHalconWindow.m_messageShowInfos.Add(new MessageShowInfo() { m_strMessage = message, m_stuGetColor = HalconColor.yellow });
+                    showHalconWindow.m_messageShowInfos.Add(new MessageShowInfo() { m_strMessage = message, m_stuGetColor = HalconColor.orange });
 
                 }
             }

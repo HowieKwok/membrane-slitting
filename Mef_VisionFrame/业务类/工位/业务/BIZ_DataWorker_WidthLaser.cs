@@ -507,9 +507,9 @@ namespace Mef_VisionFrame
 
                     for (int j = 0; j < slotNames.Length; j++)
                     {
-                        str = $"(Groove{i + 1})_{slotNames[j]}";
+                        str = $"(孔区{i + 1})_{slotNames[j]}";
                         BIZ_Variable.strEASizeTitle.Add(str);
-                        str = $"(Groove{i + 1})_{slotNames[j]}_结果";
+                        str = $"(孔区{i + 1})_{slotNames[j]}_结果";
                         BIZ_Variable.strEASizeTitle.Add(str);
                     }
 
