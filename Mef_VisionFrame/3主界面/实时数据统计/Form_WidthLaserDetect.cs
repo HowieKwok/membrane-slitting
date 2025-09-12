@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -81,15 +83,15 @@ namespace Mef_VisionFrame
 
         private Timer Timer_Narrow { get; set; }
 
-        private  int SliceIndex = 0;
-        private  int[] GrooveIndex = {1 };
+        private int SliceIndex = 0;
+        private int[] GrooveIndex = { 1 };
 
 
-        public void SetGrooveChart(int _sliceIndex,int[] _grooveIndex)
+        public void SetGrooveChart(int _sliceIndex, int[] _grooveIndex)
         {
             SliceIndex = _sliceIndex;
             GrooveIndex = _grooveIndex;
-            if(_grooveIndex?.Length>0)
+            if (_grooveIndex?.Length > 0)
             {
                 List<string> strings = new List<string>();
                 for (int i = 1; i <= _sliceIndex; i++)
@@ -108,23 +110,23 @@ namespace Mef_VisionFrame
                 Cob_GrooveIndex.DataSource = strings;
                 Cob_GrooveIndex.SelectedIndex = 0;
             }
-           
+
         }
         object Cob_Slice = new object();
         public int GetCob_SliceIndex()
         {
-            lock(Cob_Slice)
+            lock (Cob_Slice)
             {
                 int index = 0;
                 this.Invoke(new Action(() => { index = Cob_SliceIndex.SelectedIndex; }));
                 return index;
             }
-          
+
         }
         object Cob_Groove = new object();
         public int GetCob_GrooveIndex()
         {
-            lock(Cob_Groove)
+            lock (Cob_Groove)
             {
                 int index = 0;
                 this.Invoke(new Action(() => { index = Cob_GrooveIndex.SelectedIndex; }));
@@ -133,14 +135,18 @@ namespace Mef_VisionFrame
 
         }
 
-      
+
 
         public Form_WidthLaserDetect()
         {
             InitializeComponent();
 
             splitContainer1.SplitterDistance = (int)(splitContainer1.Width * 2.3) / 4;
-
+           
+            Dp_DetectProcessCam1.DataListView.MouseDoubleClick -= listView1_DoubleClick;
+            Dp_DetectProcessCam1.DataListView.MouseDoubleClick += listView1_DoubleClick;
+            Dp_DetectProcessCam2.DataListView.MouseDoubleClick -= listView1_DoubleClick;
+            Dp_DetectProcessCam2.DataListView.MouseDoubleClick += listView1_DoubleClick;
 
             Timer_Narrow = new Timer();
             Timer_Narrow.Interval = 1000;
@@ -165,9 +171,14 @@ namespace Mef_VisionFrame
             Timer_Narrow.Start();
         }
 
+
+
+
+
+
         private void CobIndex_SelectedIndexChanged(object sender, EventArgs e)
         {
-            CobSelectedIndexChangedAction?.Invoke(sender,e);
+            CobSelectedIndexChangedAction?.Invoke(sender, e);
         }
 
         private void Cob_SliceIndex_SelectedIndexChanged(object sender, EventArgs e)
@@ -188,6 +199,50 @@ namespace Mef_VisionFrame
                 }
 
             }
+        }
+
+
+        private void listView1_DoubleClick(object sender, EventArgs e)
+        {
+            if (sender is ListView)
+            {
+                ListView dp = sender as ListView;
+
+                // 使用 SelectedIndices 而不是 SelectedItems
+                if (dp.SelectedIndices.Count > 0)
+                {
+                    // 获取第一个选中项的索引
+                    int selectedIndex = dp.SelectedIndices[0];
+
+                    // 通过索引获取 ListViewItem（这会触发 RetrieveVirtualItem 事件）
+                    ListViewItem selectedItem = dp.Items[selectedIndex];
+
+                    // 获取"是否保存"和"路径"列的索引
+                    int saveIndex = 8;
+                    int pathIndex = 10;
+
+                    if (saveIndex >= 0 && pathIndex >= 0)
+                    {
+                        string saveStatus = selectedItem.SubItems[saveIndex].Text;
+                        string imagePath = selectedItem.SubItems[pathIndex].Text;
+
+                        if (saveStatus.Equals("True", StringComparison.OrdinalIgnoreCase))
+                        {
+                            if (File.Exists(imagePath))
+                            {
+                                // 使用默认程序打开图片
+                                System.Diagnostics.Process.Start(new ProcessStartInfo(imagePath) { UseShellExecute = true });
+                            }
+                            else
+                            {
+                                MessageBox.Show("图片文件不存在！");
+                            }
+                        }
+                    }
+                }
+            }
+
+
         }
     }
 }

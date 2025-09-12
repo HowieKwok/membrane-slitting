@@ -49,7 +49,7 @@ namespace Mef_VisionFrame
         /// <param name="resultSliceAllResult">全通道检测结果。</param>
         /// <param name="zones">通道分区信息。</param>
         /// <param name="CamID">相机 ID。</param>
-        private void SendDBInfoIfNeeded(int keyA,int FrameID,
+        private void SendDBInfoIfNeeded(int keyA, int FrameID,
                                                List<ResultType> resultSliceAllResult,
                                             int CamID = 6)
         {
@@ -71,7 +71,7 @@ namespace Mef_VisionFrame
                 {
                     MessageNotify.AddErrorLog($"打标机未连接（{Project.Instance.dbjCardManager.initState}）,暂不发送打标，当前EA为{keyA}");
                 }
-      
+
                 return;
             }
 
@@ -98,8 +98,8 @@ namespace Mef_VisionFrame
             }
 
             // 3. 异步发送
-            bIZ_ThreadManage.limitThreadPool.RunAction(() => 
-            { 
+            bIZ_ThreadManage.limitThreadPool.RunAction(() =>
+            {
                 Project.Instance.dbjCardManager.SendDBInfo(FrameID, dbTypes, CamID, out string msg);
                 if (Project.Instance.slaveMachineManager.initState)
                 {
@@ -132,7 +132,7 @@ namespace Mef_VisionFrame
             {
                 // 报警：切片数量不一致
                 MessageNotify.AddErrorLog("ProcessingData_FrameCam2()_切片数量不一致");
-                MessageNotify.AddStopAlarm(new StopAlarmMessage() {time=DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"), StopAlarmState = StopAlarmStateEnum.停机, name = "切片数量不一致", describe = "切片数量不一致" });
+                MessageNotify.AddStopAlarm(new StopAlarmMessage() { time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"), StopAlarmState = StopAlarmStateEnum.停机, name = "切片数量不一致", describe = "切片数量不一致" });
             }
             else
             {
@@ -218,9 +218,9 @@ namespace Mef_VisionFrame
                     var defects = productInfoA.ListEADefects.Concat(productInfoB.ListEADefects)
                                                  .Where(d => d.m_iSliceIndex == i)
                                                  .ToList();
-                    var defectTJDBBJItemInfos=   BIZ_Variable.StatisticalData_EASlices[i].defectTJDBBJItemInfos;
+                    var defectTJDBBJItemInfos = BIZ_Variable.StatisticalData_EASlices[i].defectTJDBBJItemInfos;
                     //初始化defectTJDBBJItemInfos数据
-                    for(int j=0;j<defectTJDBBJItemInfos.Count;j++)
+                    for (int j = 0; j < defectTJDBBJItemInfos.Count; j++)
                     {
                         defectTJDBBJItemInfos[j].CountNGBJ = 0;
                         defectTJDBBJItemInfos[j].CountNGDB = 0;
@@ -240,9 +240,9 @@ namespace Mef_VisionFrame
                     resultSliceDefectNg[i] = ListEADefects[i].Count == 0 ? ResultType.OK
                                          : ListEADefects[i].Max(d => d.resultType);
                     ProductDataDefectStastic(ListEADefects[i], BIZ_Variable.StatisticalData_EASlices[i].defectItemInfos);
-                    
+
                     TJBJDeftInfo_WriteState(cameraEnum, ListEADefects[i], defectTJDBBJItemInfos, pFTCleanCraft.ListDefectInfos, i, resultSliceDefectNg[i]);
-        
+
                     HOperatorSet.CountSeconds(out HTuple EndDeftTime);
                     EndDeftTime = (EndDeftTime - startDeftTime) * 1000;
                     MessageNotify.AddDebugLog($"第{productInfoA.EAID}_第{i + 1}条EA计算缺陷处理时长::{EndDeftTime.D}");
@@ -397,11 +397,11 @@ namespace Mef_VisionFrame
             List<RowData> rowAllDatas = new List<RowData>();
 
             rowDatas.Add(new RowData() { dataStr = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss_fff"), resultType = ResultType.OK });
-            rowDatas.Add(new RowData() { dataStr = $"{productInfoA.EAID}", resultType = ResultType.OK});
+            rowDatas.Add(new RowData() { dataStr = $"{productInfoA.EAID}", resultType = ResultType.OK });
             rowDeftDatas.Add(new RowData() { dataStr = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss_fff"), resultType = ResultType.OK });
             rowDeftDatas.Add(new RowData() { dataStr = $"{productInfoA.EAID}", resultType = productInfoA.resultSliceDefectNg.Max() });
             rowAllDatas.Add(new RowData() { dataStr = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss_fff"), resultType = ResultType.OK });
-            rowAllDatas.Add(new RowData() { dataStr = $"{productInfoA.EAID}", resultType = productInfoA.resultSliceAllResult.Max()});
+            rowAllDatas.Add(new RowData() { dataStr = $"{productInfoA.EAID}", resultType = productInfoA.resultSliceAllResult.Max() });
 
             foreach (var item in productInfoA.ListEASizes.Concat(productInfoB.ListEASizes))
             {
@@ -562,18 +562,29 @@ namespace Mef_VisionFrame
                     }
                     if (needShow)
                     {
-                        List<RowData> strDeftData = new List<RowData>
+
+                        foreach (var item in defects)
+                        {
+                            List<RowData> strDeftData = new List<RowData>
                         {
                             new RowData() { dataStr = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss_fff"), resultType = ResultType.OK },
                             new RowData() { dataStr = $"{pFTImageProduct.showHalconWindow.m_nImageFrameID}", resultType =resultSliceDefectNg[i] },
                             new RowData() { dataStr = $"{pFTImageProduct.nCurEAID}", resultType = ResultType.OK },
                             new RowData() { dataStr = $"{i + 1}", resultType =resultSliceDefectNg[i]  },
-                            new RowData() { dataStr =  resultSliceDefectNg[i].ToString(), resultType =  resultSliceDefectNg[i] },
-                            new RowData() { dataStr =strDeftInfo, resultType = resultSliceDefectNg[i] },
-                        };
+                            new RowData() { dataStr = item.m_strNgTypeName.ToString(), resultType =  resultSliceDefectNg[i] },
+                            new RowData() { dataStr =item.m_fNgTypWidth.ToString("0.00"), resultType = resultSliceDefectNg[i] },
+                            new RowData() { dataStr =item.m_fNgTypHeight.ToString("0.00"), resultType = resultSliceDefectNg[i] },
+                            new RowData() { dataStr =item.m_fNgTypArea.ToString("0.00"), resultType = resultSliceDefectNg[i] },
+                            new RowData() { dataStr =item.bIsSave.ToString(), resultType = resultSliceDefectNg[i] },
+                            new RowData() { dataStr =item.bIsDB.ToString(), resultType = resultSliceDefectNg[i] },
+                            new RowData() { dataStr =item.strPath.ToString(), resultType = resultSliceDefectNg[i] },
+                            };
 
-                        FileOperationCSV.WriteData_CSV(strDeftInitCamPath, strDeftInitCamTitle, strDeftData.ToArray(), cameraEnum.ToString());
-                        NDataPanelViewModel.Add(dataPanelViewModelBase, strDeftInitCamTitle, strDeftData.ToArray());
+                            FileOperationCSV.WriteData_CSV(strDeftInitCamPath, strDeftInitCamTitle, strDeftData.ToArray(), cameraEnum.ToString());
+                            NDataPanelViewModel.Add(dataPanelViewModelBase, strDeftInitCamTitle, strDeftData.ToArray());
+                        }
+
+
                         BIZ_General.AddMessageShowWindow(ListImageDefects[i], pFTImageProduct.showHalconWindow, i + 1);
                     }
 
@@ -623,7 +634,7 @@ namespace Mef_VisionFrame
 
 
                 }
-                if(pFTImageProduct.resultSliceSizeNg?.Count==0)
+                if (pFTImageProduct.resultSliceSizeNg?.Count == 0)
                 {
 
                 }
@@ -654,7 +665,7 @@ namespace Mef_VisionFrame
                         try
                         {
                             // 缺陷判断 
-                            var defects = pFTImageProduct.ListEADefects
+                            List<NgTypeInfo> defects = pFTImageProduct.ListEADefects
                                                          .Where(d => d.m_iSliceIndex == i)
                                                          .ToList();                 // 当前切片缺陷
 
@@ -684,12 +695,12 @@ namespace Mef_VisionFrame
                         catch (Exception ee)
                         {
 
-                          MessageNotify.AddErrorLog($"相机{cameraEnum}第{pFTImageProduct.EAID}个产品第{i + 1}切片缺陷判断异常：{ee.Message}");
-                          return ResultType.NG;
+                            MessageNotify.AddErrorLog($"相机{cameraEnum}第{pFTImageProduct.EAID}个产品第{i + 1}切片缺陷判断异常：{ee.Message}");
+                            return ResultType.NG;
                         }
-                        
-                 
-                       
+
+
+
                     })
                     .ToList();
 
@@ -1001,11 +1012,11 @@ namespace Mef_VisionFrame
 
                     if (ChartGroovePage.Count > 0 && flag)
                     {
-                        if(_data3DCacheGroup?.Count>0)
+                        if (_data3DCacheGroup?.Count > 0)
                         {
                             ChartGroovePage[i]._data3DCache = _data3DCacheGroup[i];
                         }
-                       
+
                     }
 
                     form.tab_GrooveChart.Controls.Add(ChartGroovePage[i].plotView, i % colCount, i / colCount);
@@ -1141,7 +1152,7 @@ namespace Mef_VisionFrame
                 /* ====== 4. MD 间距计算 ====== */
                 for (int sliceId = 0; sliceId < cleanCraft.SliceCount; sliceId++)
                 {
-                    for (int shaveId = 1; shaveId <= cleanCraft.ListSliceSet[0].ShaveNum-1 ; shaveId++)
+                    for (int shaveId = 1; shaveId <= cleanCraft.ListSliceSet[0].ShaveNum - 1; shaveId++)
                     {
                         var cur = allSlots.Find(s => s.slotInfo.ShaveID == shaveId &&
                                                       s.slotInfo.SliceID == sliceId);
@@ -1247,7 +1258,7 @@ namespace Mef_VisionFrame
                                     ((line2.RowBegin + line2.RowEnd - line1.RowBegin - line1.RowEnd) * 0.5) * pixelSizeY);
                                 sizeInfo.DataResult = Math.Round(sizeInfo.DataResult * cfg.StD_RealFixRito + cfg.StD_RealFixOffset, 2);
                                 break;
-                          
+
                         }
 
                     Step:
@@ -1259,7 +1270,7 @@ namespace Mef_VisionFrame
 
                     }
                 }
-            
+
                 isSuccess = true;
             }
             catch (Exception ex)
@@ -1293,8 +1304,8 @@ namespace Mef_VisionFrame
 
                 // 标准值与尺寸公差
                 StDValue = size.StandardValue,
-                StD_Up = size.upperLimitValue- size.StandardValue,
-                StD_Down = size.lowerLimitValue- size.StandardValue,
+                StD_Up = size.upperLimitValue - size.StandardValue,
+                StD_Down = size.lowerLimitValue - size.StandardValue,
 
                 // 报警配置
                 BJ = limit.IsBJ,
@@ -1418,19 +1429,20 @@ namespace Mef_VisionFrame
                         item.resultType = ResultType.Warn;
 
                         // 检查缺陷面积是否超过阈值
-                        if(defectInfo.EnableArea)
+                        if (defectInfo.EnableArea)
                         {
                             if (item.m_fNgTypArea > defectInfo.Area)
                             {
                                 if (defectInfo.DB)
                                 {
+                                    item.bIsDB = true;
                                     item.resultType = ResultType.NG;
                                 }
 
                                 // 将缺陷信息添加到图像队列（启用报警）
                             }
                         }
-                       
+
 
                         if (defectInfo.HeightLogic)
                         {
@@ -1438,6 +1450,7 @@ namespace Mef_VisionFrame
                             {
                                 if (defectInfo.DB)
                                 {
+                                    item.bIsDB = true;
                                     item.resultType = ResultType.NG;
                                 }
 
@@ -1453,6 +1466,7 @@ namespace Mef_VisionFrame
                             {
                                 if (defectInfo.DB)
                                 {
+                                    item.bIsDB = true;
                                     item.resultType = ResultType.NG;
                                 }
 
@@ -1887,9 +1901,9 @@ namespace Mef_VisionFrame
                             CountNGTJ = 0
                         }); ;
                     }
-                    
+
                 }
-              
+
 
 
                 // 2. 添加启用的EA尺寸项

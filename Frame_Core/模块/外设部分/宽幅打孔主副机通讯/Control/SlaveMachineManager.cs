@@ -382,6 +382,33 @@ namespace Frame_Core
             }
         }
 
+
+        public void SendDataSum(string strArr)
+        {
+            try
+            {
+                //将strArr转成用逗号分隔的字符串
+
+                string str = $"Sum,{strArr}";
+                if (strArr.Length > 0)
+                {
+                    bool F = TCPIP.TCP_Send(str, SendLogPath);
+                    if (!F) WriteFailCount++;
+                }
+                else
+                {
+                    Log4netRecord.ErrorLog.Debug("打标机传入的数值有误");
+                }
+
+            }
+            catch (Exception ee)
+            {
+                MessageNotify.AddErrorLog(ee.ToString());
+                //throw;
+            }
+        }
+
+
         public void SendOwnDB(string strArr)
         {
             try

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 ///定义标准：全局变量统一用m_开头
 ///用于检测使用的参数，
 
@@ -46,6 +47,12 @@ namespace Frame_Core
 
         public long m_iSliceIndex { get; set; } = 0;
 
+
+        public bool bIsSave { get; set; } = false;
+
+        public bool bIsDB { get; set; } = false;
+
+        public string strPath { get; set; } = null;
         /// <summary>
         /// 结果类型
         /// </summary>

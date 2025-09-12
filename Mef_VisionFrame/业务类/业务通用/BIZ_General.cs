@@ -283,11 +283,13 @@ namespace Mef_VisionFrame
 
                 operation_ImageInfo.str_ImageSaveBasePath = imageSaveBasePath;
                 operation_ImageInfo.str_ImageSaveRelativePath = imageSaveRelativePath;
-                operation_ImageInfo.str_ImageSaveName = imageSaveName + "_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss-fff") + SaveImageTool.GetImageFormat(imageSaveFormat); ;
+                operation_ImageInfo.str_ImageSaveName = imageSaveName + "_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss-fff")+$"(H[{ngTypeInfo.m_fNgTypHeight.ToString("0.00")}],W[{ngTypeInfo.m_fNgTypWidth.ToString("0.00")}],A[{ngTypeInfo.m_fNgTypArea.ToString("0.00")}])" + SaveImageTool.GetImageFormat(imageSaveFormat); ;
                 operation_ImageInfo.imageSaveFormat = imageSaveFormat;
                 operation_ImageInfo.bIsSaveImage = isSaveImage;
                 operation_ImageInfo.bIsShowImage = isShowImage;
                 operation_ImageInfo.showHalconWindow.m_nMode = 3;
+                ngTypeInfo.bIsSave = isSaveImage;
+                ngTypeInfo.strPath = imageSaveBasePath + imageSaveRelativePath + operation_ImageInfo.str_ImageSaveName;
                 int rowLocation = 20;
                 int rowInterval = 20;
 

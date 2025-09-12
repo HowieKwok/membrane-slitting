@@ -22,7 +22,11 @@ using Frame_Core;
 
 using HalconDotNet;
 
+using HslCommunication.Profinet.OpenProtocol;
+
 using LogTool;
+
+using Newtonsoft.Json;
 
 using NPOI.SS.Formula.Functions;
 
@@ -166,6 +170,19 @@ namespace Mef_VisionFrame
                                 //发送打标数据
                                 SendDBInfoIfNeeded(InnerkeyA, productInfoA.EArange.StartImageID, productInfoA.resultSliceAllResult, ((DBJCardParam)Project.Instance.dbjCardManager.tcpClientParam).nCamDBIndex);
                                 UIAndFileDataSave(InnerkeyA, OutDBChannel, productInfoA, productInfoB);
+                                
+                                if(Project.Instance.slaveMachineManager.initState)
+                                {
+                                    //转成josn发送
+                                    List< StatisticalData > StatisticalData_EASlices = new List< StatisticalData >();
+                                    for(int i=0;i< BIZ_Variable.StatisticalData_EASlices.Count;i++)
+                                    {
+                                        StatisticalData_EASlices.Add(BIZ_Variable.StatisticalData_EASlices[i].statisticalData);
+                                    }
+                                    string jsonData = JsonConvert.SerializeObject(StatisticalData_EASlices);
+                                    Project.Instance.slaveMachineManager.SendDataSum(jsonData);
+                                }
+
                             });
                           
 
@@ -181,9 +198,6 @@ namespace Mef_VisionFrame
 
                     }
                 }
-
-
-
 
             });
         }
@@ -454,9 +468,9 @@ namespace Mef_VisionFrame
                 BIZ_Variable.DgvColumnheaders = new List<string>();
                 BIZ_Variable.DgvRowheaders = new List<string> { "产量", "良率", "OK数", "NG数", "DB数" };
                 BIZ_Variable.DgvColumnheaders.Add("条数/统计");
-                BIZ_Variable.strDeftInitCam1Title = new List<string>() { "时间", "帧号", "EA号", "条号", "NG类型", "条号缺陷信息" };
+                BIZ_Variable.strDeftInitCam1Title = new List<string>() { "时间", "帧号", "EA号", "条号", "NG类型", "宽度","高度","面积","是否保存","是否打标","路径"};
                 BIZ_Variable.strDeftInitCam1Path = Project.Instance.paramPathSet.ProductMojuanPath + $"{Project.Instance.cameraManager[CameraEnum.Cam1].m_CamParam.CameraName}_原图缺项检测表.csv";
-                BIZ_Variable.strDeftInitCam2Title = new List<string>() { "时间", "帧号", "EA号", "条号", "条号(NG类型)", "条号缺陷信息" };
+                BIZ_Variable.strDeftInitCam2Title = new List<string>() { "时间", "帧号", "EA号", "条号", "NG类型", "宽度", "高度", "面积", "是否保存", "是否打标", "路径" };
                 BIZ_Variable.strDeftInitCam2Path = Project.Instance.paramPathSet.ProductMojuanPath + $"{Project.Instance.cameraManager[CameraEnum.Cam2].m_CamParam.CameraName}_原图缺项检测表.csv";
                 BIZ_Variable.strEASizeConfigTitle = new List<string>() { "时间", "EA号" };
                 BIZ_Variable.strEASizeConfigPath = Project.Instance.paramPathSet.ProductMojuanPath + $"配置文件总表.csv";
