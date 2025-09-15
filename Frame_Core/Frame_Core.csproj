@@ -298,6 +298,12 @@
     <Compile Include="tools\控件模块\NListView2.cs" />
     <Compile Include="tools\控件模块\NStatusStrip.cs" />
     <Compile Include="tools\控件模块\NTextBox.cs" />
+    <Compile Include="tools\日志通知工具\FloatingMessageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="tools\日志通知工具\FloatingMessageForm.Designer.cs">
+      <DependentUpon>FloatingMessageForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="tools\日志通知工具\MessageNotify.cs" />
     <Compile Include="tools\日志通知工具\UC_Message.cs">
       <SubType>UserControl</SubType>

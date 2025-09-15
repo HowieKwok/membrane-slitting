@@ -117,57 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="Column1.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="Column1.HeaderText" xml:space="preserve">
-    <value>时间</value>
-  </data>
-  <metadata name="Column2.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="Column2.HeaderText" xml:space="preserve">
-    <value>类型</value>
-  </data>
-  <metadata name="Column3.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="Column3.HeaderText" xml:space="preserve">
-    <value>报警名称</value>
-  </data>
-  <metadata name="contextMenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>145, 17</value>
-  </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="清除ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 22</value>
-  </data>
-  <data name="清除ToolStripMenuItem.Text" xml:space="preserve">
-    <value>清除</value>
-  </data>
-  <data name="contextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>101, 26</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStrip1.Name" xml:space="preserve">
-    <value>contextMenuStrip1</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStrip1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="dgv_Alarm.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="dgv_Alarm.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="dgv_Alarm.Size" type="System.Drawing.Size, System.Drawing">
-    <value>591, 133</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="dgv_Alarm.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
   <data name="&gt;&gt;dgv_Alarm.Name" xml:space="preserve">
     <value>dgv_Alarm</value>
   </data>
@@ -180,18 +129,21 @@
   <data name="&gt;&gt;dgv_Alarm.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="tabPage_LogAlarm.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 12pt</value>
   </data>
   <data name="tabPage_LogAlarm.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="tabPage_LogAlarm.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabPage_LogAlarm.Size" type="System.Drawing.Size, System.Drawing">
     <value>597, 139</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="tabPage_LogAlarm.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
@@ -209,27 +161,6 @@
   </data>
   <data name="&gt;&gt;tabPage_LogAlarm.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="rtbx_Debug.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="rtbx_Debug.Font" type="System.Drawing.Font, System.Drawing">
-    <value>宋体, 9pt</value>
-  </data>
-  <data name="rtbx_Debug.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="rtbx_Debug.ScrollBars" type="System.Windows.Forms.RichTextBoxScrollBars, System.Windows.Forms">
-    <value>Vertical</value>
-  </data>
-  <data name="rtbx_Debug.Size" type="System.Drawing.Size, System.Drawing">
-    <value>591, 132</value>
-  </data>
-  <data name="rtbx_Debug.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="rtbx_Debug.Text" xml:space="preserve">
-    <value />
   </data>
   <data name="&gt;&gt;rtbx_Debug.Name" xml:space="preserve">
     <value>rtbx_Debug</value>
@@ -250,7 +181,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabPage_LogDebug.Size" type="System.Drawing.Size, System.Drawing">
-    <value>597, 138</value>
+    <value>597, 139</value>
   </data>
   <data name="tabPage_LogDebug.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -270,6 +201,18 @@
   <data name="&gt;&gt;tabPage_LogDebug.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <metadata name="contextMenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>145, 17</value>
+  </metadata>
+  <data name="contextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>101, 26</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStrip1.Name" xml:space="preserve">
+    <value>contextMenuStrip1</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStrip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="rtbx_Error.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -283,7 +226,7 @@
     <value>Vertical</value>
   </data>
   <data name="rtbx_Error.Size" type="System.Drawing.Size, System.Drawing">
-    <value>591, 132</value>
+    <value>591, 133</value>
   </data>
   <data name="rtbx_Error.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -310,7 +253,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabPage_LogError.Size" type="System.Drawing.Size, System.Drawing">
-    <value>597, 138</value>
+    <value>597, 139</value>
   </data>
   <data name="tabPage_LogError.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -330,27 +273,6 @@
   <data name="&gt;&gt;tabPage_LogError.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="rtbx_Comm.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="rtbx_Comm.Font" type="System.Drawing.Font, System.Drawing">
-    <value>宋体, 9pt</value>
-  </data>
-  <data name="rtbx_Comm.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="rtbx_Comm.ScrollBars" type="System.Windows.Forms.RichTextBoxScrollBars, System.Windows.Forms">
-    <value>Vertical</value>
-  </data>
-  <data name="rtbx_Comm.Size" type="System.Drawing.Size, System.Drawing">
-    <value>597, 138</value>
-  </data>
-  <data name="rtbx_Comm.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="rtbx_Comm.Text" xml:space="preserve">
-    <value />
-  </data>
   <data name="&gt;&gt;rtbx_Comm.Name" xml:space="preserve">
     <value>rtbx_Comm</value>
   </data>
@@ -367,7 +289,7 @@
     <value>4, 22</value>
   </data>
   <data name="tabPage_LogCommution.Size" type="System.Drawing.Size, System.Drawing">
-    <value>597, 138</value>
+    <value>597, 139</value>
   </data>
   <data name="tabPage_LogCommution.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -417,6 +339,120 @@
   <data name="&gt;&gt;tabControl1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <metadata name="Column1.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="Column1.HeaderText" xml:space="preserve">
+    <value>时间</value>
+  </data>
+  <metadata name="Column2.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="Column2.HeaderText" xml:space="preserve">
+    <value>类型</value>
+  </data>
+  <metadata name="Column3.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="Column3.HeaderText" xml:space="preserve">
+    <value>报警名称</value>
+  </data>
+  <data name="dgv_Alarm.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="dgv_Alarm.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="dgv_Alarm.Size" type="System.Drawing.Size, System.Drawing">
+    <value>591, 133</value>
+  </data>
+  <data name="dgv_Alarm.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;dgv_Alarm.Name" xml:space="preserve">
+    <value>dgv_Alarm</value>
+  </data>
+  <data name="&gt;&gt;dgv_Alarm.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;dgv_Alarm.Parent" xml:space="preserve">
+    <value>tabPage_LogAlarm</value>
+  </data>
+  <data name="&gt;&gt;dgv_Alarm.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="清除ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 22</value>
+  </data>
+  <data name="清除ToolStripMenuItem.Text" xml:space="preserve">
+    <value>清除</value>
+  </data>
+  <data name="rtbx_Debug.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="rtbx_Debug.Font" type="System.Drawing.Font, System.Drawing">
+    <value>宋体, 9pt</value>
+  </data>
+  <data name="rtbx_Debug.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="rtbx_Debug.ScrollBars" type="System.Windows.Forms.RichTextBoxScrollBars, System.Windows.Forms">
+    <value>Vertical</value>
+  </data>
+  <data name="rtbx_Debug.Size" type="System.Drawing.Size, System.Drawing">
+    <value>591, 133</value>
+  </data>
+  <data name="rtbx_Debug.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="rtbx_Debug.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;rtbx_Debug.Name" xml:space="preserve">
+    <value>rtbx_Debug</value>
+  </data>
+  <data name="&gt;&gt;rtbx_Debug.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RichTextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rtbx_Debug.Parent" xml:space="preserve">
+    <value>tabPage_LogDebug</value>
+  </data>
+  <data name="&gt;&gt;rtbx_Debug.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="rtbx_Comm.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="rtbx_Comm.Font" type="System.Drawing.Font, System.Drawing">
+    <value>宋体, 9pt</value>
+  </data>
+  <data name="rtbx_Comm.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="rtbx_Comm.ScrollBars" type="System.Windows.Forms.RichTextBoxScrollBars, System.Windows.Forms">
+    <value>Vertical</value>
+  </data>
+  <data name="rtbx_Comm.Size" type="System.Drawing.Size, System.Drawing">
+    <value>597, 139</value>
+  </data>
+  <data name="rtbx_Comm.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="rtbx_Comm.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;rtbx_Comm.Name" xml:space="preserve">
+    <value>rtbx_Comm</value>
+  </data>
+  <data name="&gt;&gt;rtbx_Comm.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RichTextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rtbx_Comm.Parent" xml:space="preserve">
+    <value>tabPage_LogCommution</value>
+  </data>
+  <data name="&gt;&gt;rtbx_Comm.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <metadata name="timerUpdate.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
@@ -429,33 +465,6 @@
   <data name="tableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
-  <data name="lb_LogRow.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lb_LogRow.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="lb_LogRow.Font" type="System.Drawing.Font, System.Drawing">
-    <value>宋体, 9pt, style=Bold</value>
-  </data>
-  <data name="lb_LogRow.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="lb_LogRow.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="lb_LogRow.Size" type="System.Drawing.Size, System.Drawing">
-    <value>197, 26</value>
-  </data>
-  <data name="lb_LogRow.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="lb_LogRow.Text" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="lb_LogRow.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
   <data name="&gt;&gt;lb_LogRow.Name" xml:space="preserve">
     <value>lb_LogRow</value>
   </data>
@@ -467,39 +476,6 @@
   </data>
   <data name="&gt;&gt;lb_LogRow.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="LB_Log.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="LB_Log.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="LB_Log.Font" type="System.Drawing.Font, System.Drawing">
-    <value>宋体, 9pt, style=Bold</value>
-  </data>
-  <data name="LB_Log.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="LB_Log.Location" type="System.Drawing.Point, System.Drawing">
-    <value>197, 0</value>
-  </data>
-  <data name="LB_Log.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="LB_Log.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 26</value>
-  </data>
-  <data name="LB_Log.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="LB_Log.Text" xml:space="preserve">
-    <value>日志</value>
-  </data>
-  <data name="LB_Log.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="LB_Log.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
   </data>
   <data name="&gt;&gt;LB_Log.Name" xml:space="preserve">
     <value>LB_Log</value>
@@ -544,7 +520,7 @@
     <value>1</value>
   </data>
   <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="lb_LogRow" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="LB_Log" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,46.68435,Percent,53.31565,Absolute,182" /&gt;&lt;Rows Styles="Percent,50" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="lb_LogRow" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="LB_Log" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,46.68435,Percent,53.31565,Absolute,185" /&gt;&lt;Rows Styles="Percent,50" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="tableLayoutPanel_Main.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -575,6 +551,90 @@
   </data>
   <data name="tableLayoutPanel_Main.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
     <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="tabControl1" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel1" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Absolute,25,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="lb_LogRow.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lb_LogRow.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lb_LogRow.Font" type="System.Drawing.Font, System.Drawing">
+    <value>宋体, 9pt, style=Bold</value>
+  </data>
+  <data name="lb_LogRow.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="lb_LogRow.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="lb_LogRow.Size" type="System.Drawing.Size, System.Drawing">
+    <value>196, 25</value>
+  </data>
+  <data name="lb_LogRow.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="lb_LogRow.Text" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lb_LogRow.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;lb_LogRow.Name" xml:space="preserve">
+    <value>lb_LogRow</value>
+  </data>
+  <data name="&gt;&gt;lb_LogRow.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lb_LogRow.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;lb_LogRow.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="LB_Log.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LB_Log.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="LB_Log.Font" type="System.Drawing.Font, System.Drawing">
+    <value>宋体, 9pt, style=Bold</value>
+  </data>
+  <data name="LB_Log.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LB_Log.Location" type="System.Drawing.Point, System.Drawing">
+    <value>196, 0</value>
+  </data>
+  <data name="LB_Log.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="LB_Log.Size" type="System.Drawing.Size, System.Drawing">
+    <value>223, 25</value>
+  </data>
+  <data name="LB_Log.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="LB_Log.Text" xml:space="preserve">
+    <value>日志</value>
+  </data>
+  <data name="LB_Log.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="LB_Log.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;LB_Log.Name" xml:space="preserve">
+    <value>LB_Log</value>
+  </data>
+  <data name="&gt;&gt;LB_Log.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LB_Log.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;LB_Log.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

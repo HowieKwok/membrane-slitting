@@ -128,7 +128,8 @@ namespace Mef_VisionFrame
             int keyA = productInfoA.EAID;
             List<string> DBChannel = new List<string>();
             OutDBChannel = DBChannel;
-            if ((productInfoA.list2EAShave.Count() | productInfoB.list2EAShave.Count()) != pFTCleanCraft.SliceCount)
+            if (productInfoA.list2EAShave.Count() != pFTCleanCraft.SliceCount ||
+               productInfoB.list2EAShave.Count() != pFTCleanCraft.SliceCount)
             {
                 // 报警：切片数量不一致
                 MessageNotify.AddErrorLog("ProcessingData_FrameCam2()_切片数量不一致");

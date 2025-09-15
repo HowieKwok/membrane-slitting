@@ -16,7 +16,28 @@ namespace Frame_Core
 {
     public partial class UC_Message : UserControl
     {
+        /// <summary>
+        /// 外界订阅：通知当前 SelectedIndex 变了
+        /// </summary>
+        public event Action<int> TabIndexChanged;
+
         private int _HeaderHeight = 30;
+        #region ① 公开静态文本快照（给弹窗用）
+        public static string DebugText = "";
+        public static string ErrorText = "";
+        public static string CommText = "";
+        //public static int AlarmRowCount = 0;
+        //public static string LastAlarmTime = string.Empty;
+        #endregion
+
+        #region ② 主从开关
+        /// <summary>
+        /// true 表示这个实例是弹窗里的“从”UC，只读镜像，不消费队列
+        /// </summary>
+        public bool IsSlave = false;
+        #endregion
+
+
         [Category("自定义属性"), Description("TextFalse")]
         public int HeaderHeight
         {
@@ -27,6 +48,8 @@ namespace Frame_Core
         public UC_Message()
         {
             InitializeComponent();
+          
+
         }
 
         private void UC_Message_Load(object sender, EventArgs e)
@@ -38,7 +61,34 @@ namespace Frame_Core
         }
         private void timerUpdate_Tick(object sender, EventArgs e)
         {
+
+           
+
             timerUpdate.Enabled = false;
+            /*---------- 从模式：用主窗体里的长度记忆 ----------*/
+            if (IsSlave)
+            {
+                var host = this.Parent as FloatingMessageForm; // 拿到弹窗实例
+                if (host == null) return;
+
+                UIService.Instance.AddAction(() =>
+                {
+                    //// 1. 报警：拿业务快照，逐行追加
+                    //var msgs = MessageNotify.StopAlarmQueue.DequeueAll();
+                    //foreach (var m in msgs)
+                    //    AddAlarmRow(m);   // 跟主窗体同一套逐行追加方法
+                    //                      // 快照：把当前行数/最新时间留给弹窗
+                    //UC_Message.AlarmRowCount = dgv_Alarm.RowCount;
+                    //UC_Message.LastAlarmTime = msgs.LastOrDefault()?.time ?? string.Empty;
+                    host.RefreshRichBox(rtbx_Debug, ref host.LastDebugLen, DebugText);
+                    host.RefreshRichBox(rtbx_Error, ref host.LastErrorLen, ErrorText);
+                    host.RefreshRichBox(rtbx_Comm, ref host.LastCommLen, CommText);
+                });
+              
+                timerUpdate.Enabled = true;
+                return;
+            }
+            /*――――――――――― 主模式：消费队列并显示 ――――――――――*/
             try
             {
                 if (MessageNotify.StopAlarmQueue.Count > 0)
@@ -71,8 +121,10 @@ namespace Frame_Core
                         }
 
                         rows.Add(messageShow);
+                   
 
                     }
+   
                     UIService.Instance.AddAction(() =>
                     {
                         NDataGridView.AddRow(dgv_Alarm, rows, MessageNotify.ShowCount, true);
@@ -144,11 +196,18 @@ namespace Frame_Core
 
                     rowCount = rtbx_Comm.Lines.Length;
                 }
+
                 lb_LogRow.Text = $"{LB_Log.Text}({rowCount})";
 
             }
             catch { }
             timerUpdate.Enabled = true;
+
+            // 把当前文本拍个快照，供弹窗读取
+            DebugText = rtbx_Debug.Text;
+            ErrorText = rtbx_Error.Text;
+            CommText = rtbx_Comm.Text;
+
         }
 
         private void 清除ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -174,12 +233,60 @@ namespace Frame_Core
                 MessageNotify.CommLogs.Clear();
                 rtbx_Comm.Clear();
             }
+
+
         }
+
+
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            TabIndexChanged?.Invoke(tabControl1.SelectedIndex);
         }
+
+        private void tableLayoutPanel_Main_DoubleClick(object sender, EventArgs e)
+        {
+            UIService.Instance.AddAction(() => { new FloatingMessageForm(this).Show(this.Parent?.FindForm()); });
+          
+        }
+
+        /// <summary>
+        /// 外部调用：静默切换页签，不触发事件循环
+        /// </summary>
+        public void SetTabIndexSilent(int idx)
+        {
+            if (tabControl1.SelectedIndex != idx)
+                tabControl1.SelectedIndex = idx;
+        }
+
+        public void AddAlarmRow(StopAlarmMessage m)
+        {
+            string state = LanguageProject.GetLangeuageAttribute(
+                               m.StopAlarmState,
+                               Project.Instance.systemInfo.m_CurrentLanguageType);
+            string name = string.IsNullOrEmpty(m.currentLanguageName)
+                           ? m.name : m.currentLanguageName;
+
+            int idx = dgv_Alarm.Rows.Add();
+            var row = dgv_Alarm.Rows[idx];
+            row.Cells[0].Value = m.time;
+            row.Cells[1].Value = state;
+            row.Cells[2].Value = name;
+
+            switch (m.StopAlarmState)
+            {
+                case StopAlarmStateEnum.报警: row.DefaultCellStyle.BackColor = Color.Yellow; break;
+                case StopAlarmStateEnum.停机: row.DefaultCellStyle.BackColor = Color.Red; break;
+                default: row.DefaultCellStyle.BackColor = Color.White; break;
+            }
+
+            // 底部追新
+            if (dgv_Alarm.RowCount > 0 &&
+                dgv_Alarm.FirstDisplayedScrollingRowIndex +
+                dgv_Alarm.DisplayedRowCount(true) >= dgv_Alarm.RowCount)
+                dgv_Alarm.FirstDisplayedScrollingRowIndex = dgv_Alarm.RowCount - 1;
+        }
+
 
     }
 }

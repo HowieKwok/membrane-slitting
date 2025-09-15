@@ -185,6 +185,7 @@
             this.tableLayoutPanel_Main.Controls.Add(this.tabControl1, 0, 1);
             this.tableLayoutPanel_Main.Controls.Add(this.tableLayoutPanel1, 0, 0);
             this.tableLayoutPanel_Main.Name = "tableLayoutPanel_Main";
+            this.tableLayoutPanel_Main.DoubleClick += new System.EventHandler(this.tableLayoutPanel_Main_DoubleClick);
             // 
             // tableLayoutPanel1
             // 
@@ -228,8 +229,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage_LogAlarm;
         private System.Windows.Forms.TabPage tabPage_LogDebug;
         private System.Windows.Forms.TabPage tabPage_LogError;
@@ -240,13 +239,14 @@
         private System.Windows.Forms.Label lb_LogRow;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem 清除ToolStripMenuItem;
-        private System.Windows.Forms.DataGridView dgv_Alarm;
-        private System.Windows.Forms.RichTextBox rtbx_Debug;
-        private System.Windows.Forms.RichTextBox rtbx_Error;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.TabPage tabPage_LogCommution;
-        private System.Windows.Forms.RichTextBox rtbx_Comm;
+        public System.Windows.Forms.TabControl tabControl1;
+        public System.Windows.Forms.DataGridView dgv_Alarm;
+        public System.Windows.Forms.RichTextBox rtbx_Debug;
+        public System.Windows.Forms.RichTextBox rtbx_Comm;
+        public System.Windows.Forms.RichTextBox rtbx_Error;
     }
 }
