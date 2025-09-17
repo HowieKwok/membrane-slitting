@@ -280,11 +280,18 @@ namespace Mef_VisionFrame
             }
 
             //显示槽位检测项
+            List<SlotInfo> CamSlots = craft.ListSlotInfos.FindAll(i => i.BelongCam == (CameraEnum)comb_SelectCam.SelectedIndex);
+            // int SizeCount = Camsizes.Count();
+            if (!CB_ShowByCam.Checked)
+            {
+                // SizeCount = craft.ListEASizes.Count();
+                CamSlots = craft.ListSlotInfos;
+            }
             count0 = DataGridView_SlotInfo.Rows.Count;
             for (int i = 0; i < count0; i++)
             {
 
-                SlotInfo item = craft.ListSlotInfos[i];
+                SlotInfo item = CamSlots[i];
                 PropertyInfo[] infos = typeof(SlotInfo).GetProperties();
                 foreach (PropertyInfo pi in infos)
                 {
@@ -297,6 +304,13 @@ namespace Mef_VisionFrame
             }
 
             //添加槽位上下限表格
+            //List<SlotSizeLimit> CamSizeLimits = craft.ListSlotSizeLimits.FindAll(i => i.BelongCam == (CameraEnum)comb_SelectCam.SelectedIndex);
+            //// int SizeCount = Camsizes.Count();
+            //if (!CB_ShowByCam.Checked)
+            //{
+            //    // SizeCount = craft.ListEASizes.Count();
+            //    CamSizeLimits = craft.ListSlotSizeLimits;
+            //}
             count0 = DataGridView_SlotLimit.Rows.Count;
             for (int i = 0; i < count0; i++)
             {
@@ -312,6 +326,7 @@ namespace Mef_VisionFrame
                 }
             }
             //添加分条工艺设置
+
             count0 = DataGridView_SliceSet.Rows.Count;
             for (int i = 0; i < count0; i++)
             {
@@ -331,6 +346,7 @@ namespace Mef_VisionFrame
 
             return craft;
         }
+
 
         public override bool SaveCraft(string Path)
         {

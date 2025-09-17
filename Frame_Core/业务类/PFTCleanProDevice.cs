@@ -340,15 +340,21 @@ namespace Frame_Core
                 IPlugin Plugin;
 
 
-                //找料头插件
-                pluginName = "查找料头工具";
-                IPlugin PluginHead = PluginService.GetInstance<IPlugin>(PluginService.pluginsDictionary[pluginName].PluginsBuildName);
-                PluginHead.moduleInfo.ModuleName = $"{(CameraEnum)camID}找料头";
-                PluginHead.moduleInfo.PluginName = pluginName;
-                ParamsFindHead findHeadParams = PluginHead.PluginParams as ParamsFindHead; //里氏转换
-                findHeadParams.Is_ActiveFindHead = true;
-                process.AddModuleObj(PluginHead);
+                //// 找料头插件
+                // pluginName = "查找料头工具";
+                // IPlugin PluginHead = PluginService.GetInstance<IPlugin>(PluginService.pluginsDictionary[pluginName].PluginsBuildName);
+                // PluginHead.moduleInfo.ModuleName = $"{(CameraEnum)camID}找料头";
+                // PluginHead.moduleInfo.PluginName = pluginName;
+                // ParamsFindHead findHeadParams = PluginHead.PluginParams as ParamsFindHead; //里氏转换
+                // findHeadParams.Is_ActiveFindHead = true;
+                // process.AddModuleObj(PluginHead);
 
+                pluginName = "图像裁切工具(槽位，侧基准边)";
+                IPlugin PluginCropHead = PluginService.GetInstance<IPlugin>(PluginService.pluginsDictionary[pluginName].PluginsBuildName);
+                PluginCropHead.moduleInfo.ModuleName = $"料头裁切";
+                PluginCropHead.moduleInfo.PluginName = pluginName;
+                ParamsCropPart CropHeadParams = PluginCropHead.PluginParams as ParamsCropPart; //里氏转换
+                process.AddModuleObj(PluginCropHead);
 
                 for (int i = 0; i < m_craft.SliceCount; i++)
                 {
@@ -552,18 +558,18 @@ namespace Frame_Core
                 double Calipix_x = Project.Instance.cameraManager[(CameraEnum)camID].m_CamParam.CalibrationValue_X;
                 double ABMis = Project.Instance.cameraManager[(CameraEnum)camID + 1].m_CamParam.ToMainCamDistance / Calipix_y;//到主相机像素距离
 
-                //double HeadMisAtoB = m_craft.HeadMis_AtoB / Calipix_y;//
+                double HeadMisAtoB = m_craft.HeadMis_AtoB / Calipix_y;//
 
                 // 选择参数和队列基于是否模拟
                 PFTCleanProParams PFTCleanParamBase = Project.Instance.Is_simulation ? m_DicCamOperaParam_Sim[camID] as PFTCleanProParams : m_DicCamOperaParam[camID] as PFTCleanProParams;
-                // PFTCleanProParams PFTCleanParamFrom = Project.Instance.Is_simulation ? m_DicCamOperaParam_Sim[camID + 1] as PFTCleanProParams : m_DicCamOperaParam[camID + 1] as PFTCleanProParams;
+                PFTCleanProParams PFTCleanParamFrom = Project.Instance.Is_simulation ? m_DicCamOperaParam_Sim[camID + 1] as PFTCleanProParams : m_DicCamOperaParam[camID + 1] as PFTCleanProParams;
                 var imageQueue = PFTCleanParamBase.alreadyDealGrabImage;
                 PFTCleanParamBase.semaphoreSlimCam.Wait();
 
                 if (imageQueue.Count > 0) // 检查主相机的图像队列是否有图像
                 {
                     PFTCleanEAProductInfo currentEAProduct = PFTCleanParamBase.dic_EAproductsInfo[PFTCleanParamBase.nCurEAProId];
-                    //PFTCleanEAProductInfo EAProductFrom = PFTCleanParamFrom.dic_EAproductsInfo[PFTCleanParamBase.nCurEAProId];
+                    // PFTCleanEAProductInfo EAProductFrom = PFTCleanParamFrom.dic_EAproductsInfo[PFTCleanParamBase.nCurEAProId];
                     PFTImageProduct ImageProduct;
                     ImageInfo InfoImgInfo = imageQueue.Dequeue();
                     PFTCleanParamBase.imageInfos.Add(InfoImgInfo);
@@ -659,6 +665,9 @@ namespace Frame_Core
                         //扩充EA产品-cam0
                         PFTCleanEAProductInfo EAEAProductCam0 = ExPandHeadLinedic(camID, PFTCleanParamBase.nCurEAProId + 1, findHeadParams.headLineID, findHeadParams.headLine, InfoImgInfo.imageHeight, Calipix_y, Calipix_x);//new一个新产品信息
                         PFTCleanParamBase.dic_EAproductsInfo[PFTCleanParamBase.nCurEAProId + 1] = EAEAProductCam0;
+                        //扩充EA产品-cam1
+                        PFTCleanEAProductInfo EAEAProductCam1 = ExPandHeadLinedic(camID + 1, PFTCleanParamBase.nCurEAProId + 1, findHeadParams.headLineID, findHeadParams.headLine + ABMis + HeadMisAtoB, InfoImgInfo.imageHeight, Calipix_y, Calipix_x);//new一个新产品信息
+                        PFTCleanParamFrom.dic_EAproductsInfo[PFTCleanParamBase.nCurEAProId + 1] = EAEAProductCam1;
 
                         //把抓边添加到ImageProduct和EAProduct
                         ImageProduct.ListImagelines.Add(HeadlineInfo);
@@ -673,6 +682,9 @@ namespace Frame_Core
                         //扩充EA产品-cam0
                         PFTCleanEAProductInfo EAEAProductCam0 = ExPandHeadLinedic(camID, PFTCleanParamBase.nCurEAProId + 1, currentEAProduct.EArange.EndImageID + 2, 0, InfoImgInfo.imageHeight, Calipix_y, Calipix_x);//new一个新产品信息
                         PFTCleanParamBase.dic_EAproductsInfo[PFTCleanParamBase.nCurEAProId + 1] = EAEAProductCam0;
+                        //扩充EA产品-cam1
+                        PFTCleanEAProductInfo EAEAProductCam1 = ExPandHeadLinedic(camID + 1, PFTCleanParamBase.nCurEAProId + 1, findHeadParams.headLineID, findHeadParams.headLine + ABMis + HeadMisAtoB, InfoImgInfo.imageHeight, Calipix_y, Calipix_x);//new一个新产品信息
+                        PFTCleanParamFrom.dic_EAproductsInfo[PFTCleanParamBase.nCurEAProId + 1] = EAEAProductCam1;
 
                         string str0 = $"A相机EA产品超长，强制分EA，产品编号：{PFTCleanParamBase.nCurEAProId + 1},料头位置：第{currentEAProduct.EArange.EndImageID}帧-第{currentEAProduct.EArange.EndImageRow}行";
                         MesssgeShowInfos.Add(new MessageShowInfo { m_strMessage = str0, m_stuGetColor = HalconColor.red });
@@ -972,7 +984,7 @@ namespace Frame_Core
 
 
                     ///复制图像给EA拼大图流程
-                    
+
                     HOperatorSet.CopyObj(InfoImgInfo.ho_image, out HObject CopyImage, 1, 1);
                     HOperatorSet.GetImageSize(InfoImgInfo.ho_image, out HTuple wi, out HTuple hi);
                     PFTCleanParamBase.PFTImageProdQueue.Enqueue(new ImageInfo() { image_ID = InfoImgInfo.image_ID, EAID = PFTCleanParamBase.nCurEAProId, ho_image = CopyImage, imageWidth = wi, imageHeight = hi });
@@ -1025,19 +1037,19 @@ namespace Frame_Core
 
                     //主相机图像参数
                     ImageInfo InfoImgInfo = PFTimageQueue.Dequeue();
-             
+
                     CleanEAParamBase.EAlistimageInfos.Add(InfoImgInfo);
                     if (CleanEAParamBase.EAlistimageInfos.Count > 3)
                     {
-                        long removeID =InfoImgInfo.image_ID - 3;
+                        long removeID = InfoImgInfo.image_ID - 3;
                         var tempIMfo = CleanEAParamBase.EAlistimageInfos.FindIndex(c => c.image_ID == removeID);
                         if (tempIMfo != -1)
                         {
                             CleanEAParamBase.EAlistimageInfos[tempIMfo]?.Dispose();
                             CleanEAParamBase.EAlistimageInfos.RemoveAt(tempIMfo);
                             //获取CleanEAParamBase.EAlistimageInfos中所有的image_ID
-                            var key= CleanEAParamBase.EAlistimageInfos.Select(c => c.image_ID).ToList();
-                            int count =InfoImgInfo.ho_image.GetReferenceCount();
+                            var key = CleanEAParamBase.EAlistimageInfos.Select(c => c.image_ID).ToList();
+                            int count = InfoImgInfo.ho_image.GetReferenceCount();
                             MessageNotify.AddDebugLog($"Cam1EA流程产品{CleanEAParamBase.nCurShowEAProId}图像{InfoImgInfo.image_ID}移除图像ID{removeID}移除成功,队列中超过10帧图像,图像被引用次数{count}，剩余{string.Join(",", key)}");
                         }
                         else
@@ -1116,8 +1128,8 @@ namespace Frame_Core
                                     MessageNotify.AddDebugLog("InfoImgInfo0:" + ee.ToString());
                                     //throw;
                                 }
-                                
-                              
+
+
                             }
                             else if (StartID == InfoImgInfo.image_ID)//当前帧就是料头裁切帧，则直接裁出部分作为EA全图，承接后续拼图
                             {
@@ -1159,7 +1171,7 @@ namespace Frame_Core
                     }
                     catch (Exception ex)
                     {
-                       MessageNotify.AddErrorLog(ex.ToString());
+                        MessageNotify.AddErrorLog(ex.ToString());
                     }
                     string str = ((CameraEnum)camID).ToString() + "信号量--" + CleanEAParamBase.semaphoreSlimCam.CurrentCount.ToString() + "图像数--" + PFTimageQueue.Count.ToString();
                     MesssgeShowInfos.Add(new MessageShowInfo { m_strMessage = str, m_stuGetColor = HalconColor.green });
@@ -1186,7 +1198,7 @@ namespace Frame_Core
                         MessageNotify.AddDebugLog($"Cam1EA流程产品{currentEAProduct.EAID}nCurShowEAProId{CleanEAParamBase.nCurShowEAProId}图像{InfoImgInfo.image_ID}处理完成");
                     }
                 }
-           
+
 
             }
             catch (Exception ex)
@@ -1211,7 +1223,7 @@ namespace Frame_Core
 
 
                 // 选择参数和队列基于是否模拟
-                // PFTCleanProParams PFTCleanParamBase = Project.Instance.Is_simulation ? m_DicCamOperaParam_Sim[camID - 1] as PFTCleanProParams : m_DicCamOperaParam[camID - 1] as PFTCleanProParams;
+                PFTCleanProParams PFTCleanParamBase = Project.Instance.Is_simulation ? m_DicCamOperaParam_Sim[camID - 1] as PFTCleanProParams : m_DicCamOperaParam[camID - 1] as PFTCleanProParams;
                 PFTCleanProParams PFTCleanParamFrom = Project.Instance.Is_simulation ? m_DicCamOperaParam_Sim[camID] as PFTCleanProParams : m_DicCamOperaParam[camID] as PFTCleanProParams;
                 var imageQueue = PFTCleanParamFrom.alreadyDealGrabImage;
                 PFTCleanParamFrom.semaphoreSlimCam.Wait();
@@ -1281,64 +1293,163 @@ namespace Frame_Core
                         }
                     }
 
-                    //找料头
-                    IPlugin Plugin = process.m_ModuleObjList.Find(c => c.moduleInfo.ModuleName == $"{(CameraEnum)camID}找料头");
-                    ParamsFindHead findHeadParams = Plugin.PluginParams as ParamsFindHead; //里氏转换
-                    findHeadParams.list_ImageInfo = PFTCleanParamFrom.imageInfos;
-                    findHeadParams.ImageNowID = (int)InfoImgInfo.image_ID;
-                    bool bl_findHeadSuccess = Plugin.ExecuteObj();
-                    if (bl_findHeadSuccess)
+                    ////找料头
+                    //IPlugin Plugin = process.m_ModuleObjList.Find(c => c.moduleInfo.ModuleName == $"{(CameraEnum)camID}找料头");
+                    //ParamsFindHead findHeadParams = Plugin.PluginParams as ParamsFindHead; //里氏转换
+                    //findHeadParams.list_ImageInfo = PFTCleanParamFrom.imageInfos;
+                    //findHeadParams.ImageNowID = (int)InfoImgInfo.image_ID;
+                    //bool bl_findHeadSuccess = Plugin.ExecuteObj();
+                    //if (bl_findHeadSuccess)
+                    //{
+                    //    if (findHeadParams.hv_ImageHeadBeginID == findHeadParams.ImageNowID)
+                    //    {
+                    //        HOperatorSet.GenRectangle1(out HObject GroVRegion1, findHeadParams.hv_ImageHeadBeginRow, findHeadParams.hv_ImageHeadBeginCol, findHeadParams.hv_ImageHeadEndRow, findHeadParams.hv_ImageHeadEndCol);
+                    //        RegionShowInfos.Add(new RegionShowInfo() { m_hRegion = GroVRegion1, m_stuGetColor = HalconColor.green });
+                    //    }
+                    //    LineInfo HeadlineInfo = new LineInfo();
+                    //    HeadlineInfo.StrLineName = "涂布料头边";
+                    //    HeadlineInfo.IsLineSuccessfull = true;
+                    //    HeadlineInfo.RowBeginID = (int)InfoImgInfo.image_ID;
+                    //    HeadlineInfo.RowBegin = (findHeadParams.headLineID - HeadlineInfo.RowBeginID) * InfoImgInfo.imageHeight + findHeadParams.headLine;
+                    //    HeadlineInfo.ColBegin = 100;
+                    //    HeadlineInfo.RowEndID = (int)InfoImgInfo.image_ID;
+                    //    HeadlineInfo.RowEnd = (findHeadParams.headLineID - HeadlineInfo.RowBeginID) * InfoImgInfo.imageHeight + findHeadParams.headLine;
+                    //    HeadlineInfo.ColEnd = InfoImgInfo.imageWidth - 100;
+                    //    HeadlineInfo.m_nLineWidth = 10;
+                    //    HeadlineInfo.Color = HalconColor.pink;
+                    //    LineShowInfos.Add(HeadlineInfo);
+                    //    string str0 = $"B相机找料头成功，产品编号：{PFTCleanParamFrom.nCurEAProId + 1},料头位置：第{findHeadParams.headLineID}帧-第{findHeadParams.headLine}行";
+                    //    MesssgeShowInfos.Add(new MessageShowInfo { m_strMessage = str0, m_stuGetColor = HalconColor.green });
+
+                    //    ImageProduct.blSplitEA = true;
+                    //    //扩充EA产品-cam0
+                    //    PFTCleanEAProductInfo EAEAProductCam0 = ExPandHeadLinedic(camID, PFTCleanParamFrom.nCurEAProId + 1, findHeadParams.headLineID, findHeadParams.headLine, InfoImgInfo.imageHeight, Calipix_y, Calipix_x);//new一个新产品信息
+                    //    PFTCleanParamFrom.dic_EAproductsInfo[PFTCleanParamFrom.nCurEAProId + 1] = EAEAProductCam0;
+                    //    //////扩充EA产品-cam1
+                    //    //PFTCleanEAProductInfo EAEAProductCam1 = ExPandHeadLinedic(camID + 1, PFTCleanParamBase.nCurEAProId + 1, findHeadParams.headLineID, findHeadParams.headLine + ABMis, InfoImgInfo.imageHeight, Calipix_y, Calipix_x);//new一个新产品信息
+                    //    //PFTCleanParamFrom.dic_EAproductsInfo[PFTCleanParamBase.nCurEAProId + 1] = EAEAProductCam1;
+
+                    //    //把抓边添加到ImageProduct和EAProduct
+                    //    // LineInfo Normalline = NormalizeLine(HeadlineInfo, (int)ImageProduct.nCurImageID, 0, 0, (int)InfoImgInfo.image_ID, InfoImgInfo.imageHeight);
+                    //    ImageProduct.ListImagelines.Add(HeadlineInfo);
+                    //    LineInfo EAline = EAAddline(HeadlineInfo, EAEAProductCam0.CropEArange.StartImageID, EAEAProductCam0.CropEArange.StarImageRow, 0, InfoImgInfo.imageHeight);
+                    //    // EAEAProductCam0.ListEAlines.Add(EAline);
+                    //    // CalcuEASize(camID, InfoImgInfo.imageHeight, HeadlineInfo, m_craft.ListEASizes, EAEAProductCam0, EAEAProductCam1, ImageProduct.ListImageSizes);
+                    //}
+                    ////超长EA，强制结束EA，
+                    //else if (InfoImgInfo.image_ID >= currentEAProduct.EArange.EndImageID + 2)
+                    //{
+                    //    ImageProduct.blSplitEA = true;
+
+                    //    //扩充EA产品-cam0
+                    //    PFTCleanEAProductInfo EAEAProductCam0 = ExPandHeadLinedic(camID, PFTCleanParamFrom.nCurEAProId + 1, currentEAProduct.EArange.EndImageID + 2, 0, InfoImgInfo.imageHeight, Calipix_y, Calipix_x);//new一个新产品信息
+                    //    PFTCleanParamFrom.dic_EAproductsInfo[PFTCleanParamFrom.nCurEAProId + 1] = EAEAProductCam0;
+                    //    ////扩充EA产品-cam1
+                    //    //PFTCleanEAProductInfo EAEAProductCam1 = ExPandHeadLinedic(camID + 1, PFTCleanParamBase.nCurEAProId + 1, currentEAProduct.EArange.EndImageID + 2, ABMis, InfoImgInfo.imageHeight, Calipix_y, Calipix_x);//new一个新产品信息
+                    //    //PFTCleanParamFrom.dic_EAproductsInfo[PFTCleanParamBase.nCurEAProId + 1] = EAEAProductCam1;
+
+                    //    string str0 = $"B相机EA产品超长，强制分EA，产品编号：{PFTCleanParamFrom.nCurEAProId + 1},料头位置：第{currentEAProduct.EArange.EndImageID}帧-第{currentEAProduct.EArange.EndImageRow}行";
+                    //    MesssgeShowInfos.Add(new MessageShowInfo { m_strMessage = str0, m_stuGetColor = HalconColor.red });
+                    //}
+
+                    ///根据Cam1料头裁切找料头边，
+                    //根据图像ID自动开始下个EA
+                    if (PFTCleanParamFrom.dic_EAproductsInfo.ContainsKey(PFTCleanParamFrom.nCurEAProId + 1))
                     {
-                        if (findHeadParams.hv_ImageHeadBeginID == findHeadParams.ImageNowID)
+                        if (ImageProduct.nCurImageID >= PFTCleanParamFrom.dic_EAproductsInfo[PFTCleanParamFrom.nCurEAProId + 1].Coatrange.StartImageID)//从相机使用图像帧和当前料头ID比较，判断是否开启检测下一个产品
                         {
-                            HOperatorSet.GenRectangle1(out HObject GroVRegion1, findHeadParams.hv_ImageHeadBeginRow, findHeadParams.hv_ImageHeadBeginCol, findHeadParams.hv_ImageHeadEndRow, findHeadParams.hv_ImageHeadEndCol);
-                            RegionShowInfos.Add(new RegionShowInfo() { m_hRegion = GroVRegion1, m_stuGetColor = HalconColor.green });
+                            ImageProduct.blSplitEA = true;
                         }
-                        LineInfo HeadlineInfo = new LineInfo();
-                        HeadlineInfo.StrLineName = "涂布料头边";
-                        HeadlineInfo.IsLineSuccessfull = true;
-                        HeadlineInfo.RowBeginID = (int)InfoImgInfo.image_ID;
-                        HeadlineInfo.RowBegin = (findHeadParams.headLineID - HeadlineInfo.RowBeginID) * InfoImgInfo.imageHeight + findHeadParams.headLine;
-                        HeadlineInfo.ColBegin = 100;
-                        HeadlineInfo.RowEndID = (int)InfoImgInfo.image_ID;
-                        HeadlineInfo.RowEnd = (findHeadParams.headLineID - HeadlineInfo.RowBeginID) * InfoImgInfo.imageHeight + findHeadParams.headLine;
-                        HeadlineInfo.ColEnd = InfoImgInfo.imageWidth - 100;
-                        HeadlineInfo.m_nLineWidth = 10;
-                        HeadlineInfo.Color = HalconColor.pink;
-                        LineShowInfos.Add(HeadlineInfo);
-                        string str0 = $"B相机找料头成功，产品编号：{PFTCleanParamFrom.nCurEAProId + 1},料头位置：第{findHeadParams.headLineID}帧-第{findHeadParams.headLine}行";
-                        MesssgeShowInfos.Add(new MessageShowInfo { m_strMessage = str0, m_stuGetColor = HalconColor.green });
 
-                        ImageProduct.blSplitEA = true;
-                        //扩充EA产品-cam0
-                        PFTCleanEAProductInfo EAEAProductCam0 = ExPandHeadLinedic(camID, PFTCleanParamFrom.nCurEAProId + 1, findHeadParams.headLineID, findHeadParams.headLine, InfoImgInfo.imageHeight, Calipix_y, Calipix_x);//new一个新产品信息
-                        PFTCleanParamFrom.dic_EAproductsInfo[PFTCleanParamFrom.nCurEAProId + 1] = EAEAProductCam0;
-                        //////扩充EA产品-cam1
-                        //PFTCleanEAProductInfo EAEAProductCam1 = ExPandHeadLinedic(camID + 1, PFTCleanParamBase.nCurEAProId + 1, findHeadParams.headLineID, findHeadParams.headLine + ABMis, InfoImgInfo.imageHeight, Calipix_y, Calipix_x);//new一个新产品信息
-                        //PFTCleanParamFrom.dic_EAproductsInfo[PFTCleanParamBase.nCurEAProId + 1] = EAEAProductCam1;
+                        if (ImageProduct.blSplitEA)
+                        {
+                            PFTCleanEAProductInfo NextEAProductBase = PFTCleanParamBase.dic_EAproductsInfo[PFTCleanParamFrom.nCurEAProId + 1];
+                            PFTCleanEAProductInfo NextEAProduct = PFTCleanParamFrom.dic_EAproductsInfo[PFTCleanParamFrom.nCurEAProId + 1];
+                            //尝试检测下个EA的料头（如果足够裁图，就能在当前帧测量，如果不能，就在下一帧测量）
+                            IPlugin CropPlugin = process.m_ModuleObjList.Find(c => c.moduleInfo.ModuleName == "料头裁切");
+                            ParamsCropPart CropPartParams = CropPlugin.PluginParams as ParamsCropPart; //里氏转换
+                            CropPartParams.list_ImageInfo = PFTCleanParamFrom.imageInfos;
 
-                        //把抓边添加到ImageProduct和EAProduct
-                        // LineInfo Normalline = NormalizeLine(HeadlineInfo, (int)ImageProduct.nCurImageID, 0, 0, (int)InfoImgInfo.image_ID, InfoImgInfo.imageHeight);
-                        ImageProduct.ListImagelines.Add(HeadlineInfo);
-                        LineInfo EAline = EAAddline(HeadlineInfo, EAEAProductCam0.CropEArange.StartImageID, EAEAProductCam0.CropEArange.StarImageRow, 0, InfoImgInfo.imageHeight);
-                        // EAEAProductCam0.ListEAlines.Add(EAline);
-                        // CalcuEASize(camID, InfoImgInfo.imageHeight, HeadlineInfo, m_craft.ListEASizes, EAEAProductCam0, EAEAProductCam1, ImageProduct.ListImageSizes);
+                            CropPartParams.PartSizeRow = m_craft.EACropShiledMD;
+                            CropPartParams.PartSizeCol = 1000;
+                            CropPartParams.PartCenterID = NextEAProduct.Coatrange.StartImageID;
+                            CropPartParams.PartCenterRow = NextEAProduct.Coatrange.StarImageRow;
+                            CropPartParams.PartCenterCol = ImageProduct.EdgelineRight - 1000;//槽和基准边同一边就不用+，在对侧，就用片宽减半槽宽。
+                            bool bl_findHeadSuccess = CropPlugin.ExecuteObj();
+                            if (bl_findHeadSuccess)
+                            {
+                                if (NextEAProduct.Coatrange.StartImageID == ImageProduct.nCurImageID)
+                                {
+                                    HOperatorSet.GenRectangle2(out HObject GroVRegion1, CropPartParams.PartCenterRow, CropPartParams.PartCenterCol, 0, CropPartParams.PartSizeCol / 2 + CropPartParams.CropShaftCol, CropPartParams.PartSizeRow / 2 + CropPartParams.CropShaftRow);
+                                    RegionShowInfos.Add(new RegionShowInfo() { m_hRegion = GroVRegion1, m_stuGetColor = HalconColor.pink });
+                                }
+                                string str0 = $"产品{NextEAProduct.EAID}料头裁切成功";
+                                MesssgeShowInfos.Add(new MessageShowInfo { m_strMessage = str0, m_stuGetColor = HalconColor.orange });
+
+                                NextEAProduct.BlHeadDone = true;
+                                IPlugin PluginMline = process.m_ModuleObjList.Find(c => c.moduleInfo.ModuleName == "涂布料头边");
+                                ParamsMeasureLine MlineParams = PluginMline.PluginParams as ParamsMeasureLine; //里氏转换
+                                MlineParams.ho_Image = CropPartParams.Image_part;
+                                LineInfo line = new LineInfo();
+                                bool isSuccess = PluginMline.ExecuteObj();
+                                DetectEdgeValueAssign(MlineParams, isSuccess, line, PluginMline.moduleInfo.ModuleName, MesssgeShowInfos, LineShowInfos, RegionShowInfos);
+
+                                //把抓边添加到ImageProduct和EAProduct
+                                double Srow = CropPartParams.PartCenterRow - CropPartParams.PartSizeRow / 2 - CropPartParams.CropShaftRow;
+                                double Scol = CropPartParams.PartCenterCol - CropPartParams.PartSizeCol / 2 - CropPartParams.CropShaftCol;
+                                LineInfo Normalline = NormalizeLine(line, (int)CropPartParams.PartCenterID, Srow, Scol, (int)InfoImgInfo.image_ID, InfoImgInfo.imageHeight);
+                                ImageProduct.ListImagelines.Add(Normalline);
+                                LineInfo EAline = EAAddline(Normalline, NextEAProduct.CropEArange.StartImageID, NextEAProduct.CropEArange.StarImageRow, 0, InfoImgInfo.imageHeight);
+                                //  NextEAProduct.ListEAlines.Add(EAline);
+                                // CalcuEASize(camID, InfoImgInfo.imageHeight, Normalline, m_craft.ListEASizes, NextEAProductBase, NextEAProduct, ImageProduct.ListImageSizes);
+                            }
+                        }
                     }
-                    //超长EA，强制结束EA，
-                    else if (InfoImgInfo.image_ID >= currentEAProduct.EArange.EndImageID + 2)
+
+                    ////料头裁图，抓边，只是找一下料头边，滞后一帧也没关系
+                    if (!currentEAProduct.BlHeadDone && InfoImgInfo.image_ID >= currentEAProduct.Coatrange.StartImageID) //图像大于等于料尾裁图的帧号
                     {
-                        ImageProduct.blSplitEA = true;
+                        IPlugin CropPlugin = process.m_ModuleObjList.Find(c => c.moduleInfo.ModuleName == "料头裁切");
+                        ParamsCropPart CropPartParams = CropPlugin.PluginParams as ParamsCropPart; //里氏转换
+                        CropPartParams.list_ImageInfo = PFTCleanParamFrom.imageInfos;
 
-                        //扩充EA产品-cam0
-                        PFTCleanEAProductInfo EAEAProductCam0 = ExPandHeadLinedic(camID, PFTCleanParamFrom.nCurEAProId + 1, currentEAProduct.EArange.EndImageID + 2, 0, InfoImgInfo.imageHeight, Calipix_y, Calipix_x);//new一个新产品信息
-                        PFTCleanParamFrom.dic_EAproductsInfo[PFTCleanParamFrom.nCurEAProId + 1] = EAEAProductCam0;
-                        ////扩充EA产品-cam1
-                        //PFTCleanEAProductInfo EAEAProductCam1 = ExPandHeadLinedic(camID + 1, PFTCleanParamBase.nCurEAProId + 1, currentEAProduct.EArange.EndImageID + 2, ABMis, InfoImgInfo.imageHeight, Calipix_y, Calipix_x);//new一个新产品信息
-                        //PFTCleanParamFrom.dic_EAproductsInfo[PFTCleanParamBase.nCurEAProId + 1] = EAEAProductCam1;
+                        CropPartParams.PartSizeRow = m_craft.EACropShiledMD;
+                        CropPartParams.PartSizeCol = 1000;
+                        CropPartParams.PartCenterID = currentEAProduct.Coatrange.StartImageID;
+                        CropPartParams.PartCenterRow = currentEAProduct.Coatrange.StarImageRow;
+                        CropPartParams.PartCenterCol = ImageProduct.EdgelineLeft + 1000;//槽和基准边同一边就不用+，在对侧，就用片宽减半槽宽。
+                        bool bl_findHeadSuccess = CropPlugin.ExecuteObj();
+                        if (bl_findHeadSuccess)
+                        {
+                            if (currentEAProduct.Coatrange.StartImageID == ImageProduct.nCurImageID)
+                            {
+                                HOperatorSet.GenRectangle2(out HObject GroVRegion1, CropPartParams.PartCenterRow, CropPartParams.PartCenterCol, 0, CropPartParams.PartSizeCol / 2 + CropPartParams.CropShaftCol, CropPartParams.PartSizeRow / 2 + CropPartParams.CropShaftRow);
+                                RegionShowInfos.Add(new RegionShowInfo() { m_hRegion = GroVRegion1, m_stuGetColor = HalconColor.pink });
+                            }
+                            string str0 = $"产品{currentEAProduct.EAID}料头裁切成功";
+                            MesssgeShowInfos.Add(new MessageShowInfo { m_strMessage = str0, m_stuGetColor = HalconColor.orange });
 
-                        string str0 = $"B相机EA产品超长，强制分EA，产品编号：{PFTCleanParamFrom.nCurEAProId + 1},料头位置：第{currentEAProduct.EArange.EndImageID}帧-第{currentEAProduct.EArange.EndImageRow}行";
-                        MesssgeShowInfos.Add(new MessageShowInfo { m_strMessage = str0, m_stuGetColor = HalconColor.red });
+                            currentEAProduct.BlHeadDone = true;
+                            IPlugin PluginMline = process.m_ModuleObjList.Find(c => c.moduleInfo.ModuleName == "涂布料头边");
+                            ParamsMeasureLine MlineParams = PluginMline.PluginParams as ParamsMeasureLine; //里氏转换
+                            MlineParams.ho_Image = CropPartParams.Image_part;
+                            LineInfo line = new LineInfo();
+                            bool isSuccess = PluginMline.ExecuteObj();
+                            DetectEdgeValueAssign(MlineParams, isSuccess, line, PluginMline.moduleInfo.ModuleName, MesssgeShowInfos, LineShowInfos, RegionShowInfos);
+
+                            //把抓边添加到ImageProduct和EAProduct
+                            double Srow = CropPartParams.PartCenterRow - CropPartParams.PartSizeRow / 2 - CropPartParams.CropShaftRow;
+                            double Scol = CropPartParams.PartCenterCol - CropPartParams.PartSizeCol / 2 - CropPartParams.CropShaftCol;
+                            LineInfo Normalline = NormalizeLine(line, (int)CropPartParams.PartCenterID, Srow, Scol, (int)InfoImgInfo.image_ID, InfoImgInfo.imageHeight);
+                            ImageProduct.ListImagelines.Add(Normalline);
+                            LineInfo EAline = EAAddline(Normalline, currentEAProduct.CropEArange.StartImageID, currentEAProduct.CropEArange.StarImageRow, 0, InfoImgInfo.imageHeight);
+                            //  current3DProduct.ListEAlines.Add(EAline);
+                            //CalcuEASize(camID, InfoImgInfo.imageHeight, Normalline, m_craft.ListEASizes, EAProductBase, currentEAProduct, ImageProduct.ListImageSizes);
+
+                        }
                     }
+
+
 
                     for (int i = 0; i < m_craft.SliceCount; i++)
                     {
@@ -1637,9 +1748,9 @@ namespace Frame_Core
 
 
                     ///复制图像给EA拼大图流程
-                   // InfoImgInfo.ho_image.CopyImage(out HObject CopyImage);
+                    // InfoImgInfo.ho_image.CopyImage(out HObject CopyImage);
                     //InfoImgInfo.ho_image.DisposeEx();
-                     HOperatorSet.CopyObj(InfoImgInfo.ho_image, out HObject CopyImage, 1, 1);
+                    HOperatorSet.CopyObj(InfoImgInfo.ho_image, out HObject CopyImage, 1, 1);
                     HOperatorSet.GetImageSize(InfoImgInfo.ho_image, out HTuple w, out HTuple h);
                     PFTCleanParamFrom.PFTImageProdQueue.Enqueue(new ImageInfo() { image_ID = InfoImgInfo.image_ID, EAID = PFTCleanParamFrom.nCurEAProId, ho_image = CopyImage, imageWidth = w, imageHeight = h });
                     PFTCleanParamFrom.semaphoreSlim.Release();
@@ -1693,16 +1804,16 @@ namespace Frame_Core
                     //主相机图像参数
                     ImageInfo InfoImgInfo = PFTimageQueue.Dequeue();
                     PFTCleanParamFrom.EAlistimageInfos.Add(InfoImgInfo);
-                    if (PFTCleanParamFrom.EAlistimageInfos.Count > 3)
+                    if (PFTCleanParamFrom.EAlistimageInfos.Count > 6)
                     {
-                        long removeID = InfoImgInfo.image_ID - 3;
+                        long removeID = InfoImgInfo.image_ID - 6;
                         var tempIMfo = PFTCleanParamFrom.EAlistimageInfos.FindIndex(c => c.image_ID == removeID);
                         if (tempIMfo != -1)
                         {
                             PFTCleanParamFrom.EAlistimageInfos[tempIMfo]?.Dispose();
                             PFTCleanParamFrom.EAlistimageInfos.RemoveAt(tempIMfo);
                             //获取 PFTCleanParamFrom.EAlistimageInfos所有的key值
-                           var key = PFTCleanParamFrom.EAlistimageInfos.Select(c => c.image_ID).ToList();
+                            var key = PFTCleanParamFrom.EAlistimageInfos.Select(c => c.image_ID).ToList();
                             MessageNotify.AddDebugLog($"Cam2EA流程产品{PFTCleanParamFrom.nCurShowEAProId}图像{InfoImgInfo.image_ID}移除图像ID{removeID}移除成功,队列中超过10帧图像，剩余{string.Join(",", key)}");
                         }
                         else
@@ -1713,7 +1824,7 @@ namespace Frame_Core
                     //获取CleanEAParamBase.dic_EAproductsInfo所有的key值
                     List<int> keys = PFTCleanParamFrom.dic_EAproductsInfo.Keys.ToList();
                     MessageNotify.AddDebugLog($"Cam2EA流程产品{PFTCleanParamFrom.nCurShowEAProId}图像{InfoImgInfo.image_ID}图像EAID{InfoImgInfo.EAID}处理开始,当前key值列表:{string.Join(",", keys)}");
-                   
+
                     PFTCleanEAProductInfo currentEAProduct = PFTCleanParamFrom.dic_EAproductsInfo[PFTCleanParamFrom.nCurShowEAProId];
 
                     List<MessageShowInfo> MesssgeShowInfos = new List<MessageShowInfo>();
@@ -1822,7 +1933,7 @@ namespace Frame_Core
                             PFTCleanParamFrom.nCurShowEAProId = InfoImgInfo.EAID;
 
                             currentEAProduct.EAImageCollection?.DisposeEx();
-                          
+
                         }
                     }
                     catch (Exception ex)
@@ -1853,7 +1964,7 @@ namespace Frame_Core
                         MessageNotify.AddDebugLog($"Cam2EA流程产品{currentEAProduct.EAID}图像nCurShowEAProId{PFTCleanParamFrom.nCurShowEAProId}{InfoImgInfo.image_ID}处理完成");
                     }
 
-                
+
 
                     //InfoImgInfo?.Dispose();
                 }
