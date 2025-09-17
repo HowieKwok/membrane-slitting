@@ -58,22 +58,7 @@ namespace Mef_VisionFrame
             var zones = ((SlaveMachineParam)Project.Instance.slaveMachineManager.tcpClientParam)?.Zones;
 
 
-            if (!Project.Instance.slaveMachineManager.initState || keyA <= 0)
-            {
-                // 第一个 EA 不发送
-                const string msg = "开始段第一个EA默认不统计不达标";
-                if (keyA <= 0)
-                {
-                    MessageNotify.AddCommLog(msg);
-                    MessageNotify.AddDebugLog(msg);
-                }
-                else
-                {
-                    MessageNotify.AddErrorLog($"与主机软件未连接（{Project.Instance.slaveMachineManager.initState}）,暂不发送打标，当前EA为{keyA}");
-                }
-
-                return;
-            }
+       
 
             // 1. 默认全部 0000
             var dbTypes = Enumerable.Range(0, 12)
@@ -96,6 +81,26 @@ namespace Mef_VisionFrame
                     }
                 }
             }
+
+
+            if (!Project.Instance.slaveMachineManager.initState || keyA <= 0)
+            {
+                // 第一个 EA 不发送
+                const string msg = "开始段第一个EA默认不统计不达标";
+                if (keyA <= 0)
+                {
+                    MessageNotify.AddCommLog(msg);
+                    MessageNotify.AddDebugLog(msg);
+                }
+                else
+                {
+                    MessageNotify.AddErrorLog($"与主机软件未连接（{Project.Instance.slaveMachineManager.initState}）,暂不发送打标，当前EA为{keyA}&&{string.Join(",", dbTypes.Select(t => t.Item2))}");
+                }
+
+                return;
+            }
+
+
 
             // 3. 异步发送
             bIZ_ThreadManage.limitThreadPool.RunAction(() =>
@@ -716,7 +721,7 @@ namespace Mef_VisionFrame
                 pFTImageProduct.showHalconWindow.m_bIsNG = resultTypeAll == (ResultType.NG);
                 if (pFTImageProduct.EAID == 0)
                 {
-                    pFTImageProduct.showHalconWindow.m_messageShowInfos.Insert(0, new MessageShowInfo() { m_strMessage = "第0个产品默认不统计", m_stuGetColor = BIZ_General.Color(resultTypeAll), m_nFontSize = 30 }); ;
+                    pFTImageProduct.showHalconWindow.m_messageShowInfos.Insert(0, new MessageShowInfo() { m_strMessage = "第0个产品", m_stuGetColor = BIZ_General.Color(resultTypeAll)}); ;
 
                 }
                 pFTImageProduct.showHalconWindow.m_messageShowInfos.Insert(0, new MessageShowInfo() { m_strMessage = resultTypeAll.ToString(), m_stuGetColor = BIZ_General.Color(resultTypeAll), m_nFontSize = 30 }); ;
@@ -1055,6 +1060,7 @@ namespace Mef_VisionFrame
                             SizeItemInfo sizeItemInfoCur = CreateSizeItemInfo(cleanCraft.ListSlotSizeLimits[i], cur.SlotSizes[i]);
                             SizeInfo sizeInfoCur = cur.SlotSizes[i];
                             sizeInfoCur.DataResult = Math.Round(sizeInfoCur.DataResult * cur.slotInfo.RealFixRito[i] + cur.slotInfo.RealFixOffset[i], 2);
+                            sizeItemInfoCur.Enable = true;
                             if (sizeItemInfoCur.Enable)
                             {
                                 GetSizeJudgeInfo(sizeItemInfoCur, ref sizeInfoCur);

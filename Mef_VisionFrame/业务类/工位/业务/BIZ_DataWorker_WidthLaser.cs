@@ -675,8 +675,15 @@ namespace Mef_VisionFrame
                 {
                     currentData = BIZ_Variable.StatisticalData_EASlices.DeepClone();
                 }
-
+               
+                QueuePackage<PFTImageProduct> queueImgProductsDisposeAB = new QueuePackage<PFTImageProduct>();
+                while (BIZ_Variable.queueImgProductsDisposeAB?.Count > 0)
+                {
+                    queueImgProductsDisposeAB.Enqueue(BIZ_Variable.queueImgProductsDisposeAB.Dequeue());
+                }
+                
                 InitVariable();
+                BIZ_Variable.queueImgProductsDisposeAB=queueImgProductsDisposeAB;
 
                 // 更新数据结构并保留现有计数
                 if (currentData.Count == 0)
