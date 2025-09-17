@@ -246,8 +246,30 @@ namespace Frame_Core
 
         private void tableLayoutPanel_Main_DoubleClick(object sender, EventArgs e)
         {
-            UIService.Instance.AddAction(() => { new FloatingMessageForm(this).Show(this.Parent?.FindForm()); });
-          
+            // 不再 new，用单例
+            UIService.Instance.AddAction(() => ShowFloatingWindow(this));
+
+        }
+
+
+
+        private static FloatingMessageForm _floatForm;   // 单例
+
+        /// <summary>
+        /// 显示唯一弹窗（单例）
+        /// </summary>
+        public static void ShowFloatingWindow(UC_Message mainUC)
+        {
+            if (_floatForm == null || _floatForm.IsDisposed)
+            {
+                _floatForm = new FloatingMessageForm(mainUC);
+                _floatForm.FormClosed += (_, __) => _floatForm = null;
+                _floatForm.Show();
+            }
+            else
+            {
+                _floatForm.Activate();   // 已存在则前置
+            }
         }
 
         /// <summary>

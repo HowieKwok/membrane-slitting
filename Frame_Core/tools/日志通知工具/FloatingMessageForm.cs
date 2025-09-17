@@ -77,6 +77,9 @@ namespace Frame_Core
             this.FormBorderStyle = FormBorderStyle.SizableToolWindow;
         }
 
+
+
+
         #region 同步逻辑
         private void SyncToSlave(int idx)
         {
