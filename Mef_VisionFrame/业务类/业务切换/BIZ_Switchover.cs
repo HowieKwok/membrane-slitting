@@ -106,50 +106,6 @@ namespace Mef_VisionFrame
 
         public static void InitBizDataAndForm()
         {
-            //Form_Main.FormMain.mark设置ToolStripMenuItem.Visible = false;
-            //Form_Main.FormMain.相机标定ToolStripMenuItem.Visible = false;
-            //Form_Main.FormMain.预定位平台标定ToolStripMenuItem.Visible = false;
-            //if(Project.Instance.systemInfo.CurrentMaterial == MaterialCrafEnum.PFT清洗机)
-            //{
-            //    UI_DataShowForm = new Form_WidthLaserDetect() { FormBorderStyle = FormBorderStyle.None, Dock = DockStyle.Fill, TopLevel = false };
-            //    UI_DataShowForm.Show();
-            //    Form_Main.FormMain.MainDetection.panel_DataShow.Controls.Clear();
-            //    Form_Main.FormMain.MainDetection.panel_DataShow.Controls.Add(UI_DataShowForm);
-            //    BIZ_DataWorker_WidthLaser BIZ_DataWorker = new BIZ_DataWorker_WidthLaser(UI_DataShowForm as Form_WidthLaserDetect);
-            //    BIZ_DataWorker.BIZ_Variable.dic_EAproductsInfo_A= ((PFTCleanProParams)Project.Instance.baseProDevice.m_DicCamOperaParam[0]).dic_EAproductsInfo;
-            //    BIZ_DataWorker.BIZ_Variable.dic_EAproductsInfo_B= ((PFTCleanProParams)Project.Instance.baseProDevice.m_DicCamOperaParam[1]).dic_EAproductsInfo;
-
-            //    BIZ_DataWorker.BIZ_Variable.dic_EAproductsInfo_SimA = ((PFTCleanProParams)Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[0]).dic_EAproductsInfo;
-            //    BIZ_DataWorker.BIZ_Variable.dic_EAproductsInfo_SimB = ((PFTCleanProParams)Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[1]).dic_EAproductsInfo;
-
-            //    IBIZWorkerBase = BIZ_DataWorker;
-            //    IBIZWorkerBase.InitVariable();
-            //    IBIZWorkerBase.InitForm();
-
-            //    Project.Instance.baseProDevice.m_DicCamOperaParam[0].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_FrameCam1);
-            //    Project.Instance.baseProDevice.m_DicCamOperaParam[0].ProductCallBackCraft = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_EACam1);
-
-
-            //    Project.Instance.baseProDevice.m_DicCamOperaParam[1].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_FrameCam2);
-            //    Project.Instance.baseProDevice.m_DicCamOperaParam[1].ProductCallBackCraft = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_EACam2);
-
-
-
-
-            //    Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[0].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_FrameCam1);
-            //    Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[0].ProductCallBackCraft = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_EACam1);
-
-            //    Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[1].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_FrameCam2);
-            //    Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[1].ProductCallBackCraft = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_EACam2);
-
-
-
-            //    Form_Main.FormMain.相机标定ToolStripMenuItem.Visible = false;
-            //    Form_Main.FormMain.打标机软件通讯ToolStripMenuItem.Visible = true;
-            //    Form_Main.FormMain.尺寸点检ToolStripMenuItem.Visible = true;
-            //    Form_Main.FormMain.纠偏设置ToolStripMenuItem.Visible = true;
-
-            //}
 
             Form_Main.FormMain.mark设置ToolStripMenuItem.Visible = false;
             Form_Main.FormMain.相机标定ToolStripMenuItem.Visible = false;
@@ -191,7 +147,7 @@ namespace Mef_VisionFrame
 
                 Form_Main.FormMain.相机标定ToolStripMenuItem.Visible = false;
                 Form_Main.FormMain.mSA3D测厚ToolStripMenuItem.Visible = false;
-                Form_Main.FormMain.打标机软件通讯ToolStripMenuItem.Visible = true;
+                Form_Main.FormMain.打标机软件通讯ToolStripMenuItem.Visible = false;
                 Form_Main.FormMain.尺寸点检ToolStripMenuItem.Visible = true;
                 Form_Main.FormMain.纠偏设置ToolStripMenuItem.Visible = true;
 
@@ -271,7 +227,7 @@ namespace Mef_VisionFrame
 
                 //仪器
                 //设备PLC
-                NStatusStrip.AddSoftwareState("打标机", Project.Instance.dbjCardManager.initState ? 1 : 0, ref softwareState);
+              //  NStatusStrip.AddSoftwareState("打标机", Project.Instance.dbjCardManager.initState ? 1 : 0, ref softwareState);
 
 
                 //仪器

@@ -168,7 +168,7 @@ namespace Mef_VisionFrame
                                 //数据来源分析
                                 EADataAnalysis(cameraEnum, Calipix_x, Calipix_y, productInfoA, productInfoB, out List<string> OutDBChannel);
                                 //发送打标数据
-                                SendDBInfoIfNeeded(InnerkeyA, productInfoA.EArange.StartImageID, productInfoA.resultSliceAllResult, ((DBJCardParam)Project.Instance.dbjCardManager.tcpClientParam).nCamDBIndex);
+                                SendDBInfoIfNeeded(InnerkeyA, productInfoA.EArange.StartImageID, productInfoA.resultSliceAllResult, ((SlaveMachineParam)Project.Instance.slaveMachineManager.tcpClientParam).nCamDBIndex);
                                 UIAndFileDataSave(InnerkeyA, OutDBChannel, productInfoA, productInfoB);
                                 
                                 if(Project.Instance.slaveMachineManager.initState)
@@ -296,18 +296,18 @@ namespace Mef_VisionFrame
                 bool IsIntervalTime = intervalExecution.GetWhetherToReachIntervalTime(1000);
                 //=========================================================================
                 //读取打标机信息
-                if (Project.Instance.dbjCardManager != null && Project.Instance.dbjCardManager.initState == true)
-                {
+                //if (Project.Instance.dbjCardManager != null && Project.Instance.dbjCardManager.initState == true)
+                //{
                  
-                    if(IsIntervalTime)
-                    {
-                        Project.Instance.dbjCardManager.SendData();
-                    }
+                //    if(IsIntervalTime)
+                //    {
+                //        Project.Instance.dbjCardManager.SendData();
+                //    }
                    
 
-                    Project.Instance.dbjCardManager.ReadData();
+                //    Project.Instance.dbjCardManager.ReadData();
 
-                }
+                //}
                 
                 //读取主机通讯信息
                 if (Project.Instance.slaveMachineManager != null && Project.Instance.slaveMachineManager.initState == true)
@@ -623,10 +623,10 @@ namespace Mef_VisionFrame
         public void StartMojuan(string strMojuanPath)
         {
             //发送打标机软件新建膜卷信号
-            if (Project.Instance.dbjCardManager != null)
-            {
-                Project.Instance.dbjCardManager.SendXJMQ(strMojuanPath);
-            }
+            //if (Project.Instance.dbjCardManager != null)
+            //{
+            //    Project.Instance.dbjCardManager.SendXJMQ(strMojuanPath);
+            //}
 
         }
 
@@ -634,14 +634,14 @@ namespace Mef_VisionFrame
         {
 
             //打标机发送运行信号
-            if (Project.Instance.dbjCardManager != null)
-            {
-                //发送打标机软件图像长度
-                double imageLength = pFTCleanCraft.EASizeMD;
-                Project.Instance.dbjCardManager.SendImageLength(imageLength);
-                Project.Instance.dbjCardManager.SendRun(true);
+            //if (Project.Instance.dbjCardManager != null)
+            //{
+            //    //发送打标机软件图像长度
+            //    double imageLength = pFTCleanCraft.EASizeMD;
+            //    Project.Instance.dbjCardManager.SendImageLength(imageLength);
+            //    Project.Instance.dbjCardManager.SendRun(true);
 
-            }
+            //}
 
         }
 
@@ -653,7 +653,7 @@ namespace Mef_VisionFrame
         public void StopRun()
         {
             //打标机发送暂停信号
-            if (Project.Instance.dbjCardManager != null) Project.Instance.dbjCardManager.SendRun(false);
+           // if (Project.Instance.dbjCardManager != null) Project.Instance.dbjCardManager.SendRun(false);
 
 
         }

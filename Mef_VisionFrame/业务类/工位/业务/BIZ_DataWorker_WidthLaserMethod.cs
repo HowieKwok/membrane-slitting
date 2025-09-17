@@ -55,10 +55,10 @@ namespace Mef_VisionFrame
         {
 
             HOperatorSet.CountSeconds(out HTuple StartSendDB);
-            var zones = ((DBJCardParam)Project.Instance.dbjCardManager.tcpClientParam)?.Zones;
+            var zones = ((SlaveMachineParam)Project.Instance.slaveMachineManager.tcpClientParam)?.Zones;
 
 
-            if (!Project.Instance.dbjCardManager.initState || keyA <= 0)
+            if (!Project.Instance.slaveMachineManager.initState || keyA <= 0)
             {
                 // 第一个 EA 不发送
                 const string msg = "开始段第一个EA默认不统计不达标";
@@ -69,7 +69,7 @@ namespace Mef_VisionFrame
                 }
                 else
                 {
-                    MessageNotify.AddErrorLog($"打标机未连接（{Project.Instance.dbjCardManager.initState}）,暂不发送打标，当前EA为{keyA}");
+                    MessageNotify.AddErrorLog($"与主机软件未连接（{Project.Instance.slaveMachineManager.initState}）,暂不发送打标，当前EA为{keyA}");
                 }
 
                 return;
@@ -100,7 +100,7 @@ namespace Mef_VisionFrame
             // 3. 异步发送
             bIZ_ThreadManage.limitThreadPool.RunAction(() =>
             {
-                Project.Instance.dbjCardManager.SendDBInfo(FrameID, dbTypes, CamID, out string msg);
+                Project.Instance.slaveMachineManager.SendDBInfo(FrameID, dbTypes, CamID, out string msg);
                 if (Project.Instance.slaveMachineManager.initState)
                 {
                     Project.Instance.slaveMachineManager.SendOwnDB(msg);
@@ -341,7 +341,7 @@ namespace Mef_VisionFrame
                 productInfoB.resultSliceGrooveSizeNg = resultSliceGrooveSizeNg.DeepClone();
                 productInfoB.resultSliceConfigSizeNg = resultSliceConfigSizeNg.DeepClone();
 
-                var zones = ((DBJCardParam)Project.Instance.dbjCardManager.tcpClientParam)?.Zones;
+                var zones = ((SlaveMachineParam)Project.Instance.slaveMachineManager.tcpClientParam)?.Zones;
 
 
                 if (zones == null || zones?.Count != 12)
@@ -569,8 +569,8 @@ namespace Mef_VisionFrame
                             List<RowData> strDeftData = new List<RowData>
                         {
                             new RowData() { dataStr = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss_fff"), resultType = ResultType.OK },
-                            new RowData() { dataStr = $"{pFTImageProduct.showHalconWindow.m_nImageFrameID}", resultType =resultSliceDefectNg[i] },
-                            new RowData() { dataStr = $"{pFTImageProduct.nCurEAID}", resultType = ResultType.OK },
+                            new RowData() { dataStr = $"{item.m_nImgIndex}", resultType =resultSliceDefectNg[i] },
+                            new RowData() { dataStr = $"{item.m_iProductIndex}", resultType = ResultType.OK },
                             new RowData() { dataStr = $"{i + 1}", resultType =resultSliceDefectNg[i]  },
                             new RowData() { dataStr = item.m_strNgTypeName.ToString(), resultType =  resultSliceDefectNg[i] },
                             new RowData() { dataStr =item.m_fNgTypWidth.ToString("0.00"), resultType = resultSliceDefectNg[i] },

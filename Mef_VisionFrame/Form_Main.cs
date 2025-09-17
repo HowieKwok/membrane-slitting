@@ -424,11 +424,11 @@ namespace Mef_VisionFrame
 
         private void 打标机软件通讯ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (DBJCardForm dBJCardForm = new DBJCardForm(Project.Instance.dbjCardManager))
-            {
-                dBJCardForm.StartPosition = FormStartPosition.CenterScreen;
-                dBJCardForm.ShowDialog();
-            }
+            //using (DBJCardForm dBJCardForm = new DBJCardForm(Project.Instance.dbjCardManager))
+            //{
+            //    dBJCardForm.StartPosition = FormStartPosition.CenterScreen;
+            //    dBJCardForm.ShowDialog();
+            //}
 
             //using (TCPClientForm dBJCardForm = new TCPClientForm(Project.Instance.dbjCardManager))
             //{

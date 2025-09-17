@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+
+using HalconDotNet;
 
 using LogTool;
 
@@ -11,6 +14,31 @@ namespace Frame_Core
 {
     public class SlaveMachineManager : TCPCientManager
     {
+        /// <summary>
+        /// 发送打标信息路径
+        /// </summary>
+        public string SendDBPath = $"E:\\检测数据\\NewProduct\\打标机软件日志记录-打标.ini";
+
+
+        public BindingList<CoatingZone> Zones()
+        {
+            SlaveMachineParam dBJCardParam = tcpClientParam as SlaveMachineParam;
+            return dBJCardParam.Zones;
+        }
+
+        public void SetZoneCount(int newCount)
+        {
+            SlaveMachineParam dBJCardParam = tcpClientParam as SlaveMachineParam;
+            int oldCount = dBJCardParam.Zones.Count;
+
+            // 1. 需要新增
+            for (int i = oldCount + 1; i <= newCount; i++)
+                dBJCardParam.Zones.Add(new CoatingZone { ZoneNumber = i });
+
+            // 2. 需要删除
+            while (dBJCardParam.Zones.Count > newCount)
+                dBJCardParam.Zones.RemoveAt(dBJCardParam.Zones.Count - 1);
+        }
 
         public override bool InitParam(string path, Boolean isCopy = false)
         {
@@ -24,7 +52,10 @@ namespace Frame_Core
                     slaveMachineParam.Init();
                     slaveMachineParam = (SlaveMachineParam)slaveMachineParam.Read();
                     slaveMachineParam.filePath = path;
-
+                    if (slaveMachineParam != null)
+                    {
+                        slaveMachineParam.ZonesInit();
+                    }
                     tcpClientParam = slaveMachineParam;
 
                 }
@@ -33,7 +64,7 @@ namespace Frame_Core
                     if (slaveMachineParam == null) slaveMachineParam = new SlaveMachineParam();
                     slaveMachineParam.filePath = path;
                     slaveMachineParam.Init();
-
+                    slaveMachineParam.ZonesInit();
                     slaveMachineParam.Save();
                     tcpClientParam = slaveMachineParam;
                 }
@@ -408,6 +439,54 @@ namespace Frame_Core
             }
         }
 
+
+        public void SendDBInfo(long frame, (int, string)[] DBChannalArray, int CameraNum, out string strSend)
+        {
+
+            string str = "DB12";
+            if (!initState)
+            {
+                strSend = "";
+                return;
+            }
+
+            try
+            {
+                lock (sendLock)
+                {
+
+
+                    for (int i = 0; i < DBChannalArray.Count(); i++)
+                    {
+                        str += DBChannalArray[i].Item2;
+                    }
+                    str += $"{FormatChannelCode((int)frame)}{FormatChannelCode((int)CameraNum)}";
+                    HOperatorSet.CountSeconds(out HTuple start1);
+                    HOperatorSet.CountSeconds(out HTuple start);
+                    bool F = TCPIP.TCP_Send(str, SendDBPath);
+                    HOperatorSet.CountSeconds(out HTuple end);
+                    double hTime4 = ((end - start) * 1000).D;//数据处理总耗时
+                    MessageNotify.AddDebugLog("发送打标耗时：" + hTime4.ToString());
+                    MessageNotify.AddCommLog("输出打标字符串：" + str);
+                    if (!F) WriteFailCount++;
+
+                }
+
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            strSend = str;
+
+
+        }
+
+        private string FormatChannelCode(int channel)
+         => channel.ToString().PadLeft(4, '0'); // 生成"0001"格式
 
         public void SendOwnDB(string strArr)
         {

@@ -100,7 +100,7 @@ namespace Frame_Core
         /// <summary>
         /// 打标机管理
         /// </summary>
-        public DBJCardManager dbjCardManager = new DBJCardManager();
+       // public DBJCardManager dbjCardManager = new DBJCardManager();
 
         /// <summary>
         ///  副机管理
@@ -178,10 +178,10 @@ namespace Frame_Core
                     cutOverlayPLCManage.Disconnect();
                 }
 
-                if (dbjCardManager != null)
-                {
-                    dbjCardManager.Close();
-                }
+                //if (dbjCardManager != null)
+                //{
+                //    dbjCardManager.Close();
+                //}
 
                 if (slaveMachineManager != null)
                 {
@@ -335,10 +335,10 @@ namespace Frame_Core
                 InitModel_cutOverlayPLCManage();
 
                 //加载打标机软件参数
-                dbjCardManager = new DBJCardManager();
-                paramPath = paramPathSet.DBJParamPathName;
-                initParamResult &= dbjCardManager.InitParam(paramPath);
-                initObjectResult &= dbjCardManager.InitPLC();
+                //dbjCardManager = new DBJCardManager();
+                //paramPath = paramPathSet.DBJParamPathName;
+                //initParamResult &= dbjCardManager.InitParam(paramPath);
+                //initObjectResult &= dbjCardManager.InitPLC();
 
 
                 //加载副机参数
@@ -574,17 +574,18 @@ namespace Frame_Core
                 TJBJInfo.TJBJInfoPath = strPath + "CCD停机报警信息记录.ini";
 
                 //重开膜卷初始化打标软件参数和信息路径
-                dbjCardManager.ReadLogPath = strPath + "打标软件接收记录-接收MarkingSoftwareReceiveRecord.ini";
-                dbjCardManager.SendLogPath = strPath + "打标软件发送记录-发送MarkingSoftwareSendRecord.ini";
-                dbjCardManager.SendHeartPath = strPath + "打标软件发送记录-心跳MarkingSoftwareHeartbeatRecord.ini";
-                dbjCardManager.SendDBPath = strPath + "打标软件发送记录-打标MarkingSoftwareMarkingRecord.ini";
-                dbjCardManager.SendJPPath = strPath + "打标软件发送记录-纠偏MarkingSoftwareOffsetRecord.ini";
+                //dbjCardManager.ReadLogPath = strPath + "打标软件接收记录-接收MarkingSoftwareReceiveRecord.ini";
+                //dbjCardManager.SendLogPath = strPath + "打标软件发送记录-发送MarkingSoftwareSendRecord.ini";
+                //dbjCardManager.SendHeartPath = strPath + "打标软件发送记录-心跳MarkingSoftwareHeartbeatRecord.ini";
+                //dbjCardManager.SendDBPath = strPath + "打标软件发送记录-打标MarkingSoftwareMarkingRecord.ini";
+                //dbjCardManager.SendJPPath = strPath + "打标软件发送记录-纠偏MarkingSoftwareOffsetRecord.ini";
 
                 ////重开膜卷初始化主副机软件参数和信息路径
                 slaveMachineManager.ReadLogPath = strPath + "主副机接收记录-接收MarkingSoftwareReceiveRecord.ini";
                 slaveMachineManager.SendLogPath = strPath + "主副机发送记录-发送MarkingSoftwareSendRecord.ini";
                 slaveMachineManager.SendHeartPath = strPath + "主副机发送记录-心跳MarkingSoftwareHeartbeatRecord.ini";
-            
+                slaveMachineManager.SendDBPath = strPath + "主副机发送记录-打标MarkingSoftwareMarkingRecord.ini";
+
 
 
             }

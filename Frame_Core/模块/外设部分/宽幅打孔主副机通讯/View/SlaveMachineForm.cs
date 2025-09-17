@@ -98,6 +98,15 @@ namespace Frame_Core
             }
         }
 
-      
+        private void button1_Click(object sender, EventArgs e)
+        {
+            SlaveMachineManager dBJCardManager = (SlaveMachineManager)tcpCientManager;
+            using (DBJChanelForm dBJCardForm = new DBJChanelForm(dBJCardManager,1))
+            {
+                dBJCardForm.StartPosition = FormStartPosition.CenterScreen;
+                dBJCardForm.ShowDialog();
+            }
+
+        }
     }
 }
