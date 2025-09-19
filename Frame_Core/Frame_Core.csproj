@@ -316,6 +316,9 @@
     <Compile Include="tools\状态栏\StateManage.cs" />
     <Compile Include="tools\线程执行结构\Thd_Instance.cs" />
     <Compile Include="tools\线程控制\ThreadPool.cs" />
+    <Compile Include="tools\自定义控件\CircularProgressDots .cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="tools\自定义控件\ControlComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -574,6 +577,12 @@
       <DependentUpon>Form_StopAlarm.cs</DependentUpon>
     </Compile>
     <Compile Include="模块\报警停机\TJBJInfo.cs" />
+    <Compile Include="模块\数据查询\FrmCsvViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\数据查询\FrmCsvViewer.Designer.cs">
+      <DependentUpon>FrmCsvViewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="模块\标定\Mark设置\Form_MarkSet.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -808,6 +817,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="模块\报警停机\Form_StopAlarm.resx">
       <DependentUpon>Form_StopAlarm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\数据查询\FrmCsvViewer.resx">
+      <DependentUpon>FrmCsvViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="模块\标定\Mark设置\Form_MarkSet.resx">
       <DependentUpon>Form_MarkSet.cs</DependentUpon>

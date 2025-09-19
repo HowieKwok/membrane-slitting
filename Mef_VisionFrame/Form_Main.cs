@@ -1,4 +1,6 @@
-﻿using Frame_Core;
+﻿using EHolly.ImageTool;
+
+using Frame_Core;
 using HalconDotNet;
 using LogTool;
 using NPOI.SS.Formula.Functions;
@@ -103,7 +105,11 @@ namespace Mef_VisionFrame
         private void Form_Main_Load(object sender, EventArgs e)
         {
             new UIService(85, this, ThreadPriority.Normal);
-           
+
+            EHollyImageTool.Init();
+            EHollyImageTool.StartDeleteService();
+            EHollyImageTool.Settings.ImageSaveTimeOut = 4000;
+
             UIService.Instance.AddAction(() => {
                 CraftSetting = new Form_CraftSetting();
                 MainDetection = new UC_MainDetection();
@@ -126,10 +132,11 @@ namespace Mef_VisionFrame
                 form_LoadProgressBar.closingFlag = true;
                 主界面ToolStripMenuItem_Click(null, null);
             });
-          
 
-        
            
+
+
+
         }
         /// <summary>
         /// 禁用窗体双击放大缩小
@@ -757,6 +764,26 @@ namespace Mef_VisionFrame
         {
             if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.主副机通讯)) { return; }
             using (SlaveMachineForm form = new SlaveMachineForm(Project.Instance.slaveMachineManager))
+            {
+                form.StartPosition = FormStartPosition.CenterScreen;
+                form.ShowDialog();
+            }
+        }
+
+        private void 图片管理ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.主副机通讯)) { return; }
+            using (Form_ImageManage form = new Form_ImageManage())
+            {
+                form.StartPosition = FormStartPosition.CenterScreen;
+                form.ShowDialog();
+            }
+        }
+
+        private void 数据查询ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string root = @"E:\生产数据";          // 实际路径可配
+            using (FrmCsvViewer form = new FrmCsvViewer(root))
             {
                 form.StartPosition = FormStartPosition.CenterScreen;
                 form.ShowDialog();

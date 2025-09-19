@@ -58,7 +58,7 @@ namespace Mef_VisionFrame
             var zones = ((SlaveMachineParam)Project.Instance.slaveMachineManager.tcpClientParam)?.Zones;
 
 
-       
+
 
             // 1. 默认全部 0000
             var dbTypes = Enumerable.Range(0, 12)
@@ -357,11 +357,13 @@ namespace Mef_VisionFrame
                 else
                 {
                     DBChannel = Enumerable.Range(0, pFTCleanCraft.SliceCount)
-                    .Select(i => zones?.Count > i
-                        ? string.Join(",", zones[i].Channels.Select(c => c.Id.ToString().PadLeft(4, '0')))
-                        : "NULL")
-                    .ToList();
+                     .Select(i =>
+                         zones != null && i < zones.Count && zones[i].Channels != null &&zones[i].Channels.Count > 0
+                             ? string.Join(",", zones[i].Channels.Select(c => c.Id.ToString().PadLeft(4, '0')))
+                             : "NULL")
+                     .ToList();
 
+                    OutDBChannel = DBChannel;
                 }
 
 
@@ -721,7 +723,7 @@ namespace Mef_VisionFrame
                 pFTImageProduct.showHalconWindow.m_bIsNG = resultTypeAll == (ResultType.NG);
                 if (pFTImageProduct.EAID == 0)
                 {
-                    pFTImageProduct.showHalconWindow.m_messageShowInfos.Insert(0, new MessageShowInfo() { m_strMessage = "第0个产品", m_stuGetColor = BIZ_General.Color(resultTypeAll)}); ;
+                    pFTImageProduct.showHalconWindow.m_messageShowInfos.Insert(0, new MessageShowInfo() { m_strMessage = "第0个产品", m_stuGetColor = BIZ_General.Color(resultTypeAll) }); ;
 
                 }
                 pFTImageProduct.showHalconWindow.m_messageShowInfos.Insert(0, new MessageShowInfo() { m_strMessage = resultTypeAll.ToString(), m_stuGetColor = BIZ_General.Color(resultTypeAll), m_nFontSize = 30 }); ;
@@ -1001,7 +1003,7 @@ namespace Mef_VisionFrame
                     }
 
                     var slot = pFTCleanCraft.ListSlotInfos?
-                       .FirstOrDefault(s => s.SliceID == sliceIndex  && s.ShaveID == grooveIndex + 1);
+                       .FirstOrDefault(s => s.SliceID == sliceIndex && s.ShaveID == grooveIndex + 1);
                     if (slot == null)
                     {
                         MessageNotify.AddErrorLog("InitGrooveChart()_切片信息为空");
@@ -1060,7 +1062,6 @@ namespace Mef_VisionFrame
                             SizeItemInfo sizeItemInfoCur = CreateSizeItemInfo(cleanCraft.ListSlotSizeLimits[i], cur.SlotSizes[i]);
                             SizeInfo sizeInfoCur = cur.SlotSizes[i];
                             sizeInfoCur.DataResult = Math.Round(sizeInfoCur.DataResult * cur.slotInfo.RealFixRito[i] + cur.slotInfo.RealFixOffset[i], 2);
-                            sizeItemInfoCur.Enable = true;
                             if (sizeItemInfoCur.Enable)
                             {
                                 GetSizeJudgeInfo(sizeItemInfoCur, ref sizeInfoCur);
@@ -1112,7 +1113,7 @@ namespace Mef_VisionFrame
 
                 // 2. 一次性拼合：0..splitIndex 取 A，其余取 B
                 var allSlots = GetAllSlots(cleanCraft, slotMatrixA, slotMatrixB);
-                if (!cleanCraft.ListSlotSizeLimits[(int)MeasureSlotEnum.MD间距].Enable && !cleanCraft.ListSlotSizeLimits[(int)MeasureSlotEnum.TD间距].Enable)
+                if (!(cleanCraft.ListSlotSizeLimits[(int)MeasureSlotEnum.MD间距].Enable || cleanCraft.ListSlotSizeLimits[(int)MeasureSlotEnum.MD间距].IsBJ) && !(cleanCraft.ListSlotSizeLimits[(int)MeasureSlotEnum.TD间距].Enable || cleanCraft.ListSlotSizeLimits[(int)MeasureSlotEnum.TD间距].IsBJ))
                 {
                     return true;
                 }
@@ -1150,8 +1151,15 @@ namespace Mef_VisionFrame
 
                         }
 
-                        cur.SlotSizes[(int)MeasureSlotEnum.TD间距].DataResult = tdWidth;
+                        if (sliceId == 0)
+                        {
+                            cur.SlotSizes[(int)MeasureSlotEnum.TD间距].DataResult = cur.SlotSizes[(int)MeasureSlotEnum.TD定位距].DataResult;
+                        }
                         next.SlotSizes[(int)MeasureSlotEnum.TD间距].DataResult = tdWidth;
+
+
+
+
 
                     }
                 }
@@ -1177,7 +1185,10 @@ namespace Mef_VisionFrame
                              cur.Slotlines[(int)DirectionEnum.上边].RowBegin -
                              cur.Slotlines[(int)DirectionEnum.上边].RowEnd) * 0.5 * pixelSizeY);
 
-                        cur.SlotSizes[(int)MeasureSlotEnum.MD间距].DataResult = mdWidth;
+                        if (shaveId == 1)
+                        {
+                            cur.SlotSizes[(int)MeasureSlotEnum.MD间距].DataResult = cur.SlotSizes[(int)MeasureSlotEnum.TD定位距].DataResult;
+                        }
                         next.SlotSizes[(int)MeasureSlotEnum.MD间距].DataResult = mdWidth;
 
                     }
@@ -1306,7 +1317,7 @@ namespace Mef_VisionFrame
             return new SizeItemInfo
             {
                 // 基础开关
-                Enable = limit.Enable,
+                Enable = limit.Enable || limit.IsBJ,
                 DB = limit.Enable,
 
                 // 标准值与尺寸公差
