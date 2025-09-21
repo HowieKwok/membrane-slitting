@@ -33,6 +33,8 @@ using LiveChartsCore.SkiaSharpView.Drawing.Geometries;
 
 using LogTool;
 
+using NPOI.SS.Formula.Functions;
+
 using ScottPlot;
 
 namespace Mef_VisionFrame
@@ -133,8 +135,8 @@ namespace Mef_VisionFrame
             int keyA = productInfoA.EAID;
             List<string> DBChannel = new List<string>();
             OutDBChannel = DBChannel;
-            if (productInfoA.list2EAShave.Count() != pFTCleanCraft.SliceCount ||
-               productInfoB.list2EAShave.Count() != pFTCleanCraft.SliceCount)
+            if (productInfoA.ListEASlicePD.Count() != pFTCleanCraft.SliceCount ||
+               productInfoB.ListEASlicePD.Count() != pFTCleanCraft.SliceCount)
             {
                 // 报警：切片数量不一致
                 MessageNotify.AddErrorLog("ProcessingData_FrameCam2()_切片数量不一致");
@@ -165,18 +167,20 @@ namespace Mef_VisionFrame
                 }
 
                 // 计算槽位TD&MD尺寸
-                MeasureDataDistance(pFTCleanCraft, productInfoA.list2EAShave, productInfoB.list2EAShave, Calipix_x, Calipix_y, out bool bIsSuccess);
+                MeasureDataDistance(pFTCleanCraft, productInfoA.ListEASlicePD, productInfoB.ListEASlicePD, Calipix_x, Calipix_y, out bool bIsSuccess);
                 HOperatorSet.CountSeconds(out HTuple endTime);
                 endTime = (endTime - startTime) * 1000;
                 MessageNotify.AddDebugLog($"第{productInfoA.EAID}EA计算槽位TD&MD尺寸处理时长::{endTime.D}");
 
                 //槽位尺寸判断
-                GrooveDataJudge(pFTCleanCraft, productInfoA.list2EAShave, productInfoB.list2EAShave);
+                GrooveDataJudge(pFTCleanCraft, productInfoA.ListEASlicePD, productInfoB.ListEASlicePD);
                 HOperatorSet.CountSeconds(out endTime);
                 endTime = (endTime - startTime) * 1000;
                 MessageNotify.AddDebugLog($"第{productInfoA.EAID}EA计算槽位尺寸判断处理时长::{endTime.D}");
                 //计算配置尺寸项目
-                MeasureConfigSize(pFTCleanCraft, productInfoA.list2EAShave, productInfoB.list2EAShave, productInfoA.ListEASizes, productInfoB.ListEASizes, productInfoA.lineInfos, productInfoB.lineInfos, Calipix_x, Calipix_y, out bool bIsSuccess2);
+                List<LineInfo> lineInfosA = GetLineInfo(pFTCleanCraft, productInfoA, CameraEnum.Cam1);
+                List<LineInfo> lineInfosB = GetLineInfo(pFTCleanCraft, productInfoB, CameraEnum.Cam2);
+                MeasureConfigSize(pFTCleanCraft, productInfoA.ListEASlicePD, productInfoB.ListEASlicePD, productInfoA.ListEASizes, productInfoB.ListEASizes, lineInfosA, lineInfosB, Calipix_x, Calipix_y, out bool bIsSuccess2);
                 HOperatorSet.CountSeconds(out endTime);
                 endTime = (endTime - startTime) * 1000;
                 MessageNotify.AddDebugLog($"第{productInfoA.EAID}EA计算计算配置尺寸项目处理时长::{endTime.D}");
@@ -213,17 +217,32 @@ namespace Mef_VisionFrame
                 #endregion
 
                 //尺寸停机报警判断以及统计计数//数据的精细化提取
-                List<SlotProduct> slotProducts = GetAllSlots(pFTCleanCraft, productInfoA.list2EAShave, productInfoB.list2EAShave);
+                List<SlotProduct> slotProducts = GetAllSlots(pFTCleanCraft, productInfoA.ListEASlicePD, productInfoB.ListEASlicePD);
                 List<List<NgTypeInfo>> ListEADefects = new List<List<NgTypeInfo>>();
+                //获取分界值
+                // 1) 分界索引
+                int lastCam1Index = pFTCleanCraft.ListSliceSet
+                                        .Select((info, idx) => (info.BelongCam, idx))
+                                        .LastOrDefault(x => x.BelongCam == CameraEnum.Cam1.ToString())
+                                        .idx;
+
                 for (int i = 0; i < pFTCleanCraft.SliceCount; i++)
                 {
-
+                    bool needShow= (i <= lastCam1Index);
+                  
                     #region 缺陷方面判断
 
                     HOperatorSet.CountSeconds(out HTuple startDeftTime);
-                    var defects = productInfoA.ListEADefects.Concat(productInfoB.ListEADefects)
-                                                 .Where(d => d.m_iSliceIndex == i)
-                                                 .ToList();
+                    var defects=new List<NgTypeInfo>();
+
+                    if(needShow)
+                    {
+                        defects = productInfoA.ListEASlicePD[i].ListImageDefects;
+                    }
+                    else
+                    {
+                        defects = productInfoB.ListEASlicePD[i].ListImageDefects;
+                    }
                     var defectTJDBBJItemInfos = BIZ_Variable.StatisticalData_EASlices[i].defectTJDBBJItemInfos;
                     //初始化defectTJDBBJItemInfos数据
                     for (int j = 0; j < defectTJDBBJItemInfos.Count; j++)
@@ -285,12 +304,26 @@ namespace Mef_VisionFrame
 
                     ResultType resultConfigSize = result;
                     result = ResultType.OK;
+                    ResultType isDB = ResultType.OK;
                     HOperatorSet.CountSeconds(out EndSizeTime);
                     EndSizeTime = (EndSizeTime - startSizeTime) * 1000;
                     MessageNotify.AddDebugLog($"第{productInfoA.EAID}_第{i + 1}条EA计算尺寸(遍历所有尺寸)下处理时长::{EndSizeTime.D}");
+                    var strSlotName = Enum.GetNames(typeof(MeasureSlotEnum));
+                    List<SizeItemInfo> sizeItemBJTJDBInfos = new List<SizeItemInfo>();
+                    foreach (var item in pFTCleanCraft.ListSlotSizeLimits)
+                    {
+                        SizeItemInfo sizeItemInfo = new SizeItemInfo();
+                        sizeItemInfo.Name = item.Name;
+                        sizeItemInfo.Description = item.Description;
+                        sizeItemInfo.CountNGBJ = 0;
+                        sizeItemInfo.CountNGDB = 0;
+                        sizeItemInfo.CountNGTJ = 0;
+                        sizeItemBJTJDBInfos.Add(sizeItemInfo);
+
+                    }
+
                     for (int j = 1; j <= pFTCleanCraft.ListSliceSet[i].ShaveNum; j++)
                     {
-                        var strSlotName = Enum.GetNames(typeof(MeasureSlotEnum));
 
                         for (int k = 0; k < strSlotName.Length; k++)
                         {
@@ -304,13 +337,26 @@ namespace Mef_VisionFrame
                             SizeInfo sizeInfo = slotProduct.SlotSizes[k];
                             SizeItemInfo sizeItemInfo = BIZ_Variable.StatisticalData_EASlices[i].sizeItemInfos.Find(s => s.Description == $"第{i + 1}条第{j}个槽位{strSlotName[k]}");
                             SizeItemInfo CraftSizeItem = CreateSizeItemInfo(pFTCleanCraft.ListSlotSizeLimits[k], sizeInfo);
+
                             if (keyA > 0)
                             {
-                                AccumulateAlarmCount(sizeInfo, sizeItemInfo);
-                                TJBJSize_WriteState(cameraEnum, sizeInfo, sizeItemInfo, CraftSizeItem, i);
 
+                                AccumulateAlarmCount(sizeInfo, sizeItemInfo);
+                                sizeItemInfo.CountNGBJ = 0;
+                                sizeItemInfo.CountNGTJ = 0;
+                                AccumulateAlarmCount(sizeInfo, sizeItemBJTJDBInfos[k]);
+                                TJBJSize_WriteState(cameraEnum, sizeInfo, sizeItemBJTJDBInfos[k], CraftSizeItem, i, ref isDB);
+                                result = isDB == ResultType.NG ? ResultType.NG
+                                  : sizeInfo.resultType == ResultType.OK ? ResultType.OK
+                                  : ResultType.Warn;
                             }
-                            result = (new ResultType[] { sizeInfo.resultType, result }).Max();
+                            else
+                            {
+                                sizeInfo.resultType = ResultType.Warn;
+                            }
+
+
+
 
                         }
 
@@ -319,7 +365,11 @@ namespace Mef_VisionFrame
                     EndSizeTime = (EndSizeTime - startSizeTime) * 1000;
                     MessageNotify.AddDebugLog($"第{productInfoA.EAID}_第{i + 1}条EA计算尺寸(槽位判断)处理时长::{EndSizeTime.D}");
 
+                    resultSliceConfigSizeNg[i] = resultConfigSize;
+                    resultSliceGrooveSizeNg[i] = result;
+
                     resultSliceSizeNg[i] = new ResultType[] { resultConfigSize, result }.Max();
+
                     resultSliceAllResult[i] = new ResultType[] { resultSliceDefectNg[i], resultSliceSizeNg[i] }.Max();
                     HOperatorSet.CountSeconds(out EndSizeTime);
                     EndSizeTime = (EndSizeTime - startSizeTime) * 1000;
@@ -358,7 +408,7 @@ namespace Mef_VisionFrame
                 {
                     DBChannel = Enumerable.Range(0, pFTCleanCraft.SliceCount)
                      .Select(i =>
-                         zones != null && i < zones.Count && zones[i].Channels != null &&zones[i].Channels.Count > 0
+                         zones != null && i < zones.Count && zones[i].Channels != null && zones[i].Channels.Count > 0
                              ? string.Join(",", zones[i].Channels.Select(c => c.Id.ToString().PadLeft(4, '0')))
                              : "NULL")
                      .ToList();
@@ -435,7 +485,7 @@ namespace Mef_VisionFrame
 
 
             //槽位尺寸数据保存及显示
-            List<SlotProduct> slotProducts = GetAllSlots(pFTCleanCraft, productInfoA.list2EAShave, productInfoB.list2EAShave);
+            List<SlotProduct> slotProducts = GetAllSlots(pFTCleanCraft, productInfoA.ListEASlicePD, productInfoB.ListEASlicePD);
 
 
             for (int i = 0; i < pFTCleanCraft.SliceCount; i++)
@@ -449,19 +499,22 @@ namespace Mef_VisionFrame
                 {
                     var strSlotName = Enum.GetNames(typeof(MeasureSlotEnum));
 
-                    for (int k = 0; k < strSlotName.Length; k++)
+                    for (int k = 0; k < pFTCleanCraft.ListSlotSizeLimits.Count; k++)
                     {
-                        SlotProduct slotProduct = slotProducts.Find(s => s.slotInfo.SliceID == i && s.slotInfo.ShaveID == j);
-
-                        if (slotProduct == null)
+                        if (pFTCleanCraft.ListSlotSizeLimits[k].Enable)
                         {
-                            MessageNotify.AddStopAlarm(new StopAlarmMessage() { time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"), StopAlarmState = StopAlarmStateEnum.报警, name = $"第{i + 1}片第{j}个槽位尺寸数据缺失", describe = $"第{i + 1}片第{j + 1}个槽位尺寸数据缺失" });
-                            continue;
+                            SlotProduct slotProduct = slotProducts.Find(s => s.slotInfo.SliceID == i && s.slotInfo.ShaveID == j);
+
+                            if (slotProduct == null)
+                            {
+                                MessageNotify.AddStopAlarm(new StopAlarmMessage() { time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"), StopAlarmState = StopAlarmStateEnum.报警, name = $"第{i + 1}片第{j}个槽位尺寸数据缺失", describe = $"第{i + 1}片第{j + 1}个槽位尺寸数据缺失" });
+                                continue;
+                            }
+                            SizeInfo sizeInfo = slotProduct.SlotSizes[k];
+                            rowDatas.Add(new RowData() { dataStr = sizeInfo.DataResult.ToString(), resultType = sizeInfo.resultType });
+                            rowDatas.Add(new RowData() { dataStr = sizeInfo.resultType.ToString(), resultType = sizeInfo.resultType });
+                            ChartDataGrooveShow(i, j - 1, k, sizeInfo.DataResult);
                         }
-                        SizeInfo sizeInfo = slotProduct.SlotSizes[k];
-                        rowDatas.Add(new RowData() { dataStr = sizeInfo.DataResult.ToString(), resultType = sizeInfo.resultType });
-                        rowDatas.Add(new RowData() { dataStr = sizeInfo.resultType.ToString(), resultType = sizeInfo.resultType });
-                        ChartDataGrooveShow(i, j - 1, k, sizeInfo.DataResult);
 
                     }
 
@@ -524,17 +577,6 @@ namespace Mef_VisionFrame
 
                 List<List<NgTypeInfo>> ListImageDefects = new List<List<NgTypeInfo>>();
 
-                for (int i = 0; i < pFTCleanCraft.SliceCount; i++)
-                {
-                    resultSliceDefectNg.Add(ResultType.NG);          // 默认 NG
-
-                    var defects = pFTImageProduct.ListImageDefects
-                                                 .Where(d => d.m_iSliceIndex == i)
-                                                 .ToList();
-
-                    ListImageDefects.Add(defects.Count > 0 ? defects : new List<NgTypeInfo>());
-                }
-
                 //获取分界值
                 // 1) 分界索引
                 int lastCam1Index = pFTCleanCraft.ListSliceSet
@@ -542,7 +584,27 @@ namespace Mef_VisionFrame
                                         .LastOrDefault(x => x.BelongCam == CameraEnum.Cam1.ToString())
                                         .idx;
 
+                for (int i = 0; i < pFTCleanCraft.SliceCount; i++)
+                {
+                    resultSliceDefectNg.Add(ResultType.NG);          // 默认 NG
 
+
+                    bool needShow = cameraEnum == CameraEnum.Cam1 ? i <= lastCam1Index
+                                                                : i > lastCam1Index;
+
+                    List<NgTypeInfo> defects;
+                    if (needShow)
+                    {
+                        defects = pFTImageProduct.ListImageSlicePD[i].ListImageDefects;
+                        ListImageDefects.Add(defects.Count > 0 ? defects : new List<NgTypeInfo>());
+                        pFTImageProduct.showHalconWindow.m_messageShowInfos.AddRange(pFTImageProduct.ListImageSlicePD[i].showHalconWindow.m_messageShowInfos);
+                        pFTImageProduct.showHalconWindow.m_regionShowInfos.AddRange(pFTImageProduct.ListImageSlicePD[i].showHalconWindow.m_regionShowInfos);
+                        pFTImageProduct.showHalconWindow.m_lineShowInfos.AddRange(pFTImageProduct.ListImageSlicePD[i].ListImagelines);
+                    }
+
+
+
+                }
 
                 //缺陷判断
                 for (int i = 0; i < ListImageDefects.Count; i++)
@@ -550,10 +612,7 @@ namespace Mef_VisionFrame
                     string strDeftInfo = "无";
                     ProcessImageDefects(ListImageDefects[i], cameraEnum, false, i + 1);
                     var defects = ListImageDefects[i];
-
-                    // 根据相机及分界索引决定是否显示
-                    bool needShow = cameraEnum == CameraEnum.Cam1 ? i <= lastCam1Index
-                                                                  : i > lastCam1Index;
+                    ;
                     if (defects.Count == 0)
                     {
                         resultSliceDefectNg[i] = ResultType.OK;
@@ -568,17 +627,14 @@ namespace Mef_VisionFrame
                             $"面积：{d.m_fNgTypArea}, 高度：{d.m_fNgTypHeight}, 宽度：{d.m_fNgTypWidth}, " +
                             $"位置：({d.NgMidColumn},{d.NgMidRow})"));
                     }
-                    if (needShow)
+                    foreach (var item in defects)
                     {
-
-                        foreach (var item in defects)
-                        {
-                            List<RowData> strDeftData = new List<RowData>
+                        List<RowData> strDeftData = new List<RowData>
                         {
                             new RowData() { dataStr = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss_fff"), resultType = ResultType.OK },
                             new RowData() { dataStr = $"{item.m_nImgIndex}", resultType =resultSliceDefectNg[i] },
                             new RowData() { dataStr = $"{item.m_iProductIndex}", resultType = ResultType.OK },
-                            new RowData() { dataStr = $"{i + 1}", resultType =resultSliceDefectNg[i]  },
+                            new RowData() { dataStr = $"{item.m_iSliceIndex+1}", resultType =resultSliceDefectNg[i]  },
                             new RowData() { dataStr = item.m_strNgTypeName.ToString(), resultType =  resultSliceDefectNg[i] },
                             new RowData() { dataStr =item.m_fNgTypWidth.ToString("0.00"), resultType = resultSliceDefectNg[i] },
                             new RowData() { dataStr =item.m_fNgTypHeight.ToString("0.00"), resultType = resultSliceDefectNg[i] },
@@ -588,13 +644,12 @@ namespace Mef_VisionFrame
                             new RowData() { dataStr =item.strPath.ToString(), resultType = resultSliceDefectNg[i] },
                             };
 
-                            FileOperationCSV.WriteData_CSV(strDeftInitCamPath, strDeftInitCamTitle, strDeftData.ToArray(), cameraEnum.ToString());
-                            NDataPanelViewModel.Add(dataPanelViewModelBase, strDeftInitCamTitle, strDeftData.ToArray());
-                        }
-
-
-                        BIZ_General.AddMessageShowWindow(ListImageDefects[i], pFTImageProduct.showHalconWindow, i + 1);
+                        FileOperationCSV.WriteData_CSV(strDeftInitCamPath, strDeftInitCamTitle, strDeftData.ToArray(), cameraEnum.ToString());
+                        NDataPanelViewModel.Add(dataPanelViewModelBase, strDeftInitCamTitle, strDeftData.ToArray());
                     }
+
+
+                    BIZ_General.AddMessageShowWindow(ListImageDefects[i], pFTImageProduct.showHalconWindow, i + 1);
 
                 }
 
@@ -615,26 +670,26 @@ namespace Mef_VisionFrame
         }
 
 
-        private void EAFrameMethord(CameraEnum cameraEnum, PFTCleanEAProductInfo pFTImageProduct, DisplayWindowClass displayWindowClass, string[] strDeftInitCamTitle = null, string strDeftInitCamPath = null)
+        private void EAFrameMethord(CameraEnum cameraEnum, PFTCleanEAProductInfo  pFTCleanEAProductInfo, DisplayWindowClass displayWindowClass, string[] strDeftInitCamTitle = null, string strDeftInitCamPath = null)
         {
             ExecuteMethod(() =>
             {
-                if (!pFTImageProduct.EAFinfished)
+                if (!pFTCleanEAProductInfo.EAFinfished)
                 {
                     //报警：未完成切片
-                    MessageNotify.AddStopAlarm(new StopAlarmMessage() { time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"), StopAlarmState = StopAlarmStateEnum.停机, name = $"相机{cameraEnum}第{pFTImageProduct.EAID}个产品未完成切片", describe = $"相机{cameraEnum}第{pFTImageProduct.EAID}个产品未完成切片" });
-                    MessageNotify.AddErrorLog($"相机{cameraEnum}第{pFTImageProduct.EAID}个产品未完成切片");
-                    pFTImageProduct.resultSliceSizeNg?.Clear();
-                    pFTImageProduct.resultSliceDefectNg?.Clear();
-                    pFTImageProduct.resultSliceAllResult?.Clear();
-                    pFTImageProduct.resultSliceSizeNg = new List<ResultType>();
-                    pFTImageProduct.resultSliceDefectNg = new List<ResultType>();
-                    pFTImageProduct.resultSliceAllResult = new List<ResultType>();
+                    MessageNotify.AddStopAlarm(new StopAlarmMessage() { time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"), StopAlarmState = StopAlarmStateEnum.停机, name = $"相机{cameraEnum}第{pFTCleanEAProductInfo.EAID}个产品未完成切片", describe = $"相机{cameraEnum}第{pFTCleanEAProductInfo.EAID}个产品未完成切片" });
+                    MessageNotify.AddErrorLog($"相机{cameraEnum}第{pFTCleanEAProductInfo.EAID}个产品未完成切片");
+                    pFTCleanEAProductInfo.resultSliceSizeNg?.Clear();
+                    pFTCleanEAProductInfo.resultSliceDefectNg?.Clear();
+                    pFTCleanEAProductInfo.resultSliceAllResult?.Clear();
+                    pFTCleanEAProductInfo.resultSliceSizeNg = new List<ResultType>();
+                    pFTCleanEAProductInfo.resultSliceDefectNg = new List<ResultType>();
+                    pFTCleanEAProductInfo.resultSliceAllResult = new List<ResultType>();
                     for (int i = 0; i < pFTCleanCraft.SliceCount; i++)
                     {
-                        pFTImageProduct.resultSliceSizeNg.Add(ResultType.NG);          // 默认 NG
-                        pFTImageProduct.resultSliceDefectNg.Add(ResultType.NG);          // 默认 NG
-                        pFTImageProduct.resultSliceAllResult.Add(ResultType.NG);          // 默认 NG
+                        pFTCleanEAProductInfo.resultSliceSizeNg.Add(ResultType.NG);          // 默认 NG
+                        pFTCleanEAProductInfo.resultSliceDefectNg.Add(ResultType.NG);          // 默认 NG
+                        pFTCleanEAProductInfo.resultSliceAllResult.Add(ResultType.NG);          // 默认 NG
                     }
                 }
                 else
@@ -642,14 +697,10 @@ namespace Mef_VisionFrame
 
 
                 }
-                if (pFTImageProduct.resultSliceSizeNg?.Count == 0)
-                {
-
-                }
 
 
                 //【1】工艺处理             
-                HOperatorSet.CountSeconds(out pFTImageProduct.Image_StartDataProcessTime);
+                HOperatorSet.CountSeconds(out pFTCleanEAProductInfo.Image_StartDataProcessTime);
 
 
                 List<ResultType> resultSliceDefectNg = new List<ResultType>();
@@ -672,10 +723,12 @@ namespace Mef_VisionFrame
                     {
                         try
                         {
+                            // 根据相机及分界索引决定是否显示
+                            bool needShow = cameraEnum == CameraEnum.Cam1 ? i <= lastCam1Index
+                                                                          : i > lastCam1Index;
                             // 缺陷判断 
-                            List<NgTypeInfo> defects = pFTImageProduct.ListEADefects
-                                                         .Where(d => d.m_iSliceIndex == i)
-                                                         .ToList();                 // 当前切片缺陷
+                            List<NgTypeInfo> defects = pFTCleanEAProductInfo.ListEASlicePD[i].ListImageDefects;
+
 
                             ListImageDefects.Add(defects);                          // 缓存缺陷列表
 
@@ -683,18 +736,38 @@ namespace Mef_VisionFrame
                             var result = defects.Count == 0 ? ResultType.OK
                                                             : defects.Max(d => d.resultType);
 
-                            // 根据相机及分界索引决定是否显示
-                            bool needShow = cameraEnum == CameraEnum.Cam1 ? i <= lastCam1Index
-                                                                          : i > lastCam1Index;
+                            //// 缺陷判断 
+                            //List<NgTypeInfo> defects = pFTCleanEAProductInfo.ListEADefects
+                            //                             .Where(d => d.m_iSliceIndex == i)
+                            //                             .ToList();                 // 当前切片缺陷
+
+                            //ListImageDefects.Add(defects);                          // 缓存缺陷列表
+
+                            //// 缺陷结果：无缺陷->OK，有缺陷->最大级别
+                            //var result = defects.Count == 0 ? ResultType.OK
+                            //                                : defects.Max(d => d.resultType);
+
+
+
+
                             if (needShow)
                             {
-                                resultTypeSize = (new ResultType[] { resultTypeSize, pFTImageProduct.resultSliceSizeNg[i] }).Max();
-                                resultTypeDefect = (new ResultType[] { resultTypeDefect, pFTImageProduct.resultSliceDefectNg[i] }).Max();
-                                resultTypeAll = (new ResultType[] { resultTypeAll, pFTImageProduct.resultSliceAllResult[i] }).Max();
-                                BIZ_General.AddMessageShowWindow(defects, pFTImageProduct.showHalconWindow, i + 1);
-                                pFTImageProduct.showHalconWindow.m_messageShowInfos.Add(new MessageShowInfo() { m_strMessage = $"S{i + 1}尺寸结果：{pFTImageProduct.resultSliceSizeNg[i].ToString()}", m_stuGetColor = BIZ_General.Color(pFTImageProduct.resultSliceSizeNg[i]) });
-                                pFTImageProduct.showHalconWindow.m_messageShowInfos.Add(new MessageShowInfo() { m_strMessage = $"S{i + 1}缺陷结果：{pFTImageProduct.resultSliceDefectNg[i].ToString()}", m_stuGetColor = BIZ_General.Color(pFTImageProduct.resultSliceDefectNg[i]) });
-                                pFTImageProduct.showHalconWindow.m_messageShowInfos.Add(new MessageShowInfo() { m_strMessage = $"S{i + 1}总结果：{pFTImageProduct.resultSliceAllResult[i].ToString()}", m_stuGetColor = BIZ_General.Color(pFTImageProduct.resultSliceAllResult[i]) });
+                                List<LineInfo> lineInfos = GetLineInfo(pFTCleanCraft, pFTCleanEAProductInfo, cameraEnum)?.DeepClone();
+                                foreach (var item in lineInfos)
+                                {
+                                    item.ColBegin *= 0.5;
+                                    item.ColEnd *= 0.5;
+                                    item.RowBegin *= 0.5;
+                                    item.RowEnd *= 0.5;
+                                }
+                                pFTCleanEAProductInfo.showHalconWindow.m_lineShowInfos.AddRange(lineInfos);
+                                resultTypeSize = (new ResultType[] { resultTypeSize, pFTCleanEAProductInfo.resultSliceSizeNg[i] }).Max();
+                                resultTypeDefect = (new ResultType[] { resultTypeDefect, pFTCleanEAProductInfo.resultSliceDefectNg[i] }).Max();
+                                resultTypeAll = (new ResultType[] { resultTypeAll, pFTCleanEAProductInfo.resultSliceAllResult[i] }).Max();
+                                BIZ_General.AddMessageShowWindow(defects, pFTCleanEAProductInfo.showHalconWindow, i + 1);
+                                pFTCleanEAProductInfo.showHalconWindow.m_messageShowInfos.Add(new MessageShowInfo() { m_strMessage = $"S{i + 1}尺寸结果：{pFTCleanEAProductInfo.resultSliceSizeNg[i].ToString()}", m_stuGetColor = BIZ_General.Color(pFTCleanEAProductInfo.resultSliceSizeNg[i]) });
+                                pFTCleanEAProductInfo.showHalconWindow.m_messageShowInfos.Add(new MessageShowInfo() { m_strMessage = $"S{i + 1}缺陷结果：{pFTCleanEAProductInfo.resultSliceDefectNg[i].ToString()}", m_stuGetColor = BIZ_General.Color(pFTCleanEAProductInfo.resultSliceDefectNg[i]) });
+                                pFTCleanEAProductInfo.showHalconWindow.m_messageShowInfos.Add(new MessageShowInfo() { m_strMessage = $"S{i + 1}总结果：{pFTCleanEAProductInfo.resultSliceAllResult[i].ToString()}", m_stuGetColor = BIZ_General.Color(pFTCleanEAProductInfo.resultSliceAllResult[i]) });
 
                             }
 
@@ -703,7 +776,7 @@ namespace Mef_VisionFrame
                         catch (Exception ee)
                         {
 
-                            MessageNotify.AddErrorLog($"相机{cameraEnum}第{pFTImageProduct.EAID}个产品第{i + 1}切片缺陷判断异常：{ee.Message}");
+                            MessageNotify.AddErrorLog($"相机{cameraEnum}第{pFTCleanEAProductInfo.EAID}个产品第{i + 1}切片缺陷判断异常：{ee.Message}");
                             return ResultType.NG;
                         }
 
@@ -713,26 +786,26 @@ namespace Mef_VisionFrame
                     .ToList();
 
                 //配置尺寸显示
-                foreach (var size in pFTImageProduct.ListEASizes)
+                foreach (var size in pFTCleanEAProductInfo.ListEASizes)
                 {
-                    pFTImageProduct.showHalconWindow.m_messageShowInfos.Add(new MessageShowInfo() { m_strMessage = $"{size.Description}:{size.DataResult}_({size.StandardValue - size.DBInfo.DownTolerance},{size.StandardValue + size.DBInfo.UpTolerance})", m_stuGetColor = BIZ_General.Color(size.resultType) });
+                    pFTCleanEAProductInfo.showHalconWindow.m_messageShowInfos.Add(new MessageShowInfo() { m_strMessage = $"{size.Description}:{size.DataResult}_({size.StandardValue - size.DBInfo.DownTolerance},{size.StandardValue + size.DBInfo.UpTolerance})", m_stuGetColor = BIZ_General.Color(size.resultType) });
                 }
 
-                pFTImageProduct.showHalconWindow.m_nMode = 1;
-                pFTImageProduct.showHalconWindow.m_strCamName = Project.Instance.cameraManager[cameraEnum].m_CamParam.CameraName;
-                pFTImageProduct.showHalconWindow.m_bIsNG = resultTypeAll == (ResultType.NG);
-                if (pFTImageProduct.EAID == 0)
+                pFTCleanEAProductInfo.showHalconWindow.m_nMode = 1;
+                pFTCleanEAProductInfo.showHalconWindow.m_strCamName = Project.Instance.cameraManager[cameraEnum].m_CamParam.CameraName;
+                pFTCleanEAProductInfo.showHalconWindow.m_bIsNG = resultTypeAll == (ResultType.NG);
+                if (pFTCleanEAProductInfo.EAID == 0)
                 {
-                    pFTImageProduct.showHalconWindow.m_messageShowInfos.Insert(0, new MessageShowInfo() { m_strMessage = "第0个产品", m_stuGetColor = BIZ_General.Color(resultTypeAll) }); ;
+                    pFTCleanEAProductInfo.showHalconWindow.m_messageShowInfos.Insert(0, new MessageShowInfo() { m_strMessage = "第0个产品", m_stuGetColor = BIZ_General.Color(resultTypeAll) }); ;
 
                 }
-                pFTImageProduct.showHalconWindow.m_messageShowInfos.Insert(0, new MessageShowInfo() { m_strMessage = resultTypeAll.ToString(), m_stuGetColor = BIZ_General.Color(resultTypeAll), m_nFontSize = 30 }); ;
-                PrimitiveTransitionEA(cameraEnum, pFTImageProduct.showHalconWindow, out Operation_ImageInfo operation_ImageInfo);
-                HOperatorSet.CountSeconds(out pFTImageProduct.Image_DataProcessTime);
+                pFTCleanEAProductInfo.showHalconWindow.m_messageShowInfos.Insert(0, new MessageShowInfo() { m_strMessage = resultTypeAll.ToString(), m_stuGetColor = BIZ_General.Color(resultTypeAll), m_nFontSize = 30 }); ;
+                PrimitiveTransitionEA(cameraEnum, pFTCleanEAProductInfo.showHalconWindow, out Operation_ImageInfo operation_ImageInfo);
+                HOperatorSet.CountSeconds(out pFTCleanEAProductInfo.Image_DataProcessTime);
 
-                HOperatorSet.CountSeconds(out pFTImageProduct.Image_EndTime);
+                HOperatorSet.CountSeconds(out pFTCleanEAProductInfo.Image_EndTime);
                 //计算时间
-                BIZ_General.CalculateProcessingTime(pFTImageProduct);
+                BIZ_General.CalculateProcessingTime(pFTCleanEAProductInfo);
                 displayWindowClass.operation_Image.imageInfosShow.Enqueue(operation_ImageInfo);
 
 
@@ -934,67 +1007,58 @@ namespace Mef_VisionFrame
 
 
         }
-
-
         public void InitGrooveChart(bool flag = false)
         {
             ExecuteMethod(() =>
             {
-
-                //初始化切片图表控件
+                // 1. 初始化切片图表控件
                 var GrooveSize = Enum.GetNames(typeof(MeasureSlotEnum));
-                ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, Queue<ParamsChart>>>>> _data3DCacheGroup = new ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, Queue<ParamsChart>>>>>();
+                var _data3DCacheGroup =
+                    new ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, Queue<ParamsChart>>>>>();
 
+                // 2. 备份旧缓存（flag=true 时）
                 if (ChartGroovePage.Count > 0 && flag)
                 {
                     for (int i = 0; i < GrooveSize.Length; i++)
-                    {
                         _data3DCacheGroup[i] = ChartGroovePage[i]._data3DCache;
-                    }
                 }
+
                 ChartGroovePage?.Clear();
 
+                // 3. 预创建所有 ChartUIParam（保持原索引）
                 for (int i = 0; i < GrooveSize.Length; i++)
-                {
-
-
                     ChartGroovePage[i] = new ChartUIParam(GrooveSize[i], new ScottPlot.FormsPlot());
 
-                }
-
+                // 4. 面板清空
                 form.tab_GrooveChart.Controls?.Clear();
-                //默认2*3
 
-                int rowCount = 3;
                 int colCount = 2;
-
+                int rowCount = (GrooveSize.Length + colCount - 1) / colCount;   // 全部槽位参与布局
 
                 form.tab_GrooveChart.RowCount = rowCount;
                 form.tab_GrooveChart.ColumnCount = colCount;
                 form.tab_GrooveChart.Dock = DockStyle.Fill;
-                //设置行样式为均分
+
+                // 5. 均分行样式
                 form.tab_GrooveChart.RowStyles.Clear();
                 for (int j = 0; j < rowCount; j++)
-                {
                     form.tab_GrooveChart.RowStyles.Add(new RowStyle(SizeType.Percent, 100F / rowCount));
-                }
 
-                //设置列样式为均分
+                // 6. 均分列样式
                 form.tab_GrooveChart.ColumnStyles.Clear();
                 for (int j = 0; j < colCount; j++)
-                {
                     form.tab_GrooveChart.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F / colCount));
-                }
+
+                // 7. 按原始顺序创建 & 放置 & 显隐
                 for (int i = 0; i < GrooveSize.Length; i++)
                 {
                     int sliceIndex = form.GetCob_SliceIndex();
-
-
                     if (sliceIndex == -1)
                     {
                         MessageNotify.AddErrorLog("InitGrooveChart()_切片索引未选择");
                         return;
                     }
+
                     int grooveIndex = form.GetCob_GrooveIndex();
                     if (grooveIndex == -1)
                     {
@@ -1003,43 +1067,49 @@ namespace Mef_VisionFrame
                     }
 
                     var slot = pFTCleanCraft.ListSlotInfos?
-                       .FirstOrDefault(s => s.SliceID == sliceIndex && s.ShaveID == grooveIndex + 1);
+                               .FirstOrDefault(s => s.SliceID == sliceIndex && s.ShaveID == grooveIndex + 1);
                     if (slot == null)
                     {
                         MessageNotify.AddErrorLog("InitGrooveChart()_切片信息为空");
                         return;
                     }
+
                     ChartGroovePage[i].plotView.Dock = DockStyle.Fill;
-                    ParamsChart paramsChart = new ParamsChart();
-                    paramsChart.f_UpLimit = pFTCleanCraft.ListSlotSizeLimits[i].UpLimitValue + slot.AllValues[i];
-                    paramsChart.f_DownLimit = pFTCleanCraft.ListSlotSizeLimits[i].lowLimitValue + slot.AllValues[i];
-                    paramsChart.f_StandarValue = slot.AllValues[i];
-                    paramsChart.points.Add(new PointClass() { CurName = "测量值", Point = new Point(0, 0), Color = Color.Blue });
-                    ChartGroovePage[i].InitCurve(paramsChart);
-                    ChartGroovePage[i].Init3DCache(pFTCleanCraft.ListSliceSet?.Select(d => d.ShaveNum).ToArray(), GrooveSize.Length);
 
-                    if (ChartGroovePage.Count > 0 && flag)
+                    var paramsChart = new ParamsChart
                     {
-                        if (_data3DCacheGroup?.Count > 0)
-                        {
-                            ChartGroovePage[i]._data3DCache = _data3DCacheGroup[i];
-                        }
+                        f_UpLimit = pFTCleanCraft.ListSlotSizeLimits[i].UpLimitValue + slot.AllValues[i],
+                        f_DownLimit = pFTCleanCraft.ListSlotSizeLimits[i].lowLimitValue + slot.AllValues[i],
+                        f_StandarValue = slot.AllValues[i]
+                    };
+                    paramsChart.points.Add(new PointClass
+                    {
+                        CurName = "测量值",
+                        Point = new Point(0, 0),
+                        Color = Color.Blue
+                    });
 
-                    }
+                    ChartGroovePage[i].InitCurve(paramsChart);
+                    ChartGroovePage[i].Init3DCache(pFTCleanCraft.ListSliceSet?.Select(d => d.ShaveNum).ToArray(),
+                                                 GrooveSize.Length);
 
-                    form.tab_GrooveChart.Controls.Add(ChartGroovePage[i].plotView, i % colCount, i / colCount);
+                    // 恢复缓存
+                    if (flag && _data3DCacheGroup?.Count > 0)
+                        ChartGroovePage[i]._data3DCache = _data3DCacheGroup[i];
+
+                    // 8. 核心：先按原位置放进面板，再决定显隐
+                    form.tab_GrooveChart.Controls.Add(ChartGroovePage[i].plotView,
+                                                    i % colCount,
+                                                    i / colCount);
+                    ChartGroovePage[i].plotView.Visible = pFTCleanCraft.ListSlotSizeLimits[i].Enable;
                 }
             });
         }
-        /// <summary>
-        /// 槽位尺寸判断
-        /// </summary>
-        /// <param name="cleanCraft"></param>
-        /// <param name="slotMatrixA"></param>
-        /// <param name="slotMatrixB"></param>
+
+
         public void GrooveDataJudge(PFTCleanCraft cleanCraft,
-             List<List<SlotProduct>> slotMatrixA,
-             List<List<SlotProduct>> slotMatrixB)
+            List<PFTSliceProduct> slotMatrixA,
+            List<PFTSliceProduct> slotMatrixB)
         {
             ExecuteMethod(() =>
             {
@@ -1059,7 +1129,7 @@ namespace Mef_VisionFrame
                         var strs = Enum.GetNames(typeof(MeasureSlotEnum));
                         for (int i = 0; i < strs.Length; i++)
                         {
-                            SizeItemInfo sizeItemInfoCur = CreateSizeItemInfo(cleanCraft.ListSlotSizeLimits[i], cur.SlotSizes[i]);
+                            SizeItemInfo sizeItemInfoCur = CreateSizeItemInfo(cleanCraft.ListSlotSizeLimits[i], cur.SlotSizes[i], sliceId);
                             SizeInfo sizeInfoCur = cur.SlotSizes[i];
                             sizeInfoCur.DataResult = Math.Round(sizeInfoCur.DataResult * cur.slotInfo.RealFixRito[i] + cur.slotInfo.RealFixOffset[i], 2);
                             if (sizeItemInfoCur.Enable)
@@ -1081,6 +1151,35 @@ namespace Mef_VisionFrame
         }
 
 
+
+        List<LineInfo> GetLineInfo(PFTCleanCraft cleanCraft, PFTCleanEAProductInfo pFTCleanEAProductInfo, CameraEnum cameraEnum)
+        {
+            List<LineInfo> lineInfos = new List<LineInfo>();
+            lineInfos.AddRange(pFTCleanEAProductInfo.ListEAlines);
+            /* ====== 2. 扁平化所有槽位 ====== */
+            // 1. 找到分界点（最后一个 Cam1 的索引）
+            int lastCam1Index = cleanCraft.ListSliceSet
+                                       .Select((info, idx) => new { info.BelongCam, idx })
+                                       .LastOrDefault(x => x.BelongCam == CameraEnum.Cam1.ToString())
+                                       ?.idx ?? -1;
+
+            for (int i = 0; i < pFTCleanEAProductInfo.ListEASlicePD.Count; i++)
+            {
+                bool needShow = cameraEnum == CameraEnum.Cam1 ? i <= lastCam1Index
+                                                       : i > lastCam1Index;
+                if (needShow)
+                {
+                    lineInfos.AddRange(pFTCleanEAProductInfo.ListEASlicePD[i].ListImagelines);
+                }
+            }
+
+            return lineInfos;
+
+
+        }
+
+
+
         /// <summary>
         /// 计算 TD 与 MD 方向槽位间距并写回 SlotProduct。
         /// </summary>
@@ -1092,8 +1191,8 @@ namespace Mef_VisionFrame
         /// <param name="isSuccess">输出：计算是否完全成功。</param>
         public void MeasureDataDistance(
             PFTCleanCraft cleanCraft,
-            List<List<SlotProduct>> slotMatrixA,
-            List<List<SlotProduct>> slotMatrixB,
+            List<PFTSliceProduct> slotMatrixA,
+            List<PFTSliceProduct> slotMatrixB,
             double pixelSizeX,
             double pixelSizeY,
             out bool isSuccess)
@@ -1113,10 +1212,7 @@ namespace Mef_VisionFrame
 
                 // 2. 一次性拼合：0..splitIndex 取 A，其余取 B
                 var allSlots = GetAllSlots(cleanCraft, slotMatrixA, slotMatrixB);
-                if (!(cleanCraft.ListSlotSizeLimits[(int)MeasureSlotEnum.MD间距].Enable || cleanCraft.ListSlotSizeLimits[(int)MeasureSlotEnum.MD间距].IsBJ) && !(cleanCraft.ListSlotSizeLimits[(int)MeasureSlotEnum.TD间距].Enable || cleanCraft.ListSlotSizeLimits[(int)MeasureSlotEnum.TD间距].IsBJ))
-                {
-                    return true;
-                }
+
                 /* ====== 3. TD 间距计算 ====== */
 
                 for (int shaveId = 0; shaveId < cleanCraft.ListSliceSet[0].ShaveNum; shaveId++)
@@ -1135,8 +1231,8 @@ namespace Mef_VisionFrame
                         }
 
                         double tdWidth = Math.Abs(
-                            (next.Slotlines[(int)DirectionEnum.右边].ColBegin +
-                             next.Slotlines[(int)DirectionEnum.右边].ColEnd -
+                            (next.Slotlines[(int)DirectionEnum.左边].ColBegin +
+                             next.Slotlines[(int)DirectionEnum.左边].ColEnd -
                              cur.Slotlines[(int)DirectionEnum.左边].ColBegin -
                              cur.Slotlines[(int)DirectionEnum.左边].ColEnd) * 0.5 * pixelSizeX);
 
@@ -1144,8 +1240,8 @@ namespace Mef_VisionFrame
                         {
                             double exOffset = cleanCraft.EXCam1Col - cleanCraft.EXCam2Col - cleanCraft.Cam1BaseCol;
                             tdWidth = Math.Abs(
-                            ((next.Slotlines[(int)DirectionEnum.右边].ColBegin +
-                             next.Slotlines[(int)DirectionEnum.右边].ColEnd -
+                            ((next.Slotlines[(int)DirectionEnum.左边].ColBegin +
+                             next.Slotlines[(int)DirectionEnum.左边].ColEnd -
                              cur.Slotlines[(int)DirectionEnum.左边].ColBegin -
                              cur.Slotlines[(int)DirectionEnum.左边].ColEnd) * 0.5 + exOffset) * pixelSizeX);
 
@@ -1155,11 +1251,49 @@ namespace Mef_VisionFrame
                         {
                             cur.SlotSizes[(int)MeasureSlotEnum.TD间距].DataResult = cur.SlotSizes[(int)MeasureSlotEnum.TD定位距].DataResult;
                         }
-                        next.SlotSizes[(int)MeasureSlotEnum.TD间距].DataResult = tdWidth;
+                        next.SlotSizes[(int)MeasureSlotEnum.TD间距].DataResult = next.SlotSizes[(int)MeasureSlotEnum.TD定位距].DataResult - cur.SlotSizes[(int)MeasureSlotEnum.TD定位距].DataResult;
+
+
+                        double ScaleX = Project.Instance.cameraManager[cur.slotInfo.BelongCam].m_CamParam.CalibrationValue_X;
+
+                        double fInterValue = Math.Abs(
+                            (cur.Slotlines[(int)DirectionEnum.左间隙边].ColBegin +
+                            cur.Slotlines[(int)DirectionEnum.左间隙边].ColEnd -
+                            cur.Slotlines[(int)DirectionEnum.左边].ColBegin -
+                            cur.Slotlines[(int)DirectionEnum.左边].ColEnd) * 0.5) * ScaleX;
+
+                        cur.SlotSizes[(int)MeasureSlotEnum.TD左间隙].DataResult = fInterValue;
+
+                        fInterValue = Math.Abs(
+                            (cur.Slotlines[(int)DirectionEnum.右间隙边].ColBegin +
+                            cur.Slotlines[(int)DirectionEnum.右间隙边].ColEnd -
+                            cur.Slotlines[(int)DirectionEnum.右边].ColBegin -
+                            cur.Slotlines[(int)DirectionEnum.右边].ColEnd) * 0.5) * ScaleX;
+
+                        cur.SlotSizes[(int)MeasureSlotEnum.TD右间隙].DataResult = fInterValue;
 
 
 
+                        ScaleX = Project.Instance.cameraManager[next.slotInfo.BelongCam].m_CamParam.CalibrationValue_X;
 
+                        fInterValue = Math.Abs(
+                            (next.Slotlines[(int)DirectionEnum.左间隙边].ColBegin +
+                            next.Slotlines[(int)DirectionEnum.左间隙边].ColEnd -
+                            next.Slotlines[(int)DirectionEnum.左边].ColBegin -
+                            next.Slotlines[(int)DirectionEnum.左边].ColEnd) * 0.5) * ScaleX;
+
+                        next.SlotSizes[(int)MeasureSlotEnum.TD左间隙].DataResult = fInterValue;
+
+                        fInterValue = Math.Abs(
+                            (next.Slotlines[(int)DirectionEnum.右间隙边].ColBegin +
+                            next.Slotlines[(int)DirectionEnum.右间隙边].ColEnd -
+                            next.Slotlines[(int)DirectionEnum.右边].ColBegin -
+                            next.Slotlines[(int)DirectionEnum.右边].ColEnd) * 0.5) * ScaleX;
+
+                        next.SlotSizes[(int)MeasureSlotEnum.TD右间隙].DataResult = fInterValue;
+
+                        cur.SlotSizes[(int)MeasureSlotEnum.TD对齐].DataResult = cur.SlotSizes[(int)MeasureSlotEnum.TD间距].DataResult - cleanCraft.SlotTDis[sliceId];
+                        next.SlotSizes[(int)MeasureSlotEnum.TD对齐].DataResult = next.SlotSizes[(int)MeasureSlotEnum.TD间距].DataResult - cleanCraft.SlotTDis[sliceId + 1];
 
                     }
                 }
@@ -1191,6 +1325,10 @@ namespace Mef_VisionFrame
                         }
                         next.SlotSizes[(int)MeasureSlotEnum.MD间距].DataResult = mdWidth;
 
+                        cur.SlotSizes[(int)MeasureSlotEnum.MD对齐].DataResult = cur.SlotSizes[(int)MeasureSlotEnum.MD间距].DataResult - cleanCraft.SlotMDis[shaveId - 1];
+                        next.SlotSizes[(int)MeasureSlotEnum.MD对齐].DataResult = next.SlotSizes[(int)MeasureSlotEnum.MD间距].DataResult - cleanCraft.SlotMDis[shaveId];
+
+
                     }
                 }
 
@@ -1215,16 +1353,16 @@ namespace Mef_VisionFrame
         /// <param name="isSuccess">返回测量是否全部成功；失败时可通过 <see cref="MessageNotify"/> 查看详细错误。</param>
 
         public void MeasureConfigSize(
-            PFTCleanCraft cleanCraft,
-            List<List<SlotProduct>> slotMatrixA,
-            List<List<SlotProduct>> slotMatrixB,
-            List<SizeInfo> sizeInfosA,
-            List<SizeInfo> sizeInfosB,
-            List<LineInfo> lineInfosA,
-            List<LineInfo> lineInfosB,
-            double pixelSizeX,
-            double pixelSizeY,
-            out bool isSuccess)
+        PFTCleanCraft cleanCraft,
+        List<PFTSliceProduct> slotMatrixA,
+        List<PFTSliceProduct> slotMatrixB,
+        List<SizeInfo> sizeInfosA,
+        List<SizeInfo> sizeInfosB,
+        List<LineInfo> lineInfosA,
+        List<LineInfo> lineInfosB,
+        double pixelSizeX,
+        double pixelSizeY,
+        out bool isSuccess)
         {
             try
             {
@@ -1281,7 +1419,7 @@ namespace Mef_VisionFrame
 
                     Step:
                         //获取sizeInfo在 sizeMatrix[listIdx]中的索引
-                        int sizeInfoIndex = sizeMatrix[listIdx].FindIndex(x => x.Index == sizeInfo.Index);
+                        int sizeInfoIndex = sizeMatrix[listIdx].FindIndex(x => x.Name == sizeInfo.Name);
                         //获取sizeInfo在 allSlots中的索引
                         SizeInfo sizeTemp = sizeMatrix[listIdx][sizeInfoIndex];
                         GetSizeJudgeInfo(cfg, ref sizeTemp);
@@ -1304,41 +1442,49 @@ namespace Mef_VisionFrame
         }
 
 
+
+
+
+
+
+
         /// <summary>
         /// 依据 SlotSizeLimit 与 SizeInfo 创建 SizeItemInfo 实例
         /// </summary>
         /// <param name="limit">槽位尺寸限制配置</param>
         /// <param name="size">当前尺寸结果</param>
         /// <returns>已初始化的 SizeItemInfo</returns>
-        private SizeItemInfo CreateSizeItemInfo(SlotSizeLimit limit, SizeInfo size)
+        private SizeItemInfo CreateSizeItemInfo(SlotSizeLimit limit, SizeInfo size, int sliceIndex = 0)
         {
 
 
             return new SizeItemInfo
             {
                 // 基础开关
-                Enable = limit.Enable || limit.IsBJ,
-                DB = limit.Enable,
+                Enable = limit.Enable,
+                DB = limit.ArrayDBSlice[sliceIndex] == 1,
 
                 // 标准值与尺寸公差
                 StDValue = size.StandardValue,
                 StD_Up = size.upperLimitValue - size.StandardValue,
                 StD_Down = size.lowerLimitValue - size.StandardValue,
+                CountNGDB = (int)limit.ArrayDBSliceCount[sliceIndex],
 
                 // 报警配置
-                BJ = limit.IsBJ,
-                CountNGBJ = limit.NGEACount,
-                StD_BJ_Up = size.BJInfo.UpTolerance,
-                StD_BJ_Down = size.BJInfo.DownTolerance
+                BJ = limit.ArrayBJSlice[sliceIndex] == 1,
+                CountNGBJ = (int)limit.ArrayDBSliceCount[sliceIndex],
+                StD_BJ_Up = size.lowerLimitValue - size.StandardValue,
+                StD_BJ_Down = size.lowerLimitValue - size.StandardValue
             };
         }
 
 
 
+
         List<SlotProduct> GetAllSlots(
         PFTCleanCraft cleanCraft,
-        List<List<SlotProduct>> slotMatrixA,
-        List<List<SlotProduct>> slotMatrixB)
+           List<PFTSliceProduct> slotMatrixA,
+            List<PFTSliceProduct> slotMatrixB)
         {
             var lastCam1Index = cleanCraft.ListSliceSet
                                           .Select((info, idx) => (info.BelongCam, idx))
@@ -1347,10 +1493,9 @@ namespace Mef_VisionFrame
 
             return cleanCraft.ListSliceSet
                              .Select((_, idx) => idx <= lastCam1Index ? slotMatrixA[idx] : slotMatrixB[idx])
-                             .SelectMany(slots => slots)
+                             .SelectMany(slots => slots.listShave)
                              .ToList();
         }
-
 
         LineInfo GetLineInfo(
             string lineConfig,
@@ -1378,10 +1523,23 @@ namespace Mef_VisionFrame
                 var slot = allSlots.Find(s => s.slotInfo.ShaveID == shaveId && s.slotInfo.SliceID == sliceId);
                 return slot?.lineInfos[(int)direction];
             }
-
+            //1.先判断lines里面是否有lineConfig和IsLineSuccessfull==true的line
+            //2.如果有，则返回lineConfig对应的line
+            //3.如果没有，则返回lines有StrLineName == lineConfig，
             // 普通线名
+            // 根据相机类型选择对应的线条列表
             var lines = camera == CameraEnum.Cam1 ? lineMatrix[0] : lineMatrix[1];
-            return lines.FirstOrDefault(l => l.StrLineName == lineConfig);
+
+            // 如果线条列表为空，直接返回 null
+            if (lines == null || lines.Count == 0)
+                return null;
+
+            // 优先查找成功的线条，且名称匹配
+            var successfulLine = lines.FirstOrDefault(x => x.IsLineSuccessfull && x.StrLineName == lineConfig);
+
+            // 如果找到成功的线条，返回它；否则返回第一个名称匹配的线条（无论是否成功）
+            return successfulLine ?? lines.FirstOrDefault(l => l.StrLineName == lineConfig);
+
         }
 
 
@@ -1614,10 +1772,7 @@ namespace Mef_VisionFrame
 
         public void TJBJSize_WriteState(CameraEnum cameraEnum, SizeInfo sizeInfo, SizeItemInfo TJBJSizeInfos, SizeItemInfo CraftSizeInfo, int nsliceIndex)
         {
-            //if (sizeInfo.BJInfo.IsAlarm)
-            //{
-            //    TJBJSizeInfos.CountNGBJ++;
-            //}
+
 
             if (TJBJSizeInfos.CountNGBJ > CraftSizeInfo.CountNGBJ && CraftSizeInfo.BJ)
             {
@@ -1627,17 +1782,52 @@ namespace Mef_VisionFrame
             }
 
 
-
-            //if (sizeInfo.TJInfo.IsAlarm)
-            //{
-            //    TJBJSizeInfos.CountNGTJ++;
-            //}
-
             if (TJBJSizeInfos.CountNGTJ > CraftSizeInfo.CountNGTJ && CraftSizeInfo.TJ)
             {
                 MessageNotify.AddStopAlarm(new StopAlarmMessage() { time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"), StopAlarmState = StopAlarmStateEnum.停机, name = cameraEnum.ToString() + $"_第{nsliceIndex + 1}条_" + sizeInfo.Description, describe = cameraEnum.ToString() + $"_第{nsliceIndex + 1}条_" + sizeInfo.Description });
                 // TJBJInfo.AlarmWriteState(AlarmName.检测项报警停机, StopAlarmStateEnum.停机, cameraEnum.ToString() + $"_第{nsliceIndex + 1}条_" + sizeInfo.Description);
                 TJBJSizeInfos.CountNGTJ = 0;
+            }
+
+        }
+
+        public void TJBJSize_WriteState(CameraEnum cameraEnum, SizeInfo sizeInfo, SizeItemInfo TJBJSizeInfos, SizeItemInfo CraftSizeInfo, int nsliceIndex, ref ResultType IsDB)
+        {
+
+            if (TJBJSizeInfos.CountNGDB >= CraftSizeInfo.CountNGDB && CraftSizeInfo.DB)
+            {
+                //MessageNotify.AddStopAlarm(new StopAlarmMessage() { time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"), StopAlarmState = StopAlarmStateEnum.报警, name = cameraEnum.ToString() + $"_第{nsliceIndex + 1}条_" + sizeInfo.Description, describe = cameraEnum.ToString() + $"_第{nsliceIndex + 1}条_" + sizeInfo.Description });
+                MessageNotify.AddDebugLog($"第{nsliceIndex + 1}条：当前{TJBJSizeInfos.Description}>=设定值{CraftSizeInfo.CountNGDB}，触发DB：{TJBJSizeInfos.CountNGDB}");
+
+                if (IsDB == ResultType.NG)
+                {
+                }
+                else
+                {
+                    IsDB = ResultType.NG;
+                }
+
+
+            }
+
+            if (TJBJSizeInfos.CountNGBJ > CraftSizeInfo.CountNGBJ && CraftSizeInfo.BJ)
+            {
+                MessageNotify.AddStopAlarm(new StopAlarmMessage() { time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"), StopAlarmState = StopAlarmStateEnum.报警, name = $"第{nsliceIndex + 1}条：当前{TJBJSizeInfos.Description}超过设定值{CraftSizeInfo.CountNGBJ}，触发BJ：{TJBJSizeInfos.CountNGBJ}", describe = $"第{nsliceIndex + 1}条：当前{TJBJSizeInfos.Description}超过设定值{CraftSizeInfo.CountNGBJ}，触发BJ：{TJBJSizeInfos.CountNGBJ}" });
+
+            }
+
+
+            if (TJBJSizeInfos.CountNGTJ > CraftSizeInfo.CountNGTJ && CraftSizeInfo.TJ)
+            {
+                MessageNotify.AddStopAlarm(new StopAlarmMessage()
+                {
+                    time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"),
+                    StopAlarmState = StopAlarmStateEnum.停机,
+                    name = $"第{nsliceIndex + 1}条：当前{TJBJSizeInfos.Description}超过设定值{CraftSizeInfo.CountNGTJ}，触发TJ：{TJBJSizeInfos.CountNGTJ}",
+                    describe = $"第{nsliceIndex + 1}条：当前{TJBJSizeInfos.Description}超过设定值{CraftSizeInfo.CountNGTJ}，触发TJ" +
+                    $"：{TJBJSizeInfos.CountNGTJ}"
+                });
+
             }
 
         }

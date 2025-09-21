@@ -151,7 +151,7 @@ namespace Mef_VisionFrame
                 BIZ_Variable.queueImgProductsDisposeAB.Enqueue(pFTImageProduct);
 
                 //这里作为延迟一帧再做数据合并，避免数据不一致
-                if (BIZ_Variable.queueImgProductsDisposeAB.Count > 1)
+                if (BIZ_Variable.queueImgProductsDisposeAB.Count >1)
                 {
                     PFTImageProduct pFT = BIZ_Variable.queueImgProductsDisposeAB.Dequeue();
                     if (pFT.blSplitEA)
@@ -280,9 +280,6 @@ namespace Mef_VisionFrame
 
                 }
 
-                //HOperatorSet.CountSeconds(out pFTCleanEAProductInfo.Image_DataProcessTime);
-                ////计算时间
-                //BIZ_General.CalculateProcessingTime(pFTCleanEAProductInfo);
 
 
             });
@@ -293,22 +290,9 @@ namespace Mef_VisionFrame
             try
             {
 
-                bool IsIntervalTime = intervalExecution.GetWhetherToReachIntervalTime(1000);
+                bool IsIntervalTime = intervalExecution.GetWhetherToReachIntervalTime(30000);
                 //=========================================================================
-                //读取打标机信息
-                //if (Project.Instance.dbjCardManager != null && Project.Instance.dbjCardManager.initState == true)
-                //{
-                 
-                //    if(IsIntervalTime)
-                //    {
-                //        Project.Instance.dbjCardManager.SendData();
-                //    }
-                   
-
-                //    Project.Instance.dbjCardManager.ReadData();
-
-                //}
-                
+     
                 //读取主机通讯信息
                 if (Project.Instance.slaveMachineManager != null && Project.Instance.slaveMachineManager.initState == true)
                 {
@@ -500,21 +484,29 @@ namespace Mef_VisionFrame
 
                 string str = "配置尺寸总结果";
 
-                for (int i = 0; i < pFTCleanCraft.ListSliceSet?.Select(d => d.ShaveNum).ToArray().Max(); i++)
+                if(pFTCleanCraft.ListSlotSizeLimits?.Count>0)
                 {
-                    // 获取测量槽位的枚举名称（优化性能）
-                    var slotNames = Enum.GetNames(typeof(MeasureSlotEnum));
-
-                    for (int j = 0; j < slotNames.Length; j++)
+                    for (int i = 0; i < pFTCleanCraft.ListSliceSet?.Select(d => d.ShaveNum).ToArray().Max(); i++)
                     {
-                        str = $"(孔区{i + 1})_{slotNames[j]}";
-                        BIZ_Variable.strEASizeTitle.Add(str);
-                        str = $"(孔区{i + 1})_{slotNames[j]}_结果";
-                        BIZ_Variable.strEASizeTitle.Add(str);
+                        // 获取测量槽位的枚举名称（优化性能）
+                       // var slotNames = Enum.GetNames(typeof(MeasureSlotEnum));
+
+
+                        foreach(var slot in pFTCleanCraft.ListSlotSizeLimits)
+                        {
+                            if(slot.Enable)
+                            {
+                                str = $"(孔区{i + 1})_{slot.Description}";
+                                BIZ_Variable.strEASizeTitle.Add(str);
+                                str = $"(孔区{i + 1})_{slot.Description}_结果";
+                                BIZ_Variable.strEASizeTitle.Add(str);
+                            }
+                        }
                     }
-
-
                 }
+
+
+            
 
                 str = "槽位总结果";
                 BIZ_Variable.strEASizeTitle.Add(str);

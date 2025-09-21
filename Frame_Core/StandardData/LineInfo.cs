@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Navigation;
 
 namespace Frame_Core
 {
@@ -16,7 +17,7 @@ namespace Frame_Core
     public class MessageShowInfo
     {
         public string m_strMessage = "";
-        public HalconColor m_stuGetColor=HalconColor.green;
+        public HalconColor m_stuGetColor = HalconColor.green;
         public double m_fCol = 0;
         public double m_fRow = 0;
         public int m_nFontSize = 10;
@@ -67,6 +68,29 @@ namespace Frame_Core
         /// </summary>
         public int m_nLineWidth = 2;
 
+        public LineInfo copyLine(LineInfo line)
+        {
+            LineInfo RELine = new LineInfo();
+            RELine.m_camera = line.m_camera;
+            RELine.StrLineName = line.StrLineName;
+
+            RELine.IsHorizonLine = line.IsHorizonLine;
+            RELine.IsLineSuccessfull = line.IsLineSuccessfull;
+            RELine.IsAdd = line.IsAdd;
+
+            RELine.RowBeginID = line.RowBeginID;
+            RELine.RowBegin = line.RowBegin;
+            RELine.ColBegin = line.ColBegin;
+
+            RELine.RowEndID = line.RowEndID;
+            RELine.RowEnd = line.RowEnd;
+            RELine.ColEnd = line.ColEnd;
+
+            RELine.Color = line.Color;
+            RELine.m_nLineWidth = line.m_nLineWidth;
+
+            return RELine;
+        }
     }
 
 }

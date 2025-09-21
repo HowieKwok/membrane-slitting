@@ -144,7 +144,8 @@ namespace Mef_VisionFrame._5工艺标准
             DGView.Columns.Add(dgvitem);
             DGView.Columns[0].ReadOnly = true;
 
-            for (int i = 0; i < 8; i++)
+            int count = ((PFTCleanCraft)Project.Instance.craftBase).SliceCount;
+            for (int i = 0; i < count; i++)
             {
                 DataGridViewColumn dgvC = new DataGridViewTextBoxColumn();
                 dgvC.Name = $"分条{i + 1}";

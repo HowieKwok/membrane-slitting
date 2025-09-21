@@ -300,12 +300,6 @@
     <Compile Include="3主界面\实时数据统计\Form_WidthLaserDetect.Designer.cs">
       <DependentUpon>Form_WidthLaserDetect.cs</DependentUpon>
     </Compile>
-    <Compile Include="3主界面\实时数据统计\Form_Narrow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="3主界面\实时数据统计\Form_Narrow.Designer.cs">
-      <DependentUpon>Form_Narrow.cs</DependentUpon>
-    </Compile>
     <Compile Include="3主界面\历史数据查询\CamImageData.cs" />
     <Compile Include="3主界面\历史数据查询\CamImageDataForm.cs">
       <SubType>Form</SubType>
@@ -352,6 +346,12 @@
     </Compile>
     <Compile Include="3主界面\实时数据统计\缺陷图片\RealTimeMinImageForm.Designer.cs">
       <DependentUpon>RealTimeMinImageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="5工艺标准\FormLimitAlarmFix.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="5工艺标准\FormLimitAlarmFix.Designer.cs">
+      <DependentUpon>FormLimitAlarmFix.cs</DependentUpon>
     </Compile>
     <Compile Include="5工艺标准\FormPFTCleanCraft.cs">
       <SubType>Form</SubType>
@@ -459,9 +459,6 @@
     <EmbeddedResource Include="1系统设置\Form_ImageManage.resx">
       <DependentUpon>Form_ImageManage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="3主界面\实时数据统计\Form_Narrow.resx">
-      <DependentUpon>Form_Narrow.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="3主界面\历史数据查询\CamImageDataForm.resx">
       <DependentUpon>CamImageDataForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -488,6 +485,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="4调试设置\UC_ProcessSetting.en.resx">
       <DependentUpon>UC_ProcessSetting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="5工艺标准\FormLimitAlarmFix.resx">
+      <DependentUpon>FormLimitAlarmFix.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="5工艺标准\FormPFTCleanCraft.resx">
       <DependentUpon>FormPFTCleanCraft.cs</DependentUpon>

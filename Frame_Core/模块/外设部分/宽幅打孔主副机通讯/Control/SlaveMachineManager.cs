@@ -127,8 +127,8 @@ namespace Frame_Core
         public event BeginDelegate StopMJEvent;
         public event BeginDelegate StartRunEvent;
         public event BeginDelegate StopRunEvent;
-       
-        
+
+
         #region 接收
         protected override void DBJReadResponse(string RedPlcData_str)
         {
@@ -142,19 +142,19 @@ namespace Frame_Core
                 }
                 if (strArr == null) return;
 
-               
+
                 if (strArr.Length > 0)
                 {
                     StopAlarmMessage stopAlarmMessage;
                     UserManage userManage = Project.Instance.userManage;
                     switch (strArr[0])
                     {
-                     
+
                         #region >>>RUN_MJ 开始膜卷
                         case "RUN_MJ":
                             if (true)
                             {
-                                string mojuanhao = strArr[1];
+                                string mojuanhao = strArr[2];
                                 //==============================================================================================================================
                                 //=======【】停止运行
                                 if (Project.Instance.Is_Run)
@@ -181,7 +181,7 @@ namespace Frame_Core
                                 else
                                 {
                                     SendAlarmStop("开始膜卷失败");
-                                   // MessageNotify.AddStopAlarm(new StopAlarmMessage() { time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"), StopAlarmState = StopAlarmStateEnum.停机, name = "开始膜卷失败", describe = "开始膜卷失败" });
+                                    // MessageNotify.AddStopAlarm(new StopAlarmMessage() { time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"), StopAlarmState = StopAlarmStateEnum.停机, name = "开始膜卷失败", describe = "开始膜卷失败" });
 
                                 }
                             }
@@ -212,7 +212,7 @@ namespace Frame_Core
                                 else
                                 {
                                     SendAlarmStop("结束膜卷失败");
-                                   // MessageNotify.AddStopAlarm(new StopAlarmMessage() { time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"), StopAlarmState = StopAlarmStateEnum.停机, name = "结束膜卷失败", describe = "结束膜卷失败" });
+                                    // MessageNotify.AddStopAlarm(new StopAlarmMessage() { time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"), StopAlarmState = StopAlarmStateEnum.停机, name = "结束膜卷失败", describe = "结束膜卷失败" });
                                 }
                             }
                             break;
@@ -233,7 +233,7 @@ namespace Frame_Core
                                 else
                                 {
                                     SendAlarmStop("开始运行失败");
-                                   // MessageNotify.AddStopAlarm(new StopAlarmMessage() { time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"), StopAlarmState = StopAlarmStateEnum.停机, name = "开始运行失败", describe = "开始运行失败" });
+                                    // MessageNotify.AddStopAlarm(new StopAlarmMessage() { time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"), StopAlarmState = StopAlarmStateEnum.停机, name = "开始运行失败", describe = "开始运行失败" });
                                 }
                             }
                             break;
@@ -254,7 +254,7 @@ namespace Frame_Core
                                 else
                                 {
                                     SendAlarmStop("停止运行失败");
-                                  //  MessageNotify.AddStopAlarm(new StopAlarmMessage() { time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"), StopAlarmState = StopAlarmStateEnum.停机, name = "停止运行失败", describe = "停止运行失败" });
+                                    //  MessageNotify.AddStopAlarm(new StopAlarmMessage() { time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"), StopAlarmState = StopAlarmStateEnum.停机, name = "停止运行失败", describe = "停止运行失败" });
                                 }
                             }
                             break;

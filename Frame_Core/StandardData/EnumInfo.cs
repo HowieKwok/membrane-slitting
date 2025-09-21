@@ -179,13 +179,13 @@ namespace Frame_Core
         OVH_Mark中心位置波动Y超范围,
         磁盘报警,
 
-      
+
         尺寸点检失败,
-      
+
         缺陷点检失败,
-      
+
         已到点检时间请进行点检操作,
-      
+
     }
 
 
@@ -419,10 +419,7 @@ namespace Frame_Core
         [Language("系统设置", "系统设置", "系统设置")]
         系统设置,
         [Language("主副机通讯", "主副机通讯", "主副机通讯")]
-        主副机通讯,
-        [Language("图片管理", "图片管理", "图片管理")]
-        图片管理
-
+        主副机通讯
     }
     /// <summary>
     /// 抓边枚举，明暗方向：
@@ -581,6 +578,8 @@ namespace Frame_Core
         右边,
         上边,
         下边,
+        左间隙边,
+        右间隙边
     }
 
     /// <summary>
@@ -593,7 +592,12 @@ namespace Frame_Core
         TD尺寸,
         MD尺寸,
         TD间距,
-        MD间距
+        MD间距,
 
+        TD左间隙,
+        TD右间隙,
+
+        TD对齐,
+        MD对齐,
     }
 }

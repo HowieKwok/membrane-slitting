@@ -39,13 +39,18 @@ namespace Frame_Core
         /// </summary>
         public RegionSE CropEArange = new RegionSE();
 
-        //槽位区域裁图队列
-        //N条，每条最多一个槽位。
-        public List<SlotProduct> listEASlot = new List<SlotProduct>();
+        ////槽位区域裁图队列
+        ////N条，每条最多一个槽位。
+        //public List<SlotProduct> listEASlot = new List<SlotProduct>();
 
         //削薄区区域队列
         //N条，每条M个削薄打孔区
         public List<List<SlotProduct>> list2EAShave = new List<List<SlotProduct>>();
+
+
+        //分条产品队列
+        //N条，
+        public List<PFTSliceProduct> ListEASlicePD = new List<PFTSliceProduct>();
 
 
         //料头检测完成
@@ -53,12 +58,12 @@ namespace Frame_Core
         //料尾检测完成
         public bool BlTileDone = false;
 
-        //待检测槽位编号
-        public int curSlotIndex = 0;
-        //待检测槽位编号
-        public int curSlShaveIndex = 0;
-        //待检测槽位编号
-        public int[] ArraycurShaveIndex = new int[8] { 0, 0, 0, 0, 0, 0, 0, 0 };
+        //////待检测槽位编号
+        ////public int curSlotIndex = 0;
+        //////待检测槽位编号
+        ////public int curSlShaveIndex = 0;
+        ////待检测槽位编号
+        //public int[] ArraycurShaveIndex = new int[8] { 0, 0, 0, 0, 0, 0, 0, 0 };
 
 
         /// <summary>
@@ -97,11 +102,11 @@ namespace Frame_Core
         public override void Dispose()
         {
             base.Dispose();
-            foreach (SlotProduct item in listEASlot)
-            {
-                item?.Dispose();
-            }
-            listEASlot.Clear();
+            //foreach (SlotProduct item in listEASlot)
+            //{
+            //    item?.Dispose();
+            //}
+            //listEASlot.Clear();
 
             foreach (List<SlotProduct> item in list2EAShave)
             {
@@ -111,6 +116,13 @@ namespace Frame_Core
                 }
             }
             list2EAShave.Clear();
+
+            foreach (PFTSliceProduct item in ListEASlicePD)
+            {
+                item?.Dispose();
+            }
+            ListEASlicePD.Clear();
+
 
             ListEAlines.Clear();
             foreach (var item in ListEASizes)
@@ -129,8 +141,6 @@ namespace Frame_Core
 
             EAImageCollection.DisposeEx();
             TotalEAImage.DisposeEx();
-
-
         }
     }
 
@@ -150,10 +160,12 @@ namespace Frame_Core
         public double EdgelineRight = 2000;
 
 
-        //当前检查的槽位编号
-        public List<SlotProduct> listSlot = new List<SlotProduct>();
-        //当前检查的削薄区编号
-        public List<SlotProduct> listShave = new List<SlotProduct>();
+        ////当前检查的槽位编号
+        //public List<SlotProduct> listSlot = new List<SlotProduct>();
+        ////当前检查的削薄区编号
+        //public List<SlotProduct> listShave = new List<SlotProduct>();
+
+        public List<PFTSliceProduct> ListImageSlicePD = new List<PFTSliceProduct>();
 
 
         /// <summary>
@@ -176,16 +188,22 @@ namespace Frame_Core
         {
             base.Dispose();
 
-            foreach (SlotProduct item in listSlot)
+            //foreach (SlotProduct item in listSlot)
+            //{
+            //    item.Dispose();
+            //}
+            //listSlot.Clear();
+            //foreach (SlotProduct item in listShave)
+            //{
+            //    item.Dispose();
+            //}
+            //listShave.Clear();
+
+            foreach (PFTSliceProduct item in ListImageSlicePD)
             {
                 item.Dispose();
             }
-            listSlot.Clear();
-            foreach (SlotProduct item in listShave)
-            {
-                item.Dispose();
-            }
-            listShave.Clear();
+            ListImageSlicePD.Clear();
 
             ListImagelines.Clear();
             foreach (var item in ListImageDefects)
@@ -276,5 +294,81 @@ namespace Frame_Core
             SlotSizes.Clear();
             base.Dispose();
         }
+    }
+
+    /// <summary>
+    /// 清洗机单帧产品类
+    /// </summary>
+    public class PFTSliceProduct : ProductBase
+    {
+        public long nCurImageID = 0;
+        public int nCurEAID = 0;
+        public bool blSplitEA = false;
+
+        public bool IsASide = true;
+
+        //待检测槽位编号
+        public int curSlotIndex = 0;
+        //待检测槽位编号
+        public int curSlShaveIndex = 0;
+
+        //涂布侧基准边L+R
+        public double EdgeLeft = 1000;
+        public double EdgeRight = 2000;
+
+
+
+        //当前检查的槽位编号
+        public List<SlotProduct> listSlot = new List<SlotProduct>();
+        //当前检查的削薄区编号
+        public List<SlotProduct> listShave = new List<SlotProduct>();
+
+        /// <summary>
+        /// EALine抓边项 ,id+行的
+        /// </summary>
+        public List<LineInfo> ListImagelines = new List<LineInfo>();
+        /// <summary>
+        /// EASize工艺检测项
+        /// </summary>
+        public List<SizeInfo> ListImageSizes = new List<SizeInfo>();
+        /// <summary>
+        /// EADefect缺陷检 ，id+行的
+        /// </summary>
+        public List<NgTypeInfo> ListImageDefects = new List<NgTypeInfo>();
+
+
+
+        //涂布区域缺陷直接放Base里面的line和NgType。
+        public override void Dispose()
+        {
+            base.Dispose();
+
+            foreach (SlotProduct item in listSlot)
+            {
+                item.Dispose();
+            }
+            listSlot.Clear();
+            foreach (SlotProduct item in listShave)
+            {
+                item.Dispose();
+            }
+            listShave.Clear();
+
+            ListImagelines.Clear();
+            foreach (var item in ListImageDefects)
+            {
+                item?.Dispose();
+            }
+            ListImageDefects.Clear();
+            foreach (var item in ListImageSizes)
+            {
+                item?.Dispose();
+            }
+            ListImageSizes.Clear();
+
+
+        }
+
+
     }
 }

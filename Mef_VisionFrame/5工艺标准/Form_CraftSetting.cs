@@ -65,8 +65,15 @@ namespace Mef_VisionFrame
             }
             SelectCraftName = CurrentCraftName = M_craftBase.CraftName;
             CurrentMateriarl = M_craftBase.materialCrafEnum;
-            comb_materialCraf.SelectedIndex = (int)CurrentMateriarl;
-
+           
+            if (CurrentMateriarl == (MaterialCrafEnum)comb_materialCraf.SelectedIndex)
+            {
+                SelectTargetItem(CurrentCraftName);
+            }
+            else
+            {
+                comb_materialCraf.SelectedIndex = (int)CurrentMateriarl;
+            }
         }
 
 
@@ -75,7 +82,7 @@ namespace Mef_VisionFrame
         /// </summary>
         private void LoadProjectList()
         {
-          
+
 
             lV_ProjectList.View = View.List;
             lV_ProjectList.Items.Clear();
@@ -99,7 +106,7 @@ namespace Mef_VisionFrame
                     lV_ProjectList.Items.Add(name);
                 }
             }
-           
+
         }
         /// <summary>
         /// 根据类型和名称，选中配方
@@ -390,13 +397,13 @@ namespace Mef_VisionFrame
                     formCraftBase.SaveCraft(path);
 
 
-                    //修改记录设置
-                    M_craftBase.FilePath = (Project.Instance.logParam.LogSavePath + "\\ParamsChangeLog\\");
-                    string error = YControlAutobind.Saveing<CraftBase, IYCustomAttribute>(this, M_craftBase);
-                    // 保存修改记录，保存后备份
-                    M_craftBase.saveChangeLog(M_craftBase, String.Format("工艺视觉设置:{0} 中 {1}", CurrentMateriarl.ToString(), SelectCraftName));
-                    M_craftBase.backup(M_craftBase);
-                    if (error != "") System.Windows.Forms.MessageBox.Show(error);
+                    ////修改记录设置 20250919暂时取消保存修改记录，后续该修改方法改为序列化对比方法。
+                    //M_craftBase.FilePath = (Project.Instance.logParam.LogSavePath + "\\ParamsChangeLog\\");
+                    //string error = YControlAutobind.Saveing<CraftBase, IYCustomAttribute>(this, M_craftBase);
+                    //// 保存修改记录，保存后备份
+                    //M_craftBase.saveChangeLog(M_craftBase, String.Format("工艺视觉设置:{0} 中 {1}", CurrentMateriarl.ToString(), SelectCraftName));
+                    //M_craftBase.backup(M_craftBase);
+                    //if (error != "") System.Windows.Forms.MessageBox.Show(error);
 
                     formCraftBase.CraftToView();
 

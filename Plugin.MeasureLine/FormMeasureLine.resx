@@ -172,7 +172,7 @@
     <value>黑体, 12pt</value>
   </data>
   <data name="TB_PositionAndGray.Location" type="System.Drawing.Point, System.Drawing">
-    <value>209, 557</value>
+    <value>209, 524</value>
   </data>
   <data name="TB_PositionAndGray.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>5, 8, 5, 6</value>
@@ -238,7 +238,7 @@
     <value>2</value>
   </data>
   <data name="LoadImage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 552</value>
+    <value>3, 519</value>
   </data>
   <data name="LoadImage.Size" type="System.Drawing.Size, System.Drawing">
     <value>24, 29</value>
@@ -268,7 +268,7 @@
     <value>3, 38</value>
   </data>
   <data name="HWC_Display.Size" type="System.Drawing.Size, System.Drawing">
-    <value>579, 508</value>
+    <value>579, 475</value>
   </data>
   <data name="HWC_Display.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -286,7 +286,7 @@
     <value>4</value>
   </data>
   <data name="FullScrean.Location" type="System.Drawing.Point, System.Drawing">
-    <value>555, 552</value>
+    <value>555, 519</value>
   </data>
   <data name="FullScrean.Size" type="System.Drawing.Size, System.Drawing">
     <value>27, 29</value>
@@ -319,7 +319,7 @@
     <value>3</value>
   </data>
   <data name="tableLayoutPanel3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>585, 584</value>
+    <value>585, 551</value>
   </data>
   <data name="tableLayoutPanel3.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -349,7 +349,7 @@
     <value>True</value>
   </data>
   <data name="label19.Location" type="System.Drawing.Point, System.Drawing">
-    <value>258, 153</value>
+    <value>258, 146</value>
   </data>
   <data name="label19.Size" type="System.Drawing.Size, System.Drawing">
     <value>58, 21</value>
@@ -379,7 +379,7 @@
     <value>True</value>
   </data>
   <data name="label18.Location" type="System.Drawing.Point, System.Drawing">
-    <value>135, 153</value>
+    <value>135, 146</value>
   </data>
   <data name="label18.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 21</value>
@@ -412,7 +412,7 @@
     <value>233, 3</value>
   </data>
   <data name="HWC_Image3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>109, 142</value>
+    <value>109, 136</value>
   </data>
   <data name="HWC_Image3.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -439,7 +439,7 @@
     <value>118, 3</value>
   </data>
   <data name="HWC_Image2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>109, 142</value>
+    <value>109, 136</value>
   </data>
   <data name="HWC_Image2.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -466,7 +466,7 @@
     <value>3, 3</value>
   </data>
   <data name="HWC_Image1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>109, 142</value>
+    <value>109, 136</value>
   </data>
   <data name="HWC_Image1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -490,7 +490,7 @@
     <value>True</value>
   </data>
   <data name="label16.Location" type="System.Drawing.Point, System.Drawing">
-    <value>36, 153</value>
+    <value>36, 146</value>
   </data>
   <data name="label16.Size" type="System.Drawing.Size, System.Drawing">
     <value>42, 21</value>
@@ -523,7 +523,7 @@
     <value>3</value>
   </data>
   <data name="tableLayoutPanel7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>579, 179</value>
+    <value>579, 172</value>
   </data>
   <data name="tableLayoutPanel7.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -550,13 +550,13 @@
     <value>微软雅黑, 12pt</value>
   </data>
   <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 597</value>
+    <value>3, 564</value>
   </data>
   <data name="groupBox1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>8, 5, 8, 5</value>
   </data>
   <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>595, 211</value>
+    <value>595, 204</value>
   </data>
   <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1773,7 +1773,7 @@
     <value>3, 3</value>
   </data>
   <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>371, 462</value>
+    <value>371, 432</value>
   </data>
   <data name="panel1.TabIndex" type="System.Int32, mscorlib">
     <value>31</value>
@@ -1797,7 +1797,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabPage1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>377, 468</value>
+    <value>377, 438</value>
   </data>
   <data name="tabPage1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -2172,7 +2172,7 @@
     <value>3, 3</value>
   </data>
   <data name="panel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>371, 432</value>
+    <value>371, 462</value>
   </data>
   <data name="panel2.TabIndex" type="System.Int32, mscorlib">
     <value>32</value>
@@ -2196,7 +2196,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabPage2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>377, 438</value>
+    <value>377, 468</value>
   </data>
   <data name="tabPage2.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -2869,7 +2869,7 @@
     <value>3, 25</value>
   </data>
   <data name="TB_ROIMoveIndex.Size" type="System.Drawing.Size, System.Drawing">
-    <value>385, 502</value>
+    <value>385, 472</value>
   </data>
   <data name="TB_ROIMoveIndex.TabIndex" type="System.Int32, mscorlib">
     <value>68</value>
@@ -2899,7 +2899,7 @@
     <value>8, 5, 8, 5</value>
   </data>
   <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>391, 530</value>
+    <value>391, 500</value>
   </data>
   <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -2935,7 +2935,7 @@
     <value>No</value>
   </data>
   <data name="TrB_ROIIndex.Size" type="System.Drawing.Size, System.Drawing">
-    <value>385, 233</value>
+    <value>385, 223</value>
   </data>
   <data name="TrB_ROIIndex.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -2959,13 +2959,13 @@
     <value>微软雅黑, 12pt</value>
   </data>
   <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>609, 545</value>
+    <value>609, 515</value>
   </data>
   <data name="groupBox3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>8, 5, 8, 5</value>
   </data>
   <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>391, 261</value>
+    <value>391, 251</value>
   </data>
   <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -2995,7 +2995,7 @@
     <value>15</value>
   </data>
   <data name="tableLayoutPanel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1008, 811</value>
+    <value>1008, 771</value>
   </data>
   <data name="tableLayoutPanel2.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
@@ -3010,7 +3010,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;tableLayoutPanel2.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="tableLayoutPanel2.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
     <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="tableLayoutPanel3" Row="0" RowSpan="11" Column="0" ColumnSpan="9" /&gt;&lt;Control Name="groupBox1" Row="11" RowSpan="4" Column="0" ColumnSpan="9" /&gt;&lt;Control Name="groupBox2" Row="0" RowSpan="10" Column="9" ColumnSpan="6" /&gt;&lt;Control Name="groupBox3" Row="10" RowSpan="5" Column="9" ColumnSpan="6" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.461864,Percent,6.673729,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667" /&gt;&lt;Rows Styles="Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667,Percent,6.666667" /&gt;&lt;/TableLayoutSettings&gt;</value>

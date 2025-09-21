@@ -92,10 +92,41 @@ namespace Frame_Core
         public int SliceCount { get; set; } = 8;
 
         /// <summary>
+        /// 单条打孔区数
+        /// </summary>
+        [Description("单条打孔区数")]
+        public int PerSlotCount { get; set; } = 12;
+
+        /// <summary>
         /// 常规料(F)/CTP料(T)
         /// </summary>
         [Description("常规料(F)/CTP料(T)")]
         public bool MaterialType { get; set; } = false;
+
+        /// <summary>
+        /// 打孔区尺寸TD
+        /// </summary>
+        [Description("打孔区尺寸TD")]
+        public double SlotSizeTD { get; set; } = 10;
+
+        /// <summary>
+        /// 打孔区尺寸MD
+        /// </summary>
+        [Description("打孔区尺寸MD")]
+        public double SlotSizeMD { get; set; } = 5;
+       
+
+        /// <summary>
+        /// 槽位TDis
+        /// </summary>
+        [Description("槽位TDis")]
+        public List<double> SlotTDis { get; set; }
+        //public double[] RealFixRito = new double[6] { 1, 1, 1, 1, 1, 1 };
+        /// <summary>
+        /// 槽位TDis
+        /// </summary>
+        [Description("槽位TDis")]
+        public List<double> SlotMDis { get; set; }
 
 
         /// <summary>
@@ -120,6 +151,44 @@ namespace Frame_Core
         /// </summary>
         [Description("特征在Cam2中的列坐标")]
         public double EXCam2Col { get; set; } = 1000;
+
+
+        #region 边距间隙公差
+        /// <summary>
+        /// 第一条距边标准值
+        /// </summary>
+        [Description("第一条距边标准值")]
+        public double TDFirstGap { get; set; } = 2;
+
+        /// <summary>
+        /// 第一条距边公差
+        /// </summary>
+        [Description("第一条距边公差")]
+        public double TDFirstGapTol { get; set; } = 0.5;
+
+        /// <summary>
+        /// 中间条间隙标准值
+        /// </summary>
+        [Description("中间条间隙标准值")]
+        public double TDMidGap { get; set; } = 4;
+
+        /// <summary>
+        /// 中间条间隙公差
+        /// </summary>
+        [Description("中间条间隙公差")]
+        public double TDMidGapTol { get; set; } = 1;
+
+        /// <summary>
+        /// 最后条距边标准值
+        /// </summary>
+        [Description("最后条距边标准值")]
+        public double TDLastGap { get; set; } = 2;
+        /// <summary>
+        /// 最后条距边公差
+        /// </summary>
+        [Description("最后条距边公差")]
+        public double TDLastGapTol { get; set; } = 0.5;
+        #endregion
 
 
         #endregion
@@ -155,6 +224,8 @@ namespace Frame_Core
         [Description("极片槽位公差值检测项")]
         public List<SlotSizeLimit> ListSlotSizeLimits { get; set; }
 
+
+
         /// <summary>
         /// 极片分条工艺设置
         /// </summary>
@@ -167,7 +238,25 @@ namespace Frame_Core
             electrode = ElectrodeEnum.阴极;
             materialCrafEnum = MaterialCrafEnum.PFT清洗机;
 
-
+            //初始化TDMD尺寸
+            if (SlotTDis == null)
+            {
+                SlotTDis = new List<double>();
+            }
+            else { SlotTDis.Clear(); }
+            for (int i = 0; i < SliceCount; i++)
+            {
+                SlotTDis.Add(50 * i);
+            }
+            if (SlotMDis == null)
+            {
+                SlotMDis = new List<double>();
+            }
+            else { SlotMDis.Clear(); }
+            for (int i = 0; i < PerSlotCount; i++)
+            {
+                SlotMDis.Add(50 * i);
+            }
 
             //初始化抓边
             if (ListLines == null)
@@ -216,8 +305,6 @@ namespace Frame_Core
             else { ListSliceSet.Clear(); }
 
         }
-
-
     }
     /// <summary>
     /// 单个槽位标准工艺信息
@@ -311,18 +398,48 @@ namespace Frame_Core
         [Description("MD间距")]
         public double SlotMDDist { get; set; } = 100;
 
+
+        /// <summary>
+        /// TD左间隙
+        /// </summary>
+        [My("TD左间隙")]
+        [Description("TD左间隙")]
+        public double SlotTDLeftGap { get; set; } = 4;
+
+        /// <summary>
+        /// TD右间隙
+        /// </summary>
+        [My("TD右间隙")]
+        [Description("TD右间隙")]
+        public double SlotTDRightGap { get; set; } = 4;
+
+        /// <summary>
+        /// TD对齐
+        /// </summary>
+        [My("TD对齐")]
+        [Description("TD对齐")]
+        public double SlotTDAlign { get; set; } = 0;
+
+        /// <summary>
+        /// MD对齐
+        /// </summary>
+        [My("MD对齐")]
+        [Description("MD对齐")]
+        public double SlotMDAlign { get; set; } = 0;
+
+
         /// <summary>
         /// // 数组属性：通过索引器一次性访问所有值
         /// </summary>
         [My("校准系数", false)]
         [Description("校准系数")]
-        public double[] RealFixRito = new double[6] { 1, 1, 1, 1, 1, 1 };
+        public double[] RealFixRito = new double[10] { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
         /// <summary>
         /// // 数组属性：通过索引器一次性访问所有值
         /// </summary>
         [My("测量校准偏移", false)]
         [Description("测量校准偏移")]
-        public double[] RealFixOffset = new double[6] { 0, 0, 0, 0, 0, 0 };
+        public double[] RealFixOffset = new double[10] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 
         /// <summary>
@@ -332,7 +449,7 @@ namespace Frame_Core
         [Description("数组属性")]
         public double[] AllValues
         {
-            get => new double[] { SlotTDPosition, SlotMDPosition, SlotTDSize, SlotMDSize, SlotTDDist, SlotMDDist }; // 返回新数组
+            get => new double[] { SlotTDPosition, SlotMDPosition, SlotTDSize, SlotMDSize, SlotTDDist, SlotMDDist, SlotTDLeftGap, SlotTDRightGap, SlotTDAlign, SlotMDAlign }; // 返回新数组
             set { }
         }
 
@@ -427,6 +544,12 @@ namespace Frame_Core
         [My("正公差")]
         [Description("正公差")]
         public double UpLimitValue { get; set; } = 0.5;
+        /// <summary>
+        /// 启用打标
+        /// </summary>
+        [My("启用打标")]
+        [Description("启用打标")]
+        public bool IsDB { get; set; } = true;
 
         /// <summary>
         /// 启用报警
@@ -436,11 +559,27 @@ namespace Frame_Core
         public bool IsBJ { get; set; } = true;
 
         /// <summary>
-        /// NGEA报警计数
+        /// 累计NGEA报警
         /// </summary>
-        [My("NGEA报警计数")]
-        [Description("NGEA报警计数")]
+        [My("累计NGEA报警")]
+        [Description("累计NGEA报警")]
         public int NGEACount { get; set; } = 5;
+
+
+        [My("按条打标", false)]
+        [Description("按条打标")]
+        public double[] ArrayDBSlice { get; set; } = new double[8];//按条打标
+        [My("按条累计打标", false)]
+        [Description("按条累计打标")]
+        public double[] ArrayDBSliceCount { get; set; } = new double[8];//按条累计打标
+
+        [My("按条报警", false)]
+        [Description("按条报警")]
+        public double[] ArrayBJSlice { get; set; } = new double[8];//按条报警
+        [My("按条累计报警", false)]
+        [Description("按条累计报警")]
+        public double[] ArrayBJSliceCount { get; set; } = new double[8];//按条累计报警
+
     }
 
     /// <summary>
