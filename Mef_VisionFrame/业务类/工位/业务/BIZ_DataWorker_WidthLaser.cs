@@ -353,10 +353,15 @@ namespace Mef_VisionFrame
             try
             {
                 int disposeImageRetainLenght = 2;
+   
                 BIZ_General.Image_Process(HWC_InitCam1.operation_Image, disposeImageRetainLenght, HWC_InitCam1);
                 BIZ_General.Image_Process(HWC_InitCam2.operation_Image, disposeImageRetainLenght, HWC_InitCam2);
-                BIZ_General.Image_Process(HWC_EACam1.operation_Image, 1, HWC_EACam1);
-                BIZ_General.Image_Process(HWC_EACam2.operation_Image, 1, HWC_EACam2);
+                UIService.Instance.AddAction(() =>
+                {
+                    BIZ_General.Image_Process(HWC_EACam1.operation_Image, 1, HWC_EACam1);
+                    BIZ_General.Image_Process(HWC_EACam2.operation_Image, 1, HWC_EACam2);
+                });
+
 
                 if (true)
                 {
