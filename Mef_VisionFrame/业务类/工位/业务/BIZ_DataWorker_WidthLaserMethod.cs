@@ -108,10 +108,7 @@ namespace Mef_VisionFrame
             bIZ_ThreadManage.limitThreadPool.RunAction(() =>
             {
                 Project.Instance.slaveMachineManager.SendDBInfo(FrameID, dbTypes, CamID, out string msg);
-                if (Project.Instance.slaveMachineManager.initState)
-                {
-                    Project.Instance.slaveMachineManager.SendOwnDB(msg);
-                }
+            
             });
 
             HOperatorSet.CountSeconds(out HTuple EndSendDB);

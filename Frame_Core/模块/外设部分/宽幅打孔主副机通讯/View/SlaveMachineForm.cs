@@ -45,7 +45,7 @@ namespace Frame_Core
                 slaveMachineParam.LocalPC_IP = tbx_Local_IP.Text.Replace(" ", "");
                 slaveMachineParam.PLC_IP = tbx_Dev_IP.Text.Replace(" ", "");
                 slaveMachineParam.DevPort = (int)num_DevPort.Value;
-
+                slaveMachineParam.nCamDBIndex = (int)num_CamDBIndex.Value;
 
                 slaveMachineParam.Save();
 
@@ -87,8 +87,7 @@ namespace Frame_Core
                 tbx_Local_IP.Text = tcpCientManager.tcpClientParam.LocalPC_IP;
                 tbx_Dev_IP.Text = tcpCientManager.tcpClientParam.PLC_IP;
                 num_DevPort.Value = tcpCientManager.tcpClientParam.DevPort;
-        
-
+                num_CamDBIndex.Value = ((SlaveMachineParam)(tcpCientManager.tcpClientParam)).nCamDBIndex;
 
             }
             catch (Exception ex)
