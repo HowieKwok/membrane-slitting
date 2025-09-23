@@ -39,6 +39,9 @@
             treeNode5});
             System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("节点0");
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chx_IsCompression = new System.Windows.Forms.CheckBox();
+            this.cbx_SaveImageFormat_Deepth = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.cbx_HighDefinition_ProdScreenshot = new System.Windows.Forms.CheckBox();
             this.cbx_SaveImageSelect_ProdScreenshot = new System.Windows.Forms.ComboBox();
             this.cbx_SaveImageSelect_Screenshot = new System.Windows.Forms.ComboBox();
@@ -65,9 +68,7 @@
             this.cbx_SaveImageFormat_Primitive = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.Tv_Select = new System.Windows.Forms.TreeView();
-            this.label7 = new System.Windows.Forms.Label();
-            this.cbx_SaveImageFormat_Deepth = new System.Windows.Forms.ComboBox();
-            this.chx_IsCompression = new System.Windows.Forms.CheckBox();
+            this.cbx_IsShowImage_Product = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_NSaveImageNum)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_IsDebug)).BeginInit();
@@ -76,6 +77,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cbx_IsShowImage_Product);
             this.groupBox1.Controls.Add(this.chx_IsCompression);
             this.groupBox1.Controls.Add(this.cbx_SaveImageFormat_Deepth);
             this.groupBox1.Controls.Add(this.label7);
@@ -112,6 +114,37 @@
             this.groupBox1.TabIndex = 137;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "图像保存";
+            // 
+            // chx_IsCompression
+            // 
+            this.chx_IsCompression.AutoSize = true;
+            this.chx_IsCompression.Location = new System.Drawing.Point(276, 61);
+            this.chx_IsCompression.Margin = new System.Windows.Forms.Padding(2);
+            this.chx_IsCompression.Name = "chx_IsCompression";
+            this.chx_IsCompression.Size = new System.Drawing.Size(72, 16);
+            this.chx_IsCompression.TabIndex = 180;
+            this.chx_IsCompression.Text = "是否压缩";
+            this.chx_IsCompression.UseVisualStyleBackColor = true;
+            // 
+            // cbx_SaveImageFormat_Deepth
+            // 
+            this.cbx_SaveImageFormat_Deepth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbx_SaveImageFormat_Deepth.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cbx_SaveImageFormat_Deepth.FormattingEnabled = true;
+            this.cbx_SaveImageFormat_Deepth.Location = new System.Drawing.Point(141, 59);
+            this.cbx_SaveImageFormat_Deepth.Name = "cbx_SaveImageFormat_Deepth";
+            this.cbx_SaveImageFormat_Deepth.Size = new System.Drawing.Size(120, 22);
+            this.cbx_SaveImageFormat_Deepth.TabIndex = 179;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label7.Location = new System.Drawing.Point(25, 59);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(63, 14);
+            this.label7.TabIndex = 178;
+            this.label7.Text = "3D深度图";
             // 
             // cbx_HighDefinition_ProdScreenshot
             // 
@@ -404,36 +437,16 @@
             this.Tv_Select.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.Tv_Select_DrawNode);
             this.Tv_Select.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.Tv_Select_AfterSelect);
             // 
-            // label7
+            // cbx_IsShowImage_Product
             // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label7.Location = new System.Drawing.Point(25, 59);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(63, 14);
-            this.label7.TabIndex = 178;
-            this.label7.Text = "3D深度图";
-            // 
-            // cbx_SaveImageFormat_Deepth
-            // 
-            this.cbx_SaveImageFormat_Deepth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbx_SaveImageFormat_Deepth.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.cbx_SaveImageFormat_Deepth.FormattingEnabled = true;
-            this.cbx_SaveImageFormat_Deepth.Location = new System.Drawing.Point(141, 59);
-            this.cbx_SaveImageFormat_Deepth.Name = "cbx_SaveImageFormat_Deepth";
-            this.cbx_SaveImageFormat_Deepth.Size = new System.Drawing.Size(120, 22);
-            this.cbx_SaveImageFormat_Deepth.TabIndex = 179;
-            // 
-            // chx_IsCompression
-            // 
-            this.chx_IsCompression.AutoSize = true;
-            this.chx_IsCompression.Location = new System.Drawing.Point(276, 61);
-            this.chx_IsCompression.Margin = new System.Windows.Forms.Padding(2);
-            this.chx_IsCompression.Name = "chx_IsCompression";
-            this.chx_IsCompression.Size = new System.Drawing.Size(72, 16);
-            this.chx_IsCompression.TabIndex = 180;
-            this.chx_IsCompression.Text = "是否压缩";
-            this.chx_IsCompression.UseVisualStyleBackColor = true;
+            this.cbx_IsShowImage_Product.AutoSize = true;
+            this.cbx_IsShowImage_Product.Location = new System.Drawing.Point(408, 170);
+            this.cbx_IsShowImage_Product.Margin = new System.Windows.Forms.Padding(2);
+            this.cbx_IsShowImage_Product.Name = "cbx_IsShowImage_Product";
+            this.cbx_IsShowImage_Product.Size = new System.Drawing.Size(84, 16);
+            this.cbx_IsShowImage_Product.TabIndex = 181;
+            this.cbx_IsShowImage_Product.Text = "显示产品图";
+            this.cbx_IsShowImage_Product.UseVisualStyleBackColor = true;
             // 
             // SaveSetingForm
             // 
@@ -488,5 +501,6 @@
         private System.Windows.Forms.ComboBox cbx_SaveImageFormat_Deepth;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.CheckBox chx_IsCompression;
+        private System.Windows.Forms.CheckBox cbx_IsShowImage_Product;
     }
 }

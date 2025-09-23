@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
@@ -147,75 +148,41 @@ namespace Mef_VisionFrame
             comb_Electrode.SelectedIndex = this.comb_Electrode.FindString(craft.electrode.ToString()); ;
 
 
-            //添加抓边队列
-            LoadLinetList();
-
-            //添加尺寸检测项表格
-            DataGridView_ESize.Rows.Clear();
-            List<SizeItemInfo> Camsizes = craft.ListEASizes.FindAll(i => i.camera == (CameraEnum)comb_SelectCam.SelectedIndex);
-            int SizeCount = Camsizes.Count();
-            if (!CB_ShowByCam.Checked)
+            UIService.Instance.AddAction(() => { });
+            BeginInvoke(new Action(() =>
             {
-                SizeCount = craft.ListEASizes.Count();
-                Camsizes = craft.ListEASizes;
-            }
-            //int SizeCount = craft.ListEASizes.Count();
-            for (int i = 0; i < SizeCount; i++)
-            {
-                AddGridData<SizeItemInfo>(DataGridView_ESize, Camsizes[i], true);
-            }
-            //添加缺陷检测项表格
-            DataGridView_Defect.Rows.Clear();
-            List<DefectItemInfo> Camdefects = craft.ListDefectInfos.FindAll(i => i.camera == (CameraEnum)comb_SelectCam.SelectedIndex);
-            SizeCount = Camdefects.Count();
-            if (!CB_ShowByCam.Checked)
-            {
-                SizeCount = craft.ListDefectInfos.Count();
-                Camdefects = craft.ListDefectInfos;
-            }
-            for (int i = 0; i < SizeCount; i++)
-            {
-                AddGridData<DefectItemInfo>(DataGridView_Defect, Camdefects[i], true);
-            }
-
-            //添加槽位检测项表格
-            DataGridView_SlotInfo.Rows.Clear();
-            List<SlotInfo> Camslots = craft.ListSlotInfos.FindAll(i => i.BelongCam == (CameraEnum)comb_SelectCam.SelectedIndex);
-            SizeCount = Camslots.Count();
-            if (!CB_ShowByCam.Checked)
-            {
-                SizeCount = craft.ListSlotInfos.Count();
-                Camslots = craft.ListSlotInfos;
-            }
-            //UIService.Instance.AddAction(() => { });
-            for (int i = 0; i < SizeCount; i++)
-            {
-                AddGridData<SlotInfo>(DataGridView_SlotInfo, Camslots[i], true);
-            }
-
-            //添加槽位上下限表格
-            DataGridView_SlotLimit.Rows.Clear();
-            SizeCount = craft.ListSlotSizeLimits.Count();
-            // UIService.Instance.AddAction(() => { });
-            for (int i = 0; i < SizeCount; i++)
-            {
-                AddGridData<SlotSizeLimit>(DataGridView_SlotLimit, craft.ListSlotSizeLimits[i], true);
-            }
-
-            //添加分条工艺设置
-            DataGridView_SliceSet.Rows.Clear();
-            SizeCount = craft.ListSliceSet.Count();
-            //  UIService.Instance.AddAction(() => { });
-            for (int i = 0; i < SizeCount; i++)
-            {
-                AddGridData<SliceInfo>(DataGridView_SliceSet, craft.ListSliceSet[i], true);
-            }
-
-            //设置TDMDis
-            INi_DGV_Offset(dataGridViewTDis);
-            INi_DGV_Offset(dataGridViewMDis);
-            INi_DGViewSlotTDis(dataGridViewTDis, craft.SlotTDis);
-            INi_DGViewSlotTDis(dataGridViewMDis, craft.SlotMDis);
+                int TabIndex = tabControl1.SelectedIndex;
+                switch (TabIndex)
+                {
+                    case 0:
+                        //设置TDMDis
+                        INi_DGV_Offset(dataGridViewTDis);
+                        INi_DGV_Offset(dataGridViewMDis);
+                        INi_DGViewSlotTDis(dataGridViewTDis, craft.SlotTDis);
+                        INi_DGViewSlotTDis(dataGridViewMDis, craft.SlotMDis);
+                        break;
+                    case 1:
+                        SliceToView();
+                        SlotLimitToView();
+                        break;
+                    case 2:
+                        SlotToView();
+                        break;
+                    case 3:
+                        //添加抓边队列
+                        SizeToView();
+                        break;
+                    case 4:
+                        DefectToView();
+                        break;
+                    case 5:
+                        //添加抓边队列
+                        LoadLinetList();
+                        break;
+                    default:
+                        break;
+                }
+            }));
         }
 
         public override CraftBase CraftFromView()
@@ -559,6 +526,128 @@ namespace Mef_VisionFrame
         }
 
 
+        #region 每个表格的工艺Show和Set
+        public void SizeToView()
+        {
+            //添加尺寸检测项表格
+            DataGridView_ESize.Rows.Clear();
+            List<SizeItemInfo> Camsizes = craft.ListEASizes.FindAll(i => i.camera == (CameraEnum)comb_SelectCam.SelectedIndex);
+            int SizeCount = Camsizes.Count();
+            if (!CB_ShowByCam.Checked)
+            {
+                SizeCount = craft.ListEASizes.Count();
+                Camsizes = craft.ListEASizes;
+            }
+            //int SizeCount = craft.ListEASizes.Count();
+            //for (int i = 0; i < SizeCount; i++)
+            //{
+            //    AddGridData<SizeItemInfo>(DataGridView_ESize, Camsizes[i], true);
+            //}
+
+            DataGridViewRow[] dtRows = new DataGridViewRow[SizeCount];
+            for (int i = 0; i < SizeCount; i++)
+            {
+                dtRows[i] = AddGridRowData<SizeItemInfo>(DataGridView_ESize, Camsizes[i], true);
+            }
+            DataGridView_ESize.Rows.AddRange(dtRows);
+        }
+        public void DefectToView()
+        {
+            //添加缺陷检测项表格
+            DataGridView_Defect.Rows.Clear();
+            List<DefectItemInfo> Camdefects = craft.ListDefectInfos.FindAll(i => i.camera == (CameraEnum)comb_SelectCam.SelectedIndex);
+            int SizeCount = Camdefects.Count();
+            if (!CB_ShowByCam.Checked)
+            {
+                SizeCount = craft.ListDefectInfos.Count();
+                Camdefects = craft.ListDefectInfos;
+            }
+
+            //for (int i = 0; i < SizeCount; i++)
+            //{
+            //    AddGridData<DefectItemInfo>(DataGridView_Defect, Camdefects[i], true);
+            //}
+
+            // DataGridView显示提速方法
+            DataGridViewRow[] dtRows = new DataGridViewRow[SizeCount];
+            for (int i = 0; i < SizeCount; i++)
+            {
+                dtRows[i] = AddGridRowData<DefectItemInfo>(DataGridView_Defect, Camdefects[i], true);
+            }
+            DataGridView_Defect.Rows.AddRange(dtRows);
+        }
+
+        public void SlotToView()
+        {
+            DataGridView_SlotInfo.Rows.Clear();
+            //添加槽位检测项表格
+            List<SlotInfo> Camslots = craft.ListSlotInfos.FindAll(i => i.BelongCam == (CameraEnum)comb_SelectCam.SelectedIndex);
+            int SizeCount = Camslots.Count();
+            if (!CB_ShowByCam.Checked)
+            {
+                SizeCount = craft.ListSlotInfos.Count();
+                Camslots = craft.ListSlotInfos;
+            }
+            //UIService.Instance.AddAction(() => { });
+
+            //DataGridView_SlotInfo.Rows.Clear();
+            //for (int i = 0; i < SizeCount; i++)
+            //{
+            //    AddGridData<SlotInfo>(DataGridView_SlotInfo, Camslots[i], true);
+            //}
+
+            // DataGridView显示提速方法
+          
+            DataGridViewRow[] dtRows = new DataGridViewRow[SizeCount];
+            for (int i = 0; i < SizeCount; i++)
+            {
+                dtRows[i] = AddGridRowData<SlotInfo>(DataGridView_SlotInfo, Camslots[i], true);
+            }
+            DataGridView_SlotInfo.Rows.AddRange(dtRows);
+
+        }
+        public void SlotLimitToView()
+        {
+            //添加槽位上下限表格
+            DataGridView_SlotLimit.Rows.Clear();
+            int SizeCount = craft.ListSlotSizeLimits.Count();
+            // UIService.Instance.AddAction(() => { });
+
+            //for (int i = 0; i < SizeCount; i++)
+            //{
+            //    AddGridData<SlotSizeLimit>(DataGridView_SlotLimit, craft.ListSlotSizeLimits[i], true);
+            //}
+
+            DataGridViewRow[] dtRows = new DataGridViewRow[SizeCount];
+            for (int i = 0; i < SizeCount; i++)
+            {
+                dtRows[i] = AddGridRowData<SlotSizeLimit>(DataGridView_SlotLimit, craft.ListSlotSizeLimits[i], true);
+            }
+            DataGridView_SlotLimit.Rows.AddRange(dtRows);
+        }
+
+        public void SliceToView()
+        {
+            //添加分条工艺设置
+            DataGridView_SliceSet.Rows.Clear();
+            int SizeCount = craft.ListSliceSet.Count();
+            //  UIService.Instance.AddAction(() => { });
+
+            //for (int i = 0; i < SizeCount; i++)
+            //{
+            //    AddGridData<SliceInfo>(DataGridView_SliceSet, craft.ListSliceSet[i], true);
+            //}
+
+            DataGridViewRow[] dtRows = new DataGridViewRow[SizeCount];
+            for (int i = 0; i < SizeCount; i++)
+            {
+                dtRows[i] = AddGridRowData<SliceInfo>(DataGridView_SliceSet, craft.ListSliceSet[i], true);
+            }
+            DataGridView_SliceSet.Rows.AddRange(dtRows);
+        }
+
+        #endregion
+
         ////ListView表格操作方法
         private void InitListView()
         {
@@ -684,7 +773,11 @@ namespace Mef_VisionFrame
                                 }
                             }
                         }
-                        DGView.Update();
+                        if (DGView.Rows.Count % 5 == 0)
+                        {
+                            DGView.Update();
+                        }
+
                     }
                 }
                 catch (Exception)
@@ -693,9 +786,52 @@ namespace Mef_VisionFrame
                 }
 
             }));
-
-
         }
+
+
+        /// <summary>
+        /// 添加DataGridView数据
+        /// </summary>
+        /// <param name="DGView"></param>
+        /// <param name="item"></param>
+        public DataGridViewRow AddGridRowData<T>(DataGridView DGView, object item0, bool showAll)
+        {
+            DataGridViewRow DGViewRow = new DataGridViewRow();
+            try
+            {
+                T item = (T)item0;
+                int i = 0;
+                if (item != null)
+                {
+                    if (showAll == true) //启用了就添加
+                    {
+                        DGViewRow.CreateCells(DGView);
+                        PropertyInfo[] infos = item.GetType().GetProperties();
+                       
+                        foreach (PropertyInfo pi in infos)
+                        {
+                            var fieldIfno = typeof(T).GetProperty(pi.Name).GetCustomAttribute<MyAttribute>();
+                            if (fieldIfno.Is_ShowCol)
+                            {
+                                DGViewRow.Cells[i].Value = pi.GetValue(item, null);
+                                i++;
+                            }
+                           
+                        }
+                    }
+                    //if (DGView.Rows.Count % 5 == 0)
+                    //{
+                    //    DGView.Update();
+                    //}
+                }
+            }
+            catch (Exception)
+            {
+                DGViewRow = new DataGridViewRow();
+            }
+            return DGViewRow;
+        }
+
 
         /// <summary>
         /// 重建抓边插件方法，叠台工位需要重写
@@ -1388,6 +1524,7 @@ namespace Mef_VisionFrame
             {
                 pictureBox2.Image = Properties.Resources.叠片尺寸示意;
             }
+            CraftToView();
         }
 
         private void Btn_ReDefault_Click(object sender, EventArgs e)
@@ -1615,7 +1752,7 @@ namespace Mef_VisionFrame
 
         public void AddSlotLine(string InfoName, int camID)
         {
-           // int count = Enum.GetValues(typeof(DirectionEnum)).Length;
+            // int count = Enum.GetValues(typeof(DirectionEnum)).Length;
             int count = 4; //间隙边不抓边，直接赋值
 
             //添加A面槽位边插件

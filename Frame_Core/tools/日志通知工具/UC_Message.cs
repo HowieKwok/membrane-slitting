@@ -124,11 +124,8 @@ namespace Frame_Core
                    
 
                     }
-   
-                    UIService.Instance.AddAction(() =>
-                    {
-                        NDataGridView.AddRow(dgv_Alarm, rows, MessageNotify.ShowCount, true);
-                    });
+
+                    NDataGridView.AddRow(dgv_Alarm, rows, MessageNotify.ShowCount, true);
 
                 }
 
@@ -144,13 +141,10 @@ namespace Frame_Core
                     {
                         MessageNotify.DebugLogEnable = false;
                         List<string> strings = MessageNotify.DebugLogs.ToArray().ToList();
-                        UIService.Instance.AddAction(() =>
-                        {
-                            rtbx_Debug.Lines = strings.ToArray();
-                            // 将 RichTextBox 滚动到最后一行
-                            rtbx_Debug.SelectionStart = rtbx_Debug.Text.Length;
-                            rtbx_Debug.ScrollToCaret();
-                        });
+                        rtbx_Debug.Lines = strings.ToArray();
+                        // 将 RichTextBox 滚动到最后一行
+                        rtbx_Debug.SelectionStart = rtbx_Debug.Text.Length;
+                        rtbx_Debug.ScrollToCaret();
 
                     }
 
@@ -163,14 +157,11 @@ namespace Frame_Core
                         MessageNotify.ErrorLogEnable = false;
                         List<string> strings = MessageNotify.ErrorLogs.ToArray().ToList();
 
-                        UIService.Instance.AddAction(() =>
-                        {
-                            rtbx_Error.Lines = strings.ToArray();
+                        rtbx_Error.Lines = strings.ToArray();
 
-                            // 将 RichTextBox 滚动到最后一行
-                            rtbx_Error.SelectionStart = rtbx_Error.Text.Length;
-                            rtbx_Error.ScrollToCaret();
-                        });
+                        // 将 RichTextBox 滚动到最后一行
+                        rtbx_Error.SelectionStart = rtbx_Error.Text.Length;
+                        rtbx_Error.ScrollToCaret();
 
                     }
 
@@ -183,14 +174,11 @@ namespace Frame_Core
                         MessageNotify.CommLogEnable = false;
                         List<string> strings = MessageNotify.CommLogs.ToArray().ToList();
 
-                        UIService.Instance.AddAction(() =>
-                        {
-                            rtbx_Comm.Lines = strings.ToArray();
+                        rtbx_Comm.Lines = strings.ToArray();
 
-                            // 将 RichTextBox 滚动到最后一行
-                            rtbx_Comm.SelectionStart = rtbx_Comm.Text.Length;
-                            rtbx_Comm.ScrollToCaret();
-                        });
+                        // 将 RichTextBox 滚动到最后一行
+                        rtbx_Comm.SelectionStart = rtbx_Comm.Text.Length;
+                        rtbx_Comm.ScrollToCaret();
 
                     }
 

@@ -124,6 +124,11 @@ namespace Mef_VisionFrame
         /// </summary>
         public QueuePackage<PFTCleanEAProductInfo> queueProductsDispose_B = new QueuePackage<PFTCleanEAProductInfo>();
 
+
+        public QueuePackage<PFTCleanEAProductInfo> queueProductProtect_A = new QueuePackage<PFTCleanEAProductInfo>();
+
+        public QueuePackage<PFTCleanEAProductInfo> queueProductProtect_B = new QueuePackage<PFTCleanEAProductInfo>();
+
         /// <summary>
         /// 这是用来做数据处理延迟一帧使用
         /// </summary>

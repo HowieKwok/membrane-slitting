@@ -81,6 +81,9 @@
     <Reference Include="BitMiracle.LibTiff.NET">
       <HintPath>..\Mef_VisionFrame\bin\Release\BitMiracle.LibTiff.NET.dll</HintPath>
     </Reference>
+    <Reference Include="BouncyCastle.Cryptography">
+      <HintPath>..\Mef_VisionFrame\bin\Release\BouncyCastle.Cryptography.dll</HintPath>
+    </Reference>
     <Reference Include="DALSA.SaperaLT.SapClassBasic, Version=8.60.0.2120, Culture=neutral, PublicKeyToken=4d8604101dcb6b58, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Mef_VisionFrame\bin\Release\DALSA.SaperaLT.SapClassBasic.dll</HintPath>
@@ -121,6 +124,10 @@
     </Reference>
     <Reference Include="IKapC.NET">
       <HintPath>DLL\IKapC.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.4, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Mef_VisionFrame\bin\Release\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="kApiNet">
       <HintPath>..\Mef_VisionFrame\bin\Release\kApiNet.dll</HintPath>
@@ -278,6 +285,7 @@
       <DependentUpon>ROIFormBase.cs</DependentUpon>
     </Compile>
     <Compile Include="tools\ViewROI3\ROIParams.cs" />
+    <Compile Include="tools\其他\PdfReportHelper.cs" />
     <Compile Include="tools\其他\TableLayoutPanelSerializer.cs" />
     <Compile Include="tools\保存和显示图像\CombinationHWindowControl.cs" />
     <Compile Include="tools\保存和显示图像\DisplayWindowClass.cs" />

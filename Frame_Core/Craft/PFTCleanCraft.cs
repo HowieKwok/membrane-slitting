@@ -544,6 +544,22 @@ namespace Frame_Core
         [My("正公差")]
         [Description("正公差")]
         public double UpLimitValue { get; set; } = 0.5;
+
+
+
+        /// <summary>
+        /// CPK下限值
+        /// </summary>
+        [My("CPK下限值", false)]
+        [Description("CPK下限值")]
+        public double CpklowLimitValue { get; set; } =1.0;
+        /// <summary>
+        /// CPK上限值
+        /// </summary>
+        [My("CPK上限值",false)]
+        [Description("CPK上限值")]
+        public double CpkUpLimitValue { get; set; } = 1.5;
+
         /// <summary>
         /// 启用打标
         /// </summary>

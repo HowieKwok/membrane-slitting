@@ -140,7 +140,7 @@ namespace Mef_VisionFrame
         public Form_WidthLaserDetect()
         {
             InitializeComponent();
-
+           
             splitContainer1.SplitterDistance = (int)(splitContainer1.Width * 2.3) / 4;
            
             Dp_DetectProcessCam1.DataListView.MouseDoubleClick -= listView1_DoubleClick;
@@ -241,6 +241,87 @@ namespace Mef_VisionFrame
                     }
                 }
             }
+
+
+        }
+
+        public Action OutDataAct;
+        private void Btn_OutData_Click(object sender, EventArgs e)
+        {
+            OutDataAct?.Invoke();
+        }
+
+
+        object tablecontrol1SelectedIndex = new object();
+        public int Gettablecontrol1SelectedIndext()
+        {
+            lock (tablecontrol1SelectedIndex)
+            {
+                return tabControl1.TabIndex;
+            }
+        }
+
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle |= 0x02000000; // 开启双缓冲
+                return cp;
+            }
+        }
+
+        private void tabControl1_Selecting(object sender, TabControlCancelEventArgs e)
+        {
+            this.BeginInvoke(new Action(() =>
+            {
+                int currentIndex = e.TabPageIndex;
+                //获取上一个选中的tab索引
+                if (currentIndex == 2)
+                {
+                    tableLayoutPanel3.Visible = true;
+                    Dp_EASize.Visible = true;
+                    Dp_EADetect.Visible = true;
+                    Dp_EASizeDetect.Visible = true;
+
+                }
+                else
+                {
+                    tableLayoutPanel3.Visible = false;
+                    Dp_EASize.Visible = false;
+                    Dp_EADetect.Visible = false;
+                    Dp_EASizeDetect.Visible = false;
+                }
+
+                //if (currentIndex == 2)
+                //{
+                //    tableLayoutPanel3.Visible = true;
+                //}
+                //else
+                //{
+                //    tableLayoutPanel3.Visible = false;
+                //}
+
+                //if (currentIndex == 3)
+                //{
+                //    tableLayoutPanel4.Visible = true;
+                //}
+                //else
+                //{
+                //    tableLayoutPanel4.Visible = false;
+                //}
+                //if (currentIndex == 4)
+                //{
+                //    tableLayoutPanel5.Visible = true;
+                //}
+                //else
+                //{
+                //    tableLayoutPanel5.Visible = false;
+                //}
+
+
+            }));
+            //获取当前选中的tab索引
 
 
         }

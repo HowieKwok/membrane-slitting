@@ -305,8 +305,11 @@ namespace Mef_VisionFrame
             }
 
             Enqueue3D(_data3DCache, one1D, two2D, three3D, param);
-
-            Refresh();
+            if(isShow)
+            {
+                Refresh();
+            }
+           
 
 
 

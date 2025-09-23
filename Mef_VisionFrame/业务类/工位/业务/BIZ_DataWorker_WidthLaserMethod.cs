@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
@@ -108,7 +109,7 @@ namespace Mef_VisionFrame
             bIZ_ThreadManage.limitThreadPool.RunAction(() =>
             {
                 Project.Instance.slaveMachineManager.SendDBInfo(FrameID, dbTypes, CamID, out string msg);
-            
+
             });
 
             HOperatorSet.CountSeconds(out HTuple EndSendDB);
@@ -116,6 +117,39 @@ namespace Mef_VisionFrame
             MessageNotify.AddDebugLog($"第{keyA}EA发送DB信息处理时长::{EndSendDB.D}");
 
         }
+
+
+        /// <summary>
+        /// 数据导出功能
+        /// </summary>
+        public void DataOutput()
+        {
+            ExecuteMethod(() =>
+            {
+                var items = new List<(int, int, int)> { };
+
+                for (int i = 0; i < BIZ_Variable.StatisticalData_EASlices.Count; i++)
+                {
+                    var data = (i + 1, (int)BIZ_Variable.StatisticalData_EASlices[i].statisticalData.OKCount, (int)BIZ_Variable.StatisticalData_EASlices[i].statisticalData.NGCount);
+                    items.Add(data);
+                }
+                byte[] pdf = PdfReportHelper.BuildPdf(
+                DateTime.Now,
+                "Default",
+                Project.Instance.systemInfo.currentMojuanhao,
+                pFTCleanCraft.SliceCount,
+                (int)BIZ_Variable.StatisticalData_EASlices[0].statisticalData.SumupCount,
+                Project.Instance.userManage.userData.CurrentUser.ToString(),
+                Project.Instance.userManage.userData.CurrentUserID.ToString(),
+                items);
+
+                System.IO.File.WriteAllBytes(Project.Instance.paramPathSet.ProductMojuanPath + "生产实绩报表.pdf", pdf);
+
+                MessageNotify.AddDebugLog("生产实绩报表.pdf--导出完成");
+
+            });
+        }
+
 
 
         /// <summary>
@@ -225,14 +259,14 @@ namespace Mef_VisionFrame
 
                 for (int i = 0; i < pFTCleanCraft.SliceCount; i++)
                 {
-                    bool needShow= (i <= lastCam1Index);
-                  
+                    bool needShow = (i <= lastCam1Index);
+
                     #region 缺陷方面判断
 
                     HOperatorSet.CountSeconds(out HTuple startDeftTime);
-                    var defects=new List<NgTypeInfo>();
+                    var defects = new List<NgTypeInfo>();
 
-                    if(needShow)
+                    if (needShow)
                     {
                         defects = productInfoA.ListEASlicePD[i].ListImageDefects;
                     }
@@ -302,6 +336,8 @@ namespace Mef_VisionFrame
                     ResultType resultConfigSize = result;
                     result = ResultType.OK;
                     ResultType isDB = ResultType.OK;
+                    bool bIsBJ = false;
+                    bool bIsTJ = false;
                     HOperatorSet.CountSeconds(out EndSizeTime);
                     EndSizeTime = (EndSizeTime - startSizeTime) * 1000;
                     MessageNotify.AddDebugLog($"第{productInfoA.EAID}_第{i + 1}条EA计算尺寸(遍历所有尺寸)下处理时长::{EndSizeTime.D}");
@@ -319,7 +355,7 @@ namespace Mef_VisionFrame
 
                     }
 
-                    for (int j = 1; j <= pFTCleanCraft.ListSliceSet[i].ShaveNum; j++)
+                    for (int j = 1; j <= pFTCleanCraft.PerSlotCount; j++)
                     {
 
                         for (int k = 0; k < strSlotName.Length; k++)
@@ -342,7 +378,7 @@ namespace Mef_VisionFrame
                                 sizeItemInfo.CountNGBJ = 0;
                                 sizeItemInfo.CountNGTJ = 0;
                                 AccumulateAlarmCount(sizeInfo, sizeItemBJTJDBInfos[k]);
-                                TJBJSize_WriteState(cameraEnum, sizeInfo, sizeItemBJTJDBInfos[k], CraftSizeItem, i, ref isDB);
+                                TJBJSize_WriteState(cameraEnum, sizeInfo, sizeItemBJTJDBInfos[k], CraftSizeItem, i, ref isDB, ref bIsBJ, ref bIsTJ,j);
                                 result = isDB == ResultType.NG ? ResultType.NG
                                   : sizeInfo.resultType == ResultType.OK ? ResultType.OK
                                   : ResultType.Warn;
@@ -546,7 +582,7 @@ namespace Mef_VisionFrame
                      StatisticalData statisticalData = BIZ_Variable.StatisticalData_EASlices[i].statisticalData;
                      BIZ_General.ProdStatisticsCalculate(statisticalData, keyA, statisticalData.NGCount);
                      NDataGridView.SetCellValue(form.Dgv_StatsEA, BIZ_Variable.DgvColumnheaders[i + 1], BIZ_Variable.DgvRowheaders[0], statisticalData.SumupCount.ToString());
-                     NDataGridView.SetCellValue(form.Dgv_StatsEA, BIZ_Variable.DgvColumnheaders[i + 1], BIZ_Variable.DgvRowheaders[1], $"{statisticalData.Yield}%");
+                     NDataGridView.SetCellValue(form.Dgv_StatsEA, BIZ_Variable.DgvColumnheaders[i + 1], BIZ_Variable.DgvRowheaders[1], $"{statisticalData.Yield.ToString("0.00")}%");
                      NDataGridView.SetCellValue(form.Dgv_StatsEA, BIZ_Variable.DgvColumnheaders[i + 1], BIZ_Variable.DgvRowheaders[2], statisticalData.OKCount.ToString());
                      NDataGridView.SetCellValue(form.Dgv_StatsEA, BIZ_Variable.DgvColumnheaders[i + 1], BIZ_Variable.DgvRowheaders[3], statisticalData.NGCount.ToString());
                      NDataGridView.SetCellValue(form.Dgv_StatsEA, BIZ_Variable.DgvColumnheaders[i + 1], BIZ_Variable.DgvRowheaders[4], statisticalData.NGCount.ToString());
@@ -589,7 +625,7 @@ namespace Mef_VisionFrame
                     bool needShow = cameraEnum == CameraEnum.Cam1 ? i <= lastCam1Index
                                                                 : i > lastCam1Index;
 
-                    List<NgTypeInfo> defects;
+                    List<NgTypeInfo> defects = new List<NgTypeInfo>(); ;
                     if (needShow)
                     {
                         defects = pFTImageProduct.ListImageSlicePD[i].ListImageDefects;
@@ -597,6 +633,11 @@ namespace Mef_VisionFrame
                         pFTImageProduct.showHalconWindow.m_messageShowInfos.AddRange(pFTImageProduct.ListImageSlicePD[i].showHalconWindow.m_messageShowInfos);
                         pFTImageProduct.showHalconWindow.m_regionShowInfos.AddRange(pFTImageProduct.ListImageSlicePD[i].showHalconWindow.m_regionShowInfos);
                         pFTImageProduct.showHalconWindow.m_lineShowInfos.AddRange(pFTImageProduct.ListImageSlicePD[i].ListImagelines);
+                    }
+                    else
+                    {
+                        ListImageDefects.Add(defects.Count > 0 ? defects : new List<NgTypeInfo>());
+                        resultSliceDefectNg[i] = ResultType.OK;
                     }
 
 
@@ -642,6 +683,7 @@ namespace Mef_VisionFrame
                             };
 
                         FileOperationCSV.WriteData_CSV(strDeftInitCamPath, strDeftInitCamTitle, strDeftData.ToArray(), cameraEnum.ToString());
+
                         NDataPanelViewModel.Add(dataPanelViewModelBase, strDeftInitCamTitle, strDeftData.ToArray());
                     }
 
@@ -666,35 +708,40 @@ namespace Mef_VisionFrame
             });
         }
 
-
-        private void EAFrameMethord(CameraEnum cameraEnum, PFTCleanEAProductInfo  pFTCleanEAProductInfo, DisplayWindowClass displayWindowClass, string[] strDeftInitCamTitle = null, string strDeftInitCamPath = null)
+        private void EAFrameMethord(CameraEnum cameraEnum, PFTCleanEAProductInfo pFTCleanEAProductInfo, DisplayWindowClass displayWindowClass, string[] strDeftInitCamTitle = null, string strDeftInitCamPath = null)
         {
             ExecuteMethod(() =>
             {
                 if (!pFTCleanEAProductInfo.EAFinfished)
                 {
+                    ProcessExecutionResult result = IntervalExecution.DelayExecute(DateTime.Now, 200, pFTCleanEAProductInfo, MyDelayProcess);
                     //报警：未完成切片
-                    MessageNotify.AddStopAlarm(new StopAlarmMessage() { time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"), StopAlarmState = StopAlarmStateEnum.停机, name = $"相机{cameraEnum}第{pFTCleanEAProductInfo.EAID}个产品未完成切片", describe = $"相机{cameraEnum}第{pFTCleanEAProductInfo.EAID}个产品未完成切片" });
-                    MessageNotify.AddErrorLog($"相机{cameraEnum}第{pFTCleanEAProductInfo.EAID}个产品未完成切片");
-                    pFTCleanEAProductInfo.resultSliceSizeNg?.Clear();
-                    pFTCleanEAProductInfo.resultSliceDefectNg?.Clear();
-                    pFTCleanEAProductInfo.resultSliceAllResult?.Clear();
-                    pFTCleanEAProductInfo.resultSliceSizeNg = new List<ResultType>();
-                    pFTCleanEAProductInfo.resultSliceDefectNg = new List<ResultType>();
-                    pFTCleanEAProductInfo.resultSliceAllResult = new List<ResultType>();
-                    for (int i = 0; i < pFTCleanCraft.SliceCount; i++)
+                    if(result== ProcessExecutionResult.Overtime)
                     {
-                        pFTCleanEAProductInfo.resultSliceSizeNg.Add(ResultType.NG);          // 默认 NG
-                        pFTCleanEAProductInfo.resultSliceDefectNg.Add(ResultType.NG);          // 默认 NG
-                        pFTCleanEAProductInfo.resultSliceAllResult.Add(ResultType.NG);          // 默认 NG
+                        MessageNotify.AddStopAlarm(new StopAlarmMessage() { time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"), StopAlarmState = StopAlarmStateEnum.停机, name = $"相机{cameraEnum}第{pFTCleanEAProductInfo.EAID}个产品未完成切片", describe = $"相机{cameraEnum}第{pFTCleanEAProductInfo.EAID}个产品未完成切片" });
+                        MessageNotify.AddErrorLog($"相机{cameraEnum}第{pFTCleanEAProductInfo.EAID}个产品未完成切片");
+                        pFTCleanEAProductInfo.resultSliceSizeNg?.Clear();
+                        pFTCleanEAProductInfo.resultSliceDefectNg?.Clear();
+                        pFTCleanEAProductInfo.resultSliceAllResult?.Clear();
+                        pFTCleanEAProductInfo.resultSliceSizeNg = new List<ResultType>();
+                        pFTCleanEAProductInfo.resultSliceDefectNg = new List<ResultType>();
+                        pFTCleanEAProductInfo.resultSliceAllResult = new List<ResultType>();
+                        for (int i = 0; i < pFTCleanCraft.SliceCount; i++)
+                        {
+                            pFTCleanEAProductInfo.resultSliceSizeNg.Add(ResultType.NG);          // 默认 NG
+                            pFTCleanEAProductInfo.resultSliceDefectNg.Add(ResultType.NG);          // 默认 NG
+                            pFTCleanEAProductInfo.resultSliceAllResult.Add(ResultType.NG);          // 默认 NG
+                        }
                     }
+                 
                 }
                 else
                 {
 
 
                 }
-
+                //pFTCleanEAProductInfo?.Dispose();
+                //return;
 
                 //【1】工艺处理             
                 HOperatorSet.CountSeconds(out pFTCleanEAProductInfo.Image_StartDataProcessTime);
@@ -811,6 +858,21 @@ namespace Mef_VisionFrame
         }
 
 
+        public ProcessExecutionResult MyDelayProcess(ProductBase productBase)
+        {
+            PFTCleanEAProductInfo pFTCleanEAProductInfo = productBase as PFTCleanEAProductInfo;
+            // 你的逻辑
+            if(pFTCleanEAProductInfo.EAFinfished)
+            {
+                return ProcessExecutionResult.Success;
+            }
+            else
+            {
+                return ProcessExecutionResult.Overtime;
+            }
+           
+        }
+
         //统计数据保存
         private void StasticShowAndSave()
         {
@@ -832,7 +894,7 @@ namespace Mef_VisionFrame
                                 strings.Add(BIZ_Variable.StatisticalData_EASlices[i].statisticalData.SumupCount.ToString());
                                 break;
                             case "良率":
-                                strings.Add(BIZ_Variable.StatisticalData_EASlices[i].statisticalData.Yield.ToString() + "%");
+                                strings.Add(BIZ_Variable.StatisticalData_EASlices[i].statisticalData.Yield.ToString("0.00") + "%");
                                 break;
                             case "OK数":
                                 strings.Add(BIZ_Variable.StatisticalData_EASlices[i].statisticalData.OKCount.ToString());
@@ -1788,42 +1850,55 @@ namespace Mef_VisionFrame
 
         }
 
-        public void TJBJSize_WriteState(CameraEnum cameraEnum, SizeInfo sizeInfo, SizeItemInfo TJBJSizeInfos, SizeItemInfo CraftSizeInfo, int nsliceIndex, ref ResultType IsDB)
+        public void TJBJSize_WriteState(CameraEnum cameraEnum, SizeInfo sizeInfo, SizeItemInfo TJBJSizeInfos, SizeItemInfo CraftSizeInfo, int nsliceIndex, ref ResultType IsDB, ref bool BBJ, ref bool BTJ, int zoneIndex)
         {
 
             if (TJBJSizeInfos.CountNGDB >= CraftSizeInfo.CountNGDB && CraftSizeInfo.DB)
             {
                 //MessageNotify.AddStopAlarm(new StopAlarmMessage() { time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"), StopAlarmState = StopAlarmStateEnum.报警, name = cameraEnum.ToString() + $"_第{nsliceIndex + 1}条_" + sizeInfo.Description, describe = cameraEnum.ToString() + $"_第{nsliceIndex + 1}条_" + sizeInfo.Description });
-                MessageNotify.AddDebugLog($"第{nsliceIndex + 1}条：当前{TJBJSizeInfos.Description}>=设定值{CraftSizeInfo.CountNGDB}，触发DB：{TJBJSizeInfos.CountNGDB}");
+                if (zoneIndex == pFTCleanCraft.PerSlotCount)
+                {
+                    MessageNotify.AddDebugLog($"第{nsliceIndex + 1}条：当前{TJBJSizeInfos.Description}>=设定值{CraftSizeInfo.CountNGDB}，触发DB：{TJBJSizeInfos.CountNGDB}");
+                }
 
-                if (IsDB == ResultType.NG)
-                {
-                }
-                else
-                {
-                    IsDB = ResultType.NG;
-                }
+                IsDB = ResultType.NG;
 
 
             }
 
             if (TJBJSizeInfos.CountNGBJ > CraftSizeInfo.CountNGBJ && CraftSizeInfo.BJ)
             {
-                MessageNotify.AddStopAlarm(new StopAlarmMessage() { time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"), StopAlarmState = StopAlarmStateEnum.报警, name = $"第{nsliceIndex + 1}条：当前{TJBJSizeInfos.Description}超过设定值{CraftSizeInfo.CountNGBJ}，触发BJ：{TJBJSizeInfos.CountNGBJ}", describe = $"第{nsliceIndex + 1}条：当前{TJBJSizeInfos.Description}超过设定值{CraftSizeInfo.CountNGBJ}，触发BJ：{TJBJSizeInfos.CountNGBJ}" });
+                if (!BBJ)
+                {
+
+                    BBJ = true;
+                }
+                if (zoneIndex == pFTCleanCraft.PerSlotCount)
+                {
+                    MessageNotify.AddStopAlarm(new StopAlarmMessage() { time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"), StopAlarmState = StopAlarmStateEnum.报警, name = $"第{nsliceIndex + 1}条：当前{TJBJSizeInfos.Description}超过设定值{CraftSizeInfo.CountNGBJ}，触发BJ：{TJBJSizeInfos.CountNGBJ}", describe = $"第{nsliceIndex + 1}条：当前{TJBJSizeInfos.Description}超过设定值{CraftSizeInfo.CountNGBJ}，触发BJ：{TJBJSizeInfos.CountNGBJ}" });
+                }
 
             }
 
 
             if (TJBJSizeInfos.CountNGTJ > CraftSizeInfo.CountNGTJ && CraftSizeInfo.TJ)
             {
-                MessageNotify.AddStopAlarm(new StopAlarmMessage()
+                if (zoneIndex == pFTCleanCraft.PerSlotCount)
                 {
-                    time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"),
-                    StopAlarmState = StopAlarmStateEnum.停机,
-                    name = $"第{nsliceIndex + 1}条：当前{TJBJSizeInfos.Description}超过设定值{CraftSizeInfo.CountNGTJ}，触发TJ：{TJBJSizeInfos.CountNGTJ}",
-                    describe = $"第{nsliceIndex + 1}条：当前{TJBJSizeInfos.Description}超过设定值{CraftSizeInfo.CountNGTJ}，触发TJ" +
-                    $"：{TJBJSizeInfos.CountNGTJ}"
-                });
+                    MessageNotify.AddStopAlarm(new StopAlarmMessage()
+                    {
+                        time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"),
+                        StopAlarmState = StopAlarmStateEnum.停机,
+                        name = $"第{nsliceIndex + 1}条：当前{TJBJSizeInfos.Description}超过设定值{CraftSizeInfo.CountNGTJ}，触发TJ：{TJBJSizeInfos.CountNGTJ}",
+                        describe = $"第{nsliceIndex + 1}条：当前{TJBJSizeInfos.Description}超过设定值{CraftSizeInfo.CountNGTJ}，触发TJ" +
+               $"：{TJBJSizeInfos.CountNGTJ}"
+                    });
+                }
+                if (!BTJ)
+                {
+                    BTJ = true;
+                }
+
 
             }
 
@@ -1966,7 +2041,7 @@ namespace Mef_VisionFrame
                 string imageSavePath = in_imageSaveParamer.ImageSave_Path_ProdImg;
                 ImageSaveFormat saveImageFormat = (ImageSaveFormat)in_imageSaveParamer.SaveImageFormat_ProdImg;
                 ImageSaveSelect imageSaveSelect = (ImageSaveSelect)in_imageSaveParamer.SaveImageSelect_ProdImg;
-                bool isShowImage = in_imageSaveParamer.IsShowImage_Primitive;
+                bool isShowImage = in_imageSaveParamer.IsShowImage_Product;
                 bool HighDefinition_Screenshot = in_imageSaveParamer.HighDefinition_ProdScreenshot;
                 ImageSaveSelect screenshotSaveSelect = (ImageSaveSelect)in_imageSaveParamer.SaveImageSelect_ProdScreenshot;
                 string screenshotSavePath = in_imageSaveParamer.ImageSave_Path_ProdScreenshot;

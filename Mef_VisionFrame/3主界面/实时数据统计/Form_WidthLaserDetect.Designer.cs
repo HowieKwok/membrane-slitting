@@ -50,6 +50,7 @@
             this.tableLayoutPanel17 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel10 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel18 = new System.Windows.Forms.TableLayoutPanel();
+            this.Btn_OutData = new System.Windows.Forms.Button();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.uC_Message1 = new Frame_Core.UC_Message();
             this.首页 = new System.Windows.Forms.TabPage();
@@ -424,6 +425,7 @@
             this.tableLayoutPanel18.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 65.64626F));
             this.tableLayoutPanel18.Controls.Add(this.LB_Formula, 1, 0);
             this.tableLayoutPanel18.Controls.Add(this.label15, 0, 0);
+            this.tableLayoutPanel18.Controls.Add(this.Btn_OutData, 1, 1);
             this.tableLayoutPanel18.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel18.Location = new System.Drawing.Point(209, 1);
             this.tableLayoutPanel18.Margin = new System.Windows.Forms.Padding(0);
@@ -433,6 +435,17 @@
             this.tableLayoutPanel18.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel18.Size = new System.Drawing.Size(221, 57);
             this.tableLayoutPanel18.TabIndex = 16;
+            // 
+            // Btn_OutData
+            // 
+            this.Btn_OutData.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Btn_OutData.Location = new System.Drawing.Point(80, 32);
+            this.Btn_OutData.Name = "Btn_OutData";
+            this.Btn_OutData.Size = new System.Drawing.Size(136, 20);
+            this.Btn_OutData.TabIndex = 6;
+            this.Btn_OutData.Text = "输出数据";
+            this.Btn_OutData.UseVisualStyleBackColor = true;
+            this.Btn_OutData.Click += new System.EventHandler(this.Btn_OutData_Click);
             // 
             // splitContainer2
             // 
@@ -490,6 +503,7 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(445, 717);
             this.tabControl1.TabIndex = 0;
+            this.tabControl1.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControl1_Selecting);
             // 
             // EA数据汇总
             // 
@@ -1095,5 +1109,6 @@
         private EHolly.FormControl.DynamicDataPanel Dp_EASizeDetect;
         private EHolly.FormControl.DynamicDataPanel Dp_EADetect;
         private EHolly.FormControl.DynamicDataPanel Dp_EASize;
+        private System.Windows.Forms.Button Btn_OutData;
     }
 }

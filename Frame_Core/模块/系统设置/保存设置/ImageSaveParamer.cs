@@ -73,6 +73,11 @@ namespace Frame_Core
         /// </summary>
         [Description("显示图像-原图")]
         public bool IsShowImage_Primitive = true;
+        /// <summary>
+        /// 显示图像-产品图
+        /// </summary>
+        [Description("显示图像-产品图")]
+        public bool IsShowImage_Product = true;
 
         /// <summary>
         /// 深度图片是否压缩

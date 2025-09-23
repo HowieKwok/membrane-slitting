@@ -108,6 +108,7 @@ namespace Frame_Core
                         ControlTool.GetParamSave(cbx_SaveImageFormat_Deepth, ref item.Value.m_ImageSaveParamer.SaveImageFormat_Deepth);
                         ControlTool.GetParamSave(chx_IsCompression, ref item.Value.m_ImageSaveParamer.IsCompression_Deepth);
                         ControlTool.GetParamSave(cbx_IsShowImage_Primitive, ref item.Value.m_ImageSaveParamer.IsShowImage_Primitive);
+                        ControlTool.GetParamSave(cbx_IsShowImage_Product, ref item.Value.m_ImageSaveParamer.IsShowImage_Product);
                         ControlTool.GetParamSave(cbx_SaveImageFormat_Screenshot, ref item.Value.m_ImageSaveParamer.SaveImageFormat_Screenshot);
                         ControlTool.GetParamSave(cbx_SaveImageSelect_Screenshot, ref item.Value.m_ImageSaveParamer.SaveImageSelect_Screenshot);
                         ControlTool.GetParamSave(cbx_HighDefinition_Screenshot, ref item.Value.m_ImageSaveParamer.HighDefinition_Screenshot);
@@ -201,6 +202,7 @@ namespace Frame_Core
                         ControlTool.SetParamShow(cbx_SaveImageFormat_Deepth, ref item.Value.m_ImageSaveParamer.SaveImageFormat_Deepth);
                         ControlTool.SetParamShow(chx_IsCompression, ref item.Value.m_ImageSaveParamer.IsCompression_Deepth);
                         ControlTool.SetParamShow(cbx_IsShowImage_Primitive, ref item.Value.m_ImageSaveParamer.IsShowImage_Primitive);
+                        ControlTool.SetParamShow(cbx_IsShowImage_Product, ref item.Value.m_ImageSaveParamer.IsShowImage_Product);
                         ControlTool.SetParamShow(cbx_SaveImageFormat_Screenshot, ref item.Value.m_ImageSaveParamer.SaveImageFormat_Screenshot);
                         ControlTool.SetParamShow(cbx_SaveImageSelect_Screenshot, ref item.Value.m_ImageSaveParamer.SaveImageSelect_Screenshot);
                         ControlTool.SetParamShow(cbx_HighDefinition_Screenshot, ref item.Value.m_ImageSaveParamer.HighDefinition_Screenshot);

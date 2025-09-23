@@ -212,7 +212,6 @@ namespace Mef_VisionFrame
             {
                 CameraEnum cameraEnum = CameraEnum.Cam1;
                 ConcurrentDictionary<int, PFTCleanEAProductInfo> dic_EAproductsInfo_A = Project.Instance.Is_simulation ? BIZ_Variable.dic_EAproductsInfo_SimA : BIZ_Variable.dic_EAproductsInfo_A;
-                ConcurrentDictionary<int, PFTCleanEAProductInfo> dic_EAproductsInfo_B = Project.Instance.Is_simulation ? BIZ_Variable.dic_EAproductsInfo_SimB : BIZ_Variable.dic_EAproductsInfo_B;
                 HOperatorSet.CountSeconds(out camEAProduct.Image_StartDataProcessTime);
                 PFTCleanEAProductInfo pFTCleanEAProductInfo = camEAProduct as PFTCleanEAProductInfo;
 
@@ -327,10 +326,6 @@ namespace Mef_VisionFrame
 
 
 
-
-
-
-
         public void DisposeImageAndClearImageQueue()
         {
             HWC_InitCam1?.Dispose();
@@ -353,14 +348,13 @@ namespace Mef_VisionFrame
             try
             {
                 int disposeImageRetainLenght = 2;
-   
-                BIZ_General.Image_Process(HWC_InitCam1.operation_Image, disposeImageRetainLenght, HWC_InitCam1);
-                BIZ_General.Image_Process(HWC_InitCam2.operation_Image, disposeImageRetainLenght, HWC_InitCam2);
-                UIService.Instance.AddAction(() =>
-                {
-                    BIZ_General.Image_Process(HWC_EACam1.operation_Image, 1, HWC_EACam1);
-                    BIZ_General.Image_Process(HWC_EACam2.operation_Image, 1, HWC_EACam2);
-                });
+
+
+                UIService.Instance.AddAction(() => { BIZ_General.Image_Process(HWC_InitCam1.operation_Image, disposeImageRetainLenght, HWC_InitCam1); });
+                UIService.Instance.AddAction(() => { BIZ_General.Image_Process(HWC_InitCam2.operation_Image, disposeImageRetainLenght, HWC_InitCam2); });
+
+                BIZ_General.Image_Process(HWC_EACam1.operation_Image, 1, HWC_EACam1);
+                BIZ_General.Image_Process(HWC_EACam2.operation_Image, 1, HWC_EACam2);
 
 
                 if (true)
@@ -407,6 +401,8 @@ namespace Mef_VisionFrame
                 methodName = MethodBase.GetCurrentMethod().Name;
                 form.CobSelectedIndexChangedAction -= CobSelectChange;
                 form.CobSelectedIndexChangedAction += CobSelectChange;
+                form.OutDataAct -= OutData;
+                form.OutDataAct += OutData;
                 form.SetGrooveChart(pFTCleanCraft.SliceCount, pFTCleanCraft.ListSliceSet?.Select(d => d.ShaveNum).ToArray());
                 form.Invoke(new Action(() =>
                 {
@@ -414,12 +410,12 @@ namespace Mef_VisionFrame
                     NLabel.UpdateControls(form.LB_Formula, Project.Instance.systemInfo.CurrentCraft);
                     NLabel.UpdateControls(form.LB_DetectionType, LanguageProject.GetLangeuageAttribute(Project.Instance.craftBase.materialCrafEnum, LanguageEnum.Chinese));
 
-                    NDataPanelViewModel.Init(form.DpModelDetectProcessCam1, BIZ_Variable.strDeftInitCam1Title.ToArray(), 80, 50);
-                    NDataPanelViewModel.Init(form.DpModelDetectProcessCam2, BIZ_Variable.strDeftInitCam2Title.ToArray(), 80, 50);
-                    NDataPanelViewModel.Init(form.DpModelSizeConfig, BIZ_Variable.strEASizeConfigTitle.ToArray(), 80, 50);
-                    NDataPanelViewModel.Init(form.DpModelEASize, BIZ_Variable.strEASizeTitle.ToArray(), 80, 50);
-                    NDataPanelViewModel.Init(form.DpModelEADetect, BIZ_Variable.strEADeftTitle.ToArray(), 80, 50);
-                    NDataPanelViewModel.Init(form.DpModelEADetectSize, BIZ_Variable.strEASizeDeftTitle.ToArray(), 80, 50);
+                    NDataPanelViewModel.Init(form.DpModelDetectProcessCam1, BIZ_Variable.strDeftInitCam1Title.ToArray(), 20, 20);
+                    NDataPanelViewModel.Init(form.DpModelDetectProcessCam2, BIZ_Variable.strDeftInitCam2Title.ToArray(), 20, 20);
+                    NDataPanelViewModel.Init(form.DpModelSizeConfig, BIZ_Variable.strEASizeConfigTitle.ToArray(), 20, 20);
+                    NDataPanelViewModel.Init(form.DpModelEASize, BIZ_Variable.strEASizeTitle.ToArray(), 20, 20);
+                    NDataPanelViewModel.Init(form.DpModelEADetect, BIZ_Variable.strEADeftTitle.ToArray(), 20, 20);
+                    NDataPanelViewModel.Init(form.DpModelEADetectSize, BIZ_Variable.strEASizeDeftTitle.ToArray(), 20, 20);
                     string[] strings = new string[50];
                     for (int i = 0; i < 50; i++)
                     {
@@ -739,7 +735,9 @@ namespace Mef_VisionFrame
                     point.pointInfo = new PointInfo() { Col = 0, Row = data };
                     paramsChart.points.Add(point);
                     ChartGroovePage[k].UpDataCurve(paramsChart, i, j, k, isShow);
+
                 });
+           
 
             });
 
@@ -764,7 +762,11 @@ namespace Mef_VisionFrame
                 point.CurName = "测量值";
                 point.pointInfo = new PointInfo() { Col = 0, Row = data };
                 paramsChart.points.Add(point);
-                UIService.Instance.AddAction(() => { chartUIParam.UpDataCurve(paramsChart); });
+                UIService.Instance.AddAction(() => 
+                {
+                    chartUIParam.UpDataCurve(paramsChart);
+
+                });
 
             }
             catch (Exception ex)
@@ -789,5 +791,38 @@ namespace Mef_VisionFrame
                 Project.Instance.slaveMachineManager.SendAlarm(msg);
             }
         }
+
+       public void OutData()
+        {
+            ExecuteMethod(() =>
+            {
+                var items = new List<(int, int, int)> { };
+                for (int i = 0; i < BIZ_Variable.StatisticalData_EASlices.Count; i++)
+                {
+                    var data = (i + 1, (int)BIZ_Variable.StatisticalData_EASlices[i].statisticalData.OKCount, (int)BIZ_Variable.StatisticalData_EASlices[i].statisticalData.NGCount);
+                    items.Add(data);
+                }
+
+                byte[] pdf = PdfReportHelper.BuildPdf(
+                DateTime.Now,
+                "default",
+                Project.Instance.systemInfo.currentMojuanhao,
+                (int)pFTCleanCraft.SliceCount,
+                (int)BIZ_Variable.StatisticalData_EASlices[0].statisticalData.SumupCount,
+                 Project.Instance.userManage.userData.CurrentUser.ToString(),
+                 Project.Instance.userManage.userData.CurrentUserID,
+                 items);
+
+                System.IO.File.WriteAllBytes(Project.Instance.paramPathSet.ProductMojuanPath + "统计报告.pdf", pdf);
+
+                MessageNotify.AddDebugLog("统计报告生成成功！");
+                
+
+
+
+             });
+
+        }
+
     }
 }
