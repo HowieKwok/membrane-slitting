@@ -520,18 +520,24 @@ namespace Mef_VisionFrame
             //槽位尺寸数据保存及显示
             List<SlotProduct> slotProducts = GetAllSlots(pFTCleanCraft, productInfoA.ListEASlicePD, productInfoB.ListEASlicePD);
 
-
+            List<RowData> rowSingle = new List<RowData>();
             for (int i = 0; i < pFTCleanCraft.SliceCount; i++)
             {
                 rowDatas?.Clear();
+
                 rowDatas = new List<RowData>();
                 rowDatas.Add(new RowData() { dataStr = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss_fff"), resultType = ResultType.OK });
                 rowDatas.Add(new RowData() { dataStr = $"{productInfoA.EAID}", resultType = productInfoA.resultSliceSizeNg.Max() });
                 rowDatas.Add(new RowData() { dataStr = $"{i + 1}", resultType = productInfoA.resultSliceSizeNg[i] });
+             
                 for (int j = 1; j <= pFTCleanCraft.ListSliceSet[i].ShaveNum; j++)
                 {
                     var strSlotName = Enum.GetNames(typeof(MeasureSlotEnum));
-
+                    rowSingle.Clear();
+                    rowSingle.Add(new RowData() { dataStr = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss_fff"), resultType = ResultType.OK });
+                    rowSingle.Add(new RowData() { dataStr = $"{productInfoA.EAID}", resultType = productInfoA.resultSliceSizeNg.Max() });
+                    rowSingle.Add(new RowData() { dataStr = $"{i + 1}", resultType = productInfoA.resultSliceSizeNg[i] });
+                    rowSingle.Add(new RowData() { dataStr = j.ToString(), resultType = ResultType.OK });
                     for (int k = 0; k < pFTCleanCraft.ListSlotSizeLimits.Count; k++)
                     {
                         if (pFTCleanCraft.ListSlotSizeLimits[k].Enable)
@@ -546,10 +552,13 @@ namespace Mef_VisionFrame
                             SizeInfo sizeInfo = slotProduct.SlotSizes[k];
                             rowDatas.Add(new RowData() { dataStr = sizeInfo.DataResult.ToString(), resultType = sizeInfo.resultType });
                             rowDatas.Add(new RowData() { dataStr = sizeInfo.resultType.ToString(), resultType = sizeInfo.resultType });
+                            rowSingle.Add(new RowData() { dataStr = sizeInfo.DataResult.ToString(), resultType = sizeInfo.resultType });
+                            rowSingle.Add(new RowData() { dataStr = sizeInfo.resultType.ToString(), resultType = sizeInfo.resultType });
                             ChartDataGrooveShow(i, j - 1, k, sizeInfo.DataResult);
                         }
 
                     }
+                    NDataPanelViewModel.Add(form.DpModelEASizeDataPanels[i], BIZ_Variable.strEASizeSliceTitle.ToArray(), rowSingle.ToArray());
 
                 }
                 rowDatas.Add(new RowData() { dataStr = productInfoA.resultSliceGrooveSizeNg[i].ToString(), resultType = productInfoA.resultSliceGrooveSizeNg[i] });
@@ -562,7 +571,7 @@ namespace Mef_VisionFrame
                 rowAllDatas.Add(new RowData() { dataStr = DBChannel[i], resultType = productInfoA.resultSliceAllResult[i] });
 
 
-                NDataPanelViewModel.Add(form.DpModelEASize, BIZ_Variable.strEASizeTitle.ToArray(), rowDatas.ToArray());
+                
                 FileOperationCSV.WriteData_CSV(BIZ_Variable.strEASizePath, BIZ_Variable.strEASizeTitle.ToArray(), rowDatas.ToArray(), "");
 
             }

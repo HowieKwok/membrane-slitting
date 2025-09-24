@@ -62,7 +62,6 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.Dp_EADetect = new EHolly.FormControl.DynamicDataPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.Dp_EASize = new EHolly.FormControl.DynamicDataPanel();
             this.NG信息 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.hWindowControl11 = new HalconDotNet.HWindowControl();
@@ -111,7 +110,6 @@
             this.tableLayoutPanel3.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.NG信息.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -585,7 +583,6 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.Dp_EASize);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(0);
@@ -594,19 +591,7 @@
             this.groupBox1.Size = new System.Drawing.Size(437, 230);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "EA尺寸数据汇总";
-            // 
-            // Dp_EASize
-            // 
-            this.Dp_EASize.AutoSetWidthContent = false;
-            this.Dp_EASize.DataInterval = 100;
-            this.Dp_EASize.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Dp_EASize.HeaderPadding = 1;
-            this.Dp_EASize.Location = new System.Drawing.Point(0, 14);
-            this.Dp_EASize.MaxDisplayCount = 200;
-            this.Dp_EASize.Name = "Dp_EASize";
-            this.Dp_EASize.Size = new System.Drawing.Size(437, 216);
-            this.Dp_EASize.TabIndex = 1;
+            this.groupBox1.Text = "EA尺寸数据汇总(双击显示切换条数)";
             // 
             // NG信息
             // 
@@ -1026,7 +1011,6 @@
             this.tableLayoutPanel3.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
             this.NG信息.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
@@ -1108,7 +1092,6 @@
         private EHolly.FormControl.DynamicDataPanel Dp_DetectSizeConfig;
         private EHolly.FormControl.DynamicDataPanel Dp_EASizeDetect;
         private EHolly.FormControl.DynamicDataPanel Dp_EADetect;
-        private EHolly.FormControl.DynamicDataPanel Dp_EASize;
         private System.Windows.Forms.Button Btn_OutData;
     }
 }

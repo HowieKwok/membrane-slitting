@@ -121,6 +121,8 @@ namespace Frame_Core
         }
 
 
+
+
         public delegate bool MJStartDelegate(string message);
         public delegate bool BeginDelegate();
         public event MJStartDelegate StartMJEvent;
@@ -130,12 +132,34 @@ namespace Frame_Core
 
 
         #region 接收
+
+        public string GetProduceCode()
+        {
+            return (tcpClientParam as SlaveMachineParam).ProduceCode;
+        }
+
+
+        public string GetRollCode()
+        {
+            return (tcpClientParam as SlaveMachineParam).RollCode;
+        }
+
+
+        public double GetMacheineSpeed()
+        {
+            return (tcpClientParam as SlaveMachineParam).fMacheineSpeed;
+        }
+
+
+
         protected override void DBJReadResponse(string RedPlcData_str)
         {
             try
             {
                 bool isHeartFeedbark = false;
                 string[] strArr = RedPlcData_str.Split(',');
+                SlaveMachineParam slaveMachineParam = tcpClientParam as SlaveMachineParam;
+
                 if (RedPlcData_str.Length > 2)
                 {
 
@@ -154,7 +178,9 @@ namespace Frame_Core
                         case "RUN_MJ":
                             if (true)
                             {
-                                string mojuanhao = strArr[2];
+                                slaveMachineParam.ProduceCode = strArr[1];
+                                slaveMachineParam.RollCode = strArr[2];
+
                                 //==============================================================================================================================
                                 //=======【】停止运行
                                 if (Project.Instance.Is_Run)
@@ -171,7 +197,7 @@ namespace Frame_Core
                                 }
                                 //==============================================================================================================================
                                 //=======【】开始运行
-                                bool? result = StartMJEvent?.Invoke(mojuanhao);
+                                bool? result = StartMJEvent?.Invoke(slaveMachineParam.RollCode);
                                 if (result == true)
                                 {
                                     bool F = TCPIP.TCP_Send("FJ_Start_MJ", SendLogPath);
@@ -188,6 +214,15 @@ namespace Frame_Core
 
                             break;
                         #endregion
+
+                        case "SPEED":
+                            if (strArr.Length > 1)
+                            {
+                                slaveMachineParam.fMacheineSpeed = double.Parse(strArr[1]);
+                                
+                            }
+
+                            break;
 
                         //======【】STOP_MJ 结束膜卷
                         #region >>> STOP_MJ 结束膜卷

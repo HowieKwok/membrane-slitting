@@ -111,6 +111,8 @@ namespace Mef_VisionFrame
             ExecuteMethod(() =>
             {
                 CameraEnum cameraEnum = CameraEnum.Cam1;
+                ConcurrentDictionary<int, PFTCleanEAProductInfo> dic_EAproductsInfo_A = Project.Instance.Is_simulation ? BIZ_Variable.dic_EAproductsInfo_SimA : BIZ_Variable.dic_EAproductsInfo_A;
+                ConcurrentDictionary<int, PFTCleanEAProductInfo> dic_EAproductsInfo_B = Project.Instance.Is_simulation ? BIZ_Variable.dic_EAproductsInfo_SimB : BIZ_Variable.dic_EAproductsInfo_B;
                 double Calipix_x = Project.Instance.cameraManager[cameraEnum].m_CamParam.CalibrationValue_X;
                 double Calipix_y = Project.Instance.cameraManager[cameraEnum].m_CamParam.CalibrationValue_Y;
 
@@ -120,7 +122,59 @@ namespace Mef_VisionFrame
 
                 int count = pFTImageProduct.showHalconWindow.m_hImage.GetReferenceCount();
                 MessageNotify.AddDebugLog($"Cam1_原图数据处理完成，当前图像ID{pFTImageProduct.nCurImageID}，引用计数为{count}");
+                // EA判断处理
+                // 找到未完成EA处理且已完成切片的产品
+                // 获取对应的产品信息
+                BIZ_Variable.queueImgProductsDisposeAB.Enqueue(pFTImageProduct);
 
+                //这里作为延迟一帧再做数据合并，避免数据不一致
+                if (BIZ_Variable.queueImgProductsDisposeAB.Count > 1)
+                {
+                    PFTImageProduct pFT = BIZ_Variable.queueImgProductsDisposeAB.Dequeue();
+                    if (pFT.blSplitEA)
+                    {
+
+
+                        int keyA = pFT.nCurEAID;
+                        if (dic_EAproductsInfo_A.TryGetValue(keyA, out PFTCleanEAProductInfo productInfoA) &&
+                        dic_EAproductsInfo_B.TryGetValue(keyA, out PFTCleanEAProductInfo productInfoB))
+                        {
+                            bIZ_ThreadManage.limitThreadPool.RunAction(() =>
+                            {
+                                int InnerkeyA = productInfoA.EAID;
+                                //数据来源分析
+                                EADataAnalysis(cameraEnum, Calipix_x, Calipix_y, productInfoA, productInfoB, out List<string> OutDBChannel);
+                                //发送打标数据
+                                SendDBInfoIfNeeded(InnerkeyA, productInfoA.EArange.StartImageID, productInfoA.resultSliceAllResult, ((SlaveMachineParam)Project.Instance.slaveMachineManager.tcpClientParam).nCamDBIndex);
+                                UIAndFileDataSave(InnerkeyA, OutDBChannel, productInfoA, productInfoB);
+
+                                if (Project.Instance.slaveMachineManager.initState)
+                                {
+                                    //转成josn发送
+                                    List<StatisticalData> StatisticalData_EASlices = new List<StatisticalData>();
+                                    for (int i = 0; i < BIZ_Variable.StatisticalData_EASlices.Count; i++)
+                                    {
+                                        StatisticalData_EASlices.Add(BIZ_Variable.StatisticalData_EASlices[i].statisticalData);
+                                    }
+                                    string jsonData = JsonConvert.SerializeObject(StatisticalData_EASlices);
+                                    Project.Instance.slaveMachineManager.SendDataSum(jsonData);
+                                }
+
+                            });
+
+
+                        }
+                        else
+                        {
+
+                            // 报警：未找到对应的产品信息
+                            MessageNotify.AddErrorLog("ProcessingData_FrameCam1()_未找到对应的产品信息");
+                            MessageNotify.AddStopAlarm(new StopAlarmMessage() { time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"), StopAlarmState = StopAlarmStateEnum.停机, name = "未找到对应的产品信息", describe = "未找到对应的产品信息" });
+                        }
+
+
+                    }
+                }
             });
 
 
@@ -145,59 +199,7 @@ namespace Mef_VisionFrame
 
                 //原图处理
                 FrameMethord(cameraEnum, pFTImageProduct, form.DpModelDetectProcessCam2, HWC_InitCam2, BIZ_Variable.strDeftInitCam2Title.ToArray(), BIZ_Variable.strDeftInitCam2Path);
-                // EA判断处理
-                // 找到未完成EA处理且已完成切片的产品
-                // 获取对应的产品信息
-                BIZ_Variable.queueImgProductsDisposeAB.Enqueue(pFTImageProduct);
-
-                //这里作为延迟一帧再做数据合并，避免数据不一致
-                if (BIZ_Variable.queueImgProductsDisposeAB.Count >1)
-                {
-                    PFTImageProduct pFT = BIZ_Variable.queueImgProductsDisposeAB.Dequeue();
-                    if (pFT.blSplitEA)
-                    {
-
-
-                        int keyA = pFT.nCurEAID;
-                        if (dic_EAproductsInfo_A.TryGetValue(keyA, out PFTCleanEAProductInfo productInfoA) &&
-                        dic_EAproductsInfo_B.TryGetValue(keyA, out PFTCleanEAProductInfo productInfoB))
-                        {
-                            bIZ_ThreadManage.limitThreadPool.RunAction(() =>
-                            {
-                                int InnerkeyA = productInfoA.EAID;
-                                //数据来源分析
-                                EADataAnalysis(cameraEnum, Calipix_x, Calipix_y, productInfoA, productInfoB, out List<string> OutDBChannel);
-                                //发送打标数据
-                                SendDBInfoIfNeeded(InnerkeyA, productInfoA.EArange.StartImageID, productInfoA.resultSliceAllResult, ((SlaveMachineParam)Project.Instance.slaveMachineManager.tcpClientParam).nCamDBIndex);
-                                UIAndFileDataSave(InnerkeyA, OutDBChannel, productInfoA, productInfoB);
-                                
-                                if(Project.Instance.slaveMachineManager.initState)
-                                {
-                                    //转成josn发送
-                                    List< StatisticalData > StatisticalData_EASlices = new List< StatisticalData >();
-                                    for(int i=0;i< BIZ_Variable.StatisticalData_EASlices.Count;i++)
-                                    {
-                                        StatisticalData_EASlices.Add(BIZ_Variable.StatisticalData_EASlices[i].statisticalData);
-                                    }
-                                    string jsonData = JsonConvert.SerializeObject(StatisticalData_EASlices);
-                                    Project.Instance.slaveMachineManager.SendDataSum(jsonData);
-                                }
-
-                            });
-                          
-
-                        }
-                        else
-                        {
-
-                            // 报警：未找到对应的产品信息
-                            MessageNotify.AddErrorLog("ProcessingData_FrameCam2()_未找到对应的产品信息");
-                            MessageNotify.AddStopAlarm(new StopAlarmMessage() { time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"), StopAlarmState = StopAlarmStateEnum.停机, name = "未找到对应的产品信息", describe = "未找到对应的产品信息" });
-                        }
-
-
-                    }
-                }
+      
 
             });
         }
@@ -410,12 +412,17 @@ namespace Mef_VisionFrame
                     NLabel.UpdateControls(form.LB_Formula, Project.Instance.systemInfo.CurrentCraft);
                     NLabel.UpdateControls(form.LB_DetectionType, LanguageProject.GetLangeuageAttribute(Project.Instance.craftBase.materialCrafEnum, LanguageEnum.Chinese));
 
-                    NDataPanelViewModel.Init(form.DpModelDetectProcessCam1, BIZ_Variable.strDeftInitCam1Title.ToArray(), 20, 20);
-                    NDataPanelViewModel.Init(form.DpModelDetectProcessCam2, BIZ_Variable.strDeftInitCam2Title.ToArray(), 20, 20);
-                    NDataPanelViewModel.Init(form.DpModelSizeConfig, BIZ_Variable.strEASizeConfigTitle.ToArray(), 20, 20);
-                    NDataPanelViewModel.Init(form.DpModelEASize, BIZ_Variable.strEASizeTitle.ToArray(), 20, 20);
-                    NDataPanelViewModel.Init(form.DpModelEADetect, BIZ_Variable.strEADeftTitle.ToArray(), 20, 20);
-                    NDataPanelViewModel.Init(form.DpModelEADetectSize, BIZ_Variable.strEASizeDeftTitle.ToArray(), 20, 20);
+                    NDataPanelViewModel.Init(form.DpModelDetectProcessCam1, BIZ_Variable.strDeftInitCam1Title.ToArray(), 80, 20);
+                    NDataPanelViewModel.Init(form.DpModelDetectProcessCam2, BIZ_Variable.strDeftInitCam2Title.ToArray(), 80, 20);
+                    NDataPanelViewModel.Init(form.DpModelSizeConfig, BIZ_Variable.strEASizeConfigTitle.ToArray(), 80, 20);
+                   
+                    for(int i=0;i<pFTCleanCraft.SliceCount;i++)
+                    {
+                        NDataPanelViewModel.Init(form.DpModelEASizeDataPanels[i], BIZ_Variable.strEASizeSliceTitle.ToArray(), 80, 20);
+                    }
+                   
+                    NDataPanelViewModel.Init(form.DpModelEADetect, BIZ_Variable.strEADeftTitle.ToArray(), 80, 20);
+                    NDataPanelViewModel.Init(form.DpModelEADetectSize, BIZ_Variable.strEASizeDeftTitle.ToArray(), 80, 20);
                     string[] strings = new string[50];
                     for (int i = 0; i < 50; i++)
                     {
@@ -461,6 +468,7 @@ namespace Mef_VisionFrame
                 BIZ_Variable.strEASizeConfigPath = Project.Instance.paramPathSet.ProductMojuanPath + $"配置文件总表.csv";
 
                 BIZ_Variable.strEASizeTitle = new List<string>() { "时间", "EA号", "条号" };
+                BIZ_Variable.strEASizeSliceTitle = new List<string>() { "时间", "EA号", "条号" ,"区号"};
                 BIZ_Variable.strEASizePath = Project.Instance.paramPathSet.ProductMojuanPath + $"双相机槽位尺寸汇总表.csv";
                 BIZ_Variable.strEADeftTitle = new List<string>() { "时间", "EA号" };
                 BIZ_Variable.strEADeftPath = Project.Instance.paramPathSet.ProductMojuanPath + $"双相机缺项汇总表.csv";
@@ -502,6 +510,17 @@ namespace Mef_VisionFrame
                                 str = $"(孔区{i + 1})_{slot.Description}_结果";
                                 BIZ_Variable.strEASizeTitle.Add(str);
                             }
+                        }
+                    }
+
+                    foreach (var slot in pFTCleanCraft.ListSlotSizeLimits)
+                    {
+                        if (slot.Enable)
+                        {
+                            str = $"{slot.Description}";
+                            BIZ_Variable.strEASizeSliceTitle.Add(str);
+                            str = $"{slot.Description}_结果";
+                            BIZ_Variable.strEASizeSliceTitle.Add(str);
                         }
                     }
                 }

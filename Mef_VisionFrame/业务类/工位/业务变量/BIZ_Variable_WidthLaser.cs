@@ -89,6 +89,11 @@ namespace Mef_VisionFrame
         /// 双相机尺寸汇总表头
         /// </summary>
         public List<string> strEASizeTitle { get; set; } = new List<string>();
+
+        /// <summary>
+        /// 条槽位尺寸汇总表头
+        /// </summary>
+        public List<string> strEASizeSliceTitle { get; set; } = new List<string>();
         /// <summary>
         /// 双相机尺寸汇总文件路径
         /// </summary>

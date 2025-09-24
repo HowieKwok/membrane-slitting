@@ -23,6 +23,8 @@ namespace Mef_VisionFrame
 
     public partial class Form_WidthLaserDetect : Form
     {
+        public List<DynamicDataPanel> DpModelEASizeDataPanels = new List<DynamicDataPanel>();
+        public ComboBox comboBox = new ComboBox();
         public DynamicDataPanel DpModelDetectProcessCam1//也可实现自己的类重载此基类来配置相关参数
         {
             get
@@ -30,6 +32,8 @@ namespace Mef_VisionFrame
                 return Dp_DetectProcessCam1;
             }
         }
+
+        
 
         public DynamicDataPanel DpModelDetectProcessCam2  //也可实现自己的类重载此基类来配置相关参数
         {
@@ -47,13 +51,13 @@ namespace Mef_VisionFrame
             }
         }
 
-        public DynamicDataPanel DpModelEASize //也可实现自己的类重载此基类来配置相关参数
-        {
-            get
-            {
-                return Dp_EASize;
-            }
-        }
+        //public DynamicDataPanel DpModelEASize //也可实现自己的类重载此基类来配置相关参数
+        //{
+        //    get
+        //    {
+        //        return Dp_EASize;
+        //    }
+        //}
 
         public DynamicDataPanel DpModelEADetect//也可实现自己的类重载此基类来配置相关参数
         {
@@ -111,6 +115,63 @@ namespace Mef_VisionFrame
                 Cob_GrooveIndex.SelectedIndex = 0;
             }
 
+            comboBox.Items.Clear();
+            DpModelEASizeDataPanels.Clear();
+            for (int i = 1; i <= SliceIndex; i++)
+            {
+                var p = new DynamicDataPanel
+                {
+                    Name = "EAGrooveSlice" + i,
+                    Dock = DockStyle.Fill,
+                    Margin = new Padding(0),
+                    Width=groupBox1.Width,
+                    Height=groupBox1.Height,
+                };
+                // p.MouseDoubleClick += groupBox1_MouseDoubleClick;
+                DpModelEASizeDataPanels.Add(p);
+                comboBox.Items.Add($"第 {i} 条");   // 中文序号更直观
+            }
+
+            comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox.Font = new Font("微软雅黑", 9F);
+            comboBox.Margin = new Padding(0);
+            comboBox.Visible = false;                // 先藏起来
+            comboBox.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
+            comboBox.Leave += (s, _) => comboBox.Visible = false; // 失焦也隐藏
+            groupBox1.Controls.Add(comboBox);
+            groupBox1.MouseDoubleClick += groupBox1_MouseDoubleClick;
+
+            comboBox.SelectedIndex = 0;   // 默认显示第一条
+
+        }
+
+        private void ComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox.SelectedIndex < 0) return;
+
+            // 先清旧面板
+            for (int i = groupBox1.Controls.Count - 1; i >= 0; i--)
+                if (groupBox1.Controls[i] is DynamicDataPanel)
+                    groupBox1.Controls.RemoveAt(i);
+
+            // 加载新面板
+            var p = DpModelEASizeDataPanels[comboBox.SelectedIndex];
+            p.Dock = DockStyle.Fill;
+            groupBox1.Controls.Add(p);
+
+
+            // 隐藏 ComboBox
+            //comboBox.Visible = false;
+        }
+
+        private void groupBox1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left) return;
+
+
+            comboBox.Location = new Point(groupBox1.Width - comboBox.Width - 10, -2);
+            comboBox.Visible = true;
+            comboBox.DroppedDown = true;   // 直接拉下列表
         }
         object Cob_Slice = new object();
         public int GetCob_SliceIndex()
@@ -275,23 +336,23 @@ namespace Mef_VisionFrame
         {
             this.BeginInvoke(new Action(() =>
             {
-                int currentIndex = e.TabPageIndex;
-                //获取上一个选中的tab索引
-                if (currentIndex == 2)
-                {
-                    tableLayoutPanel3.Visible = true;
-                    Dp_EASize.Visible = true;
-                    Dp_EADetect.Visible = true;
-                    Dp_EASizeDetect.Visible = true;
+                //int currentIndex = e.TabPageIndex;
+                ////获取上一个选中的tab索引
+                //if (currentIndex == 2)
+                //{
+                //    tableLayoutPanel3.Visible = true;
+                //    //Dp_EASize.Visible = true;
+                //    Dp_EADetect.Visible = true;
+                //    Dp_EASizeDetect.Visible = true;
 
-                }
-                else
-                {
-                    tableLayoutPanel3.Visible = false;
-                    Dp_EASize.Visible = false;
-                    Dp_EADetect.Visible = false;
-                    Dp_EASizeDetect.Visible = false;
-                }
+                //}
+                //else
+                //{
+                //    tableLayoutPanel3.Visible = false;
+                //   // Dp_EASize.Visible = false;
+                //    Dp_EADetect.Visible = false;
+                //    Dp_EASizeDetect.Visible = false;
+                //}
 
                 //if (currentIndex == 2)
                 //{

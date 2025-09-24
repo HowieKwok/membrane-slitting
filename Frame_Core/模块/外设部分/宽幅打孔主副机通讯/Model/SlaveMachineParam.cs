@@ -13,6 +13,14 @@ namespace Frame_Core
         [Description("相机打标编号")]
         public int nCamDBIndex { set; get; } = 6;
 
+
+        public string ProduceCode { set; get; } = "Default";
+
+        public string RollCode { set; get; } = "Default";
+
+
+        public double fMacheineSpeed { set; get; } = 0;
+
         public BindingList<CoatingZone> Zones { get; } = new BindingList<CoatingZone>();
 
         public void ZonesInit()
