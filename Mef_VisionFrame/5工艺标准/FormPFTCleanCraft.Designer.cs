@@ -127,19 +127,6 @@
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.Comb_CamSlice = new System.Windows.Forms.ComboBox();
             this.DataGridView_SliceSet = new System.Windows.Forms.DataGridView();
-            this.groupBox13 = new System.Windows.Forms.GroupBox();
-            this.nud_TDLastGapTol = new System.Windows.Forms.NumericUpDown();
-            this.label25 = new System.Windows.Forms.Label();
-            this.nud_TDFirstGapTol = new System.Windows.Forms.NumericUpDown();
-            this.label26 = new System.Windows.Forms.Label();
-            this.label27 = new System.Windows.Forms.Label();
-            this.nud_TDMidGapTol = new System.Windows.Forms.NumericUpDown();
-            this.nud_TDLastGap = new System.Windows.Forms.NumericUpDown();
-            this.label10 = new System.Windows.Forms.Label();
-            this.nud_TDFirstGap = new System.Windows.Forms.NumericUpDown();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
-            this.nud_TDMidGap = new System.Windows.Forms.NumericUpDown();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.DataGridView_SlotInfo = new System.Windows.Forms.DataGridView();
@@ -204,13 +191,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView_SlotLimit)).BeginInit();
             this.groupBox9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView_SliceSet)).BeginInit();
-            this.groupBox13.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_TDLastGapTol)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_TDFirstGapTol)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_TDMidGapTol)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_TDLastGap)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_TDFirstGap)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_TDMidGap)).BeginInit();
             this.tabPage5.SuspendLayout();
             this.groupBox6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView_SlotInfo)).BeginInit();
@@ -1344,9 +1324,8 @@
             this.tableLayoutPanel7.ColumnCount = 2;
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel7.Controls.Add(this.groupBox10, 0, 1);
+            this.tableLayoutPanel7.Controls.Add(this.groupBox10, 1, 0);
             this.tableLayoutPanel7.Controls.Add(this.groupBox9, 0, 0);
-            this.tableLayoutPanel7.Controls.Add(this.groupBox13, 1, 1);
             this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel7.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel7.Name = "tableLayoutPanel7";
@@ -1360,9 +1339,10 @@
             // 
             this.groupBox10.Controls.Add(this.DataGridView_SlotLimit);
             this.groupBox10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox10.Location = new System.Drawing.Point(3, 294);
+            this.groupBox10.Location = new System.Drawing.Point(774, 3);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(765, 285);
+            this.tableLayoutPanel7.SetRowSpan(this.groupBox10, 2);
+            this.groupBox10.Size = new System.Drawing.Size(765, 576);
             this.groupBox10.TabIndex = 335;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "打孔区公差设置";
@@ -1379,19 +1359,19 @@
             this.DataGridView_SlotLimit.MultiSelect = false;
             this.DataGridView_SlotLimit.Name = "DataGridView_SlotLimit";
             this.DataGridView_SlotLimit.RowTemplate.Height = 23;
-            this.DataGridView_SlotLimit.Size = new System.Drawing.Size(759, 257);
+            this.DataGridView_SlotLimit.Size = new System.Drawing.Size(759, 548);
             this.DataGridView_SlotLimit.TabIndex = 214;
             this.DataGridView_SlotLimit.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_SlotLimit_RowHeaderMouseDoubleClick);
             // 
             // groupBox9
             // 
-            this.tableLayoutPanel7.SetColumnSpan(this.groupBox9, 2);
             this.groupBox9.Controls.Add(this.Comb_CamSlice);
             this.groupBox9.Controls.Add(this.DataGridView_SliceSet);
             this.groupBox9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox9.Location = new System.Drawing.Point(3, 3);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(1536, 285);
+            this.tableLayoutPanel7.SetRowSpan(this.groupBox9, 2);
+            this.groupBox9.Size = new System.Drawing.Size(765, 576);
             this.groupBox9.TabIndex = 217;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "分条基础";
@@ -1420,170 +1400,9 @@
             this.DataGridView_SliceSet.MultiSelect = false;
             this.DataGridView_SliceSet.Name = "DataGridView_SliceSet";
             this.DataGridView_SliceSet.RowTemplate.Height = 23;
-            this.DataGridView_SliceSet.Size = new System.Drawing.Size(1530, 257);
+            this.DataGridView_SliceSet.Size = new System.Drawing.Size(759, 548);
             this.DataGridView_SliceSet.TabIndex = 217;
             this.DataGridView_SliceSet.CurrentCellChanged += new System.EventHandler(this.DataGridView_SliceSet_CurrentCellChanged);
-            // 
-            // groupBox13
-            // 
-            this.groupBox13.Controls.Add(this.nud_TDLastGapTol);
-            this.groupBox13.Controls.Add(this.label25);
-            this.groupBox13.Controls.Add(this.nud_TDFirstGapTol);
-            this.groupBox13.Controls.Add(this.label26);
-            this.groupBox13.Controls.Add(this.label27);
-            this.groupBox13.Controls.Add(this.nud_TDMidGapTol);
-            this.groupBox13.Controls.Add(this.nud_TDLastGap);
-            this.groupBox13.Controls.Add(this.label10);
-            this.groupBox13.Controls.Add(this.nud_TDFirstGap);
-            this.groupBox13.Controls.Add(this.label18);
-            this.groupBox13.Controls.Add(this.label24);
-            this.groupBox13.Controls.Add(this.nud_TDMidGap);
-            this.groupBox13.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox13.Location = new System.Drawing.Point(774, 294);
-            this.groupBox13.Name = "groupBox13";
-            this.groupBox13.Size = new System.Drawing.Size(765, 285);
-            this.groupBox13.TabIndex = 336;
-            this.groupBox13.TabStop = false;
-            this.groupBox13.Text = "边距间隙设置";
-            // 
-            // nud_TDLastGapTol
-            // 
-            this.nud_TDLastGapTol.DecimalPlaces = 2;
-            this.nud_TDLastGapTol.Location = new System.Drawing.Point(369, 142);
-            this.nud_TDLastGapTol.Maximum = new decimal(new int[] {
-            99999999,
-            0,
-            0,
-            0});
-            this.nud_TDLastGapTol.Name = "nud_TDLastGapTol";
-            this.nud_TDLastGapTol.Size = new System.Drawing.Size(107, 29);
-            this.nud_TDLastGapTol.TabIndex = 374;
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label25.Location = new System.Drawing.Point(309, 144);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(54, 21);
-            this.label25.TabIndex = 373;
-            this.label25.Text = "公差±";
-            // 
-            // nud_TDFirstGapTol
-            // 
-            this.nud_TDFirstGapTol.DecimalPlaces = 2;
-            this.nud_TDFirstGapTol.Location = new System.Drawing.Point(369, 47);
-            this.nud_TDFirstGapTol.Maximum = new decimal(new int[] {
-            99999999,
-            0,
-            0,
-            0});
-            this.nud_TDFirstGapTol.Name = "nud_TDFirstGapTol";
-            this.nud_TDFirstGapTol.Size = new System.Drawing.Size(107, 29);
-            this.nud_TDFirstGapTol.TabIndex = 372;
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label26.Location = new System.Drawing.Point(309, 101);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(54, 21);
-            this.label26.TabIndex = 369;
-            this.label26.Text = "公差±";
-            // 
-            // label27
-            // 
-            this.label27.AutoSize = true;
-            this.label27.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label27.Location = new System.Drawing.Point(309, 47);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(54, 21);
-            this.label27.TabIndex = 371;
-            this.label27.Text = "公差±";
-            // 
-            // nud_TDMidGapTol
-            // 
-            this.nud_TDMidGapTol.DecimalPlaces = 2;
-            this.nud_TDMidGapTol.Enabled = false;
-            this.nud_TDMidGapTol.Location = new System.Drawing.Point(369, 93);
-            this.nud_TDMidGapTol.Maximum = new decimal(new int[] {
-            99999999,
-            0,
-            0,
-            0});
-            this.nud_TDMidGapTol.Name = "nud_TDMidGapTol";
-            this.nud_TDMidGapTol.Size = new System.Drawing.Size(107, 29);
-            this.nud_TDMidGapTol.TabIndex = 370;
-            // 
-            // nud_TDLastGap
-            // 
-            this.nud_TDLastGap.DecimalPlaces = 2;
-            this.nud_TDLastGap.Location = new System.Drawing.Point(184, 142);
-            this.nud_TDLastGap.Maximum = new decimal(new int[] {
-            99999999,
-            0,
-            0,
-            0});
-            this.nud_TDLastGap.Name = "nud_TDLastGap";
-            this.nud_TDLastGap.Size = new System.Drawing.Size(107, 29);
-            this.nud_TDLastGap.TabIndex = 368;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label10.Location = new System.Drawing.Point(30, 144);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(138, 21);
-            this.label10.TabIndex = 367;
-            this.label10.Text = "尾条右间隙标准值";
-            // 
-            // nud_TDFirstGap
-            // 
-            this.nud_TDFirstGap.DecimalPlaces = 2;
-            this.nud_TDFirstGap.Location = new System.Drawing.Point(184, 45);
-            this.nud_TDFirstGap.Maximum = new decimal(new int[] {
-            99999999,
-            0,
-            0,
-            0});
-            this.nud_TDFirstGap.Name = "nud_TDFirstGap";
-            this.nud_TDFirstGap.Size = new System.Drawing.Size(107, 29);
-            this.nud_TDFirstGap.TabIndex = 366;
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label18.Location = new System.Drawing.Point(30, 95);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(138, 21);
-            this.label18.TabIndex = 363;
-            this.label18.Text = "中间条间隙标准值";
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label24.Location = new System.Drawing.Point(30, 47);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(138, 21);
-            this.label24.TabIndex = 365;
-            this.label24.Text = "首条左间隙标准值";
-            // 
-            // nud_TDMidGap
-            // 
-            this.nud_TDMidGap.DecimalPlaces = 2;
-            this.nud_TDMidGap.Location = new System.Drawing.Point(184, 93);
-            this.nud_TDMidGap.Maximum = new decimal(new int[] {
-            99999999,
-            0,
-            0,
-            0});
-            this.nud_TDMidGap.Name = "nud_TDMidGap";
-            this.nud_TDMidGap.Size = new System.Drawing.Size(107, 29);
-            this.nud_TDMidGap.TabIndex = 364;
             // 
             // tabPage5
             // 
@@ -1925,14 +1744,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView_SlotLimit)).EndInit();
             this.groupBox9.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView_SliceSet)).EndInit();
-            this.groupBox13.ResumeLayout(false);
-            this.groupBox13.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_TDLastGapTol)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_TDFirstGapTol)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_TDMidGapTol)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_TDLastGap)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_TDFirstGap)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_TDMidGap)).EndInit();
             this.tabPage5.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView_SlotInfo)).EndInit();
@@ -2068,19 +1879,6 @@
         private System.Windows.Forms.GroupBox groupBox12;
         private System.Windows.Forms.DataGridView dataGridViewMDis;
         private System.Windows.Forms.Button button_RebuildTDMDis;
-        private System.Windows.Forms.GroupBox groupBox13;
-        private System.Windows.Forms.NumericUpDown nud_TDLastGap;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.NumericUpDown nud_TDFirstGap;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.NumericUpDown nud_TDMidGap;
-        private System.Windows.Forms.NumericUpDown nud_TDLastGapTol;
-        private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.NumericUpDown nud_TDFirstGapTol;
-        private System.Windows.Forms.Label label26;
-        private System.Windows.Forms.Label label27;
-        private System.Windows.Forms.NumericUpDown nud_TDMidGapTol;
         private System.Windows.Forms.NumericUpDown nud_SlotSizeTD;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.NumericUpDown nud_SlotSizeMD;

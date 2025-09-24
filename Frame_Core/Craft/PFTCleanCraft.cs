@@ -114,20 +114,41 @@ namespace Frame_Core
         /// </summary>
         [Description("打孔区尺寸MD")]
         public double SlotSizeMD { get; set; } = 5;
-       
+
 
         /// <summary>
-        /// 槽位TDis
+        /// 槽位TDis间隙,槽位右边到左边
         /// </summary>
-        [Description("槽位TDis")]
-        public List<double> SlotTDis { get; set; }
-        //public double[] RealFixRito = new double[6] { 1, 1, 1, 1, 1, 1 };
+        [Description("槽位TDis间隙")]
+        public List<double> SlotGapTDis { get; set; }
+
         /// <summary>
-        /// 槽位TDis
+        /// 槽位TDis间隙上公差
         /// </summary>
-        [Description("槽位TDis")]
+        [Description("槽位TDis间隙上公差")]
+        public List<double> SlotGapTDisUp { get; set; }
+        /// <summary>
+        /// 槽位TDis间隙下公差
+        /// </summary>
+        [Description("槽位TDis下公差")]
+        public List<double> SlotGapTDisDown { get; set; }
+
+        /// <summary>
+        /// 槽位MDis间距,槽位上边到上边
+        /// </summary>
+        [Description("槽位MDis")]
         public List<double> SlotMDis { get; set; }
 
+        /// <summary>
+        ///槽位MDis上公差
+        /// </summary>
+        [Description("槽位MDis上公差")]
+        public List<double> SlotMDisUp { get; set; }
+        /// <summary>
+        /// 槽位MDis下公差
+        /// </summary>
+        [Description("槽位MDis下公差")]
+        public List<double> SlotMDisDown { get; set; }
 
         /// <summary>
         /// Cam1左侧基准边列坐标
@@ -154,40 +175,40 @@ namespace Frame_Core
 
 
         #region 边距间隙公差
-        /// <summary>
-        /// 第一条距边标准值
-        /// </summary>
-        [Description("第一条距边标准值")]
-        public double TDFirstGap { get; set; } = 2;
+        ///// <summary>
+        ///// 第一条距边标准值
+        ///// </summary>
+        //[Description("第一条距边标准值")]
+        //public double TDFirstGap { get; set; } = 2;
 
-        /// <summary>
-        /// 第一条距边公差
-        /// </summary>
-        [Description("第一条距边公差")]
-        public double TDFirstGapTol { get; set; } = 0.5;
+        ///// <summary>
+        ///// 第一条距边公差
+        ///// </summary>
+        //[Description("第一条距边公差")]
+        //public double TDFirstGapTol { get; set; } = 0.5;
 
-        /// <summary>
-        /// 中间条间隙标准值
-        /// </summary>
-        [Description("中间条间隙标准值")]
-        public double TDMidGap { get; set; } = 4;
+        ///// <summary>
+        ///// 中间条间隙标准值
+        ///// </summary>
+        //[Description("中间条间隙标准值")]
+        //public double TDMidGap { get; set; } = 4;
 
-        /// <summary>
-        /// 中间条间隙公差
-        /// </summary>
-        [Description("中间条间隙公差")]
-        public double TDMidGapTol { get; set; } = 1;
+        ///// <summary>
+        ///// 中间条间隙公差
+        ///// </summary>
+        //[Description("中间条间隙公差")]
+        //public double TDMidGapTol { get; set; } = 1;
 
-        /// <summary>
-        /// 最后条距边标准值
-        /// </summary>
-        [Description("最后条距边标准值")]
-        public double TDLastGap { get; set; } = 2;
-        /// <summary>
-        /// 最后条距边公差
-        /// </summary>
-        [Description("最后条距边公差")]
-        public double TDLastGapTol { get; set; } = 0.5;
+        ///// <summary>
+        ///// 最后条距边标准值
+        ///// </summary>
+        //[Description("最后条距边标准值")]
+        //public double TDLastGap { get; set; } = 2;
+        ///// <summary>
+        ///// 最后条距边公差
+        ///// </summary>
+        //[Description("最后条距边公差")]
+        //public double TDLastGapTol { get; set; } = 0.5;
         #endregion
 
 
@@ -238,24 +259,50 @@ namespace Frame_Core
             electrode = ElectrodeEnum.阴极;
             materialCrafEnum = MaterialCrafEnum.PFT清洗机;
 
-            //初始化TDMD尺寸
-            if (SlotTDis == null)
+            //初始化TD间隙尺寸
+            if (SlotGapTDis == null)
             {
-                SlotTDis = new List<double>();
+                SlotGapTDis = new List<double>();
             }
-            else { SlotTDis.Clear(); }
-            for (int i = 0; i < SliceCount; i++)
+            else { SlotGapTDis.Clear(); }
+
+            if (SlotGapTDisUp == null)
             {
-                SlotTDis.Add(50 * i);
+                SlotGapTDisUp = new List<double>();
             }
+            else { SlotGapTDisUp.Clear(); }
+            if (SlotGapTDisDown == null)
+            {
+                SlotGapTDisDown = new List<double>();
+            }
+            else { SlotGapTDisDown.Clear(); }
+            for (int i = 0; i < SliceCount + 1; i++)
+            {
+                SlotGapTDis.Add(50);
+                SlotGapTDisUp.Add(2);
+                SlotGapTDisDown.Add(2);
+            }
+            //初始化MD尺寸
             if (SlotMDis == null)
             {
                 SlotMDis = new List<double>();
             }
             else { SlotMDis.Clear(); }
+            if (SlotMDisUp == null)
+            {
+                SlotMDisUp = new List<double>();
+            }
+            else { SlotMDisUp.Clear(); }
+            if (SlotMDisDown == null)
+            {
+                SlotMDisDown = new List<double>();
+            }
+            else { SlotMDisDown.Clear(); }
             for (int i = 0; i < PerSlotCount; i++)
             {
-                SlotMDis.Add(50 * i);
+                SlotMDis.Add(50);
+                SlotGapTDisUp.Add(2);
+                SlotGapTDisDown.Add(2);
             }
 
             //初始化抓边
@@ -544,22 +591,6 @@ namespace Frame_Core
         [My("正公差")]
         [Description("正公差")]
         public double UpLimitValue { get; set; } = 0.5;
-
-
-
-        /// <summary>
-        /// CPK下限值
-        /// </summary>
-        [My("CPK下限值", false)]
-        [Description("CPK下限值")]
-        public double CpklowLimitValue { get; set; } =1.0;
-        /// <summary>
-        /// CPK上限值
-        /// </summary>
-        [My("CPK上限值",false)]
-        [Description("CPK上限值")]
-        public double CpkUpLimitValue { get; set; } = 1.5;
-
         /// <summary>
         /// 启用打标
         /// </summary>
@@ -656,14 +687,14 @@ namespace Frame_Core
         /// <summary>
         /// 打孔MD定位距(起始)
         /// </summary>
-        [My("打孔MD定位距(起始)")]
+        [My("打孔MD定位距(起始)", false)]
         [Description("打孔MD定位距(起始)")]
         public double ShaveDisMDStart { get; set; } = 0;
 
         /// <summary>
         /// 打孔MD定位距(步长)
         /// </summary>
-        [My("打孔MD定位距(步长)")]
+        [My("打孔MD定位距(步长)", false)]
         [Description("打孔MD定位距(步长)")]
         public double ShaveDisMDStep { get; set; } = 0;
 

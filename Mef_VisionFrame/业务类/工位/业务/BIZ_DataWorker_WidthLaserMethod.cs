@@ -505,7 +505,7 @@ namespace Mef_VisionFrame
                 rowDatas.Add(new RowData() { dataStr = item.DataResult.ToString(), resultType = item.resultType });
                 string str = string.Join("_", sizeItemInfo.ArrayBelongSlice
                   .Select((value, index) => new { value, index })
-                  .Where(x => x.value == 1.0)
+                  .Where(x => x.value>0)
                  .Select(x => x.index)
                      .ToArray());
                 rowDatas.Add(new RowData() { dataStr = item.resultType.ToString(), resultType = item.resultType });
@@ -1360,8 +1360,8 @@ namespace Mef_VisionFrame
 
                         next.SlotSizes[(int)MeasureSlotEnum.TD右间隙].DataResult = fInterValue;
 
-                        cur.SlotSizes[(int)MeasureSlotEnum.TD对齐].DataResult = cur.SlotSizes[(int)MeasureSlotEnum.TD间距].DataResult - cleanCraft.SlotTDis[sliceId];
-                        next.SlotSizes[(int)MeasureSlotEnum.TD对齐].DataResult = next.SlotSizes[(int)MeasureSlotEnum.TD间距].DataResult - cleanCraft.SlotTDis[sliceId + 1];
+                        cur.SlotSizes[(int)MeasureSlotEnum.TD对齐].DataResult = cur.SlotSizes[(int)MeasureSlotEnum.TD间距].DataResult - cur.SlotSizes[(int)MeasureSlotEnum.TD间距].StandardValue;
+                        next.SlotSizes[(int)MeasureSlotEnum.TD对齐].DataResult = next.SlotSizes[(int)MeasureSlotEnum.TD间距].DataResult - next.SlotSizes[(int)MeasureSlotEnum.TD间距].StandardValue;
 
                     }
                 }
@@ -1393,8 +1393,8 @@ namespace Mef_VisionFrame
                         }
                         next.SlotSizes[(int)MeasureSlotEnum.MD间距].DataResult = mdWidth;
 
-                        cur.SlotSizes[(int)MeasureSlotEnum.MD对齐].DataResult = cur.SlotSizes[(int)MeasureSlotEnum.MD间距].DataResult - cleanCraft.SlotMDis[shaveId - 1];
-                        next.SlotSizes[(int)MeasureSlotEnum.MD对齐].DataResult = next.SlotSizes[(int)MeasureSlotEnum.MD间距].DataResult - cleanCraft.SlotMDis[shaveId];
+                        cur.SlotSizes[(int)MeasureSlotEnum.MD对齐].DataResult = cur.SlotSizes[(int)MeasureSlotEnum.MD间距].DataResult - cur.SlotSizes[(int)MeasureSlotEnum.MD间距].StandardValue;
+                        next.SlotSizes[(int)MeasureSlotEnum.MD对齐].DataResult = next.SlotSizes[(int)MeasureSlotEnum.MD间距].DataResult - next.SlotSizes[(int)MeasureSlotEnum.MD间距].StandardValue;
 
 
                     }

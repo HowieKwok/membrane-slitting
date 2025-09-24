@@ -1,4 +1,5 @@
 ﻿using Frame_Core;
+using HslCommunication.Profinet.Siemens.S7PlusHelper;
 using IKapBoardClassLibrary;
 using LogTool;
 using Mef_VisionFrame._5工艺标准;
@@ -82,8 +83,9 @@ namespace Mef_VisionFrame
             INi_DGV_Offset(dataGridViewTDis);
             INi_DGV_Offset(dataGridViewMDis);
 
-            INi_DGViewSlotTDis(dataGridViewTDis, craft.SlotTDis);
-            INi_DGViewSlotTDis(dataGridViewTDis, craft.SlotMDis);
+            INi_DGViewSlotTDis(dataGridViewTDis);
+            INi_DGViewSlotMDis(dataGridViewTDis);
+
         }
 
 
@@ -132,12 +134,12 @@ namespace Mef_VisionFrame
             nud_CoatShieldTDRight.Value = (decimal)craft.CoatShieldTDRight;
 
             //  边距间隙公差
-            nud_TDFirstGap.Value = (decimal)craft.TDFirstGap;
-            nud_TDFirstGapTol.Value = (decimal)craft.TDFirstGapTol;
-            nud_TDMidGap.Value = (decimal)craft.TDMidGap;
-            nud_TDMidGapTol.Value = (decimal)craft.TDMidGapTol;
-            nud_TDLastGap.Value = (decimal)craft.TDLastGap;
-            nud_TDLastGapTol.Value = (decimal)craft.TDLastGapTol;
+            //nud_TDFirstGap.Value = (decimal)craft.TDFirstGap;
+            //nud_TDFirstGapTol.Value = (decimal)craft.TDFirstGapTol;
+            //nud_TDMidGap.Value = (decimal)craft.TDMidGap;
+            //nud_TDMidGapTol.Value = (decimal)craft.TDMidGapTol;
+            //nud_TDLastGap.Value = (decimal)craft.TDLastGap;
+            //nud_TDLastGapTol.Value = (decimal)craft.TDLastGapTol;
 
 
             //显示基础参数
@@ -158,8 +160,8 @@ namespace Mef_VisionFrame
                         //设置TDMDis
                         INi_DGV_Offset(dataGridViewTDis);
                         INi_DGV_Offset(dataGridViewMDis);
-                        INi_DGViewSlotTDis(dataGridViewTDis, craft.SlotTDis);
-                        INi_DGViewSlotTDis(dataGridViewMDis, craft.SlotMDis);
+                        INi_DGViewSlotTDis(dataGridViewTDis);
+                        INi_DGViewSlotMDis(dataGridViewMDis);
                         break;
                     case 1:
                         SliceToView();
@@ -230,13 +232,13 @@ namespace Mef_VisionFrame
             craft.CoatShieldTDLeft = (double)nud_CoatShieldTDLeft.Value;
             craft.CoatShieldTDRight = (double)nud_CoatShieldTDRight.Value;
 
-            //  边距间隙公差
-            craft.TDFirstGap = (double)nud_TDFirstGap.Value;
-            craft.TDFirstGapTol = (double)nud_TDFirstGapTol.Value;
-            craft.TDMidGap = (double)nud_TDMidGap.Value;
-            craft.TDMidGapTol = (double)nud_TDMidGapTol.Value;
-            craft.TDLastGap = (double)nud_TDLastGap.Value;
-            craft.TDLastGapTol = (double)nud_TDLastGapTol.Value;
+            ////  边距间隙公差
+            //craft.TDFirstGap = (double)nud_TDFirstGap.Value;
+            //craft.TDFirstGapTol = (double)nud_TDFirstGapTol.Value;
+            //craft.TDMidGap = (double)nud_TDMidGap.Value;
+            //craft.TDMidGapTol = (double)nud_TDMidGapTol.Value;
+            //craft.TDLastGap = (double)nud_TDLastGap.Value;
+            //craft.TDLastGapTol = (double)nud_TDLastGapTol.Value;
 
             //显示基础参数
             // craft.materialCrafEnum = MaterialCrafEnum.叠台对齐度;
@@ -363,8 +365,8 @@ namespace Mef_VisionFrame
             }
 
             //设置TDMDis
-            RefreshData(dataGridViewTDis, craft.SlotTDis);
-            RefreshData(dataGridViewMDis, craft.SlotMDis);
+            RefreshTDData(dataGridViewTDis);
+            RefreshMDData(dataGridViewMDis);
 
             return craft;
         }
@@ -419,31 +421,8 @@ namespace Mef_VisionFrame
                     }
                     else { craft.ListSliceSet.Clear(); }
 
-                    //初始化TDMDis
-                    if (craft.SlotTDis == null)
-                    {
-                        craft.SlotTDis = new List<double>();
-                    }
-                    else { craft.SlotTDis.Clear(); }
-                    for (int i = 0; i < craft.SliceCount; i++)
-                    {
-                        craft.SlotTDis.Add(50);
-                    }
-                    if (craft.SlotMDis == null)
-                    {
-                        craft.SlotMDis = new List<double>();
-                    }
-                    else { craft.SlotMDis.Clear(); }
-                    for (int i = 0; i < craft.PerSlotCount; i++)
-                    {
-                        craft.SlotMDis.Add(50);
-                    }
-                    //设置TDMDis
-                    INi_DGV_Offset(dataGridViewTDis);
-                    INi_DGV_Offset(dataGridViewMDis);
-                    INi_DGViewSlotTDis(dataGridViewTDis, craft.SlotTDis);
-                    INi_DGViewSlotTDis(dataGridViewMDis, craft.SlotMDis);
 
+                    ReDefaultTDMisMDMis();
 
                     ReDefaultSlice();
                     ReDefaultLimit();
@@ -597,7 +576,7 @@ namespace Mef_VisionFrame
             //}
 
             // DataGridView显示提速方法
-          
+
             DataGridViewRow[] dtRows = new DataGridViewRow[SizeCount];
             for (int i = 0; i < SizeCount; i++)
             {
@@ -807,7 +786,7 @@ namespace Mef_VisionFrame
                     {
                         DGViewRow.CreateCells(DGView);
                         PropertyInfo[] infos = item.GetType().GetProperties();
-                       
+
                         foreach (PropertyInfo pi in infos)
                         {
                             var fieldIfno = typeof(T).GetProperty(pi.Name).GetCustomAttribute<MyAttribute>();
@@ -816,7 +795,7 @@ namespace Mef_VisionFrame
                                 DGViewRow.Cells[i].Value = pi.GetValue(item, null);
                                 i++;
                             }
-                           
+
                         }
                     }
                     //if (DGView.Rows.Count % 5 == 0)
@@ -1698,21 +1677,22 @@ namespace Mef_VisionFrame
                             index++;
                         }
 
-                        double TD = craft.SlotTDis[j];
-                        for (int m = 0; m < j; m++)
-                        {
-                            TD += craft.SlotTDis[m];
-                        }
-                        double leftgap = craft.TDMidGap;
-                        double rightgap = craft.TDMidGap;
-                        if (j == 0)
-                        {
-                            leftgap = craft.TDFirstGap;
-                        }
-                        if (j == craft.SliceCount - 1)
-                        {
-                            rightgap = craft.TDLastGap;
-                        }
+                       
+                        //double TD = craft.SlotGapTDis[j];
+                        //for (int m = 0; m < j; m++)
+                        //{
+                        //    TD += (craft.SlotGapTDis[m] + craft.SlotSizeTD);
+                        //}
+                        //double leftgap = craft.SlotGapTDis[j];
+                        //double rightgap = craft.SlotGapTDis[j + 1];
+                        //if (j == 0)
+                        //{
+                        //    leftgap = craft.SlotGapTDis[0];
+                        //}
+                        //if (j == craft.SliceCount - 1)
+                        //{
+                        //    rightgap = craft.SlotGapTDis[craft.SliceCount];
+                        //}
 
                         for (int k = 0; k < craft.ListSliceSet[j].ShaveNum; k++)
                         {
@@ -1731,14 +1711,14 @@ namespace Mef_VisionFrame
                                 BelongCam = cam,
                                 SliceID = j,
                                 ShaveID = k + 1,
-                                SlotTDPosition = TD,
+                                SlotTDPosition = craft.ListSliceSet[j].ShaveDisTD,
                                 SlotMDPosition = MD,
                                 SlotTDSize = craft.ListSliceSet[j].ShaveSizeTD,
                                 SlotMDSize = craft.ListSliceSet[j].ShaveSizeMD,
-                                SlotTDDist = craft.SlotTDis[j],
+                                SlotTDDist = craft.SlotGapTDis[j],
                                 SlotMDDist = craft.SlotMDis[k],
-                                SlotTDLeftGap = leftgap,
-                                SlotTDRightGap = rightgap,
+                                SlotTDLeftGap = craft.SlotGapTDis[j],
+                                SlotTDRightGap = craft.SlotGapTDis[j + 1],
                                 SlotTDAlign = 0,
                                 SlotMDAlign = 0
                             });
@@ -1767,22 +1747,82 @@ namespace Mef_VisionFrame
         }
 
 
+        /// <summary>
+        /// 预设打孔区公差
+        /// </summary>
+        public void ReDefaultTDMisMDMis()
+        {
+            //初始化TD间隙尺寸
+            if (craft.SlotGapTDis == null)
+            {
+                craft.SlotGapTDis = new List<double>();
+            }
+            else { craft.SlotGapTDis.Clear(); }
+
+            if (craft.SlotGapTDisUp == null)
+            {
+                craft.SlotGapTDisUp = new List<double>();
+            }
+            else { craft.SlotGapTDisUp.Clear(); }
+            if (craft.SlotGapTDisDown == null)
+            {
+                craft.SlotGapTDisDown = new List<double>();
+            }
+            else { craft.SlotGapTDisDown.Clear(); }
+            for (int i = 0; i < craft.SliceCount + 1; i++)
+            {
+                craft.SlotGapTDis.Add(4);
+                craft.SlotGapTDisUp.Add(1);
+                craft.SlotGapTDisDown.Add(1);
+            }
+            //初始化MD尺寸
+            if (craft.SlotMDis == null)
+            {
+                craft.SlotMDis = new List<double>();
+            }
+            else { craft.SlotMDis.Clear(); }
+            if (craft.SlotMDisUp == null)
+            {
+                craft.SlotMDisUp = new List<double>();
+            }
+            else { craft.SlotMDisUp.Clear(); }
+            if (craft.SlotMDisDown == null)
+            {
+                craft.SlotMDisDown = new List<double>();
+            }
+            else { craft.SlotMDisDown.Clear(); }
+            for (int i = 0; i < craft.PerSlotCount; i++)
+            {
+                craft.SlotMDis.Add(60);
+                craft.SlotMDisUp.Add(1);
+                craft.SlotMDisDown.Add(1);
+            }
+
+            //设置TDMDis
+            INi_DGV_Offset(dataGridViewTDis);
+            INi_DGV_Offset(dataGridViewMDis);
+            INi_DGViewSlotTDis(dataGridViewTDis);
+            INi_DGViewSlotMDis(dataGridViewMDis);
+        }
+
 
         /// <summary>
         /// 预设打孔区公差
         /// </summary>
         public void ReDefaultSlice()
         {
-            int count = craft.SliceCount;
             CameraEnum basecam = CameraEnum.Cam1;
+            int count = craft.SliceCount;
+
             //初始化相机0的尺寸。
             for (int i = 0; i < count; i++)
             {
-                double TD = craft.SlotTDis[i];
+                double TD = craft.SlotGapTDis[i];
                 for (int m = 0; m < i; m++)
                 {
-                    TD += craft.SlotTDis[m];
+                    TD += craft.SlotGapTDis[m];
                 }
+                TD += craft.SlotSizeTD * i;
                 if (i >= count / 2)
                 {
                     basecam = CameraEnum.Cam2;
@@ -1793,17 +1833,16 @@ namespace Mef_VisionFrame
                     InfoName = $"第{i + 1}条",
                     BelongCam = basecam.ToString(),
                     SliceStartPos = TD - 2,
-                    SliceEndPos = TD + craft.SlotTDis[i] - 2,
+                    SliceEndPos = TD + craft.SlotGapTDis[i + 1] + craft.SlotSizeTD - 2,
                     ShaveNum = craft.PerSlotCount,
                     ShaveDisTD = TD,
-                    ShaveDisMDStart = 200,
+                    ShaveDisMDStart = craft.SlotMDis[0],
                     ShaveDisMDStep = 100,
                     ShaveSizeTD = craft.SlotSizeTD,
                     ShaveSizeMD = craft.SlotSizeMD,
                 });
             }
-            craft.ListSliceSet[0].SliceEndPos = craft.ListSliceSet[1].SliceStartPos;
-
+            // craft.ListSliceSet[0].SliceEndPos = craft.ListSliceSet[1].SliceStartPos;
         }
 
         /// <summary>
@@ -1905,29 +1944,7 @@ namespace Mef_VisionFrame
 
             if (MessageBox.Show(str, "预设TDMDis设置", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                if (craft.SlotTDis == null)
-                {
-                    craft.SlotTDis = new List<double>();
-                }
-                else { craft.SlotTDis.Clear(); }
-                for (int i = 0; i < craft.SliceCount; i++)
-                {
-                    craft.SlotTDis.Add(50);
-                }
-                if (craft.SlotMDis == null)
-                {
-                    craft.SlotMDis = new List<double>();
-                }
-                else { craft.SlotMDis.Clear(); }
-                for (int i = 0; i < craft.PerSlotCount; i++)
-                {
-                    craft.SlotMDis.Add(50);
-                }
-                //设置TDMDis
-                INi_DGV_Offset(dataGridViewTDis);
-                INi_DGV_Offset(dataGridViewMDis);
-                INi_DGViewSlotTDis(dataGridViewTDis, craft.SlotTDis);
-                INi_DGViewSlotTDis(dataGridViewMDis, craft.SlotMDis);
+                ReDefaultTDMisMDMis();
                 //CraftToView();
                 GC.Collect();
             }
@@ -2111,19 +2128,51 @@ namespace Mef_VisionFrame
             DGView.Columns.Add(dgvitem);
             DGView.Columns[0].ReadOnly = true;
         }
-        public void INi_DGViewSlotTDis(DataGridView DGView, List<double> ListDis)
+        public void INi_DGViewSlotTDis(DataGridView DGView)
         {
-            if (ListDis == null)
+
+            try
             {
-                ListDis = new List<double>();
+                int count = craft.SlotGapTDis.Count;
+                //初始化相机0的尺寸。
+                for (int i = 0; i < count; i++)
+                {
+                    string name = $"Gap{i}_{i + 1}";
+                    if (i == 0)
+                    {
+                        name = "左距边";
+                    }
+                    else if (i == count - 1)
+                    {
+                        name = "右距边";
+                    }
+                    DataGridViewColumn dgvC = new DataGridViewTextBoxColumn();
+                    dgvC.Name = name;
+                    dgvC.HeaderText = name;
+                    dgvC.SortMode = DataGridViewColumnSortMode.NotSortable;//禁用排序
+                    dgvC.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;  //设置所有列自适应宽度
+                    DGView.Columns.Add(dgvC);
+                }
+
+                AddOffSetData(DGView, craft.SlotGapTDis, "间隙D值");
+                AddOffSetData(DGView, craft.SlotGapTDisUp, "D值正公差");
+                AddOffSetData(DGView, craft.SlotGapTDisDown, "D值正公差");
             }
-            int count = ListDis.Count;
+            catch (Exception ee)
+            {
+                Log4netRecord.ErrorLog.Debug(ee);
+            }
+        }
+        public void INi_DGViewSlotMDis(DataGridView DGView)
+        {
+
+            int count = craft.SlotMDis.Count;
             //初始化相机0的尺寸。
             for (int i = 0; i < count; i++)
             {
                 DataGridViewColumn dgvC = new DataGridViewTextBoxColumn();
-                dgvC.Name = $"D{i + 1}";
-                dgvC.HeaderText = $"D{i + 1}";
+                dgvC.Name = $"MD{i + 1}";
+                dgvC.HeaderText = $"MD{i + 1}";
                 dgvC.SortMode = DataGridViewColumnSortMode.NotSortable;//禁用排序
                 dgvC.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;  //设置所有列自适应宽度
                 DGView.Columns.Add(dgvC);
@@ -2131,15 +2180,15 @@ namespace Mef_VisionFrame
 
             try
             {
-                AddOffSetData(DGView, ListDis, "D值");
+                AddOffSetData(DGView, craft.SlotMDis, "间隙D值");
+                AddOffSetData(DGView, craft.SlotMDisUp, "D值正公差");
+                AddOffSetData(DGView, craft.SlotMDisDown, "D值正公差");
             }
             catch (Exception ee)
             {
                 Log4netRecord.ErrorLog.Debug(ee);
             }
         }
-
-
         /// <summary>
         /// 添加尺寸DataGridView数据
         /// </summary>
@@ -2155,16 +2204,59 @@ namespace Mef_VisionFrame
                 DGView.Rows[count - 1].Cells[i + 1].Value = ListOffset[i];
             }
         }
-        public void RefreshData(DataGridView DGView, List<double> ListOffset)
+        public void RefreshTDData(DataGridView DGView)
         {
             for (int i = 0; i < DGView.Rows.Count - 1; i++)
             {
                 string str0 = DGView.Rows[i].Cells[0].Value.ToString();
-                if (str0.Contains("D值"))
+                if (str0.Contains("间隙D值"))
                 {
                     for (int j = 1; j < DGView.Columns.Count; j++)
                     {
-                        ListOffset[j - 1] = Convert.ToDouble(DGView.Rows[i].Cells[j].Value.ToString());
+                        craft.SlotGapTDis[j - 1] = Convert.ToDouble(DGView.Rows[i].Cells[j].Value.ToString());
+                    }
+                }
+                else if (str0.Contains("D值正公差"))
+                {
+                    for (int j = 1; j < DGView.Columns.Count; j++)
+                    {
+                        craft.SlotGapTDisUp[j - 1] = Convert.ToDouble(DGView.Rows[i].Cells[j].Value.ToString());
+                    }
+                }
+                else if (str0.Contains("D值"))
+                {
+                    for (int j = 1; j < DGView.Columns.Count; j++)
+                    {
+                        craft.SlotGapTDisDown[j - 1] = Convert.ToDouble(DGView.Rows[i].Cells[j].Value.ToString());
+                    }
+                }
+
+            }
+        }
+        public void RefreshMDData(DataGridView DGView)
+        {
+            for (int i = 0; i < DGView.Rows.Count - 1; i++)
+            {
+                string str0 = DGView.Rows[i].Cells[0].Value.ToString();
+                if (str0.Contains("间隙D值"))
+                {
+                    for (int j = 1; j < DGView.Columns.Count; j++)
+                    {
+                        craft.SlotMDis[j - 1] = Convert.ToDouble(DGView.Rows[i].Cells[j].Value.ToString());
+                    }
+                }
+                else if (str0.Contains("D值正公差"))
+                {
+                    for (int j = 1; j < DGView.Columns.Count; j++)
+                    {
+                        craft.SlotMDisUp[j - 1] = Convert.ToDouble(DGView.Rows[i].Cells[j].Value.ToString());
+                    }
+                }
+                else if (str0.Contains("D值"))
+                {
+                    for (int j = 1; j < DGView.Columns.Count; j++)
+                    {
+                        craft.SlotMDisDown[j - 1] = Convert.ToDouble(DGView.Rows[i].Cells[j].Value.ToString());
                     }
                 }
 

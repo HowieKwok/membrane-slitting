@@ -2677,17 +2677,15 @@ namespace Frame_Core
                 double StdValue = slot.slotInfo.AllValues[i];
                 double UpLimitValue = m_craft.ListSlotSizeLimits[i].UpLimitValue;
                 double lowLimitValue = m_craft.ListSlotSizeLimits[i].lowLimitValue;
-                if (((MeasureSlotEnum)i) == MeasureSlotEnum.TD左间隙 && slot.slotInfo.SliceID == 0)
+                if (((MeasureSlotEnum)i) == MeasureSlotEnum.TD左间隙)
                 {
-                    StdValue = m_craft.TDFirstGap;
-                    UpLimitValue = m_craft.TDFirstGapTol;
-                    lowLimitValue = -m_craft.TDFirstGapTol;
+                    UpLimitValue = m_craft.SlotGapTDisUp[i];
+                    lowLimitValue = -m_craft.SlotGapTDisDown[i];
                 }
-                if (((MeasureSlotEnum)i) == MeasureSlotEnum.TD右间隙 && slot.slotInfo.SliceID == m_craft.SliceCount - 1)
+                if (((MeasureSlotEnum)i) == MeasureSlotEnum.TD右间隙)
                 {
-                    StdValue = m_craft.TDLastGap;
-                    UpLimitValue = m_craft.TDLastGapTol;
-                    lowLimitValue = -m_craft.TDLastGapTol;
+                    UpLimitValue = m_craft.SlotGapTDisUp[i + 1]; ;
+                    lowLimitValue = -m_craft.SlotGapTDisDown[i + 1];
                 }
                 SizeInfo size = new SizeInfo()
                 {

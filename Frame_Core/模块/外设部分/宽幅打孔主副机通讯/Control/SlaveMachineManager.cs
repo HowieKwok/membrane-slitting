@@ -145,9 +145,9 @@ namespace Frame_Core
         }
 
 
-        public double GetMacheineSpeed()
+        public int GetMacheineSpeed()
         {
-            return (tcpClientParam as SlaveMachineParam).fMacheineSpeed;
+            return (int)(tcpClientParam as SlaveMachineParam).fMacheineSpeed;
         }
 
 
