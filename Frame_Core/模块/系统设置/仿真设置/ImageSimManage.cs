@@ -163,14 +163,13 @@ namespace Frame_Core
             return 0; // Default value if parsing fails
         }
 
-
-
         /// <summary>
         /// 获取上一张图像
         /// </summary>
-        public bool GetPreviewImage(out HObject EmulationImage)
+        public bool GetPreviewImage(out HObject EmulationImage, out string imgPath)
         {
             bool result = false;
+            imgPath = "";
             HOperatorSet.GenEmptyObj(out EmulationImage);
             try
             {
@@ -184,7 +183,7 @@ namespace Frame_Core
                     {
                         currentImageIndex--;
                     }
-                    result = GetImage(out EmulationImage);
+                    result = GetImage(out EmulationImage, out imgPath);
                 }
             }
             catch (Exception ex)
@@ -197,15 +196,16 @@ namespace Frame_Core
         /// <summary>
         /// 获取当前图像
         /// </summary>
-        public bool GetCurrentImage(out HObject EmulationImage)
+        public bool GetCurrentImage(out HObject EmulationImage, out string imgPath)
         {
             bool result = false;
+            imgPath = "";
             HOperatorSet.GenEmptyObj(out EmulationImage);
             try
             {
                 if (ImageEmulationPaths != null && ImageEmulationPaths.Length > 0)
                 {
-                    result = GetImage(out EmulationImage);
+                    result = GetImage(out EmulationImage, out imgPath);
                 }
             }
             catch (Exception ex)
@@ -214,6 +214,37 @@ namespace Frame_Core
             }
             return result;
         }
+
+        /// <summary>
+        /// 获取下一张图像
+        /// </summary>
+        public bool GetNextImage(out HObject EmulationImage, out string imgPath)
+        {
+            bool result = false;
+            imgPath = "";
+            HOperatorSet.GenEmptyObj(out EmulationImage);
+            try
+            {
+                if (ImageEmulationPaths != null && ImageEmulationPaths.Length > 0)
+                {
+                    if (currentImageIndex == ImageEmulationPaths.Length - 1)
+                    {
+                        currentImageIndex = 0;
+                    }
+                    else
+                    {
+                        currentImageIndex++;
+                    }
+                    result = GetImage(out EmulationImage, out imgPath);
+                }
+            }
+            catch (Exception ex)
+            {
+                result = false;
+            }
+            return result;
+        }
+
 
         /// <summary>
         /// 获取当前图像
@@ -236,37 +267,6 @@ namespace Frame_Core
             }
             return result;
         }
-
-        /// <summary>
-        /// 获取下一张图像
-        /// </summary>
-        public bool GetNextImage(out HObject EmulationImage)
-        {
-            bool result = false;
-            HOperatorSet.GenEmptyObj(out EmulationImage);
-            try
-            {
-                if (ImageEmulationPaths != null && ImageEmulationPaths.Length > 0)
-                {
-                    if (currentImageIndex == ImageEmulationPaths.Length - 1)
-                    {
-                        currentImageIndex = 0;
-                    }
-                    else
-                    {
-                        currentImageIndex++;
-                    }
-                    result = GetImage(out EmulationImage);
-                }
-            }
-            catch (Exception ex)
-            {
-                result = false;
-            }
-            return result;
-        }
-
-
         /// <summary>
         /// 获取下一张图像
         /// </summary>
@@ -300,19 +300,21 @@ namespace Frame_Core
         /// <summary>
         /// 获取图片
         /// </summary>
-        private bool GetImage(out HObject EmulationImage)
+        private bool GetImage(out HObject EmulationImage, out string imgPath)
         {
             bool result = false;
+            imgPath = "";
             HOperatorSet.GenEmptyObj(out EmulationImage);
             try
             {
                 if (ImageEmulationPaths.Length > 0 && ImageEmulationPaths.Length > currentImageIndex)
                 {
-                    HOperatorSet.ReadImage(out EmulationImage, ImageEmulationPaths[currentImageIndex]);
+                    imgPath = ImageEmulationPaths[currentImageIndex];
+                    HOperatorSet.ReadImage(out EmulationImage, imgPath);
                 }
                 result = true;
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 result = false;
             }
@@ -355,15 +357,16 @@ namespace Frame_Core
         /// 获取从索引零开始的下一张图像
         /// </summary>
         /// <returns></returns>
-        public bool GetZeroIndexStartNextImage(out HObject EmulationImage)
+        public bool GetZeroIndexStartNextImage(out HObject EmulationImage, out string imgPath)
         {
             bool result = false;
+            imgPath = "";
             HOperatorSet.GenEmptyObj(out EmulationImage);
             try
             {
                 if (ImageEmulationPaths != null && ImageEmulationPaths.Length > 0)
                 {
-                    result = GetImage(out EmulationImage);
+                    result = GetImage(out EmulationImage, out imgPath);
                     if (currentImageIndex == ImageEmulationPaths.Length - 1)
                     {
                         currentImageIndex = 0;

@@ -28,12 +28,16 @@ namespace Frame_Core
     /// </summary>
     public class Operation_ImageProcessor : IDisposable
     {
+
         private string Source { get; }
         private readonly object lockObject = new object();
+        DisplayWindowClass displayWindow;
         public QueuePackage<Operation_ImageInfo> imageInfosShow = new QueuePackage<Operation_ImageInfo>();
         public QueuePackage<Operation_ImageInfo> imageInfosSave = new QueuePackage<Operation_ImageInfo>();
         public QueuePackage<Operation_ImageInfo> imageInfosScreenshotSave = new QueuePackage<Operation_ImageInfo>();
+        public QueuePackage<Operation_ImageInfo> imageInfosHightScreenshotSave = new QueuePackage<Operation_ImageInfo>();
         public QueuePackage<Operation_ImageInfo> imageInfosDispose = new QueuePackage<Operation_ImageInfo>();
+
         private bool isShowOperationInProgress = false;
         private bool isSaveOperationInProgress = false;
         private bool isSaveScreenshotOperationInProgress = false;
@@ -44,10 +48,62 @@ namespace Frame_Core
         //public event ImageSaveDelegate SaveImageEvent;
         //public event ImageSaveDelegate SaveScreenshotImageEvent;
 
+
+        Thread threadHighScreenshot = null;
+        AutoResetEvent autoEventHighScreenshot = new AutoResetEvent(false);
+
         public Operation_ImageProcessor(string source)
         {
             Source = source;
+
         }
+        public Operation_ImageProcessor(string source, DisplayWindowClass _displayWindowClass)
+        {
+            Source = source;
+            displayWindow = _displayWindowClass;
+            threadHighScreenshot=new Thread(HighScreenshotMethod);
+            threadHighScreenshot.IsBackground = true;
+            threadHighScreenshot.Start();
+        }
+
+
+        
+
+        public void HighScreenshotMethod()
+        {
+           while(true)
+            {
+                autoEventHighScreenshot.WaitOne(1000);
+                string text = "触发高清截图";
+                QueueLengthLimit(imageInfosHightScreenshotSave, 20, text);
+                if (imageInfosHightScreenshotSave.Count > 0 && imageInfosHightScreenshotSave.Peek().bIsSaveScreenshot)
+                {
+                    if (TryDequeue(imageInfosHightScreenshotSave, out Operation_ImageInfo imageInfo, 0, text))
+                    {
+                        displayWindow.HightDefinition_Screenshot(imageInfo,out Operation_ImageInfo screenshotImage);
+                        if(screenshotImage!=null)
+                        {
+                            screenshotImage.HighDefinition_Screenshot = false;
+                            imageInfosScreenshotSave.Enqueue(screenshotImage);
+                            MessageNotify.AddDebugLog($"当前相机：{imageInfo.showHalconWindow.m_strCamName}_模式：{imageInfo.showHalconWindow.m_nMode}_触发高清截图队列个数：{imageInfosHightScreenshotSave.Count}");
+
+
+                        }
+
+                    }
+                }
+                else
+                {
+                    if (TryDequeue(imageInfosHightScreenshotSave, out Operation_ImageInfo imageInfo, 0, text))
+                    {
+                        imageInfo.Dispose();
+                        MessageNotify.AddDebugLog($"当前相机：{imageInfo.showHalconWindow.m_strCamName}_模式：{imageInfo.showHalconWindow.m_nMode}_触发高清截图队列个数：{imageInfosHightScreenshotSave.Count}");
+                    }
+                }
+            }
+        }
+
+
 
         public async Task ShowImagesAsync(QueuePackage<Operation_ImageInfo> source_ShowQueue, DisplayWindowClass displayWindowClass, QueuePackage<Operation_ImageInfo> target_SaveQueue, QueuePackage<Operation_ImageInfo> target_SaveScreenshotQueue)
         {
@@ -61,6 +117,7 @@ namespace Frame_Core
                     {
                         if (TryDequeue(source_ShowQueue, out Operation_ImageInfo imageInfo, 0, text))
                         {
+                          
                             isShowOperationInProgress = true;
                             await Task.Run(() =>
                             {
@@ -190,6 +247,9 @@ namespace Frame_Core
             }
         }
 
+        public Thread thread =null;
+      
+
         private async Task ExecuteImageOperationShowAsync(Operation_ImageInfo imageInfo, DisplayWindowClass displayWindowClass, QueuePackage<Operation_ImageInfo> target_SaveQueue, QueuePackage<Operation_ImageInfo> target_SaveScreenshotQueue, string operation)
         {
             try
@@ -205,23 +265,17 @@ namespace Frame_Core
                 target_SaveQueue.Enqueue(imageInfo);
                 if (screenshotImage != null)
                 {
-                    // target_SaveScreenshotQueue.Enqueue(screenshotImage);
-                    if (screenshotImage.HighDefinition_Screenshot)
+                   
+                    if(screenshotImage.HighDefinition_Screenshot)
                     {
-                        await Task.Run(() =>
-                        {
-                            Operation_ImageInfo _ImageInfo = null;
-                            displayWindowClass?.HightDefinition_Screenshot(screenshotImage, out _ImageInfo);
-                            if (_ImageInfo != null)
-                                target_SaveScreenshotQueue.Enqueue(_ImageInfo);
-                        });
-
+                        imageInfosHightScreenshotSave.Enqueue(screenshotImage);
+                        autoEventHighScreenshot.Set();
                     }
                     else
                     {
                         target_SaveScreenshotQueue.Enqueue(screenshotImage);
-
                     }
+                   
                 }
 
             }
@@ -260,26 +314,26 @@ namespace Frame_Core
                             HOperatorSet.HomMat2dScale(HomMat2dIdentity, scaleX, scaleY, 0, 0, out HTuple HomMat2dScale);
                             HOperatorSet.AffineTransImage(imageInfo.showHalconWindow.m_hImage, out hoImage, HomMat2dScale, "nearest_neighbor", "true");
                             //HOperatorSet.ZoomImageSize(imageInfo.showHalconWindow.m_hImage, out hoImage, width, 32000, "constant");
-                            executeResult = SaveImageTool.SaveImage(hoImage, imageInfo.imageSaveFormat, imageInfo.str_ImageSaveBasePath + imageInfo.str_ImageSaveRelativePath, imageInfo.str_ImageSaveName);
+                             executeResult = SaveImageTool.SaveImage(hoImage, imageInfo.imageSaveFormat, imageInfo.str_ImageSaveBasePath + imageInfo.str_ImageSaveRelativePath, imageInfo.str_ImageSaveName);
                             HomMat2dIdentity?.Dispose();
                             HomMat2dScale?.Dispose();
+                            target_DisposeQueue.Enqueue(imageInfo);
                         }
                         else
                         {
-                            imageInfo.showHalconWindow.m_hImage.CopyImage(out hoImage);
-                            executeResult = SaveImageTool.SaveImage(hoImage, imageInfo.imageSaveFormat, imageInfo.str_ImageSaveBasePath + imageInfo.str_ImageSaveRelativePath, imageInfo.str_ImageSaveName);
-
+                            executeResult = SaveImageTool.SaveImageQue(imageInfo.showHalconWindow.m_hImage, imageInfo, target_DisposeQueue, imageInfo.imageSaveFormat, imageInfo.str_ImageSaveBasePath + imageInfo.str_ImageSaveRelativePath, imageInfo.str_ImageSaveName);
                         }
                         HOperatorSet.CountSeconds(out HTuple secondend);
                         double time = (double)(secondend - secondstart) * 1000;
                         MessageNotify.AddDebugLog("产品图片保存耗时：" + time.ToString());
 
                     }
-                    else
+              
+                    else 
                     {
-                        imageInfo.showHalconWindow.m_hImage.CopyImage(out hoImage);
-                        executeResult = SaveImageTool.SaveImage(hoImage, imageInfo.imageSaveFormat, imageInfo.str_ImageSaveBasePath + imageInfo.str_ImageSaveRelativePath, imageInfo.str_ImageSaveName);
 
+                        executeResult = SaveImageTool.SaveImageQue(imageInfo.showHalconWindow.m_hImage,imageInfo,target_DisposeQueue, imageInfo.imageSaveFormat, imageInfo.str_ImageSaveBasePath + imageInfo.str_ImageSaveRelativePath, imageInfo.str_ImageSaveName);
+          
                     }
 
                 }
@@ -292,14 +346,14 @@ namespace Frame_Core
                     executeResult = SaveImageTool.SaveImage(image3DClass.Image_Light, imageInfo.imageSaveFormat, imageInfo.str_ImageSaveBasePath + RelativePath, imageInfo.str_ImageSaveName);
                     RelativePath = imageInfo.str_ImageSaveRelativePath + "彩虹图" + "\\";
                     executeResult = SaveImageTool.SaveImage(image3DClass.Image2D, imageInfo.imageSaveFormat, imageInfo.str_ImageSaveBasePath + RelativePath, imageInfo.str_ImageSaveName);
-                   
+                    target_DisposeQueue.Enqueue(imageInfo);
                 }
 
                 if (!executeResult.IsSuccess)
                 {
                     Log4netRecord.ErrorLog.Info("保存图像异常" + $"来源：{Source}-{operation}" + "\r\n" + executeResult.Message);
                 }
-                target_DisposeQueue.Enqueue(imageInfo);
+       
              
             }
             catch (Exception ex)
@@ -396,11 +450,22 @@ namespace Frame_Core
                     }
                 }
 
+
+
                 if (imageInfosDispose != null)
                 {
                     while (imageInfosDispose.Count > 0)
                     {
                         imageInfosDispose.Dequeue()?.Dispose();
+                    }
+                }
+
+
+                if(imageInfosHightScreenshotSave != null)
+                {
+                    while (imageInfosHightScreenshotSave.Count > 0)
+                    {
+                        imageInfosHightScreenshotSave.Dequeue()?.Dispose();
                     }
                 }
             }

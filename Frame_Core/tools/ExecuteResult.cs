@@ -25,5 +25,10 @@ namespace Frame_Core
         // 摘要:
         //     具体的错误描述。 Specific error description.
         public string Message { get; set; }
+
+        /// <summary>
+        /// 耗时
+        /// </summary>
+        public double Time { get; set; }
     }
 }

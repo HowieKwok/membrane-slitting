@@ -30,7 +30,6 @@
         {
             this.dGV_Account = new System.Windows.Forms.DataGridView();
             this.Col_Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Col_AdmAccount = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Col_EngAccount = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Col_TecAccount = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Col_OptAccount = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -47,7 +46,6 @@
             this.dGV_Account.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dGV_Account.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Col_Type,
-            this.Col_AdmAccount,
             this.Col_EngAccount,
             this.Col_TecAccount,
             this.Col_OptAccount});
@@ -70,14 +68,6 @@
             this.Col_Type.HeaderText = "权限类型";
             this.Col_Type.Name = "Col_Type";
             this.Col_Type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Col_AdmAccount
-            // 
-            this.Col_AdmAccount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Col_AdmAccount.FillWeight = 120F;
-            this.Col_AdmAccount.HeaderText = "管理员";
-            this.Col_AdmAccount.Name = "Col_AdmAccount";
-            this.Col_AdmAccount.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
             // Col_EngAccount
             // 
@@ -128,7 +118,6 @@
 
         private System.Windows.Forms.DataGridView dGV_Account;
         private System.Windows.Forms.DataGridViewTextBoxColumn Col_Type;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Col_AdmAccount;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Col_EngAccount;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Col_TecAccount;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Col_OptAccount;

@@ -1483,54 +1483,38 @@ namespace Mef_VisionFrame
 
         public static void AddMessageShowWindow(List<NgTypeInfo> ngTypeInfos, ShowHalconWindow showHalconWindow, int sliceIndex)
         {
-            for (int i = 0; i < ngTypeInfos.Count; i++)
+            try
             {
-                string message = $"S{sliceIndex}_{ngTypeInfos[i].m_strNgTypeName.ToString()}：{ngTypeInfos[i].m_fNgTypArea.ToString("F3")}";
-                showHalconWindow.m_regionShowInfos.Add(new RegionShowInfo() { m_hRegion = ngTypeInfos[i].m_hRegion, m_stuGetColor = BIZ_General.Color(ngTypeInfos[i].resultType) }); ;
-                if (ngTypeInfos[i].resultType == ResultType.OK)
+                for (int i = 0; i < ngTypeInfos.Count; i++)
                 {
-                    showHalconWindow.m_messageShowInfos.Add(new MessageShowInfo() { m_strMessage = message, m_stuGetColor = HalconColor.green });
+                    string message = $"S{sliceIndex}_{ngTypeInfos[i].m_strNgTypeName.ToString()}：{ngTypeInfos[i].m_fNgTypArea.ToString("F3")}";
+                    showHalconWindow.m_regionShowInfos.Add(new RegionShowInfo() { m_hRegion = ngTypeInfos[i].m_hRegion.Clone(), m_stuGetColor = BIZ_General.Color(ngTypeInfos[i].resultType) }); ;
+                    if (ngTypeInfos[i].resultType == ResultType.OK)
+                    {
+                        showHalconWindow.m_messageShowInfos.Add(new MessageShowInfo() { m_strMessage = message, m_stuGetColor = HalconColor.green });
 
-                }
-                else if (ngTypeInfos[i].resultType == ResultType.NG)
-                {
-                    showHalconWindow.m_messageShowInfos.Add(new MessageShowInfo() { m_strMessage = message, m_stuGetColor = HalconColor.red });
+                    }
+                    else if (ngTypeInfos[i].resultType == ResultType.NG)
+                    {
+                        showHalconWindow.m_messageShowInfos.Add(new MessageShowInfo() { m_strMessage = message, m_stuGetColor = HalconColor.red });
 
-                }
-                else if (ngTypeInfos[i].resultType == ResultType.Warn)
-                {
-                    showHalconWindow.m_messageShowInfos.Add(new MessageShowInfo() { m_strMessage = message, m_stuGetColor = HalconColor.orange });
+                    }
+                    else if (ngTypeInfos[i].resultType == ResultType.Warn)
+                    {
+                        showHalconWindow.m_messageShowInfos.Add(new MessageShowInfo() { m_strMessage = message, m_stuGetColor = HalconColor.orange });
 
+                    }
                 }
             }
-        }
+            catch (Exception ee)
+            {
 
+                MessageNotify.AddErrorLog("AddMessageShowWindow：" + ee.ToString()); ;
+            }
        
-
-        public static void AddMessageShowWindow(List<NgTypeInfo> ngTypeInfos, ShowHalconWindow showHalconWindow)
-        {
-            for (int i = 0; i < ngTypeInfos.Count; i++)
-            {
-                string message = $"{ngTypeInfos[i].m_strNgTypeName.ToString()}：{ngTypeInfos[i].m_fNgTypArea.ToString("F3")}";
-
-                showHalconWindow.m_regionShowInfos.Add(new RegionShowInfo() { m_hRegion = ngTypeInfos[i].m_hRegion, m_stuGetColor = BIZ_General.Color(ngTypeInfos[i].resultType) }); ;
-                if (ngTypeInfos[i].resultType == ResultType.OK)
-                {
-                    showHalconWindow.m_messageShowInfos.Add(new MessageShowInfo() { m_strMessage = message, m_stuGetColor = HalconColor.green });
-
-                }
-                else if (ngTypeInfos[i].resultType == ResultType.NG)
-                {
-                    showHalconWindow.m_messageShowInfos.Add(new MessageShowInfo() { m_strMessage = message, m_stuGetColor = HalconColor.red });
-
-                }
-                else if (ngTypeInfos[i].resultType == ResultType.Warn)
-                {
-                    showHalconWindow.m_messageShowInfos.Add(new MessageShowInfo() { m_strMessage = message, m_stuGetColor = HalconColor.yellow });
-
-                }
-            }
         }
+
+
 
 
         public static HalconColor Color(ResultType resultType)

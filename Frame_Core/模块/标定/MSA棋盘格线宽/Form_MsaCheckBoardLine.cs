@@ -125,7 +125,7 @@ namespace Frame_Core
                     m_ImageSimManage_Cam.ImageEmulationPaths = FileDialog.FileNames;
 
                     if (m_ImageSimManage_Cam.ImageEmulationPaths == null || m_ImageSimManage_Cam.ImageEmulationPaths.Length == 0) return;
-                    m_ImageSimManage_Cam.GetCurrentImage(out ho_Image);
+                    m_ImageSimManage_Cam.GetCurrentImage(out ho_Image, out string imgPath);
 
                     if (ho_Image != null && ho_Image?.CountObj() > 0)
                     {
@@ -812,7 +812,7 @@ namespace Frame_Core
             {
                if (m_ImageSimManage_Cam.ImageEmulationPaths == null || m_ImageSimManage_Cam.ImageEmulationPaths.Length == 0) return;
                 ho_Image?.Dispose();
-                m_ImageSimManage_Cam.GetCurrentImage(out ho_Image);
+                m_ImageSimManage_Cam.GetCurrentImage(out ho_Image, out string imgPath);
                 if (ho_Image != null && ho_Image?.CountObj() > 0)
                 {
                     ho_Image = new HImage(ho_Image);
@@ -873,7 +873,7 @@ namespace Frame_Core
             {
                 if (m_ImageSimManage_Cam.ImageEmulationPaths == null || m_ImageSimManage_Cam.ImageEmulationPaths.Length == 0) return;
                 ho_Image?.Dispose();
-                m_ImageSimManage_Cam.GetNextImage(out ho_Image);
+                m_ImageSimManage_Cam.GetNextImage(out ho_Image, out string imgPath);
                 if (ho_Image != null && ho_Image?.CountObj() > 0)
                 {
                     ho_Image = new HImage(ho_Image);

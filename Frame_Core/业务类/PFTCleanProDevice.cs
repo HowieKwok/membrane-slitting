@@ -62,6 +62,10 @@ namespace Frame_Core
             INIPro();
             m_craft.CamNum = m_nCamCount;
             BuildProcessServiceList();
+
+            //UI订阅事件
+            UIDelegate.LightChange -= ResetGrayscaleAdjustmentCallback;
+            UIDelegate.LightChange += ResetGrayscaleAdjustmentCallback;
         }
         public override void INIPro()
         {
@@ -252,7 +256,7 @@ namespace Frame_Core
 
                 for (int i = 0; i < m_craft.SliceCount; i++)
                 {
-                    if (m_craft.ListSliceSet[i].BelongCam == ((CameraEnum)camID).ToString())
+                    if (m_craft.ListSliceSet[i].IsLeftSide == m_craft.CurCamIsLeft)
                     {
                         pluginName = "图像裁切工具(槽位，侧基准边)";
                         IPlugin PluginCropSide = PluginService.GetInstance<IPlugin>(PluginService.pluginsDictionary[pluginName].PluginsBuildName);
@@ -348,6 +352,15 @@ namespace Frame_Core
                 process.m_ModuleObjList.Clear();
                 int ProcessID = process.processInfo.ProcessID;
                 int camID = (int)CameraEnum.Cam2;
+                int CurCamSide = camID;
+                if (m_craft.CurCamIsLeft)
+                {
+                    CurCamSide = (int)CameraEnum.Cam1;
+                }
+                else
+                {
+                    CurCamSide = (int)CameraEnum.Cam2;
+                }
                 string pluginName;
                 IPlugin Plugin;
 
@@ -390,7 +403,7 @@ namespace Frame_Core
 
                 for (int i = 0; i < m_craft.SliceCount; i++)
                 {
-                    if (m_craft.ListSliceSet[i].BelongCam == ((CameraEnum)camID).ToString())
+                    if (m_craft.ListSliceSet[i].IsLeftSide == m_craft.CurCamIsLeft)
                     {
                         pluginName = "图像裁切工具(槽位，侧基准边)";
                         IPlugin PluginCropSide = PluginService.GetInstance<IPlugin>(PluginService.pluginsDictionary[pluginName].PluginsBuildName);
@@ -556,7 +569,7 @@ namespace Frame_Core
 
         public void SetLineParams(string pluginName, ParamsMeasureLine Params)
         {
-            if (pluginName.Contains((DirectionEnum.左边).ToString()) || pluginName.Contains((DirectionEnum.右间隙边).ToString()))
+            if (pluginName.Contains((DirectionEnum.左边).ToString()) || pluginName.Contains((DirectionEnum.右间隙边).ToString()) || pluginName.Contains("边缘间隙边"))
             {
                 Params.hv_RoiPointsNum = 60;
                 Params.hv_RoiAngle = 90;
@@ -608,6 +621,7 @@ namespace Frame_Core
             {
                 int ProcessID = process.processInfo.ProcessID;
                 int camID = 0;
+                int CurCamSide = camID;
                 SetThreadAffinityMask(GetCurrentThread(), new UIntPtr(SetCpuID(ProcessID)));
 
                 //标定系数
@@ -641,9 +655,25 @@ namespace Frame_Core
                     List<LineInfo> LineShowInfos = new List<LineInfo>();
 
                     ImageProduct = new PFTImageProduct();
+                    int DividSliceIndex = 0;
                     for (int i = 0; i < m_craft.SliceCount; i++)
                     {
                         ImageProduct.ListImageSlicePD.Add(new PFTSliceProduct());
+
+                        if (m_craft.CurCamIsLeft)
+                        {
+                            if (m_craft.ListSliceSet[i].IsLeftSide)
+                            {
+                                DividSliceIndex = i;
+                            }
+                        }
+                        else
+                        {
+                            if (!m_craft.ListSliceSet[m_craft.SliceCount - 1 - i].IsLeftSide)
+                            {
+                                DividSliceIndex = m_craft.SliceCount - 1 - i;
+                            }
+                        }
                     }
                     ImageProduct.nCurImageID = InfoImgInfo.image_ID;
                     ImageProduct.nCurEAID = PFTCleanParamBase.nCurEAProId;
@@ -656,12 +686,13 @@ namespace Frame_Core
                     //开始检测计时            
                     HOperatorSet.CountSeconds(out ImageProduct.Image_StartTime);
 
-                    LineInfo EdgeLine = new LineInfo();
+                    // LineInfo EdgeLine = new LineInfo();
                     //确认基准边 L+R ,必须有的两条边--
                     // for (int i = 0; i < 2; i++)
+                    if (true)
                     {
                         string linepluginname = "涂布左基准边";
-                        if (camID == 1) linepluginname = "涂布右基准边";
+                        if (!m_craft.CurCamIsLeft) linepluginname = "涂布右基准边";
                         //抓边
                         IPlugin PluginMline = process.m_ModuleObjList.Find(c => c.moduleInfo.ModuleName == linepluginname);
                         ParamsMeasureLine MlineParams = PluginMline.PluginParams as ParamsMeasureLine; //里氏转换
@@ -673,13 +704,12 @@ namespace Frame_Core
                         //把抓边添加到ImageProduct和EAProduct
                         LineInfo Normaleftline = NormalizeLine(line, (int)ImageProduct.nCurImageID, 0, 0, (int)InfoImgInfo.image_ID, InfoImgInfo.imageHeight);
                         ImageProduct.ListImagelines.Add(Normaleftline);
-                        EdgeLine = EdgeLine.copyLine(Normaleftline);
+                        //  EdgeLine = EdgeLine.copyLine(Normaleftline);
                         LineInfo EAline = EAAddline(Normaleftline, currentEAProduct.CropEArange.StartImageID, currentEAProduct.CropEArange.StarImageRow, 0, InfoImgInfo.imageHeight);
                         currentEAProduct.ListEAlines.Add(EAline);
-
                         if (isSuccess)
                         {
-                            if (camID == 0)
+                            if (m_craft.CurCamIsLeft)
                             {
                                 ImageProduct.EdgelineLeft = (MlineParams.hv_LineColumnBegin.D + MlineParams.hv_LineColumnEnd.D) / 2;
                                 ImageProduct.EdgelineRight = InfoImgInfo.imageWidth;
@@ -932,292 +962,342 @@ namespace Frame_Core
 
                     }
 
+
+
                     Parallel.For(0, m_craft.SliceCount, i =>
                     // for (int i = 0; i < m_craft.SliceCount; i++)
-                    {
-                        int SliceIndex = i;
-                        ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_messageShowInfos = new List<MessageShowInfo>();
-                        ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_regionShowInfos = new List<RegionShowInfo>();
-                        ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_lineShowInfos = new List<LineInfo>();
-                        if (m_craft.ListSliceSet[SliceIndex].BelongCam == ((CameraEnum)camID).ToString())
-                        {
-                            if (true)
-                            {
-                                //裁削薄区打孔区
-                                bool ToDoShaveCrop = true;
-                                while (ToDoShaveCrop && currentEAProduct.ListEASlicePD[SliceIndex].curSlShaveIndex < m_craft.ListSliceSet[SliceIndex].ShaveNum)
-                                {
-                                    int index = currentEAProduct.ListEASlicePD[SliceIndex].curSlShaveIndex;
-                                    //削薄区
-                                    SlotProduct tempslot = currentEAProduct.ListEASlicePD[SliceIndex].listShave[index];
+                   {
+                       int SliceIndex = i;
+                       ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_messageShowInfos = new List<MessageShowInfo>();
+                       ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_regionShowInfos = new List<RegionShowInfo>();
+                       ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_lineShowInfos = new List<LineInfo>();
+                       if (m_craft.ListSliceSet[i].IsLeftSide == m_craft.CurCamIsLeft)
+                       {
+                           if (true)
+                           {
+                               //裁削薄区打孔区
+                               bool ToDoShaveCrop = true;
+                               while (ToDoShaveCrop && currentEAProduct.ListEASlicePD[SliceIndex].curSlShaveIndex < m_craft.ListSliceSet[SliceIndex].ShaveNum)
+                               {
+                                   int index = currentEAProduct.ListEASlicePD[SliceIndex].curSlShaveIndex;
+                                   //削薄区
+                                   SlotProduct tempslot = currentEAProduct.ListEASlicePD[SliceIndex].listShave[index];
 
-                                    string namn = $"第{SliceIndex + 1}条打孔区裁切";
-                                    IPlugin CropPlugin = process.m_ModuleObjList.Find(c => c.moduleInfo.ModuleName == namn);
-                                    ParamsCropPart CropPartParams = CropPlugin.PluginParams as ParamsCropPart; //里氏转换
-                                    CropPartParams.list_ImageInfo = PFTCleanParamBase.imageInfos;
+                                   string namn = $"第{SliceIndex + 1}条打孔区裁切";
+                                   IPlugin CropPlugin = process.m_ModuleObjList.Find(c => c.moduleInfo.ModuleName == namn);
+                                   ParamsCropPart CropPartParams = CropPlugin.PluginParams as ParamsCropPart; //里氏转换
+                                   CropPartParams.list_ImageInfo = PFTCleanParamBase.imageInfos;
 
-                                    CropPartParams.PartSizeRow = tempslot.Croprange.Height;
-                                    CropPartParams.PartSizeCol = tempslot.Croprange.Width;
-                                    CropPartParams.PartCenterID = tempslot.Croprange.MidImageID;
-                                    CropPartParams.PartCenterRow = tempslot.Croprange.MidImageRow;
-                                    tempslot.Croprange.StartCol = ImageProduct.EdgelineLeft + tempslot.slotInfo.SlotTDPosition / Calipix_x - tempslot.slotInfo.OutwardShieldLeft / Calipix_x;
-                                    CropPartParams.PartCenterCol = tempslot.Croprange.StartCol + CropPartParams.PartSizeCol / 2;//槽和基准边同一边就不用+，在对侧，就用片宽减半槽宽。
-                                    tempslot.Croprange.EndCol = tempslot.Croprange.StartCol + CropPartParams.PartSizeCol;
+                                   CropPartParams.PartSizeRow = tempslot.Croprange.Height;
+                                   CropPartParams.PartSizeCol = tempslot.Croprange.Width;
+                                   CropPartParams.PartCenterID = tempslot.Croprange.MidImageID;
+                                   CropPartParams.PartCenterRow = tempslot.Croprange.MidImageRow;
+                                   tempslot.Croprange.StartCol = ImageProduct.EdgelineLeft + tempslot.slotInfo.SlotTDPosition / Calipix_x - tempslot.slotInfo.OutwardShieldLeft / Calipix_x;
+                                   CropPartParams.PartCenterCol = tempslot.Croprange.StartCol + CropPartParams.PartSizeCol / 2;//槽和基准边同一边就不用+，在对侧，就用片宽减半槽宽。
+                                   tempslot.Croprange.EndCol = tempslot.Croprange.StartCol + CropPartParams.PartSizeCol;
 
-                                    bool bl_ExecuteSuccess = CropPlugin.ExecuteObj();
-                                    if (bl_ExecuteSuccess)//削薄区成功
-                                    {
-                                        if (true)
-                                        {
-                                            double rowMove = (tempslot.Croprange.MidImageID - ImageProduct.nCurImageID) * InfoImgInfo.imageHeight + CropPartParams.PartCenterRow;
-                                            HOperatorSet.GenRectangle2(out HObject GroVRegion1, rowMove, CropPartParams.PartCenterCol, 0, CropPartParams.PartSizeCol / 2 + CropPartParams.CropShaftCol, CropPartParams.PartSizeRow / 2 + CropPartParams.CropShaftRow);
-                                            ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_regionShowInfos.Add(new RegionShowInfo() { m_hRegion = GroVRegion1, m_stuGetColor = HalconColor.pink });
-                                        }
+                                   bool bl_ExecuteSuccess = CropPlugin.ExecuteObj();
+                                   if (bl_ExecuteSuccess)//削薄区成功
+                                   {
+                                       if (true)
+                                       {
+                                           double rowMove = (tempslot.Croprange.MidImageID - ImageProduct.nCurImageID) * InfoImgInfo.imageHeight + CropPartParams.PartCenterRow;
+                                           HOperatorSet.GenRectangle2(out HObject GroVRegion1, rowMove, CropPartParams.PartCenterCol, 0, CropPartParams.PartSizeCol / 2 + CropPartParams.CropShaftCol, CropPartParams.PartSizeRow / 2 + CropPartParams.CropShaftRow);
+                                           ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_regionShowInfos.Add(new RegionShowInfo() { m_hRegion = GroVRegion1, m_stuGetColor = HalconColor.pink });
+                                       }
 
-                                        string str0 = $"第{SliceIndex + 1}条第{index + 1}个打孔区裁切成功";
-                                        ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_messageShowInfos.Add(new MessageShowInfo { m_strMessage = str0, m_stuGetColor = HalconColor.orange });
+                                       string str0 = $"第{SliceIndex + 1}条第{index + 1}个打孔区裁切成功";
+                                       ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_messageShowInfos.Add(new MessageShowInfo { m_strMessage = str0, m_stuGetColor = HalconColor.orange });
 
-                                        currentEAProduct.ListEASlicePD[SliceIndex].curSlShaveIndex++;
-                                        //tempslot.showHalconWindow.m_hImage = CropPartParams.Image_part;
-                                        //tempslot.showHalconWindow.m_nImageFrameID = index;
-                                        //tempslot.showHalconWindow.m_nProductID = PFTCleanParamBase.nCurEAProId;
-
-
-                                        //添加首尾条的间隙边
-                                        if (SliceIndex == 0)
-                                        {
-                                            //第一条左间隙边,
-                                            int n = (int)(DirectionEnum.左间隙边);
-                                            tempslot.Slotlines[n] = EdgeLine;
-                                        }
-                                        else if (SliceIndex == m_craft.SliceCount - 1)
-                                        {
-                                            //第一条左间隙边,
-                                            int n = (int)(DirectionEnum.右间隙边);
-                                            tempslot.Slotlines[n] = EdgeLine;
-                                        }
-
-                                        //找对应槽的四条边
-                                        double C1 = 1000; //矩形左边
-                                        double R1 = 1000; //矩形上边
-                                        double C2 = 2000; //矩形右边
-                                        double R2 = 2000; //矩形下边
-
-                                        // int count = Enum.GetValues(typeof(DirectionEnum)).Length;
-                                        int count = 4;
-                                        bool BlSlotLine = true;
-                                        for (int j = 0; j < count; j++)
-                                        {
-                                            string LineName = $"第{SliceIndex + 1}条打孔区" + ((DirectionEnum)j).ToString();
-
-                                            IPlugin PluginMline = process.m_ModuleObjList.Find(c => c.moduleInfo.ModuleName == LineName);
-                                            ParamsMeasureLine MlineParams = PluginMline.PluginParams as ParamsMeasureLine; //里氏转换
-                                            MlineParams.ho_Image = CropPartParams.Image_part;
-                                            LineInfo line = new LineInfo();
-                                            bool isSuccess = PluginMline.ExecuteObj();
-                                            string ShaveName = $"第{SliceIndex + 1}条第{index + 1}个打孔区" + ((DirectionEnum)j).ToString();
-                                            DetectEdgeValueAssign(MlineParams, isSuccess, line, ShaveName, ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_messageShowInfos,
-                                                 ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_lineShowInfos, ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_regionShowInfos);
-
-                                            // tempslot.showHalconWindow.m_lineShowInfos = LineShowInfos;
-                                            //把抓边添加到ImageProduct和EAProduct
-                                            double Srow = CropPartParams.PartCenterRow - CropPartParams.PartSizeRow / 2 - CropPartParams.CropShaftRow;
-                                            double Scol = CropPartParams.PartCenterCol - CropPartParams.PartSizeCol / 2 - CropPartParams.CropShaftCol;
-                                            LineInfo Normalline = NormalizeLine(line, (int)CropPartParams.PartCenterID, Srow, Scol, (int)InfoImgInfo.image_ID, InfoImgInfo.imageHeight);
-                                            //添加边到打孔区抓边队列
-                                            tempslot.Slotlines[j] = Normalline.copyLine(Normalline);
-                                            //添加边到图像抓边队列
-                                            ImageProduct.ListImageSlicePD[SliceIndex].ListImagelines.Add(Normalline); //开并行，不能往imageprod里面放，会冲突
-                                            ///添加边到EA抓边队列
-                                            LineInfo EAline = EAAddline(Normalline, currentEAProduct.CropEArange.StartImageID, currentEAProduct.CropEArange.StarImageRow, 0, InfoImgInfo.imageHeight);
-                                            currentEAProduct.ListEASlicePD[SliceIndex].ListImagelines.Add(EAline);
-
-                                            BlSlotLine &= isSuccess;
-                                            //CalcuEASize(camID, InfoImgInfo.imageHeight, Normaleftline, m_craft.ListEASizes, currentEAProduct, EAProductFrom, ImageProduct.ListImageSizes);
-                                            if (isSuccess)
-                                            {
-                                                if (j == 0) //左边,
-                                                {
-                                                    C1 = (MlineParams.hv_LineColumnBegin.D + MlineParams.hv_LineColumnEnd.D) / 2 + tempslot.slotInfo.InwardShieldLeft / Calipix_x;
-                                                    tempslot.SlotSizes[0].DataResult = ((Normalline.ColBegin - ImageProduct.EdgelineLeft) + (Normalline.ColEnd - ImageProduct.EdgelineLeft)) * 0.5 * Calipix_x;  //td定位距
-
-                                                    if (SliceIndex != 0) //把除第一条的左边，传递给上一条的右间隙边
-                                                    {
-                                                        //右间隙边,
-                                                        int n = (int)(DirectionEnum.右间隙边);
-                                                        currentEAProduct.ListEASlicePD[SliceIndex - 1].listShave[index].Slotlines[n] = Normalline.copyLine(Normalline);
-                                                    }
-                                                }
-                                                else if (j == 1) //右边,
-                                                {
-                                                    C2 = (MlineParams.hv_LineColumnBegin.D + MlineParams.hv_LineColumnEnd.D) / 2 - tempslot.slotInfo.InwardShieldRight / Calipix_x;
-                                                    tempslot.SlotSizes[2].DataResult = (C2 - C1) * Calipix_x;//td尺寸
-
-                                                    if (SliceIndex != m_craft.SliceCount - 1)//把除第最后一条的右边，传递给上一条的左间隙边
-                                                    {
-                                                        //左间隙边,
-                                                        int n = (int)(DirectionEnum.左间隙边);
-                                                        currentEAProduct.ListEASlicePD[SliceIndex + 1].listShave[index].Slotlines[n] = Normalline.copyLine(Normalline);
-                                                    }
-                                                }
-                                                else if (j == 2) //上边,
-                                                {
-                                                    R1 = (MlineParams.hv_LineRowBegin.D + MlineParams.hv_LineRowEnd.D) / 2 + tempslot.slotInfo.InwardShieldUp / Calipix_y;
-
-                                                    double subRowS = (Normalline.RowBeginID - currentEAProduct.EArange.StartImageID) * InfoImgInfo.imageHeight + Normalline.RowBegin - currentEAProduct.EArange.StarImageRow;
-                                                    double subRowE = (Normalline.RowEndID - currentEAProduct.EArange.StartImageID) * InfoImgInfo.imageHeight + Normalline.RowEnd - currentEAProduct.EArange.StarImageRow;
-                                                    tempslot.SlotSizes[1].DataResult = (subRowS + subRowE) * 0.5 * Calipix_y;  //td定位距
-                                                }
-                                                else if (j == 3) //下边,
-                                                {
-                                                    R2 = (MlineParams.hv_LineRowBegin.D + MlineParams.hv_LineRowEnd.D) / 2 - tempslot.slotInfo.InwardShieldDown / Calipix_y;
-                                                    tempslot.SlotSizes[3].DataResult = (R2 - R1) * Calipix_y;//Md尺寸
-                                                }
-                                            }
-                                        }
+                                       currentEAProduct.ListEASlicePD[SliceIndex].curSlShaveIndex++;
+                                       //tempslot.showHalconWindow.m_hImage = CropPartParams.Image_part;
+                                       //tempslot.showHalconWindow.m_nImageFrameID = index;
+                                       //tempslot.showHalconWindow.m_nProductID = PFTCleanParamBase.nCurEAProId;
 
 
-                                        //检测对应削薄区的缺陷，
-                                        //执行缺陷检测。
-                                        IPlugin PluginSlotefects = process.m_ModuleObjList.Find(c => c.moduleInfo.ModuleName == $"第{SliceIndex + 1}条打孔区缺陷检测");
-                                        ParamsMQDefects _ParamsSlotefects = PluginSlotefects.PluginParams as ParamsMQDefects;
-                                        if (BlSlotLine && C1 < C2 && R1 < R2)
-                                        {
-                                            //添加槽位检测缩进 current3DProduct.listEAShave[index]
-                                            HOperatorSet.GenRectangle1(out HObject GroVRegion1, R1, C1, R2, C2);
-                                            _ParamsSlotefects.DetectionROI = GroVRegion1;
+                                       //添加首尾条的间隙边
+                                       if (SliceIndex == 0)
+                                       {
+                                           //第一条左间隙边,
+                                           int n = (int)(DirectionEnum.左间隙边);
+                                           //tempslot.Slotlines[n] = EdgeLine;
+                                           tempslot.Slotlines[n] = (new LineInfo()).copyLine(ImageProduct.ListImagelines.Find(c => c.StrLineName == "涂布左基准边"));
 
-                                            int STid = tempslot.Croprange.StartImageID;
-                                            double STrow = tempslot.Croprange.StarImageRow - CropPartParams.CropShaftRow;
-                                            double STcol = tempslot.Croprange.StartCol - CropPartParams.CropShaftCol;
-                                            HObject GroVRegionMoved = NormalizeRegion(GroVRegion1, STid, STrow, STcol, (int)InfoImgInfo.image_ID, InfoImgInfo.imageHeight);
-                                            ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_regionShowInfos.Add(new RegionShowInfo() { m_hRegion = GroVRegionMoved, m_stuGetColor = HalconColor.cyan });
-                                        }
-                                        else
-                                        {
-                                            HOperatorSet.GenRectangle1(out HObject GroVRegion1, CropPartParams.CropShaftRow, CropPartParams.CropShaftCol, CropPartParams.PartSizeRow + CropPartParams.CropShaftRow, CropPartParams.PartSizeCol + CropPartParams.CropShaftCol);
-                                            _ParamsSlotefects.DetectionROI = GroVRegion1;
-                                            int STid = tempslot.Croprange.StartImageID;
-                                            double STrow = tempslot.Croprange.StarImageRow - CropPartParams.CropShaftRow;
-                                            double STcol = tempslot.Croprange.StartCol - CropPartParams.CropShaftCol;
-                                            HObject GroVRegionMoved = NormalizeRegion(GroVRegion1, STid, STrow, STcol, (int)InfoImgInfo.image_ID, InfoImgInfo.imageHeight);
-                                            ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_regionShowInfos.Add(new RegionShowInfo() { m_hRegion = GroVRegionMoved, m_stuGetColor = HalconColor.cyan });
-                                        }
-                                        HOperatorSet.GenEmptyObj(out _ParamsSlotefects.ShieldROI);
-                                        _ParamsSlotefects.ho_Image = CropPartParams.Image_part;
-                                        _ParamsSlotefects.WidthCali = Calipix_x;
-                                        _ParamsSlotefects.HeightCali = Calipix_y;
-                                        PluginSlotefects.ExecuteObj();
+                                       }
+                                       else if (SliceIndex == m_craft.SliceCount - 1)
+                                       {
+                                           //第一条左间隙边,
+                                           int n = (int)(DirectionEnum.右间隙边);
+                                           // tempslot.Slotlines[n] = EdgeLine;
+                                           tempslot.Slotlines[n] = (new LineInfo()).copyLine(ImageProduct.ListImagelines.Find(c => c.StrLineName == "涂布右基准边"));
+                                       }
 
-                                        //整合缺陷检测结果。整合缺陷到EA。
-                                        while (_ParamsSlotefects.detectInfos.Count() > 0)
-                                        {
-                                            NgTypeInfo item = _ParamsSlotefects.detectInfos?.Dequeue();
-                                            item.m_nImgIndex = (int)InfoImgInfo.image_ID;
-                                            item.m_iProductIndex = PFTCleanParamBase.nCurEAProId;
-                                            item.m_iSliceIndex = SliceIndex;
-                                            int STid = tempslot.Croprange.StartImageID;
-                                            double STrow = tempslot.Croprange.StarImageRow - CropPartParams.CropShaftRow;
-                                            double STcol = tempslot.Croprange.StartCol - CropPartParams.CropShaftCol;
-                                            HObject GroVRegionMoved = NormalizeRegion(item.m_hRegion, STid, STrow, STcol, (int)InfoImgInfo.image_ID, InfoImgInfo.imageHeight);
-                                            item.m_hRegion = GroVRegionMoved;
-                                            ImageProduct.ListImageSlicePD[SliceIndex].ListImageDefects.Add(item);
+                                       //找对应槽的四条边
+                                       double C1 = 1000; //矩形左边
+                                       double R1 = 1000; //矩形上边
+                                       double C2 = 2000; //矩形右边
+                                       double R2 = 2000; //矩形下边
 
-                                            NgTypeInfo EAngInfo = new NgTypeInfo();
-                                            EAngInfo = item.Copy();
-                                            HOperatorSet.CopyObj(GroVRegionMoved, out HObject region, 1, 1);
-                                            int EASTid = currentEAProduct.CropEArange.StartImageID;
-                                            double EASTrow = currentEAProduct.CropEArange.StarImageRow;
-                                            HObject RegionMoved = EAAddRegion(region, EASTid, EASTrow, (int)InfoImgInfo.image_ID, InfoImgInfo.imageHeight);
-                                            EAngInfo.m_hRegion = RegionMoved;
-                                            currentEAProduct.ListEASlicePD[SliceIndex].ListImageDefects.Add(EAngInfo);
-                                        }
-                                    }
-                                    else //先做没裁图成功就跳出循环。后期再加帧号防呆。
-                                    {
-                                        ToDoShaveCrop = false;
-                                    }
-                                }
+                                       // int count = Enum.GetValues(typeof(DirectionEnum)).Length;
+                                       //分界条需要多找一条边。divideEdge
+                                       if (SliceIndex == DividSliceIndex)
+                                       {
+                                           string LineName = $"边缘间隙边";
 
-                            }
+                                           IPlugin PluginMline = process.m_ModuleObjList.Find(c => c.moduleInfo.ModuleName == LineName);
+                                           ParamsMeasureLine MlineParams = PluginMline.PluginParams as ParamsMeasureLine; //里氏转换
+                                           MlineParams.ho_Image = CropPartParams.Image_part;
+                                           LineInfo line = new LineInfo();
+                                           bool isSuccess = PluginMline.ExecuteObj();
+                                           string ShaveName = $"边缘间隙边";
+                                           DetectEdgeValueAssign(MlineParams, isSuccess, line, ShaveName, ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_messageShowInfos,
+                                                ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_lineShowInfos, ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_regionShowInfos);
 
-                            //每条左右边均分。
-                            double left = ImageProduct.EdgelineLeft + m_craft.ListSliceSet[SliceIndex].SliceStartPos / Calipix_x;
-                            double right = ImageProduct.EdgelineLeft + m_craft.ListSliceSet[SliceIndex].SliceEndPos / Calipix_x;
-                            double TDshaft = m_craft.ListSliceSet[SliceIndex].SliceStartPos / Calipix_x;
-                            //检测下个EA的涂布缺陷。
-                            if (ImageProduct.blSplitEA)
-                            {
-                                HObject GroVRegion1 = CreatCoatBlock(InfoImgInfo, PFTCleanParamBase.dic_EAproductsInfo[PFTCleanParamBase.nCurEAProId + 1], SliceIndex, left, right, TDshaft, Calipix_y, Calipix_x);
-                                ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_regionShowInfos.Add(new RegionShowInfo() { m_hRegion = GroVRegion1, m_stuGetColor = HalconColor.green });
-                                //执行缺陷检测。
-                                ParamsMQDefects _ParamsSlotefects = process.m_ModuleObjList.Find(c => c.moduleInfo.ModuleName == $"第{SliceIndex + 1}条涂布区缺陷检测").PluginParams as ParamsMQDefects;
-                                _ParamsSlotefects.DetectionROI = GroVRegion1;
-                                HOperatorSet.GenEmptyObj(out _ParamsSlotefects.ShieldROI);
-                                _ParamsSlotefects.ho_Image = InfoImgInfo.ho_image;
-                                _ParamsSlotefects.WidthCali = Calipix_x;
-                                _ParamsSlotefects.HeightCali = Calipix_y;
-                                process.m_ModuleObjList.Find(c => c.moduleInfo.ModuleName == $"第{SliceIndex + 1}条涂布区缺陷检测").ExecuteObj();
-                                //整合缺陷检测结果。
-                                while (_ParamsSlotefects.detectInfos.Count() > 0)
-                                {
-                                    NgTypeInfo item = _ParamsSlotefects.detectInfos?.Dequeue();
-                                    item.m_nImgIndex = (int)InfoImgInfo.image_ID;
-                                    item.m_iProductIndex = PFTCleanParamBase.nCurEAProId + 1;
-                                    item.m_iSliceIndex = SliceIndex;
-                                    ImageProduct.ListImageSlicePD[SliceIndex].ListImageDefects.Add(item);
+                                           //把抓边添加到ImageProduct和EAProduct
+                                           double Srow = CropPartParams.PartCenterRow - CropPartParams.PartSizeRow / 2 - CropPartParams.CropShaftRow;
+                                           double Scol = CropPartParams.PartCenterCol - CropPartParams.PartSizeCol / 2 - CropPartParams.CropShaftCol;
+                                           LineInfo Normalline = NormalizeLine(line, (int)CropPartParams.PartCenterID, Srow, Scol, (int)InfoImgInfo.image_ID, InfoImgInfo.imageHeight);
+                                           //添加边到打孔区抓边队列
+                                           if (m_craft.CurCamIsLeft)
+                                           {
+                                               int n = (int)(DirectionEnum.右间隙边);
+                                               tempslot.Slotlines[n] = Normalline.copyLine(Normalline);
+                                           }
+                                           else
+                                           {
+                                               int n = (int)(DirectionEnum.左间隙边);
+                                               tempslot.Slotlines[n] = Normalline.copyLine(Normalline);
+                                           }
+                                           //添加边到图像抓边队列
+                                           ImageProduct.ListImageSlicePD[SliceIndex].ListImagelines.Add(Normalline); //开并行，不能往imageprod里面放，会冲突
+                                           ///添加边到EA抓边队列
+                                           LineInfo EAline = EAAddline(Normalline, currentEAProduct.CropEArange.StartImageID, currentEAProduct.CropEArange.StarImageRow, 0, InfoImgInfo.imageHeight);
+                                           currentEAProduct.ListEASlicePD[SliceIndex].ListImagelines.Add(EAline);
+                                       }
 
-                                    NgTypeInfo EAngInfo = new NgTypeInfo();
-                                    EAngInfo = item.Copy();
-                                    HOperatorSet.CopyObj(item.m_hRegion, out HObject region, 1, 1);
-                                    int EASTid = PFTCleanParamBase.dic_EAproductsInfo[PFTCleanParamBase.nCurEAProId + 1].CropEArange.StartImageID;
-                                    double EASTrow = PFTCleanParamBase.dic_EAproductsInfo[PFTCleanParamBase.nCurEAProId + 1].CropEArange.StarImageRow;
-                                    HObject RegionMoved = EAAddRegion(region, EASTid, EASTrow, (int)InfoImgInfo.image_ID, InfoImgInfo.imageHeight);
-                                    EAngInfo.m_hRegion = RegionMoved;
-                                    PFTCleanParamBase.dic_EAproductsInfo[PFTCleanParamBase.nCurEAProId + 1].ListEASlicePD[SliceIndex].ListImageDefects.Add(EAngInfo);
-                                }
-                            }
+                                       int count = 4;
+                                       bool BlSlotLine = true;
+                                       for (int j = 0; j < count; j++)
+                                       {
+                                           string LineName = $"第{SliceIndex + 1}条打孔区" + ((DirectionEnum)j).ToString();
 
-                            //检测当前EA涂布缺陷
-                            if (true)
-                            {
-                                //生成矩形检测区域
-                                HObject GroVRegion1 = CreatCoatBlock(InfoImgInfo, currentEAProduct, SliceIndex, left, right, TDshaft, Calipix_y, Calipix_x);
-                                ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_regionShowInfos.Add(new RegionShowInfo() { m_hRegion = GroVRegion1, m_stuGetColor = HalconColor.yellow });
-                                //执行缺陷检测。
-                                ParamsMQDefects _ParamsSlotefects = process.m_ModuleObjList.Find(c => c.moduleInfo.ModuleName == $"第{SliceIndex + 1}条涂布区缺陷检测").PluginParams as ParamsMQDefects;
-                                _ParamsSlotefects.DetectionROI = GroVRegion1;
-                                HOperatorSet.GenEmptyObj(out _ParamsSlotefects.ShieldROI);
-                                _ParamsSlotefects.ho_Image = InfoImgInfo.ho_image;
-                                _ParamsSlotefects.WidthCali = Calipix_x;
-                                _ParamsSlotefects.HeightCali = Calipix_y;
-                                process.m_ModuleObjList.Find(c => c.moduleInfo.ModuleName == $"第{SliceIndex + 1}条涂布区缺陷检测").ExecuteObj();
-                                //整合缺陷检测结果。
-                                while (_ParamsSlotefects.detectInfos.Count() > 0)
-                                {
-                                    NgTypeInfo item = _ParamsSlotefects.detectInfos?.Dequeue();
-                                    item.m_nImgIndex = (int)InfoImgInfo.image_ID;
-                                    item.m_iProductIndex = PFTCleanParamBase.nCurEAProId;
-                                    item.m_iSliceIndex = SliceIndex;
-                                    ImageProduct.ListImageSlicePD[SliceIndex].ListImageDefects.Add(item);
+                                           IPlugin PluginMline = process.m_ModuleObjList.Find(c => c.moduleInfo.ModuleName == LineName);
+                                           ParamsMeasureLine MlineParams = PluginMline.PluginParams as ParamsMeasureLine; //里氏转换
+                                           MlineParams.ho_Image = CropPartParams.Image_part;
+                                           LineInfo line = new LineInfo();
+                                           bool isSuccess = PluginMline.ExecuteObj();
+                                           string ShaveName = $"第{SliceIndex + 1}条第{index + 1}个打孔区" + ((DirectionEnum)j).ToString();
+                                           DetectEdgeValueAssign(MlineParams, isSuccess, line, ShaveName, ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_messageShowInfos,
+                                                ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_lineShowInfos, ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_regionShowInfos);
 
-                                    NgTypeInfo EAngInfo = new NgTypeInfo();
-                                    EAngInfo = item.Copy();
-                                    HOperatorSet.CopyObj(item.m_hRegion, out HObject region, 1, 1);
-                                    HOperatorSet.AreaCenter(item.m_hRegion, out HTuple area, out HTuple row, out HTuple column);
-                                    HOperatorSet.AreaCenter(region, out area, out row, out column);
-                                    int EASTid = currentEAProduct.CropEArange.StartImageID;
-                                    double EASTrow = currentEAProduct.CropEArange.StarImageRow;
+                                           // tempslot.showHalconWindow.m_lineShowInfos = LineShowInfos;
+                                           //把抓边添加到ImageProduct和EAProduct
+                                           double Srow = CropPartParams.PartCenterRow - CropPartParams.PartSizeRow / 2 - CropPartParams.CropShaftRow;
+                                           double Scol = CropPartParams.PartCenterCol - CropPartParams.PartSizeCol / 2 - CropPartParams.CropShaftCol;
+                                           LineInfo Normalline = NormalizeLine(line, (int)CropPartParams.PartCenterID, Srow, Scol, (int)InfoImgInfo.image_ID, InfoImgInfo.imageHeight);
 
-                                    HObject RegionMoved = EAAddRegion(region, EASTid, EASTrow, (int)InfoImgInfo.image_ID, InfoImgInfo.imageHeight);
-                                    HOperatorSet.AreaCenter(RegionMoved, out area, out row, out column);
-                                    EAngInfo.m_hRegion = RegionMoved;
-                                    currentEAProduct.ListEASlicePD[SliceIndex].ListImageDefects.Add(EAngInfo);
-                                }
-                            }
-                        }
-                        // }
-                    });
+                                           //添加边到图像抓边队列
+                                           ImageProduct.ListImageSlicePD[SliceIndex].ListImagelines.Add(Normalline); //开并行，不能往imageprod里面放，会冲突
+                                           ///添加边到EA抓边队列
+                                           LineInfo EAline = EAAddline(Normalline, currentEAProduct.CropEArange.StartImageID, currentEAProduct.CropEArange.StarImageRow, 0, InfoImgInfo.imageHeight);
+                                           currentEAProduct.ListEASlicePD[SliceIndex].ListImagelines.Add(EAline);
+
+                                           //添加边到打孔区抓边队列 -EA坐标
+                                           tempslot.Slotlines[j] = EAline.copyLine(EAline);
+
+                                           BlSlotLine &= isSuccess;
+                                           //CalcuEASize(camID, InfoImgInfo.imageHeight, Normaleftline, m_craft.ListEASizes, currentEAProduct, EAProductFrom, ImageProduct.ListImageSizes);
+                                           if (isSuccess)
+                                           {
+                                               if (j == 0) //左边,
+                                               {
+                                                   C1 = (MlineParams.hv_LineColumnBegin.D + MlineParams.hv_LineColumnEnd.D) / 2 + tempslot.slotInfo.InwardShieldLeft / Calipix_x;
+                                                   tempslot.SlotSizes[0].DataResult = ((Normalline.ColBegin - ImageProduct.EdgelineLeft) + (Normalline.ColEnd - ImageProduct.EdgelineLeft)) * 0.5 * Calipix_x;  //td定位距
+                                                   tempslot.SlotSizes[0].DataResult -= tempslot.slotInfo.InwardShieldLeft; //修正TD定位距
+                                                   if (SliceIndex != 0) //把除第一条的左边，传递给上一条的右间隙边
+                                                   {
+                                                       if ((m_craft.CurCamIsLeft && SliceIndex != DividSliceIndex))//也剃除右侧的第一条的左边
+                                                       {
+                                                           //右间隙边,
+                                                           int n = (int)(DirectionEnum.右间隙边);
+                                                           currentEAProduct.ListEASlicePD[SliceIndex - 1].listShave[index].Slotlines[n] = Normalline.copyLine(Normalline);
+                                                       }
+                                                   }
+                                               }
+                                               else if (j == 1) //右边,
+                                               {
+                                                   C2 = (MlineParams.hv_LineColumnBegin.D + MlineParams.hv_LineColumnEnd.D) / 2 - tempslot.slotInfo.InwardShieldRight / Calipix_x;
+                                                   tempslot.SlotSizes[2].DataResult = (C2 - C1) * Calipix_x;//td尺寸
+                                                   tempslot.SlotSizes[2].DataResult += tempslot.slotInfo.InwardShieldLeft + tempslot.slotInfo.InwardShieldRight; //修正TD尺寸
+                                                   if (SliceIndex != m_craft.SliceCount - 1)//把除第最后一条的右边，传递给下一条的左间隙边
+                                                   {
+                                                       if ((m_craft.CurCamIsLeft && SliceIndex != DividSliceIndex))//把除第最后一条的右边
+                                                       {
+                                                           //左间隙边,
+                                                           int n = (int)(DirectionEnum.左间隙边);
+                                                           currentEAProduct.ListEASlicePD[SliceIndex + 1].listShave[index].Slotlines[n] = Normalline.copyLine(Normalline);
+                                                       }
+                                                   }
+                                               }
+                                               else if (j == 2) //上边,
+                                               {
+                                                   R1 = (MlineParams.hv_LineRowBegin.D + MlineParams.hv_LineRowEnd.D) / 2 + tempslot.slotInfo.InwardShieldUp / Calipix_y;
+
+                                                   double subRowS = (Normalline.RowBeginID - currentEAProduct.EArange.StartImageID) * InfoImgInfo.imageHeight + Normalline.RowBegin - currentEAProduct.EArange.StarImageRow;
+                                                   double subRowE = (Normalline.RowEndID - currentEAProduct.EArange.StartImageID) * InfoImgInfo.imageHeight + Normalline.RowEnd - currentEAProduct.EArange.StarImageRow;
+                                                   tempslot.SlotSizes[1].DataResult = (subRowS + subRowE) * 0.5 * Calipix_y;  //td定位距
+                                                   tempslot.SlotSizes[1].DataResult -= tempslot.slotInfo.InwardShieldUp; //修正Md定位距
+                                               }
+                                               else if (j == 3) //下边,
+                                               {
+                                                   R2 = (MlineParams.hv_LineRowBegin.D + MlineParams.hv_LineRowEnd.D) / 2 - tempslot.slotInfo.InwardShieldDown / Calipix_y;
+                                                   tempslot.SlotSizes[3].DataResult = (R2 - R1) * Calipix_y;//Md尺寸
+                                                   tempslot.SlotSizes[3].DataResult += tempslot.slotInfo.InwardShieldUp + tempslot.slotInfo.InwardShieldDown; ///修正Md尺寸
+                                               }
+                                           }
+                                       }
+
+
+                                       //检测对应削薄区的缺陷，
+                                       //执行缺陷检测。
+                                       IPlugin PluginSlotefects = process.m_ModuleObjList.Find(c => c.moduleInfo.ModuleName == $"第{SliceIndex + 1}条打孔区缺陷检测");
+                                       ParamsMQDefects _ParamsSlotefects = PluginSlotefects.PluginParams as ParamsMQDefects;
+                                       if (BlSlotLine && C1 < C2 && R1 < R2)
+                                       {
+                                           //添加槽位检测缩进 current3DProduct.listEAShave[index]
+                                           HOperatorSet.GenRectangle1(out HObject GroVRegion1, R1, C1, R2, C2);
+                                           _ParamsSlotefects.DetectionROI = GroVRegion1;
+
+                                           int STid = tempslot.Croprange.StartImageID;
+                                           double STrow = tempslot.Croprange.StarImageRow - CropPartParams.CropShaftRow;
+                                           double STcol = tempslot.Croprange.StartCol - CropPartParams.CropShaftCol;
+                                           HObject GroVRegionMoved = NormalizeRegion(GroVRegion1, STid, STrow, STcol, (int)InfoImgInfo.image_ID, InfoImgInfo.imageHeight);
+                                           ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_regionShowInfos.Add(new RegionShowInfo() { m_hRegion = GroVRegionMoved, m_stuGetColor = HalconColor.cyan });
+                                       }
+                                       else
+                                       {
+                                           HOperatorSet.GenRectangle1(out HObject GroVRegion1, CropPartParams.CropShaftRow, CropPartParams.CropShaftCol, CropPartParams.PartSizeRow + CropPartParams.CropShaftRow, CropPartParams.PartSizeCol + CropPartParams.CropShaftCol);
+                                           _ParamsSlotefects.DetectionROI = GroVRegion1;
+                                           int STid = tempslot.Croprange.StartImageID;
+                                           double STrow = tempslot.Croprange.StarImageRow - CropPartParams.CropShaftRow;
+                                           double STcol = tempslot.Croprange.StartCol - CropPartParams.CropShaftCol;
+                                           HObject GroVRegionMoved = NormalizeRegion(GroVRegion1, STid, STrow, STcol, (int)InfoImgInfo.image_ID, InfoImgInfo.imageHeight);
+                                           ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_regionShowInfos.Add(new RegionShowInfo() { m_hRegion = GroVRegionMoved, m_stuGetColor = HalconColor.cyan });
+                                       }
+                                       HOperatorSet.GenEmptyObj(out _ParamsSlotefects.ShieldROI);
+                                       _ParamsSlotefects.ho_Image = CropPartParams.Image_part;
+                                       _ParamsSlotefects.WidthCali = Calipix_x;
+                                       _ParamsSlotefects.HeightCali = Calipix_y;
+                                       PluginSlotefects.ExecuteObj();
+
+                                       //整合缺陷检测结果。整合缺陷到EA。
+                                       while (_ParamsSlotefects.detectInfos.Count() > 0)
+                                       {
+                                           NgTypeInfo item = _ParamsSlotefects.detectInfos?.Dequeue();
+                                           item.m_nImgIndex = (int)InfoImgInfo.image_ID;
+                                           item.m_iProductIndex = PFTCleanParamBase.nCurEAProId;
+                                           item.m_iSliceIndex = SliceIndex;
+                                           int STid = tempslot.Croprange.StartImageID;
+                                           double STrow = tempslot.Croprange.StarImageRow - CropPartParams.CropShaftRow;
+                                           double STcol = tempslot.Croprange.StartCol - CropPartParams.CropShaftCol;
+                                           HObject GroVRegionMoved = NormalizeRegion(item.m_hRegion, STid, STrow, STcol, (int)InfoImgInfo.image_ID, InfoImgInfo.imageHeight);
+                                           item.m_hRegion = GroVRegionMoved;
+                                           ImageProduct.ListImageSlicePD[SliceIndex].ListImageDefects.Add(item);
+
+                                           NgTypeInfo EAngInfo = new NgTypeInfo();
+                                           EAngInfo = item.Copy();
+                                           HOperatorSet.CopyObj(GroVRegionMoved, out HObject region, 1, 1);
+                                           int EASTid = currentEAProduct.CropEArange.StartImageID;
+                                           double EASTrow = currentEAProduct.CropEArange.StarImageRow;
+                                           HObject RegionMoved = EAAddRegion(region, EASTid, EASTrow, (int)InfoImgInfo.image_ID, InfoImgInfo.imageHeight);
+                                           EAngInfo.m_hRegion = RegionMoved;
+                                           currentEAProduct.ListEASlicePD[SliceIndex].ListImageDefects.Add(EAngInfo);
+                                       }
+                                   }
+                                   else //先做没裁图成功就跳出循环。后期再加帧号防呆。
+                                   {
+                                       ToDoShaveCrop = false;
+                                   }
+                               }
+                           }
+
+                           //每条左右边均分。
+                           double left = ImageProduct.EdgelineLeft + m_craft.ListSliceSet[SliceIndex].SliceStartPos / Calipix_x;
+                           double right = ImageProduct.EdgelineLeft + m_craft.ListSliceSet[SliceIndex].SliceEndPos / Calipix_x;
+                           double TDshaft = m_craft.ListSliceSet[SliceIndex].SliceStartPos / Calipix_x;
+                           //检测下个EA的涂布缺陷。
+                           if (ImageProduct.blSplitEA)
+                           {
+                               HObject GroVRegion1 = CreatCoatBlock(InfoImgInfo, PFTCleanParamBase.dic_EAproductsInfo[PFTCleanParamBase.nCurEAProId + 1], SliceIndex, left, right, TDshaft, Calipix_y, Calipix_x);
+                               ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_regionShowInfos.Add(new RegionShowInfo() { m_hRegion = GroVRegion1, m_stuGetColor = HalconColor.green });
+                               //执行缺陷检测。
+                               ParamsMQDefects _ParamsSlotefects = process.m_ModuleObjList.Find(c => c.moduleInfo.ModuleName == $"第{SliceIndex + 1}条涂布区缺陷检测").PluginParams as ParamsMQDefects;
+                               _ParamsSlotefects.DetectionROI = GroVRegion1;
+                               HOperatorSet.GenEmptyObj(out _ParamsSlotefects.ShieldROI);
+                               _ParamsSlotefects.ho_Image = InfoImgInfo.ho_image;
+                               _ParamsSlotefects.WidthCali = Calipix_x;
+                               _ParamsSlotefects.HeightCali = Calipix_y;
+                               process.m_ModuleObjList.Find(c => c.moduleInfo.ModuleName == $"第{SliceIndex + 1}条涂布区缺陷检测").ExecuteObj();
+                               //整合缺陷检测结果。
+                               while (_ParamsSlotefects.detectInfos.Count() > 0)
+                               {
+                                   NgTypeInfo item = _ParamsSlotefects.detectInfos?.Dequeue();
+                                   item.m_nImgIndex = (int)InfoImgInfo.image_ID;
+                                   item.m_iProductIndex = PFTCleanParamBase.nCurEAProId + 1;
+                                   item.m_iSliceIndex = SliceIndex;
+                                   ImageProduct.ListImageSlicePD[SliceIndex].ListImageDefects.Add(item);
+
+                                   NgTypeInfo EAngInfo = new NgTypeInfo();
+                                   EAngInfo = item.Copy();
+                                   HOperatorSet.CopyObj(item.m_hRegion, out HObject region, 1, 1);
+                                   int EASTid = PFTCleanParamBase.dic_EAproductsInfo[PFTCleanParamBase.nCurEAProId + 1].CropEArange.StartImageID;
+                                   double EASTrow = PFTCleanParamBase.dic_EAproductsInfo[PFTCleanParamBase.nCurEAProId + 1].CropEArange.StarImageRow;
+                                   HObject RegionMoved = EAAddRegion(region, EASTid, EASTrow, (int)InfoImgInfo.image_ID, InfoImgInfo.imageHeight);
+                                   EAngInfo.m_hRegion = RegionMoved;
+                                   PFTCleanParamBase.dic_EAproductsInfo[PFTCleanParamBase.nCurEAProId + 1].ListEASlicePD[SliceIndex].ListImageDefects.Add(EAngInfo);
+                               }
+                           }
+
+                           //检测当前EA涂布缺陷
+                           if (true)
+                           {
+                               //生成矩形检测区域
+                               HObject GroVRegion1 = CreatCoatBlock(InfoImgInfo, currentEAProduct, SliceIndex, left, right, TDshaft, Calipix_y, Calipix_x);
+                               ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_regionShowInfos.Add(new RegionShowInfo() { m_hRegion = GroVRegion1, m_stuGetColor = HalconColor.yellow });
+                               //执行缺陷检测。
+                               ParamsMQDefects _ParamsSlotefects = process.m_ModuleObjList.Find(c => c.moduleInfo.ModuleName == $"第{SliceIndex + 1}条涂布区缺陷检测").PluginParams as ParamsMQDefects;
+                               _ParamsSlotefects.DetectionROI = GroVRegion1;
+                               HOperatorSet.GenEmptyObj(out _ParamsSlotefects.ShieldROI);
+                               _ParamsSlotefects.ho_Image = InfoImgInfo.ho_image;
+                               _ParamsSlotefects.WidthCali = Calipix_x;
+                               _ParamsSlotefects.HeightCali = Calipix_y;
+                               process.m_ModuleObjList.Find(c => c.moduleInfo.ModuleName == $"第{SliceIndex + 1}条涂布区缺陷检测").ExecuteObj();
+                               //整合缺陷检测结果。
+                               while (_ParamsSlotefects.detectInfos.Count() > 0)
+                               {
+                                   NgTypeInfo item = _ParamsSlotefects.detectInfos?.Dequeue();
+                                   item.m_nImgIndex = (int)InfoImgInfo.image_ID;
+                                   item.m_iProductIndex = PFTCleanParamBase.nCurEAProId;
+                                   item.m_iSliceIndex = SliceIndex;
+                                   ImageProduct.ListImageSlicePD[SliceIndex].ListImageDefects.Add(item);
+
+                                   NgTypeInfo EAngInfo = new NgTypeInfo();
+                                   EAngInfo = item.Copy();
+                                   HOperatorSet.CopyObj(item.m_hRegion, out HObject region, 1, 1);
+                                   HOperatorSet.AreaCenter(item.m_hRegion, out HTuple area, out HTuple row, out HTuple column);
+                                   HOperatorSet.AreaCenter(region, out area, out row, out column);
+                                   int EASTid = currentEAProduct.CropEArange.StartImageID;
+                                   double EASTrow = currentEAProduct.CropEArange.StarImageRow;
+
+                                   HObject RegionMoved = EAAddRegion(region, EASTid, EASTrow, (int)InfoImgInfo.image_ID, InfoImgInfo.imageHeight);
+                                   HOperatorSet.AreaCenter(RegionMoved, out area, out row, out column);
+                                   EAngInfo.m_hRegion = RegionMoved;
+                                   currentEAProduct.ListEASlicePD[SliceIndex].ListImageDefects.Add(EAngInfo);
+                               }
+                           }
+                       }
+                       // }
+                   });
 
                     //料尾裁图，抓边
                     if (!currentEAProduct.BlTileDone && InfoImgInfo.image_ID >= currentEAProduct.Coatrange.EndImageID) //图像大于等于料尾裁图的帧号
@@ -1261,7 +1341,7 @@ namespace Frame_Core
                     }
 
                     ///复制图像给EA拼大图流程
-
+                    //InfoImgInfo.ho_image.CopyImage(out HObject CopyImage);
                     HOperatorSet.CopyObj(InfoImgInfo.ho_image, out HObject CopyImage, 1, 1);
                     HOperatorSet.GetImageSize(InfoImgInfo.ho_image, out HTuple wi, out HTuple hi);
                     PFTCleanParamBase.PFTImageProdQueue.Enqueue(new ImageInfo() { image_ID = InfoImgInfo.image_ID, EAID = PFTCleanParamBase.nCurEAProId, ho_image = CopyImage, imageWidth = wi, imageHeight = hi });
@@ -1272,6 +1352,9 @@ namespace Frame_Core
                         PFTCleanParamBase.nCurEAProId++;
                     }
 
+
+
+
                     ImageProduct.showHalconWindow.m_nProductID = ImageProduct.nCurEAID;
                     ImageProduct.showHalconWindow.m_nImageFrameID = InfoImgInfo.image_ID;
                     ImageProduct.showHalconWindow.m_hImage = InfoImgInfo.ho_image;
@@ -1279,6 +1362,31 @@ namespace Frame_Core
                     ImageProduct.showHalconWindow.m_regionShowInfos = RegionShowInfos;
                     ImageProduct.showHalconWindow.m_messageShowInfos = MesssgeShowInfos;
                     PFTCleanParamBase.ProductCallBack(ImageProduct);
+
+                  
+                    try
+                    {
+                        //实时点检
+                        if (SizePointInspectionWorks.GetIsStratPointCheck(InfoImgInfo.image_ID, 0, Project.Instance.cameraManager[(CameraEnum)camID].m_SizePointInspectionManage.sizePointInspectionParam.sizePointInspectionWorkParam))
+                        {
+                            SizePointInspectionWorks.PointInspectionFlow((CameraEnum)camID, InfoImgInfo.ho_image, (int)InfoImgInfo.image_ID, "", ImageProduct.showHalconWindow, out List<RowData[]> sizeDatass);
+                            List<string> title = SizePointInspectionWorks.GetSizePointInspectionTitle(Project.Instance.cameraManager[(CameraEnum)camID].m_SizePointInspectionManage.sizePointInspectionParam.SizeLogicParams_UserDefineds);
+                            foreach (var item in sizeDatass)
+                            {
+                                // 写入点检数据                                  
+                                FileOperationCSV.WriteData_CSV(Project.Instance.cameraManager[(CameraEnum)camID].m_SizePointInspectionManage.SizeRealTimeCheckPointPath, title.ToArray(), item, "");
+                            }
+                        }
+
+                        //光源自适应
+                        //GrayScaleAdaptation.CalculateGrayAdjustment((CameraEnum)camID, (int)InfoImgInfo.image_ID, !paramsMQDefectsTemp.currentExistingDefect, paramsMQDefectsTemp.IsGetCoatingMeanGray, paramsMQDefectsTemp.CoatingMeanGray, Project.Instance.cameraManager[cameraEnum].m_GrayScaleAdaptationParameter, PerformGrayscaleAdjustmentCallback);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log4netRecord.ErrorLog.Error(ex);
+                    }
+
+                 
                     MessageNotify.AddDebugLog($"Cam1帧图流程产品{ImageProduct.nCurEAID}图像{InfoImgInfo.image_ID}处理完成");
                 }
             }
@@ -1306,7 +1414,7 @@ namespace Frame_Core
                 double ZoomFactorY = 0.5;
                 PFTCleanProParams CleanEAParamBase = Project.Instance.Is_simulation ? m_DicCamOperaParam_Sim[camID] as PFTCleanProParams : m_DicCamOperaParam[camID] as PFTCleanProParams;
                 var PFTimageQueue = CleanEAParamBase.PFTImageProdQueue;
-                CleanEAParamBase.semaphoreSlim.Wait();
+                CleanEAParamBase.semaphoreSlim.Wait(200);
 
                 ///复制图像给EA拼大图流程
                 if (PFTimageQueue.Count > 2) // 检查主相机的图像队列是否有图像
@@ -1498,6 +1606,15 @@ namespace Frame_Core
             {
                 int ProcessID = process.processInfo.ProcessID;
                 int camID = (int)CameraEnum.Cam2;
+                int CurCamSide = camID;
+                if (m_craft.CurCamIsLeft)
+                {
+                    CurCamSide = (int)CameraEnum.Cam1;
+                }
+                else
+                {
+                    CurCamSide = (int)CameraEnum.Cam2;
+                }
                 SetThreadAffinityMask(GetCurrentThread(), new UIntPtr(SetCpuID(ProcessID)));
 
                 //标定系数
@@ -1531,10 +1648,26 @@ namespace Frame_Core
                     List<LineInfo> LineShowInfos = new List<LineInfo>();
 
                     int count0 = InfoImgInfo.ho_image.GetReferenceCount();
+                    int DividSliceIndex = 0;
                     ImageProduct = new PFTImageProduct();
                     for (int i = 0; i < m_craft.SliceCount; i++)
                     {
                         ImageProduct.ListImageSlicePD.Add(new PFTSliceProduct());
+                        if (m_craft.CurCamIsLeft)
+                        {
+                            if (m_craft.ListSliceSet[i].IsLeftSide)
+                            {
+                                DividSliceIndex = i;
+                            }
+                        }
+                        else
+                        {
+                            if (!m_craft.ListSliceSet[m_craft.SliceCount - 1 - i].IsLeftSide)
+                            {
+                                DividSliceIndex = m_craft.SliceCount - 1 - i;
+                            }
+                        }
+
                     }
                     ImageProduct.nCurImageID = InfoImgInfo.image_ID;
                     ImageProduct.nCurEAID = PFTCleanParamFrom.nCurEAProId;
@@ -1547,12 +1680,12 @@ namespace Frame_Core
                     HOperatorSet.CountSeconds(out ImageProduct.Image_StartTime);
 
                     //确认基准边 L+R ,必须有的两条边--
-                    LineInfo EdgeLine = new LineInfo();
+                    // LineInfo EdgeLine = new LineInfo();
                     if (true)
                     //for (int i = 0; i < 2; i++)
                     {
                         string linepluginname = "涂布左基准边";
-                        if (camID == 1) linepluginname = "涂布右基准边";
+                        if (!m_craft.CurCamIsLeft) linepluginname = "涂布右基准边";
                         //抓边
                         IPlugin PluginMline = process.m_ModuleObjList.Find(c => c.moduleInfo.ModuleName == linepluginname);
                         ParamsMeasureLine MlineParams = PluginMline.PluginParams as ParamsMeasureLine; //里氏转换
@@ -1564,13 +1697,13 @@ namespace Frame_Core
                         //把抓边添加到ImageProduct和EAProduct
                         LineInfo Normalline = NormalizeLine(line, (int)ImageProduct.nCurImageID, 0, 0, (int)InfoImgInfo.image_ID, InfoImgInfo.imageHeight);
                         ImageProduct.ListImagelines.Add(Normalline);
-                        EdgeLine = EdgeLine.copyLine(Normalline);
+                        //  EdgeLine = EdgeLine.copyLine(Normalline);
                         LineInfo EAline = EAAddline(Normalline, currentEAProduct.CropEArange.StartImageID, currentEAProduct.CropEArange.StarImageRow, 0, InfoImgInfo.imageHeight);
                         currentEAProduct.ListEAlines.Add(EAline);
 
                         if (isSuccess)
                         {
-                            if (camID == 0)
+                            if (m_craft.CurCamIsLeft)
                             {
                                 ImageProduct.EdgelineLeft = (MlineParams.hv_LineColumnBegin.D + MlineParams.hv_LineColumnEnd.D) / 2;
                                 ImageProduct.EdgelineRight = InfoImgInfo.imageWidth;
@@ -1753,7 +1886,7 @@ namespace Frame_Core
                         ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_regionShowInfos = new List<RegionShowInfo>();
                         ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_lineShowInfos = new List<LineInfo>();
 
-                        if (m_craft.ListSliceSet[SliceIndex].BelongCam == ((CameraEnum)camID).ToString())
+                        if (m_craft.ListSliceSet[i].IsLeftSide == m_craft.CurCamIsLeft)
                         {
                             //每条左右边。
                             double left = ImageProduct.EdgelineLeft + m_craft.ListSliceSet[SliceIndex].SliceStartPos / Calipix_x;
@@ -1837,15 +1970,15 @@ namespace Frame_Core
                                     {
                                         //第一条左间隙边,
                                         int n = (int)(DirectionEnum.左间隙边);
-                                        tempslot.Slotlines[n] = EdgeLine;
-                                        //tempslot.Slotlines[n] = (new LineInfo()).copyLine(ImageProduct.ListImagelines.Find(c => c.StrLineName == "涂布左基准边"));
+                                        //tempslot.Slotlines[n] = EdgeLine;
+                                        tempslot.Slotlines[n] = (new LineInfo()).copyLine(ImageProduct.ListImagelines.Find(c => c.StrLineName == "涂布左基准边"));
                                     }
                                     else if (SliceIndex == m_craft.SliceCount - 1)
                                     {
                                         //第一条左间隙边,
                                         int n = (int)(DirectionEnum.右间隙边);
-                                        tempslot.Slotlines[n] = EdgeLine;
-                                        // tempslot.Slotlines[n] = (new LineInfo()).copyLine(ImageProduct.ListImagelines.Find(c => c.StrLineName == "涂布右基准边"));
+                                        // tempslot.Slotlines[n] = EdgeLine;
+                                        tempslot.Slotlines[n] = (new LineInfo()).copyLine(ImageProduct.ListImagelines.Find(c => c.StrLineName == "涂布右基准边"));
                                     }
 
                                     //找对应槽的四条边
@@ -1853,7 +1986,43 @@ namespace Frame_Core
                                     double R1 = 1000; //矩形上边
                                     double C2 = 2000; //矩形右边
                                     double R2 = 2000; //矩形下边
-                                                      //int count = Enum.GetValues(typeof(DirectionEnum)).Length;
+
+                                    //int count = Enum.GetValues(typeof(DirectionEnum)).Length;
+                                    //分界条需要多找一条边。divideEdge
+                                    if (SliceIndex == DividSliceIndex)
+                                    {
+                                        string LineName = $"边缘间隙边";
+
+                                        IPlugin PluginMline = process.m_ModuleObjList.Find(c => c.moduleInfo.ModuleName == LineName);
+                                        ParamsMeasureLine MlineParams = PluginMline.PluginParams as ParamsMeasureLine; //里氏转换
+                                        MlineParams.ho_Image = CropPartParams.Image_part;
+                                        LineInfo line = new LineInfo();
+                                        bool isSuccess = PluginMline.ExecuteObj();
+                                        string ShaveName = $"边缘间隙边";
+                                        DetectEdgeValueAssign(MlineParams, isSuccess, line, ShaveName, ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_messageShowInfos,
+                                             ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_lineShowInfos, ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_regionShowInfos);
+
+                                        //把抓边添加到ImageProduct和EAProduct
+                                        double Srow = CropPartParams.PartCenterRow - CropPartParams.PartSizeRow / 2 - CropPartParams.CropShaftRow;
+                                        double Scol = CropPartParams.PartCenterCol - CropPartParams.PartSizeCol / 2 - CropPartParams.CropShaftCol;
+                                        LineInfo Normalline = NormalizeLine(line, (int)CropPartParams.PartCenterID, Srow, Scol, (int)InfoImgInfo.image_ID, InfoImgInfo.imageHeight);
+                                        //添加边到打孔区抓边队列
+                                        if (m_craft.CurCamIsLeft)
+                                        {
+                                            int n = (int)(DirectionEnum.右间隙边);
+                                            tempslot.Slotlines[n] = Normalline.copyLine(Normalline);
+                                        }
+                                        else
+                                        {
+                                            int n = (int)(DirectionEnum.左间隙边);
+                                            tempslot.Slotlines[n] = Normalline.copyLine(Normalline);
+                                        }
+                                        //添加边到图像抓边队列
+                                        ImageProduct.ListImageSlicePD[SliceIndex].ListImagelines.Add(Normalline); //开并行，不能往imageprod里面放，会冲突
+                                        ///添加边到EA抓边队列
+                                        LineInfo EAline = EAAddline(Normalline, currentEAProduct.CropEArange.StartImageID, currentEAProduct.CropEArange.StarImageRow, 0, InfoImgInfo.imageHeight);
+                                        currentEAProduct.ListEASlicePD[SliceIndex].ListImagelines.Add(EAline);
+                                    }
                                     int count = 4;
                                     bool BlSlotLine = true;
                                     for (int j = 0; j < count; j++)
@@ -1875,14 +2044,13 @@ namespace Frame_Core
                                         double Scol = CropPartParams.PartCenterCol - CropPartParams.PartSizeCol / 2 - CropPartParams.CropShaftCol;
                                         LineInfo Normalline = NormalizeLine(line, (int)CropPartParams.PartCenterID, Srow, Scol, (int)InfoImgInfo.image_ID, InfoImgInfo.imageHeight);
 
-                                        //添加边到打孔区抓边队列
-                                        tempslot.Slotlines[j] = Normalline.copyLine(Normalline);
                                         //添加边到图像抓边队列
                                         ImageProduct.ListImageSlicePD[SliceIndex].ListImagelines.Add(Normalline);
                                         //添加边到EA抓边队列--------//
                                         LineInfo EAline = EAAddline(Normalline, currentEAProduct.CropEArange.StartImageID, currentEAProduct.CropEArange.StarImageRow, 0, InfoImgInfo.imageHeight);
                                         currentEAProduct.ListEASlicePD[SliceIndex].ListImagelines.Add(EAline);
-
+                                        //添加边到打孔区抓边队列 -EA坐标
+                                        tempslot.Slotlines[j] = EAline.copyLine(EAline);
 
 
                                         BlSlotLine &= isSuccess;
@@ -1892,24 +2060,31 @@ namespace Frame_Core
                                             {
                                                 C1 = (MlineParams.hv_LineColumnBegin.D + MlineParams.hv_LineColumnEnd.D) / 2 + tempslot.slotInfo.InwardShieldLeft / Calipix_x;
                                                 tempslot.SlotSizes[0].DataResult = ((Normalline.ColBegin - ImageProduct.EdgelineLeft) + (Normalline.ColEnd - ImageProduct.EdgelineLeft)) * 0.5 * Calipix_x;  //td定位距
-
+                                                tempslot.SlotSizes[0].DataResult -= tempslot.slotInfo.InwardShieldLeft; //修正TD定位距
                                                 if (SliceIndex != 0) //把除第一条的左边，传递给上一条的右间隙边
                                                 {
-                                                    //右间隙边,
-                                                    int n = (int)(DirectionEnum.右间隙边);
-                                                    currentEAProduct.ListEASlicePD[SliceIndex - 1].listShave[index].Slotlines[n] = Normalline.copyLine(Normalline);
+                                                    if ((m_craft.CurCamIsLeft && SliceIndex != DividSliceIndex))//也剃除右侧的第一条的左边
+                                                    {
+                                                        //右间隙边,
+                                                        int n = (int)(DirectionEnum.右间隙边);
+                                                        currentEAProduct.ListEASlicePD[SliceIndex - 1].listShave[index].Slotlines[n] = Normalline.copyLine(Normalline);
+                                                    }
+
                                                 }
                                             }
                                             else if (j == 1)
                                             {
                                                 C2 = (MlineParams.hv_LineColumnBegin.D + MlineParams.hv_LineColumnEnd.D) / 2 - tempslot.slotInfo.InwardShieldRight / Calipix_x;
                                                 tempslot.SlotSizes[2].DataResult = (C2 - C1) * Calipix_x;//td尺寸
-
+                                                tempslot.SlotSizes[2].DataResult += tempslot.slotInfo.InwardShieldLeft + tempslot.slotInfo.InwardShieldRight; //修正TD尺寸
                                                 if (SliceIndex != m_craft.SliceCount - 1)//把除第最后一条的右边，传递给上一条的左间隙边
                                                 {
-                                                    //左间隙边,
-                                                    int n = (int)(DirectionEnum.左间隙边);
-                                                    currentEAProduct.ListEASlicePD[SliceIndex + 1].listShave[index].Slotlines[n] = Normalline.copyLine(Normalline);
+                                                    if ((m_craft.CurCamIsLeft && SliceIndex != DividSliceIndex))//把除第最后一条的右边
+                                                    {
+                                                        //左间隙边,
+                                                        int n = (int)(DirectionEnum.左间隙边);
+                                                        currentEAProduct.ListEASlicePD[SliceIndex + 1].listShave[index].Slotlines[n] = Normalline.copyLine(Normalline);
+                                                    }
                                                 }
                                             }
                                             else if (j == 2)
@@ -1919,11 +2094,13 @@ namespace Frame_Core
                                                 double subRowS = (Normalline.RowBeginID - currentEAProduct.EArange.StartImageID) * InfoImgInfo.imageHeight + Normalline.RowBegin - currentEAProduct.EArange.StarImageRow;
                                                 double subRowE = (Normalline.RowEndID - currentEAProduct.EArange.StartImageID) * InfoImgInfo.imageHeight + Normalline.RowEnd - currentEAProduct.EArange.StarImageRow;
                                                 tempslot.SlotSizes[1].DataResult = (subRowS + subRowE) * 0.5 * Calipix_y;  //td定位距
+                                                tempslot.SlotSizes[1].DataResult -= tempslot.slotInfo.InwardShieldUp; //修正Md定位距
                                             }
                                             else if (j == 3)
                                             {
                                                 R2 = (MlineParams.hv_LineRowBegin.D + MlineParams.hv_LineRowEnd.D) / 2 - tempslot.slotInfo.InwardShieldDown / Calipix_y;
                                                 tempslot.SlotSizes[3].DataResult = (R2 - R1) * Calipix_y;//Md尺寸
+                                                tempslot.SlotSizes[3].DataResult += tempslot.slotInfo.InwardShieldUp + tempslot.slotInfo.InwardShieldDown; ///修正Md尺寸
                                             }
 
                                         }
@@ -2029,7 +2206,7 @@ namespace Frame_Core
                                 }
                             }
                         }
-                        //}
+                        // }
                     });
                     //料尾裁图，抓边
                     if (!currentEAProduct.BlTileDone && InfoImgInfo.image_ID >= currentEAProduct.Coatrange.EndImageID) //图像大于等于料尾裁图的帧号
@@ -2098,6 +2275,26 @@ namespace Frame_Core
                     ImageProduct.showHalconWindow.m_regionShowInfos = RegionShowInfos;
                     ImageProduct.showHalconWindow.m_messageShowInfos = MesssgeShowInfos;
                     PFTCleanParamFrom.ProductCallBack(ImageProduct);
+
+                    //实时点检
+                    try
+                    {
+                        if (SizePointInspectionWorks.GetIsStratPointCheck(InfoImgInfo.image_ID, 0, Project.Instance.cameraManager[(CameraEnum)camID].m_SizePointInspectionManage.sizePointInspectionParam.sizePointInspectionWorkParam))
+                        {
+                            SizePointInspectionWorks.PointInspectionFlow((CameraEnum)camID, InfoImgInfo.ho_image, (int)InfoImgInfo.image_ID, "", ImageProduct.showHalconWindow, out List<RowData[]> sizeDatass);
+                            List<string> title = SizePointInspectionWorks.GetSizePointInspectionTitle(Project.Instance.cameraManager[(CameraEnum)camID].m_SizePointInspectionManage.sizePointInspectionParam.SizeLogicParams_UserDefineds);
+                            foreach (var item in sizeDatass)
+                            {
+                                // 写入点检数据                                  
+                                FileOperationCSV.WriteData_CSV(Project.Instance.cameraManager[(CameraEnum)camID].m_SizePointInspectionManage.SizeRealTimeCheckPointPath, title.ToArray(), item, "");
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Log4netRecord.ErrorLog.Error(ex);
+                    }
+
                     MessageNotify.AddDebugLog($"Cam2帧图流程产品{ImageProduct.nCurEAID}图像{InfoImgInfo.image_ID}处理完成");
                 }
 
@@ -2128,7 +2325,7 @@ namespace Frame_Core
 
                 PFTCleanProParams PFTCleanParamFrom = Project.Instance.Is_simulation ? m_DicCamOperaParam_Sim[camID] as PFTCleanProParams : m_DicCamOperaParam[camID] as PFTCleanProParams;
                 var PFTimageQueue = PFTCleanParamFrom.PFTImageProdQueue;
-                PFTCleanParamFrom.semaphoreSlim.Wait();
+                PFTCleanParamFrom.semaphoreSlim.Wait(200);
 
                 if (PFTimageQueue.Count > 2) // 检查主相机的图像队列是否有图像
                 {
@@ -2558,10 +2755,11 @@ namespace Frame_Core
 
 
 
-        // 扩展产品：往产品队列中新增一个产品，并赋初始值。
+        // 扩展产品：往产品队列中新增一个产品，并赋初始值。 
         public PFTCleanEAProductInfo ExPandHeadLinedic(int camID, int EAproductID, int HeadLineID, double HeadLineRow, double ImageHeight, double Calipix_y, double Calipix_x)
         {
             PFTCleanEAProductInfo EAEAProduct = new PFTCleanEAProductInfo();
+            CameraEnum cam = (CameraEnum)camID;
             EAEAProduct.EAID = EAproductID;
             try
             {
@@ -2571,12 +2769,12 @@ namespace Frame_Core
                     EAEAProduct.ListEASlicePD.Add(SlicePD);
 
                     // EAEAProduct.list2EAShave.Add(new List<SlotProduct>());
-                    //if (m_craft.ListSliceSet[i].BelongCam == ((CameraEnum)camID).ToString())
+                    if (m_craft.ListSliceSet[i].IsLeftSide == m_craft.CurCamIsLeft)
                     {
                         if (m_craft.MaterialType)
                         {
                             SlotProduct slot = new SlotProduct();
-                            slot.slotInfo = m_craft.ListSlotInfos.Find(c => c.SliceID == i && c.ShaveID == 0);
+                            slot.slotInfo = m_craft.ListSlotInfos.Find(c => c.SliceID == i && c.ShaveID == 0 && c.BelongCam == cam);
                             slot.IsFinished = false;
                             slot.Slottype = SlottypeEnum.slot;
 
@@ -2592,7 +2790,7 @@ namespace Frame_Core
                         for (int k = 0; k < m_craft.ListSliceSet[i].ShaveNum; k++)
                         {
                             SlotProduct slot = new SlotProduct();
-                            slot.slotInfo = m_craft.ListSlotInfos.Find(c => c.SliceID == i && c.ShaveID == k + 1);
+                            slot.slotInfo = m_craft.ListSlotInfos.Find(c => c.SliceID == i && c.ShaveID == k + 1 && c.BelongCam == cam);
                             slot.IsFinished = false;
                             slot.Slottype = SlottypeEnum.shave;
                             double MDdist0 = (slot.slotInfo.SlotMDPosition - slot.slotInfo.OutwardShieldUp) / Calipix_y; //槽位裁图起始---距离料头的行数
@@ -2624,8 +2822,14 @@ namespace Frame_Core
                 //EA裁图起始结束位置。
                 NormalizaLocation(HeadLineID, HeadLineRow - m_craft.EACropShiledMD, ImageHeight, out EAEAProduct.CropEArange.StartImageID, out EAEAProduct.CropEArange.StarImageRow);
                 NormalizaLocation(HeadLineID, HeadLineRow + EAY - m_craft.EACropShiledMD, ImageHeight, out EAEAProduct.CropEArange.EndImageID, out EAEAProduct.CropEArange.EndImageRow);
+
+
                 //涂布长度
-                double coatY = m_craft.CoatSizeMD / Calipix_y;
+                double coatY = m_craft.FrontCoatSizeMD / Calipix_y;
+                if (camID == (int)CameraEnum.Cam2)
+                {
+                    coatY = m_craft.BackCoatSizeMD / Calipix_y;
+                }
                 //涂布起始结束位置
                 NormalizaLocation(HeadLineID, HeadLineRow, ImageHeight, out EAEAProduct.Coatrange.StartImageID, out EAEAProduct.Coatrange.StarImageRow);
                 NormalizaLocation(HeadLineID, HeadLineRow + coatY, ImageHeight, out EAEAProduct.Coatrange.EndImageID, out EAEAProduct.Coatrange.EndImageRow);
@@ -2691,7 +2895,7 @@ namespace Frame_Core
                 {
                     Name = ((MeasureSlotEnum)i).ToString(),
                     SizeName = ((MeasureSlotEnum)i).ToString(),
-                    Description = slot.slotInfo.InfoName + ((MeasureSlotEnum)i).ToString(),
+                    Description = slot.slotInfo.Name + ((MeasureSlotEnum)i).ToString(),
                     StandardValue = StdValue,
                     upperLimitValue = StdValue + UpLimitValue,
                     lowerLimitValue = StdValue + lowLimitValue,
@@ -3525,7 +3729,97 @@ namespace Frame_Core
         //    });
         //}
 
+        #region 光源自适应业务类回调函数
+        /// <summary>
+        /// 执行灰度校正回调函数
+        /// </summary>
+        /// <param name="cameraEnum"></param>
+        /// <param name="val_CurrentValue"></param>
+        /// <param name="val_TargetValue"></param>
+        /// <returns></returns>
+        public static ExecuteResult PerformGrayscaleAdjustmentCallback(CameraEnum cameraEnum, int val_CurrentValue, int val_TargetValue)
+        {
+            ExecuteResult executeResult = new ExecuteResult();
 
+            HTuple start = null, end = null;
+            HOperatorSet.CountSeconds(out start);
+            try
+            {
+                if (val_TargetValue < 0 || val_TargetValue > 255)
+                {
+                    executeResult.Message = $"目标值必须在0-255之间,当前目标值为{val_TargetValue}";
+                    executeResult.IsSuccess = false;
+                    return executeResult;
+                }
+
+                LightManager lightManager = Project.Instance.lightManager[1];
+
+                if (lightManager == null)
+                {
+                    executeResult.Message = "未找到对应的光源";
+                    executeResult.IsSuccess = false;
+                    return executeResult;
+                }
+
+                if (!lightManager.initState)
+                {
+                    executeResult.Message = $"未初始化光源管理器{lightManager.LightParam.LightName}";
+                    executeResult.IsSuccess = false;
+                    return executeResult;
+                }
+
+                int channel = -1;
+                if (cameraEnum == CameraEnum.Cam1)
+                {
+                    channel = 1;
+                    lightManager.Light.ChangeValue(channel, val_TargetValue);
+                    executeResult.Message = $"将{lightManager.LightParam.LightName}-通道{channel}由{val_CurrentValue}调整为{val_TargetValue}";
+                    executeResult.IsSuccess = true;
+
+                }
+                else if (cameraEnum == CameraEnum.Cam2)
+                {
+                    channel = 2;
+                    lightManager.Light.ChangeValue(channel, val_TargetValue);
+                    executeResult.Message = $"将{lightManager.LightParam.LightName}-通道{channel}由{val_CurrentValue}调整为{val_TargetValue}";
+                    executeResult.IsSuccess = true;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                executeResult.Message = ex.Message;
+                executeResult.IsSuccess = false;
+                Log4netRecord.ErrorLog.Error(ex);
+            }
+            finally
+            {
+                HOperatorSet.CountSeconds(out end);
+                executeResult.Time = ((end - start) * 1000).D;
+                executeResult.Time = Math.Round(executeResult.Time, 2);
+            }
+            return executeResult;
+        }
+
+        /// <summary>
+        /// 1.复位灰度校正回调函数，开始膜卷和修改光源参数时调用
+        /// 2.禁止在执行过程中调用
+        /// </summary>
+        public static void ResetGrayscaleAdjustmentCallback()
+        {
+            try
+            {
+                LightManager lightManager = Project.Instance.lightManager[0];
+                Project.Instance.cameraManager[CameraEnum.Cam1].m_GrayScaleAdaptationParameter.Reset(lightManager.LightParam.LightChannel1);
+                Project.Instance.cameraManager[CameraEnum.Cam2].m_GrayScaleAdaptationParameter.Reset(lightManager.LightParam.LightChannel2);
+            }
+            catch (Exception ex)
+            {
+                Log4netRecord.ErrorLog.Error(ex);
+                MessageBox.Show(ex.ToString());
+            }
+        }
+        #endregion
     }
 
 }

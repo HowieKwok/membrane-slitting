@@ -404,10 +404,42 @@ namespace Frame_Core
     
     public class LineInfo1
     {
+        public string StrLineName = "";
+        /// <summary>
+        /// 抓边是否成功
+        /// </summary>
+        public bool IsLineSuccessfull = false;
+
         public double RowBegin = 0;
         public double ColBegin = 0;
         public double RowEnd = 0;
         public double ColEnd = 0;
+
+
+        /// <summary>
+        /// 抓边ROI中点行坐标
+        /// </summary>    
+        public double RoiMidRow = 300;
+
+        /// <summary>
+        /// 抓边ROI中点列坐标
+        /// </summary>     
+        public double RoiMidColumn = 300;
+
+        /// <summary>
+        /// 抓边ROI旋转角度
+        /// </summary>     
+        public double RoiAngle = -90;
+
+        /// <summary>
+        /// 测量长度1
+        /// </summary>
+        public double RoiLength1 = 20;
+
+        /// <summary>
+        /// 测量长度2
+        /// </summary>
+        public double RoiLength2 = 5;
     }
 
     public class Rectangle1_Param

@@ -256,6 +256,63 @@ namespace Frame_Core
         }
 
         /// <summary>
+        /// 报警状态写入（显示报警）
+        /// </summary>
+        /// <param name="alarmName"></param>
+        /// <param name="state"></param>
+        public static void AlarmWriteState(AlarmName alarmName, string source, bool state, string alarmStr, bool isShowForm = true)
+        {
+            lock (AlarmWrite_lock)
+            {
+                try
+                {
+                    if (!state) return;
+
+                    StopAlarmMessage alarmMessage = new StopAlarmMessage();
+                    alarmMessage.time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fff");
+                    if (alarmMessage.name == "default" || alarmMessage.name == "") alarmMessage.name = alarmName.ToString() + "-" + source;
+                    alarmMessage.describe = alarmStr;
+                    alarmMessage.StopAlarmState = StopAlarmStateEnum.停机;
+
+                    if (Project.Instance.systemInfo.m_CurrentLanguageType != LanguageEnum.Chinese)
+                    {
+                        try
+                        {
+                            string str = LanguageProject.GetLangeuageAttribute(alarmName, Project.Instance.systemInfo.m_CurrentLanguageType);
+                            alarmMessage.currentLanguageName = str;
+                        }
+                        catch (Exception ex)
+                        {
+                            Log4netRecord.ErrorLog.Debug(alarmName.ToString(), ex);
+                        }
+                    }
+
+                    StopAlarmInfo alarmInfo = Alarm_Info[alarmName];
+
+                    if ((alarmInfo.CurrentStopAlarmState != StopAlarmStateEnum.停机) && (alarmMessage.StopAlarmState == StopAlarmStateEnum.停机))
+                    {
+                        m_qStopInfos.Enqueue(alarmMessage, Stop_quantity, true);
+                        alarmInfo.CurrentStopAlarmState = alarmMessage.StopAlarmState;
+                    }
+
+                    if ((alarmInfo.CurrentStopAlarmState == StopAlarmStateEnum.正常) && (alarmMessage.StopAlarmState == StopAlarmStateEnum.报警))
+                    {
+                        if (alarmInfo.CurrentStopAlarmState != alarmMessage.StopAlarmState)
+                        {
+                            m_qAlarmInfos.Enqueue(alarmMessage, Alarm_quantity, true);
+                        }
+                        alarmInfo.CurrentStopAlarmState = alarmMessage.StopAlarmState;
+                    }
+
+
+                }
+                catch (Exception ex)
+                {
+                    Log4netRecord.ErrorLog.Debug(ex + alarmName.ToString());
+                }
+            }
+        }
+        /// <summary>
         /// 报警状态写入
         /// </summary>
         /// <param name="alarmName"></param>

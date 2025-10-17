@@ -21,6 +21,46 @@ namespace Frame_Core
         /// </summary>
         /// <param name="listView"></param>
         /// <param name="Titles"></param>
+        public static void Init(ListView listView, string[] Titles)
+        {
+            if (true)
+            {
+                listView.GetType().GetProperty("DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).SetValue(listView, true);
+                string[] temp = Titles;
+                listView.BeginInvoke((EventHandler)delegate
+                {
+                    try
+                    {
+                        listView.Clear();
+                        listView.BorderStyle = BorderStyle.Fixed3D;
+                        listView.GridLines = true;
+                        listView.View = View.Details;
+                        listView.HideSelection = false;
+                        listView.Scrollable = true;
+                        //listView.BackColor = Color.DarkGray;
+
+                        //初始化列标题                           
+                        for (int i = 0; i < temp.Length; i++)
+                        {
+                            listView.Columns.Add(temp[i]);
+                            listView.Columns[listView.Columns.Count - 1].Width = 90;
+                            listView.Columns[listView.Columns.Count - 1].TextAlign = HorizontalAlignment.Center;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Log4netRecord.ErrorLog.Debug(ex);
+                    }
+                });
+
+            }
+        }
+
+        /// <summary>
+        /// 初始化表格
+        /// </summary>
+        /// <param name="listView"></param>
+        /// <param name="Titles"></param>
         public static void Init(ListView listView, TitlesInfo[] titles)
         {
             if (true)

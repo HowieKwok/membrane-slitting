@@ -20,17 +20,18 @@ namespace Mef_VisionFrame._5工艺标准
         {
             InitializeComponent();
             toolClass.AllNumericUpDownControlSubscribeMouseWheelEvent(this);
+
         }
         public SlotInfo slot = new SlotInfo();
         bool FirstCalib = true;
 
         public void ShowSet()
         {
+            linkLabel_SizeItem.Text = slot.Name;
             INi_DGV_Offset(dataGridView1);
         }
         public void closeSet()
         {
-
             RefreshData(dataGridView1);
         }
 
@@ -73,11 +74,11 @@ namespace Mef_VisionFrame._5工艺标准
             {
                 if (slot.RealFixRito == null)
                 {
-                    slot.RealFixRito = new double[6] { 1, 1, 1, 1, 1, 1 };
+                    slot.RealFixRito = new double[12] { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
                 }
                 if (slot.RealFixOffset == null)
                 {
-                    slot.RealFixOffset = new double[6] { 0, 0, 0, 0, 0, 0 };
+                    slot.RealFixOffset = new double[12] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 };
                 }
                 AddOffSetData(DGView, slot.RealFixRito, "校准系数");
                 AddOffSetData(DGView, slot.RealFixOffset, "测量校准偏移");

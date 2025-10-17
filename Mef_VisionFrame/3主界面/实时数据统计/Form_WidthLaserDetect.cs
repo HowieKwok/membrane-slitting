@@ -89,12 +89,18 @@ namespace Mef_VisionFrame
 
         private int SliceIndex = 0;
         private int[] GrooveIndex = { 1 };
+        private int nSpliteIndex = 2;
+
+        bool bIsLeftSide = true;
 
 
-        public void SetGrooveChart(int _sliceIndex, int[] _grooveIndex)
+        public void SetGrooveChart(int _sliceIndex, int[] _grooveIndex,int _nSpliteIndex,bool _isLeftSide=true)
         {
             SliceIndex = _sliceIndex;
             GrooveIndex = _grooveIndex;
+            nSpliteIndex=_nSpliteIndex;
+            bIsLeftSide=_isLeftSide;
+
             if (_grooveIndex?.Length > 0)
             {
                 List<string> strings = new List<string>();
@@ -103,7 +109,7 @@ namespace Mef_VisionFrame
                     strings.Add($"第{i}条");
                 }
                 Cob_SliceIndex.DataSource = strings;
-                Cob_SliceIndex.SelectedIndex = 0;
+                Cob_SliceIndex.SelectedIndex = _isLeftSide?0:(_nSpliteIndex+1);
 
                 strings = new List<string>();
                 for (int i = 1; i <= _grooveIndex[0]; i++)
@@ -117,19 +123,32 @@ namespace Mef_VisionFrame
 
             comboBox.Items.Clear();
             DpModelEASizeDataPanels.Clear();
-            for (int i = 1; i <= SliceIndex; i++)
+            for(int CamIndex=0; CamIndex < 2; CamIndex++)
             {
-                var p = new DynamicDataPanel
+
+                for (int i = 0; i < SliceIndex; i++)
                 {
-                    Name = "EAGrooveSlice" + i,
-                    Dock = DockStyle.Fill,
-                    Margin = new Padding(0),
-                    Width=groupBox1.Width,
-                    Height=groupBox1.Height,
-                };
-                // p.MouseDoubleClick += groupBox1_MouseDoubleClick;
-                DpModelEASizeDataPanels.Add(p);
-                comboBox.Items.Add($"第 {i} 条");   // 中文序号更直观
+
+                    bool needShow = bIsLeftSide ? i <= nSpliteIndex
+                                                : i > nSpliteIndex;
+                    if (needShow)
+                    {
+                        var p = new DynamicDataPanel
+                        {
+                            Name = $"{(CameraEnum)CamIndex}CZ_" + (i + 1),
+                            Dock = DockStyle.Fill,
+                            Margin = new Padding(0),
+                            Width = groupBox1.Width,
+                            Height = groupBox1.Height,
+                            Font = groupBox1.Font,
+                        };
+                        // p.MouseDoubleClick += groupBox1_MouseDoubleClick;
+                        DpModelEASizeDataPanels.Add(p);
+                        comboBox.Items.Add($"第{(CameraEnum)CamIndex}CZ_{i + 1}条");   // 中文序号更直观
+                    }
+                      
+                }
+
             }
 
             comboBox.DropDownStyle = ComboBoxStyle.DropDownList;

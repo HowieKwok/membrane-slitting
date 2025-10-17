@@ -106,10 +106,13 @@ namespace Mef_VisionFrame
 
         public static void InitBizDataAndForm()
         {
+            MyMetrics.GetPrivateWorkingSetMB();
+            MyMetrics.GetCpuPercentLikeTaskManager();
 
             Form_Main.FormMain.mark设置ToolStripMenuItem.Visible = false;
             Form_Main.FormMain.相机标定ToolStripMenuItem.Visible = false;
             Form_Main.FormMain.预定位平台标定ToolStripMenuItem.Visible = false;
+
             if (Project.Instance.systemInfo.CurrentMaterial == MaterialCrafEnum.PFT清洗机)
             {
                 UI_DataShowForm = new Form_WidthLaserDetect() { FormBorderStyle = FormBorderStyle.None, Dock = DockStyle.Fill, TopLevel = false };
@@ -143,7 +146,7 @@ namespace Mef_VisionFrame
                 Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[1].ProductCallBack = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_FrameCam2);
                 Project.Instance.baseProDevice.m_DicCamOperaParam_Sim[1].ProductCallBackCraft = new Action<ProductBase>(BIZ_DataWorker.ProcessingData_EACam2);
 
-
+            
 
                 Form_Main.FormMain.相机标定ToolStripMenuItem.Visible = false;
                 Form_Main.FormMain.mSA3D测厚ToolStripMenuItem.Visible = false;
@@ -234,12 +237,21 @@ namespace Mef_VisionFrame
                 //设备PLC
                 NStatusStrip.AddSoftwareState("主副机通讯", Project.Instance.slaveMachineManager.initState ? 1 : 0, ref softwareState);
 
+               
 
+                NStatusStrip.AddSoftwareState($"当前运行内存：{MyMetrics.GetPrivateWorkingSetMB().ToString("00000.00")} MB", 1, ref softwareState);
+
+                NStatusStrip.AddSoftwareState($"当前CPU：{MyMetrics.GetCpuPercentLikeTaskManager().ToString("0000.00")}%", 1, ref softwareState);
+            
                 //磁盘检测
                 //检测磁盘状态
                 bool disk_flag = StateManage.CheckDriveFreeSpace(out int diskState, out string diskSpace);
                 diskSpace = LanguageProject.GetLangeuageAttribute(StatusStripEnum.磁盘剩余, Project.Instance.systemInfo.m_CurrentLanguageType) + diskSpace;
                 NStatusStrip.AddSoftwareState(diskSpace, diskState, ref softwareState);
+
+
+
+
 
             }
             catch (Exception ex)

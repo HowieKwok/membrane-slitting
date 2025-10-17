@@ -284,7 +284,7 @@ namespace Frame_Core
                 m_ImageSimManage.ImageEmulationPaths = FileDialog.FileNames;
 
                 if (m_ImageSimManage.ImageEmulationPaths == null || m_ImageSimManage.ImageEmulationPaths.Length == 0) return;
-                m_ImageSimManage.GetCurrentImage(out HObject Load_Image);
+                m_ImageSimManage.GetCurrentImage(out HObject Load_Image, out string imgPath);
 
                 Execute(Load_Image);
 
@@ -296,7 +296,7 @@ namespace Frame_Core
             try
             {
                 if (m_ImageSimManage.ImageEmulationPaths == null || m_ImageSimManage.ImageEmulationPaths.Length == 0) return;
-                m_ImageSimManage.GetNextImage(out HObject Load_Image);
+                m_ImageSimManage.GetNextImage(out HObject Load_Image, out string imgPath);
                 //GetFormParam(ref param_CalibTemp);
                 Execute(Load_Image, true);
             }
@@ -312,7 +312,7 @@ namespace Frame_Core
             try
             {
                 if (m_ImageSimManage.ImageEmulationPaths == null || m_ImageSimManage.ImageEmulationPaths.Length == 0) return;
-                m_ImageSimManage.GetCurrentImage(out HObject Load_Image);
+                m_ImageSimManage.GetCurrentImage(out HObject Load_Image, out string imgPath);
                 //GetFormParam(ref param_CalibTemp);
                 Execute(Load_Image, true);
             }
@@ -562,7 +562,7 @@ namespace Frame_Core
             modelX?.Dispose();
             modelY_handle = 0;
             modelX_handle = 0;
-            m_ImageSimManage.GetCurrentImage(out HObject Load_Image);
+            m_ImageSimManage.GetCurrentImage(out HObject Load_Image, out string imgPath);
             currentShowHalconWindow.Dispose();
             currentShowHalconWindow.m_hImage = Load_Image;
             try

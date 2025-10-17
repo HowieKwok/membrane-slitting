@@ -108,7 +108,7 @@ namespace Frame_Core
                 }
                 if (initState)
                 {
-             
+
                 }
 
             }
@@ -200,6 +200,7 @@ namespace Frame_Core
                                 bool? result = StartMJEvent?.Invoke(slaveMachineParam.RollCode);
                                 if (result == true)
                                 {
+
                                     bool F = TCPIP.TCP_Send("FJ_Start_MJ", SendLogPath);
                                     if (!F) WriteFailCount++;
                                     MessageNotify.AddCommLog("接收主软件：FJ_Start_MJ");
@@ -218,8 +219,8 @@ namespace Frame_Core
                         case "SPEED":
                             if (strArr.Length > 1)
                             {
-                                slaveMachineParam.fMacheineSpeed = double.Parse(strArr[1]);
-                                
+                                slaveMachineParam.fMacheineSpeed = Convert.ToDouble(strArr[1]); ;
+
                             }
 
                             break;
@@ -240,6 +241,7 @@ namespace Frame_Core
                                 bool? result = StopMJEvent?.Invoke();
                                 if (result == true)
                                 {
+
                                     bool F = TCPIP.TCP_Send("FJ_Stop_MJ", SendLogPath);
                                     if (!F) WriteFailCount++;
                                     MessageNotify.AddCommLog("接收主软件：FJ_Stop_MJ");
@@ -258,6 +260,7 @@ namespace Frame_Core
                         case "RUN":
                             if (true)
                             {
+                                slaveMachineParam.RunningFlag = 1;
                                 bool? result = StartRunEvent?.Invoke();
                                 if (result == true)
                                 {
@@ -279,6 +282,7 @@ namespace Frame_Core
                         case "STOP":
                             if (true)
                             {
+                                slaveMachineParam.RunningFlag = 0;
                                 bool? result = StopRunEvent?.Invoke();
                                 if (result == true)
                                 {
@@ -391,7 +395,7 @@ namespace Frame_Core
                 {
                     Close();
                     message = "写入数据失败次数过多";
-                    
+
                     TJBJInfo.AlarmWriteState(AlarmName.副机有硬件连接异常, new StopAlarmMessage() { StopAlarmState = StopAlarmStateEnum.停机, describe = "副机连接异常" });
 
                 }
@@ -402,7 +406,7 @@ namespace Frame_Core
                 Log4netRecord.ErrorLog.Debug(ex);
                 Close();
                 TJBJInfo.AlarmWriteState(AlarmName.副机有硬件连接异常, new StopAlarmMessage() { StopAlarmState = StopAlarmStateEnum.停机, describe = "副机连接异常" });
-           
+
 
             }
         }
@@ -529,7 +533,7 @@ namespace Frame_Core
             {
                 //将strArr转成用逗号分隔的字符串
 
-       
+
                 string str = $"ZBDB,{strArr}";
                 if (strArr.Length > 0)
                 {

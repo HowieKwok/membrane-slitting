@@ -9,6 +9,8 @@ using LogTool;
 using System.Windows.Forms;
 using IKapBoardClassLibrary;
 using Frame_Core;
+using NPOI.XSSF.Model;
+using System.Threading;
 
 namespace Frame_Core
 {
@@ -27,12 +29,13 @@ namespace Frame_Core
         /// 检测结果图像显示窗体对象
         /// </summary>
         public HWndCtrl m_hWndCtrl_Display_Cam;
-        private ROIController m_roiController_Cam = new ROIController();
-        private ROIRectangle2 m_roiRectangle2_Cam = new ROIRectangle2();
+        public ROIController m_roiController_Cam = new ROIController();
+        public ROIRectangle2 m_roiRectangle2_Cam = new ROIRectangle2();
         //private ShowHalconWindow m_ShowHalconWindow = new ShowHalconWindow();
         public HWindowControl m_hWindowControl_Cam;
 
         private HTuple hv_dumpWindowHandle;//保存高清截图窗口
+        HWindow HWindowDump;
 
         private bool m_bIsWindowShow = true;
         private int m_nLineWidth = 2;
@@ -62,10 +65,43 @@ namespace Frame_Core
                 //Resize window
                 HOperatorSet.SetWindowAttr("background_color", "black");
                 HOperatorSet.OpenWindow(0, 0, 512, 512, 0, "buffer", "", out hv_dumpWindowHandle);
+                HOperatorSet.SetWindowParam(hv_dumpWindowHandle, "flush", "true");
             }
 
         }
 
+        /// <summary>
+        /// 显示ViewRoi区域
+        /// </summary>
+        /// <param name="hWindowControl"></param>
+        /// <param name="_textBox"></param>
+        /// <param name="_pictureBox"></param>
+        /// <param name="cameraEnum"></param>
+        /// <param name="_source"></param>
+        /// <param name="str"></param>
+        public DisplayWindowClass(HWindowControl hWindowControl, TextBox _textBox, PictureBox _pictureBox, CameraEnum cameraEnum, string _source, bool showViewRoi)
+        {
+            textBox = _textBox;
+            pictureBox = _pictureBox;
+
+            pictureBox.Click -= btn_Click;
+            pictureBox.Click += btn_Click;
+
+        
+            source = _source;
+            if (operation_Image == null) operation_Image = new Operation_ImageProcessor(source);
+            if (hWindowControl != null)
+            {
+                m_hWindowControl_Cam = hWindowControl;
+                m_hWndCtrl_Display_Cam = new HWndCtrl(m_hWindowControl_Cam);
+                m_roiController_Cam = new ROIController();
+                m_hWndCtrl_Display_Cam.useROIController(m_roiController_Cam);
+                m_hWndCtrl_Display_Cam.setViewState(HWndCtrl.MODE_VIEW_ZOOM);
+                m_hWndCtrl_Display_Cam.setViewState(HWndCtrl.MODE_VIEW_MOVE);
+                m_hWndCtrl_Display_Cam.ReDrawEvent += new HWndCtrl.ReDrawDelegate(ShowRoiResult);     //更改测量矩形，重绘测量结果
+                m_hWndCtrl_Display_Cam.viewPort.HMouseMove += HWC_HMouseMove;
+            }
+        }
         public DisplayWindowClass(HWindowControl hWindowControl, TextBox _textBox, PictureBox _pictureBox, CameraEnum cameraEnum, string _source)
         {
             textBox = _textBox;
@@ -87,7 +123,9 @@ namespace Frame_Core
 
                 //Resize window
                 HOperatorSet.SetWindowAttr("background_color", "black");
+              
                 HOperatorSet.OpenWindow(0, 0, 512, 512, 0, "buffer", "", out hv_dumpWindowHandle);
+                HOperatorSet.SetWindowParam(hv_dumpWindowHandle, "flush", "true");
             }
 
 
@@ -101,7 +139,7 @@ namespace Frame_Core
             pictureBox.Click += btn_Click;
 
             source = hWindowControl.Name;
-            if (operation_Image == null) operation_Image = new Operation_ImageProcessor(source);
+            if (operation_Image == null) operation_Image = new Operation_ImageProcessor(source, this);
             if (hWindowControl != null)
             {
                 m_hWindowControl_Cam = hWindowControl.hWindow;
@@ -115,6 +153,9 @@ namespace Frame_Core
                 //Resize window
                 HOperatorSet.SetWindowAttr("background_color", "black");
                 HOperatorSet.OpenWindow(0, 0, 512, 512, 0, "buffer", "", out hv_dumpWindowHandle);
+                HOperatorSet.SetWindowParam(hv_dumpWindowHandle, "flush", "true");
+                //HOperatorSet.SetDraw(hv_dumpWindowHandle, "margin");
+
             }
 
 
@@ -142,6 +183,8 @@ namespace Frame_Core
                 //Resize window
                 HOperatorSet.SetWindowAttr("background_color", "black");
                 HOperatorSet.OpenWindow(0, 0, 512, 512, 0, "buffer", "", out hv_dumpWindowHandle);
+                HOperatorSet.SetWindowParam(hv_dumpWindowHandle, "flush", "true");
+
             }
 
 
@@ -160,7 +203,7 @@ namespace Frame_Core
             ExecuteResult executeResult = new ExecuteResult();
             screenshotImage = null;
             Operation_ImageInfo screenshotImageTemp = null;
-
+  
             try
             {
                 m_hWindowControl_Cam.Invoke(new Action(() =>
@@ -204,6 +247,9 @@ namespace Frame_Core
                                     //高清截图
                                     if (imageInfo.HighDefinition_Screenshot)
                                     {
+                                        //screenshotImageTemp = new Operation_ImageInfo();
+                                        screenshotImageTemp = operation_ImageInfo.Copy();
+                                        //HightDefinition_Screenshot(operation_ImageInfo.Copy(), out screenshotImageTemp);
                                         //计时            
                                         //HOperatorSet.CountSeconds(out HTuple StartTime);
                                         //HTuple hv_Height = 0; HTuple hv_Width = 0;
@@ -217,7 +263,7 @@ namespace Frame_Core
                                         //    HOperatorSet.GetImageSize(operation_ImageInfo.showHalconWindow.Image3DClass.Image2D, out hv_Height, out hv_Width);
                                         //}
 
-                                        //HOperatorSet.SetWindowExtents(hv_dumpWindowHandle, 0, 0, hv_Width, hv_Height);
+                                        //HOperatorSet.SetWindowExtents(hv_dumpWindowHandle, 0, 0, hv_Height, hv_Width);
                                         //HOperatorSet.SetPart(hv_dumpWindowHandle, 0, 0, hv_Width - 1, hv_Height - 1);
                                         //HOperatorSet.CountSeconds(out HTuple EndTime);
                                         //double hTime1 = ((EndTime - StartTime) * 1000).D;//抓边算法耗时
@@ -230,9 +276,8 @@ namespace Frame_Core
                                         //HOperatorSet.CountSeconds(out EndTime);
                                         //hTime1 = ((EndTime - StartTime) * 1000).D;//抓边算法耗时
                                         //MessageNotify.AddDebugLog("开高清窗口总耗时：" + hTime1.ToString());
-                                        screenshotImageTemp = new Operation_ImageInfo();
-                                        //HightDefinition_Screenshot(imageInfo, out screenshotImageTemp);
-                                        screenshotImageTemp = operation_ImageInfo.Copy();
+
+
                                         //screenshotImageTemp.showHalconWindow = new ShowHalconWindow();
                                         //screenshotImageTemp.showHalconWindow.m_hImage = Copy_Win_Image;
                                         //screenshotImageTemp.bIsSaveScreenshot = imageInfo.bIsSaveScreenshot;
@@ -282,6 +327,7 @@ namespace Frame_Core
 
 
                 screenshotImage = screenshotImageTemp;
+             
                 executeResult.IsSuccess = true;
             }
             catch (Exception ex)
@@ -292,146 +338,157 @@ namespace Frame_Core
             }
             return executeResult;
         }
+
+       public  object obj = new object();
+        
         public ExecuteResult HightDefinition_Screenshot(Operation_ImageInfo imageInfo, out Operation_ImageInfo screenshotImage)
         {
-            ExecuteResult executeResult = new ExecuteResult();
-            screenshotImage = null;
-            Operation_ImageInfo screenshotImageTemp = null;
-            double scaleX = 1;
-            double scaleY = 1.0;
-            HObject m_hImage = null;
-            HTuple HomMat2dScale = null;
-            try
+           // lock(obj)
             {
-                if (imageInfo.bIsSaveScreenshot)
+                ExecuteResult executeResult = new ExecuteResult();
+                screenshotImage = null;
+                Operation_ImageInfo screenshotImageTemp = null;
+                double scaleX = 1;
+                double scaleY = 1.0;
+                HObject m_hImage = null;
+                HTuple HomMat2dScale = null;
+
+                HOperatorSet.FlushBuffer(hv_dumpWindowHandle);
+                HOperatorSet.ClearWindow(hv_dumpWindowHandle);
+
+                try
                 {
-                    HObject Copy_Win_Image = null;
-                    try
+                    if (imageInfo.bIsSaveScreenshot)
                     {
-                        //计时            
-                        HOperatorSet.CountSeconds(out HTuple StartTime);
-                        HTuple hv_Height = 0; HTuple hv_Width = 0;
-                        HOperatorSet.HomMat2dIdentity(out HTuple HomMat2dIdentity);
-                        if (imageInfo.showHalconWindow.m_nMode == 1)
+                        HObject Copy_Win_Image = null;
+                        try
                         {
-                            HOperatorSet.GetImageSize(imageInfo.showHalconWindow.m_hImage, out hv_Width, out hv_Height);
-                            if ((hv_Height / hv_Width) > 1.25)
-                            {
-                                double a = (hv_Width / hv_Height);
-                                a = a < 0.25 ? 0.25 : a;
-                                a = a * 0.75;
-                                scaleX = a;
-                                scaleY = a;
-                            }
-                            HOperatorSet.HomMat2dScale(HomMat2dIdentity, scaleX, scaleY, 0, 0, out HomMat2dScale);
-
-                            HOperatorSet.AffineTransImage(imageInfo.showHalconWindow.m_hImage, out m_hImage, HomMat2dScale, "nearest_neighbor", "true");
-                            HOperatorSet.CountSeconds(out HTuple EndTime1);
-                            double hTime2 = ((EndTime1 - StartTime) * 1000).D;//抓边算法耗时
-
-                            MessageNotify.AddDebugLog("压缩产品高清截图耗时：" + hTime2.ToString());
-                        }
-
-
-                        // HOperatorSet.ZoomImageFactor(operation_ImageInfo.showHalconWindow.m_hImage, out operation_ImageInfo.showHalconWindow.m_hImage, 0.1, 0.1, "constant");
-                        if (!imageInfo.showHalconWindow.bIs3D)
-                        {
+                            //计时            
+                            HOperatorSet.CountSeconds(out HTuple StartTime);
+                            HTuple hv_Height = 0; HTuple hv_Width = 0;
+                            HOperatorSet.HomMat2dIdentity(out HTuple HomMat2dIdentity);
                             if (imageInfo.showHalconWindow.m_nMode == 1)
-                            {
-                                HOperatorSet.GetImageSize(m_hImage, out hv_Width, out hv_Height);
-                            }
-                            else
                             {
                                 HOperatorSet.GetImageSize(imageInfo.showHalconWindow.m_hImage, out hv_Width, out hv_Height);
+                                if ((hv_Height / hv_Width) > 1.25)
+                                {
+                                    double a = (hv_Width / hv_Height);
+                                    a = a < 0.25 ? 0.25 : a;
+                                    a = a * 0.75;
+                                    scaleX = a;
+                                    scaleY = a;
+                                }
+                                HOperatorSet.HomMat2dScale(HomMat2dIdentity, scaleX, scaleY, 0, 0, out HomMat2dScale);
+
+                                HOperatorSet.AffineTransImage(imageInfo.showHalconWindow.m_hImage, out m_hImage, HomMat2dScale, "nearest_neighbor", "true");
+                                HOperatorSet.CountSeconds(out HTuple EndTime1);
+                                double hTime2 = ((EndTime1 - StartTime) * 1000).D;//抓边算法耗时
+
+                                MessageNotify.AddDebugLog("压缩产品高清截图耗时：" + hTime2.ToString());
+                            }
+                            else if(imageInfo.showHalconWindow.m_nMode == 0&& !imageInfo.showHalconWindow.bIs3D)
+                            {
+                                scaleX = 0.5;
+                                scaleY = 0.5;
+                                HOperatorSet.HomMat2dScale(HomMat2dIdentity, scaleX, scaleY, 0, 0, out HomMat2dScale);
+
+                                HOperatorSet.AffineTransImage(imageInfo.showHalconWindow.m_hImage, out m_hImage, HomMat2dScale, "nearest_neighbor", "true");
+                                HOperatorSet.CountSeconds(out HTuple EndTime1);
                             }
 
 
-                        }
-                        else
-                        {
-                            HOperatorSet.GetImageSize(imageInfo.showHalconWindow.Image3DClass.Image2D, out hv_Width, out hv_Height);
-                        }
-                        HomMat2dIdentity?.Dispose();
-                        HomMat2dScale?.Dispose();
-
-                        HOperatorSet.SetWindowExtents(hv_dumpWindowHandle, 0, 0, hv_Width, hv_Height);
-                        HOperatorSet.SetPart(hv_dumpWindowHandle, 0, 0, (hv_Height - 1), hv_Width - 1);
-                        HOperatorSet.CountSeconds(out HTuple EndTime);
-                        double hTime1 = ((EndTime - StartTime) * 1000).D;//抓边算法耗时
-
-                        MessageNotify.AddDebugLog("开高清窗口耗时：" + hTime1.ToString());
-                        //Console.WriteLine("开窗口耗时：" + hTime1.ToString());
-                        if (!imageInfo.showHalconWindow.bIs3D)
-                        {
-                            if (imageInfo.showHalconWindow.m_nMode == 1)
+                            // HOperatorSet.ZoomImageFactor(operation_ImageInfo.showHalconWindow.m_hImage, out operation_ImageInfo.showHalconWindow.m_hImage, 0.1, 0.1, "constant");
+                            if (!imageInfo.showHalconWindow.bIs3D)
                             {
-                                HOperatorSet.DispObj(m_hImage, hv_dumpWindowHandle);
+                                HOperatorSet.GetImageSize(m_hImage, out hv_Width, out hv_Height);
+
+
                             }
                             else
                             {
-                                HOperatorSet.DispObj(imageInfo.showHalconWindow.m_hImage, hv_dumpWindowHandle);
+                                HOperatorSet.GetImageSize(imageInfo.showHalconWindow.Image3DClass.Image2D, out hv_Width, out hv_Height);
+                            }
+                            HomMat2dIdentity?.Dispose();
+                            HomMat2dScale?.Dispose();
+
+                            HOperatorSet.SetWindowExtents(hv_dumpWindowHandle, 0, 0, hv_Width, hv_Height);
+                            HOperatorSet.SetPart(hv_dumpWindowHandle, 0, 0, (hv_Height - 1), hv_Width - 1);
+                            HOperatorSet.CountSeconds(out HTuple EndTime);
+                            double hTime1 = ((EndTime - StartTime) * 1000).D;//抓边算法耗时
+
+                            MessageNotify.AddDebugLog("开高清窗口耗时：" + hTime1.ToString());
+                            //Console.WriteLine("开窗口耗时：" + hTime1.ToString());
+                            if (!imageInfo.showHalconWindow.bIs3D)
+                            {
+                                HOperatorSet.DispObj(m_hImage, hv_dumpWindowHandle);
+
+                            }
+                            else
+                            {
+                                HOperatorSet.DispObj(imageInfo.showHalconWindow.Image3DClass.Image2D, hv_dumpWindowHandle);
+                            }
+                            if (imageInfo.showHalconWindow.m_nMode == 1)
+                            {
+                                ShowRoiResult(hv_dumpWindowHandle, scaleX, scaleY);
+                            }
+                            else if(imageInfo.showHalconWindow.m_nMode == 0&& !imageInfo.showHalconWindow.bIs3D)
+                            {
+                                ShowRoiResult(hv_dumpWindowHandle, scaleX, scaleY);
+                                
+                            }
+                            else
+                            {
+                                ShowRoiResult(hv_dumpWindowHandle);
                             }
 
+                            HOperatorSet.DumpWindowImage(out Copy_Win_Image, hv_dumpWindowHandle);
+                            HOperatorSet.CountSeconds(out EndTime);
+                            hTime1 = ((EndTime - StartTime) * 1000).D;//抓边算法耗时
+                            MessageNotify.AddDebugLog("开高清窗口总耗时：" + hTime1.ToString());
+                            screenshotImageTemp = new Operation_ImageInfo();
+                            screenshotImageTemp.showHalconWindow = new ShowHalconWindow();
+                            screenshotImageTemp.showHalconWindow.m_strCamName = imageInfo.showHalconWindow.m_strCamName;
+                            screenshotImageTemp.showHalconWindow.m_nMode = imageInfo.showHalconWindow.m_nMode;
+                            screenshotImageTemp.showHalconWindow.bIs3D = imageInfo.showHalconWindow.bIs3D;
+                            screenshotImageTemp.showHalconWindow.m_nProductID = imageInfo.showHalconWindow.m_nProductID;
+                            screenshotImageTemp.showHalconWindow.m_nImageFrameID = imageInfo.showHalconWindow.m_nImageFrameID;
+                            screenshotImageTemp.showHalconWindow.m_hImage = Copy_Win_Image;
+                            screenshotImageTemp.bIsSaveScreenshot = imageInfo.bIsSaveScreenshot;
+                            screenshotImageTemp.str_ScreenshotSaveBasePath = imageInfo.str_ScreenshotSaveBasePath;
+                            screenshotImageTemp.str_ScreenshotSaveRelativePath = imageInfo.str_ScreenshotSaveRelativePath;
+                            screenshotImageTemp.str_ScreenshotSaveName = imageInfo.str_ScreenshotSaveName;
+                            screenshotImageTemp.screenshotSaveFormat = imageInfo.screenshotSaveFormat;
+                            hv_Width.Dispose();
+                            hv_Height.Dispose();
+
+                            //计时            
+                            HOperatorSet.CountSeconds(out EndTime);
+                            hTime1 = ((EndTime - StartTime) * 1000).D;//抓边算法耗时
+
+
                         }
-                        else
+                        catch (Exception ex)
                         {
-                            HOperatorSet.DispObj(imageInfo.showHalconWindow.Image3DClass.Image2D, hv_dumpWindowHandle);
-                        }
-                        if (imageInfo.showHalconWindow.m_nMode == 1)
-                        {
-                            ShowRoiResult(hv_dumpWindowHandle, scaleX, scaleY);
-                        }
-                        else
-                        {
-                            ShowRoiResult(hv_dumpWindowHandle);
+                            Log4netRecord.ErrorLog.Error(source, ex);
+                            executeResult.IsSuccess = false;
                         }
 
-                        HOperatorSet.DumpWindowImage(out Copy_Win_Image, hv_dumpWindowHandle);
-                        HOperatorSet.CountSeconds(out EndTime);
-                        hTime1 = ((EndTime - StartTime) * 1000).D;//抓边算法耗时
-                        MessageNotify.AddDebugLog("开高清窗口总耗时：" + hTime1.ToString());
-                        screenshotImageTemp = new Operation_ImageInfo();
-                        screenshotImageTemp.showHalconWindow = new ShowHalconWindow();
-                        screenshotImageTemp.showHalconWindow.m_strCamName = imageInfo.showHalconWindow.m_strCamName;
-                        screenshotImageTemp.showHalconWindow.m_nMode = imageInfo.showHalconWindow.m_nMode;
-                        screenshotImageTemp.showHalconWindow.bIs3D = imageInfo.showHalconWindow.bIs3D;
-                        screenshotImageTemp.showHalconWindow.m_nProductID = imageInfo.showHalconWindow.m_nProductID;
-                        screenshotImageTemp.showHalconWindow.m_nImageFrameID = imageInfo.showHalconWindow.m_nImageFrameID;
-                        screenshotImageTemp.showHalconWindow.m_hImage = Copy_Win_Image;
-                        screenshotImageTemp.bIsSaveScreenshot = imageInfo.bIsSaveScreenshot;
-                        screenshotImageTemp.str_ScreenshotSaveBasePath = imageInfo.str_ScreenshotSaveBasePath;
-                        screenshotImageTemp.str_ScreenshotSaveRelativePath = imageInfo.str_ScreenshotSaveRelativePath;
-                        screenshotImageTemp.str_ScreenshotSaveName = imageInfo.str_ScreenshotSaveName;
-                        screenshotImageTemp.screenshotSaveFormat = imageInfo.screenshotSaveFormat;
-                        hv_Width.Dispose();
-                        hv_Height.Dispose();
-
-                        //计时            
-                        HOperatorSet.CountSeconds(out EndTime);
-                        hTime1 = ((EndTime - StartTime) * 1000).D;//抓边算法耗时
-
-
+                        screenshotImage = screenshotImageTemp;
+                        //executeResult.IsSuccess = true;
                     }
-                    catch (Exception ex)
-                    {
-                        Log4netRecord.ErrorLog.Error(source, ex);
-                        executeResult.IsSuccess = false;
-                    }
-
-                    screenshotImage = screenshotImageTemp;
-                    //executeResult.IsSuccess = true;
                 }
-            }
-            catch (Exception ee)
-            {
-                executeResult.Message = ee.ToString();
-                executeResult.IsSuccess = false;
-                Log4netRecord.ErrorLog.Error(source, ee);
-            }
+                catch (Exception ee)
+                {
+                    executeResult.Message = ee.ToString();
+                    executeResult.IsSuccess = false;
+                    Log4netRecord.ErrorLog.Error(source, ee);
+                }
 
-            imageInfo?.Dispose();
-            m_hImage?.Dispose();
-            return executeResult;
+                imageInfo?.Dispose();
+                m_hImage?.Dispose();
+                return executeResult;
+            }
+         
 
         }
 

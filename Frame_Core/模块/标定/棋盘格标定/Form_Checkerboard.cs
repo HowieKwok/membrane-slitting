@@ -88,7 +88,7 @@ namespace Frame_Core
             try
             {
                 if (m_ImageSimManage.ImageEmulationPaths == null || m_ImageSimManage.ImageEmulationPaths.Length == 0) return;
-                m_ImageSimManage.GetPreviewImage(out HObject Load_Image);
+                m_ImageSimManage.GetPreviewImage(out HObject Load_Image, out string imgPath);
                 GetFormParam(ref param_CalibTemp);
                 Execute(Load_Image, param_CalibTemp);
             }
@@ -104,7 +104,7 @@ namespace Frame_Core
             try
             {
                 if (m_ImageSimManage.ImageEmulationPaths == null || m_ImageSimManage.ImageEmulationPaths.Length == 0) return;
-                m_ImageSimManage.GetCurrentImage(out HObject Load_Image);
+                m_ImageSimManage.GetCurrentImage(out HObject Load_Image, out string imgPath);
                 GetFormParam(ref param_CalibTemp);
                 Execute(Load_Image, param_CalibTemp);
             }
@@ -120,7 +120,7 @@ namespace Frame_Core
             try
             {
                 if (m_ImageSimManage.ImageEmulationPaths == null || m_ImageSimManage.ImageEmulationPaths.Length == 0) return;
-                m_ImageSimManage.GetNextImage(out HObject Load_Image);
+                m_ImageSimManage.GetNextImage(out HObject Load_Image, out string imgPath);
                 GetFormParam(ref param_CalibTemp);
                 Execute(Load_Image, param_CalibTemp);
             }
@@ -201,7 +201,7 @@ namespace Frame_Core
             {
 
                 if (m_ImageSimManage.ImageEmulationPaths == null || m_ImageSimManage.ImageEmulationPaths.Length == 0) return;
-                m_ImageSimManage.GetCurrentImage(out HObject Load_Image);
+                m_ImageSimManage.GetCurrentImage(out HObject Load_Image, out string imgPath);
                 if (Load_Image == null) return;
                 GetFormParam(ref param_CalibTemp);
                 Execute(Load_Image, param_CalibTemp);

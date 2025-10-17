@@ -47,7 +47,7 @@ namespace Frame_Core
             info.m_lineShowInfos = new List<LineInfo>(m_lineShowInfos);
             info.m_regionShowInfos = new List<RegionShowInfo>();
 
-            foreach(var item in m_regionShowInfos)
+            foreach (var item in m_regionShowInfos)
             {
                 RegionShowInfo regionShowInfo = new RegionShowInfo();
                 item.m_hRegion?.CopyImage(out regionShowInfo.m_hRegion);

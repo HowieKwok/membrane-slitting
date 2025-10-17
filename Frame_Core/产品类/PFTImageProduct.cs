@@ -19,11 +19,7 @@ namespace Frame_Core
         public int EAID = 0;
         //尺寸计算项
         public bool EAFinfished = false;
-        public List<ResultType> resultSliceDefectNg = new List<ResultType>();
-        public List<ResultType> resultSliceSizeNg = new List<ResultType>();
-        public List<ResultType> resultSliceAllResult = new List<ResultType>();
-        public List<ResultType> resultSliceConfigSizeNg = new List<ResultType>();
-        public List<ResultType> resultSliceGrooveSizeNg = new List<ResultType>();
+
 
         #region 主相机产品
         /// <summary>
@@ -39,13 +35,6 @@ namespace Frame_Core
         /// </summary>
         public RegionSE CropEArange = new RegionSE();
 
-        ////槽位区域裁图队列
-        ////N条，每条最多一个槽位。
-        //public List<SlotProduct> listEASlot = new List<SlotProduct>();
-
-        //削薄区区域队列
-        //N条，每条M个削薄打孔区
-        public List<List<SlotProduct>> list2EAShave = new List<List<SlotProduct>>();
 
 
         //分条产品队列
@@ -99,23 +88,10 @@ namespace Frame_Core
         public bool blEndTotalEAImage = false;
         #endregion
 
-        public override void Dispose()
-        {
-            base.Dispose();
-            //foreach (SlotProduct item in listEASlot)
-            //{
-            //    item?.Dispose();
-            //}
-            //listEASlot.Clear();
 
-            foreach (List<SlotProduct> item in list2EAShave)
-            {
-                foreach (SlotProduct subitem in item)
-                {
-                    subitem?.Dispose();
-                }
-            }
-            list2EAShave.Clear();
+        public void InitDispose()
+        {
+            EAImageCollection?.DisposeEx();
 
             foreach (PFTSliceProduct item in ListEASlicePD)
             {
@@ -135,9 +111,39 @@ namespace Frame_Core
                 item?.Dispose();
             }
             ListEADefects.Clear();
-            resultSliceDefectNg?.Clear();
-            resultSliceSizeNg?.Clear();
-            resultSliceAllResult?.Clear();
+
+        }
+
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            //foreach (SlotProduct item in listEASlot)
+            //{
+            //    item?.Dispose();
+            //}
+            //listEASlot.Clear();
+
+    
+
+            foreach (PFTSliceProduct item in ListEASlicePD)
+            {
+                item?.Dispose();
+            }
+            ListEASlicePD.Clear();
+
+
+            ListEAlines.Clear();
+            foreach (var item in ListEASizes)
+            {
+                item?.Dispose();
+            }
+            ListEASizes.Clear();
+            foreach (var item in ListEADefects)
+            {
+                item?.Dispose();
+            }
+            ListEADefects.Clear();
 
             EAImageCollection.DisposeEx();
             TotalEAImage.DisposeEx();
@@ -336,6 +342,32 @@ namespace Frame_Core
         /// </summary>
         public List<NgTypeInfo> ListImageDefects = new List<NgTypeInfo>();
 
+        public ResultType resultSliceDefectNg = ResultType.OK;
+
+        public ResultType resultSliceSizeNg
+        {
+            get 
+            {
+                return new ResultType[] { resultSliceConfigSizeNg, resultSliceGrooveSizeNg }.Max();
+            }
+        }
+
+        public ResultType resultSliceConfigSizeNg = ResultType.OK;
+
+        public ResultType resultSliceGrooveSizeNg = ResultType.OK;
+        /// <summary>
+        /// 这里这是用于AB合并的结果
+        /// </summary>
+        public ResultType resultSliceAllResult = ResultType.OK;
+
+
+        public ResultType resultSliceToltalResult
+        {
+            get
+            {
+                return new ResultType[] { resultSliceDefectNg, resultSliceSizeNg }.Max();
+            }
+        }
 
 
         //涂布区域缺陷直接放Base里面的line和NgType。

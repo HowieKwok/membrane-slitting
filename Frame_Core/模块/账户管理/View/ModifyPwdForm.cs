@@ -36,7 +36,8 @@ namespace Frame_Core
                 string newPwd = txtNewPwd.Text;
                 string newPwdCheck = txtNewPwdCheck.Text;
 
-                string currentUser = LanguageSwitch.ToUserLanguageg(userManage.userData.CurrentUser, UserLanguageg.中文);
+                string currentUser = LanguageProject.GetLangeuageAttribute(userManage.userData.CurrentUser, Project.Instance.systemInfo.m_CurrentLanguageType);
+                //string currentUser = LanguageSwitch.ToUserLanguageg(userManage.userData.CurrentUser, UserLanguageg.中文);
                 string currentUserID = userManage.userData.CurrentUserID;
                 if (oldPwd == null || oldPwd == "")
                 {

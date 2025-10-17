@@ -219,7 +219,7 @@ namespace Mef_VisionFrame
                     lSignalPlot[i].Label = param.points[i].CurName;
                     if (i == 0)
                     {
-                        lSignalPlot[i].Color = Color.Green;
+                        lSignalPlot[i].Color = Color.Orange;
                     }
                     else
                     {

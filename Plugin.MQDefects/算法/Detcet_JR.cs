@@ -626,6 +626,71 @@ namespace EHolly
             bottomAngleR_rect.Dispose();
             topAngleR_shield.Dispose();
         }
+
+        /// <summary>
+        /// 极耳破损2区域(形态学处理)
+        /// </summary>
+        /// <param name="Isleft">是否为左侧</param>
+        /// <param name="JRCenter_Row">极耳中心行坐标</param>
+        /// <param name="JRCenter_column">极耳中心列坐标</param>
+        /// <param name="tab_up_Expansion_Y">极耳检测区Y向上外扩</param>
+        /// <param name="tab_down_Expansion_Y">极耳检测区Y向下外扩</param>
+        /// <param name="tabInside_Expansion_X1">破损区域2-极耳内侧外扩X1</param>
+        /// <param name="tabOutside_Expansion_X1">破损区域2-极耳外侧外扩X1</param>
+        /// <param name="tabOutside_Expansion_X2">破损区域2-极耳外侧外扩X2</param>
+        /// <param name="Detect_brokens_region2">检测破损区域2</param>
+        /// <param name="Detect_brokens_region3">检测破损区域3</param>
+        public void Detect_brokens2(bool Isleft, int JRCenter_Row, int JRCenter_column, double tab_up_Expansion_Y, double tab_down_Expansion_Y, double tabInside_Expansion_X1, double tabOutside_Expansion_X1, double tabOutside_Expansion_X2, out HObject Detect_brokens_region2, out HObject Detect_brokens_region3)
+        {
+            Detect_brokens_region2 = null;
+            HOperatorSet.GenEmptyObj(out Detect_brokens_region2);
+            Detect_brokens_region3 = null;
+            HOperatorSet.GenEmptyObj(out Detect_brokens_region3);
+
+
+            if (Isleft)
+            {
+                HTuple JR_detectBorder_row1 = JRCenter_Row - tab_up_Expansion_Y;
+                HTuple JR_detectBorder_column1 = JRCenter_column - tabOutside_Expansion_X1;
+                HTuple JR_detectBorder_row2 = JRCenter_Row + tab_down_Expansion_Y;
+                HTuple JR_detectBorder_column2 = JRCenter_column + tabInside_Expansion_X1;
+
+                HTuple JR_detectBorder_row11 = JRCenter_Row - tab_up_Expansion_Y;
+                HTuple JR_detectBorder_column11 = JRCenter_column - tabOutside_Expansion_X2;
+                HTuple JR_detectBorder_row22 = JRCenter_Row + tab_down_Expansion_Y;
+                HTuple JR_detectBorder_column22 = JRCenter_column - tabOutside_Expansion_X1;
+
+                if (JR_detectBorder_column1 >= JR_detectBorder_column2) JR_detectBorder_column1 = JR_detectBorder_column2 - 1;
+                if (JR_detectBorder_column11 >= JR_detectBorder_column22) JR_detectBorder_column11 = JR_detectBorder_column22 - 1;
+
+                //生成极耳破损R角检测区域
+                HOperatorSet.GenRectangle1(out Detect_brokens_region2, JR_detectBorder_row1, JR_detectBorder_column1, JR_detectBorder_row2, JR_detectBorder_column2);
+                HOperatorSet.GenRectangle1(out Detect_brokens_region3, JR_detectBorder_row11, JR_detectBorder_column11, JR_detectBorder_row22, JR_detectBorder_column22);
+
+            }
+            else
+            {
+                HTuple JR_detectBorder_row1 = JRCenter_Row - tab_up_Expansion_Y;
+                HTuple JR_detectBorder_column1 = JRCenter_column - tabInside_Expansion_X1;
+                HTuple JR_detectBorder_row2 = JRCenter_Row + tab_down_Expansion_Y;
+                HTuple JR_detectBorder_column2 = JRCenter_column + tabOutside_Expansion_X1;
+
+                HTuple JR_detectBorder_row11 = JRCenter_Row - tab_up_Expansion_Y;
+                HTuple JR_detectBorder_column11 = JRCenter_column + tabOutside_Expansion_X1;
+                HTuple JR_detectBorder_row22 = JRCenter_Row + tab_down_Expansion_Y;
+                HTuple JR_detectBorder_column22 = JRCenter_column + tabOutside_Expansion_X2;
+
+                if (JR_detectBorder_column2 <= JR_detectBorder_column1) JR_detectBorder_column2 = JR_detectBorder_column1 + 1;
+                if (JR_detectBorder_column22 <= JR_detectBorder_column11) JR_detectBorder_column22 = JR_detectBorder_column11 + 1;
+
+                //生成极耳破损R角检测区域
+                HOperatorSet.GenRectangle1(out Detect_brokens_region2, JR_detectBorder_row1, JR_detectBorder_column1, JR_detectBorder_row2, JR_detectBorder_column2);
+                HOperatorSet.GenRectangle1(out Detect_brokens_region3, JR_detectBorder_row11, JR_detectBorder_column11, JR_detectBorder_row22, JR_detectBorder_column22);
+            }
+        }
+
+
+
         /// <summary>
         /// Y方向缩放区域。
         /// </summary>

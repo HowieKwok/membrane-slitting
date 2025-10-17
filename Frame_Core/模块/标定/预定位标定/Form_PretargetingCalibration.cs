@@ -524,7 +524,7 @@ namespace Frame_Core
                                   () =>
                                   {
                                       m_ImageSimManage_Cam1.currentImageIndex = 0;
-                                      m_ImageSimManage_Cam1.GetCurrentImage(out HObject emulationImage1);
+                                      m_ImageSimManage_Cam1.GetCurrentImage(out HObject emulationImage1, out string imgPath);
                                       if (emulationImage1 != null && emulationImage1?.CountObj() > 0)
                                       {
                                           CalibrationProcess_Cam1(CameraEnum.Cam1, emulationImage1);
@@ -534,7 +534,7 @@ namespace Frame_Core
                                 () =>
                                 {
                                     m_ImageSimManage_Cam2.currentImageIndex = 0;
-                                    m_ImageSimManage_Cam2.GetCurrentImage(out HObject emulationImage2);
+                                    m_ImageSimManage_Cam2.GetCurrentImage(out HObject emulationImage2, out string imgPath);
                                     if (emulationImage2 != null && emulationImage2?.CountObj() > 0)
                                     {
                                         CalibrationProcess_Cam2(CameraEnum.Cam2, emulationImage2);
@@ -543,7 +543,7 @@ namespace Frame_Core
                             , () =>
                             {
                                 m_ImageSimManage_Cam3.currentImageIndex = 0;
-                                m_ImageSimManage_Cam3.GetCurrentImage(out HObject emulationImage3);
+                                m_ImageSimManage_Cam3.GetCurrentImage(out HObject emulationImage3, out string imgPath);
                                 if (emulationImage3 != null && emulationImage3?.CountObj() > 0)
                                 {
                                     CalibrationProcess_Cam3(CameraEnum.Cam3, emulationImage3);
@@ -556,7 +556,7 @@ namespace Frame_Core
                                 () =>
                                 {
                                     m_ImageSimManage_Cam4.currentImageIndex = 0;
-                                    m_ImageSimManage_Cam4.GetCurrentImage(out HObject emulationImage4);
+                                    m_ImageSimManage_Cam4.GetCurrentImage(out HObject emulationImage4, out string imgPath);
                                     if (emulationImage4 != null && emulationImage4?.CountObj() > 0)
                                     {
                                         CalibrationProcess_Cam4(CameraEnum.Cam1, emulationImage4);
@@ -569,7 +569,7 @@ namespace Frame_Core
                             Parallel.Invoke(
                                 () =>
                                 {
-                                    m_ImageSimManage_Cam1.GetNextImage(out HObject emulationImage1);
+                                    m_ImageSimManage_Cam1.GetNextImage(out HObject emulationImage1, out string imgPath);
                                     if (emulationImage1 != null && emulationImage1?.CountObj() > 0)
                                     {
                                         CalibrationProcess_Cam1(CameraEnum.Cam1, emulationImage1);
@@ -578,14 +578,14 @@ namespace Frame_Core
 
                                     () =>
                                     {
-                                        m_ImageSimManage_Cam2.GetNextImage(out HObject emulationImage2);
+                                        m_ImageSimManage_Cam2.GetNextImage(out HObject emulationImage2, out string imgPath);
                                         if (emulationImage2 != null && emulationImage2?.CountObj() > 0)
                                         {
                                             CalibrationProcess_Cam2(CameraEnum.Cam2, emulationImage2);
                                         }
                                     }, () =>
                                     {
-                                        m_ImageSimManage_Cam3.GetNextImage(out HObject emulationImage3);
+                                        m_ImageSimManage_Cam3.GetNextImage(out HObject emulationImage3, out string imgPath);
                                         if (emulationImage3 != null && emulationImage3?.CountObj() > 0)
                                         {
                                             CalibrationProcess_Cam3(CameraEnum.Cam3, emulationImage3);
@@ -594,7 +594,7 @@ namespace Frame_Core
                                   ,
                                     () =>
                                     {
-                                        m_ImageSimManage_Cam4.GetNextImage(out HObject emulationImage4);
+                                        m_ImageSimManage_Cam4.GetNextImage(out HObject emulationImage4, out string imgPath);
                                         if (emulationImage4 != null && emulationImage4?.CountObj() > 0)
                                         {
                                             CalibrationProcess_Cam4(CameraEnum.Cam4, emulationImage4);
@@ -699,7 +699,7 @@ namespace Frame_Core
                                 () =>
                                 {
                                     m_ImageSimManage_Cam1.currentImageIndex = 0;
-                                    m_ImageSimManage_Cam1.GetCurrentImage(out HObject emulationImage1);
+                                    m_ImageSimManage_Cam1.GetCurrentImage(out HObject emulationImage1, out string imgPath);
                                     if (emulationImage1 != null && emulationImage1?.CountObj() > 0)
                                     {
                                         CalibrationProcess_Cam1(CameraEnum.Cam1, emulationImage1);
@@ -708,7 +708,7 @@ namespace Frame_Core
                                 () =>
                                 {
                                     m_ImageSimManage_Cam2.currentImageIndex = 0;
-                                    m_ImageSimManage_Cam2.GetCurrentImage(out HObject emulationImage2);
+                                    m_ImageSimManage_Cam2.GetCurrentImage(out HObject emulationImage2, out string imgPath);
                                     if (emulationImage2 != null && emulationImage2?.CountObj() > 0)
                                     {
                                         CalibrationProcess_Cam2(CameraEnum.Cam2, emulationImage2);
@@ -716,7 +716,7 @@ namespace Frame_Core
                                 }, () =>
                                 {
                                     m_ImageSimManage_Cam3.currentImageIndex = 0;
-                                    m_ImageSimManage_Cam3.GetCurrentImage(out HObject emulationImage3);
+                                    m_ImageSimManage_Cam3.GetCurrentImage(out HObject emulationImage3, out string imgPath);
                                     if (emulationImage3 != null && emulationImage3?.CountObj() > 0)
                                     {
                                         CalibrationProcess_Cam3(CameraEnum.Cam3, emulationImage3);
@@ -725,7 +725,7 @@ namespace Frame_Core
                                 () =>
                                 {
                                     m_ImageSimManage_Cam4.currentImageIndex = 0;
-                                    m_ImageSimManage_Cam4.GetCurrentImage(out HObject emulationImage4);
+                                    m_ImageSimManage_Cam4.GetCurrentImage(out HObject emulationImage4, out string imgPath);
                                     if (emulationImage4 != null && emulationImage4?.CountObj() > 0)
                                     {
                                         CalibrationProcess_Cam4(CameraEnum.Cam4, emulationImage4);
@@ -745,7 +745,7 @@ namespace Frame_Core
                             Parallel.Invoke(
                                 () =>
                                 {
-                                    m_ImageSimManage_Cam1.GetNextImage(out HObject emulationImage1);
+                                    m_ImageSimManage_Cam1.GetNextImage(out HObject emulationImage1, out string imgPath);
                                     if (emulationImage1 != null && emulationImage1?.CountObj() > 0)
                                     {
                                         CalibrationProcess_Cam1(CameraEnum.Cam1, emulationImage1);
@@ -753,14 +753,14 @@ namespace Frame_Core
                                 },
                                 () =>
                                 {
-                                    m_ImageSimManage_Cam2.GetNextImage(out HObject emulationImage2);
+                                    m_ImageSimManage_Cam2.GetNextImage(out HObject emulationImage2, out string imgPath);
                                     if (emulationImage2 != null && emulationImage2?.CountObj() > 0)
                                     {
                                         CalibrationProcess_Cam2(CameraEnum.Cam2, emulationImage2);
                                     }
                                 }, () =>
                                 {
-                                    m_ImageSimManage_Cam3.GetNextImage(out HObject emulationImage3);
+                                    m_ImageSimManage_Cam3.GetNextImage(out HObject emulationImage3, out string imgPath);
                                     if (emulationImage3 != null && emulationImage3?.CountObj() > 0)
                                     {
                                         CalibrationProcess_Cam3(CameraEnum.Cam3, emulationImage3);
@@ -768,7 +768,7 @@ namespace Frame_Core
                                 },
                                 () =>
                                 {
-                                    m_ImageSimManage_Cam4.GetNextImage(out HObject emulationImage4);
+                                    m_ImageSimManage_Cam4.GetNextImage(out HObject emulationImage4, out string imgPath);
                                     if (emulationImage4 != null && emulationImage4?.CountObj() > 0)
                                     {
                                         CalibrationProcess_Cam4(CameraEnum.Cam4, emulationImage4);
@@ -808,25 +808,25 @@ namespace Frame_Core
         {
             try
             {
-                m_ImageSimManage_Cam1.GetPreviewImage(out HObject emulationImage1);
+                m_ImageSimManage_Cam1.GetPreviewImage(out HObject emulationImage1, out string imgPath1);
                 if (emulationImage1 != null && emulationImage1?.CountObj() > 0)
                 {
                     CalibrationProcess_Cam1(CameraEnum.Cam1, emulationImage1);
                 }
 
-                m_ImageSimManage_Cam2.GetPreviewImage(out HObject emulationImage2);
+                m_ImageSimManage_Cam2.GetPreviewImage(out HObject emulationImage2, out string imgPath2);
                 if (emulationImage2 != null && emulationImage2?.CountObj() > 0)
                 {
                     CalibrationProcess_Cam2(CameraEnum.Cam2, emulationImage2);
                 }
 
-                m_ImageSimManage_Cam3.GetPreviewImage(out HObject emulationImage3);
+                m_ImageSimManage_Cam3.GetPreviewImage(out HObject emulationImage3, out string imgPath3);
                 if (emulationImage3 != null && emulationImage3?.CountObj() > 0)
                 {
                     CalibrationProcess_Cam3(CameraEnum.Cam3, emulationImage3);
                 }
 
-                m_ImageSimManage_Cam4.GetPreviewImage(out HObject emulationImage4);
+                m_ImageSimManage_Cam4.GetPreviewImage(out HObject emulationImage4, out string imgPath4);
                 if (emulationImage4 != null && emulationImage4?.CountObj() > 0)
                 {
                     CalibrationProcess_Cam4(CameraEnum.Cam4, emulationImage4);
@@ -843,25 +843,25 @@ namespace Frame_Core
         {
             try
             {
-                m_ImageSimManage_Cam1.GetCurrentImage(out HObject emulationImage1);
+                m_ImageSimManage_Cam1.GetCurrentImage(out HObject emulationImage1, out string imgPath1);
                 if (emulationImage1 != null && emulationImage1?.CountObj() > 0)
                 {
                     CalibrationProcess_Cam1(CameraEnum.Cam1, emulationImage1);
                 }
 
-                m_ImageSimManage_Cam2.GetCurrentImage(out HObject emulationImage2);
+                m_ImageSimManage_Cam2.GetCurrentImage(out HObject emulationImage2, out string imgPath2);
                 if (emulationImage2 != null && emulationImage2?.CountObj() > 0)
                 {
                     CalibrationProcess_Cam2(CameraEnum.Cam2, emulationImage2);
                 }
 
-                m_ImageSimManage_Cam3.GetCurrentImage(out HObject emulationImage3);
+                m_ImageSimManage_Cam3.GetCurrentImage(out HObject emulationImage3, out string imgPath3);
                 if (emulationImage3 != null && emulationImage3?.CountObj() > 0)
                 {
                     CalibrationProcess_Cam3(CameraEnum.Cam3, emulationImage3);
                 }
 
-                m_ImageSimManage_Cam4.GetCurrentImage(out HObject emulationImage4);
+                m_ImageSimManage_Cam4.GetCurrentImage(out HObject emulationImage4, out string imgPath4);
                 if (emulationImage4 != null && emulationImage4?.CountObj() > 0)
                 {
                     CalibrationProcess_Cam4(CameraEnum.Cam4, emulationImage4);
@@ -878,25 +878,25 @@ namespace Frame_Core
         {
             try
             {
-                m_ImageSimManage_Cam1.GetNextImage(out HObject emulationImage1);
+                m_ImageSimManage_Cam1.GetNextImage(out HObject emulationImage1, out string imgPath1);
                 if (emulationImage1 != null && emulationImage1?.CountObj() > 0)
                 {
                     CalibrationProcess_Cam1(CameraEnum.Cam1, emulationImage1);
                 }
 
-                m_ImageSimManage_Cam2.GetNextImage(out HObject emulationImage2);
+                m_ImageSimManage_Cam2.GetNextImage(out HObject emulationImage2, out string imgPath2);
                 if (emulationImage2 != null && emulationImage2?.CountObj() > 0)
                 {
                     CalibrationProcess_Cam2(CameraEnum.Cam2, emulationImage2);
                 }
 
-                m_ImageSimManage_Cam3.GetNextImage(out HObject emulationImage3);
+                m_ImageSimManage_Cam3.GetNextImage(out HObject emulationImage3, out string imgPath3);
                 if (emulationImage3 != null && emulationImage3?.CountObj() > 0)
                 {
                     CalibrationProcess_Cam3(CameraEnum.Cam3, emulationImage3);
                 }
 
-                m_ImageSimManage_Cam4.GetNextImage(out HObject emulationImage4);
+                m_ImageSimManage_Cam4.GetNextImage(out HObject emulationImage4, out string imgPath4);
                 if (emulationImage4 != null && emulationImage4?.CountObj() > 0)
                 {
                     CalibrationProcess_Cam4(CameraEnum.Cam4, emulationImage4);
@@ -3344,7 +3344,7 @@ namespace Frame_Core
                         break;
                 }
                 if (m_ImageSimManage.ImageEmulationPaths == null || m_ImageSimManage.ImageEmulationPaths.Length == 0) { MessageBox.Show("请先加载图像！"); return; };
-                m_ImageSimManage.GetCurrentImage(out HObject Load_Image);
+                m_ImageSimManage.GetCurrentImage(out HObject Load_Image, out string imgPath);
 
 
                 // 释放之前的数据              

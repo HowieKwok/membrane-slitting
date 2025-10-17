@@ -122,59 +122,7 @@ namespace Mef_VisionFrame
 
                 int count = pFTImageProduct.showHalconWindow.m_hImage.GetReferenceCount();
                 MessageNotify.AddDebugLog($"Cam1_原图数据处理完成，当前图像ID{pFTImageProduct.nCurImageID}，引用计数为{count}");
-                // EA判断处理
-                // 找到未完成EA处理且已完成切片的产品
-                // 获取对应的产品信息
-                BIZ_Variable.queueImgProductsDisposeAB.Enqueue(pFTImageProduct);
-
-                //这里作为延迟一帧再做数据合并，避免数据不一致
-                if (BIZ_Variable.queueImgProductsDisposeAB.Count > 1)
-                {
-                    PFTImageProduct pFT = BIZ_Variable.queueImgProductsDisposeAB.Dequeue();
-                    if (pFT.blSplitEA)
-                    {
-
-
-                        int keyA = pFT.nCurEAID;
-                        if (dic_EAproductsInfo_A.TryGetValue(keyA, out PFTCleanEAProductInfo productInfoA) &&
-                        dic_EAproductsInfo_B.TryGetValue(keyA, out PFTCleanEAProductInfo productInfoB))
-                        {
-                            bIZ_ThreadManage.limitThreadPool.RunAction(() =>
-                            {
-                                int InnerkeyA = productInfoA.EAID;
-                                //数据来源分析
-                                EADataAnalysis(cameraEnum, Calipix_x, Calipix_y, productInfoA, productInfoB, out List<string> OutDBChannel);
-                                //发送打标数据
-                                SendDBInfoIfNeeded(InnerkeyA, productInfoA.EArange.StartImageID, productInfoA.resultSliceAllResult, ((SlaveMachineParam)Project.Instance.slaveMachineManager.tcpClientParam).nCamDBIndex);
-                                UIAndFileDataSave(InnerkeyA, OutDBChannel, productInfoA, productInfoB);
-
-                                if (Project.Instance.slaveMachineManager.initState)
-                                {
-                                    //转成josn发送
-                                    List<StatisticalData> StatisticalData_EASlices = new List<StatisticalData>();
-                                    for (int i = 0; i < BIZ_Variable.StatisticalData_EASlices.Count; i++)
-                                    {
-                                        StatisticalData_EASlices.Add(BIZ_Variable.StatisticalData_EASlices[i].statisticalData);
-                                    }
-                                    string jsonData = JsonConvert.SerializeObject(StatisticalData_EASlices);
-                                    Project.Instance.slaveMachineManager.SendDataSum(jsonData);
-                                }
-
-                            });
-
-
-                        }
-                        else
-                        {
-
-                            // 报警：未找到对应的产品信息
-                            MessageNotify.AddErrorLog("ProcessingData_FrameCam1()_未找到对应的产品信息");
-                            MessageNotify.AddStopAlarm(new StopAlarmMessage() { time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"), StopAlarmState = StopAlarmStateEnum.停机, name = "未找到对应的产品信息", describe = "未找到对应的产品信息" });
-                        }
-
-
-                    }
-                }
+             
             });
 
 
@@ -199,8 +147,61 @@ namespace Mef_VisionFrame
 
                 //原图处理
                 FrameMethord(cameraEnum, pFTImageProduct, form.DpModelDetectProcessCam2, HWC_InitCam2, BIZ_Variable.strDeftInitCam2Title.ToArray(), BIZ_Variable.strDeftInitCam2Path);
-      
 
+                // EA判断处理
+                // 找到未完成EA处理且已完成切片的产品
+                // 获取对应的产品信息
+               // BIZ_Variable.queueImgProductsDisposeAB.Enqueue(pFTImageProduct);
+
+                //这里作为延迟一帧再做数据合并，避免数据不一致
+                if (pFTImageProduct.blSplitEA)
+                {
+
+
+                    int keyA = pFTImageProduct.nCurEAID;
+                    if (dic_EAproductsInfo_A.TryGetValue(keyA, out PFTCleanEAProductInfo productInfoA) &&
+                    dic_EAproductsInfo_B.TryGetValue(keyA, out PFTCleanEAProductInfo productInfoB))
+                    {
+                        bIZ_ThreadManage.limitThreadPool.RunAction(() =>
+                        {
+                            int InnerkeyA = productInfoA.EAID;
+                            //数据来源分析
+                            EADataAnalysis(cameraEnum, Calipix_x, Calipix_y, productInfoA, productInfoB, out List<string> OutDBChannel);
+                            //发送打标数据
+                            SendDBInfoIfNeeded(InnerkeyA, productInfoA.EArange.StartImageID, productInfoA, ((SlaveMachineParam)Project.Instance.slaveMachineManager.tcpClientParam).nCamDBIndex);
+                            UIAndFileDataSave(InnerkeyA, OutDBChannel, productInfoA, productInfoB);
+
+                            if (Project.Instance.slaveMachineManager.initState)
+                            {
+                                //转成josn发送
+                                List<StatisticalData> StatisticalData_EASlices = new List<StatisticalData>();
+                                for (int i = 0; i < BIZ_Variable.StatisticalData_EASlices.Count; i++)
+                                {
+                                    StatisticalData_EASlices.Add(BIZ_Variable.StatisticalData_EASlices[i].statisticalData);
+                                }
+                                string jsonData = JsonConvert.SerializeObject(StatisticalData_EASlices);
+                                Project.Instance.slaveMachineManager.SendDataSum(jsonData);
+                            }
+
+                        });
+
+
+                    }
+                    else
+                    {
+
+                        // 报警：未找到对应的产品信息
+                        MessageNotify.AddErrorLog("ProcessingData_FrameCam1()_未找到对应的产品信息");
+                        MessageNotify.AddStopAlarm(new StopAlarmMessage() { time = DateTime.Now.ToString("yyyy-MM-dd_HH_mm_ss"), StopAlarmState = StopAlarmStateEnum.停机, name = "未找到对应的产品信息", describe = "未找到对应的产品信息" });
+                    }
+
+
+                }
+                //if (pFTImageProduct.is)
+                //{
+                //    PFTImageProduct pFT = BIZ_Variable.queueImgProductsDisposeAB.Dequeue();
+
+                //}
             });
         }
 
@@ -221,10 +222,13 @@ namespace Mef_VisionFrame
                 EAFrameMethord(cameraEnum, pFTCleanEAProductInfo, HWC_EACam1);
 
                 int EAID = pFTCleanEAProductInfo.EAID;
-                if (dic_EAproductsInfo_A.TryRemove(pFTCleanEAProductInfo.EAID - 1, out pFTCleanEAProductInfo))
+                if (dic_EAproductsInfo_A.TryRemove(pFTCleanEAProductInfo.EAID-1, out pFTCleanEAProductInfo))
                 {
                     //获取所有keys
+                  
+                    pFTCleanEAProductInfo?.InitDispose();
                     var keys = dic_EAproductsInfo_A.Keys.ToList();
+                
                     MessageNotify.AddDebugLog($"Cam1_EA数据处理完成，EAID:{pFTCleanEAProductInfo.EAID},将其移入释放队列,字典含有keys为：{string.Join(",",keys)}");
                     BIZ_Variable.queueProductsDispose_A.Enqueue(pFTCleanEAProductInfo);
                 }
@@ -234,7 +238,7 @@ namespace Mef_VisionFrame
 
                 }
 
-                if (BIZ_Variable.queueProductsDispose_A?.Count > 0)
+                if (BIZ_Variable.queueProductsDispose_A?.Count > 5)
                 {
                     PFTCleanEAProductInfo pFT = BIZ_Variable.queueProductsDispose_A.Dequeue();
                     MessageNotify.AddDebugLog($"释放队列A中达到释放条件，EAID:{pFT.EAID},将其释放");
@@ -260,10 +264,11 @@ namespace Mef_VisionFrame
                 EAFrameMethord(cameraEnum, pFTCleanEAProductInfo, HWC_EACam2);
 
                 int EAID = pFTCleanEAProductInfo.EAID;
-                if (dic_EAproductsInfo_B.TryRemove(pFTCleanEAProductInfo.EAID - 1, out pFTCleanEAProductInfo))
+                if (dic_EAproductsInfo_B.TryRemove(pFTCleanEAProductInfo.EAID-1 , out pFTCleanEAProductInfo))
                 {
                     //获取所有keys
                     var keys = dic_EAproductsInfo_B.Keys.ToList();
+                    pFTCleanEAProductInfo?.InitDispose();
                     BIZ_Variable.queueProductsDispose_B.Enqueue(pFTCleanEAProductInfo);
                     MessageNotify.AddDebugLog($"Cam2_EA数据处理完成，EAID:{pFTCleanEAProductInfo.EAID},将其移入释放队列,字典含有keys为：{string.Join(",", keys)}");
                 }
@@ -273,7 +278,7 @@ namespace Mef_VisionFrame
 
                 }
 
-                if (BIZ_Variable.queueProductsDispose_B?.Count > 0)
+                if (BIZ_Variable.queueProductsDispose_B?.Count > 5)
                 {
                     PFTCleanEAProductInfo pFT = BIZ_Variable.queueProductsDispose_B.Dequeue();
                     pFT?.Dispose();
@@ -290,7 +295,8 @@ namespace Mef_VisionFrame
         {
             try
             {
-
+                 
+                
                 bool IsIntervalTime = intervalExecution.GetWhetherToReachIntervalTime(30000);
                 //=========================================================================
      
@@ -306,6 +312,7 @@ namespace Mef_VisionFrame
 
                 }
 
+     
 
             }
             catch (Exception ex)
@@ -349,7 +356,7 @@ namespace Mef_VisionFrame
         {
             try
             {
-                int disposeImageRetainLenght = 2;
+                int disposeImageRetainLenght = 8;
 
 
                 UIService.Instance.AddAction(() => { BIZ_General.Image_Process(HWC_InitCam1.operation_Image, disposeImageRetainLenght, HWC_InitCam1); });
@@ -405,7 +412,7 @@ namespace Mef_VisionFrame
                 form.CobSelectedIndexChangedAction += CobSelectChange;
                 form.OutDataAct -= OutData;
                 form.OutDataAct += OutData;
-                form.SetGrooveChart(pFTCleanCraft.SliceCount, pFTCleanCraft.ListSliceSet?.Select(d => d.ShaveNum).ToArray());
+                form.SetGrooveChart(pFTCleanCraft.SliceCount, pFTCleanCraft.ListSliceSet?.Select(d => d.ShaveNum).ToArray(),BIZ_Variable.nSpliteIndex,pFTCleanCraft.CurCamIsLeft);
                 form.Invoke(new Action(() =>
                 {
                     NDataGridView.InitGrid(form.Dgv_StatsEA, BIZ_Variable.DgvColumnheaders, BIZ_Variable.DgvRowheaders);
@@ -453,6 +460,13 @@ namespace Mef_VisionFrame
 
             ExecuteMethod(() =>
             {
+
+                BIZ_Variable.nSpliteIndex = pFTCleanCraft.ListSliceSet
+                                  .Select((info, idx) => (info.IsLeftSide, idx))
+                                  .LastOrDefault(x => x.IsLeftSide)
+                                  .idx;
+
+
                 BIZ_Variable.DgvColumnheaders?.Clear();
                 BIZ_Variable.DgvRowheaders?.Clear();
                 BIZ_Variable.queueImgProductsDisposeAB?.Clear();
@@ -464,15 +478,15 @@ namespace Mef_VisionFrame
                 BIZ_Variable.strDeftInitCam1Path = Project.Instance.paramPathSet.ProductMojuanPath + $"{Project.Instance.cameraManager[CameraEnum.Cam1].m_CamParam.CameraName}_原图缺项检测表.csv";
                 BIZ_Variable.strDeftInitCam2Title = new List<string>() { "时间", "帧号", "EA号", "条号", "NG类型", "宽度", "高度", "面积", "是否保存", "是否打标", "路径" };
                 BIZ_Variable.strDeftInitCam2Path = Project.Instance.paramPathSet.ProductMojuanPath + $"{Project.Instance.cameraManager[CameraEnum.Cam2].m_CamParam.CameraName}_原图缺项检测表.csv";
-                BIZ_Variable.strEASizeConfigTitle = new List<string>() { "时间", "EA号" };
+                BIZ_Variable.strEASizeConfigTitle = new List<string>() { "时间", "相机索引", "EA号" };
                 BIZ_Variable.strEASizeConfigPath = Project.Instance.paramPathSet.ProductMojuanPath + $"配置文件总表.csv";
 
-                BIZ_Variable.strEASizeTitle = new List<string>() { "时间", "EA号", "条号" };
-                BIZ_Variable.strEASizeSliceTitle = new List<string>() { "时间", "EA号", "条号" ,"区号"};
+                BIZ_Variable.strEASizeTitle = new List<string>() { "时间", "相机索引", "EA号", "条号" };
+                BIZ_Variable.strEASizeSliceTitle = new List<string>() { "时间", "相机索引","EA号", "条号" ,"区号"};
                 BIZ_Variable.strEASizePath = Project.Instance.paramPathSet.ProductMojuanPath + $"双相机槽位尺寸汇总表.csv";
-                BIZ_Variable.strEADeftTitle = new List<string>() { "时间", "EA号" };
+                BIZ_Variable.strEADeftTitle = new List<string>() { "时间", "相机索引", "EA号" };
                 BIZ_Variable.strEADeftPath = Project.Instance.paramPathSet.ProductMojuanPath + $"双相机缺项汇总表.csv";
-                BIZ_Variable.strEASizeDeftTitle = new List<string>() { "时间", "EA号" };
+                BIZ_Variable.strEASizeDeftTitle = new List<string>() { "时间","EA号" ,"条号"};
                 BIZ_Variable.strEASizeDeftPath = Project.Instance.paramPathSet.ProductMojuanPath + $"双相机尺寸缺项汇总表.csv";
                 BIZ_Variable.strProductDataPath = Project.Instance.paramPathSet.ProductMojuanPath + $"生产统计文件.csv";
 
@@ -488,6 +502,16 @@ namespace Mef_VisionFrame
                     BIZ_Variable.StatisticalData_EASlices,
                     pFTCleanCraft
                 );
+
+                BIZ_Variable.StatisticalData_EASlicesA = InitializeStatisticalData(
+                    BIZ_Variable.StatisticalData_EASlicesA,
+                    pFTCleanCraft
+                      );
+
+               BIZ_Variable.StatisticalData_EASlicesB = InitializeStatisticalData(
+                    BIZ_Variable.StatisticalData_EASlicesB,
+                    pFTCleanCraft
+                      );
 
                 //EA尺寸标题
 
@@ -519,7 +543,7 @@ namespace Mef_VisionFrame
                         {
                             str = $"{slot.Description}";
                             BIZ_Variable.strEASizeSliceTitle.Add(str);
-                            str = $"{slot.Description}_结果";
+                            str = $"{slot.Description}_判定结果";
                             BIZ_Variable.strEASizeSliceTitle.Add(str);
                         }
                     }
@@ -532,34 +556,44 @@ namespace Mef_VisionFrame
                 BIZ_Variable.strEASizeTitle.Add(str);
                 str = "配置尺寸总结果";
                 BIZ_Variable.strEASizeTitle.Add(str);
-                str = "总结果";
+                str = "单面结果";
                 BIZ_Variable.strEASizeTitle.Add(str);
 
 
+
                 //EA缺陷标题
-                for (int i = 0; i < BIZ_Variable.StatisticalData_EASlices.Count; i++)
+                for (int i = 0; i <  pFTCleanCraft.SliceCount; i++)
                 {
                     str = $"S{i + 1}_总结果";
                     BIZ_Variable.strEADeftTitle.Add(str);
                     //str = "当前缺陷信息";
                     //BIZ_Variable.strEADeftTitle.Add(str);
                 }
-                str = "总结果";
-                //EA尺寸缺陷标题
-                BIZ_Variable.strEADeftTitle.Add(str);
 
-
-                for (int i = 0; i < BIZ_Variable.StatisticalData_EASlices.Count; i++)
-                {
-                    str = $"S{i + 1}_当前条尺寸结果";
-                    BIZ_Variable.strEASizeDeftTitle.Add(str);
-                    str = $"S{i + 1}_当前条缺陷结果";
-                    BIZ_Variable.strEASizeDeftTitle.Add(str);
-                    str = $"S{i + 1}_当前条总结果";
-                    BIZ_Variable.strEASizeDeftTitle.Add(str);
-                    str = $"S{i + 1}_当前条打标通道";
-                    BIZ_Variable.strEASizeDeftTitle.Add(str);
-                }
+                str = $"F_当前条槽位尺寸结果";
+                BIZ_Variable.strEASizeDeftTitle.Add(str);
+                str = $"B_当前条槽位尺寸结果";
+                BIZ_Variable.strEASizeDeftTitle.Add(str);
+                str = $"当前条槽位尺寸总结果";
+                BIZ_Variable.strEASizeDeftTitle.Add(str);
+                str = $"F_当前条配置尺寸结果";
+                BIZ_Variable.strEASizeDeftTitle.Add(str);
+                str = $"B_当前条配置尺寸结果";
+                BIZ_Variable.strEASizeDeftTitle.Add(str);
+                str = $"当前条配置尺寸总结果";
+                BIZ_Variable.strEASizeDeftTitle.Add(str);
+                str = $"当前条尺寸总结果";
+                BIZ_Variable.strEASizeDeftTitle.Add(str);
+                str = $"F_当前条缺陷结果";
+                BIZ_Variable.strEASizeDeftTitle.Add(str);
+                str = $"B_当前条缺陷结果";
+                BIZ_Variable.strEASizeDeftTitle.Add(str);
+                str = $"当前条缺陷总结果";
+                BIZ_Variable.strEASizeDeftTitle.Add(str);
+                str = $"当前条总结果";
+                BIZ_Variable.strEASizeDeftTitle.Add(str);
+                str = $"当前条打标通道";
+                BIZ_Variable.strEASizeDeftTitle.Add(str);
 
 
                 //EA配置尺寸标题
@@ -574,6 +608,8 @@ namespace Mef_VisionFrame
                 }
 
 
+
+             
 
 
             });
@@ -683,11 +719,21 @@ namespace Mef_VisionFrame
                 methodName = MethodBase.GetCurrentMethod().Name;
                 pFTCleanCraft = Project.Instance.craftBase as PFTCleanCraft;
                 List<StatisticalData_Slice> currentData = new List<StatisticalData_Slice>();
+                List<StatisticalData_Slice> currentDataA = new List<StatisticalData_Slice>();
+                List<StatisticalData_Slice> currentDataB = new List<StatisticalData_Slice>();
                 if (BIZ_Variable.StatisticalData_EASlices?.Count > 0)
                 {
                     currentData = BIZ_Variable.StatisticalData_EASlices.DeepClone();
                 }
-               
+                if (BIZ_Variable.StatisticalData_EASlicesA?.Count > 0)
+                {
+                    currentDataA = BIZ_Variable.StatisticalData_EASlicesA.DeepClone();
+                }
+                if (BIZ_Variable.StatisticalData_EASlicesB?.Count > 0)
+                {
+                    currentDataB = BIZ_Variable.StatisticalData_EASlicesB.DeepClone();
+                }
+
                 QueuePackage<PFTImageProduct> queueImgProductsDisposeAB = new QueuePackage<PFTImageProduct>();
                 while (BIZ_Variable.queueImgProductsDisposeAB?.Count > 0)
                 {
@@ -764,7 +810,47 @@ namespace Mef_VisionFrame
 
         }
 
+        public void ChartDataGrooveShow(int i, int j, int k, double[] data)
+        {
 
+            ExecuteMethod(() =>
+            {
+                UIService.Instance.AddAction(() =>
+                {
+                    if (form.GetCob_SliceIndex() == -1 || form.GetCob_GrooveIndex() == -1)
+                    {
+                        return;
+                    }
+                    bool isShow = false;
+                    if (i == form.GetCob_SliceIndex() && j == form.GetCob_GrooveIndex())
+                    {
+                        isShow = true;
+                    }
+                    else
+                    {
+                        isShow = false;
+                    }
+
+                    ParamsChart paramsChart = new ParamsChart();
+                   
+                    for(int a=0;a< data.Count();a++)
+                    {
+                        PointClass point = new PointClass();
+                        point.CurName = $"测量值{a}";
+                        point.pointInfo = new PointInfo() { Col = 0, Row = data[a] };
+
+                        paramsChart.points.Add(point);
+                    }
+                    ChartGroovePage[k].UpDataCurve(paramsChart, i, j, k, isShow);
+
+                });
+
+
+            });
+
+
+
+        }
 
         /// <summary>
         /// 曲线图数据显示

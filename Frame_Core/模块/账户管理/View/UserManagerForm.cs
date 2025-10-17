@@ -41,9 +41,15 @@ namespace Frame_Core
         {
             try
             {
-                //userManage.userData = (UserData)userManage.userData.Read();//读取会刷新当前用户和ID会导致报错
-                string CurrentUserStr = LanguageSwitch.ToUserLanguageg(userManage.userData.CurrentUser, UserLanguageg.中文);
-                label1.Text = "当前用户：\n  " + CurrentUserStr + "\n  " + userManage.userData.CurrentUserID;
+                ////userManage.userData = (UserData)userManage.userData.Read();//读取会刷新当前用户和ID会导致报错
+                //string CurrentUserStr = LanguageSwitch.ToUserLanguageg(userManage.userData.CurrentUser, UserLanguageg.中文);
+                //label1.Text = "当前用户：\n  " + CurrentUserStr + "\n  " + userManage.userData.CurrentUserID;
+
+
+                string userType = LanguageProject.GetLangeuageAttribute(StatusStripEnum.当前用户类型, Project.Instance.systemInfo.m_CurrentLanguageType) +
+           LanguageProject.GetLangeuageAttribute(Project.Instance.userManage.userData.CurrentUser, Project.Instance.systemInfo.m_CurrentLanguageType);
+                string userID = LanguageProject.GetLangeuageAttribute(StatusStripEnum.当前用户ID, Project.Instance.systemInfo.m_CurrentLanguageType) + Project.Instance.userManage.userData.CurrentUserID;
+                label1.Text = userType + "\r\n" + userID;
 
                 AllUserShow();
                 //==================================================================================================================
@@ -55,7 +61,7 @@ namespace Frame_Core
                 cb_PwdFile_Enable.Enabled = false;
                 txt_PwdFile_Path.Visible = false;
                 lbl_path.Visible = false;
-                if (userManage.userData.CurrentUser == UserType.Supervisor)
+                if (userManage.userData.CurrentUser == UserType.Admin)
                 {
                     btnControlAccount.Enabled = true;
 
@@ -153,14 +159,25 @@ namespace Frame_Core
                 {
                     selectUserTypeCN = lvwUserList.Items[i].SubItems[1].Text;
                     selectUserId = lvwUserList.Items[i].SubItems[2].Text;
-                    userTypeTemp = LanguageSwitch.ToUserType(selectUserTypeCN);
+                    //userTypeTemp = LanguageSwitch.ToUserType(selectUserTypeCN);
+
+                    var userTypeEnum = LanguageProject.MatchStringToEnum<UserType>(selectUserTypeCN);
+                    if (userTypeEnum != null)
+                    {
+                        userTypeTemp = userTypeEnum ?? UserType.Operator;
+                    }
+                    else
+                    {
+                        System.Windows.Forms.MessageBox.Show("用户类型转换错误！");
+                        return;
+                    }
 
                     if (userManage.userData.CurrentUser == userTypeTemp && userManage.userData.CurrentUserID == selectUserId)
                     {
                         System.Windows.Forms.MessageBox.Show("禁止删除当前用户！");
                         return;
                     }
-                    if (userManage.userData.CurrentUser!= UserType.Supervisor)
+                    if (userManage.userData.CurrentUser != UserType.Admin)
                     {
                         if (userManage.userData.CurrentUser <= userTypeTemp)
                         {
@@ -168,7 +185,7 @@ namespace Frame_Core
                             return;
                         }
                     }
-                  
+
 
                 }
 
@@ -203,7 +220,7 @@ namespace Frame_Core
         private void btnControlAccount_Click(object sender, EventArgs e)
         {
             if (Project.Instance.purviewManage == null) return;
-           
+
             PurviewForm frm = new PurviewForm(Project.Instance.purviewManage.purviewParam);
             frm.ShowDialog();
         }

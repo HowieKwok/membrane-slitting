@@ -118,6 +118,36 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="cb_LargeAreaDefectEN.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 30</value>
+  </data>
+  <data name="cb_LargeAreaDefectEN.Size" type="System.Drawing.Size, System.Drawing">
+    <value>285, 67</value>
+  </data>
+  <data name="cb_LargeAreaDefectEN.Text" xml:space="preserve">
+    <value>Lorsque le nombre de défauts est
+excessif ou que la surface totale
+des défauts dépasse‌</value>
+  </data>
+  <data name="label53.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 104</value>
+  </data>
+  <data name="label53.Size" type="System.Drawing.Size, System.Drawing">
+    <value>357, 42</value>
+  </data>
+  <data name="label53.Text" xml:space="preserve">
+    <value>le système classe directement en "défauts de 
+grande surface" sans passer par le classifieur</value>
+  </data>
+  <data name="num_LargeAreaDefectMinArea.Location" type="System.Drawing.Point, System.Drawing">
+    <value>320, 36</value>
+  </data>
+  <data name="groupBox17.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 818</value>
+  </data>
+  <data name="groupBox17.Text" xml:space="preserve">
+    <value>‌Détermination de défauts de grande surface</value>
+  </data>
   <data name="label51.Location" type="System.Drawing.Point, System.Drawing">
     <value>85, 114</value>
   </data>
@@ -156,9 +186,6 @@ Sinon, c'est une fuite métallique</value>
   <data name="num_JDMinW.Location" type="System.Drawing.Point, System.Drawing">
     <value>298, 172</value>
   </data>
-  <data name="num_JDMinW.Size" type="System.Drawing.Size, System.Drawing">
-    <value>81, 29</value>
-  </data>
   <data name="label48.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 172</value>
   </data>
@@ -171,9 +198,6 @@ Sinon, c'est une fuite métallique</value>
   <data name="num_GrayDifference.Location" type="System.Drawing.Point, System.Drawing">
     <value>14, 112</value>
   </data>
-  <data name="num_GrayDifference.Size" type="System.Drawing.Size, System.Drawing">
-    <value>52, 29</value>
-  </data>
   <data name="label47.Size" type="System.Drawing.Size, System.Drawing">
     <value>369, 21</value>
   </data>
@@ -183,26 +207,30 @@ Sinon, c'est une fuite métallique</value>
   <data name="num_JDAreaNG.Location" type="System.Drawing.Point, System.Drawing">
     <value>291, 34</value>
   </data>
-  <data name="num_JDAreaNG.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 29</value>
-  </data>
   <data name="label43.Size" type="System.Drawing.Size, System.Drawing">
     <value>216, 21</value>
   </data>
   <data name="label43.Text" xml:space="preserve">
     <value>la superficie totale dépasse</value>
   </data>
-  <data name="label45.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 16</value>
-  </data>
   <data name="groupBox16.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 336</value>
+    <value>4, 402</value>
   </data>
   <data name="groupBox16.Size" type="System.Drawing.Size, System.Drawing">
     <value>398, 403</value>
   </data>
   <data name="groupBox16.Text" xml:space="preserve">
     <value>Bande et métal manquants</value>
+  </data>
+  <data name="nud_OtherTypeDetermineScore.Location" type="System.Drawing.Point, System.Drawing">
+    <value>324, 88</value>
+  </data>
+  <data name="cb_OtherTypeEN.Size" type="System.Drawing.Size, System.Drawing">
+    <value>278, 46</value>
+  </data>
+  <data name="cb_OtherTypeEN.Text" xml:space="preserve">
+    <value>Assigné à la catégorie 
+"Autre" si similarité &lt; seuil défini</value>
   </data>
   <data name="num_NgMaxNum.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
@@ -222,14 +250,11 @@ Sinon, c'est une fuite métallique</value>
   <data name="label38.Text" xml:space="preserve">
     <value>Nombre maximal d'entrée du classifieur：</value>
   </data>
-  <data name="label39.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 16</value>
-  </data>
   <data name="groupBox15.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt, style=Bold</value>
   </data>
   <data name="groupBox15.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 738</value>
+    <value>4, 977</value>
   </data>
   <data name="groupBox15.Text" xml:space="preserve">
     <value>Paramètres du classifieur</value>
@@ -270,9 +295,6 @@ Sinon, c'est une fuite métallique</value>
   <data name="label44.Text" xml:space="preserve">
     <value>Différence de gris:</value>
   </data>
-  <data name="label114.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 16</value>
-  </data>
   <data name="label116.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
@@ -293,6 +315,20 @@ Sinon, c'est une fuite métallique</value>
   </data>
   <data name="groupBox_WLY.Text" xml:space="preserve">
     <value>Sans Compression à Froid</value>
+  </data>
+  <data name="num_MeanGrayDifference_Black.Location" type="System.Drawing.Point, System.Drawing">
+    <value>326, 185</value>
+  </data>
+  <data name="cb_MeanGrayDifference_Black.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="cb_MeanGrayDifference_Black.Size" type="System.Drawing.Size, System.Drawing">
+    <value>290, 64</value>
+  </data>
+  <data name="cb_MeanGrayDifference_Black.Text" xml:space="preserve">
+    <value>Le seuil maximum des défauts sombres
+suit la réduction de la luminance 
+moyenne du revêtement</value>
   </data>
   <data name="num_MinArea_Black.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
@@ -369,9 +405,6 @@ Sinon, c'est une fuite métallique</value>
   <data name="label30.Text" xml:space="preserve">
     <value>SurfaceMinimaleMeMéfautLumineux(mm²)：</value>
   </data>
-  <data name="lbl_ZBYLThreshold_Range.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 16</value>
-  </data>
   <data name="num_WhiteThreshold_Max.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
@@ -441,9 +474,6 @@ Sinon, c'est une fuite métallique</value>
   <data name="label112.Text" xml:space="preserve">
     <value>Surface minimale de dégâts：</value>
   </data>
-  <data name="label115.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 16</value>
-  </data>
   <data name="num_ZBPS_Threshold.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
@@ -495,9 +525,6 @@ Sinon, c'est une fuite métallique</value>
   <data name="label118.Text" xml:space="preserve">
     <value>Surface minimale(mm²)：</value>
   </data>
-  <data name="label119.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 16</value>
-  </data>
   <data name="num_BYDL_Threshold.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
@@ -520,7 +547,7 @@ Sinon, c'est une fuite métallique</value>
     <value>微软雅黑, 10pt, style=Bold</value>
   </data>
   <data name="groupBox_BYDL.Text" xml:space="preserve">
-    <value>Chute de matériau aux bords</value>
+    <value>Paramètres</value>
   </data>
   <data name="tabPage3.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 28</value>
@@ -529,13 +556,13 @@ Sinon, c'est une fuite métallique</value>
     <value>432, 397</value>
   </data>
   <data name="tabPage3.Text" xml:space="preserve">
-    <value>PerteDeMatériauSurLesBordsDroits</value>
+    <value>Métal exposé au bord</value>
   </data>
   <data name="num_ZBYL_Threshold_Max.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
   <data name="num_ZBYL_Threshold_Max.Location" type="System.Drawing.Point, System.Drawing">
-    <value>348, 26</value>
+    <value>141, 67</value>
   </data>
   <data name="num_ZBYL_Threshold_Max.Size" type="System.Drawing.Size, System.Drawing">
     <value>62, 25</value>
@@ -544,7 +571,7 @@ Sinon, c'est une fuite métallique</value>
     <value>微软雅黑, 10pt</value>
   </data>
   <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>219, 28</value>
+    <value>8, 69</value>
   </data>
   <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
     <value>106, 20</value>
@@ -556,7 +583,7 @@ Sinon, c'est une fuite métallique</value>
     <value>微软雅黑, 10pt</value>
   </data>
   <data name="num_ZBYL_MinArea.Location" type="System.Drawing.Point, System.Drawing">
-    <value>223, 62</value>
+    <value>205, 101</value>
   </data>
   <data name="num_ZBYL_MinArea.Size" type="System.Drawing.Size, System.Drawing">
     <value>68, 25</value>
@@ -569,9 +596,6 @@ Sinon, c'est une fuite métallique</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>Surface minimale(mm²)：</value>
-  </data>
-  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 16</value>
   </data>
   <data name="num_ZBYL_Threshold_Min.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
@@ -610,16 +634,13 @@ Sinon, c'est une fuite métallique</value>
     <value>微软雅黑, 10pt</value>
   </data>
   <data name="num_AT_PoSun_Threshold_Max.Location" type="System.Drawing.Point, System.Drawing">
-    <value>350, 22</value>
+    <value>213, 57</value>
   </data>
   <data name="num_AT_PoSun_Threshold_Max.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 25</value>
+    <value>68, 25</value>
   </data>
   <data name="label18.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
-  </data>
-  <data name="label18.Location" type="System.Drawing.Point, System.Drawing">
-    <value>220, 26</value>
   </data>
   <data name="label18.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 20</value>
@@ -631,7 +652,7 @@ Sinon, c'est une fuite métallique</value>
     <value>微软雅黑, 10pt</value>
   </data>
   <data name="num_AT_PoSun_MinArea.Location" type="System.Drawing.Point, System.Drawing">
-    <value>224, 62</value>
+    <value>213, 95</value>
   </data>
   <data name="num_AT_PoSun_MinArea.Size" type="System.Drawing.Size, System.Drawing">
     <value>68, 25</value>
@@ -645,17 +666,14 @@ Sinon, c'est une fuite métallique</value>
   <data name="label19.Text" xml:space="preserve">
     <value>surface minimale(mm²)：</value>
   </data>
-  <data name="label20.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 16</value>
-  </data>
   <data name="num_AT_PoSun_Threshold_Min.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
   <data name="num_AT_PoSun_Threshold_Min.Location" type="System.Drawing.Point, System.Drawing">
-    <value>139, 26</value>
+    <value>213, 23</value>
   </data>
   <data name="num_AT_PoSun_Threshold_Min.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 25</value>
+    <value>68, 25</value>
   </data>
   <data name="label21.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
@@ -676,16 +694,16 @@ Sinon, c'est une fuite métallique</value>
     <value>微软雅黑, 10pt</value>
   </data>
   <data name="num_AT_LouJinShu_Threshold_Max.Location" type="System.Drawing.Point, System.Drawing">
-    <value>350, 26</value>
+    <value>213, 60</value>
   </data>
   <data name="num_AT_LouJinShu_Threshold_Max.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 25</value>
+    <value>68, 25</value>
   </data>
   <data name="label15.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
   <data name="label15.Location" type="System.Drawing.Point, System.Drawing">
-    <value>220, 28</value>
+    <value>8, 65</value>
   </data>
   <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 20</value>
@@ -697,7 +715,7 @@ Sinon, c'est une fuite métallique</value>
     <value>微软雅黑, 10pt</value>
   </data>
   <data name="num_AT_LouJinShu_MinArea.Location" type="System.Drawing.Point, System.Drawing">
-    <value>224, 62</value>
+    <value>213, 97</value>
   </data>
   <data name="num_AT_LouJinShu_MinArea.Size" type="System.Drawing.Size, System.Drawing">
     <value>68, 25</value>
@@ -711,17 +729,14 @@ Sinon, c'est une fuite métallique</value>
   <data name="label16.Text" xml:space="preserve">
     <value>surface minimale(mm²)：</value>
   </data>
-  <data name="label17.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 16</value>
-  </data>
   <data name="num_AT_LouJinShu_Threshold_Min.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
   <data name="num_AT_LouJinShu_Threshold_Min.Location" type="System.Drawing.Point, System.Drawing">
-    <value>139, 26</value>
+    <value>213, 26</value>
   </data>
   <data name="num_AT_LouJinShu_Threshold_Min.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 25</value>
+    <value>68, 25</value>
   </data>
   <data name="label14.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
@@ -746,6 +761,99 @@ Sinon, c'est une fuite métallique</value>
   </data>
   <data name="tabPage5.Text" xml:space="preserve">
     <value>FuiteDeMétalAT</value>
+  </data>
+  <data name="num_JR_PoSun2_Threshold_Max.Location" type="System.Drawing.Point, System.Drawing">
+    <value>335, 100</value>
+  </data>
+  <data name="label64.Location" type="System.Drawing.Point, System.Drawing">
+    <value>206, 105</value>
+  </data>
+  <data name="label64.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 21</value>
+  </data>
+  <data name="label64.Text" xml:space="preserve">
+    <value>Seuil maximal:</value>
+  </data>
+  <data name="num_JR_PoSun2_Threshold_Min.Location" type="System.Drawing.Point, System.Drawing">
+    <value>138, 101</value>
+  </data>
+  <data name="label65.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 105</value>
+  </data>
+  <data name="label65.Size" type="System.Drawing.Size, System.Drawing">
+    <value>116, 21</value>
+  </data>
+  <data name="label65.Text" xml:space="preserve">
+    <value>Seuil minimal:</value>
+  </data>
+  <data name="cb_brokens2_EN.Size" type="System.Drawing.Size, System.Drawing">
+    <value>176, 25</value>
+  </data>
+  <data name="cb_brokens2_EN.Text" xml:space="preserve">
+    <value>Activer la détection</value>
+  </data>
+  <data name="num_brokens2_middle_height.Location" type="System.Drawing.Point, System.Drawing">
+    <value>334, 309</value>
+  </data>
+  <data name="label61.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 302</value>
+  </data>
+  <data name="label61.Size" type="System.Drawing.Size, System.Drawing">
+    <value>296, 42</value>
+  </data>
+  <data name="label61.Text" xml:space="preserve">
+    <value>Extrémité -Fermeture morphologique
+du milieu - hauteur (mm):</value>
+  </data>
+  <data name="num_brokens2_middle_width.Location" type="System.Drawing.Point, System.Drawing">
+    <value>334, 253</value>
+  </data>
+  <data name="label58.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 246</value>
+  </data>
+  <data name="label58.Size" type="System.Drawing.Size, System.Drawing">
+    <value>301, 42</value>
+  </data>
+  <data name="label58.Text" xml:space="preserve">
+    <value>Extrémité -Fermeture morphologique 
+du milieu - largeur (mm):</value>
+  </data>
+  <data name="num_brokens2_bottom_radius.Location" type="System.Drawing.Point, System.Drawing">
+    <value>334, 198</value>
+  </data>
+  <data name="label52.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 189</value>
+  </data>
+  <data name="label52.Size" type="System.Drawing.Size, System.Drawing">
+    <value>296, 42</value>
+  </data>
+  <data name="label52.Text" xml:space="preserve">
+    <value>Extrémité -Fermeture morphologique
+de la base - rayon (mm):</value>
+  </data>
+  <data name="cb_Show_JR_PoSun2_DetectionROI.Size" type="System.Drawing.Size, System.Drawing">
+    <value>250, 25</value>
+  </data>
+  <data name="cb_Show_JR_PoSun2_DetectionROI.Text" xml:space="preserve">
+    <value>Afficher la zone de détection</value>
+  </data>
+  <data name="num_brokens2_JRMaxThreshold.Location" type="System.Drawing.Point, System.Drawing">
+    <value>335, 147</value>
+  </data>
+  <data name="label55.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 152</value>
+  </data>
+  <data name="label55.Size" type="System.Drawing.Size, System.Drawing">
+    <value>233, 21</value>
+  </data>
+  <data name="label55.Text" xml:space="preserve">
+    <value>Seuil maximal de l'extrémité :</value>
+  </data>
+  <data name="groupBox19.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1, 492</value>
+  </data>
+  <data name="groupBox19.Text" xml:space="preserve">
+    <value>Dégâts aux  électrodes conductrices 2</value>
   </data>
   <data name="num_TimeOut.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
@@ -833,9 +941,6 @@ Sinon, c'est une fuite métallique</value>
   </data>
   <data name="label23.Text" xml:space="preserve">
     <value>Surface minimale(mm²)：</value>
-  </data>
-  <data name="label25.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 16</value>
   </data>
   <data name="num_JR_PoSun_Threshold_Min.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
@@ -963,9 +1068,6 @@ Sinon, c'est une fuite métallique</value>
   <data name="label31.Text" xml:space="preserve">
     <value>Surface minimale(mm²)：</value>
   </data>
-  <data name="label32.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 16</value>
-  </data>
   <data name="num_JR_DaiLiao_Threshold_Min.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
@@ -1017,14 +1119,11 @@ Sinon, c'est une fuite métallique</value>
   <data name="tableLayoutPanel5.Size" type="System.Drawing.Size, System.Drawing">
     <value>396, 56</value>
   </data>
-  <data name="label24.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 16</value>
-  </data>
   <data name="groupBox8.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt, style=Bold</value>
   </data>
   <data name="groupBox8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>1, 492</value>
+    <value>1, 862</value>
   </data>
   <data name="groupBox8.Text" xml:space="preserve">
     <value>Manipulation du modèle</value>
@@ -1038,17 +1137,224 @@ Sinon, c'est une fuite métallique</value>
   <data name="tabPage6.Text" xml:space="preserve">
     <value>ParamètreDeSeuil</value>
   </data>
+  <data name="label76.Location" type="System.Drawing.Point, System.Drawing">
+    <value>316, 504</value>
+  </data>
+  <data name="label75.Location" type="System.Drawing.Point, System.Drawing">
+    <value>315, 425</value>
+  </data>
+  <data name="label74.Location" type="System.Drawing.Point, System.Drawing">
+    <value>315, 354</value>
+  </data>
+  <data name="cb_EnStepDefect.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 32</value>
+  </data>
+  <data name="cb_EnStepDefect.Size" type="System.Drawing.Size, System.Drawing">
+    <value>176, 25</value>
+  </data>
+  <data name="cb_EnStepDefect.Text" xml:space="preserve">
+    <value>Activer la détection</value>
+  </data>
+  <data name="nud_StepDefectAreaRangeFilterMax.Location" type="System.Drawing.Point, System.Drawing">
+    <value>337, 502</value>
+  </data>
+  <data name="nud_SetpDefectThresholdRangeMax.Location" type="System.Drawing.Point, System.Drawing">
+    <value>337, 423</value>
+  </data>
+  <data name="nud_SetpDefectThresholdRangeMin.Location" type="System.Drawing.Point, System.Drawing">
+    <value>248, 423</value>
+  </data>
+  <data name="nud_StepDefectAreaRangeFilterMin.Location" type="System.Drawing.Point, System.Drawing">
+    <value>248, 502</value>
+  </data>
+  <data name="label73.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 489</value>
+  </data>
+  <data name="label73.Size" type="System.Drawing.Size, System.Drawing">
+    <value>208, 42</value>
+  </data>
+  <data name="label73.Text" xml:space="preserve">
+    <value>Filtre de plage de surface 
+de défaut(mm²):</value>
+  </data>
+  <data name="label72.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 427</value>
+  </data>
+  <data name="label72.Size" type="System.Drawing.Size, System.Drawing">
+    <value>198, 21</value>
+  </data>
+  <data name="label72.Text" xml:space="preserve">
+    <value>Plage de seuil de défaut:</value>
+  </data>
+  <data name="nud_StepCoatingGrayscaleRangeMax.Location" type="System.Drawing.Point, System.Drawing">
+    <value>337, 352</value>
+  </data>
+  <data name="nud_StepCoatingGrayscaleRangeMin.Location" type="System.Drawing.Point, System.Drawing">
+    <value>248, 352</value>
+  </data>
+  <data name="label71.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 339</value>
+  </data>
+  <data name="label71.Size" type="System.Drawing.Size, System.Drawing">
+    <value>212, 42</value>
+  </data>
+  <data name="label71.Text" xml:space="preserve">
+    <value>Plage de niveaux de gris 
+du revêtement de marche:</value>
+  </data>
+  <data name="nud_SetpDetectAreaBottomInset.Location" type="System.Drawing.Point, System.Drawing">
+    <value>248, 275</value>
+  </data>
+  <data name="label69.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 262</value>
+  </data>
+  <data name="label69.Size" type="System.Drawing.Size, System.Drawing">
+    <value>218, 42</value>
+  </data>
+  <data name="label69.Text" xml:space="preserve">
+    <value>Retrait inférieur de la zone 
+de détection(mm):</value>
+  </data>
+  <data name="nud_SetpDetectAreaTopInset.Location" type="System.Drawing.Point, System.Drawing">
+    <value>248, 205</value>
+  </data>
+  <data name="label70.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 192</value>
+  </data>
+  <data name="label70.Size" type="System.Drawing.Size, System.Drawing">
+    <value>225, 42</value>
+  </data>
+  <data name="label70.Text" xml:space="preserve">
+    <value>Retrait supérieur de la zone 
+de détection(mm):</value>
+  </data>
+  <data name="nud_SetpDetectAreaRightInset.Location" type="System.Drawing.Point, System.Drawing">
+    <value>248, 144</value>
+  </data>
+  <data name="label66.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 131</value>
+  </data>
+  <data name="label66.Size" type="System.Drawing.Size, System.Drawing">
+    <value>190, 42</value>
+  </data>
+  <data name="label66.Text" xml:space="preserve">
+    <value>Retrait droit de la zone 
+de détection(mm):</value>
+  </data>
+  <data name="nud_SetpDetectAreaLeftInset.Location" type="System.Drawing.Point, System.Drawing">
+    <value>248, 82</value>
+  </data>
+  <data name="label68.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 69</value>
+  </data>
+  <data name="label68.Size" type="System.Drawing.Size, System.Drawing">
+    <value>210, 42</value>
+  </data>
+  <data name="label68.Text" xml:space="preserve">
+    <value>Retrait gauche de la zone 
+de détection(mm):</value>
+  </data>
+  <data name="groupBox20.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 13</value>
+  </data>
+  <data name="groupBox20.Size" type="System.Drawing.Size, System.Drawing">
+    <value>403, 579</value>
+  </data>
+  <data name="groupBox20.Text" xml:space="preserve">
+    <value>Paramètres</value>
+  </data>
   <data name="tabPage7.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 28</value>
   </data>
   <data name="tabPage7.Size" type="System.Drawing.Size, System.Drawing">
     <value>432, 397</value>
   </data>
+  <data name="tabPage7.Text" xml:space="preserve">
+    <value>Détection de défauts de marche</value>
+  </data>
   <data name="tabPage8.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 28</value>
   </data>
   <data name="tabPage8.Size" type="System.Drawing.Size, System.Drawing">
     <value>432, 397</value>
+  </data>
+  <data name="label63.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 86</value>
+  </data>
+  <data name="label63.Size" type="System.Drawing.Size, System.Drawing">
+    <value>243, 20</value>
+  </data>
+  <data name="label63.Text" xml:space="preserve">
+    <value>Extrémité - expansion vers le bas Y:</value>
+  </data>
+  <data name="num_tab_down_Expansion_Y.Location" type="System.Drawing.Point, System.Drawing">
+    <value>297, 82</value>
+  </data>
+  <data name="num_tab_down_Expansion_Y.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 25</value>
+  </data>
+  <data name="label62.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 49</value>
+  </data>
+  <data name="label62.Size" type="System.Drawing.Size, System.Drawing">
+    <value>251, 20</value>
+  </data>
+  <data name="label62.Text" xml:space="preserve">
+    <value>Extrémité - expansion vers le haut Y:</value>
+  </data>
+  <data name="num_tab_up_Expansion_Y.Location" type="System.Drawing.Point, System.Drawing">
+    <value>297, 45</value>
+  </data>
+  <data name="num_tab_up_Expansion_Y.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 25</value>
+  </data>
+  <data name="label54.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 127</value>
+  </data>
+  <data name="label54.Size" type="System.Drawing.Size, System.Drawing">
+    <value>281, 20</value>
+  </data>
+  <data name="label54.Text" xml:space="preserve">
+    <value>Extrémité -Côté intérieur - expansion X1:</value>
+  </data>
+  <data name="label56.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 209</value>
+  </data>
+  <data name="label56.Size" type="System.Drawing.Size, System.Drawing">
+    <value>283, 20</value>
+  </data>
+  <data name="label56.Text" xml:space="preserve">
+    <value>Extrémité -Côté extérieur - expansion X2:</value>
+  </data>
+  <data name="num_tabOutside_Expansion_X2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>297, 205</value>
+  </data>
+  <data name="num_tabOutside_Expansion_X2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 25</value>
+  </data>
+  <data name="num_tabInside_Expansion_X1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>297, 122</value>
+  </data>
+  <data name="num_tabInside_Expansion_X1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 25</value>
+  </data>
+  <data name="num_tabOutside_Expansion_X1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>297, 164</value>
+  </data>
+  <data name="num_tabOutside_Expansion_X1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 25</value>
+  </data>
+  <data name="label59.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 168</value>
+  </data>
+  <data name="label59.Size" type="System.Drawing.Size, System.Drawing">
+    <value>283, 20</value>
+  </data>
+  <data name="label59.Text" xml:space="preserve">
+    <value>Extrémité -Côté extérieur - expansion X1:</value>
+  </data>
+  <data name="groupBox18.Text" xml:space="preserve">
+    <value>Paramètres de zone d'inspection pour dommage niveau 2</value>
   </data>
   <data name="lab51.Size" type="System.Drawing.Size, System.Drawing">
     <value>141, 20</value>
@@ -1061,6 +1367,9 @@ Sinon, c'est une fuite métallique</value>
   </data>
   <data name="num_topAngleR_Shielded_X1.Size" type="System.Drawing.Size, System.Drawing">
     <value>99, 25</value>
+  </data>
+  <data name="lab58.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 214</value>
   </data>
   <data name="lab58.Size" type="System.Drawing.Size, System.Drawing">
     <value>208, 20</value>
@@ -1085,6 +1394,9 @@ Sinon, c'est une fuite métallique</value>
   </data>
   <data name="num_topAngleR_Shielded_Y1.Size" type="System.Drawing.Size, System.Drawing">
     <value>99, 25</value>
+  </data>
+  <data name="lab57.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 172</value>
   </data>
   <data name="lab57.Size" type="System.Drawing.Size, System.Drawing">
     <value>194, 20</value>
@@ -1293,9 +1605,6 @@ Sinon, c'est une fuite métallique</value>
   <data name="label40.Size" type="System.Drawing.Size, System.Drawing">
     <value>20, 20</value>
   </data>
-  <data name="label41.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 16</value>
-  </data>
   <data name="num_JRCenter_column.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
@@ -1334,9 +1643,6 @@ Sinon, c'est une fuite métallique</value>
   </data>
   <data name="cb_Enable_SimulationRegion.Text" xml:space="preserve">
     <value>Activer la zone de simulation</value>
-  </data>
-  <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 16</value>
   </data>
   <data name="groupBox5.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt, style=Bold</value>
@@ -1406,9 +1712,6 @@ Sinon, c'est une fuite métallique</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
     <value>Sommet gauche Y:</value>
-  </data>
-  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 16</value>
   </data>
   <data name="Detection_Left_UP_X.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
@@ -1489,7 +1792,7 @@ Sinon, c'est une fuite métallique</value>
     <value>Abrasion sur les bords droits</value>
   </data>
   <data name="com_DetectionMethod.Items2" xml:space="preserve">
-    <value>Perte de matériau sur les bords droits</value>
+    <value>Métal exposé au bord</value>
   </data>
   <data name="com_DetectionMethod.Items3" xml:space="preserve">
     <value>Restes de matériau sur les bords droits</value>
@@ -1693,8 +1996,5 @@ Sinon, c'est une fuite métallique</value>
         5JOr5PoX6bXDp6eIdwa3Or4v87Huowp4nHcRzyKR2mtXuWqPpuzC3bfp8sX1cfg46AuXeBXfaV6QHs/n
         jz5YB/UUPXcACCCEQVvV4esAAAAASUVORK5CYII=
 </value>
-  </data>
-  <data name="TB_PositionAndGray.Size" type="System.Drawing.Size, System.Drawing">
-    <value>294, 19</value>
   </data>
 </root>

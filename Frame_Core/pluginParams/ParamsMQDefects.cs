@@ -174,7 +174,19 @@ namespace Frame_Core
         public double num_MinArea_Black { set; get; } = 1;
 
 
+        /// <summary>
+        /// 暗瑕疵最大阈值跟随涂布平均灰度
+        /// </summary>
+        [ShowTextAttribute("暗瑕疵最大阈值跟随涂布平均灰度")]
+        [Description("暗瑕疵最大阈值跟随涂布平均灰度")]
+        public bool cb_MeanGrayDifference_Black { set; get; } = false;
 
+        /// <summary>
+        /// 暗瑕疵最大阈值跟随涂布平均灰度减设定值
+        /// </summary>
+        [ShowTextAttribute("暗瑕疵最大阈值跟随涂布平均灰度减设定值")]
+        [Description("暗瑕疵最大阈值跟随涂布平均灰度减设定值")]
+        public int num_MeanGrayDifference_Black { set; get; } = 10;
 
         /// <summary>
         /// 未冷压灰度差异
@@ -200,6 +212,22 @@ namespace Frame_Core
         [ShowTextAttribute("是否启用未冷压")]
         [Description("是否启用未冷压")]
         public bool cb_OpenDec_WLY { set; get; } = false;
+
+        /// <summary>
+        /// 缺陷数量过多大面积缺陷不进入分类器使能
+        /// </summary>
+        [ShowTextAttribute("缺陷数量过多大面积缺陷不进入分类器使能")]
+
+        [Description("缺陷数量过多大面积缺陷不进入分类器使能")]
+        public bool cb_LargeAreaDefectEN { set; get; } = false;
+
+        /// <summary>
+        /// 缺陷数量过多大面积缺陷最小面积
+        /// </summary>
+        [ShowTextAttribute("缺陷数量过多大面积缺陷最小面积")]
+
+        [Description("缺陷数量过多大面积缺陷最小面积")]
+        public double num_LargeAreaDefectMinArea { set; get; } = 100;
 
 
         /// <summary>
@@ -540,7 +568,47 @@ namespace Frame_Core
 
         public string NgString;
 
+        /// <summary>
+        /// 输出变量：当前是否获取涂布平均灰度
+        /// </summary>
+        [NonSerialized]
+        [System.Xml.Serialization.XmlIgnore]
+        public bool IsGetCoatingMeanGray = false;
 
+        /// <summary>
+        /// 输出变量：涂布平均灰度
+        /// </summary>
+        [NonSerialized]
+        [System.Xml.Serialization.XmlIgnore]
+        public double CoatingMeanGray = 0;
+
+        /// <summary>
+        /// 输入变量：每隔N次获取一次涂布平均灰度
+        /// </summary>
+        [NonSerialized]
+        [System.Xml.Serialization.XmlIgnore]
+        public int CoatingMeanGray_Num = 1;
+
+        /// <summary>
+        /// 输出变量：获取涂布平均灰度计数
+        /// </summary>
+        [NonSerialized]
+        [System.Xml.Serialization.XmlIgnore]
+        public int CoatingMeanGray_Count = 0;
+
+        /// <summary>
+        /// 输出变量：暗瑕疵最大阈值跟随涂布平均灰度日志消息
+        /// </summary>
+        [NonSerialized]
+        [System.Xml.Serialization.XmlIgnore]
+        public string str_CoatingMeanGra_Black = "";
+
+        /// <summary>
+        /// 输出变量：当前存在缺陷
+        /// </summary>
+        [NonSerialized]
+        [System.Xml.Serialization.XmlIgnore]
+        public bool currentExistingDefect = true;
 
         /// <summary>
         /// 输出的缺陷队列
@@ -582,6 +650,19 @@ namespace Frame_Core
         [System.Xml.Serialization.XmlIgnore]
         public HObject JRPoSunRegion;
 
+        /// <summary>
+        /// 输出变量：极耳破损检测区域2
+        /// </summary>
+        [NonSerialized]
+        [System.Xml.Serialization.XmlIgnore]
+        public HObject JRPoSunRegion2;
+
+        /// <summary>
+        /// 输出变量：极耳破损检测区域2
+        /// </summary>
+        [NonSerialized]
+        [System.Xml.Serialization.XmlIgnore]
+        public HObject JRPoSunRegion3;
 
         /// <summary>
         /// 输入:极耳中心Y
@@ -728,6 +809,154 @@ namespace Frame_Core
         [Description("极耳破损-顶边屏蔽")]
         public double num_topAngleR_Shielded_X1 { set; get; } = 0;
 
+        /// <summary>
+        /// 极耳破损2-启用检测
+        /// </summary>
+        [ShowTextAttribute("极耳破损2-启用检测")]
+        [Description("极耳破损2-启用检测")]
+        public bool cb_brokens2_EN { set; get; } = false;
+
+        /// <summary>
+        /// 极耳破损2-显示检测区域
+        /// </summary>
+        [ShowTextAttribute("极耳破损2-显示检测区域")]
+        [Description("极耳破损2-显示检测区域")]
+        public bool cb_Show_JR_PoSun2_DetectionROI { set; get; } = true;
+
+        /// <summary>
+        /// 极耳破损2-最小阈值
+        /// </summary>
+        [ShowTextAttribute("极耳破损2-最小阈值")]
+        [Description("极耳破损2-最小阈值")]
+        public int num_JR_PoSun2_Threshold_Min { set; get; } = 180;
+
+        /// <summary>
+        /// 极耳破损2-最大阈值
+        /// </summary>
+        [ShowTextAttribute("极耳破损2-最大阈值")]
+        [Description("极耳破损2-最大阈值")]
+        public int num_JR_PoSun2_Threshold_Max { set; get; } = 255;
+
+        /// <summary>
+        /// 极耳破损2-极耳最大阈值
+        /// </summary>
+        [ShowTextAttribute("极耳破损2-极耳最大阈值")]
+        [Description("极耳破损2-极耳最大阈值")]
+        public int num_brokens2_JRMaxThreshold { set; get; } = 60;
+
+        /// <summary>
+        /// 极耳破损2-极耳底部闭运算-半径
+        /// </summary>
+        [ShowTextAttribute("极耳破损2-极耳底部闭运算-半径")]
+        [Description("极耳破损2-极耳底部闭运算-半径")]
+        public double num_brokens2_bottom_radius { set; get; } = 3;
+
+        /// <summary>
+        /// 极耳破损2-极耳中部闭运算-宽度
+        /// </summary>
+        [ShowTextAttribute("极耳破损2-极耳中部闭运算-宽度")]
+        [Description("极耳破损2-极耳中部闭运算-宽度")]
+        public double num_brokens2_middle_width { set; get; } = 5;
+
+        /// <summary>
+        /// 极耳破损2-极耳中部闭运算-高度
+        /// </summary>
+        [ShowTextAttribute("极耳破损2-极耳中部闭运算-高度")]
+        [Description("极耳破损2-极耳中部闭运算-高度")]
+        public double num_brokens2_middle_height { set; get; } = 5;
+
+
+
+
+        /// <summary>
+        /// 极耳破损2-极耳上外扩
+        /// </summary>
+        [ShowTextAttribute("极耳破损2-极耳上外扩")]
+        [Description("极耳破损2-极耳上外扩")]
+        public double num_tab_up_Expansion_Y { set; get; } = 36;
+
+        /// <summary>
+        /// 极耳破损2-极耳下外扩
+        /// </summary>
+        [ShowTextAttribute("极耳破损2-极耳下外扩")]
+        [Description("极耳破损2-极耳下外扩")]
+        public double num_tab_down_Expansion_Y { set; get; } = 66;
+
+        /// <summary>
+        /// 极耳破损2-极耳内侧-外扩X1
+        /// </summary>
+        [ShowTextAttribute("极耳破损2-极耳内侧-外扩X1")]
+        [Description("极耳破损2-极耳内侧-外扩X1")]
+        public double num_tabInside_Expansion_X1 { set; get; } = 3;
+
+        /// <summary>
+        /// 极耳破损2-极耳外侧-外扩X1
+        /// </summary>
+        [ShowTextAttribute("极耳破损2-极耳外侧-外扩X1")]
+        [Description("极耳破损2-极耳外侧-外扩X1")]
+        public double num_tabOutside_Expansion_X1 { set; get; } = 7;
+
+        /// <summary>
+        /// 极耳破损2-极耳外侧-外扩X2
+        /// </summary>
+        [ShowTextAttribute("极耳破损2-极耳外侧-外扩X2")]
+        [Description("极耳破损2-极耳外侧-外扩X2")]
+        public double num_tabOutside_Expansion_X2 { set; get; } = 15;
+
+
+
+        /// <summary>
+        /// 分类器是否初始化完成
+        /// </summary>
+        [NonSerialized]
+        [System.Xml.Serialization.XmlIgnore]
+        public bool InitClassifierfinish = false;
+
+        [ShowTextAttribute("台阶破损-启用")]
+        [Description("台阶破损-启用")]
+        public bool cb_EnStepDefect { set; get; } = false;
+
+        [ShowTextAttribute("台阶破损-检测区域左内缩")]
+        [Description("台阶破损-检测区域左内缩")]
+        public double nud_SetpDetectAreaLeftInset { set; get; } = 0.2;
+
+        [ShowTextAttribute("台阶破损-检测区域右内缩")]
+        [Description("台阶破损-检测区域右内缩")]
+        public double nud_SetpDetectAreaRightInset { set; get; } = 0.2;
+
+        [ShowTextAttribute("台阶破损-检测区域上内缩")]
+        [Description("台阶破损-检测区域上内缩")]
+        public double nud_SetpDetectAreaTopInset { set; get; } = 1;
+
+        [ShowTextAttribute("台阶破损-检测区域下内缩")]
+        [Description("台阶破损-检测区域下内缩")]
+        public double nud_SetpDetectAreaBottomInset { set; get; } = 1;
+
+        [ShowTextAttribute("台阶破损-台阶涂布灰度范围最小值")]
+        [Description("台阶破损-台阶涂布灰度范围最小值")]
+        public int nud_StepCoatingGrayscaleRangeMin { set; get; } = 30;
+
+        [ShowTextAttribute("台阶破损-台阶涂布灰度范围最大值")]
+        [Description("台阶破损-台阶涂布灰度范围最大值")]
+        public int nud_StepCoatingGrayscaleRangeMax { set; get; } = 255;
+
+
+        [ShowTextAttribute("台阶破损-破损阈值范围最小值")]
+        [Description("台阶破损-破损阈值范围最小值")]
+        public int nud_SetpDefectThresholdRangeMin { set; get; } = 30;
+
+        [ShowTextAttribute("台阶破损-破损阈值范围最大值")]
+        [Description("台阶破损-破损阈值范围最大值")]
+        public int nud_SetpDefectThresholdRangeMax { set; get; } = 50;
+
+        [ShowTextAttribute("台阶破损-破损面积范围筛选最小值")]
+        [Description("台阶破损-破损面积范围筛选最小值")]
+        public double nud_StepDefectAreaRangeFilterMin { set; get; } = 4;
+
+        [ShowTextAttribute("台阶破损-破损面积范围筛选最大值")]
+        [Description("台阶破损-破损面积范围筛选最大值")]
+        public double nud_StepDefectAreaRangeFilterMax { set; get; } = 10;
+
 
         public ParamsMQDefects()
         {
@@ -738,6 +967,8 @@ namespace Frame_Core
             HOperatorSet.GenEmptyObj(out ModleXld);
             HOperatorSet.GenEmptyObj(out JRDaiLiaoXldRegion);
             HOperatorSet.GenEmptyObj(out JRPoSunRegion);
+            HOperatorSet.GenEmptyObj(out JRPoSunRegion2);
+            HOperatorSet.GenEmptyObj(out JRPoSunRegion3);
             HOperatorSet.GenEmptyObj(out ModelContours);
         }
 

@@ -90,7 +90,7 @@ namespace Plugin.MQDefects
 
 
         bool bl_RoiExist = false;
-    
+
 
         /// <summary>
         /// ViewRoi回调函数：显示检测结果
@@ -103,45 +103,82 @@ namespace Plugin.MQDefects
                 HWC_Display.Invoke(new Action(() =>
                 {
 
-
-                    HOperatorSet.SetDraw(HWC_Display.HalconWindow, "margin");
-
-                    if (PluginParams.com_DetectionMethod == 5)
+                    try
                     {
-                        //背光极耳
-                        //if (PluginParams.cb_Show_JR_ModelXld)
-                        //{
-                        //    HOperatorSet.SetColor(HWC_Display.HalconWindow, "green");
-                        //    //显示模型
-                        //    HOperatorSet.DispRegion(PluginParams.ModleXld, HWC_Display.HalconWindow);
-                        //}
-                        if (PluginParams.cb_Show_JR_DaiLiao_DetectionROI)
+                        HOperatorSet.SetDraw(HWC_Display.HalconWindow, "margin");
+
+                        if (PluginParams.com_DetectionMethod == 5)
+                        {
+                            //背光极耳
+                            //if (PluginParams.cb_Show_JR_ModelXld)
+                            //{
+                            //    HOperatorSet.SetColor(HWC_Display.HalconWindow, "green");
+                            //    //显示模型
+                            //    HOperatorSet.DispRegion(PluginParams.ModleXld, HWC_Display.HalconWindow);
+                            //}
+                            if (PluginParams.cb_Show_JR_DaiLiao_DetectionROI)
+                            {
+                                HOperatorSet.SetColor(HWC_Display.HalconWindow, "blue");
+                                HOperatorSet.DispRegion(PluginParams.JRDaiLiaoXldRegion, HWC_Display.HalconWindow);
+                            }
+                            if (PluginParams.cb_Show_JR_PoSun_DetectionROI)
+                            {
+                                HOperatorSet.SetColor(HWC_Display.HalconWindow, "yellow");
+                                HOperatorSet.DispRegion(PluginParams.JRPoSunRegion, HWC_Display.HalconWindow);
+                            }
+                            if (PluginParams.cb_Show_JR_PoSun2_DetectionROI)
+                            {
+                                HOperatorSet.SetColor(HWC_Display.HalconWindow, "orange");
+                                HOperatorSet.DispRegion(PluginParams.JRPoSunRegion2, HWC_Display.HalconWindow);
+                                HOperatorSet.DispRegion(PluginParams.JRPoSunRegion3, HWC_Display.HalconWindow);
+                            }
+                        }
+                        else
                         {
                             HOperatorSet.SetColor(HWC_Display.HalconWindow, "blue");
-                            HOperatorSet.DispRegion(PluginParams.JRDaiLiaoXldRegion, HWC_Display.HalconWindow);
+                            HOperatorSet.DispRegion(PluginParams.ShieldROI, HWC_Display.HalconWindow);
                         }
-                        if (PluginParams.cb_Show_JR_PoSun_DetectionROI)
+
+                        HOperatorSet.SetColor(HWC_Display.HalconWindow, "green");
+                        HOperatorSet.DispRegion(PluginParams.DetectionROI, HWC_Display.HalconWindow);
+                        HOperatorSet.SetColor(HWC_Display.HalconWindow, "red");
+                        HOperatorSet.DispRegion(PluginParams.NgRegion, HWC_Display.HalconWindow);
+
+                        //获取字体
+                        //HOperatorSet.SetFont(HWC_Display.HalconWindow, FontEnum.微软雅黑 + "-13");//不同操作系统下字体可能不同
+                        HOperatorSet.SetColor(HWC_Display.HalconWindow, "red");
+
+                        int currentShowRow = 0;
+                        int step = 350;
+                        int Layer = 0;
+                        HOperatorSet.SetTposition(HWC_Display.HalconWindow, currentShowRow * Layer, 100);
+                        HOperatorSet.WriteString(HWC_Display.HalconWindow, $"涂布平均灰度: {PluginParams.CoatingMeanGray}[Count:{PluginParams.CoatingMeanGray_Count}/{PluginParams.CoatingMeanGray_Num}]");
+
+
+                        string[] ngInfos = PluginParams.NgString.Split('|');
+                        if (ngInfos?.Length > 0)
                         {
-                            HOperatorSet.SetColor(HWC_Display.HalconWindow, "yellow");
-                            HOperatorSet.DispRegion(PluginParams.JRPoSunRegion, HWC_Display.HalconWindow);
+                            for (int i = 0; i < ngInfos.Length; i++)
+                            {
+                                Layer += (i + 1);
+                                currentShowRow = step * (Layer);
+                                HOperatorSet.SetTposition(HWC_Display.HalconWindow, currentShowRow, 100);
+                                HOperatorSet.WriteString(HWC_Display.HalconWindow, ngInfos[i]);
+                            }
                         }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        HOperatorSet.SetColor(HWC_Display.HalconWindow, "blue");
-                        HOperatorSet.DispRegion(PluginParams.ShieldROI, HWC_Display.HalconWindow);
+                        Log4netRecord.ErrorLog.Error(ex);
+                        System.Windows.Forms.MessageBox.Show(ex.ToString());
                     }
-
-                    HOperatorSet.SetColor(HWC_Display.HalconWindow, "green");
-                    HOperatorSet.DispRegion(PluginParams.DetectionROI, HWC_Display.HalconWindow);
-                    HOperatorSet.SetColor(HWC_Display.HalconWindow, "red");
-                    HOperatorSet.DispRegion(PluginParams.NgRegion, HWC_Display.HalconWindow);
-
+                  
                 }));
             }
-            catch (Exception ee)
+            catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show(ee.ToString());
+                Log4netRecord.ErrorLog.Error(ex);
+                System.Windows.Forms.MessageBox.Show(ex.ToString());
                 // throw;
             }
         }
@@ -185,10 +222,10 @@ namespace Plugin.MQDefects
             YControlAutobind.Loading<ParamsMQDefects, IYCustomAttribute>(this, PluginParams);
             LoadStandImage();
 
-            if(!PluginParams.ISEnabledFunctionSelection)
+            if (!PluginParams.ISEnabledFunctionSelection)
             {
                 com_DetectionMethod.Enabled = false;
-                com_Cathode.Enabled= false;
+                com_Cathode.Enabled = false;
             }
 
             //ShowROI_SearchJR(PluginParams.ho_Image, roiRectangle1, 200, 300);
@@ -218,7 +255,7 @@ namespace Plugin.MQDefects
                 HImage hImage = new HImage();
                 HobjectToHimage(PluginParams.ho_Image, ref hImage);
                 hWndCtrl_Display.addIconicVar(hImage);
-                
+
             }
             catch (Exception ex)
             {
@@ -229,7 +266,7 @@ namespace Plugin.MQDefects
                 //SetRoiParams(PluginParams, roiRectangle2, roiController);
                 hWndCtrl_Display.resetAll();
                 hWndCtrl_Display.repaint();
-                
+
             }
         }
 
@@ -271,11 +308,11 @@ namespace Plugin.MQDefects
                     HOperatorSet.SetShapeModelParam(PluginParams.Model, "timeout", PluginParams.num_TimeOut);
                 }
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
 
             }
-           
+
         }
         /// <summary>
         /// 运行
@@ -293,8 +330,8 @@ namespace Plugin.MQDefects
                 HOperatorSet.SetDraw(HWC_Display.HalconWindow, "margin");
                 HOperatorSet.DispObj(PluginParams.ho_Image, HWC_Display.HalconWindow);
 
-             
-                if(PluginParams.com_DetectionMethod==5)
+
+                if (PluginParams.com_DetectionMethod == 5)
                 {
                     //背光极耳
                     if (PluginParams.cb_Show_JR_ModelXld)
@@ -313,15 +350,21 @@ namespace Plugin.MQDefects
                         HOperatorSet.SetColor(HWC_Display.HalconWindow, "yellow");
                         HOperatorSet.DispObj(PluginParams.JRPoSunRegion, HWC_Display.HalconWindow);
                     }
+                    if (PluginParams.cb_Show_JR_PoSun2_DetectionROI)
+                    {
+                        HOperatorSet.SetColor(HWC_Display.HalconWindow, "orange");
+                        HOperatorSet.DispObj(PluginParams.JRPoSunRegion2, HWC_Display.HalconWindow);
+                        HOperatorSet.DispObj(PluginParams.JRPoSunRegion3, HWC_Display.HalconWindow);
+                    }
                 }
                 else
                 {
-                   
+
 
                     HOperatorSet.SetColor(HWC_Display.HalconWindow, "blue");
                     HOperatorSet.DispObj(PluginParams.ShieldROI, HWC_Display.HalconWindow);
 
-                   
+
                 }
 
                 HOperatorSet.SetColor(HWC_Display.HalconWindow, "green");
@@ -330,10 +373,29 @@ namespace Plugin.MQDefects
                 HOperatorSet.DispObj(PluginParams.NgRegion, HWC_Display.HalconWindow);
 
                 //获取字体
-                HOperatorSet.SetFont(HWC_Display.HalconWindow, FontEnum.微软雅黑 + "-13");
+                //HOperatorSet.SetFont(HWC_Display.HalconWindow, FontEnum.微软雅黑 + "-13");//不同操作系统下字体可能不同
                 HOperatorSet.SetColor(HWC_Display.HalconWindow, "red");
-                HOperatorSet.SetTposition(HWC_Display.HalconWindow, 150, 100);
-                HOperatorSet.WriteString(HWC_Display.HalconWindow, PluginParams.NgString);
+
+                int currentShowRow = 0;
+                int step = 350;
+                int Layer = 0;
+                HOperatorSet.SetTposition(HWC_Display.HalconWindow, currentShowRow * Layer, 100);
+                HOperatorSet.WriteString(HWC_Display.HalconWindow, $"涂布平均灰度: {PluginParams.CoatingMeanGray}[Count:{PluginParams.CoatingMeanGray_Count}/{PluginParams.CoatingMeanGray_Num}]");
+
+
+                string[] ngInfos = PluginParams.NgString.Split('|');
+                if (ngInfos?.Length > 0)
+                {
+                    for (int i = 0; i < ngInfos.Length; i++)
+                    {
+                        Layer += (i + 1);
+                        currentShowRow = step * (Layer);
+                        HOperatorSet.SetTposition(HWC_Display.HalconWindow, currentShowRow, 100);
+                        HOperatorSet.WriteString(HWC_Display.HalconWindow, ngInfos[i]);
+                    }
+                }
+
+
 
                 hWndCtrl_Init_Display.addIconicVar(PluginParams.ho_Image);
                 hWndCtrl_Init_Display.resetAll();
@@ -341,11 +403,11 @@ namespace Plugin.MQDefects
             }
             catch (Exception ex)
             {
-                 Log4netRecord.ErrorLog.Fatal(ex.Message);
+                Log4netRecord.ErrorLog.Fatal(ex.Message);
             }
             finally
             {
-                
+
             }
         }
 
@@ -375,7 +437,7 @@ namespace Plugin.MQDefects
                     //取得当前方法类全名 包括命名空间    
                     var str = string.Format("类{0}  中的  {1}方法错误：", System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.FullName,
                         System.Reflection.MethodBase.GetCurrentMethod().Name);
-                     Log4netRecord.ErrorLog.Fatal(str + ex.Message);
+                    Log4netRecord.ErrorLog.Fatal(str + ex.Message);
                     System.Windows.Forms.MessageBox.Show(ex.Message);
                 }
             }
@@ -459,7 +521,7 @@ namespace Plugin.MQDefects
                         hWndCtrl_Display.resetAll();
                         hWndCtrl_Display.repaint();
                     }
-            
+
                     intList.Add(9);
                     int[] indices = intList.ToArray();
                     //只显示指定选项卡
@@ -530,7 +592,7 @@ namespace Plugin.MQDefects
             }
             catch (Exception ex)
             {
-                 Log4netRecord.ErrorLog.Fatal(ex.Message);
+                Log4netRecord.ErrorLog.Fatal(ex.Message);
                 System.Windows.Forms.MessageBox.Show(ex.Message);
             }
         }
@@ -613,13 +675,13 @@ namespace Plugin.MQDefects
                 hWndCtrl_Display.resetAll();
                 hWndCtrl_Display.repaint();
             }
-            catch (Exception  ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                
+
             }
 
-            
+
         }
 
 
@@ -632,14 +694,14 @@ namespace Plugin.MQDefects
         {
             //模板截图
             HObject ModelImage = null;
-            HOperatorSet.GenEmptyObj(out  ModelImage);
+            HOperatorSet.GenEmptyObj(out ModelImage);
             //模板区域
             HObject ModelRegion = null;
             HOperatorSet.GenEmptyObj(out ModelRegion);
             HObject ModelXld;
             HOperatorSet.GenEmptyObj(out ModelXld);
 
-            HTuple Model=new HTuple();
+            HTuple Model = new HTuple();
             try
             {
                 GetRoiParams(roiRectangle2, PluginParams);
@@ -656,7 +718,7 @@ namespace Plugin.MQDefects
 
                 PluginParams.Model = Model;
                 HOperatorSet.GetShapeModelContours(out PluginParams.ModelContours, Model, 1);
-                HOperatorSet.SetShapeModelParam(PluginParams.Model, "timeout", PluginParams.num_TimeOut*10);
+                HOperatorSet.SetShapeModelParam(PluginParams.Model, "timeout", PluginParams.num_TimeOut * 10);
                 var isok = CoatingDefectsAlog.FindShapeModel(PluginParams.ho_Image, PluginParams, Model,
                     PluginParams.ModelContours, out ModelXld);
                 PluginParams.ModleXld = ModelXld.CopyObj(1, 1);
@@ -670,7 +732,7 @@ namespace Plugin.MQDefects
                 HOperatorSet.SetColor(HWC_Display.HalconWindow, "green");
                 HOperatorSet.DispObj(PluginParams.ModleXld, HWC_Display.HalconWindow);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
 
@@ -727,7 +789,7 @@ namespace Plugin.MQDefects
             {
                 MessageBox.Show(ex.Message);
             }
-            
+
         }
 
         private void but_SaveModel_Click(object sender, EventArgs e)
@@ -737,7 +799,7 @@ namespace Plugin.MQDefects
                 string directoryPath = Path.GetDirectoryName(Project.Instance.paramPathSet.ProcessPath);
                 string ProcessPath = Path.Combine(directoryPath + "\\Model\\", pluginsObjBase.moduleInfo.ProcessName);
 
-                string modelFilePath = Path.Combine(ProcessPath, pluginsObjBase.moduleInfo.ModuleName+ ".sbm");
+                string modelFilePath = Path.Combine(ProcessPath, pluginsObjBase.moduleInfo.ModuleName + ".sbm");
                 CommonApproach.DetectIsExist(modelFilePath);
                 HOperatorSet.WriteShapeModel(PluginParams.Model, modelFilePath);
                 HOperatorSet.GetShapeModelContours(out PluginParams.ModelContours, PluginParams.Model, 1);
@@ -746,7 +808,7 @@ namespace Plugin.MQDefects
             {
                 MessageBox.Show(ex.Message);
             }
-           
+
 
         }
 
@@ -754,7 +816,5 @@ namespace Plugin.MQDefects
         {
 
         }
-
-       
     }
 }

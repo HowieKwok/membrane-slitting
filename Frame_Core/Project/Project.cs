@@ -1,17 +1,9 @@
 ﻿using LogTool;
 
-using NPOI.SS.Formula.Functions;
-
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows.Forms;
-using System.Windows.Media.Media3D;
-
-using static NPOI.SS.Formula.PTG.ArrayPtg;
 
 namespace Frame_Core
 {
@@ -310,6 +302,8 @@ namespace Frame_Core
                     }
                 }
 
+                //初始化点检功能
+                PointInspectionWorks.InitPointInspectionFunction(cameraManager);
 
                 //加载光源参数
                 lightManager = new LightManager[lightNum];
@@ -408,8 +402,11 @@ namespace Frame_Core
                 cameraManager[cameraEnum].InitMsaCircleParam(paramPathSet.MsaCircleParamPath + $"{cameraEnum}");
                 cameraManager[cameraEnum].InitMsaLineWidthParam(paramPathSet.MsaLineWidthParamPath + $"{cameraEnum}");
                 cameraManager[cameraEnum].InitMsa3DThickDetect(paramPathSet.Msa3DThickParamPath + $"{cameraEnum}");
-                cameraManager[cameraEnum].m_SizeCheckPointManage.InitCamSizeCheckPointParam(paramPathSet.CheckDJParamPath + $"{cameraEnum}");
-
+              
+                cameraManager[cameraEnum].InitParam_GrayScaleAdaptationParameter(paramPathSet.GrayScaleAdaptationParamPath + $"{cameraEnum}");
+                cameraManager[cameraEnum].m_SizePointInspectionManage.InitParam(paramPathSet.CamSizePointInspectionParamPathName + $"{cameraEnum}");
+                cameraManager[cameraEnum].m_DefectPointInspectionManage.InitParam(paramPathSet.CamDefectPointInspectionParamPathName + $"{cameraEnum}");
+                cameraManager[cameraEnum].InitParam_PointInspectionStateParameter(paramPathSet.CamPointInspectionStateParamPathName + $"{cameraEnum}");
             }
 
             return true;
@@ -572,6 +569,8 @@ namespace Frame_Core
                     Directory.CreateDirectory(strPath);
 
                 TJBJInfo.TJBJInfoPath = strPath + "CCD停机报警信息记录.ini";
+
+                LogWorks.SetGrayScaleAdaptationLoggPath(strPath + "GrayLog");
 
                 //重开膜卷初始化打标软件参数和信息路径
                 //dbjCardManager.ReadLogPath = strPath + "打标软件接收记录-接收MarkingSoftwareReceiveRecord.ini";

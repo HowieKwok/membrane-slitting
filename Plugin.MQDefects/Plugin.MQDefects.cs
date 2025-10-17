@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.IO;
 using System.Reflection;
+using static System.Windows.Forms.AxHost;
 
 namespace Plugin.MQDefects
 {
@@ -26,11 +27,11 @@ namespace Plugin.MQDefects
         /// <summary>
         /// 模块信息
         /// </summary>
-        public ModuleInfo moduleInfo { get; set; } = new ModuleInfo();
+        public ModuleInfo moduleInfo { get; set; }=new ModuleInfo();
         /// <summary>
         /// 视觉设置参数
         /// </summary>
-        public PluginParamsBase PluginParams { get; set; } = new ParamsMQDefects();
+        public PluginParamsBase PluginParams { get ; set  ; }=new ParamsMQDefects();
 
 
         public bool isExistModel = true;
@@ -47,7 +48,7 @@ namespace Plugin.MQDefects
 
 
 
-
+        
 
 
         /// <summary>
@@ -68,7 +69,7 @@ namespace Plugin.MQDefects
                     info.m_hRegion?.Dispose();
                 }
                 paramsMQDefects.detectInfos.Clear();
-
+                
                 object[] inputs = new object[2];
 
                 object[] outputs = null;
@@ -77,19 +78,19 @@ namespace Plugin.MQDefects
                 HOperatorSet.GenEmptyObj(out ShieldROI);
                 HObject DetectionROI;
                 HOperatorSet.GenEmptyObj(out DetectionROI);
-
+               
                 if (paramsMQDefects.cb_Enable_SimulationRegion)
                 {
-                    HOperatorSet.GenRectangle1(out DetectionROI,
+                    HOperatorSet.GenRectangle1(out  DetectionROI,
                         paramsMQDefects.Detection_Left_UP_Y, paramsMQDefects.Detection_Left_UP_X,
                         paramsMQDefects.Detection_Right_Down_Y, paramsMQDefects.Detection_Right_Down_X);
-                    paramsMQDefects.DetectionROI = DetectionROI;
+                    paramsMQDefects.DetectionROI= DetectionROI;
                     paramsMQDefects.ShieldROI = ShieldROI;
                 }
                 else
                 {
                     //对检测区域与屏蔽区域赋值
-                    DetectionROI = paramsMQDefects.DetectionROI;
+                    DetectionROI= paramsMQDefects.DetectionROI;
                     ShieldROI = paramsMQDefects.ShieldROI;
                 }
 
@@ -101,7 +102,7 @@ namespace Plugin.MQDefects
 
                 return true;
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 Log4netRecord.ErrorLog.Fatal(moduleInfo.ModuleName + ex.Message);
                 return false;
@@ -111,7 +112,7 @@ namespace Plugin.MQDefects
 
 
             }
-
+            
         }
 
         /// <summary>
@@ -132,26 +133,27 @@ namespace Plugin.MQDefects
                     if (!isInitModel)
                     {
                         string path = Application.StartupPath + "\\AIModel\\";
+                        path += "model.onnx";
+                        ////极性选择 0表示阴极 / 正极 1表示阳极 / 负极
+                        //if (paramsMQDefects.com_Cathode == 0)
+                        //{
+                        //    path += "正极\\model.onnx";
+                        //}
+                        //else
+                        //{
+                        //    path += "负极\\model.onnx";
 
-                        //极性选择 0表示阴极 / 正极 1表示阳极 / 负极
-                        if (paramsMQDefects.com_Cathode == 0)
-                        {
-                            path += "正极\\model.onnx";
-                        }
-                        else
-                        {
-                            path += "负极\\model.onnx";
-
-                        }
-                        ClassDefect.init(path);
-
+                        //}
+                        int stat = ClassDefect.init(path);
+                        if (stat == 0) paramsMQDefects.InitClassifierfinish = true;
+                        else paramsMQDefects.InitClassifierfinish = false;
                     }
                 }
-
+               
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show("模型初始化失败，禁止启用软件！————\n" + ex.Message);
+                //System.Windows.Forms.MessageBox.Show(ex.Message);
             }
             finally
             {
@@ -183,13 +185,13 @@ namespace Plugin.MQDefects
                 else
                 {
 
-                }
+                }         
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
 
             }
-
+           
         }
 
 
@@ -203,7 +205,7 @@ namespace Plugin.MQDefects
         /// <exception cref="NotImplementedException"></exception>
         public void GetResultParams(string varName, object obj)
         {
-
+           
         }
         /// <summary>
         /// 保存参数
@@ -226,7 +228,7 @@ namespace Plugin.MQDefects
         /// <exception cref="NotImplementedException"></exception>
         public void SetParams(PluginParamsBase param)
         {
-            this.PluginParams = param;
+          this.PluginParams = param;
         }
 
 
@@ -236,7 +238,7 @@ namespace Plugin.MQDefects
         /// </summary>
         public MQDefectsObj()
         {
-
+            
         }
 
         public void IniObj()

@@ -44,7 +44,19 @@ namespace Frame_Core
 
                 string currentUser = LanguageSwitch.ToUserLanguageg(userManage.userData.CurrentUser, UserLanguageg.中文);
                 string currentUserID = userManage.userData.CurrentUserID;
-                UserType userType = LanguageSwitch.ToUserType(userTypeStr);
+                //UserType userType = LanguageSwitch.ToUserType(userTypeStr);
+
+                UserType userType = UserType.Operator;
+                var userTypeEnum = LanguageProject.MatchStringToEnum<UserType>(userTypeStr);
+                if (userTypeEnum != null)
+                {
+                    userType = userTypeEnum ?? UserType.Operator;
+                }
+                else
+                {
+                    System.Windows.Forms.MessageBox.Show("用户类型转换错误！");
+                    return;
+                }
 
                 if (string.IsNullOrEmpty(userTypeStr))
                 {
@@ -170,16 +182,16 @@ namespace Frame_Core
                     cmbUserType.Items.Add(strOperator);
                     cmbUserType.Items.Add(strTechnician);
                     cmbUserType.Items.Add(strEngineer);
-                    //cmbUserType.Items.Add(UserName.AdminCN);
-                }
-                else
-                {
-                    cmbUserType.Items.Add(strOperator);
-                    cmbUserType.Items.Add(strTechnician);
-                    cmbUserType.Items.Add(strEngineer);
                     cmbUserType.Items.Add(strAdmin);
-                    cmbUserType.Items.Add(strSupervisor);
                 }
+                //else
+                //{
+                //    cmbUserType.Items.Add(strOperator);
+                //    cmbUserType.Items.Add(strTechnician);
+                //    cmbUserType.Items.Add(strEngineer);
+                //    cmbUserType.Items.Add(strAdmin);
+                //    cmbUserType.Items.Add(strSupervisor);
+                //}
                 if (cmbUserType.Items.Count > 0)
                 {
                     cmbUserType.SelectedIndex = 0;

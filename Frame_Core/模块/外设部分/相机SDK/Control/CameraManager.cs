@@ -61,11 +61,6 @@ namespace Frame_Core
 
 
         /// <summary>
-        /// 点检管理
-        /// </summary>
-        public SizeCheckPointManage m_SizeCheckPointManage = new SizeCheckPointManage();
-
-        /// <summary>
         /// Mark设置参数
         /// </summary>
         public Param_MarkSet param_MarkSet = new Param_MarkSet();
@@ -97,9 +92,26 @@ namespace Frame_Core
         public Param_MsaLineWidth param_MsaLineWidth = new Param_MsaLineWidth();
 
         /// <summary>
-        /// 尺寸点检参数
+        /// 灰度自适应参数
         /// </summary>
-        public SizeCheckPointParam sizeCheckPointParam;
+        public GrayScaleAdaptationParameter m_GrayScaleAdaptationParameter = new GrayScaleAdaptationParameter();
+
+
+        /// <summary>
+        /// 尺寸点检管理
+        /// </summary>
+        public SizePointInspectionManage m_SizePointInspectionManage = new SizePointInspectionManage();
+
+        /// <summary>
+        /// 缺陷检测管理
+        /// </summary>
+        public DefectPointInspectionManage m_DefectPointInspectionManage = new DefectPointInspectionManage();
+
+        /// <summary>
+        /// 点检状态参数
+        /// </summary>
+        public PointInspectionStateParam m_PointInspectionStateParam = new PointInspectionStateParam();
+
 
         /// <summary>
         /// 尺寸点检算法
@@ -226,31 +238,6 @@ namespace Frame_Core
             return true;
         }
 
-
-
-        /// <summary>
-        /// 初始化相机点检参数
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        public bool InitCamSizeCheckPointParam(string path)
-        {
-
-            try
-            {
-                if (sizeCheckPointParam == null) sizeCheckPointParam = new SizeCheckPointParam();
-                sizeCheckPointParam.filePath = path;
-                sizeCheckPointParam = (SizeCheckPointParam)sizeCheckPointParam.Read();
-                sizeCheckPointParam.filePath = path;
-
-            }
-            catch (Exception ex)
-            {
-                Log4netRecord.ErrorLog.Debug(ex);
-                return false;
-            }
-            return true;
-        }
 
         ///// <summary>
         ///// 初始化图片保存参数
@@ -471,8 +458,48 @@ namespace Frame_Core
 
         }
 
+        /// <summary>
+        /// 初始化参数
+        /// </summary>
+        /// <returns></returns>
+        public bool InitParam_GrayScaleAdaptationParameter(string path)
+        {
+            try
+            {
+                if (m_GrayScaleAdaptationParameter == null) m_GrayScaleAdaptationParameter = new GrayScaleAdaptationParameter();
+                m_GrayScaleAdaptationParameter.filePath = path;
+                m_GrayScaleAdaptationParameter = (GrayScaleAdaptationParameter)m_GrayScaleAdaptationParameter.Read();
+                m_GrayScaleAdaptationParameter.filePath = path;
 
+            }
+            catch (Exception ex)
+            {
+                Log4netRecord.ErrorLog.Debug(ex);
+                return false;
+            }
+            return true;
+        }
+        /// <summary>
+        /// 初始化参数
+        /// </summary>
+        /// <returns></returns>
+        public bool InitParam_PointInspectionStateParameter(string path)
+        {
+            try
+            {
+                if (m_PointInspectionStateParam == null) m_PointInspectionStateParam = new PointInspectionStateParam();
+                m_PointInspectionStateParam.filePath = path;
+                m_PointInspectionStateParam = (PointInspectionStateParam)m_PointInspectionStateParam.Read();
+                m_PointInspectionStateParam.filePath = path;
 
+            }
+            catch (Exception ex)
+            {
+                Log4netRecord.ErrorLog.Debug(ex);
+                return false;
+            }
+            return true;
+        }
         /// <summary>
         /// 初始MSA3D测厚参数
         /// </summary>

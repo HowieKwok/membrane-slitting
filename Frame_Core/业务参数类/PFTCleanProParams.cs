@@ -201,16 +201,16 @@ namespace Frame_Core
             nCurEAProId = 0;
             nCurShowEAProId = 0;
             base.Dispose();
-            int ct = semaphoreSlimCam.CurrentCount;
-            for (int i = 0; i < ct; i++)
-            {
-                semaphoreSlimCam.Wait();
-            }
-            int ct1 = semaphoreSlim.CurrentCount;
-            for (int i = 0; i < ct1; i++)
-            {
-                semaphoreSlimCam.Wait();
-            }
+         //   int ct = semaphoreSlimCam.CurrentCount;
+            //for (int i = 0; i < ct; i++)
+            //{
+            //    semaphoreSlimCam.Wait();
+            //}
+            //int ct1 = semaphoreSlim.CurrentCount;
+            //for (int i = 0; i < ct1; i++)
+            //{
+            //    semaphoreSlimCam.Wait();
+            //}
 
             foreach (var item in imageInfos)
             {

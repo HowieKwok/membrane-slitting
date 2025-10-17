@@ -29,7 +29,7 @@ namespace Frame_Core
                 cmbUserType.Items.Add(LanguageSwitch.ToUserLanguageg(UserType.Technician, UserLanguageg.中文));//技术员
                 cmbUserType.Items.Add(LanguageSwitch.ToUserLanguageg(UserType.Engineer, UserLanguageg.中文));//工程师
                 cmbUserType.Items.Add(LanguageSwitch.ToUserLanguageg(UserType.Admin, UserLanguageg.中文));//管理员
-                cmbUserType.Items.Add(LanguageSwitch.ToUserLanguageg(UserType.Supervisor, UserLanguageg.中文));//超级管理员
+                //cmbUserType.Items.Add(LanguageSwitch.ToUserLanguageg(UserType.Supervisor, UserLanguageg.中文));//超级管理员
                 cmbUserType.SelectedIndex = 0;
             }
             catch (Exception)
@@ -92,7 +92,19 @@ namespace Frame_Core
                     System.Windows.Forms.MessageBox.Show("请选择用户类型！");
                     return;
                 }
-                UserType userType = LanguageSwitch.ToUserType(userTypeStr);
+
+                UserType userType = UserType.Operator;
+                var userTypeEnum = LanguageProject.MatchStringToEnum<UserType>(cmbUserType.SelectedItem.ToString());
+                if (userTypeEnum != null)
+                {
+                    userType = userTypeEnum ?? UserType.Operator;
+                }
+                else
+                {
+                    System.Windows.Forms.MessageBox.Show("用户类型转换错误！");
+                    return;
+                }
+
                 UserCtrlStatus userCtrlStatus = userManage.UserLogin(userType, userId, pwd);
 
 

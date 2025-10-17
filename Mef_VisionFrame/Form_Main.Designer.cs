@@ -74,8 +74,10 @@
             this.mSA线宽设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mSA棋盘格线宽设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mSA3D测厚ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.灰度自适应ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.数据分析ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.生产统计ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.数据查询ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.语言ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chineseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.englishToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -84,7 +86,7 @@
             this.timer_StatusBarUpdate = new System.Windows.Forms.Timer(this.components);
             this.timer_DataShow = new System.Windows.Forms.Timer(this.components);
             this.timer_SimLoadImage = new System.Windows.Forms.Timer(this.components);
-            this.数据查询ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.timer_DJ = new System.Windows.Forms.Timer(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -245,35 +247,36 @@
             // 保存设置ToolStripMenuItem
             // 
             this.保存设置ToolStripMenuItem.Name = "保存设置ToolStripMenuItem";
-            this.保存设置ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.保存设置ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.保存设置ToolStripMenuItem.Text = "保存设置";
             this.保存设置ToolStripMenuItem.Click += new System.EventHandler(this.保存设置ToolStripMenuItem_Click);
             // 
             // 仿真设置ToolStripMenuItem
             // 
             this.仿真设置ToolStripMenuItem.Name = "仿真设置ToolStripMenuItem";
-            this.仿真设置ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.仿真设置ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.仿真设置ToolStripMenuItem.Text = "仿真设置";
             this.仿真设置ToolStripMenuItem.Click += new System.EventHandler(this.仿真设置ToolStripMenuItem_Click);
             // 
             // 磁盘设置ToolStripMenuItem
             // 
             this.磁盘设置ToolStripMenuItem.Name = "磁盘设置ToolStripMenuItem";
-            this.磁盘设置ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.磁盘设置ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.磁盘设置ToolStripMenuItem.Text = "磁盘设置";
             this.磁盘设置ToolStripMenuItem.Click += new System.EventHandler(this.磁盘设置ToolStripMenuItem_Click);
             // 
             // 基础设置ToolStripMenuItem
             // 
             this.基础设置ToolStripMenuItem.Name = "基础设置ToolStripMenuItem";
-            this.基础设置ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.基础设置ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.基础设置ToolStripMenuItem.Text = "基础设置";
+            this.基础设置ToolStripMenuItem.Visible = false;
             this.基础设置ToolStripMenuItem.Click += new System.EventHandler(this.基础设置ToolStripMenuItem_Click);
             // 
             // 图片管理ToolStripMenuItem
             // 
             this.图片管理ToolStripMenuItem.Name = "图片管理ToolStripMenuItem";
-            this.图片管理ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.图片管理ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.图片管理ToolStripMenuItem.Text = "图片管理";
             this.图片管理ToolStripMenuItem.Click += new System.EventHandler(this.图片管理ToolStripMenuItem_Click);
             // 
@@ -407,7 +410,8 @@
             this.mSA圆点设置ToolStripMenuItem,
             this.mSA线宽设置ToolStripMenuItem,
             this.mSA棋盘格线宽设置ToolStripMenuItem,
-            this.mSA3D测厚ToolStripMenuItem});
+            this.mSA3D测厚ToolStripMenuItem,
+            this.灰度自适应ToolStripMenuItem});
             this.点检校验ToolStripMenuItem.Name = "点检校验ToolStripMenuItem";
             this.点检校验ToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
             this.点检校验ToolStripMenuItem.Text = "点检校验";
@@ -431,7 +435,7 @@
             // 
             this.尺寸点检ToolStripMenuItem.Name = "尺寸点检ToolStripMenuItem";
             this.尺寸点检ToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
-            this.尺寸点检ToolStripMenuItem.Text = "尺寸点检";
+            this.尺寸点检ToolStripMenuItem.Text = "点检";
             this.尺寸点检ToolStripMenuItem.Visible = false;
             this.尺寸点检ToolStripMenuItem.Click += new System.EventHandler(this.尺寸点检ToolStripMenuItem_Click);
             // 
@@ -470,6 +474,13 @@
             this.mSA3D测厚ToolStripMenuItem.Text = "MSA3D测厚";
             this.mSA3D测厚ToolStripMenuItem.Click += new System.EventHandler(this.mSA3D测厚ToolStripMenuItem_Click);
             // 
+            // 灰度自适应ToolStripMenuItem
+            // 
+            this.灰度自适应ToolStripMenuItem.Name = "灰度自适应ToolStripMenuItem";
+            this.灰度自适应ToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.灰度自适应ToolStripMenuItem.Text = "灰度自适应";
+            this.灰度自适应ToolStripMenuItem.Click += new System.EventHandler(this.灰度自适应ToolStripMenuItem_Click);
+            // 
             // 数据分析ToolStripMenuItem
             // 
             this.数据分析ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -483,9 +494,16 @@
             // 生产统计ToolStripMenuItem
             // 
             this.生产统计ToolStripMenuItem.Name = "生产统计ToolStripMenuItem";
-            this.生产统计ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.生产统计ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.生产统计ToolStripMenuItem.Text = "生产统计";
             this.生产统计ToolStripMenuItem.Click += new System.EventHandler(this.生产统计ToolStripMenuItem_Click);
+            // 
+            // 数据查询ToolStripMenuItem
+            // 
+            this.数据查询ToolStripMenuItem.Name = "数据查询ToolStripMenuItem";
+            this.数据查询ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.数据查询ToolStripMenuItem.Text = "数据查询";
+            this.数据查询ToolStripMenuItem.Click += new System.EventHandler(this.数据查询ToolStripMenuItem_Click);
             // 
             // 语言ToolStripMenuItem
             // 
@@ -531,7 +549,7 @@
             // timer_StatusBarUpdate
             // 
             this.timer_StatusBarUpdate.Enabled = true;
-            this.timer_StatusBarUpdate.Interval = 200;
+            this.timer_StatusBarUpdate.Interval = 500;
             this.timer_StatusBarUpdate.Tick += new System.EventHandler(this.timer_StatusBarUpdate_Tick);
             // 
             // timer_DataShow
@@ -546,12 +564,11 @@
             this.timer_SimLoadImage.Interval = 500;
             this.timer_SimLoadImage.Tick += new System.EventHandler(this.timer_SimLoadImage_Tick);
             // 
-            // 数据查询ToolStripMenuItem
+            // timer_DJ
             // 
-            this.数据查询ToolStripMenuItem.Name = "数据查询ToolStripMenuItem";
-            this.数据查询ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.数据查询ToolStripMenuItem.Text = "数据查询";
-            this.数据查询ToolStripMenuItem.Click += new System.EventHandler(this.数据查询ToolStripMenuItem_Click);
+            this.timer_DJ.Enabled = true;
+            this.timer_DJ.Interval = 60000;
+            this.timer_DJ.Tick += new System.EventHandler(this.timer_DJ_Tick);
             // 
             // Form_Main
             // 
@@ -634,6 +651,8 @@
         private System.Windows.Forms.ToolStripMenuItem 主副机通讯ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 图片管理ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 数据查询ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 灰度自适应ToolStripMenuItem;
+        private System.Windows.Forms.Timer timer_DJ;
     }
 }
 

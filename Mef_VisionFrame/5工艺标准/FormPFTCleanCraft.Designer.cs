@@ -57,6 +57,7 @@
             this.Btn_ReDefault = new System.Windows.Forms.Button();
             this.button_RebuildTDMDis = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.checkBox_CurCamIsLeft = new System.Windows.Forms.CheckBox();
             this.CB_ShowByCam = new System.Windows.Forms.CheckBox();
             this.comb_SelectCam = new System.Windows.Forms.ComboBox();
             this.label31 = new System.Windows.Forms.Label();
@@ -82,6 +83,8 @@
             this.nud_EXCam2Col = new System.Windows.Forms.NumericUpDown();
             this.label21 = new System.Windows.Forms.Label();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.nud_BackCoatSizeMD = new System.Windows.Forms.NumericUpDown();
+            this.label10 = new System.Windows.Forms.Label();
             this.nud_SlotSizeTD = new System.Windows.Forms.NumericUpDown();
             this.label28 = new System.Windows.Forms.Label();
             this.nud_SlotSizeMD = new System.Windows.Forms.NumericUpDown();
@@ -166,6 +169,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_EXCam1Col)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_EXCam2Col)).BeginInit();
             this.groupBox7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_BackCoatSizeMD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_SlotSizeTD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_SlotSizeMD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_PerSlotCount)).BeginInit();
@@ -502,6 +506,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.checkBox_CurCamIsLeft);
             this.groupBox2.Controls.Add(this.CB_ShowByCam);
             this.groupBox2.Controls.Add(this.comb_SelectCam);
             this.groupBox2.Controls.Add(this.label31);
@@ -522,12 +527,22 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "基础设置";
             // 
+            // checkBox_CurCamIsLeft
+            // 
+            this.checkBox_CurCamIsLeft.AutoSize = true;
+            this.checkBox_CurCamIsLeft.Location = new System.Drawing.Point(31, 213);
+            this.checkBox_CurCamIsLeft.Name = "checkBox_CurCamIsLeft";
+            this.checkBox_CurCamIsLeft.Size = new System.Drawing.Size(141, 25);
+            this.checkBox_CurCamIsLeft.TabIndex = 361;
+            this.checkBox_CurCamIsLeft.Text = "当前为左侧相机";
+            this.checkBox_CurCamIsLeft.UseVisualStyleBackColor = true;
+            // 
             // CB_ShowByCam
             // 
             this.CB_ShowByCam.AutoSize = true;
             this.CB_ShowByCam.Checked = true;
             this.CB_ShowByCam.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CB_ShowByCam.Location = new System.Drawing.Point(30, 237);
+            this.CB_ShowByCam.Location = new System.Drawing.Point(30, 259);
             this.CB_ShowByCam.Name = "CB_ShowByCam";
             this.CB_ShowByCam.Size = new System.Drawing.Size(141, 25);
             this.CB_ShowByCam.TabIndex = 363;
@@ -836,6 +851,8 @@
             // groupBox7
             // 
             this.tableLayoutPanel3.SetColumnSpan(this.groupBox7, 3);
+            this.groupBox7.Controls.Add(this.nud_BackCoatSizeMD);
+            this.groupBox7.Controls.Add(this.label10);
             this.groupBox7.Controls.Add(this.nud_SlotSizeTD);
             this.groupBox7.Controls.Add(this.label28);
             this.groupBox7.Controls.Add(this.nud_SlotSizeMD);
@@ -865,6 +882,29 @@
             this.groupBox7.TabIndex = 327;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "标准极片(单位mm)";
+            // 
+            // nud_BackCoatSizeMD
+            // 
+            this.nud_BackCoatSizeMD.DecimalPlaces = 2;
+            this.nud_BackCoatSizeMD.Location = new System.Drawing.Point(782, 159);
+            this.nud_BackCoatSizeMD.Maximum = new decimal(new int[] {
+            99999999,
+            0,
+            0,
+            0});
+            this.nud_BackCoatSizeMD.Name = "nud_BackCoatSizeMD";
+            this.nud_BackCoatSizeMD.Size = new System.Drawing.Size(107, 29);
+            this.nud_BackCoatSizeMD.TabIndex = 362;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label10.Location = new System.Drawing.Point(640, 161);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(134, 21);
+            this.label10.TabIndex = 361;
+            this.label10.Text = "反面涂布尺寸MD";
             // 
             // nud_SlotSizeTD
             // 
@@ -937,8 +977,7 @@
             // nud_LeftFoilSizeTD
             // 
             this.nud_LeftFoilSizeTD.DecimalPlaces = 2;
-            this.nud_LeftFoilSizeTD.Enabled = false;
-            this.nud_LeftFoilSizeTD.Location = new System.Drawing.Point(531, 177);
+            this.nud_LeftFoilSizeTD.Location = new System.Drawing.Point(499, 195);
             this.nud_LeftFoilSizeTD.Maximum = new decimal(new int[] {
             99999999,
             0,
@@ -952,7 +991,7 @@
             // 
             this.label19.AutoSize = true;
             this.label19.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label19.Location = new System.Drawing.Point(392, 181);
+            this.label19.Location = new System.Drawing.Point(360, 199);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(111, 21);
             this.label19.TabIndex = 353;
@@ -961,8 +1000,7 @@
             // nud_RightFoilSizeTD
             // 
             this.nud_RightFoilSizeTD.DecimalPlaces = 2;
-            this.nud_RightFoilSizeTD.Enabled = false;
-            this.nud_RightFoilSizeTD.Location = new System.Drawing.Point(532, 216);
+            this.nud_RightFoilSizeTD.Location = new System.Drawing.Point(500, 234);
             this.nud_RightFoilSizeTD.Maximum = new decimal(new int[] {
             99999999,
             0,
@@ -976,7 +1014,7 @@
             // 
             this.label20.AutoSize = true;
             this.label20.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label20.Location = new System.Drawing.Point(392, 221);
+            this.label20.Location = new System.Drawing.Point(360, 239);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(118, 21);
             this.label20.TabIndex = 351;
@@ -1018,7 +1056,7 @@
             // 
             this.nud_CoatSizeTD.DecimalPlaces = 2;
             this.nud_CoatSizeTD.Enabled = false;
-            this.nud_CoatSizeTD.Location = new System.Drawing.Point(533, 99);
+            this.nud_CoatSizeTD.Location = new System.Drawing.Point(501, 117);
             this.nud_CoatSizeTD.Maximum = new decimal(new int[] {
             99999999,
             0,
@@ -1032,7 +1070,7 @@
             // 
             this.label12.AutoSize = true;
             this.label12.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label12.Location = new System.Drawing.Point(392, 103);
+            this.label12.Location = new System.Drawing.Point(360, 121);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(95, 21);
             this.label12.TabIndex = 330;
@@ -1041,7 +1079,7 @@
             // nud_EASizeMD
             // 
             this.nud_EASizeMD.DecimalPlaces = 2;
-            this.nud_EASizeMD.Location = new System.Drawing.Point(533, 60);
+            this.nud_EASizeMD.Location = new System.Drawing.Point(501, 78);
             this.nud_EASizeMD.Maximum = new decimal(new int[] {
             99999999,
             0,
@@ -1055,7 +1093,7 @@
             // 
             this.label59.AutoSize = true;
             this.label59.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label59.Location = new System.Drawing.Point(392, 64);
+            this.label59.Location = new System.Drawing.Point(360, 82);
             this.label59.Name = "label59";
             this.label59.Size = new System.Drawing.Size(122, 21);
             this.label59.TabIndex = 322;
@@ -1064,7 +1102,7 @@
             // nud_CoatSizeMD
             // 
             this.nud_CoatSizeMD.DecimalPlaces = 2;
-            this.nud_CoatSizeMD.Location = new System.Drawing.Point(534, 138);
+            this.nud_CoatSizeMD.Location = new System.Drawing.Point(502, 156);
             this.nud_CoatSizeMD.Maximum = new decimal(new int[] {
             99999999,
             0,
@@ -1078,7 +1116,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label5.Location = new System.Drawing.Point(392, 25);
+            this.label5.Location = new System.Drawing.Point(360, 43);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(115, 21);
             this.label5.TabIndex = 315;
@@ -1088,17 +1126,17 @@
             // 
             this.label22.AutoSize = true;
             this.label22.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label22.Location = new System.Drawing.Point(392, 143);
+            this.label22.Location = new System.Drawing.Point(360, 161);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(102, 21);
+            this.label22.Size = new System.Drawing.Size(134, 21);
             this.label22.TabIndex = 314;
-            this.label22.Text = "涂布尺寸MD";
+            this.label22.Text = "正面涂布尺寸MD";
             // 
             // nud_EASizeTD
             // 
             this.nud_EASizeTD.DecimalPlaces = 2;
             this.nud_EASizeTD.Enabled = false;
-            this.nud_EASizeTD.Location = new System.Drawing.Point(533, 21);
+            this.nud_EASizeTD.Location = new System.Drawing.Point(501, 39);
             this.nud_EASizeTD.Maximum = new decimal(new int[] {
             99999999,
             0,
@@ -1718,6 +1756,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_EXCam2Col)).EndInit();
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_BackCoatSizeMD)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_SlotSizeTD)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_SlotSizeMD)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_PerSlotCount)).EndInit();
@@ -1883,5 +1922,8 @@
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.NumericUpDown nud_SlotSizeMD;
         private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.CheckBox checkBox_CurCamIsLeft;
+        private System.Windows.Forms.NumericUpDown nud_BackCoatSizeMD;
+        private System.Windows.Forms.Label label10;
     }
 }

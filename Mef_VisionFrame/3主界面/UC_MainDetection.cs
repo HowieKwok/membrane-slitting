@@ -413,11 +413,17 @@ namespace Mef_VisionFrame
                     //相机回调计数清零
                     foreach (var item in Project.Instance.cameraManager)
                     {
+                        //相机回调计数清零
                         item.Value.Camera.GrabCount = 0;
+
+                        //实时点检初始化
+                        item.Value.m_SizePointInspectionManage.sizePointInspectionParam.sizePointInspectionWorkParam.ResetStartDJ();
                     }
                     // Project.Instance.m_SlaveMachine.Remo.SendMsg("FJ_Start_MJ", "副机开始膜卷");
 
                     StartMojuanEvent?.Invoke(Str_Mojuan);
+
+                    UIDelegate.LightParamChange();
                 }
             }
             catch (Exception ex)
@@ -542,7 +548,16 @@ namespace Mef_VisionFrame
                     System.Windows.Forms.MessageBox.Show("主设备运行中，CCD禁止暂停");
                     return false;
                 }
+                if(Project.Instance.slaveMachineManager.initState)
+                {
+                    if (((SlaveMachineParam)Project.Instance.slaveMachineManager.tcpClientParam).RunningFlag == 1)
+                    {
+                        System.Windows.Forms.MessageBox.Show("主软件运行中，CCD禁止暂停");
+                        return false;
+                    }
+                }
 
+             
 
                 if (Project.Instance.systemInfo.IsHostMachine)
                 {

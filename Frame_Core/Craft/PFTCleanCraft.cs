@@ -42,7 +42,13 @@ namespace Frame_Core
         /// 涂布尺寸MD
         /// </summary>
         [Description("涂布尺寸MD")]
-        public double CoatSizeMD { get; set; } = 100;
+        public double FrontCoatSizeMD { get; set; } = 100;
+
+        /// <summary>
+        /// 涂布尺寸MD
+        /// </summary>
+        [Description("涂布尺寸MD")]
+        public double BackCoatSizeMD { get; set; } = 100;
 
         /// <summary>
         /// 左留白尺寸TD
@@ -104,6 +110,13 @@ namespace Frame_Core
         public bool MaterialType { get; set; } = false;
 
         /// <summary>
+        /// 常规料(F)/CTP料(T)
+        /// </summary>
+        [Description("常规料(F)/CTP料(T)")]
+        public bool CurCamIsLeft { get; set; } = false;
+
+
+        /// <summary>
         /// 打孔区尺寸TD
         /// </summary>
         [Description("打孔区尺寸TD")]
@@ -138,6 +151,12 @@ namespace Frame_Core
         /// </summary>
         [Description("槽位MDis")]
         public List<double> SlotMDis { get; set; }
+
+        /// <summary>
+        /// 槽位MDis间距,槽位上边到上边
+        /// </summary>
+        [Description("槽位MDis")]
+        public List<double> SlotMDisBSide { get; set; }
 
         /// <summary>
         ///槽位MDis上公差
@@ -288,6 +307,11 @@ namespace Frame_Core
                 SlotMDis = new List<double>();
             }
             else { SlotMDis.Clear(); }
+            if (SlotMDisBSide == null)
+            {
+                SlotMDisBSide = new List<double>();
+            }
+            else { SlotMDisBSide.Clear(); }
             if (SlotMDisUp == null)
             {
                 SlotMDisUp = new List<double>();
@@ -301,6 +325,7 @@ namespace Frame_Core
             for (int i = 0; i < PerSlotCount; i++)
             {
                 SlotMDis.Add(50);
+                SlotMDisBSide.Add(50);
                 SlotGapTDisUp.Add(2);
                 SlotGapTDisDown.Add(2);
             }
@@ -370,9 +395,13 @@ namespace Frame_Core
         /// <summary>
         /// 槽位名
         /// </summary>
-        [My("槽位名")]
-        [Description("槽位名")]
-        public string InfoName { get; set; } = "默认名称";
+        [My("名称")]
+        [Description("名称")]
+        public string Name { get; set; } = "默认名称";
+
+        [My("备注")]
+        [Description("备注")]
+        public string Description { get; set; } = "备注";
 
         /// <summary>
         /// A/B面
@@ -387,7 +416,6 @@ namespace Frame_Core
         [My("所属相机")]
         [Description("所属相机")]
         public CameraEnum BelongCam { get; set; } = 0;
-
 
         /// <summary>
         /// 第几条
@@ -474,19 +502,34 @@ namespace Frame_Core
         [Description("MD对齐")]
         public double SlotMDAlign { get; set; } = 0;
 
+        /// <summary>
+        /// TD错位
+        /// </summary>
+        [My("TD错位")]
+        [Description("TD错位")]
+        public double SlotTDMiss { get; set; } = 0;
+
+        /// <summary>
+        /// MD错位
+        /// </summary>
+        [My("MD错位")]
+        [Description("MD错位")]
+        public double SlotMDMiss { get; set; } = 0;
+
+
 
         /// <summary>
         /// // 数组属性：通过索引器一次性访问所有值
         /// </summary>
         [My("校准系数", false)]
         [Description("校准系数")]
-        public double[] RealFixRito = new double[10] { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+        public double[] RealFixRito = new double[12] { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
         /// <summary>
         /// // 数组属性：通过索引器一次性访问所有值
         /// </summary>
         [My("测量校准偏移", false)]
         [Description("测量校准偏移")]
-        public double[] RealFixOffset = new double[10] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        public double[] RealFixOffset = new double[12] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 
         /// <summary>
@@ -496,7 +539,7 @@ namespace Frame_Core
         [Description("数组属性")]
         public double[] AllValues
         {
-            get => new double[] { SlotTDPosition, SlotMDPosition, SlotTDSize, SlotMDSize, SlotTDDist, SlotMDDist, SlotTDLeftGap, SlotTDRightGap, SlotTDAlign, SlotMDAlign }; // 返回新数组
+            get => new double[] { SlotTDPosition, SlotMDPosition, SlotTDSize, SlotMDSize, SlotTDDist, SlotMDDist, SlotTDLeftGap, SlotTDRightGap, SlotTDAlign, SlotMDAlign, SlotTDMiss, SlotMDMiss }; // 返回新数组
             set { }
         }
 
@@ -648,6 +691,13 @@ namespace Frame_Core
         [My("分条名称")]
         [Description("分条名称")]
         public string InfoName { get; set; } = "默认名称";
+
+        /// <summary>
+        /// 左/右分区
+        /// </summary>
+        [My("左/右分区")]
+        [Description("左/右分区")]
+        public bool IsLeftSide { get; set; } = true;
 
         /// <summary>
         /// A/B面

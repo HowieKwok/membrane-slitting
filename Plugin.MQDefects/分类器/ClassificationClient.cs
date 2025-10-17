@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using HalconDotNet;
 using EHAICBase;
+using LogTool;
+using static System.Windows.Forms.AxHost;
 
 namespace ClassifyCPU_onnx_test
 {
@@ -15,13 +17,17 @@ namespace ClassifyCPU_onnx_test
         /// 初始化
         /// </summary>
         /// <param name="modelPath"></param>
-        public void init(string modelPath)
+        public int init(string modelPath)
         {
             client = new EHAIBase();
             int initreturn = client.initializerModel(modelPath);
+            if (initreturn != 0)
+            {
+                Log4netRecord.ErrorLog.Error($"模型建立失败！{initreturn}");
+            }
             this.modelPath = modelPath;
 
-           // return initreturn;
+            return initreturn;
         }
         /// <summary>
         /// 分类

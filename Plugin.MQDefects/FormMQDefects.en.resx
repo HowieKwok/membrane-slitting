@@ -118,11 +118,85 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="GB_DetectParams.Font" type="System.Drawing.Font, System.Drawing">
+    <value>黑体, 10pt</value>
+  </data>
+  <data name="GB_DetectParams.Text" xml:space="preserve">
+    <value>Detection Parameter</value>
+  </data>
+  <data name="groupBox1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>黑体, 10pt</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>GraphicVariable</value>
+  </data>
+  <data name="tableLayoutPanel4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 19</value>
+  </data>
+  <data name="tableLayoutPanel4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>446, 578</value>
+  </data>
+  <data name="TB_Params.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="TB_Params.Size" type="System.Drawing.Size, System.Drawing">
+    <value>440, 429</value>
+  </data>
+  <data name="tabPage1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 28</value>
+  </data>
+  <data name="tabPage1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>432, 397</value>
+  </data>
+  <data name="tabPage1.Text" xml:space="preserve">
+    <value>Coating area inspection</value>
+  </data>
+  <data name="groupBox17.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt, style=Bold</value>
+  </data>
+  <data name="groupBox17.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 730</value>
+  </data>
+  <data name="groupBox17.Size" type="System.Drawing.Size, System.Drawing">
+    <value>396, 150</value>
+  </data>
+  <data name="groupBox17.Text" xml:space="preserve">
+    <value>Large-Area Defect Determination</value>
+  </data>
+  <data name="cb_LargeAreaDefectEN.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 25</value>
+  </data>
+  <data name="cb_LargeAreaDefectEN.Size" type="System.Drawing.Size, System.Drawing">
+    <value>296, 46</value>
+  </data>
+  <data name="cb_LargeAreaDefectEN.Text" xml:space="preserve">
+    <value>When the defect count is excessive
+or the total defect area exceeds‌</value>
+  </data>
+  <data name="label53.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 98</value>
+  </data>
+  <data name="label53.Size" type="System.Drawing.Size, System.Drawing">
+    <value>333, 42</value>
+  </data>
+  <data name="label53.Text" xml:space="preserve">
+    <value>it is directly classified as large-area defects
+ without entering the classifier</value>
+  </data>
+  <data name="num_LargeAreaDefectMinArea.Location" type="System.Drawing.Point, System.Drawing">
+    <value>315, 32</value>
+  </data>
+  <data name="groupBox16.Size" type="System.Drawing.Size, System.Drawing">
+    <value>398, 347</value>
+  </data>
+  <data name="groupBox16.Text" xml:space="preserve">
+    <value>Splicing and foil exposure comparison</value>
+  </data>
   <data name="label51.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 143</value>
+    <value>6, 109</value>
   </data>
   <data name="label51.Size" type="System.Drawing.Size, System.Drawing">
-    <value>465, 27</value>
+    <value>376, 21</value>
   </data>
   <data name="label51.Text" xml:space="preserve">
     <value>Greater than the minimum brightness threshold</value>
@@ -131,7 +205,7 @@
     <value>7, 274</value>
   </data>
   <data name="label50.Size" type="System.Drawing.Size, System.Drawing">
-    <value>393, 54</value>
+    <value>317, 42</value>
   </data>
   <data name="label50.Text" xml:space="preserve">
     <value>Then it is considered a band; otherwise, 
@@ -144,83 +218,108 @@ it is classified as leaky metal.</value>
     <value>9, 232</value>
   </data>
   <data name="label49.Size" type="System.Drawing.Size, System.Drawing">
-    <value>220, 27</value>
+    <value>133, 21</value>
   </data>
   <data name="label49.Text" xml:space="preserve">
-    <value>The height is less than</value>
+    <value>Height less than</value>
   </data>
   <data name="num_JDMinW.Location" type="System.Drawing.Point, System.Drawing">
     <value>297, 181</value>
   </data>
   <data name="num_JDMinW.Size" type="System.Drawing.Size, System.Drawing">
-    <value>76, 34</value>
+    <value>76, 29</value>
   </data>
   <data name="label48.Location" type="System.Drawing.Point, System.Drawing">
     <value>7, 183</value>
   </data>
   <data name="label48.Size" type="System.Drawing.Size, System.Drawing">
-    <value>263, 27</value>
+    <value>215, 21</value>
   </data>
   <data name="label48.Text" xml:space="preserve">
     <value>If the width is greater than</value>
   </data>
   <data name="num_GrayDifference.Location" type="System.Drawing.Point, System.Drawing">
-    <value>221, 106</value>
+    <value>316, 75</value>
+  </data>
+  <data name="num_GrayDifference.Size" type="System.Drawing.Size, System.Drawing">
+    <value>57, 29</value>
+  </data>
+  <data name="label47.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 81</value>
   </data>
   <data name="label47.Size" type="System.Drawing.Size, System.Drawing">
-    <value>296, 54</value>
+    <value>300, 21</value>
   </data>
   <data name="label47.Text" xml:space="preserve">
-    <value>And the average gray level in 
-the area adds up</value>
+    <value>And the average grayscale of the area</value>
   </data>
   <data name="num_JDAreaNG.Location" type="System.Drawing.Point, System.Drawing">
-    <value>233, 34</value>
+    <value>273, 34</value>
   </data>
   <data name="label43.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 27</value>
+    <value>151, 21</value>
   </data>
   <data name="label43.Text" xml:space="preserve">
-    <value>TotalAreaExceeding</value>
-  </data>
-  <data name="groupBox16.Size" type="System.Drawing.Size, System.Drawing">
-    <value>398, 347</value>
-  </data>
-  <data name="groupBox16.Text" xml:space="preserve">
-    <value>BandAndLeakyMetalDetermination</value>
-  </data>
-  <data name="num_NgMaxNum.Font" type="System.Drawing.Font, System.Drawing">
-    <value>微软雅黑, 10pt</value>
-  </data>
-  <data name="num_NgMaxNum.Location" type="System.Drawing.Point, System.Drawing">
-    <value>257, 36</value>
-  </data>
-  <data name="num_NgMaxNum.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
-  </data>
-  <data name="label38.Font" type="System.Drawing.Font, System.Drawing">
-    <value>微软雅黑, 10pt</value>
-  </data>
-  <data name="label38.Size" type="System.Drawing.Size, System.Drawing">
-    <value>252, 23</value>
-  </data>
-  <data name="label38.Text" xml:space="preserve">
-    <value>DefectsClassifyMaxNumber：</value>
+    <value>Total area exceeds</value>
   </data>
   <data name="groupBox15.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt, style=Bold</value>
   </data>
   <data name="groupBox15.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 666</value>
+    <value>4, 898</value>
+  </data>
+  <data name="groupBox15.Size" type="System.Drawing.Size, System.Drawing">
+    <value>394, 138</value>
   </data>
   <data name="groupBox15.Text" xml:space="preserve">
-    <value>ClassifierSetup</value>
+    <value>Classifier settings</value>
+  </data>
+  <data name="nud_OtherTypeDetermineScore.Location" type="System.Drawing.Point, System.Drawing">
+    <value>296, 86</value>
+  </data>
+  <data name="cb_OtherTypeEN.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 77</value>
+  </data>
+  <data name="cb_OtherTypeEN.Size" type="System.Drawing.Size, System.Drawing">
+    <value>264, 46</value>
+  </data>
+  <data name="cb_OtherTypeEN.Text" xml:space="preserve">
+    <value>Classified as "Other Category" 
+when similarity &lt; set threshold</value>
+  </data>
+  <data name="num_NgMaxNum.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_NgMaxNum.Location" type="System.Drawing.Point, System.Drawing">
+    <value>296, 32</value>
+  </data>
+  <data name="num_NgMaxNum.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 25</value>
+  </data>
+  <data name="label38.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label38.Location" type="System.Drawing.Point, System.Drawing">
+    <value>14, 29</value>
+  </data>
+  <data name="label38.Size" type="System.Drawing.Size, System.Drawing">
+    <value>208, 40</value>
+  </data>
+  <data name="label38.Text" xml:space="preserve">
+    <value>Maximum number of defects 
+entering the classifier:</value>
+  </data>
+  <data name="groupBox_WLY.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt, style=Bold</value>
+  </data>
+  <data name="groupBox_WLY.Text" xml:space="preserve">
+    <value>No calendering setting</value>
   </data>
   <data name="cb_OpenDec_WLY.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
   <data name="cb_OpenDec_WLY.Size" type="System.Drawing.Size, System.Drawing">
-    <value>86, 27</value>
+    <value>74, 24</value>
   </data>
   <data name="cb_OpenDec_WLY.Text" xml:space="preserve">
     <value>Enable</value>
@@ -229,217 +328,240 @@ the area adds up</value>
     <value>微软雅黑, 10pt</value>
   </data>
   <data name="num_WLY_GrayUnder.Location" type="System.Drawing.Point, System.Drawing">
-    <value>328, 67</value>
+    <value>198, 87</value>
   </data>
   <data name="num_WLY_GrayUnder.Size" type="System.Drawing.Size, System.Drawing">
-    <value>46, 29</value>
+    <value>46, 25</value>
   </data>
   <data name="num_WLY_GrayDifference.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
   <data name="num_WLY_GrayDifference.Location" type="System.Drawing.Point, System.Drawing">
-    <value>144, 66</value>
+    <value>167, 57</value>
   </data>
   <data name="num_WLY_GrayDifference.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 29</value>
+    <value>44, 25</value>
   </data>
   <data name="label44.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
+  <data name="label44.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 59</value>
+  </data>
   <data name="label44.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 23</value>
+    <value>150, 20</value>
   </data>
   <data name="label44.Text" xml:space="preserve">
-    <value>GrayDifference：</value>
+    <value>grey scale difference:</value>
   </data>
   <data name="label116.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
   <data name="label116.Location" type="System.Drawing.Point, System.Drawing">
-    <value>200, 69</value>
+    <value>7, 88</value>
   </data>
   <data name="label116.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 23</value>
+    <value>168, 20</value>
   </data>
   <data name="label116.Text" xml:space="preserve">
-    <value>OrBelowGray:</value>
-  </data>
-  <data name="groupBox_WLY.Font" type="System.Drawing.Font, System.Drawing">
-    <value>微软雅黑, 10pt, style=Bold</value>
-  </data>
-  <data name="groupBox_WLY.Text" xml:space="preserve">
-    <value>NoneColdPressing</value>
-  </data>
-  <data name="num_MinArea_Black.Font" type="System.Drawing.Font, System.Drawing">
-    <value>微软雅黑, 10pt</value>
-  </data>
-  <data name="num_MinArea_Black.Location" type="System.Drawing.Point, System.Drawing">
-    <value>222, 128</value>
-  </data>
-  <data name="num_MinArea_Black.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 29</value>
-  </data>
-  <data name="label57.Font" type="System.Drawing.Font, System.Drawing">
-    <value>微软雅黑, 10pt</value>
-  </data>
-  <data name="label57.Size" type="System.Drawing.Size, System.Drawing">
-    <value>184, 23</value>
-  </data>
-  <data name="label57.Text" xml:space="preserve">
-    <value>DarkMinArea(mm²)：</value>
-  </data>
-  <data name="label29.Font" type="System.Drawing.Font, System.Drawing">
-    <value>微软雅黑, 10pt</value>
-  </data>
-  <data name="label29.Location" type="System.Drawing.Point, System.Drawing">
-    <value>290, 94</value>
-  </data>
-  <data name="label29.Size" type="System.Drawing.Size, System.Drawing">
-    <value>17, 23</value>
-  </data>
-  <data name="num_BlackThreshold_Max.Font" type="System.Drawing.Font, System.Drawing">
-    <value>微软雅黑, 10pt</value>
-  </data>
-  <data name="num_BlackThreshold_Max.Location" type="System.Drawing.Point, System.Drawing">
-    <value>313, 92</value>
-  </data>
-  <data name="num_BlackThreshold_Max.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
-  </data>
-  <data name="num_BlackThreshold_Min.Font" type="System.Drawing.Font, System.Drawing">
-    <value>微软雅黑, 10pt</value>
-  </data>
-  <data name="num_BlackThreshold_Min.Location" type="System.Drawing.Point, System.Drawing">
-    <value>222, 92</value>
-  </data>
-  <data name="num_BlackThreshold_Min.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 29</value>
-  </data>
-  <data name="label28.Font" type="System.Drawing.Font, System.Drawing">
-    <value>微软雅黑, 10pt</value>
-  </data>
-  <data name="label28.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 23</value>
-  </data>
-  <data name="label28.Text" xml:space="preserve">
-    <value>DarkDefectThreshold：</value>
-  </data>
-  <data name="num_MinArea_White.Font" type="System.Drawing.Font, System.Drawing">
-    <value>微软雅黑, 10pt</value>
-  </data>
-  <data name="num_MinArea_White.Location" type="System.Drawing.Point, System.Drawing">
-    <value>222, 57</value>
-  </data>
-  <data name="num_MinArea_White.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 29</value>
-  </data>
-  <data name="label30.Font" type="System.Drawing.Font, System.Drawing">
-    <value>微软雅黑, 10pt</value>
-  </data>
-  <data name="label30.Size" type="System.Drawing.Size, System.Drawing">
-    <value>201, 23</value>
-  </data>
-  <data name="label30.Text" xml:space="preserve">
-    <value>BrightMinArea (mm²)：</value>
-  </data>
-  <data name="num_WhiteThreshold_Max.Font" type="System.Drawing.Font, System.Drawing">
-    <value>微软雅黑, 10pt</value>
-  </data>
-  <data name="num_WhiteThreshold_Max.Location" type="System.Drawing.Point, System.Drawing">
-    <value>314, 21</value>
-  </data>
-  <data name="num_WhiteThreshold_Max.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
-  </data>
-  <data name="num_WhiteThreshold_Min.Font" type="System.Drawing.Font, System.Drawing">
-    <value>微软雅黑, 10pt</value>
-  </data>
-  <data name="num_WhiteThreshold_Min.Location" type="System.Drawing.Point, System.Drawing">
-    <value>222, 21</value>
-  </data>
-  <data name="num_WhiteThreshold_Min.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 29</value>
-  </data>
-  <data name="label46.Font" type="System.Drawing.Font, System.Drawing">
-    <value>微软雅黑, 10pt</value>
-  </data>
-  <data name="label46.Location" type="System.Drawing.Point, System.Drawing">
-    <value>290, 26</value>
-  </data>
-  <data name="label46.Size" type="System.Drawing.Size, System.Drawing">
-    <value>17, 23</value>
-  </data>
-  <data name="lbl_WriteThreshold_Range.Font" type="System.Drawing.Font, System.Drawing">
-    <value>微软雅黑, 10pt</value>
-  </data>
-  <data name="lbl_WriteThreshold_Range.Size" type="System.Drawing.Size, System.Drawing">
-    <value>211, 23</value>
-  </data>
-  <data name="lbl_WriteThreshold_Range.Text" xml:space="preserve">
-    <value>BrightDefectThreshold：</value>
+    <value>or grayscale lower than:</value>
   </data>
   <data name="groupBox_ThresholdRange.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt, style=Bold</value>
   </data>
   <data name="groupBox_ThresholdRange.Text" xml:space="preserve">
-    <value>MembraneDetectionSettings</value>
+    <value>Coating area inspection settings</value>
   </data>
-  <data name="tabPage1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 32</value>
+  <data name="num_MeanGrayDifference_Black.Location" type="System.Drawing.Point, System.Drawing">
+    <value>333, 182</value>
   </data>
-  <data name="tabPage1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>432, 389</value>
-  </data>
-  <data name="tabPage1.Text" xml:space="preserve">
-    <value>Membrane Detection</value>
-  </data>
-  <data name="num_ZBPS_MinArea.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="cb_MeanGrayDifference_Black.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
-  <data name="num_ZBPS_MinArea.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+  <data name="cb_MeanGrayDifference_Black.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 162</value>
   </data>
-  <data name="label112.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="cb_MeanGrayDifference_Black.Size" type="System.Drawing.Size, System.Drawing">
+    <value>266, 64</value>
+  </data>
+  <data name="cb_MeanGrayDifference_Black.Text" xml:space="preserve">
+    <value>The maximum threshold of dark
+defects follows the average coating
+grayscale reduction</value>
+  </data>
+  <data name="num_MinArea_Black.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
-  <data name="label112.Size" type="System.Drawing.Size, System.Drawing">
-    <value>211, 23</value>
+  <data name="num_MinArea_Black.Location" type="System.Drawing.Point, System.Drawing">
+    <value>333, 124</value>
   </data>
-  <data name="label112.Text" xml:space="preserve">
-    <value>DamagrMinArea(mm²)：</value>
+  <data name="num_MinArea_Black.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 25</value>
   </data>
-  <data name="num_ZBPS_Threshold.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="label57.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
-  <data name="num_ZBPS_Threshold.Location" type="System.Drawing.Point, System.Drawing">
-    <value>214, 22</value>
+  <data name="label57.Size" type="System.Drawing.Size, System.Drawing">
+    <value>295, 20</value>
   </data>
-  <data name="num_ZBPS_Threshold.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+  <data name="label57.Text" xml:space="preserve">
+    <value>Dark defect filtering minimum area (mm²):</value>
   </data>
-  <data name="label117.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="label29.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
-  <data name="label117.Size" type="System.Drawing.Size, System.Drawing">
-    <value>163, 23</value>
+  <data name="label29.Location" type="System.Drawing.Point, System.Drawing">
+    <value>309, 92</value>
   </data>
-  <data name="label117.Text" xml:space="preserve">
-    <value>DamageThreshold:</value>
+  <data name="label29.Size" type="System.Drawing.Size, System.Drawing">
+    <value>15, 20</value>
+  </data>
+  <data name="num_BlackThreshold_Max.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_BlackThreshold_Max.Location" type="System.Drawing.Point, System.Drawing">
+    <value>332, 90</value>
+  </data>
+  <data name="num_BlackThreshold_Max.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 25</value>
+  </data>
+  <data name="num_BlackThreshold_Min.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_BlackThreshold_Min.Location" type="System.Drawing.Point, System.Drawing">
+    <value>241, 90</value>
+  </data>
+  <data name="num_BlackThreshold_Min.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 25</value>
+  </data>
+  <data name="label28.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label28.Size" type="System.Drawing.Size, System.Drawing">
+    <value>210, 20</value>
+  </data>
+  <data name="label28.Text" xml:space="preserve">
+    <value>Dark Defect Threshold Range:</value>
+  </data>
+  <data name="num_MinArea_White.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_MinArea_White.Location" type="System.Drawing.Point, System.Drawing">
+    <value>333, 54</value>
+  </data>
+  <data name="num_MinArea_White.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 25</value>
+  </data>
+  <data name="label30.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label30.Size" type="System.Drawing.Size, System.Drawing">
+    <value>328, 20</value>
+  </data>
+  <data name="label30.Text" xml:space="preserve">
+    <value>Minimum area for bright defect filtering (mm²):</value>
+  </data>
+  <data name="num_WhiteThreshold_Max.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_WhiteThreshold_Max.Location" type="System.Drawing.Point, System.Drawing">
+    <value>333, 21</value>
+  </data>
+  <data name="num_WhiteThreshold_Max.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 25</value>
+  </data>
+  <data name="num_WhiteThreshold_Min.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_WhiteThreshold_Min.Location" type="System.Drawing.Point, System.Drawing">
+    <value>241, 21</value>
+  </data>
+  <data name="num_WhiteThreshold_Min.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 25</value>
+  </data>
+  <data name="label46.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label46.Location" type="System.Drawing.Point, System.Drawing">
+    <value>309, 26</value>
+  </data>
+  <data name="label46.Size" type="System.Drawing.Size, System.Drawing">
+    <value>15, 20</value>
+  </data>
+  <data name="lbl_WriteThreshold_Range.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="lbl_WriteThreshold_Range.Size" type="System.Drawing.Size, System.Drawing">
+    <value>219, 20</value>
+  </data>
+  <data name="lbl_WriteThreshold_Range.Text" xml:space="preserve">
+    <value>Bright Defect Threshold Range:</value>
+  </data>
+  <data name="tabPage2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 28</value>
+  </data>
+  <data name="tabPage2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>432, 397</value>
+  </data>
+  <data name="tabPage2.Text" xml:space="preserve">
+    <value>Straight edge broken inspection</value>
   </data>
   <data name="groupBox11.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt, style=Bold</value>
   </data>
   <data name="groupBox11.Text" xml:space="preserve">
-    <value>EdgeDamage</value>
+    <value>Edge damage settings</value>
   </data>
-  <data name="tabPage2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 32</value>
+  <data name="num_ZBPS_MinArea.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
   </data>
-  <data name="tabPage2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>432, 389</value>
+  <data name="num_ZBPS_MinArea.Location" type="System.Drawing.Point, System.Drawing">
+    <value>283, 63</value>
   </data>
-  <data name="tabPage2.Text" xml:space="preserve">
-    <value>Straight Edge Breakage</value>
+  <data name="num_ZBPS_MinArea.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 25</value>
+  </data>
+  <data name="label112.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label112.Size" type="System.Drawing.Size, System.Drawing">
+    <value>260, 20</value>
+  </data>
+  <data name="label112.Text" xml:space="preserve">
+    <value>Minimum damaged filter area (mm²):</value>
+  </data>
+  <data name="num_ZBPS_Threshold.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_ZBPS_Threshold.Location" type="System.Drawing.Point, System.Drawing">
+    <value>283, 22</value>
+  </data>
+  <data name="num_ZBPS_Threshold.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 25</value>
+  </data>
+  <data name="label117.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label117.Size" type="System.Drawing.Size, System.Drawing">
+    <value>137, 20</value>
+  </data>
+  <data name="label117.Text" xml:space="preserve">
+    <value>Damage threshold:</value>
+  </data>
+  <data name="tabPage3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 28</value>
+  </data>
+  <data name="tabPage3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>432, 397</value>
+  </data>
+  <data name="tabPage3.Text" xml:space="preserve">
+    <value>Edge Exposed Metal</value>
+  </data>
+  <data name="groupBox_BYDL.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt, style=Bold</value>
+  </data>
+  <data name="groupBox_BYDL.Text" xml:space="preserve">
+    <value>Parameter</value>
   </data>
   <data name="num_BYDL_MinArea.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
@@ -448,16 +570,16 @@ the area adds up</value>
     <value>187, 62</value>
   </data>
   <data name="num_BYDL_MinArea.Size" type="System.Drawing.Size, System.Drawing">
-    <value>68, 29</value>
+    <value>68, 25</value>
   </data>
   <data name="label118.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
   <data name="label118.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 23</value>
+    <value>157, 20</value>
   </data>
   <data name="label118.Text" xml:space="preserve">
-    <value>MinArea(mm²)：</value>
+    <value>Minimum area (mm²):</value>
   </data>
   <data name="num_BYDL_Threshold.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
@@ -466,88 +588,25 @@ the area adds up</value>
     <value>188, 26</value>
   </data>
   <data name="num_BYDL_Threshold.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 25</value>
   </data>
   <data name="label120.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
   <data name="label120.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 23</value>
+    <value>150, 20</value>
   </data>
   <data name="label120.Text" xml:space="preserve">
-    <value>BrightThreshold:</value>
+    <value>Brightness threshold:</value>
   </data>
-  <data name="groupBox_BYDL.Font" type="System.Drawing.Font, System.Drawing">
-    <value>微软雅黑, 10pt, style=Bold</value>
+  <data name="tabPage4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 28</value>
   </data>
-  <data name="groupBox_BYDL.Text" xml:space="preserve">
-    <value>EdgeMaterialDrop</value>
+  <data name="tabPage4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>432, 397</value>
   </data>
-  <data name="tabPage3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 32</value>
-  </data>
-  <data name="tabPage3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>432, 389</value>
-  </data>
-  <data name="tabPage3.Text" xml:space="preserve">
-    <value>Edge Material Drop Settings</value>
-  </data>
-  <data name="num_ZBYL_Threshold_Max.Font" type="System.Drawing.Font, System.Drawing">
-    <value>微软雅黑, 10pt</value>
-  </data>
-  <data name="num_ZBYL_Threshold_Max.Location" type="System.Drawing.Point, System.Drawing">
-    <value>349, 26</value>
-  </data>
-  <data name="num_ZBYL_Threshold_Max.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
-  </data>
-  <data name="label6.Font" type="System.Drawing.Font, System.Drawing">
-    <value>微软雅黑, 10pt</value>
-  </data>
-  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>217, 28</value>
-  </data>
-  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>130, 23</value>
-  </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>MaxThreshold:</value>
-  </data>
-  <data name="num_ZBYL_MinArea.Font" type="System.Drawing.Font, System.Drawing">
-    <value>微软雅黑, 10pt</value>
-  </data>
-  <data name="num_ZBYL_MinArea.Location" type="System.Drawing.Point, System.Drawing">
-    <value>147, 62</value>
-  </data>
-  <data name="num_ZBYL_MinArea.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
-  </data>
-  <data name="label3.Font" type="System.Drawing.Font, System.Drawing">
-    <value>微软雅黑, 10pt</value>
-  </data>
-  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 23</value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>MinArea(mm²)：</value>
-  </data>
-  <data name="num_ZBYL_Threshold_Min.Font" type="System.Drawing.Font, System.Drawing">
-    <value>微软雅黑, 10pt</value>
-  </data>
-  <data name="num_ZBYL_Threshold_Min.Location" type="System.Drawing.Point, System.Drawing">
-    <value>147, 26</value>
-  </data>
-  <data name="num_ZBYL_Threshold_Min.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
-  </data>
-  <data name="label5.Font" type="System.Drawing.Font, System.Drawing">
-    <value>微软雅黑, 10pt</value>
-  </data>
-  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>132, 23</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>MiniThreshold:</value>
+  <data name="tabPage4.Text" xml:space="preserve">
+    <value>Straight Edge Residual Material</value>
   </data>
   <data name="groupBox3.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt, style=Bold</value>
@@ -555,143 +614,305 @@ the area adds up</value>
   <data name="groupBox3.Text" xml:space="preserve">
     <value>Parameter</value>
   </data>
-  <data name="tabPage4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 32</value>
-  </data>
-  <data name="tabPage4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>432, 389</value>
-  </data>
-  <data name="tabPage4.Text" xml:space="preserve">
-    <value>Straight Edge Residual Material</value>
-  </data>
-  <data name="num_AT_PoSun_Threshold_Max.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="num_ZBYL_Threshold_Max.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
-  <data name="num_AT_PoSun_Threshold_Max.Location" type="System.Drawing.Point, System.Drawing">
-    <value>354, 26</value>
+  <data name="num_ZBYL_Threshold_Max.Location" type="System.Drawing.Point, System.Drawing">
+    <value>181, 63</value>
   </data>
-  <data name="num_AT_PoSun_Threshold_Max.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+  <data name="num_ZBYL_Threshold_Max.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 25</value>
   </data>
-  <data name="label18.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="label6.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
-  <data name="label18.Location" type="System.Drawing.Point, System.Drawing">
-    <value>216, 28</value>
+  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 66</value>
   </data>
-  <data name="label18.Size" type="System.Drawing.Size, System.Drawing">
-    <value>130, 23</value>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>148, 20</value>
   </data>
-  <data name="label18.Text" xml:space="preserve">
-    <value>MaxThreshold:</value>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Maximum threshold:</value>
   </data>
-  <data name="num_AT_PoSun_MinArea.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="num_ZBYL_MinArea.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
-  <data name="num_AT_PoSun_MinArea.Size" type="System.Drawing.Size, System.Drawing">
-    <value>68, 29</value>
+  <data name="num_ZBYL_MinArea.Location" type="System.Drawing.Point, System.Drawing">
+    <value>181, 101</value>
   </data>
-  <data name="label19.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="num_ZBYL_MinArea.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 25</value>
+  </data>
+  <data name="label3.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
-  <data name="label19.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 23</value>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 103</value>
   </data>
-  <data name="label19.Text" xml:space="preserve">
-    <value>MinArea(mm²)：</value>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>157, 20</value>
   </data>
-  <data name="num_AT_PoSun_Threshold_Min.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="label3.Text" xml:space="preserve">
+    <value>Minimum area (mm²):</value>
+  </data>
+  <data name="num_ZBYL_Threshold_Min.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
-  <data name="num_AT_PoSun_Threshold_Min.Location" type="System.Drawing.Point, System.Drawing">
-    <value>133, 26</value>
+  <data name="num_ZBYL_Threshold_Min.Location" type="System.Drawing.Point, System.Drawing">
+    <value>181, 26</value>
   </data>
-  <data name="num_AT_PoSun_Threshold_Min.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+  <data name="num_ZBYL_Threshold_Min.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 25</value>
   </data>
-  <data name="label21.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="label5.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
-  <data name="label21.Size" type="System.Drawing.Size, System.Drawing">
-    <value>127, 23</value>
+  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 28</value>
   </data>
-  <data name="label21.Text" xml:space="preserve">
-    <value>MinThreshold:</value>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>146, 20</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Minimum threshold:</value>
+  </data>
+  <data name="tabPage5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 28</value>
+  </data>
+  <data name="tabPage5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>432, 397</value>
+  </data>
+  <data name="tabPage5.Text" xml:space="preserve">
+    <value>AT inspection</value>
   </data>
   <data name="groupBox7.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt, style=Bold</value>
   </data>
   <data name="groupBox7.Text" xml:space="preserve">
-    <value>ATDamageSettings</value>
+    <value>AT damage settings</value>
   </data>
-  <data name="num_AT_LouJinShu_Threshold_Max.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="num_AT_PoSun_Threshold_Max.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
-  <data name="num_AT_LouJinShu_Threshold_Max.Location" type="System.Drawing.Point, System.Drawing">
-    <value>354, 26</value>
+  <data name="num_AT_PoSun_Threshold_Max.Location" type="System.Drawing.Point, System.Drawing">
+    <value>192, 59</value>
   </data>
-  <data name="num_AT_LouJinShu_Threshold_Max.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+  <data name="num_AT_PoSun_Threshold_Max.Size" type="System.Drawing.Size, System.Drawing">
+    <value>68, 25</value>
   </data>
-  <data name="label15.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="label18.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
-  <data name="label15.Location" type="System.Drawing.Point, System.Drawing">
-    <value>216, 28</value>
+  <data name="label18.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 62</value>
   </data>
-  <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
-    <value>130, 23</value>
+  <data name="label18.Size" type="System.Drawing.Size, System.Drawing">
+    <value>148, 20</value>
   </data>
-  <data name="label15.Text" xml:space="preserve">
-    <value>MaxThreshold:</value>
+  <data name="label18.Text" xml:space="preserve">
+    <value>Maximum threshold:</value>
   </data>
-  <data name="num_AT_LouJinShu_MinArea.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="num_AT_PoSun_MinArea.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
-  <data name="num_AT_LouJinShu_MinArea.Size" type="System.Drawing.Size, System.Drawing">
-    <value>68, 29</value>
+  <data name="num_AT_PoSun_MinArea.Location" type="System.Drawing.Point, System.Drawing">
+    <value>192, 95</value>
   </data>
-  <data name="label16.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="num_AT_PoSun_MinArea.Size" type="System.Drawing.Size, System.Drawing">
+    <value>68, 25</value>
+  </data>
+  <data name="label19.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
-  <data name="label16.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 23</value>
+  <data name="label19.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 97</value>
   </data>
-  <data name="label16.Text" xml:space="preserve">
-    <value>MinArea(mm²)：</value>
+  <data name="label19.Size" type="System.Drawing.Size, System.Drawing">
+    <value>157, 20</value>
   </data>
-  <data name="num_AT_LouJinShu_Threshold_Min.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="label19.Text" xml:space="preserve">
+    <value>Minimum area (mm²):</value>
+  </data>
+  <data name="num_AT_PoSun_Threshold_Min.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
-  <data name="num_AT_LouJinShu_Threshold_Min.Location" type="System.Drawing.Point, System.Drawing">
-    <value>133, 26</value>
+  <data name="num_AT_PoSun_Threshold_Min.Location" type="System.Drawing.Point, System.Drawing">
+    <value>192, 25</value>
   </data>
-  <data name="num_AT_LouJinShu_Threshold_Min.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+  <data name="num_AT_PoSun_Threshold_Min.Size" type="System.Drawing.Size, System.Drawing">
+    <value>68, 25</value>
   </data>
-  <data name="label14.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="label21.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
-  <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
-    <value>127, 23</value>
+  <data name="label21.Size" type="System.Drawing.Size, System.Drawing">
+    <value>146, 20</value>
   </data>
-  <data name="label14.Text" xml:space="preserve">
-    <value>MinThreshold:</value>
+  <data name="label21.Text" xml:space="preserve">
+    <value>Minimum threshold:</value>
   </data>
   <data name="groupBox6.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt, style=Bold</value>
   </data>
   <data name="groupBox6.Text" xml:space="preserve">
-    <value>ATMetalLeakage</value>
+    <value>AT foil exposure settings</value>
   </data>
-  <data name="tabPage5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 32</value>
+  <data name="num_AT_LouJinShu_Threshold_Max.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
   </data>
-  <data name="tabPage5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>432, 389</value>
+  <data name="num_AT_LouJinShu_Threshold_Max.Location" type="System.Drawing.Point, System.Drawing">
+    <value>192, 59</value>
   </data>
-  <data name="tabPage5.Text" xml:space="preserve">
-    <value>AT Leakage</value>
+  <data name="num_AT_LouJinShu_Threshold_Max.Size" type="System.Drawing.Size, System.Drawing">
+    <value>68, 25</value>
+  </data>
+  <data name="label15.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label15.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 64</value>
+  </data>
+  <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
+    <value>148, 20</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>Maximum threshold:</value>
+  </data>
+  <data name="num_AT_LouJinShu_MinArea.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_AT_LouJinShu_MinArea.Location" type="System.Drawing.Point, System.Drawing">
+    <value>192, 97</value>
+  </data>
+  <data name="num_AT_LouJinShu_MinArea.Size" type="System.Drawing.Size, System.Drawing">
+    <value>68, 25</value>
+  </data>
+  <data name="label16.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label16.Size" type="System.Drawing.Size, System.Drawing">
+    <value>157, 20</value>
+  </data>
+  <data name="label16.Text" xml:space="preserve">
+    <value>Minimum area (mm²):</value>
+  </data>
+  <data name="num_AT_LouJinShu_Threshold_Min.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_AT_LouJinShu_Threshold_Min.Location" type="System.Drawing.Point, System.Drawing">
+    <value>192, 23</value>
+  </data>
+  <data name="num_AT_LouJinShu_Threshold_Min.Size" type="System.Drawing.Size, System.Drawing">
+    <value>68, 25</value>
+  </data>
+  <data name="label14.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
+    <value>146, 20</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>Minimum threshold:</value>
+  </data>
+  <data name="tabPage6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 28</value>
+  </data>
+  <data name="tabPage6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>432, 397</value>
+  </data>
+  <data name="tabPage6.Text" xml:space="preserve">
+    <value>Threshold Parameter</value>
+  </data>
+  <data name="groupBox19.Text" xml:space="preserve">
+    <value>tab broken 2 settings</value>
+  </data>
+  <data name="num_JR_PoSun2_Threshold_Max.Location" type="System.Drawing.Point, System.Drawing">
+    <value>334, 99</value>
+  </data>
+  <data name="label64.Location" type="System.Drawing.Point, System.Drawing">
+    <value>202, 103</value>
+  </data>
+  <data name="label64.Size" type="System.Drawing.Size, System.Drawing">
+    <value>124, 21</value>
+  </data>
+  <data name="label64.Text" xml:space="preserve">
+    <value>Max threshold:</value>
+  </data>
+  <data name="num_JR_PoSun2_Threshold_Min.Location" type="System.Drawing.Point, System.Drawing">
+    <value>137, 99</value>
+  </data>
+  <data name="label65.Size" type="System.Drawing.Size, System.Drawing">
+    <value>121, 21</value>
+  </data>
+  <data name="label65.Text" xml:space="preserve">
+    <value>Min threshold:</value>
+  </data>
+  <data name="cb_brokens2_EN.Size" type="System.Drawing.Size, System.Drawing">
+    <value>157, 25</value>
+  </data>
+  <data name="cb_brokens2_EN.Text" xml:space="preserve">
+    <value>Enable detection</value>
+  </data>
+  <data name="num_brokens2_middle_height.Location" type="System.Drawing.Point, System.Drawing">
+    <value>272, 302</value>
+  </data>
+  <data name="label61.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 303</value>
+  </data>
+  <data name="label61.Size" type="System.Drawing.Size, System.Drawing">
+    <value>228, 42</value>
+  </data>
+  <data name="label61.Text" xml:space="preserve">
+    <value>Tab - Middle morphological 
+closing - height (mm):</value>
+  </data>
+  <data name="num_brokens2_middle_width.Location" type="System.Drawing.Point, System.Drawing">
+    <value>272, 244</value>
+  </data>
+  <data name="label58.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 244</value>
+  </data>
+  <data name="label58.Size" type="System.Drawing.Size, System.Drawing">
+    <value>228, 42</value>
+  </data>
+  <data name="label58.Text" xml:space="preserve">
+    <value>Tab - Middle morphological 
+closing - width (mm):</value>
+  </data>
+  <data name="num_brokens2_bottom_radius.Location" type="System.Drawing.Point, System.Drawing">
+    <value>272, 182</value>
+  </data>
+  <data name="label52.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 182</value>
+  </data>
+  <data name="label52.Size" type="System.Drawing.Size, System.Drawing">
+    <value>232, 42</value>
+  </data>
+  <data name="label52.Text" xml:space="preserve">
+    <value>Tab - Bottom morphological 
+closing - radius (mm):</value>
+  </data>
+  <data name="cb_Show_JR_PoSun2_DetectionROI.Size" type="System.Drawing.Size, System.Drawing">
+    <value>198, 25</value>
+  </data>
+  <data name="cb_Show_JR_PoSun2_DetectionROI.Text" xml:space="preserve">
+    <value>Display detection area</value>
+  </data>
+  <data name="num_brokens2_JRMaxThreshold.Location" type="System.Drawing.Point, System.Drawing">
+    <value>271, 137</value>
+  </data>
+  <data name="label55.Size" type="System.Drawing.Size, System.Drawing">
+    <value>198, 21</value>
+  </data>
+  <data name="label55.Text" xml:space="preserve">
+    <value>Maximum tab threshold:</value>
+  </data>
+  <data name="groupBox12.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt, style=Bold</value>
+  </data>
+  <data name="groupBox12.Text" xml:space="preserve">
+    <value>Basic Settings</value>
   </data>
   <data name="num_TimeOut.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
@@ -700,49 +921,49 @@ the area adds up</value>
     <value>288, 28</value>
   </data>
   <data name="num_TimeOut.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 29</value>
+    <value>59, 25</value>
   </data>
   <data name="label37.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
   <data name="label37.Size" type="System.Drawing.Size, System.Drawing">
-    <value>285, 23</value>
+    <value>233, 20</value>
   </data>
   <data name="label37.Text" xml:space="preserve">
-    <value>TemplateMatchingTimeout(ms)：</value>
+    <value>Template matching timeout (ms):</value>
   </data>
-  <data name="groupBox12.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="groupBox9.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt, style=Bold</value>
   </data>
-  <data name="groupBox12.Text" xml:space="preserve">
-    <value>BasicSettings</value>
+  <data name="groupBox9.Text" xml:space="preserve">
+    <value>Tab broken settings</value>
   </data>
   <data name="num_JR_PoSun_ModelXld_ShiftLeft_1.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
   <data name="num_JR_PoSun_ModelXld_ShiftLeft_1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>288, 29</value>
+    <value>334, 29</value>
   </data>
   <data name="num_JR_PoSun_ModelXld_ShiftLeft_1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 25</value>
   </data>
   <data name="label36.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
   <data name="label36.Size" type="System.Drawing.Size, System.Drawing">
-    <value>259, 23</value>
+    <value>307, 20</value>
   </data>
   <data name="label36.Text" xml:space="preserve">
-    <value>TemplateContourShiftLeftby 1:</value>
+    <value>Template outline left-direction translation 1:</value>
   </data>
   <data name="cb_Show_JR_PoSun_DetectionROI.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
   <data name="cb_Show_JR_PoSun_DetectionROI.Size" type="System.Drawing.Size, System.Drawing">
-    <value>172, 27</value>
+    <value>178, 24</value>
   </data>
   <data name="cb_Show_JR_PoSun_DetectionROI.Text" xml:space="preserve">
-    <value>DisplayDetection</value>
+    <value>Display detection area</value>
   </data>
   <data name="num_JR_PoSun_Threshold_Max.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
@@ -751,7 +972,7 @@ the area adds up</value>
     <value>334, 70</value>
   </data>
   <data name="num_JR_PoSun_Threshold_Max.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 25</value>
   </data>
   <data name="label22.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
@@ -760,10 +981,10 @@ the area adds up</value>
     <value>196, 72</value>
   </data>
   <data name="label22.Size" type="System.Drawing.Size, System.Drawing">
-    <value>130, 23</value>
+    <value>109, 20</value>
   </data>
   <data name="label22.Text" xml:space="preserve">
-    <value>MaxThreshold:</value>
+    <value>Max threshold:</value>
   </data>
   <data name="num_JR_PoSun_MinArea.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
@@ -772,16 +993,16 @@ the area adds up</value>
     <value>143, 106</value>
   </data>
   <data name="num_JR_PoSun_MinArea.Size" type="System.Drawing.Size, System.Drawing">
-    <value>68, 29</value>
+    <value>68, 25</value>
   </data>
   <data name="label23.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
   <data name="label23.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 23</value>
+    <value>118, 20</value>
   </data>
   <data name="label23.Text" xml:space="preserve">
-    <value>MinArea(mm²)：</value>
+    <value>Min area (mm²):</value>
   </data>
   <data name="num_JR_PoSun_Threshold_Min.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
@@ -790,58 +1011,61 @@ the area adds up</value>
     <value>139, 70</value>
   </data>
   <data name="num_JR_PoSun_Threshold_Min.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 29</value>
+    <value>54, 25</value>
   </data>
   <data name="label26.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
   <data name="label26.Size" type="System.Drawing.Size, System.Drawing">
-    <value>127, 23</value>
+    <value>107, 20</value>
   </data>
   <data name="label26.Text" xml:space="preserve">
-    <value>MinThreshold:</value>
+    <value>Min threshold:</value>
   </data>
-  <data name="groupBox9.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="groupBox10.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt, style=Bold</value>
   </data>
-  <data name="groupBox9.Text" xml:space="preserve">
-    <value>TabDamageSettings</value>
+  <data name="groupBox10.Text" xml:space="preserve">
+    <value>Tab with material setting</value>
   </data>
   <data name="cb_Show_JR_ModelXld.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
+  <data name="cb_Show_JR_ModelXld.Location" type="System.Drawing.Point, System.Drawing">
+    <value>200, 160</value>
+  </data>
   <data name="cb_Show_JR_ModelXld.Size" type="System.Drawing.Size, System.Drawing">
-    <value>234, 27</value>
+    <value>186, 24</value>
   </data>
   <data name="cb_Show_JR_ModelXld.Text" xml:space="preserve">
-    <value>DisplayTemplateContour</value>
+    <value>Show Template Outline</value>
   </data>
   <data name="num_JR_DaiLiao_ModelXld_ShiftRight_2.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
   <data name="num_JR_DaiLiao_ModelXld_ShiftRight_2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>291, 55</value>
+    <value>334, 55</value>
   </data>
   <data name="num_JR_DaiLiao_ModelXld_ShiftRight_2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 25</value>
   </data>
   <data name="label35.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
   <data name="label35.Size" type="System.Drawing.Size, System.Drawing">
-    <value>271, 23</value>
+    <value>313, 20</value>
   </data>
   <data name="label35.Text" xml:space="preserve">
-    <value>TemplateContourShiftRightby 2:</value>
+    <value>Template profile right-direction translation 2:</value>
   </data>
   <data name="num_JR_DaiLiao_ModelXld_ShiftRight_1.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
   <data name="num_JR_DaiLiao_ModelXld_ShiftRight_1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>291, 20</value>
+    <value>334, 20</value>
   </data>
   <data name="num_JR_DaiLiao_ModelXld_ShiftRight_1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 25</value>
   </data>
   <data name="label34.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
@@ -850,19 +1074,19 @@ the area adds up</value>
     <value>9, 26</value>
   </data>
   <data name="label34.Size" type="System.Drawing.Size, System.Drawing">
-    <value>271, 23</value>
+    <value>317, 20</value>
   </data>
   <data name="label34.Text" xml:space="preserve">
-    <value>TemplateContourShiftRightby 1:</value>
+    <value>Template outline right-direction translation 1:</value>
   </data>
   <data name="cb_Show_JR_DaiLiao_DetectionROI.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
   <data name="cb_Show_JR_DaiLiao_DetectionROI.Size" type="System.Drawing.Size, System.Drawing">
-    <value>172, 27</value>
+    <value>178, 24</value>
   </data>
   <data name="cb_Show_JR_DaiLiao_DetectionROI.Text" xml:space="preserve">
-    <value>DisplayDetection</value>
+    <value>Display detection area</value>
   </data>
   <data name="num_JR_DaiLiao_Threshold_Max.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
@@ -871,34 +1095,34 @@ the area adds up</value>
     <value>334, 95</value>
   </data>
   <data name="num_JR_DaiLiao_Threshold_Max.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 25</value>
   </data>
   <data name="label27.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
   <data name="label27.Location" type="System.Drawing.Point, System.Drawing">
-    <value>196, 97</value>
+    <value>203, 97</value>
   </data>
   <data name="label27.Size" type="System.Drawing.Size, System.Drawing">
-    <value>130, 23</value>
+    <value>109, 20</value>
   </data>
   <data name="label27.Text" xml:space="preserve">
-    <value>MaxThreshold:</value>
+    <value>Max threshold:</value>
   </data>
   <data name="num_JR_DaiLiao_MinArea.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
   <data name="num_JR_DaiLiao_MinArea.Size" type="System.Drawing.Size, System.Drawing">
-    <value>60, 29</value>
+    <value>60, 25</value>
   </data>
   <data name="label31.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
   <data name="label31.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 23</value>
+    <value>118, 20</value>
   </data>
   <data name="label31.Text" xml:space="preserve">
-    <value>MinArea(mm²)：</value>
+    <value>Min area (mm²):</value>
   </data>
   <data name="num_JR_DaiLiao_Threshold_Min.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
@@ -907,118 +1131,250 @@ the area adds up</value>
     <value>139, 95</value>
   </data>
   <data name="num_JR_DaiLiao_Threshold_Min.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 29</value>
+    <value>54, 25</value>
   </data>
   <data name="label33.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
   <data name="label33.Size" type="System.Drawing.Size, System.Drawing">
-    <value>127, 23</value>
+    <value>107, 20</value>
   </data>
   <data name="label33.Text" xml:space="preserve">
-    <value>MinThreshold:</value>
-  </data>
-  <data name="groupBox10.Font" type="System.Drawing.Font, System.Drawing">
-    <value>微软雅黑, 10pt, style=Bold</value>
-  </data>
-  <data name="groupBox10.Text" xml:space="preserve">
-    <value>TabMaterialCarry-overSettings</value>
-  </data>
-  <data name="but_SaveModel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>126, 46</value>
-  </data>
-  <data name="but_SaveModel.Text" xml:space="preserve">
-    <value>SaveTemplate</value>
-  </data>
-  <data name="but_CreateModel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>126, 46</value>
-  </data>
-  <data name="but_CreateModel.Text" xml:space="preserve">
-    <value>CreateTemplate</value>
-  </data>
-  <data name="but_SelectROI.Size" type="System.Drawing.Size, System.Drawing">
-    <value>126, 46</value>
-  </data>
-  <data name="but_SelectROI.Text" xml:space="preserve">
-    <value>AdjustROI</value>
-  </data>
-  <data name="tableLayoutPanel5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 26</value>
-  </data>
-  <data name="tableLayoutPanel5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>396, 52</value>
+    <value>Min threshold:</value>
   </data>
   <data name="groupBox8.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt, style=Bold</value>
   </data>
   <data name="groupBox8.Text" xml:space="preserve">
-    <value>TemplateOperations</value>
+    <value>Template Operation</value>
   </data>
-  <data name="tabPage6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 32</value>
+  <data name="tableLayoutPanel5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
   </data>
-  <data name="tabPage6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>432, 389</value>
+  <data name="tableLayoutPanel5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>396, 56</value>
   </data>
-  <data name="tabPage6.Text" xml:space="preserve">
-    <value>Threshold Parameter</value>
+  <data name="but_SaveModel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>126, 50</value>
+  </data>
+  <data name="but_SaveModel.Text" xml:space="preserve">
+    <value>Save Template</value>
+  </data>
+  <data name="but_CreateModel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>126, 50</value>
+  </data>
+  <data name="but_CreateModel.Text" xml:space="preserve">
+    <value>Create Template</value>
+  </data>
+  <data name="but_SelectROI.Size" type="System.Drawing.Size, System.Drawing">
+    <value>126, 50</value>
+  </data>
+  <data name="but_SelectROI.Text" xml:space="preserve">
+    <value>Adjustment ROI</value>
   </data>
   <data name="tabPage7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 32</value>
+    <value>4, 28</value>
   </data>
   <data name="tabPage7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>432, 389</value>
+    <value>432, 397</value>
+  </data>
+  <data name="tabPage7.Text" xml:space="preserve">
+    <value>Step Defect Detection</value>
+  </data>
+  <data name="groupBox20.Size" type="System.Drawing.Size, System.Drawing">
+    <value>421, 329</value>
+  </data>
+  <data name="groupBox20.Text" xml:space="preserve">
+    <value>Parameter</value>
+  </data>
+  <data name="label76.Location" type="System.Drawing.Point, System.Drawing">
+    <value>331, 287</value>
+  </data>
+  <data name="label75.Location" type="System.Drawing.Point, System.Drawing">
+    <value>331, 250</value>
+  </data>
+  <data name="label74.Location" type="System.Drawing.Point, System.Drawing">
+    <value>331, 212</value>
+  </data>
+  <data name="cb_EnStepDefect.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 32</value>
+  </data>
+  <data name="cb_EnStepDefect.Size" type="System.Drawing.Size, System.Drawing">
+    <value>157, 25</value>
+  </data>
+  <data name="cb_EnStepDefect.Text" xml:space="preserve">
+    <value>Enable detection</value>
+  </data>
+  <data name="nud_StepDefectAreaRangeFilterMax.Location" type="System.Drawing.Point, System.Drawing">
+    <value>353, 285</value>
+  </data>
+  <data name="nud_SetpDefectThresholdRangeMax.Location" type="System.Drawing.Point, System.Drawing">
+    <value>353, 248</value>
+  </data>
+  <data name="nud_SetpDefectThresholdRangeMin.Location" type="System.Drawing.Point, System.Drawing">
+    <value>264, 248</value>
+  </data>
+  <data name="nud_StepDefectAreaRangeFilterMin.Location" type="System.Drawing.Point, System.Drawing">
+    <value>263, 285</value>
+  </data>
+  <data name="label73.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 285</value>
+  </data>
+  <data name="label73.Size" type="System.Drawing.Size, System.Drawing">
+    <value>246, 21</value>
+  </data>
+  <data name="label73.Text" xml:space="preserve">
+    <value>Defect Area Range Filter(mm²):</value>
+  </data>
+  <data name="label72.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 248</value>
+  </data>
+  <data name="label72.Size" type="System.Drawing.Size, System.Drawing">
+    <value>197, 21</value>
+  </data>
+  <data name="label72.Text" xml:space="preserve">
+    <value>Defect Threshold Range:</value>
+  </data>
+  <data name="nud_StepCoatingGrayscaleRangeMax.Location" type="System.Drawing.Point, System.Drawing">
+    <value>353, 210</value>
+  </data>
+  <data name="nud_StepCoatingGrayscaleRangeMin.Location" type="System.Drawing.Point, System.Drawing">
+    <value>264, 210</value>
+  </data>
+  <data name="label71.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 210</value>
+  </data>
+  <data name="label71.Size" type="System.Drawing.Size, System.Drawing">
+    <value>243, 21</value>
+  </data>
+  <data name="label71.Text" xml:space="preserve">
+    <value>Step Coating Grayscale Range:</value>
+  </data>
+  <data name="nud_SetpDetectAreaBottomInset.Location" type="System.Drawing.Point, System.Drawing">
+    <value>353, 167</value>
+  </data>
+  <data name="label69.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 172</value>
+  </data>
+  <data name="label69.Size" type="System.Drawing.Size, System.Drawing">
+    <value>272, 21</value>
+  </data>
+  <data name="label69.Text" xml:space="preserve">
+    <value>Detection Area Bottom Inset(mm):</value>
+  </data>
+  <data name="nud_SetpDetectAreaTopInset.Location" type="System.Drawing.Point, System.Drawing">
+    <value>353, 134</value>
+  </data>
+  <data name="label70.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 139</value>
+  </data>
+  <data name="label70.Size" type="System.Drawing.Size, System.Drawing">
+    <value>244, 21</value>
+  </data>
+  <data name="label70.Text" xml:space="preserve">
+    <value>Detection Area Top Inset(mm):</value>
+  </data>
+  <data name="nud_SetpDetectAreaRightInset.Location" type="System.Drawing.Point, System.Drawing">
+    <value>353, 97</value>
+  </data>
+  <data name="label66.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 102</value>
+  </data>
+  <data name="label66.Size" type="System.Drawing.Size, System.Drawing">
+    <value>255, 21</value>
+  </data>
+  <data name="label66.Text" xml:space="preserve">
+    <value>Detection Area Right Inset(mm):</value>
+  </data>
+  <data name="nud_SetpDetectAreaLeftInset.Location" type="System.Drawing.Point, System.Drawing">
+    <value>353, 64</value>
+  </data>
+  <data name="label68.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 69</value>
+  </data>
+  <data name="label68.Size" type="System.Drawing.Size, System.Drawing">
+    <value>244, 21</value>
+  </data>
+  <data name="label68.Text" xml:space="preserve">
+    <value>Detection Area Left Inset(mm):</value>
   </data>
   <data name="tabPage8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 32</value>
+    <value>4, 28</value>
   </data>
   <data name="tabPage8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>432, 389</value>
+    <value>432, 397</value>
   </data>
-  <data name="lab51.Size" type="System.Drawing.Size, System.Drawing">
-    <value>192, 23</value>
+  <data name="tabPage9.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 28</value>
   </data>
-  <data name="lab51.Text" xml:space="preserve">
-    <value>Tab Bottom Shielding:</value>
+  <data name="tabPage9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>432, 397</value>
   </data>
-  <data name="num_topAngleR_Shielded_X1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 29</value>
+  <data name="tabPage9.Text" xml:space="preserve">
+    <value>Dimension Parameter</value>
   </data>
-  <data name="lab58.Size" type="System.Drawing.Size, System.Drawing">
-    <value>174, 23</value>
+  <data name="groupBox18.Text" xml:space="preserve">
+    <value>Damage Level 2 inspection area parameters</value>
   </data>
-  <data name="lab58.Text" xml:space="preserve">
-    <value>Top Edge Shielding:</value>
+  <data name="label63.Size" type="System.Drawing.Size, System.Drawing">
+    <value>186, 20</value>
   </data>
-  <data name="lab47.Size" type="System.Drawing.Size, System.Drawing">
-    <value>163, 23</value>
+  <data name="label63.Text" xml:space="preserve">
+    <value>Tab - bottom expansion Y:</value>
   </data>
-  <data name="lab47.Text" xml:space="preserve">
-    <value>Top Tab Shielding:</value>
+  <data name="num_tab_down_Expansion_Y.Location" type="System.Drawing.Point, System.Drawing">
+    <value>261, 72</value>
   </data>
-  <data name="num_bottomAngleR_Shielded_X1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 29</value>
+  <data name="num_tab_down_Expansion_Y.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 25</value>
   </data>
-  <data name="num_topAngleR_Shielded_Y1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 29</value>
+  <data name="label62.Size" type="System.Drawing.Size, System.Drawing">
+    <value>159, 20</value>
   </data>
-  <data name="lab57.Size" type="System.Drawing.Size, System.Drawing">
-    <value>205, 23</value>
+  <data name="label62.Text" xml:space="preserve">
+    <value>Tab - top expansion Y:</value>
   </data>
-  <data name="lab57.Text" xml:space="preserve">
-    <value>Straight Edge Shielding:</value>
+  <data name="num_tab_up_Expansion_Y.Location" type="System.Drawing.Point, System.Drawing">
+    <value>261, 35</value>
   </data>
-  <data name="num_bottomAngleR_Shielded_Y1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 29</value>
+  <data name="num_tab_up_Expansion_Y.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 25</value>
   </data>
-  <data name="num_hypotenuse_Shielded_Y1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 29</value>
+  <data name="label54.Size" type="System.Drawing.Size, System.Drawing">
+    <value>221, 20</value>
   </data>
-  <data name="lab50.Size" type="System.Drawing.Size, System.Drawing">
-    <value>190, 23</value>
+  <data name="label54.Text" xml:space="preserve">
+    <value>Tab - Inner side - expansion X1:</value>
   </data>
-  <data name="lab50.Text" xml:space="preserve">
-    <value>Middle Tab Shielding:</value>
+  <data name="label56.Size" type="System.Drawing.Size, System.Drawing">
+    <value>224, 20</value>
+  </data>
+  <data name="label56.Text" xml:space="preserve">
+    <value>Tab - Outer side - expansion X2:</value>
+  </data>
+  <data name="num_tabOutside_Expansion_X2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>261, 195</value>
+  </data>
+  <data name="num_tabOutside_Expansion_X2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 25</value>
+  </data>
+  <data name="num_tabInside_Expansion_X1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>261, 112</value>
+  </data>
+  <data name="num_tabInside_Expansion_X1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 25</value>
+  </data>
+  <data name="num_tabOutside_Expansion_X1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>261, 154</value>
+  </data>
+  <data name="num_tabOutside_Expansion_X1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 25</value>
+  </data>
+  <data name="label59.Size" type="System.Drawing.Size, System.Drawing">
+    <value>224, 20</value>
+  </data>
+  <data name="label59.Text" xml:space="preserve">
+    <value>Tab - Outer side - expansion X1:</value>
   </data>
   <data name="gb_JR_broken_params.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 614</value>
@@ -1029,50 +1385,50 @@ the area adds up</value>
   <data name="gb_JR_broken_params.Text" xml:space="preserve">
     <value>Damage Detection Shielding</value>
   </data>
-  <data name="lab53.Size" type="System.Drawing.Size, System.Drawing">
-    <value>192, 23</value>
+  <data name="lab51.Size" type="System.Drawing.Size, System.Drawing">
+    <value>159, 20</value>
   </data>
-  <data name="lab53.Text" xml:space="preserve">
+  <data name="lab51.Text" xml:space="preserve">
     <value>Tab Bottom Shielding:</value>
   </data>
-  <data name="num_bottomAngleR_Shielded_Y.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 29</value>
+  <data name="num_topAngleR_Shielded_X1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 25</value>
   </data>
-  <data name="lab46.Size" type="System.Drawing.Size, System.Drawing">
-    <value>163, 23</value>
+  <data name="lab58.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 20</value>
   </data>
-  <data name="lab46.Text" xml:space="preserve">
-    <value>Tab Top Shielding:</value>
-  </data>
-  <data name="num_hypotenuse_Shielded_Y.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 29</value>
-  </data>
-  <data name="num_topAngleR_Shielded_Y.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 29</value>
-  </data>
-  <data name="lab52.Size" type="System.Drawing.Size, System.Drawing">
-    <value>190, 23</value>
-  </data>
-  <data name="lab52.Text" xml:space="preserve">
-    <value>Tab Middle Shielding:</value>
-  </data>
-  <data name="num_bottomAngleR_Shielded_X.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 29</value>
-  </data>
-  <data name="num_topAngleR_Shielded_X.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 29</value>
-  </data>
-  <data name="lab48.Size" type="System.Drawing.Size, System.Drawing">
-    <value>174, 23</value>
-  </data>
-  <data name="lab48.Text" xml:space="preserve">
+  <data name="lab58.Text" xml:space="preserve">
     <value>Top Edge Shielding:</value>
   </data>
-  <data name="lab49.Size" type="System.Drawing.Size, System.Drawing">
-    <value>205, 23</value>
+  <data name="lab47.Size" type="System.Drawing.Size, System.Drawing">
+    <value>135, 20</value>
   </data>
-  <data name="lab49.Text" xml:space="preserve">
+  <data name="lab47.Text" xml:space="preserve">
+    <value>Top Tab Shielding:</value>
+  </data>
+  <data name="num_bottomAngleR_Shielded_X1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 25</value>
+  </data>
+  <data name="num_topAngleR_Shielded_Y1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 25</value>
+  </data>
+  <data name="lab57.Size" type="System.Drawing.Size, System.Drawing">
+    <value>171, 20</value>
+  </data>
+  <data name="lab57.Text" xml:space="preserve">
     <value>Straight Edge Shielding:</value>
+  </data>
+  <data name="num_bottomAngleR_Shielded_Y1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 25</value>
+  </data>
+  <data name="num_hypotenuse_Shielded_Y1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 25</value>
+  </data>
+  <data name="lab50.Size" type="System.Drawing.Size, System.Drawing">
+    <value>157, 20</value>
+  </data>
+  <data name="lab50.Text" xml:space="preserve">
+    <value>Middle Tab Shielding:</value>
   </data>
   <data name="gb_JR_remaints_params.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 339</value>
@@ -1083,68 +1439,50 @@ the area adds up</value>
   <data name="gb_JR_remaints_params.Text" xml:space="preserve">
     <value>Scrap Detection Shielding</value>
   </data>
-  <data name="lab45.Size" type="System.Drawing.Size, System.Drawing">
-    <value>201, 23</value>
+  <data name="lab53.Size" type="System.Drawing.Size, System.Drawing">
+    <value>159, 20</value>
   </data>
-  <data name="lab45.Text" xml:space="preserve">
-    <value>BottomR-CornerRadius:</value>
+  <data name="lab53.Text" xml:space="preserve">
+    <value>Tab Bottom Shielding:</value>
   </data>
-  <data name="num_bottomAngleR_ridus.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 29</value>
+  <data name="num_bottomAngleR_Shielded_Y.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 25</value>
   </data>
-  <data name="num_topAngleR_ridus.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 29</value>
+  <data name="lab46.Size" type="System.Drawing.Size, System.Drawing">
+    <value>135, 20</value>
   </data>
-  <data name="lab6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>139, 23</value>
+  <data name="lab46.Text" xml:space="preserve">
+    <value>Tab Top Shielding:</value>
   </data>
-  <data name="lab6.Text" xml:space="preserve">
-    <value>BevelAngle(°)：</value>
+  <data name="num_hypotenuse_Shielded_Y.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 25</value>
   </data>
-  <data name="lab40.Size" type="System.Drawing.Size, System.Drawing">
-    <value>172, 23</value>
+  <data name="num_topAngleR_Shielded_Y.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 25</value>
   </data>
-  <data name="lab40.Text" xml:space="preserve">
-    <value>TopR-CornerRadius:</value>
+  <data name="lab52.Size" type="System.Drawing.Size, System.Drawing">
+    <value>157, 20</value>
   </data>
-  <data name="num_hypotenuse_length.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 29</value>
+  <data name="lab52.Text" xml:space="preserve">
+    <value>Tab Middle Shielding:</value>
   </data>
-  <data name="num_hypotenuse_angle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 29</value>
+  <data name="num_bottomAngleR_Shielded_X.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 25</value>
   </data>
-  <data name="lab7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 23</value>
+  <data name="num_topAngleR_Shielded_X.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 25</value>
   </data>
-  <data name="lab7.Text" xml:space="preserve">
-    <value>TopR-CornerAngle：</value>
+  <data name="lab48.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 20</value>
   </data>
-  <data name="lab38.Size" type="System.Drawing.Size, System.Drawing">
-    <value>159, 23</value>
+  <data name="lab48.Text" xml:space="preserve">
+    <value>Top Edge Shielding:</value>
   </data>
-  <data name="lab38.Text" xml:space="preserve">
-    <value>BevelLength(mm):</value>
+  <data name="lab49.Size" type="System.Drawing.Size, System.Drawing">
+    <value>171, 20</value>
   </data>
-  <data name="num_topAngleR_CompensationAngle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 29</value>
-  </data>
-  <data name="num_bottomAngleR_CompensationAngle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 29</value>
-  </data>
-  <data name="lab8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>208, 23</value>
-  </data>
-  <data name="lab8.Text" xml:space="preserve">
-    <value>BottomR-CornerAngle：</value>
-  </data>
-  <data name="lab556.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 23</value>
-  </data>
-  <data name="lab556.Text" xml:space="preserve">
-    <value>TabWidth(mm):</value>
-  </data>
-  <data name="num_JR_width.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 29</value>
+  <data name="lab49.Text" xml:space="preserve">
+    <value>Straight Edge Shielding:</value>
   </data>
   <data name="groupBox13.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 5</value>
@@ -1153,40 +1491,79 @@ the area adds up</value>
     <value>399, 314</value>
   </data>
   <data name="groupBox13.Text" xml:space="preserve">
-    <value>StandardTabParameters</value>
+    <value>Standard tab parameters</value>
   </data>
-  <data name="tabPage9.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 32</value>
+  <data name="lab45.Size" type="System.Drawing.Size, System.Drawing">
+    <value>167, 20</value>
   </data>
-  <data name="tabPage9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>432, 389</value>
+  <data name="lab45.Text" xml:space="preserve">
+    <value>Bottom R corner radius:</value>
   </data>
-  <data name="tabPage9.Text" xml:space="preserve">
-    <value>Dimension Parameter</value>
+  <data name="num_bottomAngleR_ridus.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 25</value>
   </data>
-  <data name="num_JRCenter_Row.Font" type="System.Drawing.Font, System.Drawing">
-    <value>微软雅黑, 10pt</value>
+  <data name="num_topAngleR_ridus.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 25</value>
   </data>
-  <data name="num_JRCenter_Row.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 29</value>
+  <data name="lab6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>110, 20</value>
   </data>
-  <data name="label40.Font" type="System.Drawing.Font, System.Drawing">
-    <value>微软雅黑, 10pt</value>
+  <data name="lab6.Text" xml:space="preserve">
+    <value>Bevel angle (°):</value>
   </data>
-  <data name="label40.Size" type="System.Drawing.Size, System.Drawing">
-    <value>24, 23</value>
+  <data name="lab40.Size" type="System.Drawing.Size, System.Drawing">
+    <value>143, 20</value>
   </data>
-  <data name="num_JRCenter_column.Font" type="System.Drawing.Font, System.Drawing">
-    <value>微软雅黑, 10pt</value>
+  <data name="lab40.Text" xml:space="preserve">
+    <value>Top R corner radius:</value>
   </data>
-  <data name="num_JRCenter_column.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 29</value>
+  <data name="num_hypotenuse_length.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 25</value>
   </data>
-  <data name="label42.Font" type="System.Drawing.Font, System.Drawing">
-    <value>微软雅黑, 10pt</value>
+  <data name="num_hypotenuse_angle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 25</value>
   </data>
-  <data name="label42.Size" type="System.Drawing.Size, System.Drawing">
-    <value>25, 23</value>
+  <data name="lab7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>93, 20</value>
+  </data>
+  <data name="lab7.Text" xml:space="preserve">
+    <value>Top R angle:</value>
+  </data>
+  <data name="lab38.Size" type="System.Drawing.Size, System.Drawing">
+    <value>136, 20</value>
+  </data>
+  <data name="lab38.Text" xml:space="preserve">
+    <value>Bevel length (mm):</value>
+  </data>
+  <data name="num_topAngleR_CompensationAngle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 25</value>
+  </data>
+  <data name="num_bottomAngleR_CompensationAngle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 25</value>
+  </data>
+  <data name="lab8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>117, 20</value>
+  </data>
+  <data name="lab8.Text" xml:space="preserve">
+    <value>Bottom R angle:</value>
+  </data>
+  <data name="lab556.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 20</value>
+  </data>
+  <data name="lab556.Text" xml:space="preserve">
+    <value>Tab width (mm):</value>
+  </data>
+  <data name="num_JR_width.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 25</value>
+  </data>
+  <data name="tabPage10.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 28</value>
+  </data>
+  <data name="tabPage10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>432, 397</value>
+  </data>
+  <data name="tabPage10.Text" xml:space="preserve">
+    <value>Regional Setting</value>
   </data>
   <data name="groupBox14.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt, style=Bold</value>
@@ -1200,20 +1577,53 @@ the area adds up</value>
   <data name="groupBox14.Text" xml:space="preserve">
     <value>Center Coordinates Of The Tab</value>
   </data>
-  <data name="cb_Enable_SimulationRegion.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="num_JRCenter_Row.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
-  <data name="cb_Enable_SimulationRegion.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 27</value>
+  <data name="num_JRCenter_Row.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 25</value>
   </data>
-  <data name="cb_Enable_SimulationRegion.Text" xml:space="preserve">
-    <value>Activate The Simulation ROI</value>
+  <data name="label40.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label40.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="num_JRCenter_column.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="num_JRCenter_column.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 25</value>
+  </data>
+  <data name="label42.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="label42.Size" type="System.Drawing.Size, System.Drawing">
+    <value>21, 20</value>
   </data>
   <data name="groupBox5.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt, style=Bold</value>
   </data>
   <data name="groupBox5.Text" xml:space="preserve">
     <value>Whether To Enable</value>
+  </data>
+  <data name="cb_Enable_SimulationRegion.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt</value>
+  </data>
+  <data name="cb_Enable_SimulationRegion.Size" type="System.Drawing.Size, System.Drawing">
+    <value>216, 24</value>
+  </data>
+  <data name="cb_Enable_SimulationRegion.Text" xml:space="preserve">
+    <value>Activate The Simulation ROI</value>
+  </data>
+  <data name="groupBox4.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 10pt, style=Bold</value>
+  </data>
+  <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>419, 153</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>Parameters For Detection  Region</value>
   </data>
   <data name="Detection_Right_Down_Y.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
@@ -1222,7 +1632,7 @@ the area adds up</value>
     <value>201, 113</value>
   </data>
   <data name="Detection_Right_Down_Y.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 25</value>
   </data>
   <data name="label8.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
@@ -1231,7 +1641,7 @@ the area adds up</value>
     <value>8, 115</value>
   </data>
   <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 23</value>
+    <value>154, 20</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
     <value>Right Bottom Point Y:</value>
@@ -1243,13 +1653,13 @@ the area adds up</value>
     <value>201, 75</value>
   </data>
   <data name="Detection_Right_Down_X.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 25</value>
   </data>
   <data name="label12.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
   <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>186, 23</value>
+    <value>155, 20</value>
   </data>
   <data name="label12.Text" xml:space="preserve">
     <value>Right Bottom Point X:</value>
@@ -1261,7 +1671,7 @@ the area adds up</value>
     <value>350, 33</value>
   </data>
   <data name="Detection_Left_UP_Y.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 25</value>
   </data>
   <data name="label7.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
@@ -1270,7 +1680,7 @@ the area adds up</value>
     <value>208, 35</value>
   </data>
   <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>118, 23</value>
+    <value>95, 20</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
     <value>Left Vertex Y:</value>
@@ -1282,40 +1692,19 @@ the area adds up</value>
     <value>134, 33</value>
   </data>
   <data name="Detection_Left_UP_X.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 25</value>
   </data>
   <data name="label10.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
   </data>
   <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>119, 23</value>
+    <value>96, 20</value>
   </data>
   <data name="label10.Text" xml:space="preserve">
     <value>Left Vertex X:</value>
   </data>
-  <data name="groupBox4.Font" type="System.Drawing.Font, System.Drawing">
-    <value>微软雅黑, 10pt, style=Bold</value>
-  </data>
-  <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>419, 153</value>
-  </data>
-  <data name="groupBox4.Text" xml:space="preserve">
-    <value>Parameters For Detection  Region</value>
-  </data>
-  <data name="tabPage10.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 32</value>
-  </data>
-  <data name="tabPage10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>432, 389</value>
-  </data>
-  <data name="tabPage10.Text" xml:space="preserve">
-    <value>Regional Setting</value>
-  </data>
-  <data name="TB_Params.Font" type="System.Drawing.Font, System.Drawing">
-    <value>微软雅黑, 10pt</value>
-  </data>
-  <data name="TB_Params.Size" type="System.Drawing.Size, System.Drawing">
-    <value>440, 425</value>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Function Selection</value>
   </data>
   <data name="num_timeOutPeriod.Font" type="System.Drawing.Font, System.Drawing">
     <value>微软雅黑, 10pt</value>
@@ -1324,19 +1713,19 @@ the area adds up</value>
     <value>374, 103</value>
   </data>
   <data name="num_timeOutPeriod.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 29</value>
+    <value>59, 25</value>
   </data>
   <data name="label13.Location" type="System.Drawing.Point, System.Drawing">
     <value>191, 108</value>
   </data>
   <data name="label13.Size" type="System.Drawing.Size, System.Drawing">
-    <value>197, 17</value>
+    <value>154, 14</value>
   </data>
   <data name="label13.Text" xml:space="preserve">
     <value>Time Out Period(ms)：</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>161, 17</value>
+    <value>126, 14</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>Detection Method:</value>
@@ -1351,7 +1740,7 @@ the area adds up</value>
     <value>Straight Edge Breakage</value>
   </data>
   <data name="com_DetectionMethod.Items2" xml:space="preserve">
-    <value>Straight Edge Drop-off</value>
+    <value>Edge Exposed Metal </value>
   </data>
   <data name="com_DetectionMethod.Items3" xml:space="preserve">
     <value>Straight Edge Residual Material</value>
@@ -1366,16 +1755,16 @@ the area adds up</value>
     <value>192, 32</value>
   </data>
   <data name="com_DetectionMethod.Size" type="System.Drawing.Size, System.Drawing">
-    <value>187, 31</value>
+    <value>187, 27</value>
   </data>
   <data name="cb_Enable_Classify.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 21</value>
+    <value>131, 18</value>
   </data>
   <data name="cb_Enable_Classify.Text" xml:space="preserve">
     <value>Enable Classify</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>89, 17</value>
+    <value>70, 14</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Polarity:</value>
@@ -1393,40 +1782,19 @@ the area adds up</value>
     <value>192, 68</value>
   </data>
   <data name="com_Cathode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>187, 31</value>
-  </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>Function Selection</value>
-  </data>
-  <data name="tableLayoutPanel4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 23</value>
-  </data>
-  <data name="tableLayoutPanel4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>446, 574</value>
-  </data>
-  <data name="GB_DetectParams.Font" type="System.Drawing.Font, System.Drawing">
-    <value>黑体, 10pt</value>
-  </data>
-  <data name="GB_DetectParams.Text" xml:space="preserve">
-    <value>Detection Parameter</value>
-  </data>
-  <data name="Label_Image.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 42</value>
-  </data>
-  <data name="TLP_Image1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>95, 178</value>
+    <value>187, 27</value>
   </data>
   <data name="tableLayoutPanel3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 23</value>
+    <value>3, 19</value>
   </data>
   <data name="tableLayoutPanel3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>492, 198</value>
+    <value>492, 202</value>
   </data>
-  <data name="groupBox1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>黑体, 10pt</value>
+  <data name="TLP_Image1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>95, 182</value>
   </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>GraphicVariable</value>
+  <data name="Label_Image.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 46</value>
   </data>
   <data name="ImageReset.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

@@ -92,7 +92,7 @@ namespace Frame_Core
                     lightManager[i].LightParam.Save();
                     //lightManager[i].IniLightSystem();
                 }
-
+                UIDelegate.LightParamChange();
             }
             catch (Exception ex)
             {
@@ -160,6 +160,7 @@ namespace Frame_Core
                     lightManager[i].Light.ChangeValue(8, lightManager[i].LightParam.LightChannel8);
 
                 }
+                UIDelegate.LightParamChange();
             }
             catch (Exception ex)
             {

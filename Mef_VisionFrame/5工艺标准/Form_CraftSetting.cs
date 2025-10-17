@@ -362,6 +362,11 @@ namespace Mef_VisionFrame
                     tB_ConfigName.Visible = false;
                     LoadProjectList();
                     SelectTargetItem(str_ConfigName);
+
+                    //命名之后自动保存一下选中配方
+                    string path = Project.Instance.paramPathSet.CraftPath + CurrentMateriarl.ToString() + "\\" + str_ConfigName;
+                    M_craftBase.filePath = path;
+                    formCraftBase.SaveCraft(path);
                 }
                 catch { tB_ConfigName.Visible = false; }
             }

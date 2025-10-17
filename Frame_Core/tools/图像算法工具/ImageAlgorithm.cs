@@ -1,4 +1,5 @@
-﻿using HalconDotNet;
+﻿using Frame_Cor;
+using HalconDotNet;
 using LogTool;
 using NPOI.SS.Formula.Functions;
 using System;
@@ -71,14 +72,141 @@ namespace Frame_Core
             HOperatorSet.SetOriginPose(hv_ExternalParam, 0, 0, Dz, out hv_ExternalParam);
         }
 
-
         /// <summary>
         /// 找菲林片
         /// </summary>
         /// <param name="ho_Image"></param>
         /// <param name="paramMultiCamCalib"></param>
         /// <param name="ho_Region"></param>
-        public static void FindFilmRectangleInfo(string source, HObject ho_Image, double calibrationX, double calibrationY, SizeCheckPointParam sizeCheckPointParam, out HObject preproccessRegion, out List<RectangleInfo> rectangleInfos)
+        public static ExecuteResult FindFilmRectangleInfo(CameraEnum cameraEnum, HObject ho_Image, RectangleFilmParam rectangleFilmParam, ref ShowHalconWindow showHalconWindow, out List<PointInfo> pointInfos)
+        {
+            ExecuteResult executeResult = new ExecuteResult();
+            executeResult.IsSuccess = false;
+            HTuple start = null, end = null;
+            pointInfos = new List<PointInfo>();
+
+            HOperatorSet.CountSeconds(out start);
+
+            HObject ho_WhiteRegion = null;
+            HObject TestRoi, ConnectionROI, TestRoi1;
+            HObject testimage;
+            HOperatorSet.GenEmptyObj(out TestRoi);
+            HOperatorSet.GenEmptyObj(out TestRoi1);
+            HOperatorSet.GenEmptyObj(out ConnectionROI);
+            HOperatorSet.GenEmptyObj(out testimage);
+            HOperatorSet.GenEmptyObj(out ho_WhiteRegion);
+            try
+            {
+                if (showHalconWindow.m_messageShowInfos == null) showHalconWindow.m_messageShowInfos = new List<MessageShowInfo>();
+                if (showHalconWindow.m_lineShowInfos == null) showHalconWindow.m_lineShowInfos = new List<LineInfo>();
+                if (showHalconWindow.m_regionShowInfos == null) showHalconWindow.m_regionShowInfos = new List<RegionShowInfo>();
+                //==========================================================
+                //【1】找菲林片获取所有菲林片行列坐标
+                HOperatorSet.GetImageSize(ho_Image, out HTuple imageWidth, out HTuple imageHeight);
+                HTuple edgeX1 = rectangleFilmParam.EdgeX1;
+                HTuple edgeX2 = rectangleFilmParam.EdgeX2;
+                //HTuple MinArea = (int)(((sizeCheckPointParam.CalibBlockHeiht / 3) / sizeCheckPointParam.Hcali) * ((sizeCheckPointParam.CalibBlockWidth / 3) / sizeCheckPointParam.Wcail));     //LWL
+                //HTuple MaxArea = (int)(((sizeCheckPointParam.CalibBlockHeiht + 3) / sizeCheckPointParam.Hcali) * ((sizeCheckPointParam.CalibBlockWidth + 3) / sizeCheckPointParam.Wcail));     //LWL
+
+
+                HTuple ROInum = 0;
+                HTuple x1 = null, y1 = null, x2 = null, y2 = null;//方框坐标
+
+                double rectArea = rectangleFilmParam.SideLengthPixX * rectangleFilmParam.SideLengthPixY;
+                double rectMinArea = rectArea * 0.7;
+                double rectMaxArea = rectArea * 1.3;
+
+                HOperatorSet.GenRectangle1(out TestRoi, 1, edgeX1, imageHeight - 1, edgeX2);//LWL
+
+                HOperatorSet.Union2(TestRoi, TestRoi1, out TestRoi);//***************
+                HOperatorSet.ReduceDomain(ho_Image, TestRoi, out testimage);
+                //提取校准片的框框
+                HTuple outt;
+                HOperatorSet.BinaryThreshold(testimage, out TestRoi, "max_separability", "light", out outt);
+                HOperatorSet.Connection(TestRoi, out ConnectionROI);
+
+                //HOperatorSet.SelectShape(ConnectionROI, out TestRoi, "area", "and", MinArea, MaxArea);
+                //HOperatorSet.SelectShapeStd(TestRoi, out TestRoi, "max_area", 70);//仅选取面积最大的区域*****************
+                //HOperatorSet.SelectShape(TestRoi, out TestRoi, "area", "and", rectArea - 100, rectArea + 100);
+                HOperatorSet.CountObj(ConnectionROI, out ROInum);
+                if (ROInum > 0)
+                {
+                    ////在白色底中找黑色的菲林片
+                    HOperatorSet.SmallestRectangle1(ConnectionROI, out y1, out x1, out y2, out x2);
+                    HOperatorSet.GenRectangle1(out ho_WhiteRegion, y1, x1, y2, x2);
+                    HOperatorSet.Union1(ho_WhiteRegion, out ho_WhiteRegion);//***********
+                    HOperatorSet.ReduceDomain(testimage, ho_WhiteRegion, out ho_WhiteRegion);
+                    HOperatorSet.Threshold(ho_WhiteRegion, out TestRoi, rectangleFilmParam.CalibBlockMinThreshold, rectangleFilmParam.CalibBlockMaxThreshold);
+                }
+                HOperatorSet.CountObj(TestRoi, out ROInum);
+                if (ROInum > 0)
+                {
+                    HOperatorSet.SmallestRectangle1(TestRoi, out y1, out x1, out y2, out x2);
+                    HOperatorSet.ClosingRectangle1(TestRoi, out TestRoi, 10, 10);
+
+                    HOperatorSet.FillUp(TestRoi, out TestRoi);
+                    HOperatorSet.OpeningRectangle1(TestRoi, out TestRoi, 15, 15);
+                    HOperatorSet.Connection(TestRoi, out TestRoi);
+                    HTuple hv_Area = 0;
+                    HOperatorSet.RegionFeatures(TestRoi, "area", out hv_Area);
+                    //HOperatorSet.SelectShape(TestRoi, out TestRoi, "area", "and", MinArea, MaxArea);
+                    HOperatorSet.SelectShapeStd(TestRoi, out TestRoi, "max_area", 70);//仅选取面积最大的区域*****************
+                    HOperatorSet.SelectShape(TestRoi, out TestRoi, "area", "and", rectMinArea, rectMaxArea);
+
+                    //菲林片在中间
+                    HOperatorSet.SelectShape(TestRoi, out TestRoi, "row1", "and", 20, imageHeight - 20);
+                    HOperatorSet.SelectShape(TestRoi, out TestRoi, "row2", "and", 20, imageHeight - 20);
+                }
+
+                HOperatorSet.CountObj(TestRoi, out ROInum);
+                HOperatorSet.AreaCenter(TestRoi, out HTuple center_area, out HTuple center_row, out HTuple center_col);
+
+                //如果没有找到校准片
+                if (ROInum < 1 || center_area == 0) { TestRoi.Dispose(); }
+                else
+                {
+                    showHalconWindow.m_regionShowInfos.Add(new RegionShowInfo() { m_hRegion = TestRoi, m_stuGetColor = HalconColor.red });
+                    HTuple Index = 0;
+                    HOperatorSet.SmallestRectangle1(TestRoi, out y1, out x1, out y2, out x2);
+                    HOperatorSet.TupleSortIndex(y1, out Index);//ROW由小到大索引排序
+                    for (int i = 0; i < Index.Length; i++)
+                    {
+                        int hv_i = Index[i] + 1;
+
+                        HOperatorSet.SmallestRectangle1(TestRoi.SelectObj(hv_i), out y1, out x1, out y2, out x2);
+
+                        pointInfos.Add(new PointInfo() { Row = (y1 + y2) / 2, Col = (x1 + x2) / 2 });
+                    }
+                }
+
+                executeResult.IsSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                Log4netRecord.ErrorLog.Error(cameraEnum.ToString(), ex);
+                executeResult.IsSuccess = false;
+            }
+            finally
+            {
+                //TestRoi.Dispose();
+                TestRoi1.Dispose();
+                ConnectionROI.Dispose();
+                testimage.Dispose();
+                ho_WhiteRegion.Dispose();
+
+                HOperatorSet.CountSeconds(out end);
+                executeResult.Time = ((end - start) * 1000).D;
+                executeResult.Time = Math.Round(executeResult.Time, 2);
+            }
+            return executeResult;
+        }
+        /// <summary>
+        /// 找菲林片
+        /// </summary>
+        /// <param name="ho_Image"></param>
+        /// <param name="paramMultiCamCalib"></param>
+        /// <param name="ho_Region"></param>
+        public static void FindFilmRectangleInfo(string source, HObject ho_Image, double calibrationX, double calibrationY, RectangleFilmParam rectangleFilmParam, out HObject preproccessRegion, out List<RectangleInfo> rectangleInfos)
         {
             rectangleInfos = new List<RectangleInfo>();
             preproccessRegion = null;
@@ -87,8 +215,8 @@ namespace Frame_Core
                 //==========================================================
                 //【1】找菲林片获取所有菲林片行列坐标
                 HOperatorSet.GetImageSize(ho_Image, out HTuple imageWidth, out HTuple imageHeight);
-                HTuple edgeX1 = sizeCheckPointParam.EdgeX1;
-                HTuple edgeX2 = sizeCheckPointParam.EdgeX2;
+                HTuple edgeX1 = rectangleFilmParam.EdgeX1;
+                HTuple edgeX2 = rectangleFilmParam.EdgeX2;
                 //HTuple MinArea = (int)(((sizeCheckPointParam.CalibBlockHeiht / 3) / sizeCheckPointParam.Hcali) * ((sizeCheckPointParam.CalibBlockWidth / 3) / sizeCheckPointParam.Wcail));     //LWL
                 //HTuple MaxArea = (int)(((sizeCheckPointParam.CalibBlockHeiht + 3) / sizeCheckPointParam.Hcali) * ((sizeCheckPointParam.CalibBlockWidth + 3) / sizeCheckPointParam.Wcail));     //LWL
 
@@ -108,7 +236,7 @@ namespace Frame_Core
                 try
                 {
 
-                    double rectArea = sizeCheckPointParam.SideLengthPixX * sizeCheckPointParam.SideLengthPixY;
+                    double rectArea = rectangleFilmParam.SideLengthPixX * rectangleFilmParam.SideLengthPixY;
 
                     HOperatorSet.GenRectangle1(out TestRoi, 1, edgeX1, imageHeight - 1, edgeX2);//LWL
 
@@ -127,7 +255,7 @@ namespace Frame_Core
                     HOperatorSet.GenRectangle1(out ho_WhiteRegion, y1, x1, y2, x2);
                     HOperatorSet.Union1(ho_WhiteRegion, out ho_WhiteRegion);//***********
                     HOperatorSet.ReduceDomain(testimage, ho_WhiteRegion, out ho_WhiteRegion);
-                    HOperatorSet.Threshold(ho_WhiteRegion, out TestRoi, sizeCheckPointParam.CalibBlockMinThreshold, sizeCheckPointParam.CalibBlockMaxThreshold);
+                    HOperatorSet.Threshold(ho_WhiteRegion, out TestRoi, rectangleFilmParam.CalibBlockMinThreshold, rectangleFilmParam.CalibBlockMaxThreshold);
                     //HalconWinHandle.DispObj(TestRoi);
                     HOperatorSet.SmallestRectangle1(TestRoi, out y1, out x1, out y2, out x2);
                     HOperatorSet.ClosingRectangle1(TestRoi, out TestRoi, 10, 10);
@@ -161,9 +289,11 @@ namespace Frame_Core
 
                             if (y1.D > 20 && y2 < imageHeight - 20)//菲林片在中间
                             {
-                                sizeCheckPointParam.LineModelParam.MeasureSelect = 2;
-                                sizeCheckPointParam.LineModelParam.MeasureTransition = 2;
-                                ImageAlgorithm.FindRectangleEdge(ho_Image, TestRoi.SelectObj(hv_i), sizeCheckPointParam.LineModelParam, out RectangleInfo rectangleInfo);
+                                Param_LineModel param_LineModel = new Param_LineModel();
+                                param_LineModel.MesureThreshold = 20;
+                                param_LineModel.MeasureSelect = 2;
+                                param_LineModel.MeasureTransition = 2;
+                                ImageAlgorithm.FindRectangleEdge(ho_Image, TestRoi.SelectObj(hv_i), param_LineModel, out RectangleInfo rectangleInfo);
                                 ImageAlgorithm.CalculateRectangleCenterLocation(ref rectangleInfo, calibrationX, calibrationY);
                                 rectangleInfos.Add(rectangleInfo);
                             }
@@ -838,6 +968,100 @@ namespace Frame_Core
             {
             }
         }
+
+        /// <summary>
+        /// 找边
+        /// </summary>
+        /// <param name="ho_Image"></param>
+        /// <param name="hv_MeasureRow1"></param>
+        /// <param name="hv_MeasureColumn1"></param>
+        /// <param name="hv_MeasureRow2"></param>
+        /// <param name="hv_MeasureColumn2"></param>
+        /// <param name="hv_MeasureLength1"></param>
+        /// <param name="hv_MeasureLength2"></param>
+        /// <param name="hv_MeasureSigma"></param>
+        /// <param name="hv_MeasureThreshold"></param>
+        /// <param name="hv_MeasureNumInstances"></param>
+        /// <param name="hv_MeasureDistThreshold"></param>
+        /// <param name="hv_MeasureTransition"></param>
+        /// <param name="hv_MeasureSelect"></param>
+        /// <param name="hv_MeasurePointsNum"></param>
+        /// <param name="hv_MeasureMinScore"></param>
+        /// <param name="hv_MaxNumIterations"></param>
+        /// <param name="hv_MeasureInterpolation"></param>
+        /// <param name="hv_MeasureIORegions"></param>
+        /// <param name="lineInfos"></param>
+        public static void FindLine(HObject ho_Image, HTuple hv_MeasureRow1, HTuple hv_MeasureColumn1, HTuple hv_MeasureRow2, HTuple hv_MeasureColumn2, HTuple hv_MeasureLength1, HTuple hv_MeasureLength2, HTuple hv_MeasureSigma, HTuple hv_MeasureThreshold,
+                                    HTuple hv_MeasureNumInstances, HTuple hv_MeasureDistThreshold, HTuple hv_MeasureTransition, HTuple hv_MeasureSelect,
+                                    HTuple hv_MeasurePointsNum, HTuple hv_MeasureMinScore, HTuple hv_MaxNumIterations, HTuple hv_MeasureInterpolation, HTuple hv_MeasureIORegions, out List<LineInfo1> lineInfos, out HObject ho_Contours)
+        {
+            lineInfos = null;
+            HTuple hv_MetrologyHandle = null;
+            ho_Contours = null;
+            try
+            {
+
+                HOperatorSet.CreateMetrologyModel(out hv_MetrologyHandle);
+                //HOperatorSet.GetImageSize(ho_Image, out hv_Width, out hv_Height);
+
+                HOperatorSet.AddMetrologyObjectLineMeasure(hv_MetrologyHandle, hv_MeasureRow1, hv_MeasureColumn1, hv_MeasureRow2, hv_MeasureColumn2, hv_MeasureLength1, hv_MeasureLength2,
+                             hv_MeasureSigma, hv_MeasureThreshold, new HTuple(), new HTuple(), out HTuple hv_Index);
+
+                //1.拟合数量：默认值： 1 值的列表： 1，2，3，4
+                HOperatorSet.SetMetrologyObjectParam(hv_MetrologyHandle, hv_Index, "num_instances", hv_MeasureNumInstances);
+                //2.距离剔除：默认值： 3.5  值的列表： 0，1.0，2.0， 3.5，5.0
+                HOperatorSet.SetMetrologyObjectParam(hv_MetrologyHandle, hv_Index, "distance_threshold", hv_MeasureDistThreshold);
+                //3.明暗方向：值列表： 'all'，'negative'， 'positive'，'uniform'
+                HOperatorSet.SetMetrologyObjectParam(hv_MetrologyHandle, hv_Index, "measure_transition", hv_MeasureTransition);
+                //4.边缘选取：'all'，'first'，'last'
+                HOperatorSet.SetMetrologyObjectParam(hv_MetrologyHandle, hv_Index, "measure_select", hv_MeasureSelect);
+                //5.Roi数量：'num_measures'
+                HOperatorSet.SetMetrologyObjectParam(hv_MetrologyHandle, hv_Index, "num_measures", hv_MeasurePointsNum);
+                //6.最小得分：'min_score'
+                HOperatorSet.SetMetrologyObjectParam(hv_MetrologyHandle, hv_Index, "min_score", hv_MeasureMinScore);
+                //7.迭代次数: 默认值：-1  值的列表： 10，100，1000
+                HOperatorSet.SetMetrologyObjectParam(hv_MetrologyHandle, hv_Index, "max_num_iterations", hv_MaxNumIterations);
+                //8.插值类型：nearest_neighbor'灰度值是从最近像素的灰度值获得；'bilinear'，使用双线性插值 ；'bicubic'，则使用双三次插值。
+                HOperatorSet.SetMetrologyObjectParam(hv_MetrologyHandle, hv_Index, "measure_interpolation", hv_MeasureInterpolation);
+                //9.指定对测量结果的验证：默认值： “ false”  值列表： 'true'，'false'
+                HOperatorSet.SetMetrologyObjectParam(hv_MetrologyHandle, hv_Index, "instances_outside_measure_regions", hv_MeasureIORegions);
+
+                HOperatorSet.ApplyMetrologyModel(ho_Image, hv_MetrologyHandle);
+                HOperatorSet.GetMetrologyObjectMeasures(out ho_Contours, hv_MetrologyHandle, "all", "all", out HTuple hv_CrossRow, out HTuple hv_CrossColumn);
+                HOperatorSet.GetMetrologyObjectResult(hv_MetrologyHandle, "all", "all", "result_type", "row_begin", out HTuple hv_LineRowBegin);
+                HOperatorSet.GetMetrologyObjectResult(hv_MetrologyHandle, "all", "all", "result_type", "column_begin", out HTuple hv_LineColumnBegin);
+                HOperatorSet.GetMetrologyObjectResult(hv_MetrologyHandle, "all", "all", "result_type", "row_end", out HTuple hv_LineRowEnd);
+                HOperatorSet.GetMetrologyObjectResult(hv_MetrologyHandle, "all", "all", "result_type", "column_end", out HTuple hv_LineColumnEnd);
+
+                //获取计量模型对象结果轮廓
+                if (hv_LineRowBegin != null && hv_LineRowBegin.Length > 0)
+                {
+                    lineInfos = new List<LineInfo1>();
+                    for (int i = 0; i < hv_LineRowBegin.Length; i++)
+                    {
+                        lineInfos.Add(new LineInfo1());
+                        lineInfos[i].RowBegin = hv_LineRowBegin[i].D;
+                        lineInfos[i].ColBegin = hv_LineColumnBegin[i].D;
+                        lineInfos[i].RowEnd = hv_LineRowEnd[i].D;
+                        lineInfos[i].ColEnd = hv_LineColumnEnd[i].D;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log4netRecord.ErrorLog.Error(ex);
+            }
+
+            try
+            {
+                //清除测量模型
+                //ho_Contours.Dispose();
+                if (hv_MetrologyHandle != null) HOperatorSet.ClearMetrologyModel(hv_MetrologyHandle);
+            }
+            catch (Exception)
+            {
+            }
+        }
         /// <summary>
         /// 找边
         /// </summary>
@@ -863,6 +1087,168 @@ namespace Frame_Core
                 Log4netRecord.ErrorLog.Error(PopUpWindowsShow.ReplaceStringIgnoreCaseHalcon(ex.Message + ex.StackTrace));
             }
         }
+
+        /// <summary>
+        /// 找边
+        /// </summary>
+        /// <param name="ho_Image"></param>
+        /// <param name="paramLine"></param>
+        /// <param name="lineModel"></param>
+        /// <param name="lineInfos"></param>
+        public static void FindLine(CameraEnum cameraEnum, HObject ho_Image, Param_Line paramLine, out LineInfo1 lineInfo)
+        {
+            lineInfo = new LineInfo1();
+            try
+            {
+                lineInfo.StrLineName = paramLine.LineName;
+                HOperatorSet.TupleRad(paramLine.RoiAngle, out HTuple hv_RoiPhi);//将角度转换为弧度
+                Rectangle2_ToLineModel(paramLine.RoiMidRow, paramLine.RoiMidColumn, hv_RoiPhi, paramLine.RoiLength1, paramLine.RoiLength2, paramLine.RoiPointsNum,
+                   out double lineRow1, out double lineCol1, out double lineRow2, out double lineCol2, out double MeasureLength1, out double MeasureLength2);
+                lineInfo.RoiMidRow = paramLine.RoiMidRow;
+                lineInfo.RoiMidColumn = paramLine.RoiMidColumn;
+                lineInfo.RoiAngle = paramLine.RoiAngle;
+                lineInfo.RoiLength1 = paramLine.RoiLength1;
+                lineInfo.RoiLength2 = paramLine.RoiLength2;
+
+                FindLine(ho_Image, lineRow1, lineCol1, lineRow2, lineCol2, MeasureLength1, MeasureLength2, paramLine.MesureSigma, paramLine.MesureThreshold,
+                    paramLine.MeasureNumInstances, paramLine.MeasureDistThreshold, GetAnotherNamerAttribute((MeasureTransition)paramLine.MeasureTransition_), GetAnotherNamerAttribute((MeasureLine)paramLine.MeasureSelect),
+                    paramLine.RoiPointsNum, paramLine.MeasureMinScore, paramLine.MaxNumIterations, GetAnotherNamerAttribute((MeasureInterpolation)paramLine.MeasureInterpolation_), GetAnotherNamerAttribute((MeasureIORegions)paramLine.MeasureIORegions_), out List<LineInfo1> lineInfos);
+                if (lineInfos != null && lineInfos.Count > 0)
+                {
+                    lineInfo = lineInfos[0];
+                    lineInfo.IsLineSuccessfull = true;
+                }
+                else
+                {
+                    lineInfo.IsLineSuccessfull = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log4netRecord.ErrorLog.Error($"{cameraEnum}-{lineInfo.StrLineName}", ex);
+            }
+        }
+
+        /// <summary>
+        /// 找边
+        /// </summary>
+        /// <param name="ho_Image"></param>
+        /// <param name="paramLine"></param>
+        /// <param name="lineModel"></param>
+        /// <param name="lineInfos"></param>
+        public static void FindLine(CameraEnum cameraEnum, HObject ho_Image, Param_Line paramLine, out List<LineInfo1> lineInfos)
+        {
+            lineInfos = new List<LineInfo1>();
+            try
+            {
+                FindLineRectangROIFollow(paramLine);
+                HOperatorSet.TupleRad(paramLine.RoiAngle, out HTuple hv_RoiPhi);//将角度转换为弧度
+                Rectangle2_ToLineModel(paramLine.RoiMidRow, paramLine.RoiMidColumn, hv_RoiPhi, paramLine.RoiLength1, paramLine.RoiLength2, paramLine.RoiPointsNum,
+                   out double lineRow1, out double lineCol1, out double lineRow2, out double lineCol2, out double MeasureLength1, out double MeasureLength2);
+
+
+                FindLine(ho_Image, lineRow1, lineCol1, lineRow2, lineCol2, MeasureLength1, MeasureLength2, paramLine.MesureSigma, paramLine.MesureThreshold,
+                    paramLine.MeasureNumInstances, paramLine.MeasureDistThreshold, GetAnotherNamerAttribute((MeasureTransition)paramLine.MeasureTransition_), GetAnotherNamerAttribute((MeasureLine)paramLine.MeasureSelect),
+                    paramLine.RoiPointsNum, paramLine.MeasureMinScore, paramLine.MaxNumIterations, GetAnotherNamerAttribute((MeasureInterpolation)paramLine.MeasureInterpolation_), GetAnotherNamerAttribute((MeasureIORegions)paramLine.MeasureIORegions_), out List<LineInfo1> lineInfos_Temp);
+
+
+                if (lineInfos_Temp != null && lineInfos_Temp.Count > 1)
+                {
+                    //============================================
+                    //排序
+                    if (paramLine.LineSortType == (int)SortEnum.X)
+                    {
+                        // 第二种排序方式：按 (ColBegin + ColEnd)/2 升序排序
+                        lineInfos_Temp = lineInfos_Temp
+                            .OrderBy(line => (line.ColBegin + line.ColEnd) / 2)
+                            .ToList();
+                    }
+                    else
+                    {
+                        // 第一种排序方式：按 (RowBegin + RowEnd)/2 升序排序
+                        lineInfos_Temp = lineInfos_Temp
+                            .OrderBy(line => (line.RowBegin + line.RowEnd) / 2)
+                            .ToList();
+                    }
+                }
+
+                for (int i = 0; i < paramLine.MeasureNumInstances; i++)
+                {
+                    LineInfo1 lineInfo1 = new LineInfo1();
+                    lineInfo1.StrLineName = $"{paramLine.LineName}-[{i + 1}]";
+                    lineInfo1.RoiMidRow = paramLine.RoiMidRow;
+                    lineInfo1.RoiMidColumn = paramLine.RoiMidColumn;
+                    lineInfo1.RoiAngle = paramLine.RoiAngle;
+                    lineInfo1.RoiLength1 = paramLine.RoiLength1;
+                    lineInfo1.RoiLength2 = paramLine.RoiLength2;
+                    if (lineInfos_Temp == null || i >= lineInfos_Temp.Count)
+                    {
+                        lineInfo1.IsLineSuccessfull = false;
+                        lineInfos.Add(lineInfo1);
+                    }
+                    else
+                    {
+                        lineInfos_Temp[i].StrLineName = $"{paramLine.LineName}-[{i + 1}]";
+                        lineInfos_Temp[i].RoiMidRow = paramLine.RoiMidRow;
+                        lineInfos_Temp[i].RoiMidColumn = paramLine.RoiMidColumn;
+                        lineInfos_Temp[i].RoiAngle = paramLine.RoiAngle;
+                        lineInfos_Temp[i].RoiLength1 = paramLine.RoiLength1;
+                        lineInfos_Temp[i].RoiLength2 = paramLine.RoiLength2;
+                        lineInfos_Temp[i].IsLineSuccessfull = true;
+                        lineInfos.Add(lineInfos_Temp[i]);
+                    }
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Log4netRecord.ErrorLog.Error($"{cameraEnum}-{paramLine.LineName}", ex);
+            }
+        }
+
+        /// <summary>
+        /// 找边
+        /// </summary>
+        /// <param name="ho_Image"></param>
+        /// <param name="paramLine"></param>
+        /// <param name="lineModel"></param>
+        /// <param name="lineInfos"></param>
+        public static void FindLine(CameraEnum cameraEnum, HObject ho_Image, Param_Line paramLine, out LineInfo1 lineInfo, out HObject ho_Contours)
+        {
+            ho_Contours = null;
+            lineInfo = new LineInfo1();
+            try
+            {
+                lineInfo.StrLineName = paramLine.LineName;
+                HOperatorSet.TupleRad(paramLine.RoiAngle, out HTuple hv_RoiPhi);//将角度转换为弧度
+                Rectangle2_ToLineModel(paramLine.RoiMidRow, paramLine.RoiMidColumn, hv_RoiPhi, paramLine.RoiLength1, paramLine.RoiLength2, paramLine.RoiPointsNum,
+                   out double lineRow1, out double lineCol1, out double lineRow2, out double lineCol2, out double MeasureLength1, out double MeasureLength2);
+                lineInfo.RoiMidRow = paramLine.RoiMidRow;
+                lineInfo.RoiMidColumn = paramLine.RoiMidColumn;
+                lineInfo.RoiAngle = paramLine.RoiAngle;
+                lineInfo.RoiLength1 = paramLine.RoiLength1;
+                lineInfo.RoiLength2 = paramLine.RoiLength2;
+
+                FindLine(ho_Image, lineRow1, lineCol1, lineRow2, lineCol2, MeasureLength1, MeasureLength2, paramLine.MesureSigma, paramLine.MesureThreshold,
+                    paramLine.MeasureNumInstances, paramLine.MeasureDistThreshold, GetAnotherNamerAttribute((MeasureTransition)paramLine.MeasureTransition_), GetAnotherNamerAttribute((MeasureLine)paramLine.MeasureSelect),
+                    paramLine.RoiPointsNum, paramLine.MeasureMinScore, paramLine.MaxNumIterations, GetAnotherNamerAttribute((MeasureInterpolation)paramLine.MeasureInterpolation_), GetAnotherNamerAttribute((MeasureIORegions)paramLine.MeasureIORegions_), out List<LineInfo1> lineInfos, out ho_Contours);
+                if (lineInfos != null && lineInfos.Count > 0)
+                {
+                    lineInfo = lineInfos[0];
+                    lineInfo.IsLineSuccessfull = true;
+                }
+                else
+                {
+                    lineInfo.IsLineSuccessfull = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log4netRecord.ErrorLog.Error($"{cameraEnum}-{lineInfo.StrLineName}", ex);
+            }
+        }
+
 
         /// <summary>
         /// 找边
@@ -1021,14 +1407,14 @@ namespace Frame_Core
             //double rectangleAngleInDegrees = rectangleAngle * (180 / Math.PI);//将弧度转换为角度
             //HOperatorSet.TupleDeg();将弧度转换为角度
 
-            lineRow1 = rectangleMidRow - rectangleLength2 * Math.Sin(phi) / 2;
-            lineCol1 = rectangleMidColumn - rectangleLength2 * Math.Cos(phi) / 2;
-            lineRow2 = rectangleMidRow + rectangleLength2 * Math.Sin(phi) / 2;
-            lineCol2 = rectangleMidColumn + rectangleLength2 * Math.Cos(phi) / 2;
+            lineRow1 = rectangleMidRow - rectangleLength1 * Math.Sin(phi) / 2;
+            lineCol1 = rectangleMidColumn - rectangleLength1 * Math.Cos(phi) / 2;
+            lineRow2 = rectangleMidRow + rectangleLength1 * Math.Sin(phi) / 2;
+            lineCol2 = rectangleMidColumn + rectangleLength1 * Math.Cos(phi) / 2;
 
             RoiPointsNum = RoiPointsNum <= 0 ? 1 : RoiPointsNum;
-            MeasureLength1 = rectangleLength1 / 2;
-            MeasureLength2 = rectangleLength2 / RoiPointsNum / 2;//半高
+            MeasureLength1 = rectangleLength2 / 2;
+            MeasureLength2 = rectangleLength1 / RoiPointsNum / 2;//半高
         }
 
         /// <summary>
@@ -1150,6 +1536,19 @@ namespace Frame_Core
             lowerRight_Col = rectangleMidColumn + halfWidth * cosAngle + halfHeight * sinAngle;
         }
 
+        /// <summary>
+        /// 抓边ROI是否自动跟随
+        /// </summary>
+        /// <param name="paramLine"></param>
+        public static void FindLineRectangROIFollow(Param_Line paramLine)
+        {
+            if (paramLine == null) return;
+            if (paramLine.IsROIFollow)
+            {
+                paramLine.RoiMidRow = paramLine.BasePointY + paramLine.BaseOffsetY;
+                paramLine.RoiMidColumn = paramLine.BasePointX + paramLine.BaseOffsetX;
+            }
+        }
 
         /// <summary>
         /// 获取矩形的角点坐标（基于X,Y）
@@ -1329,7 +1728,78 @@ namespace Frame_Core
             return;
         }
 
+        /// <summary>
+        /// 找线宽菲林片
+        /// </summary>
+        /// <param name="cameraEnum"></param>
+        /// <param name="ho_Image"></param>
+        /// <param name="lineWidthFilmParam"></param>
+        /// <param name="showHalconWindow"></param>
+        /// <param name="pointInfos">输出线宽菲林片中心点坐标</param>
+        /// <returns></returns>
+        public static ExecuteResult FindFilmLineWidthInfo(CameraEnum cameraEnum, HObject ho_Image, LineWidthFilmParam lineWidthFilmParam, ref ShowHalconWindow showHalconWindow, out List<PointInfo> pointInfos)
+        {
+            ExecuteResult executeResult = new ExecuteResult();
+            executeResult.IsSuccess = false;
+            HTuple start = null, end = null;
+            HOperatorSet.CountSeconds(out start);
 
+            pointInfos = new List<PointInfo>();
+            HObject TestRoi;
+            HObject testimage;
+            HOperatorSet.GenEmptyObj(out TestRoi);
+            HOperatorSet.GenEmptyObj(out testimage);
+            try
+            {
+
+                HOperatorSet.GetImageSize(ho_Image, out HTuple imageWidth, out HTuple imageHeight);
+                HOperatorSet.GenRectangle1(out TestRoi, 1, lineWidthFilmParam.EdgeX1, imageHeight - 1, lineWidthFilmParam.EdgeX2);
+                HOperatorSet.ReduceDomain(ho_Image, TestRoi, out testimage);
+                HOperatorSet.Threshold(testimage, out TestRoi, lineWidthFilmParam.CalibBlockMinThreshold, lineWidthFilmParam.CalibBlockMaxThreshold);
+                HOperatorSet.SmallestRectangle1(TestRoi, out HTuple y1, out HTuple x1, out HTuple y2, out HTuple x2);
+
+                if (y1.D > 0)
+                {
+                    HOperatorSet.GenRectangle1(out TestRoi, y1, x1, y2, x2);
+                    HOperatorSet.SelectShape(TestRoi, out TestRoi, "height", "and", lineWidthFilmParam.FilmMinHeight, lineWidthFilmParam.FilmMaxHeight);
+                    HOperatorSet.AreaCenter(TestRoi, out HTuple center_area, out HTuple center_row, out HTuple center_col);
+
+                    if (center_area > 0)
+                    {
+                        showHalconWindow.m_regionShowInfos.Add(new RegionShowInfo() { m_hRegion = TestRoi, m_stuGetColor = HalconColor.red });
+                        HTuple Index = 0;
+                        HOperatorSet.SmallestRectangle1(TestRoi, out y1, out x1, out y2, out x2);
+                        HOperatorSet.TupleSortIndex(y1, out Index);//ROW由小到大索引排序
+                        for (int i = 0; i < Index.Length; i++)
+                        {
+                            int hv_i = Index[i] + 1;
+
+                            HOperatorSet.SmallestRectangle1(TestRoi.SelectObj(hv_i), out y1, out x1, out y2, out x2);
+
+                            pointInfos.Add(new PointInfo() { Row = (y1 + y2) / 2, Col = (x1 + x2) / 2 });
+                        }
+                    }
+
+                }
+
+
+                executeResult.IsSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                Log4netRecord.ErrorLog.Error(cameraEnum.ToString(), ex);
+                executeResult.IsSuccess = false;
+            }
+            finally
+            {
+                testimage?.Dispose();
+
+                HOperatorSet.CountSeconds(out end);
+                executeResult.Time = ((end - start) * 1000).D;
+                executeResult.Time = Math.Round(executeResult.Time, 2);
+            }
+            return executeResult;
+        }
         /// <summary>
         /// 查找矩形的边缘坐标和角点坐标
         /// </summary>

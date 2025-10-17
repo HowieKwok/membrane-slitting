@@ -21,6 +21,8 @@ namespace Frame_Core
 
         public double fMacheineSpeed { set; get; } = 0;
 
+        public int RunningFlag = 0;
+
         public BindingList<CoatingZone> Zones { get; } = new BindingList<CoatingZone>();
 
         public void ZonesInit()

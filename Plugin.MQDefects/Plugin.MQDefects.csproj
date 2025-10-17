@@ -26,7 +26,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>..\Mef_VisionFrame\bin\Release\Plugins\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -81,10 +81,16 @@
     <Compile Include="算法\PublicAlogClass.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="FormMQDefects.byn.resx">
+      <DependentUpon>FormMQDefects.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormMQDefects.en.resx">
       <DependentUpon>FormMQDefects.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormMQDefects.fr.resx">
+      <DependentUpon>FormMQDefects.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormMQDefects.ja.resx">
       <DependentUpon>FormMQDefects.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormMQDefects.resx">

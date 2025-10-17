@@ -37,9 +37,14 @@ namespace Mef_VisionFrame
         /// </summary>
         public List<StatisticalData_Slice> StatisticalData_EASlices{ get; set; }
 
-         /// <summary>
-         /// dgv行头
-         /// </summary>
+
+        public List<StatisticalData_Slice> StatisticalData_EASlicesA { get; set; }
+        public List<StatisticalData_Slice> StatisticalData_EASlicesB { get; set; }
+
+
+        /// <summary>
+        /// dgv行头
+        /// </summary>
         public List<string> DgvRowheaders { get; set; } = new List<string>();
 
         /// <summary>
@@ -118,6 +123,9 @@ namespace Mef_VisionFrame
         ///  双相机尺寸缺项文件路径
         /// </summary>
         public string strEASizeDeftPath { get; set; } = "E:\\双相机尺寸缺项汇总表.csv";
+
+
+        public int nSpliteIndex = 2;
 
 
         /// <summary>

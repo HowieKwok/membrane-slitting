@@ -245,6 +245,7 @@
     <Compile Include="tools\C#二次封装类\ListPackage.cs" />
     <Compile Include="tools\C#二次封装类\PopUpWindowsShow.cs" />
     <Compile Include="tools\C#二次封装类\QueuePackage.cs" />
+    <Compile Include="tools\DirectoryHelper.cs" />
     <Compile Include="tools\IntervalExecution.cs" />
     <Compile Include="tools\Log\用户参数修改日志\ParamChangeLog.cs" />
     <Compile Include="tools\Log\文件操作日志\FileOperation.cs" />
@@ -276,6 +277,7 @@
     <Compile Include="tools\MumUPDown滚轮禁用\toolClass.cs" />
     <Compile Include="tools\OtherAlgorithm.cs" />
     <Compile Include="tools\OVHPackgeNumLayerSim.cs" />
+    <Compile Include="tools\UIDelegate.cs" />
     <Compile Include="tools\UI刷新\UIService.cs" />
     <Compile Include="tools\ViewROI3\ControlValueSaver.cs" />
     <Compile Include="tools\ViewROI3\ROIFormBase.cs">
@@ -591,6 +593,7 @@
     <Compile Include="模块\数据查询\FrmCsvViewer.Designer.cs">
       <DependentUpon>FrmCsvViewer.cs</DependentUpon>
     </Compile>
+    <Compile Include="模块\日志\LogWorks.cs" />
     <Compile Include="模块\标定\Mark设置\Form_MarkSet.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -661,16 +664,50 @@
     <Compile Include="模块\标定\预定位标定\Param_PretargetingCalib.cs" />
     <Compile Include="模块\模块管理\ModelControl.cs" />
     <Compile Include="模块\模块管理\ModelServiceManage.cs" />
-    <Compile Include="模块\点检校验\PointCheck.cs" />
-    <Compile Include="模块\点检校验\尺寸点检\CheckPointForm.cs">
+    <Compile Include="模块\灰度自适应\FormGrayScaleAdaptive.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="模块\点检校验\尺寸点检\CheckPointForm.Designer.cs">
-      <DependentUpon>CheckPointForm.cs</DependentUpon>
+    <Compile Include="模块\灰度自适应\FormGrayScaleAdaptive.Designer.cs">
+      <DependentUpon>FormGrayScaleAdaptive.cs</DependentUpon>
     </Compile>
-    <Compile Include="模块\点检校验\尺寸点检\SizeCheckPointAlgorithm.cs" />
-    <Compile Include="模块\点检校验\尺寸点检\SizeCheckPointManage.cs" />
-    <Compile Include="模块\点检校验\尺寸点检\SizeCheckPointParam.cs" />
+    <Compile Include="模块\灰度自适应\GrayScaleAdaptation.cs" />
+    <Compile Include="模块\灰度自适应\GrayScaleAdaptationParameter.cs" />
+    <Compile Include="模块\点检校验\SizeCheckPointAlgorithm.cs" />
+    <Compile Include="模块\点检校验\点检\FormPointInspection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\点检校验\点检\FormPointInspection.Designer.cs">
+      <DependentUpon>FormPointInspection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\点检校验\点检\PointInspectionStateParam.cs" />
+    <Compile Include="模块\点检校验\点检\PointInspectionWorks.cs" />
+    <Compile Include="模块\点检校验\点检\UCCameraCard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="模块\点检校验\点检\UCCameraCard.Designer.cs">
+      <DependentUpon>UCCameraCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\点检校验\点检\尺寸点检\FormSizePointInspection2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\点检校验\点检\尺寸点检\FormSizePointInspection2.Designer.cs">
+      <DependentUpon>FormSizePointInspection2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="模块\点检校验\点检\尺寸点检\SizePointInspectionManage.cs" />
+    <Compile Include="模块\点检校验\点检\尺寸点检\SizePointInspectionParam.cs" />
+    <Compile Include="模块\点检校验\点检\尺寸点检\SizePointInspectionWorkParam.cs" />
+    <Compile Include="模块\点检校验\点检\尺寸点检\SizePointInspectionWorks.cs" />
+    <Compile Include="模块\点检校验\点检\尺寸点检\矩形菲林片\RectangleFilmParam.cs" />
+    <Compile Include="模块\点检校验\点检\尺寸点检\线宽菲林片\LineWidthFilmParam.cs" />
+    <Compile Include="模块\点检校验\点检\瑕疵点检\DefectPointInspectionManage.cs" />
+    <Compile Include="模块\点检校验\点检\瑕疵点检\DefectPointInspectionParam.cs" />
+    <Compile Include="模块\点检校验\点检\瑕疵点检\DefectPointInspectionWorks.cs" />
+    <Compile Include="模块\点检校验\点检\瑕疵点检\FormDefectPointInspection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模块\点检校验\点检\瑕疵点检\FormDefectPointInspection.Designer.cs">
+      <DependentUpon>FormDefectPointInspection.cs</DependentUpon>
+    </Compile>
     <Compile Include="模块\系统设置\仿真设置\Control\SimControl.cs" />
     <Compile Include="模块\系统设置\仿真设置\EmulationPathForm.cs">
       <SubType>Form</SubType>
@@ -700,6 +737,8 @@
     <Compile Include="模块\系统设置\磁盘\Drive_Form.Designer.cs">
       <DependentUpon>Drive_Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="模块\线线距离测量功能\Model_LineToLineDist.cs" />
+    <Compile Include="模块\线线距离测量功能\Param_LineToLineDist.cs" />
     <Compile Include="模块\账户管理\Control\SecurityHelper.cs" />
     <Compile Include="模块\账户管理\Control\UserManage.cs" />
     <Compile Include="模块\权限管理\PurviewManage.cs" />
@@ -742,7 +781,6 @@
     <Folder Include="Plugin\ProcessBase\" />
     <Folder Include="模块\外设部分\纠偏\BTS\Model\" />
     <Folder Include="模块\数据显示\" />
-    <Folder Include="模块\点检校验\瑕疵点检\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Craft\FormCraftBase.resx">
@@ -859,8 +897,38 @@
     <EmbeddedResource Include="模块\标定\预定位标定\Form_PretargetingCalibration.resx">
       <DependentUpon>Form_PretargetingCalibration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="模块\点检校验\尺寸点检\CheckPointForm.resx">
-      <DependentUpon>CheckPointForm.cs</DependentUpon>
+    <EmbeddedResource Include="模块\灰度自适应\FormGrayScaleAdaptive.en.resx">
+      <DependentUpon>FormGrayScaleAdaptive.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\灰度自适应\FormGrayScaleAdaptive.fr.resx">
+      <DependentUpon>FormGrayScaleAdaptive.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\灰度自适应\FormGrayScaleAdaptive.ja.resx">
+      <DependentUpon>FormGrayScaleAdaptive.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\灰度自适应\FormGrayScaleAdaptive.resx">
+      <DependentUpon>FormGrayScaleAdaptive.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\点检校验\点检\FormPointInspection.resx">
+      <DependentUpon>FormPointInspection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\点检校验\点检\UCCameraCard.resx">
+      <DependentUpon>UCCameraCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\点检校验\点检\尺寸点检\FormSizePointInspection2.resx">
+      <DependentUpon>FormSizePointInspection2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\点检校验\点检\瑕疵点检\FormDefectPointInspection.en.resx">
+      <DependentUpon>FormDefectPointInspection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\点检校验\点检\瑕疵点检\FormDefectPointInspection.fr.resx">
+      <DependentUpon>FormDefectPointInspection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\点检校验\点检\瑕疵点检\FormDefectPointInspection.ja.resx">
+      <DependentUpon>FormDefectPointInspection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模块\点检校验\点检\瑕疵点检\FormDefectPointInspection.resx">
+      <DependentUpon>FormDefectPointInspection.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="模块\系统设置\仿真设置\EmulationPathForm.resx">
       <DependentUpon>EmulationPathForm.cs</DependentUpon>

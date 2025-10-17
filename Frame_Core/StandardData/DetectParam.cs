@@ -151,7 +151,7 @@ namespace Frame_Core
             m_stdNgTypeInfoCopy.m_fNgTypeAbsPixelPos = m_fNgTypeAbsPixelPos;
             m_stdNgTypeInfoCopy.circularity = circularity;
             m_stdNgTypeInfoCopy.sAttachInfo = sAttachInfo;
-
+            m_stdNgTypeInfoCopy.strPath = strPath;
             m_stdNgTypeInfoCopy.Dispose();
             return m_stdNgTypeInfoCopy;
 

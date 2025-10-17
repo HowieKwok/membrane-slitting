@@ -31,10 +31,10 @@ namespace Mef_VisionFrame
 
 
         //界面
-        public UC_BaseSetting BaseSetting ;//系统设置
+        public UC_BaseSetting BaseSetting;//系统设置
         public UC_MainDetection MainDetection;//主界面
-        public UC_ProcessSetting ProcessSetting ;//调试界面
-        public Form_CraftSetting CraftSetting ;//工艺参数界面
+        public UC_ProcessSetting ProcessSetting;//调试界面
+        public Form_CraftSetting CraftSetting;//工艺参数界面
 
         Form_LoadProgressBar form_LoadProgressBar;
         static Form_Main form_Main;
@@ -110,7 +110,8 @@ namespace Mef_VisionFrame
             EHollyImageTool.StartDeleteService();
             EHollyImageTool.Settings.ImageSaveTimeOut = 4000;
 
-            UIService.Instance.AddAction(() => {
+            UIService.Instance.AddAction(() =>
+            {
                 CraftSetting = new Form_CraftSetting();
                 MainDetection = new UC_MainDetection();
                 ProcessSetting = new UC_ProcessSetting();
@@ -133,7 +134,7 @@ namespace Mef_VisionFrame
                 主界面ToolStripMenuItem_Click(null, null);
             });
 
-           
+
 
 
 
@@ -482,8 +483,8 @@ namespace Mef_VisionFrame
 
         private void 尺寸点检ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.尺寸点检)) { return; }
-            using (CheckPointForm form = new CheckPointForm(Project.Instance.cameraManager))
+            if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.点检)) { return; }
+            using (FormPointInspection form = new FormPointInspection(Project.Instance.systemInfo, Project.Instance.cameraManager))
             {
                 form.StartPosition = FormStartPosition.CenterScreen;
                 form.ShowDialog();
@@ -533,7 +534,7 @@ namespace Mef_VisionFrame
 
             点检校验ToolStripMenuItem.Text = "点检校验";
             相机标定ToolStripMenuItem.Text = "相机标定";
-            尺寸点检ToolStripMenuItem.Text = "尺寸点检";
+            尺寸点检ToolStripMenuItem.Text = "点检";
 
             数据分析ToolStripMenuItem.Text = "数据分析";
             生产统计ToolStripMenuItem.Text = "生产统计";
@@ -568,7 +569,7 @@ namespace Mef_VisionFrame
 
                 点检校验ToolStripMenuItem.Text = "SpotCheck";
                 相机标定ToolStripMenuItem.Text = "CamCalibration";
-                尺寸点检ToolStripMenuItem.Text = "SizeCheck";
+                尺寸点检ToolStripMenuItem.Text = "Check";
 
                 数据分析ToolStripMenuItem.Text = "DataAnalyse";
                 生产统计ToolStripMenuItem.Text = "ProductionStatistic";
@@ -742,7 +743,7 @@ namespace Mef_VisionFrame
         private void mSA3D测厚ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.MSA测厚3D设置)) { return; }
-            using (Form_MsaMeasureThick3D form = new Form_MsaMeasureThick3D( Project.Instance.cameraManager))
+            using (Form_MsaMeasureThick3D form = new Form_MsaMeasureThick3D(Project.Instance.cameraManager))
             {
                 form.StartPosition = FormStartPosition.CenterScreen;
                 form.ShowDialog();
@@ -787,6 +788,31 @@ namespace Mef_VisionFrame
             {
                 form.StartPosition = FormStartPosition.CenterScreen;
                 form.ShowDialog();
+            }
+        }
+
+        private void 灰度自适应ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.灰度自适应)) { return; }
+            using (FormGrayScaleAdaptive form = new FormGrayScaleAdaptive(Project.Instance.cameraManager))
+            {
+                LanguageProject.ChangeLanguage(Project.Instance.systemInfo.m_CurrentLanguageType, form);
+                form.StartPosition = FormStartPosition.CenterScreen;
+                form.ShowDialog();
+            }
+        }
+
+        private void timer_DJ_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                timer_DJ.Enabled = false;
+                PointInspectionWorks.PointInspectionHint();
+                timer_DJ.Enabled = true;
+            }
+            catch (Exception ex)
+            {
+                Log4netRecord.ErrorLog.Error(ex);
             }
         }
     }

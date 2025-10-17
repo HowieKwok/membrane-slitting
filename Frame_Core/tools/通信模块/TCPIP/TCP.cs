@@ -366,7 +366,7 @@ namespace Frame_Core
                 //========【】
                 if (i > 0)
                 {
-                    CvStrFloat(buffer, 8, out ReadfloatStr, out tempStr);
+                    CvStrFloat(buffer, 100, out ReadfloatStr, out tempStr);
                     if (ReadfloatStr)
                     {
                         tmp_Str1 = tempStr;

@@ -27,11 +27,13 @@ namespace Mef_VisionFrame._5工艺标准
 
         public void ShowSet()
         {
+            linkLabel_SizeItem.Text = slotlimit.Name;
+            TextBox_Desp.Text = slotlimit.Description;
             INi_DGV_Offset(dataGridView1);
         }
         public void closeSet()
         {
-
+            slotlimit.Description = TextBox_Desp.Text;
             RefreshData(dataGridView1);
         }
 

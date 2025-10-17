@@ -61,15 +61,22 @@ namespace Frame_Core
             if (instancePurviewParams == null) return;
             if (localPurviewParams == null) localPurviewParams = new List<ModelPrivilege>();
 
+            List<ModelPrivilege> localPurviewParamsTemp = new List<ModelPrivilege>();
+
             //判断本地权限参数是否存在实例的权限参数，无则创建一份默认的模块权限参数
             foreach (var item in instancePurviewParams)
-            {
+            {                
                 if (localPurviewParams.Where(p => p.ModelName == item.Value.modelPrivilege.ModelName).Count() == 0)
                 {
-                    localPurviewParams.Add(item.Value.modelPrivilege);
+                    localPurviewParamsTemp.Add(item.Value.modelPrivilege);
+                }
+                else
+                {
+                    ModelPrivilege modelPrivilege = localPurviewParams.Find(p => p.ModelName == item.Value.modelPrivilege.ModelName);
+                    localPurviewParamsTemp.Add(modelPrivilege);
                 }
             }
-
+            localPurviewParams = localPurviewParamsTemp;
         }
 
         /// <summary>
@@ -86,7 +93,7 @@ namespace Frame_Core
                 //文件存在跳过权限验证
                 if (File.Exists(avoidVerificationFileName)) return true;
 
-          
+
                 if (purviewParam.l_modelPrivilege.Where(p => p.ModelName == modelName.ToString()).Count() != 0)
                 {
                     ModelPrivilege modelPrivilege = purviewParam.l_modelPrivilege.Find(p => p.ModelName == modelName.ToString());

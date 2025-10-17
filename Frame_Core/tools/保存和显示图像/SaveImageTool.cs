@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using EHolly.ImageTool;
 using BitMiracle.LibTiff.Classic;
+using Basler.Pylon;
 
 
 namespace Frame_Core
@@ -115,6 +116,207 @@ namespace Frame_Core
             return executeResult;
 
         }
+
+        /// <summary>
+        /// 保存图像
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="imageSaveFormat"></param>
+        /// <param name="saveDirectoryPath"></param>
+        /// <param name="saveFileName"></param>
+        /// <param name="isDisposeImage"></param>
+        /// <returns></returns>
+        public static ExecuteResult SaveImageQue(HObject image,  Operation_ImageInfo imageInfo, QueuePackage<Operation_ImageInfo> target_DisposeQueue, ImageSaveFormat imageSaveFormat, string saveDirectoryPath, string saveFileName, bool isDisposeImage = false)
+        {
+            ExecuteResult executeResult = new ExecuteResult();
+            Action<HObject> emptyAction = _ => target_DisposeQueue.Enqueue(imageInfo);
+            try
+            {
+                if (!Directory.Exists(saveDirectoryPath))
+                    Directory.CreateDirectory(saveDirectoryPath);
+
+                string savePath = saveDirectoryPath + "\\" + saveFileName;
+
+                if (image == null)
+                {
+                    executeResult.Message = "图像对象为空";
+                    return executeResult;
+                }
+
+                if (!image.IsInitialized())
+                {
+                    executeResult.Message = "图像未初始化";
+                    return executeResult;
+                }
+
+                if (image?.CountObj() == 0 || image?.CountObj() == null)
+                {
+                    executeResult.Message = "图像对象数量为0";
+                    return executeResult;
+                }
+
+                switch (imageSaveFormat)
+                {
+                    case ImageSaveFormat.BMP:
+                       
+                        EHollyImageTool.SaveImage(image, "bmp", 0, savePath, FileSaveKind.BigImage, emptyAction);
+                        // HOperatorSet.WriteImage(image, "bmp", 0, savePath);
+
+                        break;
+                    case ImageSaveFormat.JPEG20:
+                      
+                        EHollyImageTool.SaveImage(image, "jpeg 20", 0, savePath, FileSaveKind.BigImage, emptyAction);
+                        //HOperatorSet.WriteImage(image, "jpeg 20", 0, savePath);
+                        break;
+                    case ImageSaveFormat.JPEG40:
+                       
+                        EHollyImageTool.SaveImage(image, "jpeg 40", 0, savePath, FileSaveKind.BigImage, emptyAction);
+                        // HOperatorSet.WriteImage(image, "jpeg 40", 0, savePath);
+                        break;
+
+                    case ImageSaveFormat.TIF:
+                       
+                        EHollyImageTool.SaveImage(image, "tiff", 0, savePath, FileSaveKind.BigImage, emptyAction);
+                        //HOperatorSet.WriteImage(image, "tiff", 0, savePath);
+                        break;
+
+                    case ImageSaveFormat.TIFCompress:
+                       
+                        EHollyImageTool.SaveImage(image, "tiff deflate 1", 0, savePath, FileSaveKind.BigImage, emptyAction);
+                        // HOperatorSet.WriteImage(image, "tiff deflate 1", 0, savePath);
+                        break;
+                    //case ImageSaveFormat.JPEG60:
+                    //    HOperatorSet.WriteImage(image, "jpeg 60", 0, savePath + ".jpeg");
+                    //    break;
+                    //case ImageSaveFormat.JPEG80:
+                    //    HOperatorSet.WriteImage(image, "jpeg 80", 0, savePath + ".jpeg");
+                    //    break;
+                    //case ImageSaveFormat.JPEG100:
+                    //    HOperatorSet.WriteImage(image, "jpeg 100", 0, savePath + ".jpeg");
+                    //    break;
+                    default:
+                      
+                        EHollyImageTool.SaveImage(image, "jpeg 20", 0, savePath, FileSaveKind.BigImage, emptyAction);
+                        //HOperatorSet.WriteImage(image, "jpeg 20", 0, savePath);
+                        break;
+                }
+                executeResult.IsSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                executeResult.Message = ex.ToString();
+                executeResult.IsSuccess = false;
+            }
+            finally
+            {
+                if (isDisposeImage)
+                {
+                    image?.Dispose();
+                }
+            }
+            return executeResult;
+
+        }
+
+
+
+
+
+
+        /// <summary>
+        /// 保存图像
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="imageSaveFormat"></param>
+        /// <param name="saveDirectoryPath"></param>
+        /// <param name="saveFileName"></param>
+        /// <param name="isDisposeImage"></param>
+        /// <returns></returns>
+        public static ExecuteResult SaveImageInit(HObject image, ImageSaveFormat imageSaveFormat, string saveDirectoryPath, string saveFileName, bool isDisposeImage = false)
+        {
+            ExecuteResult executeResult = new ExecuteResult();
+            try
+            {
+                if (!Directory.Exists(saveDirectoryPath))
+                    Directory.CreateDirectory(saveDirectoryPath);
+
+                string savePath = saveDirectoryPath + "\\" + saveFileName;
+
+                if (image == null)
+                {
+                    executeResult.Message = "图像对象为空";
+                    return executeResult;
+                }
+
+                if (!image.IsInitialized())
+                {
+                    executeResult.Message = "图像未初始化";
+                    return executeResult;
+                }
+
+                if (image?.CountObj() == 0 || image?.CountObj() == null)
+                {
+                    executeResult.Message = "图像对象数量为0";
+                    return executeResult;
+                }
+
+                switch (imageSaveFormat)
+                {
+                    case ImageSaveFormat.BMP:
+                        //EHollyImageTool.SaveImage(image, "bmp", 0, savePath, FileSaveKind.BigImage, DisponseHObject);
+                         HOperatorSet.WriteImage(image, "bmp", 0, savePath);
+
+                        break;
+                    case ImageSaveFormat.JPEG20:
+                        //EHollyImageTool.SaveImage(image, "jpeg 20", 0, savePath, FileSaveKind.BigImage, DisponseHObject);
+                        HOperatorSet.WriteImage(image, "jpeg 20", 0, savePath);
+                        break;
+                    case ImageSaveFormat.JPEG40:
+                       // EHollyImageTool.SaveImage(image, "jpeg 40", 0, savePath, FileSaveKind.BigImage, DisponseHObject);
+                         HOperatorSet.WriteImage(image, "jpeg 40", 0, savePath);
+                        break;
+
+                    case ImageSaveFormat.TIF:
+                        //EHollyImageTool.SaveImage(image, "tiff", 0, savePath, FileSaveKind.BigImage, DisponseHObject);
+                        HOperatorSet.WriteImage(image, "tiff", 0, savePath);
+                        break;
+
+                    case ImageSaveFormat.TIFCompress:
+                        //EHollyImageTool.SaveImage(image, "tiff deflate 1", 0, savePath, FileSaveKind.BigImage, DisponseHObject);
+                         HOperatorSet.WriteImage(image, "tiff deflate 1", 0, savePath);
+                        break;
+                    //case ImageSaveFormat.JPEG60:
+                    //    HOperatorSet.WriteImage(image, "jpeg 60", 0, savePath + ".jpeg");
+                    //    break;
+                    //case ImageSaveFormat.JPEG80:
+                    //    HOperatorSet.WriteImage(image, "jpeg 80", 0, savePath + ".jpeg");
+                    //    break;
+                    //case ImageSaveFormat.JPEG100:
+                    //    HOperatorSet.WriteImage(image, "jpeg 100", 0, savePath + ".jpeg");
+                    //    break;
+                    default:
+                        //EHollyImageTool.SaveImage(image, "jpeg 20", 0, savePath, FileSaveKind.BigImage, DisponseHObject);
+                        HOperatorSet.WriteImage(image, "jpeg 20", 0, savePath);
+                        break;
+                }
+                executeResult.IsSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                executeResult.Message = ex.ToString();
+                executeResult.IsSuccess = false;
+            }
+            finally
+            {
+                if (isDisposeImage)
+                {
+                    image?.Dispose();
+                }
+            }
+            return executeResult;
+
+        }
+
 
 
         public static ExecuteResult SaveDeepthImage(Image3DClass image3DClass, ImageDeepthSaveFormat imageSaveFormat, string saveDirectoryPath, string saveFileName, bool bIsCompression = true, bool isDisposeImage = false)

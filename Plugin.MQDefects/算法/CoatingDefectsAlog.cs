@@ -10,6 +10,7 @@ using System.Drawing;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Plugin.MQDefects
 {
@@ -72,7 +73,7 @@ namespace Plugin.MQDefects
         /// 图像高度
         /// </summary>
         private int ImageHeight = 10000;
-        
+
 
 
 
@@ -80,7 +81,7 @@ namespace Plugin.MQDefects
         /// 图像处理主体 检测区域
         /// </summary>
         /// <param name="Image"></param>
-        public void Run(HObject Image,HObject DetectionROI , HObject ShieldROI, ParamsMQDefects MQDefects,
+        public void Run(HObject Image, HObject DetectionROI, HObject ShieldROI, ParamsMQDefects MQDefects,
             ClassificationClient inputClassDefect, object[] inputs, out object[] outputs)
         {
             HTuple imageWidth = 0; HTuple imageHeight = 0;
@@ -100,7 +101,7 @@ namespace Plugin.MQDefects
                 HOperatorSet.Union1(ShieldROI, out ShieldROI);
 
                 WidthCali = MQDefects.WidthCali;
-                HeightCali= MQDefects.HeightCali;
+                HeightCali = MQDefects.HeightCali;
                 AreaCali = WidthCali * HeightCali;
                 HOperatorSet.GetImageSize(Image, out imageWidth, out imageHeight);
                 ImageWidth = imageWidth.I;
@@ -108,12 +109,12 @@ namespace Plugin.MQDefects
                 ClassDefect = inputClassDefect;
                 //检测方法
                 int DetectionType = MQDefects.com_DetectionMethod;
-                
+
 
                 switch (DetectionType)
                 {
                     //膜区检测
-                    case 0:      
+                    case 0:
                         coatingDefects(Image, DetectionROI, ShieldROI, MQDefects);
                         if (MQDefects.cb_OpenDec_WLY)
                         {
@@ -125,7 +126,7 @@ namespace Plugin.MQDefects
                     case 1:
                         ZBPS(Image, DetectionROI, ShieldROI, MQDefects);
                         break;
-                    //边缘掉料
+                    //边缘掉料（边缘漏金属）
                     case 2:
                         BYDL(Image, DetectionROI, ShieldROI, MQDefects);
                         break;
@@ -141,22 +142,34 @@ namespace Plugin.MQDefects
                     case 5:
                         Detection_JR(Image, DetectionROI, MQDefects);
                         break;
+                    //台阶破损
+                    case 6:
+                        Fins_StepPosun(Image, DetectionROI, ShieldROI, MQDefects);
+                        break;
 
                 }
                 MQDefects.NgString = "";
                 HOperatorSet.GenEmptyObj(out MQDefects.NgRegion);
                 foreach (NgTypeInfo info in detectInfos)
                 {
-                    MQDefects.NgString += info.m_strNgTypeName.ToString() + ",";
+                    try
+                    {
+                        MQDefects.NgString += LanguageProject.GetLangeuageAttribute(info.m_strNgTypeName, LanguageEnum.Chinese) + $"Area:{info.m_fNgTypArea.ToString("F2")}__Height:{info.m_fNgTypHeight.ToString("F2")}__Width:{info.m_fNgTypWidth.ToString("F2")}" + "|";
+                    }
+                    catch (Exception ex)
+                    {
+                        Log4netRecord.ErrorLog.Fatal(ex);
+                    }
+                    //MQDefects.NgString += info.m_strNgTypeName.ToString() + ",";
                     HOperatorSet.Union2(MQDefects.NgRegion, info.m_hRegion,
-                        out MQDefects.NgRegion);   
+                        out MQDefects.NgRegion);
                 }
             }
             catch (Exception ex)
             {
-                 Log4netRecord.ErrorLog.Fatal(ex.Message);
+                Log4netRecord.ErrorLog.Fatal(ex);
                 //System.Windows.Forms.MessageBox.Show(ex.Message);
-                
+
             }
             finally
             {
@@ -170,7 +183,7 @@ namespace Plugin.MQDefects
         /// </summary>
         /// <param name="Image"></param>
         /// <param name="MQDefects"></param>
-        private void Detection_JR(HObject Image,HObject DetectionROI, ParamsMQDefects MQDefects)
+        private void Detection_JR(HObject Image, HObject DetectionROI, ParamsMQDefects MQDefects)
         {
             HObject ModleXld;
             HOperatorSet.GenEmptyObj(out ModleXld);
@@ -186,11 +199,15 @@ namespace Plugin.MQDefects
             HOperatorSet.GenEmptyObj(out Domain_Image);
             MQDefects.JRDaiLiaoXldRegion?.Dispose();
             MQDefects.JRPoSunRegion?.Dispose();
+            MQDefects.JRPoSunRegion2?.Dispose();
+            MQDefects.JRPoSunRegion3?.Dispose();
             HOperatorSet.GenEmptyObj(out MQDefects.JRDaiLiaoXldRegion);
             HOperatorSet.GenEmptyObj(out MQDefects.JRPoSunRegion);
+            HOperatorSet.GenEmptyObj(out MQDefects.JRPoSunRegion2);
+            HOperatorSet.GenEmptyObj(out MQDefects.JRPoSunRegion3);
 
 
-           
+
             //极耳底部R角部分
             HObject bottomAngleR_region;
             HOperatorSet.GenEmptyObj(out bottomAngleR_region);
@@ -207,6 +224,10 @@ namespace Plugin.MQDefects
             HOperatorSet.GenEmptyObj(out Detect_remnants_region);
             HObject Detect_brokens_region;
             HOperatorSet.GenEmptyObj(out Detect_brokens_region);
+            HObject Detect_brokens_region2;
+            HOperatorSet.GenEmptyObj(out Detect_brokens_region2);
+            HObject Detect_brokens_region3;
+            HOperatorSet.GenEmptyObj(out Detect_brokens_region3);
             HOperatorSet.ReduceDomain(Image, DetectionROI, out Domain_Image);
 
 
@@ -218,14 +239,14 @@ namespace Plugin.MQDefects
             HObject JR_Top_Line;
             HOperatorSet.GenEmptyObj(out JR_Top_Line);
             HObject JR_Down_Line;
-            HOperatorSet.GenEmptyObj(out JR_Down_Line);    
+            HOperatorSet.GenEmptyObj(out JR_Down_Line);
             #endregion
             try
             {
-               
- 
+
+
                 int type = 2;
-                if(type ==1)
+                if (type == 1)
                 {
                     //查找模板
                     var isok = FindShapeModel(Domain_Image, MQDefects, MQDefects.Model, MQDefects.ModelContours, out ModleXld);
@@ -275,11 +296,11 @@ namespace Plugin.MQDefects
                 else
                 {
                     //是否左极耳
-                    bool Is_Left =false;
+                    bool Is_Left = false;
                     //极耳中心Row行
-                    HTuple JRCenter_Row = MQDefects.num_JRCenter_Row;
+                    int JRCenter_Row = MQDefects.num_JRCenter_Row.DeepClone();
                     //极耳中心column列
-                    HTuple JRCenter_column = MQDefects.num_JRCenter_column;
+                    int JRCenter_column = MQDefects.num_JRCenter_column.DeepClone();
 
                     #region 2024.4.16 生成找极耳上下的卡尺
                     //找极耳上
@@ -314,53 +335,81 @@ namespace Plugin.MQDefects
                         inputPosition = ExtensionsObject.GetEnumValueAtIndex<Position>
                         (0).ToString(),
                     };
-                  
+
                     //上下,使用顶点Y坐标减去固定值
-                    double JR_Top_Rectangle_Y= MQDefects.num_JRCenter_Row - MQDefects.num_JR_width / HeightCali / 2;
-                    double JR_Top_Rectangle_X = MQDefects.num_JRCenter_column + (MQDefects.num_bottomAngleR_ridus+MQDefects.num_hypotenuse_length) / WidthCali/2;
+                    double JR_Top_Rectangle_Y = JRCenter_Row - MQDefects.num_JR_width / HeightCali / 2;
+                    double JR_Top_Rectangle_X = JRCenter_column + (MQDefects.num_bottomAngleR_ridus + MQDefects.num_hypotenuse_length) / WidthCali / 2;
 
                     HOperatorSet.GenRectangle2(out JR_Top_Rectangle, JR_Top_Rectangle_Y, JR_Top_Rectangle_X
-                            , 0,80,300);
-                    double JR_Down_Rectangle_Y = MQDefects.num_JRCenter_Row + MQDefects.num_JR_width / HeightCali / 2;
-                    double JR_Down_Rectangle_X = MQDefects.num_JRCenter_column + (MQDefects.num_bottomAngleR_ridus + MQDefects.num_hypotenuse_length) / WidthCali / 2;
+                            , 0, 100, 300);
+                    double JR_Down_Rectangle_Y = JRCenter_Row + MQDefects.num_JR_width / HeightCali / 2;
+                    double JR_Down_Rectangle_X = JRCenter_column + (MQDefects.num_bottomAngleR_ridus + MQDefects.num_hypotenuse_length) / WidthCali / 2;
                     HOperatorSet.GenRectangle2(out JR_Down_Rectangle, JR_Down_Rectangle_Y, JR_Down_Rectangle_X
-                            , 0, 80, 300);
+                            , 0, 100, 300);
                     Line JR_Top_Line_Point = new Line();
                     Line JR_Down_Line_Point = new Line();
-                    try
-                    { 
-                        GetTuBu(Image, JR_Top_Rectangle, findLineParameter_JR_Top, out JR_Top_Line, out JR_Top_Line_Point);
-                        GetTuBu(Image, JR_Down_Rectangle, findLineParameter_JR_Down, out JR_Down_Line, out JR_Down_Line_Point);
-                    }
-                    catch
+
+                    bool isGetTopOK = GetTuBu(Image, JR_Top_Rectangle, findLineParameter_JR_Top, out JR_Top_Line, out JR_Top_Line_Point);
+                    bool isGetDownOK = GetTuBu(Image, JR_Down_Rectangle, findLineParameter_JR_Down, out JR_Down_Line, out JR_Down_Line_Point);
+
+
+                    if (!isGetDownOK || !isGetTopOK)
                     {
+                        try
+                        {
+                            HTuple imageWidth = 0;
+                            HTuple imageHeight = 0;
+                            if (Image == null)
+                            {
+                                Log4netRecord.ErrorLog.Error("找极耳图像为空");
+                            }
+                            else
+                            {
+                                if (!Image.IsInitialized())
+                                {
+                                    Log4netRecord.ErrorLog.Error("找极耳图像未初始化");
+                                }
+                                else
+                                {
+                                    HOperatorSet.GetImageSize(Image, out imageWidth, out imageHeight);
+                                    Log4netRecord.ErrorLog.Error($"找极耳图像宽{imageWidth}高{imageHeight}");
+                                }
+                            }
+
+                        }
+                        catch (Exception ex)
+                        {
+                            Log4netRecord.ErrorLog.Error(ex);
+                        }
+
+                        Log4netRecord.ErrorLog.Error(string.Format("找极耳上下边失败:极耳中心Y:{0} 极耳中心X{1}", JRCenter_Row, JRCenter_column));
                         JR_Top_Line_Point.state = false;
                         JR_Down_Line_Point.state = false;
                     }
 
                     //重新对极耳中心Y赋值,当找直线成功时
-                    if (JR_Top_Line_Point.state&& JR_Down_Line_Point.state)
+                    if (JR_Top_Line_Point.state && JR_Down_Line_Point.state)
                     {
-                        JRCenter_Row = (JR_Top_Line_Point.RowBegin + JR_Down_Line_Point.RowBegin) / 2;
+                        JRCenter_Row = (int)(JR_Top_Line_Point.RowBegin + JR_Down_Line_Point.RowBegin) / 2;
                     }
                     #endregion
                     //极耳宽度
-                    HTuple JRWidth =MQDefects.num_JR_width/ HeightCali;
+                    HTuple JRWidth = MQDefects.num_JR_width / HeightCali;
                     //底部R角半径
-                    HTuple bottomAngleR_ridus = MQDefects.num_bottomAngleR_ridus/ HeightCali;
+                    HTuple bottomAngleR_ridus = MQDefects.num_bottomAngleR_ridus / HeightCali;
                     //顶部R角半径
-                    HTuple topAngleR_ridus = MQDefects.num_topAngleR_ridus/ HeightCali;
+                    HTuple topAngleR_ridus = MQDefects.num_topAngleR_ridus / HeightCali;
 
                     //底部R角补偿角度（0 - 90）
                     HTuple bottomAngleR_CompensationAngle = MQDefects.num_bottomAngleR_CompensationAngle;
                     //顶部R角补偿角度（0 - 90）
                     HTuple topAngleR_CompensationAngle = MQDefects.num_topAngleR_CompensationAngle;
                     //斜边长度
-                    HTuple hypotenuse_length = MQDefects.num_hypotenuse_length/ WidthCali;
+                    HTuple hypotenuse_length = MQDefects.num_hypotenuse_length / WidthCali;
                     //斜边角度
                     HTuple hypotenuse_angle = MQDefects.num_hypotenuse_angle;
                     string str = build_JR_detect.Build_Standard_JR(Is_Left, JRCenter_Row, JRCenter_column, JRWidth,
-                                                                 bottomAngleR_ridus, topAngleR_ridus, bottomAngleR_CompensationAngle, 
+                                                                 bottomAngleR_ridus, topAngleR_ridus, bottomAngleR_CompensationAngle,
                                                                  topAngleR_CompensationAngle, hypotenuse_length, hypotenuse_angle,
                                                                   out bottomAngleR_region, out hypotenuse_region, out topAngleR_region);
                     double hStandard_JRH_Pix = hypotenuse_length;//标准极耳高度 pix
@@ -369,7 +418,8 @@ namespace Plugin.MQDefects
                     //默认检余料、破损区域
                     HOperatorSet.GenRectangle1(out Detect_remnants_region, JRCenter_Row - hStandard_JRW_Pix / 2 - 100, JRCenter_column - hStandard_JRH_Pix, JRCenter_Row + hStandard_JRW_Pix / 2 + 100, JRCenter_column + hStandard_JRH_Pix);
                     HOperatorSet.GenRectangle1(out Detect_brokens_region, JRCenter_Row - hStandard_JRW_Pix / 2 - 100, JRCenter_column - hStandard_JRH_Pix, JRCenter_Row + hStandard_JRW_Pix / 2 + 100, JRCenter_column + hStandard_JRH_Pix);
-
+                    HOperatorSet.GenRectangle1(out Detect_brokens_region2, JRCenter_Row - hStandard_JRW_Pix / 2 - 100, JRCenter_column - hStandard_JRH_Pix, JRCenter_Row + hStandard_JRW_Pix / 2 + 100, JRCenter_column + hStandard_JRH_Pix);
+                    HOperatorSet.GenRectangle1(out Detect_brokens_region3, JRCenter_Row - hStandard_JRW_Pix / 2 - 100, JRCenter_column - hStandard_JRH_Pix, JRCenter_Row + hStandard_JRW_Pix / 2 + 100, JRCenter_column + hStandard_JRH_Pix);
 
 
                     //标准极耳余料检测
@@ -389,35 +439,53 @@ namespace Plugin.MQDefects
 
 
                     if (str == "标准极耳构建已完成")
-                     {
-                         Detect_remnants_region.Dispose();
-                         build_JR_detect.Detect_remnants(bottomAngleR_region, hypotenuse_region, topAngleR_region, Is_Left, 0.3 * hStandard_JRW_Pix, 0.7 * hStandard_JRH_Pix,
-                                                          bottomAngleR_Shielded_X, bottomAngleR_Shielded_Y, hypotenuse_Shielded_Y, topAngleR_Shielded_X, topAngleR_Shielded_Y,
-                                                          out Detect_remnants_region);
+                    {
+                        Detect_remnants_region.Dispose();
+                        build_JR_detect.Detect_remnants(bottomAngleR_region, hypotenuse_region, topAngleR_region, Is_Left, 0.3 * hStandard_JRW_Pix, 0.7 * hStandard_JRH_Pix,
+                                                         bottomAngleR_Shielded_X, bottomAngleR_Shielded_Y, hypotenuse_Shielded_Y, topAngleR_Shielded_X, topAngleR_Shielded_Y,
+                                                         out Detect_remnants_region);
 
-                         Detect_brokens_region.Dispose();
-                         build_JR_detect.Detect_brokens(bottomAngleR_region, hypotenuse_region, topAngleR_region, Is_Left, 0.3 * hStandard_JRW_Pix, 0.3 * hStandard_JRH_Pix,
-                                                        bottomAngleR_Shielded_X1, bottomAngleR_Shielded_Y1, hypotenuse_Shielded_Y1, topAngleR_Shielded_X1, topAngleR_Shielded_Y1,
-                                                               out Detect_brokens_region);
-                     }
+                        Detect_brokens_region.Dispose();
+                        build_JR_detect.Detect_brokens(bottomAngleR_region, hypotenuse_region, topAngleR_region, Is_Left, 0.3 * hStandard_JRW_Pix, 0.3 * hStandard_JRH_Pix,
+                                                       bottomAngleR_Shielded_X1, bottomAngleR_Shielded_Y1, hypotenuse_Shielded_Y1, topAngleR_Shielded_X1, topAngleR_Shielded_Y1,
+                                                              out Detect_brokens_region);
 
-                 
+                        if (MQDefects.cb_brokens2_EN)
+                        {
+                            Detect_brokens_region2.Dispose();
+                            Detect_brokens_region3.Dispose();
+                            double tab_up_Expansion_Y = MQDefects.num_tab_up_Expansion_Y / HeightCali;
+                            double tab_down_Expansion_Y = MQDefects.num_tab_down_Expansion_Y / HeightCali;
+                            double tabInside_Expansion_X1 = MQDefects.num_tabInside_Expansion_X1 / WidthCali;
+                            double tabOutside_Expansion_X1 = MQDefects.num_tabOutside_Expansion_X1 / WidthCali;
+                            double tabOutside_Expansion_X2 = MQDefects.num_tabOutside_Expansion_X2 / WidthCali;
+                            build_JR_detect.Detect_brokens2(Is_Left, JRCenter_Row, JRCenter_column, tab_up_Expansion_Y, tab_down_Expansion_Y, tabInside_Expansion_X1, tabOutside_Expansion_X1, tabOutside_Expansion_X2, out Detect_brokens_region2, out Detect_brokens_region3);
+                        }
+                    }
+                    else
+                    {
+                        Log4netRecord.ErrorLog.Error("找极耳_" + str);
+                    }
+
+
                     MQDefects.JRDaiLiaoXldRegion = Detect_remnants_region.CopyObj(1, 1);
                     MQDefects.JRPoSunRegion = Detect_brokens_region.CopyObj(1, 1);
+                    MQDefects.JRPoSunRegion2 = Detect_brokens_region2.CopyObj(1, 1);
+                    MQDefects.JRPoSunRegion3 = Detect_brokens_region3.CopyObj(1, 1);
                     //极耳带料
                     Find_JR_DaiLiao(Image, MQDefects.JRDaiLiaoXldRegion, MQDefects);
                     //极耳破损
-                    Find_JR_PoSun(Image, MQDefects.JRPoSunRegion, MQDefects);
-   
+                    Find_JR_PoSun(Image, MQDefects.JRPoSunRegion, MQDefects.JRPoSunRegion2, MQDefects.JRPoSunRegion3, MQDefects);
+
                 }
 
 
-             
+
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Log4netRecord.ErrorLog.Error(ex.Message);
+                Log4netRecord.ErrorLog.Error(ex);
             }
             finally
             {
@@ -430,11 +498,13 @@ namespace Plugin.MQDefects
                 topAngleR_region?.Dispose();
                 Detect_remnants_region?.Dispose();
                 Detect_brokens_region?.Dispose();
+                Detect_brokens_region2?.Dispose();
+                Detect_brokens_region3?.Dispose();
                 JR_Top_Rectangle?.Dispose();
                 JR_Down_Rectangle?.Dispose();
                 JR_Top_Line?.Dispose();
                 JR_Down_Line?.Dispose();
-            }  
+            }
         }
 
         /// <summary>
@@ -449,7 +519,7 @@ namespace Plugin.MQDefects
         public bool GetTuBu(HObject inputImage, HObject inputRegion,
             FindLineParameter inputFindLineParameter, out HObject outputLengthenLine, out Line line)
         {
-            lock(this)
+            lock (this)
             {
                 line = new Line();
                 HObject outputContour = null;
@@ -535,7 +605,7 @@ namespace Plugin.MQDefects
                     //取得当前方法类全名 包括命名空间    
                     var str = string.Format("类{0}  中的  {1}方法错误：", System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.FullName,
                         System.Reflection.MethodBase.GetCurrentMethod().Name);
-                    Log4netRecord.ErrorLog.Fatal(str + ex.Message);
+                    Log4netRecord.ErrorLog.Fatal(str, ex);
                     return false;
                 }
                 finally
@@ -543,7 +613,7 @@ namespace Plugin.MQDefects
                     outputContour?.Dispose();
                 }
             }
-          
+
         }
 
 
@@ -556,7 +626,7 @@ namespace Plugin.MQDefects
         /// <param name="JRDaiLiaoXldRegion"></param>
         private void Find_JR_DaiLiao(HObject Image, HObject ModleXld,
 
-         ParamsMQDefects MQDefects,out HObject JRDaiLiaoXldRegion)
+         ParamsMQDefects MQDefects, out HObject JRDaiLiaoXldRegion)
         {
             HTuple Row1, Column1, Row2, Column2;
             HObject Domain_Image = null;
@@ -593,10 +663,10 @@ namespace Plugin.MQDefects
                 //极耳余料
 
                 HOperatorSet.GenParallelContourXld(ModleXld, out JRDaiLiaoXld1,
-            "regression_normal", -MQDefects.num_JR_DaiLiao_ModelXld_ShiftRight_1/ WidthCali);
+            "regression_normal", -MQDefects.num_JR_DaiLiao_ModelXld_ShiftRight_1 / WidthCali);
 
                 HOperatorSet.GenParallelContourXld(ModleXld, out JRDaiLiaoXld2,
-           "regression_normal",-MQDefects.num_JR_DaiLiao_ModelXld_ShiftRight_2/ WidthCali);
+           "regression_normal", -MQDefects.num_JR_DaiLiao_ModelXld_ShiftRight_2 / WidthCali);
 
                 //区域
                 HOperatorSet.ConcatObj(JRDaiLiaoXld1, JRDaiLiaoXld2,
@@ -731,7 +801,7 @@ namespace Plugin.MQDefects
             HObject RegionConnectionOut;
             HOperatorSet.GenEmptyObj(out RegionConnectionOut);
             HTuple Area, RowCenter, Colcenter;
-          
+
 
             //极耳检测区域
             HOperatorSet.GenEmptyObj(out JRPoSunRegion);
@@ -747,7 +817,7 @@ namespace Plugin.MQDefects
             {
                 //极耳破损
                 HOperatorSet.GenParallelContourXld(ModleXld, out JRPoSunXld,
-                "regression_normal", MQDefects.num_JR_PoSun_ModelXld_ShiftLeft_1/ WidthCali);
+                "regression_normal", MQDefects.num_JR_PoSun_ModelXld_ShiftLeft_1 / WidthCali);
 
                 HOperatorSet.GenRegionContourXld(JRPoSunXld, out JRPoSunRegion,
                     "filled");
@@ -758,7 +828,7 @@ namespace Plugin.MQDefects
 
                 HOperatorSet.Connection(NG_ROI, out NG_ROI);
                 HOperatorSet.SelectShape(NG_ROI, out NG_ROI, "area", "and", MQDefects.num_JR_PoSun_MinArea / AreaCali, 10e+11);
-   
+
                 HOperatorSet.Union1(NG_ROI, out RegionConnectionOut);
                 HOperatorSet.AreaCenter(RegionConnectionOut, out Area, out RowCenter, out Colcenter);
                 HOperatorSet.SmallestRectangle1(RegionConnectionOut, out Row1, out Column1, out Row2, out Column2);
@@ -782,7 +852,7 @@ namespace Plugin.MQDefects
                     string NGType = "极耳破损";
                     bool isExStd = ImageShow(iNgInfo, NGType);
                 }
-               
+
             }
             catch (Exception ex)
             {
@@ -834,13 +904,13 @@ namespace Plugin.MQDefects
             HOperatorSet.GenEmptyObj(out JRDaiLiaoImageReduced);
             try
             {
-  
+
                 HOperatorSet.ReduceDomain(Image, ModleXld, out JRDaiLiaoImageReduced);
                 HOperatorSet.Threshold(JRDaiLiaoImageReduced, out NG_ROI, MQDefects.num_JR_DaiLiao_Threshold_Min, MQDefects.num_JR_DaiLiao_Threshold_Max);
                 HOperatorSet.Connection(NG_ROI, out NG_ROI);
                 HOperatorSet.SelectShape(NG_ROI, out NG_ROI, "area", "and", MQDefects.num_JR_DaiLiao_MinArea / AreaCali, 10e+11);
                 HOperatorSet.AreaCenter(NG_ROI, out tempArea, out tempRowCenter, out tempColcenter);
-                if(tempArea.Length==0)
+                if (tempArea.Length == 0)
                 {
                     //无缺陷
                     return;
@@ -853,7 +923,7 @@ namespace Plugin.MQDefects
                         HOperatorSet.SelectObj(NG_ROI, out RegionConnectionOut, i + 1);
                         HOperatorSet.AreaCenter(RegionConnectionOut, out Area, out RowCenter, out Colcenter);
 
-                        HOperatorSet.SmallestRectangle1(RegionConnectionOut, out Row1, out Column1, out Row2, out Column2);      
+                        HOperatorSet.SmallestRectangle1(RegionConnectionOut, out Row1, out Column1, out Row2, out Column2);
                         double w_f = (Column2.D - Column1.D);
                         double h_f = (Row2.D - Row1.D);
 
@@ -935,7 +1005,7 @@ namespace Plugin.MQDefects
         /// <param name="ModleXld"></param>
         /// <param name="MQDefects"></param>
         /// <param name="JRPoSunRegion"></param>
-        private void Find_JR_PoSun(HObject Image, HObject ModleXld,
+        private void Find_JR_PoSun(HObject Image, HObject ModleXld, HObject ModleXld2, HObject ModleXld3,
 
         ParamsMQDefects MQDefects)
         {
@@ -954,15 +1024,80 @@ namespace Plugin.MQDefects
             HObject JRPoSunImageReduced;
             HOperatorSet.GenEmptyObj(out JRPoSunImageReduced);
 
+
+            //二次破损
+            HObject JRPoSunImageReduced_2;
+            HOperatorSet.GenEmptyObj(out JRPoSunImageReduced_2);
+            HObject Region_2;
+            HOperatorSet.GenEmptyObj(out Region_2);
+            HObject Region_21;
+            HOperatorSet.GenEmptyObj(out Region_21);
+            HObject Region_22;
+            HOperatorSet.GenEmptyObj(out Region_22);
+
+            HObject JRPoSunImageReduced_3;
+            HOperatorSet.GenEmptyObj(out JRPoSunImageReduced_3);
+            HObject Region_3;
+            HOperatorSet.GenEmptyObj(out Region_3);
+            HObject Region_31;
+            HOperatorSet.GenEmptyObj(out Region_31);
+            HObject Region_32;
+            HOperatorSet.GenEmptyObj(out Region_32);
             try
             {
-               
+
                 HOperatorSet.ReduceDomain(Image, ModleXld, out JRPoSunImageReduced);
 
                 HOperatorSet.Threshold(JRPoSunImageReduced, out NG_ROI, MQDefects.num_JR_PoSun_Threshold_Min, MQDefects.num_JR_PoSun_Threshold_Max);
 
                 HOperatorSet.Connection(NG_ROI, out NG_ROI);
                 HOperatorSet.SelectShape(NG_ROI, out NG_ROI, "area", "and", MQDefects.num_JR_PoSun_MinArea / AreaCali, 10e+20);
+
+                //=======================================
+                //二次检测破算
+                try
+                {
+                    if (MQDefects.cb_brokens2_EN)
+                    {
+                        //形态学圆型
+                        HOperatorSet.ReduceDomain(Image, ModleXld2, out JRPoSunImageReduced_2);
+                        HOperatorSet.Threshold(JRPoSunImageReduced_2, out Region_2, 0, MQDefects.num_brokens2_JRMaxThreshold);
+
+                        HOperatorSet.FillUp(Region_2, out Region_21);
+                        HOperatorSet.ClosingCircle(Region_21, out Region_21, (MQDefects.num_brokens2_bottom_radius / HeightCali) > 1 ? (MQDefects.num_brokens2_bottom_radius / HeightCali) : 1);
+
+                        HOperatorSet.Difference(Region_21, Region_2, out Region_22);
+                        HOperatorSet.Connection(Region_22, out Region_22);
+                        HOperatorSet.SelectGray(Region_22, JRPoSunImageReduced_2, out Region_22, "mean", "and", MQDefects.num_JR_PoSun2_Threshold_Min, MQDefects.num_JR_PoSun2_Threshold_Max);
+                        HOperatorSet.SelectShape(Region_22, out Region_22, "area", "and", MQDefects.num_JR_PoSun_MinArea / AreaCali, 10e+20);
+
+                        //二次检测破算
+                        //形态学矩形
+                        HOperatorSet.ReduceDomain(Image, ModleXld3, out JRPoSunImageReduced_3);
+                        HOperatorSet.Threshold(JRPoSunImageReduced_3, out Region_3, 0, MQDefects.num_brokens2_JRMaxThreshold);
+
+                        HOperatorSet.FillUp(Region_3, out Region_31);
+                        HOperatorSet.ClosingRectangle1(Region_31, out Region_31, (MQDefects.num_brokens2_middle_width / WidthCali) > 1 ? (MQDefects.num_brokens2_middle_width / WidthCali) : 1, (MQDefects.num_brokens2_middle_height / HeightCali) > 1 ? (MQDefects.num_brokens2_middle_height / HeightCali) : 1);
+
+                        HOperatorSet.Difference(Region_31, Region_3, out Region_32);
+                        HOperatorSet.Connection(Region_32, out Region_32);
+                        HOperatorSet.SelectGray(Region_32, JRPoSunImageReduced_3, out Region_32, "mean", "and", MQDefects.num_JR_PoSun2_Threshold_Min, MQDefects.num_JR_PoSun2_Threshold_Max);
+                        HOperatorSet.SelectShape(Region_32, out Region_32, "area", "and", MQDefects.num_JR_PoSun_MinArea / AreaCali, 10e+20);
+
+                        if (Region_22.CountObj() > 0)
+                        {
+                            HOperatorSet.Union2(NG_ROI, Region_22, out NG_ROI);
+                        }
+                        if (Region_32.CountObj() > 0)
+                        {
+                            HOperatorSet.Union2(NG_ROI, Region_32, out NG_ROI);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log4netRecord.ErrorLog.Fatal(ex);
+                }
 
                 HOperatorSet.Union1(NG_ROI, out RegionConnectionOut);
                 HOperatorSet.AreaCenter(RegionConnectionOut, out Area, out RowCenter, out Colcenter);
@@ -1010,6 +1145,15 @@ namespace Plugin.MQDefects
                 RegionConnectionOut?.Dispose();
                 JRPoSunImageReduced?.Dispose();
                 NG_ROI?.Dispose();
+
+                JRPoSunImageReduced_2?.Dispose();
+                Region_2?.Dispose();
+                Region_21?.Dispose();
+                Region_22?.Dispose();
+                JRPoSunImageReduced_3?.Dispose();
+                Region_3?.Dispose();
+                Region_31?.Dispose();
+                Region_32?.Dispose();
             }
         }
 
@@ -1024,10 +1168,10 @@ namespace Plugin.MQDefects
         /// <param name="ShieldROI">屏蔽区域</param>
         /// <param name="MQDefects">参数</param>
         /// /// <param name="WinHandle">显示窗口</param>
-        private void coatingDefects (HObject Image, HObject DetectionROI,
-            HObject ShieldROI, ParamsMQDefects MQDefects )
+        private void coatingDefects(HObject Image, HObject DetectionROI,
+            HObject ShieldROI, ParamsMQDefects MQDefects)
         {
-           
+
             HObject ROI;
             HOperatorSet.GenEmptyObj(out ROI);
 
@@ -1054,7 +1198,7 @@ namespace Plugin.MQDefects
             //生成亮瑕疵检测区域
             HOperatorSet.Difference(DetectionROI, ShieldROI, out ROI_White);
             HOperatorSet.ReduceDomain(Image, ROI_White, out Domain_Image_White);
-           
+
 
             //面积 中心 Y X
             HTuple hv_area, hv_RowCenter, hv_Colcenter;
@@ -1070,7 +1214,7 @@ namespace Plugin.MQDefects
             //Ng最多数量
             int NgMaxNum = MQDefects.num_NgMaxNum;
             //平均灰度值
-            HTuple blackRegionGray =0;
+            HTuple blackRegionGray = 0;
 
 
             //缺陷小图
@@ -1083,7 +1227,7 @@ namespace Plugin.MQDefects
             HTuple hv_lineONEx = 0, hv_lineENDx = 0;
 
             //判判是否是接带还是漏金属的最小宽\高
-            double JieDaiMaxH = MQDefects.num_JDMaxH;  
+            double JieDaiMaxH = MQDefects.num_JDMaxH;
             double JieDaiMinW = MQDefects.num_JDMinW;
             //总面积超过多少作为接带
             double dJDAreaNG = MQDefects.num_JDAreaNG;
@@ -1100,7 +1244,7 @@ namespace Plugin.MQDefects
                 //获取区域
                 HTuple row1, column1, row2, column2;
                 HOperatorSet.SmallestRectangle1(DetectionROI, out row1, out column1, out row2, out column2);
-                if(row1.Length>0)
+                if (row1.Length > 0)
                 {
                     hv_lineONEx = column1.TupleMin();
                     hv_lineENDx = column2.TupleMax();
@@ -1117,11 +1261,50 @@ namespace Plugin.MQDefects
                 double MinArea_Black = MQDefects.num_MinArea_Black / AreaCali;
                 double hv_Radius = 3;
 
-               
+                bool en_MeanGrayDifference_Black = MQDefects.cb_MeanGrayDifference_Black;
+                int MeanGrayDifference_Black = MQDefects.num_MeanGrayDifference_Black;
 
                 #endregion
 
+                //========【】暗瑕疵筛选最大阈值跟随涂布平均灰度减设定值
+                try
+                {
+                    MQDefects.IsGetCoatingMeanGray = false;
+                    MQDefects.str_CoatingMeanGra_Black = "";
+                    if (MQDefects.CoatingMeanGray_Count >= MQDefects.CoatingMeanGray_Num)
+                    {
+                        MQDefects.CoatingMeanGray_Count = 0;
+                    }
+                    MQDefects.CoatingMeanGray_Count++;
+                    if (MQDefects.CoatingMeanGray_Count == 1)
+                    {
+                        //HOperatorSet.GrayFeatures(Domain_Image_Blackt, Image, "mean", out HTuple mean);//提取接待平均灰度值
+                        HOperatorSet.Intensity(Domain_Image_Blackt, Image, out HTuple mean, out HTuple deviation);
+                        if (mean.Length > 0)
+                        {
+                            MQDefects.CoatingMeanGray = Math.Round(mean.D,2);
+                            MQDefects.IsGetCoatingMeanGray = true;
+                        }
+                    }
+                    if (en_MeanGrayDifference_Black)
+                    {
+                        Blackthreshold_Max = (int)MQDefects.CoatingMeanGray - MeanGrayDifference_Black;
+                        if (Blackthreshold_Max <= Blackthreshold_Min)
+                        {
+                            Blackthreshold_Max = MQDefects.num_BlackThreshold_Max;
+                        }
 
+                        MQDefects.str_CoatingMeanGra_Black = $"{en_MeanGrayDifference_Black}_{MQDefects.CoatingMeanGray}[{MQDefects.CoatingMeanGray_Count}/{MQDefects.CoatingMeanGray_Num}]_" +
+                                     $"[{Blackthreshold_Min}-{Blackthreshold_Max}({MQDefects.CoatingMeanGray}-{MeanGrayDifference_Black})]_[{MQDefects.num_BlackThreshold_Min}-{MQDefects.num_BlackThreshold_Max}]";
+
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log4netRecord.ErrorLog.Debug(ex);
+                }
+             
 
                 //========【】提取亮瑕疵与暗瑕疵
                 NG_White.Dispose();
@@ -1159,7 +1342,7 @@ namespace Plugin.MQDefects
                     NgNum_Whitethreshold = 1;
                 }
                 //亮瑕疵数量大于10 或者  亮瑕疵数量大于10且最大面积大于100平方mm
-                else if (NgNum_Whitethreshold > NgMaxNum || 
+                else if (NgNum_Whitethreshold > NgMaxNum ||
                     (Wthreshold_MaxPixArea > JD_PixArea))
                 {
                     //存在面积过大,或者数量过多,全部融合
@@ -1170,7 +1353,7 @@ namespace Plugin.MQDefects
                     }
                     catch (Exception ex)
                     {
-                         Log4netRecord.ErrorLog.Fatal(ex.Message + "\r\n 亮瑕疵检测错误");
+                        Log4netRecord.ErrorLog.Fatal(ex.Message + "\r\n 亮瑕疵检测错误");
                     }
                     finally
                     {
@@ -1189,7 +1372,7 @@ namespace Plugin.MQDefects
                 HOperatorSet.AreaCenter(NG_Blackt, out hv_area, out hv_RowCenter, out hv_Colcenter);
 
                 typeAreaMm = hv_area * AreaCali;
-   
+
                 HOperatorSet.Connection(NG_Blackt, out NG_Blackt);
                 HOperatorSet.SelectShape(NG_Blackt, out NG_Blackt, "area", "and", MinArea_Black, 10e+11);
                 HOperatorSet.AreaCenter(NG_Blackt, out hv_area, out hv_RowCenter, out hv_Colcenter);
@@ -1214,7 +1397,7 @@ namespace Plugin.MQDefects
                     }
                     catch (Exception ex)
                     {
-                         Log4netRecord.ErrorLog.Fatal(ex + "\r\n 暗瑕疵检测错误");
+                        Log4netRecord.ErrorLog.Fatal(ex + "\r\n 暗瑕疵检测错误");
                     }
                     finally
                     {
@@ -1227,17 +1410,17 @@ namespace Plugin.MQDefects
                     HOperatorSet.AreaCenter(NG_Blackt, out hv_area, out hv_RowCenter, out hv_Colcenter);
                 }
 
-                
+
                 //=====================================================================================================================================
                 //========【】合并亮瑕疵与暗瑕疵
                 //2023.11.14  如果不先各自融合,会面积会大,且分开后数量会多
                 HOperatorSet.Union1(NG_White, out NG_White);
                 HOperatorSet.Union1(NG_Blackt, out NG_Blackt);
                 HOperatorSet.Union2(NG_White, NG_Blackt, out NG_White);
-                
+
 
                 //缺陷数量过多则融合为一个
-                if (NgNum_Blackthreshold +NgNum_Whitethreshold <= NgMaxNum)
+                if (NgNum_Blackthreshold + NgNum_Whitethreshold <= NgMaxNum)
                 {
                     NgNum_OverFlag = false;
                     HOperatorSet.ClosingCircle(NG_White, out NG_White, hv_Radius);
@@ -1262,7 +1445,7 @@ namespace Plugin.MQDefects
                 }
                 if (hv_Colcenter.Length > 0 && hv_areaMax > 0)
                 {
-        
+
                     typeAreaMm = hv_area * AreaCali;
                     HTuple hv_Row1, hv_Column1, hv_Row2, hv_Column2, hv_defectWidth, hv_defectLength, Gray, Areasum, w_f, h_f;
                     HOperatorSet.SmallestRectangle1(NG_White, out hv_Row1, out hv_Column1, out hv_Row2, out hv_Column2);
@@ -1289,7 +1472,7 @@ namespace Plugin.MQDefects
 
                     //========面积大无需进入你分类器
                     if ((Areasum > dJDAreaNG) && boolWhite)
-                    {  
+                    {
                         HOperatorSet.Union1(NG_White, out NG_White);
                         //面积过大时,融合后再计算
                         HOperatorSet.SmallestRectangle1(NG_White, out hv_Row1, out hv_Column1, out hv_Row2, out hv_Column2);
@@ -1304,7 +1487,7 @@ namespace Plugin.MQDefects
 
                         //是否接带
                         bool JieDai = true;
-                        
+
                         if (Hf > JieDaiMaxH && Wf < JieDaiMinW)
                         {
                             JieDai = false;
@@ -1320,21 +1503,55 @@ namespace Plugin.MQDefects
 
                         NgTypeInfo iNgInfo = new NgTypeInfo();
                         zoomImage(Image, NG_White, out ho_ImagePart);
-                       
+
                         iNgInfo.m_hImage = ho_ImagePart.CopyObj(1, 1);//缺陷小图片
                         iNgInfo.m_hRegion = NG_White.CopyObj(1, 1);
-                        iNgInfo.m_strNgTypeName = Defct1Enum.接带;//缺陷位置类型
+                        iNgInfo.m_strNgTypeName = Defct1Enum.大面积接带;//缺陷位置类型
                         iNgInfo.m_fNgTypArea = dNgArea;//缺陷面积
-                        iNgInfo.m_fNgTypeAbsPixelPos =Convert.ToInt64(row.D);//Y坐标
+                        iNgInfo.m_fNgTypeAbsPixelPos = Convert.ToInt64(row.D);//Y坐标
                         iNgInfo.m_fNgTypHeight = dNgHigh;//缺陷高度\长度
                         iNgInfo.m_fNgTypWidth = dNgWidth;//缺陷宽度
 
-                        string NGType = "接带";
+                        string NGType = "大面积接带";
                         if (!JieDai)
                         {
-                            iNgInfo.m_strNgTypeName = Defct1Enum.漏金属;//缺陷位置类型ID
-                            NGType = "漏金属";
+                            iNgInfo.m_strNgTypeName = Defct1Enum.大面积漏金属;//缺陷位置类型ID
+                            NGType = "大面积漏金属";
                         }
+                        ImageShow(iNgInfo, NGType);
+                    }
+                    //========NG数量过多，大面积缺陷不进入分类器
+                    else if (MQDefects.cb_LargeAreaDefectEN && (NgNum_OverFlag || (Areasum > MQDefects.num_LargeAreaDefectMinArea)))
+                    {
+                        HOperatorSet.Union1(NG_White, out NG_White);
+                        //面积过大时,融合后再计算
+                        HOperatorSet.SmallestRectangle1(NG_White, out hv_Row1, out hv_Column1, out hv_Row2, out hv_Column2);
+                        HTuple area, row, column;
+                        HOperatorSet.AreaCenter(NG_White, out area, out row, out column);
+                        hv_defectWidth = (hv_Column2 - hv_Column1);
+                        hv_defectLength = (hv_Row2 - hv_Row1);
+                        HOperatorSet.TupleMax(hv_defectWidth, out w_f);
+                        HOperatorSet.TupleMax(hv_defectLength, out h_f);
+                        Wf = w_f * WidthCali;
+                        Hf = h_f * HeightCali;
+
+                        //=======【】NG打标采集，小图显示存图
+                        double dNgArea = Areasum;
+                        double dNgHigh = Hf;
+                        double dNgWidth = Wf;
+
+                        NgTypeInfo iNgInfo = new NgTypeInfo();
+                        zoomImage(Image, NG_White, out ho_ImagePart);
+
+                        iNgInfo.m_hImage = ho_ImagePart.CopyObj(1, 1);//缺陷小图片
+                        iNgInfo.m_hRegion = NG_White.CopyObj(1, 1);
+                        iNgInfo.m_strNgTypeName = Defct1Enum.大面积缺陷;//缺陷位置类型
+                        iNgInfo.m_fNgTypArea = dNgArea;//缺陷面积
+                        iNgInfo.m_fNgTypeAbsPixelPos = Convert.ToInt64(row.D);//Y坐标
+                        iNgInfo.m_fNgTypHeight = dNgHigh;//缺陷高度\长度
+                        iNgInfo.m_fNgTypWidth = dNgWidth;//缺陷宽度
+
+                        string NGType = "大面积缺陷";
                         ImageShow(iNgInfo, NGType);
                     }
                     //【】正常不良进入分类
@@ -1402,7 +1619,7 @@ namespace Plugin.MQDefects
 
                             //=====================================================================================================================================
                             //========【】
-                            if (ho_Images.Count <NgMaxNum)
+                            if (ho_Images.Count < NgMaxNum)
                                 ho_Images.Add(DefectInfos[NgImagePart_Count].NgImage);//添加到图片    
 
                             NgImagePart_Count++;
@@ -1410,7 +1627,7 @@ namespace Plugin.MQDefects
                     }
                 }
                 //负极使用分类器    
-                if (MQDefects.com_Cathode==1)
+                if (MQDefects.com_Cathode == 1)
                 {
                     defectClassification_NotCathode(NG_White);//阳极
                 }
@@ -1431,10 +1648,10 @@ namespace Plugin.MQDefects
                 NgImagePart_Count = 0;
                 ho_Images.Clear();
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                 Log4netRecord.ErrorLog.Fatal(ex.Message);
-                
+                Log4netRecord.ErrorLog.Fatal(ex.Message);
+
             }
             finally
             {
@@ -1494,7 +1711,7 @@ namespace Plugin.MQDefects
                     double Wf = w_f * WidthCali;
                     double Hf = h_f * HeightCali;
 
-                    
+
                     zoomImage(Image, oROI, out ImagePart);
                     NgTypeInfo iNgInfo = new NgTypeInfo();
                     iNgInfo.m_hImage = ImagePart.CopyObj(1, 1);//缺陷小图片
@@ -1514,7 +1731,7 @@ namespace Plugin.MQDefects
                 //取得当前方法类全名 包括命名空间    
                 var str = string.Format("类{0}  中的  {1}方法错误：", System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.FullName,
                     System.Reflection.MethodBase.GetCurrentMethod().Name);
-                 Log4netRecord.ErrorLog.Fatal(str + ex.Message);
+                Log4netRecord.ErrorLog.Fatal(str + ex.Message);
 
             }
             finally
@@ -1537,8 +1754,8 @@ namespace Plugin.MQDefects
         public void ZBPS(HObject Image, HObject DetectionROI,
             HObject ShieldROI, ParamsMQDefects MQDefects)
         {
-            HTuple Lx=0;
-            HTuple Rx=0;
+            HTuple Lx = 0;
+            HTuple Rx = 0;
             //直边破损的检测区域
             HObject FindPosunEdgeRect_L = null;
             HOperatorSet.GenEmptyObj(out FindPosunEdgeRect_L);
@@ -1550,15 +1767,15 @@ namespace Plugin.MQDefects
             {
                 Find_posun(Image, DetectionROI, ShieldROI,
                     Lx, Rx, true, MQDefects);
-               
-              
+
+
             }
             catch (Exception ex)
             {
                 //取得当前方法类全名 包括命名空间    
                 var str = string.Format("类{0}  中的  {1}方法错误：", System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.FullName,
                     System.Reflection.MethodBase.GetCurrentMethod().Name);
-                 Log4netRecord.ErrorLog.Fatal(str + ex.Message);
+                Log4netRecord.ErrorLog.Fatal(str + ex.Message);
 
             }
 
@@ -1661,7 +1878,7 @@ namespace Plugin.MQDefects
                             iNgInfo.m_hImage = ImagePart.CopyObj(1, 1);//缺陷小图片
                             iNgInfo.m_hRegion = RegionConnectionOut_temp.CopyObj(1, 1);
                             iNgInfo.m_strNgTypeName = Defct1Enum.直边破损;//缺陷位置类型
-                            iNgInfo.m_fNgTypArea = Area* AreaCali;//缺陷面积
+                            iNgInfo.m_fNgTypArea = Area * AreaCali;//缺陷面积
                             iNgInfo.m_fNgTypeAbsPixelPos = Convert.ToInt64(RowCenter.D);//Y坐标
                             iNgInfo.m_fNgTypHeight = Hf;//缺陷高度\长度
                             iNgInfo.m_fNgTypWidth = Wf;//缺陷宽度
@@ -1715,7 +1932,7 @@ namespace Plugin.MQDefects
                         iNgInfo.m_hImage = ImagePart.CopyObj(1, 1);//缺陷小图片
                         iNgInfo.m_hRegion = RegionConnectionOut_temp.CopyObj(1, 1);
                         iNgInfo.m_strNgTypeName = Defct1Enum.直边破损;//缺陷位置类型
-                        iNgInfo.m_fNgTypArea = Area* AreaCali;//缺陷面积
+                        iNgInfo.m_fNgTypArea = Area * AreaCali;//缺陷面积
                         iNgInfo.m_fNgTypeAbsPixelPos = Convert.ToInt64(RowCenter.D);//Y坐标
                         iNgInfo.m_fNgTypHeight = Hf;//缺陷高度\长度
                         iNgInfo.m_fNgTypWidth = Wf;//缺陷宽度
@@ -1733,7 +1950,7 @@ namespace Plugin.MQDefects
                 //取得当前方法类全名 包括命名空间    
                 var str = string.Format("类{0}  中的  {1}方法错误：", System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.FullName,
                     System.Reflection.MethodBase.GetCurrentMethod().Name);
-                 Log4netRecord.ErrorLog.Fatal(str + ex.Message);
+                Log4netRecord.ErrorLog.Fatal(str + ex.Message);
 
             }
             finally
@@ -1745,7 +1962,87 @@ namespace Plugin.MQDefects
             }
         }
 
+        /// <summary>
+        /// 台阶破损检测
+        /// </summary>
+        /// <param name="Image"></param>
+        /// <param name="MQDefects"></param>
+        private void Fins_StepPosun(HObject Image, HObject DetectionROI,
+            HObject ShieldROI, ParamsMQDefects MQDefects)
+        {
 
+            HObject imageReduced = null;
+            HObject stepRegion = null;
+            HOperatorSet.GenEmptyObj(out imageReduced);
+            HOperatorSet.GenEmptyObj(out stepRegion);
+            HObject ImagePart;
+            HOperatorSet.GenEmptyObj(out ImagePart);
+
+
+            try
+            {
+                if (!MQDefects.cb_EnStepDefect) return;
+
+
+                //检测区域 减去 屏蔽区域
+                HOperatorSet.Difference(DetectionROI, ShieldROI, out DetectionROI);
+
+                //找出台阶膜区区域
+                HOperatorSet.ReduceDomain(Image, DetectionROI, out imageReduced);
+                HOperatorSet.Threshold(imageReduced, out stepRegion, MQDefects.nud_StepCoatingGrayscaleRangeMin, MQDefects.nud_StepCoatingGrayscaleRangeMax);
+                HOperatorSet.Connection(stepRegion, out stepRegion);
+                HOperatorSet.SelectShapeStd(stepRegion, out stepRegion, "max_area", 70);
+                HOperatorSet.Union1(stepRegion, out stepRegion);
+
+                //筛掉R角区域
+                HOperatorSet.SmallestRectangle1(stepRegion, out HTuple row1, out HTuple col1, out HTuple row2, out HTuple col2);
+                HOperatorSet.OpeningRectangle1(stepRegion, out stepRegion, col2 - col1 - 1, 10);
+
+                //找出台阶破损区域
+                HOperatorSet.ReduceDomain(Image, stepRegion, out imageReduced);
+                HOperatorSet.Threshold(imageReduced, out stepRegion, MQDefects.nud_SetpDefectThresholdRangeMin, MQDefects.nud_SetpDefectThresholdRangeMax);
+                HOperatorSet.SelectShape(stepRegion, out stepRegion, "area", "and", MQDefects.nud_StepDefectAreaRangeFilterMin / AreaCali, MQDefects.nud_StepDefectAreaRangeFilterMax / AreaCali);
+
+                HOperatorSet.CountObj(stepRegion, out HTuple number);
+                if (number > 0)
+                {
+                    HOperatorSet.AreaCenter(stepRegion, out HTuple Area, out HTuple RowCenter, out HTuple Colcenter);
+                    HOperatorSet.SmallestRectangle1(stepRegion, out HTuple Row1, out HTuple Column1, out HTuple Row2, out HTuple Column2);
+
+                    double w_f = (Column2.D - Column1.D);
+                    double h_f = (Row2.D - Row1.D);
+
+                    double Wf = w_f * WidthCali;
+                    double Hf = h_f * HeightCali;
+
+                    zoomImage(Image, stepRegion, out ImagePart);
+                    NgTypeInfo iNgInfo = new NgTypeInfo();
+                    iNgInfo.m_hImage = ImagePart.CopyObj(1, 1);//缺陷小图片
+                    iNgInfo.m_hRegion = stepRegion.CopyObj(1, 1);
+                    iNgInfo.m_strNgTypeName = Defct1Enum.台阶破损;//缺陷位置类型
+                    iNgInfo.m_fNgTypArea = Area * AreaCali;//缺陷面积
+                    iNgInfo.m_fNgTypeAbsPixelPos = Convert.ToInt64(RowCenter.D);//Y坐标
+                    iNgInfo.m_fNgTypHeight = Hf;//缺陷高度\长度
+                    iNgInfo.m_fNgTypWidth = Wf;//缺陷宽度
+                    iNgInfo.sAttachInfo = "";//缺陷附加信息
+                    string NGType = "台阶破损";
+                    bool isExStd = ImageShow(iNgInfo, NGType);
+                }
+            }
+            catch (Exception ex)
+            {
+                //取得当前方法类全名 包括命名空间    
+                var str = string.Format("类{0}  中的  {1}方法错误：", System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.FullName,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name);
+                Log4netRecord.ErrorLog.Fatal(str + ex.Message);
+            }
+            finally
+            {
+                imageReduced?.Dispose();
+                stepRegion?.Dispose();
+                ImagePart?.Dispose();
+            }
+        }
 
         /// <summary>
         /// 边缘掉料
@@ -1757,8 +2054,8 @@ namespace Plugin.MQDefects
         public void BYDL(HObject Image, HObject DetectionROI,
             HObject ShieldROI, ParamsMQDefects MQDefects)
         {
-            HTuple Lx=0;
-            HTuple Rx=0;
+            HTuple Lx = 0;
+            HTuple Rx = 0;
             //边缘掉料的检测区域
             HObject FindPosunEdgeRect_L = null;
             HOperatorSet.GenEmptyObj(out FindPosunEdgeRect_L);
@@ -1776,7 +2073,7 @@ namespace Plugin.MQDefects
                 //取得当前方法类全名 包括命名空间    
                 var str = string.Format("类{0}  中的  {1}方法错误：", System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.FullName,
                     System.Reflection.MethodBase.GetCurrentMethod().Name);
-                 Log4netRecord.ErrorLog.Fatal(str + ex.Message);
+                Log4netRecord.ErrorLog.Fatal(str + ex.Message);
 
             }
 
@@ -1882,7 +2179,7 @@ namespace Plugin.MQDefects
                             iNgInfo.m_hImage = ImagePart.CopyObj(1, 1);//缺陷小图片
                             iNgInfo.m_hRegion = RegionConnectionOut_temp.CopyObj(1, 1);
                             iNgInfo.m_strNgTypeName = Defct1Enum.直边掉料;//缺陷位置类型
-                            iNgInfo.m_fNgTypArea = Area* AreaCali;//缺陷面积
+                            iNgInfo.m_fNgTypArea = Area * AreaCali;//缺陷面积
                             iNgInfo.m_fNgTypeAbsPixelPos = Convert.ToInt64(RowCenter.D);//Y坐标
                             iNgInfo.m_fNgTypHeight = Hf;//缺陷高度\长度
                             iNgInfo.m_fNgTypWidth = Wf;//缺陷宽度
@@ -1952,7 +2249,7 @@ namespace Plugin.MQDefects
                 //取得当前方法类全名 包括命名空间    
                 var str = string.Format("类{0}  中的  {1}方法错误：", System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.FullName,
                     System.Reflection.MethodBase.GetCurrentMethod().Name);
-                 Log4netRecord.ErrorLog.Fatal(str + ex.Message);
+                Log4netRecord.ErrorLog.Fatal(str + ex.Message);
 
             }
             finally
@@ -1997,7 +2294,7 @@ namespace Plugin.MQDefects
                 //取得当前方法类全名 包括命名空间    
                 var str = string.Format("类{0}  中的  {1}方法错误：", System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.FullName,
                     System.Reflection.MethodBase.GetCurrentMethod().Name);
-                 Log4netRecord.ErrorLog.Fatal(str + ex.Message);
+                Log4netRecord.ErrorLog.Fatal(str + ex.Message);
 
             }
 
@@ -2154,7 +2451,7 @@ namespace Plugin.MQDefects
                         iNgInfo.m_hImage = ImagePart.CopyObj(1, 1);//缺陷小图片
                         iNgInfo.m_hRegion = RegionConnectionOut_temp.CopyObj(1, 1);
                         iNgInfo.m_strNgTypeName = Defct1Enum.直边余料;//缺陷位置类型
-                        iNgInfo.m_fNgTypArea = Area* AreaCali;//缺陷面积
+                        iNgInfo.m_fNgTypArea = Area * AreaCali;//缺陷面积
                         iNgInfo.m_fNgTypeAbsPixelPos = Convert.ToInt64(RowCenter.D);//Y坐标
                         iNgInfo.m_fNgTypHeight = Hf;//缺陷高度\长度
                         iNgInfo.m_fNgTypWidth = Wf;//缺陷宽度
@@ -2172,7 +2469,7 @@ namespace Plugin.MQDefects
                 //取得当前方法类全名 包括命名空间    
                 var str = string.Format("类{0}  中的  {1}方法错误：", System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.FullName,
                     System.Reflection.MethodBase.GetCurrentMethod().Name);
-                 Log4netRecord.ErrorLog.Fatal(str + ex.Message);
+                Log4netRecord.ErrorLog.Fatal(str + ex.Message);
 
             }
             finally
@@ -2477,7 +2774,7 @@ namespace Plugin.MQDefects
             }
             catch (Exception ex)
             {
-                 Log4netRecord.ErrorLog.Fatal(ex + "HorMin：" + HorMinGray.ToString());
+                Log4netRecord.ErrorLog.Fatal(ex + "HorMin：" + HorMinGray.ToString());
             }
             finally
             {
@@ -2510,7 +2807,7 @@ namespace Plugin.MQDefects
                     int status = ClassDefect.Classification_channel(ho_Images, out resultArray, out Times);
                     if (status < 0)
                     {
-                         Log4netRecord.ErrorLog.Error("分类异常，异常结果：" + status.ToString());
+                        Log4netRecord.ErrorLog.Error("分类异常，异常结果：" + status.ToString());
                     }
                     classRst = string.Join(",", resultArray);//分类结果记录
                     //HOperatorSet.SetColor(WinHandle, "red");
@@ -2565,6 +2862,8 @@ namespace Plugin.MQDefects
                         //7-------------气泡
                         //8-------------压痕
                         //9-------------褶皱
+                        //10------------其他
+                        //11------------凹坑
 
                         //=======================================================================================================================
                         //=======【】NG打标采集，小图显示存图
@@ -2619,7 +2918,19 @@ namespace Plugin.MQDefects
                                 iNgInfo.m_strNgTypeName = Defct1Enum.褶皱;//缺陷位置类型ID
                                 break;
                             case 10:
+                                iNgInfo.m_strNgTypeName = Defct1Enum.极片带料;
+                                break;
+                            case 11:
+                                iNgInfo.m_strNgTypeName = Defct1Enum.凹坑;//其它
+                                break;
+                            case 12:
                                 iNgInfo.m_strNgTypeName = Defct1Enum.其它;//其它
+                                break;
+                            case 13:
+                                iNgInfo.m_strNgTypeName = Defct1Enum.暗斑;
+                                break;
+                            case 14:
+                                iNgInfo.m_strNgTypeName = Defct1Enum.暗痕;
                                 break;
                             default:
                                 //其它算其它类型
@@ -2629,13 +2940,13 @@ namespace Plugin.MQDefects
 
 
                         bool isExStd = ImageShow(iNgInfo, NGType);
-                         
+
                     }
                 }
             }
             catch (Exception ex)
             {
-                 Log4netRecord.ErrorLog.Error(ex);
+                Log4netRecord.ErrorLog.Error(ex);
             }
             finally
             {
@@ -2828,7 +3139,7 @@ namespace Plugin.MQDefects
                                 iNgInfo.Diameter = getDiameter(ho_RegionConnectionOut) * HeightCali;
 
                                 break;
-                           
+
                             case 7:
                                 iNgInfo.m_strNgTypeName = Defct1Enum.褶皱;//缺陷位置类型ID
                                 break;
@@ -2839,15 +3150,15 @@ namespace Plugin.MQDefects
 
                                 break;
                         }
-                       
+
                         bool isExStd = ImageShow(iNgInfo, NGType);
-            
+
                     }
                 }
             }
             catch (Exception ex)
             {
-                 Log4netRecord.ErrorLog.Error(ex);
+                Log4netRecord.ErrorLog.Error(ex);
             }
             finally
             {
@@ -2855,8 +3166,6 @@ namespace Plugin.MQDefects
                 dilaho_RegionConnectionOut.Dispose();
             }
         }
-
-
 
         /// <summary>
         /// 缩放截图
@@ -2873,12 +3182,13 @@ namespace Plugin.MQDefects
             HTuple row1, column1, row2, column2;
             try
             {
-                HOperatorSet.DilationRectangle1(inputRegion, out Region, 50, 50);
-                HOperatorSet.SmallestRectangle1(Region, out row1, out column1, out row2, out column2);
+                HOperatorSet.Union1(inputRegion, out inputRegion);
+                //HOperatorSet.DilationRectangle1(inputRegion, out Region, 50, 50);
+                HOperatorSet.SmallestRectangle1(inputRegion, out row1, out column1, out row2, out column2);
                 HOperatorSet.GenRectangle1(out Region, row1, column1, row2, column2);
                 HOperatorSet.ReduceDomain(inputImage, Region, out Image);
                 HOperatorSet.CropDomain(Image, out Image);
-                HOperatorSet.ZoomImageFactor(Image, out Image, 0.25, 0.25, "constant");
+                //HOperatorSet.ZoomImageFactor(Image, out Image, 0.25, 0.25, "constant");
 
             }
             catch (Exception ex)
@@ -2887,7 +3197,7 @@ namespace Plugin.MQDefects
                 //取得当前方法类全名 包括命名空间    
                 var str = string.Format("类{0}  中的  {1}方法错误：", System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.FullName,
                     System.Reflection.MethodBase.GetCurrentMethod().Name);
-                 Log4netRecord.ErrorLog.Error(ex);
+                Log4netRecord.ErrorLog.Error(ex);
 
             }
             finally
@@ -2895,7 +3205,123 @@ namespace Plugin.MQDefects
 
 
             }
+
+
+
         }
+
+        ///// <summary>
+        ///// 缩放截图
+        ///// </summary>
+        ///// <param name="inputImage"></param>
+        ///// <param name="inputRegion"></param>
+        ///// <param name="Image"></param>
+        //private void zoomImage(HObject inputImage, HObject inputRegion, out HObject Image)
+        //{
+        //    Image = null;
+        //    HOperatorSet.GenEmptyObj(out Image);
+        //    HObject Region = null;
+        //    HOperatorSet.GenEmptyObj(out Region);
+        //    HTuple row1, column1, row2, column2;
+        //    try
+        //    {
+        //        int g = inputRegion.CountObj();
+        //        HOperatorSet.Union1(inputRegion, out inputRegion);
+        //        //// 检查输入图像是否为空
+        //        //HTuple width, height;
+        //        //HOperatorSet.GetImageSize(inputImage, out width, out height);
+        //        //if (width == 0 || height == 0)
+        //        //{
+        //        //    Log4netRecord.ErrorLog.Error("输入图像为空或未正确加载！");
+        //        //    //return;
+        //        //}
+
+        //        //// 检查输入区域是否为空
+        //        //HTuple area, row, column;
+        //        //HOperatorSet.AreaCenter(inputRegion, out area, out row, out column);
+        //        //if (area.D == 0)
+        //        //{
+        //        //    Log4netRecord.ErrorLog.Error("输入区域为空，无法进行膨胀操作！");
+        //        //    //return;
+        //        //}
+
+        //        //// 输出输入区域的属性
+        //        //Log4netRecord.ErrorLog.Info($"输入区域面积：{area}, 中心点：({row}, {column})");
+        //        //HOperatorSet.SmallestRectangle1(inputRegion, out row1, out column1, out row2, out column2);
+        //        //Log4netRecord.ErrorLog.Info($"输入区域外接矩形：({row1}, {column1}), ({row2}, {column2})");
+
+        //        //// 检查输入区域是否超出图像范围
+        //        //if (row1 < 0 || column1 < 0 || row2 >= height || column2 >= width)
+        //        //{
+        //        //    Log4netRecord.ErrorLog.Error("输入区域超出图像范围！");
+        //        //    //return;
+        //        //}
+
+        //        //// 保存输入区域和图像
+        //        //HOperatorSet.WriteImage(inputImage, "bmp", 0, @"E:\Log\ErrorLog\inputImage.bmp");
+        //        //HOperatorSet.WriteRegion(inputRegion, @"E:\Log\ErrorLog\inputRegion.hobj");
+
+        //        //// 执行膨胀操作
+        //        //HOperatorSet.DilationRectangle1(inputRegion, out Region, 1, 1);
+
+        //        //// 检查膨胀后的区域是否为空
+        //        //HOperatorSet.AreaCenter(Region, out area, out row, out column);
+        //        //if (area.D == 0)
+        //        //{
+        //        //    Log4netRecord.ErrorLog.Error("膨胀后的区域为空，请检查输入区域和图像！");
+        //        //    //return;
+        //        //}
+
+        //        //// 输出膨胀后区域的属性
+        //        //Log4netRecord.ErrorLog.Info($"膨胀后的区域面积：{area}, 中心点：({row}, {column})");
+        //        //HOperatorSet.SmallestRectangle1(Region, out row1, out column1, out row2, out column2);
+        //        //Log4netRecord.ErrorLog.Info($"膨胀后的区域外接矩形：({row1}, {column1}), ({row2}, {column2})");
+
+        //        //// 保存膨胀后的区域
+        //        //HOperatorSet.WriteRegion(Region, @"E:\Log\ErrorLog\dilatedRegion.hobj");
+
+        //        // 生成矩形区域
+        //        //HOperatorSet.GenRectangle1(out Region, row1, column1, row2, column2);
+
+        //        // 缩小图像域并裁剪
+        //        HOperatorSet.ReduceDomain(inputImage, inputRegion, out Image);
+        //        HOperatorSet.CropDomain(Image, out Image);
+
+        //        //对图像进行缩放
+        //        //HOperatorSet.ZoomImageFactor(Image, out Image, 0.25, 0.25, "constant");
+
+        //        //HOperatorSet.GetImageSize(inputImage, out HTuple w, out HTuple h);
+        //        //HOperatorSet.SmallestRectangle1(inputRegion, out row1, out column1, out row2, out column2);
+        //        //HOperatorSet.DilationRectangle1(inputRegion, out Region, 50, 50);
+        //        //HOperatorSet.SmallestRectangle1(Region, out row1, out column1, out row2, out column2);
+
+
+
+        //        //HOperatorSet.GenRectangle1(out Region, row1, column1, row2, column2);
+        //        //HOperatorSet.ReduceDomain(inputImage, Region, out Image);
+        //        //HOperatorSet.CropDomain(Image, out Image);
+        //        //HOperatorSet.ZoomImageFactor(Image, out Image, 0.25, 0.25, "constant");
+
+
+        //        //HOperatorSet.WriteImage(inputImage, "bmp", 0, @"E:\Log\ErrorLog\" + "1.bmp");
+        //        //HOperatorSet.WriteRegion(inputRegion, @"E:\Log\ErrorLog\" + "region.hobj");
+        //        //HOperatorSet.WriteRegion(Region, @"E:\Log\ErrorLog\" + "region1.hobj");
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        //取得当前方法类全名 包括命名空间    
+        //        var str = string.Format("类{0}  中的  {1}方法错误：", System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.FullName,
+        //            System.Reflection.MethodBase.GetCurrentMethod().Name);
+        //        Log4netRecord.ErrorLog.Error(ex);
+
+        //    }
+        //    finally
+        //    {
+
+
+        //    }
+        //}
 
 
 
@@ -2964,7 +3390,7 @@ namespace Plugin.MQDefects
                     int status = ClassDefect.Classification_channel(ho_Images, out resultArray, out Times);
                     if (status < 0)
                     {
-                         Log4netRecord.ErrorLog.Error("分类异常，异常结果：" + status.ToString());
+                        Log4netRecord.ErrorLog.Error("分类异常，异常结果：" + status.ToString());
                     }
                     classRst = string.Join(",", resultArray);//分类结果记录
                     //HOperatorSet.SetColor(WinHandle, "red");
@@ -3019,6 +3445,8 @@ namespace Plugin.MQDefects
                         //7-------------气泡
                         //8-------------压痕
                         //9-------------褶皱
+                        //10------------其他
+                        //11------------凹坑
 
                         //=======================================================================================================================
                         //=======【】NG打标采集，小图显示存图
@@ -3073,7 +3501,16 @@ namespace Plugin.MQDefects
                                 iNgInfo.m_strNgTypeName = Defct1Enum.褶皱;//缺陷位置类型ID
                                 break;
                             case 10:
+                                iNgInfo.m_strNgTypeName = Defct1Enum.极片带料;//
+                                break;
+                            case 11:
                                 iNgInfo.m_strNgTypeName = Defct1Enum.其它;//其它
+                                break;
+                            case 12:
+                                iNgInfo.m_strNgTypeName = Defct1Enum.暗斑;
+                                break;
+                            case 13:
+                                iNgInfo.m_strNgTypeName = Defct1Enum.暗痕;
                                 break;
                             default:
                                 //其它算其它类型
@@ -3089,7 +3526,7 @@ namespace Plugin.MQDefects
             }
             catch (Exception ex)
             {
-                 Log4netRecord.ErrorLog.Fatal(ex.Message);
+                Log4netRecord.ErrorLog.Fatal(ex.Message);
             }
             finally
             {
@@ -3107,7 +3544,7 @@ namespace Plugin.MQDefects
             bool OverSpec = false;
             try
             {
-                detectInfos.Enqueue(iNgInfo);  
+                detectInfos.Enqueue(iNgInfo);
             }
             catch (Exception ex)
             {
@@ -3142,7 +3579,7 @@ namespace Plugin.MQDefects
                 //取得当前方法类全名 包括命名空间    
                 var str = string.Format("类{0}  中的  {1}方法错误：", System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.FullName,
                     System.Reflection.MethodBase.GetCurrentMethod().Name);
-                 Log4netRecord.ErrorLog.Fatal(str + ex.Message);
+                Log4netRecord.ErrorLog.Fatal(str + ex.Message);
 
             }
             finally
@@ -3171,8 +3608,8 @@ namespace Plugin.MQDefects
             try
             {
                 //AT漏金属
-                Find_AT_LouJinShu( Image,
-             DetectionROI,  Shield_ROI,
+                Find_AT_LouJinShu(Image,
+             DetectionROI, Shield_ROI,
               MQDefects);
 
                 //AT破损
@@ -3181,9 +3618,9 @@ namespace Plugin.MQDefects
               MQDefects);
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Log4netRecord.ErrorLog.Fatal( ex.Message);
+                Log4netRecord.ErrorLog.Fatal(ex.Message);
             }
             finally
             {
@@ -3254,7 +3691,7 @@ namespace Plugin.MQDefects
                         double Wf = w_f * WidthCali;
                         double Hf = h_f * HeightCali;
                         bool isOk = false;
-                       
+
                         if (!isOk)
                         {
                             zoomImage(Image, RegionConnectionOut_temp, out ImagePart);
@@ -3466,7 +3903,7 @@ namespace Plugin.MQDefects
         /// <param name="PluginParams"></param>
         /// <param name="Model"></param>
         /// <param name="ModelXld"></param>
-        public static int FindShapeModel(HObject image, ParamsMQDefects PluginParams, HTuple Model,HObject ModelContours,
+        public static int FindShapeModel(HObject image, ParamsMQDefects PluginParams, HTuple Model, HObject ModelContours,
             out HObject ModelXld)
         {
             HOperatorSet.GenEmptyObj(out ModelXld);
@@ -3475,8 +3912,9 @@ namespace Plugin.MQDefects
             HTuple Row, Col, Angle, Score;
             HTuple HomMat2D;
             try
-            {   HTuple AngleStart= (new HTuple(-0.1)).TupleRad();
-                HTuple AngleExtent= (new HTuple(0.1)).TupleRad();
+            {
+                HTuple AngleStart = (new HTuple(-0.1)).TupleRad();
+                HTuple AngleExtent = (new HTuple(0.1)).TupleRad();
                 HTuple MinScore = 0.2;
                 //匹配个数
                 HTuple NumMatches = 1;
@@ -3489,15 +3927,15 @@ namespace Plugin.MQDefects
                 //贪婪 的搜索启发式
                 HTuple Greediness = 0.9;
 
-                if(Model.Length<1)
+                if (Model.Length < 1)
                 {
                     return -1;
                 }
-              
+
                 HOperatorSet.FindShapeModel(image, Model, AngleStart,
                     AngleExtent, MinScore, NumMatches, MaxOverlap, SubPixel, NumLevels, Greediness, out Row, out Col, out Angle,
                  out Score);
-                if(Row.Length>0)
+                if (Row.Length > 0)
                 {
                     HOperatorSet.VectorAngleToRigid(0, 0, 0, Row, Col, Angle, out HomMat2D);
                     HOperatorSet.GetShapeModelContours(out ModelContours, Model, 1);
@@ -3511,7 +3949,7 @@ namespace Plugin.MQDefects
 
                 return 0;
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
 
                 Log4netRecord.ErrorLog.Error(ex);
@@ -3522,7 +3960,7 @@ namespace Plugin.MQDefects
                 //ModelContours?.Dispose();
 
             }
-           
+
 
 
         }

@@ -34,7 +34,7 @@ namespace Frame_Core
             try
             {
                 ImageInfo image = new ImageInfo();
-                readRsult = imageSimManage.GetZeroIndexStartNextImage(out HObject tempImage);
+                readRsult = imageSimManage.GetZeroIndexStartNextImage(out HObject tempImage,out string imgPath);
                 if (readRsult && image != null)
                 {
                     image.ho_image = tempImage;
@@ -97,7 +97,7 @@ namespace Frame_Core
             try
             {
                 ImageInfo image = new ImageInfo();
-                readRsult = imageSimManage.GetZeroIndexStartNextImage(out HObject tempImage);
+                readRsult = imageSimManage.GetZeroIndexStartNextImage(out HObject tempImage, out string imgPath);
                 if (readRsult && image != null)
                 {
                     image.ho_image = tempImage;

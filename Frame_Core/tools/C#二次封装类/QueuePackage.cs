@@ -75,6 +75,16 @@ namespace Frame_Core
             }
         }
 
+        // 出队方法
+        public List<T> ToList()
+        {
+            lock (lockObject)
+            {
+                List<T> list = queue.ToList();
+                return list;
+            }
+        }
+
         // 查看队首元素
         public T Peek()
         {

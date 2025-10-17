@@ -428,7 +428,7 @@ namespace Frame_Core
                 m_ImageSimManage.ImageEmulationPaths = FileDialog.FileNames;
 
                 if (m_ImageSimManage.ImageEmulationPaths == null || m_ImageSimManage.ImageEmulationPaths.Length == 0) return;
-                m_ImageSimManage.GetCurrentImage(out HObject Load_Image);
+                m_ImageSimManage.GetCurrentImage(out HObject Load_Image, out string imgPath);
 
                 Execute(Load_Image);
 
@@ -1134,7 +1134,7 @@ namespace Frame_Core
             {
                 
                 if (m_ImageSimManage.ImageEmulationPaths == null || m_ImageSimManage.ImageEmulationPaths.Length == 0) {  MessageBox.Show("请先加载图像！"); return; } ;
-                m_ImageSimManage.GetCurrentImage(out HObject Load_Image);
+                m_ImageSimManage.GetCurrentImage(out HObject Load_Image, out string imgPath);
                 // 释放之前的数据              
                 currentShowHalconWindow.Dispose();
                 currentShowHalconWindow.m_hImage = Load_Image;
@@ -1161,7 +1161,7 @@ namespace Frame_Core
         private void EdgeFind_Click(object sender, EventArgs e)
         {
             if (m_ImageSimManage.ImageEmulationPaths == null || m_ImageSimManage.ImageEmulationPaths.Length == 0) { MessageBox.Show("请先加载图像！"); return; };
-            m_ImageSimManage.GetCurrentImage(out HObject Load_Image);
+            m_ImageSimManage.GetCurrentImage(out HObject Load_Image, out string imgPath);
             // 释放之前的数据              
             currentShowHalconWindow.Dispose();
             currentShowHalconWindow.m_hImage = Load_Image;
@@ -1283,7 +1283,7 @@ namespace Frame_Core
             try
             {
                 if (m_ImageSimManage.ImageEmulationPaths == null || m_ImageSimManage.ImageEmulationPaths.Length == 0) { MessageBox.Show("请先加载图像！"); return; };
-                m_ImageSimManage.GetCurrentImage(out HObject Load_Image);
+                m_ImageSimManage.GetCurrentImage(out HObject Load_Image, out string imgPath);
                 //GetFormParam(ref param_CalibTemp);
                 Execute(Load_Image, true);
             }
@@ -1300,7 +1300,7 @@ namespace Frame_Core
             try
             {
                 if (m_ImageSimManage.ImageEmulationPaths == null || m_ImageSimManage.ImageEmulationPaths.Length == 0) { MessageBox.Show("请先加载图像！"); return; };
-                m_ImageSimManage.GetNextImage(out HObject Load_Image);
+                m_ImageSimManage.GetNextImage(out HObject Load_Image, out string imgPath);
                 //GetFormParam(ref param_CalibTemp);
                 Execute(Load_Image, true);
             }

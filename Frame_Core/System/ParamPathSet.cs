@@ -76,6 +76,10 @@ namespace Frame_Core
         public string MsaLineCheckBoradParamPath;//Msa棋盘格线宽参数路径
         public string Msa3DThickParamPath;//Msa3D测厚参数路径
         public string CheckDJParamPath;//点检参数路径
+        public string GrayScaleAdaptationParamPath;//灰度自适应参数
+        public string CamSizePointInspectionParamPathName;//相机尺寸点检参数
+        public string CamDefectPointInspectionParamPathName;//相机缺陷点检参数
+        public string CamPointInspectionStateParamPathName;//点检状态参数
         public string CutOverlayProjectBasePath;//切叠项目基础路径
         //配方参数
         public string ProcessPath;       //运行流程插件参数路径  
@@ -265,6 +269,18 @@ namespace Frame_Core
             //切叠Mark参数保存路径
             CutOverlayMarkParamPath = SystemPath + $"\\{relativePath}" + "\\CutOverlayMarkParam";
 
+            //灰度自适应参数
+            GrayScaleAdaptationParamPath = SystemPath + $"\\{relativePath}" +"\\GrayScaleAdaptationParam";
+
+            //相机尺寸点检参数路径
+            CamSizePointInspectionParamPathName = SystemPath + $"\\{relativePath}" + "\\CamSizePointInspectionParam";
+
+            //相机缺陷点检参数路径
+            CamDefectPointInspectionParamPathName = SystemPath + $"\\{relativePath}" + "\\CamDefectPointInspectionParam";
+
+            //相机点检状态参数路径
+            CamPointInspectionStateParamPathName = SystemPath + $"\\{relativePath}" + "\\CamPointInspectionStateParam";
+
             CalibrationPlateParamPath = SystemPath + $"\\{relativePath}" + "\\CalibrationPlateParam";
             CheckerboardParamPath = SystemPath + $"\\{relativePath}" + "\\CheckerboardParam";
             PretargetingCalibParamPath = SystemPath + $"\\{relativePath}" + "\\PretargetingCalibParam";
@@ -366,6 +382,8 @@ namespace Frame_Core
                     item.Value.m_CamDetectionVariable.ProdSizeDataPath = ProductMojuanPath + $"{_currentMojuanhao}-{item.Value.m_CamParam.CameraName}-尺寸过程数据.csv";
                     item.Value.m_CamDetectionVariable.ProdDeftDataPath = ProductMojuanPath + $"{_currentMojuanhao}-{item.Value.m_CamParam.CameraName}-缺项过程数据.csv";
                     item.Value.m_CamDetectionVariable.ProdEADataPath = ProductMojuanPath + $"{_currentMojuanhao}-{item.Value.m_CamParam.CameraName}-EA过程数据.csv";
+
+                    item.Value.m_SizePointInspectionManage.SizeRealTimeCheckPointPath = ProductMojuanPath + $"{_currentMojuanhao}-{item.Value.m_CamParam.CameraName}-实时点检数据.csv";
                 }
             }
 
