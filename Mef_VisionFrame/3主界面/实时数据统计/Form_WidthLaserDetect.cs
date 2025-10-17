@@ -266,6 +266,24 @@ namespace Mef_VisionFrame
             //判断是否是这个Combox是否是Cob_SliceIndex这个
             if (sender is ComboBox comboBox && comboBox.Name == "Cob_SliceIndex")
             {
+                if (comboBox.SelectedIndex >= 0)
+                {
+                    bool needShow = bIsLeftSide ? comboBox.SelectedIndex <= nSpliteIndex : comboBox.SelectedIndex > nSpliteIndex;
+                    if (!needShow)
+                    {
+                        MessageBox.Show($"当前第{comboBox.SelectedIndex + 1}条不在显示范围内，请重新选择条");
+
+                        if (bIsLeftSide)
+                        {
+                            comboBox.SelectedIndex = 0;
+                        }
+                        else
+                        {
+                            comboBox.SelectedIndex = nSpliteIndex + 1;
+                        }
+                    }
+                }
+
                 List<string> strings = new List<string>();
 
                 if (GrooveIndex?.Length > 0)
@@ -278,9 +296,9 @@ namespace Mef_VisionFrame
                     Cob_GrooveIndex.SelectedIndex = 0;
                 }
 
+
             }
         }
-
 
         private void listView1_DoubleClick(object sender, EventArgs e)
         {

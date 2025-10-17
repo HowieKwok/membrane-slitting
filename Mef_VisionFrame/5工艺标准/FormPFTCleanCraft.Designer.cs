@@ -74,6 +74,8 @@
             this.groupBox12 = new System.Windows.Forms.GroupBox();
             this.dataGridViewMDis = new System.Windows.Forms.DataGridView();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.nud_Cam2TDDistFix = new System.Windows.Forms.NumericUpDown();
+            this.label18 = new System.Windows.Forms.Label();
             this.nud_Cam2BaseCol = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
             this.nud_Cam1BaseCol = new System.Windows.Forms.NumericUpDown();
@@ -164,6 +166,7 @@
             this.groupBox12.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMDis)).BeginInit();
             this.groupBox8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_Cam2TDDistFix)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_Cam2BaseCol)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_Cam1BaseCol)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_EXCam1Col)).BeginInit();
@@ -739,6 +742,8 @@
             // 
             // groupBox8
             // 
+            this.groupBox8.Controls.Add(this.nud_Cam2TDDistFix);
+            this.groupBox8.Controls.Add(this.label18);
             this.groupBox8.Controls.Add(this.nud_Cam2BaseCol);
             this.groupBox8.Controls.Add(this.label8);
             this.groupBox8.Controls.Add(this.nud_Cam1BaseCol);
@@ -755,6 +760,34 @@
             this.groupBox8.TabIndex = 361;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "相机侧向联合(单位pix)";
+            // 
+            // nud_Cam2TDDistFix
+            // 
+            this.nud_Cam2TDDistFix.DecimalPlaces = 2;
+            this.nud_Cam2TDDistFix.Location = new System.Drawing.Point(462, 64);
+            this.nud_Cam2TDDistFix.Maximum = new decimal(new int[] {
+            999,
+            0,
+            0,
+            0});
+            this.nud_Cam2TDDistFix.Minimum = new decimal(new int[] {
+            999,
+            0,
+            0,
+            -2147483648});
+            this.nud_Cam2TDDistFix.Name = "nud_Cam2TDDistFix";
+            this.nud_Cam2TDDistFix.Size = new System.Drawing.Size(107, 29);
+            this.nud_Cam2TDDistFix.TabIndex = 366;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label18.Location = new System.Drawing.Point(386, 40);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(183, 21);
+            this.label18.TabIndex = 365;
+            this.label18.Text = "右侧TD定位距修正(mm)";
             // 
             // nud_Cam2BaseCol
             // 
@@ -1750,6 +1783,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMDis)).EndInit();
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_Cam2TDDistFix)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_Cam2BaseCol)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_Cam1BaseCol)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_EXCam1Col)).EndInit();
@@ -1925,5 +1959,7 @@
         private System.Windows.Forms.CheckBox checkBox_CurCamIsLeft;
         private System.Windows.Forms.NumericUpDown nud_BackCoatSizeMD;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.NumericUpDown nud_Cam2TDDistFix;
+        private System.Windows.Forms.Label label18;
     }
 }

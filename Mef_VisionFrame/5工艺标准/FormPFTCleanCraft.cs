@@ -118,6 +118,9 @@ namespace Mef_VisionFrame
             nud_EXCam1Col.Value = (decimal)craft.EXCam1Col;
             nud_EXCam2Col.Value = (decimal)craft.EXCam2Col;
 
+            nud_Cam2TDDistFix.Value = (decimal)craft.Cam2TDDistFix;
+            
+
             //基础EA参数
             nud_EASizeTD.Value = (decimal)craft.EASizeTD;
             nud_EASizeMD.Value = (decimal)craft.EASizeMD;
@@ -221,6 +224,8 @@ namespace Mef_VisionFrame
             craft.Cam2BaseCol = (double)nud_Cam2BaseCol.Value;
             craft.EXCam1Col = (double)nud_EXCam1Col.Value;
             craft.EXCam2Col = (double)nud_EXCam2Col.Value;
+
+            craft.Cam2TDDistFix = (double)nud_Cam2TDDistFix.Value;
 
             //标准极耳工艺
             craft.EASizeTD = (double)nud_EASizeTD.Value;
@@ -1624,6 +1629,11 @@ namespace Mef_VisionFrame
                 {
                     if (craft.ListSliceSet[j].IsLeftSide == craft.CurCamIsLeft)
                     {
+                        LineInfo lineInfoSH = new LineInfo();
+                        lineInfoSH.StrLineName = $"第{j + 1}条料头边";
+                        lineInfoSH.m_camera = (CameraEnum)i;
+                        lineInfoSH.IsStandLine = false;
+                        craft.ListLines[i].Add(lineInfoSH);
                         AddSlotLine($"第{j + 1}条打孔区", i);
                     }
                 }
@@ -1805,7 +1815,7 @@ namespace Mef_VisionFrame
             {
                 craft.SlotGapTDis.Add(4);
                 craft.SlotGapTDisUp.Add(1);
-                craft.SlotGapTDisDown.Add(1);
+                craft.SlotGapTDisDown.Add(-1);
             }
             //初始化MD尺寸
             if (craft.SlotMDis == null)
@@ -1834,7 +1844,7 @@ namespace Mef_VisionFrame
                 craft.SlotMDis.Add(60);
                 craft.SlotMDisBSide.Add(60);
                 craft.SlotMDisUp.Add(1);
-                craft.SlotMDisDown.Add(1);
+                craft.SlotMDisDown.Add(-1);
             }
 
             //设置TDMDis

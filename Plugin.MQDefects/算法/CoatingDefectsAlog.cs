@@ -121,6 +121,14 @@ namespace Plugin.MQDefects
                             //未冷压检测
                             WLY(Image, DetectionROI, ShieldROI, MQDefects);
                         }
+                        if (MQDefects.detectInfos.Count() > 0)
+                        {
+                            MQDefects.currentExistingDefect = true;
+                        }
+                        else
+                        {
+                            MQDefects.currentExistingDefect = false;
+                        }
                         break;
                     //直边破损
                     case 1:
@@ -1282,8 +1290,8 @@ namespace Plugin.MQDefects
                         HOperatorSet.Intensity(Domain_Image_Blackt, Image, out HTuple mean, out HTuple deviation);
                         if (mean.Length > 0)
                         {
-                            MQDefects.CoatingMeanGray = Math.Round(mean.D,2);
-                            MQDefects.IsGetCoatingMeanGray = true;
+                            MQDefects.CoatingMeanGray = Math.Round(mean.D, 2);
+                            if (MQDefects.CoatingMeanGray > 0) MQDefects.IsGetCoatingMeanGray = true;
                         }
                     }
                     if (en_MeanGrayDifference_Black)
@@ -1304,7 +1312,7 @@ namespace Plugin.MQDefects
                 {
                     Log4netRecord.ErrorLog.Debug(ex);
                 }
-             
+
 
                 //========【】提取亮瑕疵与暗瑕疵
                 NG_White.Dispose();

@@ -7443,7 +7443,7 @@
     <value>HWC_Image1</value>
   </data>
   <data name="&gt;&gt;HWC_Image1.Type" xml:space="preserve">
-    <value>HalconDotNet.HWindowControl, halcondotnet, Version=20.11.1.0, Culture=neutral, PublicKeyToken=4973bed59ddbf2b8</value>
+    <value>HalconDotNet.HWindowControl, halcondotnetxl, Version=20.11.1.0, Culture=neutral, PublicKeyToken=4973bed59ddbf2b8</value>
   </data>
   <data name="&gt;&gt;HWC_Image1.Parent" xml:space="preserve">
     <value>TLP_Image1</value>
@@ -7913,7 +7913,7 @@
     <value>HWC_Display</value>
   </data>
   <data name="&gt;&gt;HWC_Display.Type" xml:space="preserve">
-    <value>HalconDotNet.HWindowControl, halcondotnet, Version=20.11.1.0, Culture=neutral, PublicKeyToken=4973bed59ddbf2b8</value>
+    <value>HalconDotNet.HWindowControl, halcondotnetxl, Version=20.11.1.0, Culture=neutral, PublicKeyToken=4973bed59ddbf2b8</value>
   </data>
   <data name="&gt;&gt;HWC_Display.Parent" xml:space="preserve">
     <value>TLPanel_BGM1</value>

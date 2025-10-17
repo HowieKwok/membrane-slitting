@@ -192,6 +192,11 @@ namespace Frame_Core
         [Description("特征在Cam2中的列坐标")]
         public double EXCam2Col { get; set; } = 1000;
 
+        /// <summary>
+        /// Cam2TD定位距修正值-右侧半边
+        /// </summary>
+        [Description("Cam2TD定位距修正值-右侧半边")]
+        public double Cam2TDDistFix { get; set; } = 0;
 
         #region 边距间隙公差
         ///// <summary>

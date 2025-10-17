@@ -69,7 +69,8 @@ namespace Plugin.MQDefects
                     info.m_hRegion?.Dispose();
                 }
                 paramsMQDefects.detectInfos.Clear();
-                
+                paramsMQDefects.currentExistingDefect = true;
+
                 object[] inputs = new object[2];
 
                 object[] outputs = null;
