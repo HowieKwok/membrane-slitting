@@ -361,7 +361,7 @@ namespace Frame_Core
                 }
                 paramPath = paramPathSet.purviewParamPathName;
                 initParamResult &= purviewManage.InitpurviewParam(paramPath);
-                purviewManage.UpdateModelPurviewParam(modelServiceManage.m_dicModels, purviewManage.purviewParam.l_modelPrivilege);
+                purviewManage.UpdateModelPurviewParam(modelServiceManage.m_dicModels,ref purviewManage.purviewParam.l_modelPrivilege);
                 purviewManage.purviewParam.Save();
 
 

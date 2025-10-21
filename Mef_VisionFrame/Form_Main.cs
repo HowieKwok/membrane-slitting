@@ -247,7 +247,9 @@ namespace Mef_VisionFrame
 
                     if (statusStrip1.IsHandleCreated)
                     {
+                        
                         NStatusStrip.UpdateStatStrip(statusStrip1, softwareState);
+              
                     }
                 }
                 catch (Exception)

@@ -14,7 +14,7 @@ namespace Frame_Core
         /// <summary>
         /// 模块权限参数
         /// </summary>
-        public List<ModelPrivilege> l_modelPrivilege { get; set; }
+        public List<ModelPrivilege> l_modelPrivilege;
 
         public PurviewParam()
         {

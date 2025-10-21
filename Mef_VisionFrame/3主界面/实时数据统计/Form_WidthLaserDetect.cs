@@ -271,7 +271,7 @@ namespace Mef_VisionFrame
                     bool needShow = bIsLeftSide ? comboBox.SelectedIndex <= nSpliteIndex : comboBox.SelectedIndex > nSpliteIndex;
                     if (!needShow)
                     {
-                        MessageBox.Show($"当前第{comboBox.SelectedIndex + 1}条不在显示范围内，请重新选择条");
+                      MessageNotify.AddDebugLog($"当前第{comboBox.SelectedIndex + 1}条不在显示范围内，请重新选择条");
 
                         if (bIsLeftSide)
                         {

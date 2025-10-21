@@ -21,6 +21,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Markup;
 
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
@@ -99,7 +100,7 @@ namespace Frame_Core
             }
             catch (Exception ee)
             {
-                MessageBox.Show(ee.ToString());
+                System.Windows.MessageBox.Show(ee.ToString());
                 Log4netRecord.ErrorLog.Debug("初始化系统数据报错————\n" + ee.ToString());
                 return false;
             }
@@ -137,7 +138,7 @@ namespace Frame_Core
             }
             catch (Exception ee)
             {
-                MessageBox.Show(ee.ToString());
+                System.Windows.MessageBox.Show(ee.ToString());
                 Log4netRecord.ErrorLog.Debug("初始化仿真数据报错————\n" + ee.ToString());
                 return false;
             }
@@ -992,6 +993,7 @@ namespace Frame_Core
                            double right = ImageProduct.EdgelineLeft + m_craft.ListSliceSet[SliceIndex].SliceEndPos / Calipix_x;
                            double TDshaft = m_craft.ListSliceSet[SliceIndex].SliceStartPos / Calipix_x;
 
+                     
                            //每条单独找料头
                            if (currentEAProduct.ListEASlicePD[SliceIndex].curSlShaveIndex <= 1)
                            {
@@ -1010,28 +1012,28 @@ namespace Frame_Core
                                    if (currentEAProduct.Coatrange.EndImageID == ImageProduct.nCurImageID)
                                    {
                                        HOperatorSet.GenRectangle2(out HObject GroVRegion1, CropPartParams.PartCenterRow, CropPartParams.PartCenterCol, 0, CropPartParams.PartSizeCol / 2 + CropPartParams.CropShaftCol, CropPartParams.PartSizeRow / 2 + CropPartParams.CropShaftRow);
-                                       RegionShowInfos.Add(new RegionShowInfo() { m_hRegion = GroVRegion1, m_stuGetColor = HalconColor.pink });
+                                       ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_regionShowInfos.Add(new RegionShowInfo() { m_hRegion = GroVRegion1, m_stuGetColor = HalconColor.pink });
                                    }
                                    string str0 = $"产品{currentEAProduct.EAID}第{SliceIndex + 1}条料头区裁切成功";
                                    ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_messageShowInfos.Add(new MessageShowInfo { m_strMessage = str0, m_stuGetColor = HalconColor.orange });
 
-                                   currentEAProduct.BlTileDone = true;
                                    IPlugin PluginMline = process.m_ModuleObjList.Find(c => c.moduleInfo.ModuleName == $"第{SliceIndex + 1}条料头边");
                                    ParamsMeasureLine MlineParams = PluginMline.PluginParams as ParamsMeasureLine; //里氏转换
                                    MlineParams.ho_Image = CropPartParams.Image_part;
                                    LineInfo line = new LineInfo();
                                    bool isSuccess = PluginMline.ExecuteObj();
-                                   DetectEdgeValueAssign(MlineParams, isSuccess, line, PluginMline.moduleInfo.ModuleName, MesssgeShowInfos, LineShowInfos, RegionShowInfos);
+                                   DetectEdgeValueAssign(MlineParams, isSuccess, line, PluginMline.moduleInfo.ModuleName, ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_messageShowInfos,
+                                                ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_lineShowInfos, ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_regionShowInfos);
+
 
                                    //把抓边添加到ImageProduct和EAProduct
                                    double Srow = CropPartParams.PartCenterRow - CropPartParams.PartSizeRow / 2 - CropPartParams.CropShaftRow;
                                    double Scol = CropPartParams.PartCenterCol - CropPartParams.PartSizeCol / 2 - CropPartParams.CropShaftCol;
                                    LineInfo Normalline = NormalizeLine(line, (int)CropPartParams.PartCenterID, Srow, Scol, (int)InfoImgInfo.image_ID, InfoImgInfo.imageHeight);
-                                   ImageProduct.ListImagelines.Add(Normalline);
+                                   ImageProduct.ListImageSlicePD[SliceIndex].ListImagelines.Add(Normalline);
                                    LineInfo EAline = EAAddline(Normalline, currentEAProduct.CropEArange.StartImageID, currentEAProduct.CropEArange.StarImageRow, 0, InfoImgInfo.imageHeight);
-                                   currentEAProduct.ListEAlines.Add(EAline);
                                    //添加边到分条抓边队列 -EA坐标
-                                   currentEAProduct.ListEASlicePD[SliceIndex].ListImagelines.Add(EAline.copyLine(EAline));
+                                   currentEAProduct.ListEASlicePD[SliceIndex].ListImagelines.Add(EAline);
                                }
                            }
                            //削薄区裁切抓边检测
@@ -1369,7 +1371,7 @@ namespace Frame_Core
                                }
 
                                //光源自适应
-                               if (SliceIndex ==DividSliceIndex)
+                               if (SliceIndex == DividSliceIndex)
                                {
                                    GrayScaleAdaptation.CalculateGrayAdjustment((CameraEnum)camID, (int)InfoImgInfo.image_ID, !_ParamsSlotefects.currentExistingDefect, _ParamsSlotefects.IsGetCoatingMeanGray, _ParamsSlotefects.CoatingMeanGray, Project.Instance.cameraManager[(CameraEnum)camID].m_GrayScaleAdaptationParameter, PerformGrayscaleAdjustmentCallback);
                                }
@@ -1381,15 +1383,18 @@ namespace Frame_Core
                     //料尾裁图，抓边
                     if (!currentEAProduct.BlTileDone && InfoImgInfo.image_ID >= currentEAProduct.Coatrange.EndImageID) //图像大于等于料尾裁图的帧号
                     {
+                        double left = ImageProduct.EdgelineLeft + m_craft.ListSliceSet[DividSliceIndex].SliceStartPos / Calipix_x;
+                        double right = ImageProduct.EdgelineLeft + m_craft.ListSliceSet[DividSliceIndex].SliceEndPos / Calipix_x;
+
                         IPlugin CropPlugin = process.m_ModuleObjList.Find(c => c.moduleInfo.ModuleName == "料尾裁切");
                         ParamsCropPart CropPartParams = CropPlugin.PluginParams as ParamsCropPart; //里氏转换
                         CropPartParams.list_ImageInfo = PFTCleanParamBase.imageInfos;
 
                         CropPartParams.PartSizeRow = m_craft.EACropShiledMD;
-                        CropPartParams.PartSizeCol = 1000;
+                        CropPartParams.PartSizeCol = right - left;
                         CropPartParams.PartCenterID = currentEAProduct.Coatrange.EndImageID;
                         CropPartParams.PartCenterRow = currentEAProduct.Coatrange.EndImageRow;
-                        CropPartParams.PartCenterCol = ImageProduct.EdgelineLeft + 1000;//槽和基准边同一边就不用+，在对侧，就用片宽减半槽宽。
+                        CropPartParams.PartCenterCol = (right + left) / 2;//槽和基准边同一边就不用+，在对侧，就用片宽减半槽宽。
                         bool bl_ExecuteSuccess = CropPlugin.ExecuteObj();
                         if (bl_ExecuteSuccess)
                         {
@@ -1457,7 +1462,7 @@ namespace Frame_Core
                             }
                         }
 
-                  
+
                     }
                     catch (Exception ex)
                     {
@@ -1989,28 +1994,28 @@ namespace Frame_Core
                                     if (currentEAProduct.Coatrange.EndImageID == ImageProduct.nCurImageID)
                                     {
                                         HOperatorSet.GenRectangle2(out HObject GroVRegion1, CropPartParams.PartCenterRow, CropPartParams.PartCenterCol, 0, CropPartParams.PartSizeCol / 2 + CropPartParams.CropShaftCol, CropPartParams.PartSizeRow / 2 + CropPartParams.CropShaftRow);
-                                        RegionShowInfos.Add(new RegionShowInfo() { m_hRegion = GroVRegion1, m_stuGetColor = HalconColor.pink });
+                                        ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_regionShowInfos.Add(new RegionShowInfo() { m_hRegion = GroVRegion1, m_stuGetColor = HalconColor.pink });
                                     }
                                     string str0 = $"产品{currentEAProduct.EAID}第{SliceIndex + 1}条料头区裁切成功";
                                     ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_messageShowInfos.Add(new MessageShowInfo { m_strMessage = str0, m_stuGetColor = HalconColor.orange });
 
-                                    currentEAProduct.BlTileDone = true;
                                     IPlugin PluginMline = process.m_ModuleObjList.Find(c => c.moduleInfo.ModuleName == $"第{SliceIndex + 1}条料头边");
                                     ParamsMeasureLine MlineParams = PluginMline.PluginParams as ParamsMeasureLine; //里氏转换
                                     MlineParams.ho_Image = CropPartParams.Image_part;
                                     LineInfo line = new LineInfo();
                                     bool isSuccess = PluginMline.ExecuteObj();
-                                    DetectEdgeValueAssign(MlineParams, isSuccess, line, PluginMline.moduleInfo.ModuleName, MesssgeShowInfos, LineShowInfos, RegionShowInfos);
+                                    DetectEdgeValueAssign(MlineParams, isSuccess, line, PluginMline.moduleInfo.ModuleName, ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_messageShowInfos,
+                                                 ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_lineShowInfos, ImageProduct.ListImageSlicePD[SliceIndex].showHalconWindow.m_regionShowInfos);
+
 
                                     //把抓边添加到ImageProduct和EAProduct
                                     double Srow = CropPartParams.PartCenterRow - CropPartParams.PartSizeRow / 2 - CropPartParams.CropShaftRow;
                                     double Scol = CropPartParams.PartCenterCol - CropPartParams.PartSizeCol / 2 - CropPartParams.CropShaftCol;
                                     LineInfo Normalline = NormalizeLine(line, (int)CropPartParams.PartCenterID, Srow, Scol, (int)InfoImgInfo.image_ID, InfoImgInfo.imageHeight);
-                                    ImageProduct.ListImagelines.Add(Normalline);
+                                    ImageProduct.ListImageSlicePD[SliceIndex].ListImagelines.Add(Normalline);
                                     LineInfo EAline = EAAddline(Normalline, currentEAProduct.CropEArange.StartImageID, currentEAProduct.CropEArange.StarImageRow, 0, InfoImgInfo.imageHeight);
-                                    currentEAProduct.ListEAlines.Add(EAline);
                                     //添加边到分条抓边队列 -EA坐标
-                                    currentEAProduct.ListEASlicePD[SliceIndex].ListImagelines.Add(EAline.copyLine(EAline));
+                                    currentEAProduct.ListEASlicePD[SliceIndex].ListImagelines.Add(EAline);
                                 }
                             }
 
@@ -2356,15 +2361,18 @@ namespace Frame_Core
                     //料尾裁图，抓边
                     if (!currentEAProduct.BlTileDone && InfoImgInfo.image_ID >= currentEAProduct.Coatrange.EndImageID) //图像大于等于料尾裁图的帧号
                     {
+                        double left = ImageProduct.EdgelineLeft + m_craft.ListSliceSet[DividSliceIndex].SliceStartPos / Calipix_x;
+                        double right = ImageProduct.EdgelineLeft + m_craft.ListSliceSet[DividSliceIndex].SliceEndPos / Calipix_x;
+
                         IPlugin CropPlugin = process.m_ModuleObjList.Find(c => c.moduleInfo.ModuleName == "料尾裁切");
                         ParamsCropPart CropPartParams = CropPlugin.PluginParams as ParamsCropPart; //里氏转换
-                        CropPartParams.list_ImageInfo = PFTCleanParamFrom.imageInfos;
+                        CropPartParams.list_ImageInfo = PFTCleanParamBase.imageInfos;
 
                         CropPartParams.PartSizeRow = m_craft.EACropShiledMD;
-                        CropPartParams.PartSizeCol = 1000;
+                        CropPartParams.PartSizeCol = right - left;
                         CropPartParams.PartCenterID = currentEAProduct.Coatrange.EndImageID;
                         CropPartParams.PartCenterRow = currentEAProduct.Coatrange.EndImageRow;
-                        CropPartParams.PartCenterCol = ImageProduct.EdgelineRight - 2000;//槽和基准边同一边就不用+，在对侧，就用片宽减半槽宽。
+                        CropPartParams.PartCenterCol = (right + left) / 2;//槽和基准边同一边就不用+，在对侧，就用片宽减半槽宽。
                         bool bl_ExecuteSuccess = CropPlugin.ExecuteObj();
                         if (bl_ExecuteSuccess)
                         {
@@ -3961,7 +3969,7 @@ namespace Frame_Core
             catch (Exception ex)
             {
                 Log4netRecord.ErrorLog.Error(ex);
-                MessageBox.Show(ex.ToString());
+                System.Windows.MessageBox.Show(ex.ToString());
             }
         }
         #endregion

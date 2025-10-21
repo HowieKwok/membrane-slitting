@@ -56,7 +56,7 @@ namespace Frame_Core
         /// </summary>
         /// <param name="instancePurviewParams">实例模块权限参数</param>
         /// <param name="localPurviewParams">本地模块权限参数</param>
-        public void UpdateModelPurviewParam(Dictionary<string, ModelControl> instancePurviewParams, List<ModelPrivilege> localPurviewParams)
+        public void UpdateModelPurviewParam(Dictionary<string, ModelControl> instancePurviewParams,ref List<ModelPrivilege> localPurviewParams)
         {
             if (instancePurviewParams == null) return;
             if (localPurviewParams == null) localPurviewParams = new List<ModelPrivilege>();
