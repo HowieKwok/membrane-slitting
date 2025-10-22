@@ -110,6 +110,10 @@
             this.nud_EASizeTD = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.nud_imprintShieldMDSize = new System.Windows.Forms.NumericUpDown();
+            this.label24 = new System.Windows.Forms.Label();
+            this.nud_imprintShieldMDis = new System.Windows.Forms.NumericUpDown();
+            this.label25 = new System.Windows.Forms.Label();
             this.nud_EACropShiledMD = new System.Windows.Forms.NumericUpDown();
             this.nud_CoatShieldTDRight = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
@@ -155,6 +159,7 @@
             this.tSMI_RenameLine = new System.Windows.Forms.ToolStripMenuItem();
             this.tSMI_DeleteLine = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.checkBox_EnableimprintShield = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.gBCraftEdit.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -184,6 +189,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_CoatSizeMD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_EASizeTD)).BeginInit();
             this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_imprintShieldMDSize)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_imprintShieldMDis)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_EACropShiledMD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_CoatShieldTDRight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_CoatShieldTDLeft)).BeginInit();
@@ -1191,6 +1198,11 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.checkBox_EnableimprintShield);
+            this.groupBox4.Controls.Add(this.nud_imprintShieldMDSize);
+            this.groupBox4.Controls.Add(this.label24);
+            this.groupBox4.Controls.Add(this.nud_imprintShieldMDis);
+            this.groupBox4.Controls.Add(this.label25);
             this.groupBox4.Controls.Add(this.nud_EACropShiledMD);
             this.groupBox4.Controls.Add(this.nud_CoatShieldTDRight);
             this.groupBox4.Controls.Add(this.label4);
@@ -1210,6 +1222,52 @@
             this.groupBox4.TabIndex = 332;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "缺陷检测缩进(单位mm)";
+            // 
+            // nud_imprintShieldMDSize
+            // 
+            this.nud_imprintShieldMDSize.DecimalPlaces = 2;
+            this.nud_imprintShieldMDSize.Location = new System.Drawing.Point(494, 112);
+            this.nud_imprintShieldMDSize.Maximum = new decimal(new int[] {
+            99999999,
+            0,
+            0,
+            0});
+            this.nud_imprintShieldMDSize.Name = "nud_imprintShieldMDSize";
+            this.nud_imprintShieldMDSize.Size = new System.Drawing.Size(107, 29);
+            this.nud_imprintShieldMDSize.TabIndex = 368;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label24.Location = new System.Drawing.Point(330, 114);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(134, 21);
+            this.label24.TabIndex = 367;
+            this.label24.Text = "压痕MD屏蔽尺寸";
+            // 
+            // nud_imprintShieldMDis
+            // 
+            this.nud_imprintShieldMDis.DecimalPlaces = 2;
+            this.nud_imprintShieldMDis.Location = new System.Drawing.Point(494, 74);
+            this.nud_imprintShieldMDis.Maximum = new decimal(new int[] {
+            99999999,
+            0,
+            0,
+            0});
+            this.nud_imprintShieldMDis.Name = "nud_imprintShieldMDis";
+            this.nud_imprintShieldMDis.Size = new System.Drawing.Size(107, 29);
+            this.nud_imprintShieldMDis.TabIndex = 366;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label25.Location = new System.Drawing.Point(330, 76);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(134, 21);
+            this.label25.TabIndex = 365;
+            this.label25.Text = "压痕MD屏蔽定位";
             // 
             // nud_EACropShiledMD
             // 
@@ -1761,6 +1819,16 @@
             this.pictureBox2.TabIndex = 218;
             this.pictureBox2.TabStop = false;
             // 
+            // checkBox_EnableimprintShield
+            // 
+            this.checkBox_EnableimprintShield.AutoSize = true;
+            this.checkBox_EnableimprintShield.Location = new System.Drawing.Point(381, 43);
+            this.checkBox_EnableimprintShield.Name = "checkBox_EnableimprintShield";
+            this.checkBox_EnableimprintShield.Size = new System.Drawing.Size(157, 25);
+            this.checkBox_EnableimprintShield.TabIndex = 369;
+            this.checkBox_EnableimprintShield.Text = "是否启用压痕屏蔽";
+            this.checkBox_EnableimprintShield.UseVisualStyleBackColor = true;
+            // 
             // FormPFTCleanCraft
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -1803,6 +1871,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_EASizeTD)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_imprintShieldMDSize)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_imprintShieldMDis)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_EACropShiledMD)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_CoatShieldTDRight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_CoatShieldTDLeft)).EndInit();
@@ -1961,5 +2031,10 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.NumericUpDown nud_Cam2TDDistFix;
         private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.NumericUpDown nud_imprintShieldMDSize;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.NumericUpDown nud_imprintShieldMDis;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.CheckBox checkBox_EnableimprintShield;
     }
 }

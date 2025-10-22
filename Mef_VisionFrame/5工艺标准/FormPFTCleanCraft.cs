@@ -119,7 +119,7 @@ namespace Mef_VisionFrame
             nud_EXCam2Col.Value = (decimal)craft.EXCam2Col;
 
             nud_Cam2TDDistFix.Value = (decimal)craft.Cam2TDDistFix;
-            
+
 
             //基础EA参数
             nud_EASizeTD.Value = (decimal)craft.EASizeTD;
@@ -140,6 +140,12 @@ namespace Mef_VisionFrame
             nud_CoatShieldMDTile.Value = (decimal)craft.CoatShieldMDTile;
             nud_CoatShieldTDLeft.Value = (decimal)craft.CoatShieldTDLeft;
             nud_CoatShieldTDRight.Value = (decimal)craft.CoatShieldTDRight;
+
+            //压痕屏蔽
+            checkBox_EnableimprintShield.Checked = craft.EnableimprintShield;
+            nud_imprintShieldMDis.Value = (decimal)craft.imprintShieldMDis;
+            nud_imprintShieldMDSize.Value = (decimal)craft.imprintShieldMDSize;
+
 
             //  边距间隙公差
             //nud_TDFirstGap.Value = (decimal)craft.TDFirstGap;
@@ -248,6 +254,10 @@ namespace Mef_VisionFrame
             craft.CoatShieldTDLeft = (double)nud_CoatShieldTDLeft.Value;
             craft.CoatShieldTDRight = (double)nud_CoatShieldTDRight.Value;
 
+            //压痕屏蔽区
+            craft.EnableimprintShield = checkBox_EnableimprintShield.Checked;
+            craft.imprintShieldMDis = (double)nud_imprintShieldMDis.Value;
+            craft.imprintShieldMDSize = (double)nud_imprintShieldMDSize.Value;
             ////  边距间隙公差
             //craft.TDFirstGap = (double)nud_TDFirstGap.Value;
             //craft.TDFirstGapTol = (double)nud_TDFirstGapTol.Value;

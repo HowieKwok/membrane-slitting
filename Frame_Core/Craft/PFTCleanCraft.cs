@@ -91,6 +91,25 @@ namespace Frame_Core
         [Description("涂布TD右缩进")]
         public double CoatShieldTDRight { get; set; } = 0;
 
+
+        /// <summary>
+        /// 是否启用压痕屏蔽
+        /// </summary>
+        [Description("是否启用压痕屏蔽")]
+        public bool EnableimprintShield { get; set; } = false;
+      
+        /// <summary>
+        /// 压痕MD屏蔽定位
+        /// </summary>
+        [Description("压痕MD屏蔽定位")]
+        public double imprintShieldMDis { get; set; } = 0;
+        /// <summary>
+        /// 压痕MD屏蔽尺寸
+        /// </summary>
+        [Description("压痕MD屏蔽尺寸")]
+        public double imprintShieldMDSize { get; set; } = 0;
+
+
         /// <summary>
         /// 目标分条数
         /// </summary>

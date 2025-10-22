@@ -734,7 +734,6 @@ namespace Frame_Core
                                 ImageProduct.EdgelineRight = (MlineParams.hv_LineColumnBegin.D + MlineParams.hv_LineColumnEnd.D) / 2;
                                 double EdgeShaft = ImageProduct.EdgelineRight - m_craft.Cam2BaseCol;
                                 ImageProduct.EdgelineLeft = -(m_craft.EXCam1Col - m_craft.EXCam2Col - m_craft.Cam1BaseCol - EdgeShaft);
-
                             }
                         }
                     }
@@ -3137,7 +3136,33 @@ namespace Frame_Core
                     }
                 }
 
+                //压痕屏蔽
+                if (m_craft.EnableimprintShield)
+                {
+                    double tdpos = m_craft.imprintShieldMDis / Calipix_y;
+                    double tdSize = m_craft.imprintShieldMDSize / Calipix_y;
+                    double col01 = col1;
+                    double col02 = col2;
+                    //double row01 = PFTCleanEA.Coatrange.StarImageRow + tdpos;
+                    //double row02 = PFTCleanEA.Coatrange.StarImageRow + tdpos + tdSize;
+                    NormalizaLocation(PFTCleanEA.Coatrange.StartImageID, PFTCleanEA.Coatrange.StarImageRow + tdpos, imageInfo.imageHeight, out int StartImageID, out double row01);//起
+                    NormalizaLocation(PFTCleanEA.Coatrange.StartImageID, PFTCleanEA.Coatrange.StarImageRow + tdpos + tdSize, imageInfo.imageHeight, out int EndImageID, out double row02);//止
 
+                    if (imageInfo.image_ID == StartImageID)
+                    {
+                        if (EndImageID > imageInfo.image_ID)
+                        {
+                            row02 = imageInfo.imageHeight;
+                        }
+                        HOperatorSet.GenRectangle1(out ShieldRegion, row01, col01, row02, col02);//
+                        HOperatorSet.Union2(ShieldRegion0, ShieldRegion, out ShieldRegion0);
+                    }
+                    else if (imageInfo.image_ID == EndImageID)
+                    {
+                        HOperatorSet.GenRectangle1(out ShieldRegion, 0, col01, row02, col02);//
+                        HOperatorSet.Union2(ShieldRegion0, ShieldRegion, out ShieldRegion0);
+                    }
+                }
                 //料尾帧
                 if (imageInfo.image_ID == PFTCleanEA.Coatrange.EndImageID)
                 {
