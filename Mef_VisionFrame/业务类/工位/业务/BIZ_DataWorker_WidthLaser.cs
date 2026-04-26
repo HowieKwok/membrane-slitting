@@ -5,10 +5,12 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.Remoting.Channels;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Markup;
 
@@ -29,6 +31,8 @@ using LogTool;
 using Newtonsoft.Json;
 
 using NPOI.SS.Formula.Functions;
+
+using ScottPlot.Drawing.Colormaps;
 
 
 
@@ -122,7 +126,17 @@ namespace Mef_VisionFrame
 
                 int count = pFTImageProduct.showHalconWindow.m_hImage.GetReferenceCount();
                 MessageNotify.AddDebugLog($"Cam1_原图数据处理完成，当前图像ID{pFTImageProduct.nCurImageID}，引用计数为{count}");
-             
+
+                if (pFTImageProduct.blSplitEA)
+                {
+
+                    int keyA = pFTImageProduct.nCurEAID;
+                    if (dic_EAproductsInfo_A.TryGetValue(keyA, out PFTCleanEAProductInfo productInfoA))
+                    {
+                        EASingleDataAnalysis(cameraEnum, Calipix_x, Calipix_y, productInfoA);
+                    }
+                }
+
             });
 
 
@@ -166,7 +180,8 @@ namespace Mef_VisionFrame
                         {
                             int InnerkeyA = productInfoA.EAID;
                             //数据来源分析
-                            EADataAnalysis(cameraEnum, Calipix_x, Calipix_y, productInfoA, productInfoB, out List<string> OutDBChannel);
+                            //EADataAnalysis(cameraEnum, Calipix_x, Calipix_y, productInfoA, productInfoB, out List<string> OutDBChannel);
+                            EADataACAnalysis(cameraEnum, Calipix_x, Calipix_y, productInfoA, productInfoB, out List<string> OutDBChannel);
                             //发送打标数据
                             SendDBInfoIfNeeded(InnerkeyA, productInfoA.EArange.StartImageID, productInfoA, ((SlaveMachineParam)Project.Instance.slaveMachineManager.tcpClientParam).nCamDBIndex);
                             UIAndFileDataSave(InnerkeyA, OutDBChannel, productInfoA, productInfoB);
@@ -205,6 +220,9 @@ namespace Mef_VisionFrame
             });
         }
 
+
+
+        
 
 
 
@@ -503,12 +521,12 @@ namespace Mef_VisionFrame
                     pFTCleanCraft
                 );
 
-                BIZ_Variable.StatisticalData_EASlicesA = InitializeStatisticalData(
+                BIZ_Variable.StatisticalData_EASlicesA = InitializeStatisticalData(CameraEnum.Cam1,
                     BIZ_Variable.StatisticalData_EASlicesA,
                     pFTCleanCraft
                       );
 
-               BIZ_Variable.StatisticalData_EASlicesB = InitializeStatisticalData(
+               BIZ_Variable.StatisticalData_EASlicesB = InitializeStatisticalData(CameraEnum.Cam2,
                     BIZ_Variable.StatisticalData_EASlicesB,
                     pFTCleanCraft
                       );

@@ -151,7 +151,7 @@
     <value>3, 2, 3, 2</value>
   </data>
   <data name="cb_LargeAreaDefectEN.Size" type="System.Drawing.Size, System.Drawing">
-    <value>285, 25</value>
+    <value>354, 31</value>
   </data>
   <data name="cb_LargeAreaDefectEN.TabIndex" type="System.Int32, mscorlib">
     <value>179</value>
@@ -184,7 +184,7 @@
     <value>11, 78</value>
   </data>
   <data name="label53.Size" type="System.Drawing.Size, System.Drawing">
-    <value>250, 21</value>
+    <value>312, 27</value>
   </data>
   <data name="label53.TabIndex" type="System.Int32, mscorlib">
     <value>176</value>
@@ -211,7 +211,7 @@
     <value>305, 30</value>
   </data>
   <data name="num_LargeAreaDefectMinArea.Size" type="System.Drawing.Size, System.Drawing">
-    <value>81, 29</value>
+    <value>81, 34</value>
   </data>
   <data name="num_LargeAreaDefectMinArea.TabIndex" type="System.Int32, mscorlib">
     <value>175</value>
@@ -268,7 +268,7 @@
     <value>243, 77</value>
   </data>
   <data name="label51.Size" type="System.Drawing.Size, System.Drawing">
-    <value>122, 21</value>
+    <value>152, 27</value>
   </data>
   <data name="label51.TabIndex" type="System.Int32, mscorlib">
     <value>174</value>
@@ -302,7 +302,7 @@
     <value>7, 161</value>
   </data>
   <data name="label50.Size" type="System.Drawing.Size, System.Drawing">
-    <value>174, 21</value>
+    <value>217, 27</value>
   </data>
   <data name="label50.TabIndex" type="System.Int32, mscorlib">
     <value>173</value>
@@ -329,7 +329,7 @@
     <value>303, 114</value>
   </data>
   <data name="num_JDMaxH.Size" type="System.Drawing.Size, System.Drawing">
-    <value>76, 29</value>
+    <value>76, 34</value>
   </data>
   <data name="num_JDMaxH.TabIndex" type="System.Int32, mscorlib">
     <value>172</value>
@@ -359,7 +359,7 @@
     <value>205, 116</value>
   </data>
   <data name="label49.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 21</value>
+    <value>92, 27</value>
   </data>
   <data name="label49.TabIndex" type="System.Int32, mscorlib">
     <value>171</value>
@@ -386,7 +386,7 @@
     <value>118, 114</value>
   </data>
   <data name="num_JDMinW.Size" type="System.Drawing.Size, System.Drawing">
-    <value>81, 29</value>
+    <value>81, 34</value>
   </data>
   <data name="num_JDMinW.TabIndex" type="System.Int32, mscorlib">
     <value>170</value>
@@ -416,7 +416,7 @@
     <value>7, 116</value>
   </data>
   <data name="label48.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 21</value>
+    <value>112, 27</value>
   </data>
   <data name="label48.TabIndex" type="System.Int32, mscorlib">
     <value>169</value>
@@ -443,7 +443,7 @@
     <value>185, 74</value>
   </data>
   <data name="num_GrayDifference.Size" type="System.Drawing.Size, System.Drawing">
-    <value>52, 29</value>
+    <value>52, 34</value>
   </data>
   <data name="num_GrayDifference.TabIndex" type="System.Int32, mscorlib">
     <value>168</value>
@@ -473,7 +473,7 @@
     <value>7, 77</value>
   </data>
   <data name="label47.Size" type="System.Drawing.Size, System.Drawing">
-    <value>138, 21</value>
+    <value>172, 27</value>
   </data>
   <data name="label47.TabIndex" type="System.Int32, mscorlib">
     <value>167</value>
@@ -501,7 +501,7 @@
     <value>138, 34</value>
   </data>
   <data name="num_JDAreaNG.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 29</value>
+    <value>100, 34</value>
   </data>
   <data name="num_JDAreaNG.TabIndex" type="System.Int32, mscorlib">
     <value>166</value>
@@ -531,7 +531,7 @@
     <value>9, 36</value>
   </data>
   <data name="label43.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 21</value>
+    <value>112, 27</value>
   </data>
   <data name="label43.TabIndex" type="System.Int32, mscorlib">
     <value>165</value>
@@ -567,7 +567,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label45.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 16</value>
+    <value>0, 20</value>
   </data>
   <data name="label45.TabIndex" type="System.Int32, mscorlib">
     <value>145</value>
@@ -624,7 +624,7 @@
     <value>282, 77</value>
   </data>
   <data name="nud_OtherTypeDetermineScore.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="nud_OtherTypeDetermineScore.TabIndex" type="System.Int32, mscorlib">
     <value>180</value>
@@ -660,7 +660,7 @@
     <value>3, 2, 3, 2</value>
   </data>
   <data name="cb_OtherTypeEN.Size" type="System.Drawing.Size, System.Drawing">
-    <value>269, 25</value>
+    <value>334, 31</value>
   </data>
   <data name="cb_OtherTypeEN.TabIndex" type="System.Int32, mscorlib">
     <value>178</value>
@@ -690,7 +690,7 @@
     <value>240, 34</value>
   </data>
   <data name="num_NgMaxNum.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="num_NgMaxNum.TabIndex" type="System.Int32, mscorlib">
     <value>166</value>
@@ -717,7 +717,7 @@
     <value>0, 36</value>
   </data>
   <data name="label38.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 21</value>
+    <value>252, 27</value>
   </data>
   <data name="label38.TabIndex" type="System.Int32, mscorlib">
     <value>165</value>
@@ -750,7 +750,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label39.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 16</value>
+    <value>0, 20</value>
   </data>
   <data name="label39.TabIndex" type="System.Int32, mscorlib">
     <value>145</value>
@@ -813,7 +813,7 @@
     <value>3, 2, 3, 2</value>
   </data>
   <data name="cb_OpenDec_WLY.Size" type="System.Drawing.Size, System.Drawing">
-    <value>141, 25</value>
+    <value>174, 31</value>
   </data>
   <data name="cb_OpenDec_WLY.TabIndex" type="System.Int32, mscorlib">
     <value>177</value>
@@ -843,7 +843,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_WLY_GrayUnder.Size" type="System.Drawing.Size, System.Drawing">
-    <value>46, 29</value>
+    <value>46, 34</value>
   </data>
   <data name="num_WLY_GrayUnder.TabIndex" type="System.Int32, mscorlib">
     <value>176</value>
@@ -867,7 +867,7 @@
     <value>103, 66</value>
   </data>
   <data name="num_WLY_GrayDifference.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 29</value>
+    <value>44, 34</value>
   </data>
   <data name="num_WLY_GrayDifference.TabIndex" type="System.Int32, mscorlib">
     <value>166</value>
@@ -894,7 +894,7 @@
     <value>0, 68</value>
   </data>
   <data name="label44.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 21</value>
+    <value>112, 27</value>
   </data>
   <data name="label44.TabIndex" type="System.Int32, mscorlib">
     <value>165</value>
@@ -927,7 +927,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label114.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 16</value>
+    <value>0, 20</value>
   </data>
   <data name="label114.TabIndex" type="System.Int32, mscorlib">
     <value>145</value>
@@ -957,7 +957,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label116.Size" type="System.Drawing.Size, System.Drawing">
-    <value>94, 21</value>
+    <value>117, 27</value>
   </data>
   <data name="label116.TabIndex" type="System.Int32, mscorlib">
     <value>141</value>
@@ -1020,7 +1020,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_MeanGrayDifference_Black.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="num_MeanGrayDifference_Black.TabIndex" type="System.Int32, mscorlib">
     <value>181</value>
@@ -1053,7 +1053,7 @@
     <value>3, 2, 3, 2</value>
   </data>
   <data name="cb_MeanGrayDifference_Black.Size" type="System.Drawing.Size, System.Drawing">
-    <value>285, 25</value>
+    <value>354, 31</value>
   </data>
   <data name="cb_MeanGrayDifference_Black.TabIndex" type="System.Int32, mscorlib">
     <value>180</value>
@@ -1080,7 +1080,7 @@
     <value>241, 126</value>
   </data>
   <data name="num_MinArea_Black.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 29</value>
+    <value>63, 34</value>
   </data>
   <data name="num_MinArea_Black.TabIndex" type="System.Int32, mscorlib">
     <value>175</value>
@@ -1107,7 +1107,7 @@
     <value>1, 128</value>
   </data>
   <data name="label57.Size" type="System.Drawing.Size, System.Drawing">
-    <value>216, 21</value>
+    <value>272, 27</value>
   </data>
   <data name="label57.TabIndex" type="System.Int32, mscorlib">
     <value>174</value>
@@ -1140,7 +1140,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label29.Size" type="System.Drawing.Size, System.Drawing">
-    <value>17, 21</value>
+    <value>21, 27</value>
   </data>
   <data name="label29.TabIndex" type="System.Int32, mscorlib">
     <value>173</value>
@@ -1170,7 +1170,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_BlackThreshold_Max.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="num_BlackThreshold_Max.TabIndex" type="System.Int32, mscorlib">
     <value>172</value>
@@ -1197,7 +1197,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_BlackThreshold_Min.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 29</value>
+    <value>59, 34</value>
   </data>
   <data name="num_BlackThreshold_Min.TabIndex" type="System.Int32, mscorlib">
     <value>171</value>
@@ -1227,7 +1227,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label28.Size" type="System.Drawing.Size, System.Drawing">
-    <value>138, 21</value>
+    <value>172, 27</value>
   </data>
   <data name="label28.TabIndex" type="System.Int32, mscorlib">
     <value>170</value>
@@ -1254,7 +1254,7 @@
     <value>241, 54</value>
   </data>
   <data name="num_MinArea_White.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 29</value>
+    <value>63, 34</value>
   </data>
   <data name="num_MinArea_White.TabIndex" type="System.Int32, mscorlib">
     <value>162</value>
@@ -1281,7 +1281,7 @@
     <value>1, 56</value>
   </data>
   <data name="label30.Size" type="System.Drawing.Size, System.Drawing">
-    <value>216, 21</value>
+    <value>272, 27</value>
   </data>
   <data name="label30.TabIndex" type="System.Int32, mscorlib">
     <value>161</value>
@@ -1314,7 +1314,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="lbl_ZBYLThreshold_Range.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 16</value>
+    <value>0, 20</value>
   </data>
   <data name="lbl_ZBYLThreshold_Range.TabIndex" type="System.Int32, mscorlib">
     <value>145</value>
@@ -1341,7 +1341,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_WhiteThreshold_Max.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="num_WhiteThreshold_Max.TabIndex" type="System.Int32, mscorlib">
     <value>144</value>
@@ -1368,7 +1368,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_WhiteThreshold_Min.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 29</value>
+    <value>59, 34</value>
   </data>
   <data name="num_WhiteThreshold_Min.TabIndex" type="System.Int32, mscorlib">
     <value>142</value>
@@ -1398,7 +1398,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label46.Size" type="System.Drawing.Size, System.Drawing">
-    <value>17, 21</value>
+    <value>21, 27</value>
   </data>
   <data name="label46.TabIndex" type="System.Int32, mscorlib">
     <value>143</value>
@@ -1431,7 +1431,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="lbl_WriteThreshold_Range.Size" type="System.Drawing.Size, System.Drawing">
-    <value>138, 21</value>
+    <value>172, 27</value>
   </data>
   <data name="lbl_WriteThreshold_Range.TabIndex" type="System.Int32, mscorlib">
     <value>141</value>
@@ -1485,13 +1485,13 @@
     <value>4</value>
   </data>
   <data name="tabPage1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 30</value>
+    <value>4, 36</value>
   </data>
   <data name="tabPage1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabPage1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>432, 391</value>
+    <value>432, 380</value>
   </data>
   <data name="tabPage1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1521,7 +1521,7 @@
     <value>214, 63</value>
   </data>
   <data name="num_ZBPS_MinArea.Size" type="System.Drawing.Size, System.Drawing">
-    <value>68, 29</value>
+    <value>68, 34</value>
   </data>
   <data name="num_ZBPS_MinArea.TabIndex" type="System.Int32, mscorlib">
     <value>162</value>
@@ -1548,7 +1548,7 @@
     <value>8, 65</value>
   </data>
   <data name="label112.Size" type="System.Drawing.Size, System.Drawing">
-    <value>200, 21</value>
+    <value>252, 27</value>
   </data>
   <data name="label112.TabIndex" type="System.Int32, mscorlib">
     <value>161</value>
@@ -1581,7 +1581,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label115.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 16</value>
+    <value>0, 20</value>
   </data>
   <data name="label115.TabIndex" type="System.Int32, mscorlib">
     <value>145</value>
@@ -1608,7 +1608,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_ZBPS_Threshold.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="num_ZBPS_Threshold.TabIndex" type="System.Int32, mscorlib">
     <value>144</value>
@@ -1638,7 +1638,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label117.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 21</value>
+    <value>97, 27</value>
   </data>
   <data name="label117.TabIndex" type="System.Int32, mscorlib">
     <value>141</value>
@@ -1692,13 +1692,13 @@
     <value>0</value>
   </data>
   <data name="tabPage2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 30</value>
+    <value>4, 36</value>
   </data>
   <data name="tabPage2.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabPage2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>432, 391</value>
+    <value>432, 380</value>
   </data>
   <data name="tabPage2.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1728,7 +1728,7 @@
     <value>208, 62</value>
   </data>
   <data name="num_BYDL_MinArea.Size" type="System.Drawing.Size, System.Drawing">
-    <value>68, 29</value>
+    <value>68, 34</value>
   </data>
   <data name="num_BYDL_MinArea.TabIndex" type="System.Int32, mscorlib">
     <value>162</value>
@@ -1755,7 +1755,7 @@
     <value>8, 64</value>
   </data>
   <data name="label118.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 21</value>
+    <value>172, 27</value>
   </data>
   <data name="label118.TabIndex" type="System.Int32, mscorlib">
     <value>161</value>
@@ -1788,7 +1788,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label119.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 16</value>
+    <value>0, 20</value>
   </data>
   <data name="label119.TabIndex" type="System.Int32, mscorlib">
     <value>145</value>
@@ -1815,7 +1815,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_BYDL_Threshold.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="num_BYDL_Threshold.TabIndex" type="System.Int32, mscorlib">
     <value>144</value>
@@ -1845,7 +1845,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label120.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 21</value>
+    <value>77, 27</value>
   </data>
   <data name="label120.TabIndex" type="System.Int32, mscorlib">
     <value>141</value>
@@ -1899,13 +1899,13 @@
     <value>0</value>
   </data>
   <data name="tabPage3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 30</value>
+    <value>4, 36</value>
   </data>
   <data name="tabPage3.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabPage3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>432, 391</value>
+    <value>432, 380</value>
   </data>
   <data name="tabPage3.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -1935,7 +1935,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_ZBYL_Threshold_Max.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="num_ZBYL_Threshold_Max.TabIndex" type="System.Int32, mscorlib">
     <value>164</value>
@@ -1965,7 +1965,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 21</value>
+    <value>97, 27</value>
   </data>
   <data name="label6.TabIndex" type="System.Int32, mscorlib">
     <value>163</value>
@@ -1992,7 +1992,7 @@
     <value>150, 102</value>
   </data>
   <data name="num_ZBYL_MinArea.Size" type="System.Drawing.Size, System.Drawing">
-    <value>68, 29</value>
+    <value>68, 34</value>
   </data>
   <data name="num_ZBYL_MinArea.TabIndex" type="System.Int32, mscorlib">
     <value>162</value>
@@ -2019,7 +2019,7 @@
     <value>8, 104</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 21</value>
+    <value>172, 27</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
     <value>161</value>
@@ -2052,7 +2052,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 16</value>
+    <value>0, 20</value>
   </data>
   <data name="label4.TabIndex" type="System.Int32, mscorlib">
     <value>145</value>
@@ -2079,7 +2079,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_ZBYL_Threshold_Min.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="num_ZBYL_Threshold_Min.TabIndex" type="System.Int32, mscorlib">
     <value>144</value>
@@ -2109,7 +2109,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 21</value>
+    <value>97, 27</value>
   </data>
   <data name="label5.TabIndex" type="System.Int32, mscorlib">
     <value>141</value>
@@ -2163,13 +2163,13 @@
     <value>0</value>
   </data>
   <data name="tabPage4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 30</value>
+    <value>4, 36</value>
   </data>
   <data name="tabPage4.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabPage4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>432, 391</value>
+    <value>432, 380</value>
   </data>
   <data name="tabPage4.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -2199,7 +2199,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_AT_PoSun_Threshold_Max.Size" type="System.Drawing.Size, System.Drawing">
-    <value>68, 29</value>
+    <value>68, 34</value>
   </data>
   <data name="num_AT_PoSun_Threshold_Max.TabIndex" type="System.Int32, mscorlib">
     <value>164</value>
@@ -2229,7 +2229,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label18.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 21</value>
+    <value>97, 27</value>
   </data>
   <data name="label18.TabIndex" type="System.Int32, mscorlib">
     <value>163</value>
@@ -2256,7 +2256,7 @@
     <value>153, 95</value>
   </data>
   <data name="num_AT_PoSun_MinArea.Size" type="System.Drawing.Size, System.Drawing">
-    <value>68, 29</value>
+    <value>68, 34</value>
   </data>
   <data name="num_AT_PoSun_MinArea.TabIndex" type="System.Int32, mscorlib">
     <value>162</value>
@@ -2283,7 +2283,7 @@
     <value>8, 97</value>
   </data>
   <data name="label19.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 21</value>
+    <value>172, 27</value>
   </data>
   <data name="label19.TabIndex" type="System.Int32, mscorlib">
     <value>161</value>
@@ -2316,7 +2316,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label20.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 16</value>
+    <value>0, 20</value>
   </data>
   <data name="label20.TabIndex" type="System.Int32, mscorlib">
     <value>145</value>
@@ -2343,7 +2343,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_AT_PoSun_Threshold_Min.Size" type="System.Drawing.Size, System.Drawing">
-    <value>68, 29</value>
+    <value>68, 34</value>
   </data>
   <data name="num_AT_PoSun_Threshold_Min.TabIndex" type="System.Int32, mscorlib">
     <value>144</value>
@@ -2373,7 +2373,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label21.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 21</value>
+    <value>97, 27</value>
   </data>
   <data name="label21.TabIndex" type="System.Int32, mscorlib">
     <value>141</value>
@@ -2436,7 +2436,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_AT_LouJinShu_Threshold_Max.Size" type="System.Drawing.Size, System.Drawing">
-    <value>68, 29</value>
+    <value>68, 34</value>
   </data>
   <data name="num_AT_LouJinShu_Threshold_Max.TabIndex" type="System.Int32, mscorlib">
     <value>164</value>
@@ -2466,7 +2466,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 21</value>
+    <value>97, 27</value>
   </data>
   <data name="label15.TabIndex" type="System.Int32, mscorlib">
     <value>163</value>
@@ -2493,7 +2493,7 @@
     <value>153, 97</value>
   </data>
   <data name="num_AT_LouJinShu_MinArea.Size" type="System.Drawing.Size, System.Drawing">
-    <value>68, 29</value>
+    <value>68, 34</value>
   </data>
   <data name="num_AT_LouJinShu_MinArea.TabIndex" type="System.Int32, mscorlib">
     <value>162</value>
@@ -2520,7 +2520,7 @@
     <value>7, 99</value>
   </data>
   <data name="label16.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 21</value>
+    <value>172, 27</value>
   </data>
   <data name="label16.TabIndex" type="System.Int32, mscorlib">
     <value>161</value>
@@ -2553,7 +2553,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label17.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 16</value>
+    <value>0, 20</value>
   </data>
   <data name="label17.TabIndex" type="System.Int32, mscorlib">
     <value>145</value>
@@ -2580,7 +2580,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_AT_LouJinShu_Threshold_Min.Size" type="System.Drawing.Size, System.Drawing">
-    <value>68, 29</value>
+    <value>68, 34</value>
   </data>
   <data name="num_AT_LouJinShu_Threshold_Min.TabIndex" type="System.Int32, mscorlib">
     <value>144</value>
@@ -2610,7 +2610,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 21</value>
+    <value>97, 27</value>
   </data>
   <data name="label14.TabIndex" type="System.Int32, mscorlib">
     <value>141</value>
@@ -2664,13 +2664,13 @@
     <value>1</value>
   </data>
   <data name="tabPage5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 30</value>
+    <value>4, 36</value>
   </data>
   <data name="tabPage5.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabPage5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>432, 391</value>
+    <value>432, 380</value>
   </data>
   <data name="tabPage5.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -2703,7 +2703,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_JR_PoSun2_Threshold_Max.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="num_JR_PoSun2_Threshold_Max.TabIndex" type="System.Int32, mscorlib">
     <value>192</value>
@@ -2736,7 +2736,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label64.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 21</value>
+    <value>97, 27</value>
   </data>
   <data name="label64.TabIndex" type="System.Int32, mscorlib">
     <value>191</value>
@@ -2766,7 +2766,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_JR_PoSun2_Threshold_Min.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="num_JR_PoSun2_Threshold_Min.TabIndex" type="System.Int32, mscorlib">
     <value>190</value>
@@ -2799,7 +2799,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label65.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 21</value>
+    <value>97, 27</value>
   </data>
   <data name="label65.TabIndex" type="System.Int32, mscorlib">
     <value>189</value>
@@ -2835,7 +2835,7 @@
     <value>3, 2, 3, 2</value>
   </data>
   <data name="cb_brokens2_EN.Size" type="System.Drawing.Size, System.Drawing">
-    <value>93, 25</value>
+    <value>114, 31</value>
   </data>
   <data name="cb_brokens2_EN.TabIndex" type="System.Int32, mscorlib">
     <value>188</value>
@@ -2865,7 +2865,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_brokens2_middle_height.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="num_brokens2_middle_height.TabIndex" type="System.Int32, mscorlib">
     <value>187</value>
@@ -2898,7 +2898,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label61.Size" type="System.Drawing.Size, System.Drawing">
-    <value>205, 21</value>
+    <value>258, 27</value>
   </data>
   <data name="label61.TabIndex" type="System.Int32, mscorlib">
     <value>186</value>
@@ -2928,7 +2928,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_brokens2_middle_width.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="num_brokens2_middle_width.TabIndex" type="System.Int32, mscorlib">
     <value>185</value>
@@ -2961,7 +2961,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label58.Size" type="System.Drawing.Size, System.Drawing">
-    <value>205, 21</value>
+    <value>258, 27</value>
   </data>
   <data name="label58.TabIndex" type="System.Int32, mscorlib">
     <value>184</value>
@@ -2991,7 +2991,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_brokens2_bottom_radius.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="num_brokens2_bottom_radius.TabIndex" type="System.Int32, mscorlib">
     <value>183</value>
@@ -3024,7 +3024,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label52.Size" type="System.Drawing.Size, System.Drawing">
-    <value>205, 21</value>
+    <value>258, 27</value>
   </data>
   <data name="label52.TabIndex" type="System.Int32, mscorlib">
     <value>182</value>
@@ -3060,7 +3060,7 @@
     <value>3, 2, 3, 2</value>
   </data>
   <data name="cb_Show_JR_PoSun2_DetectionROI.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 25</value>
+    <value>154, 31</value>
   </data>
   <data name="cb_Show_JR_PoSun2_DetectionROI.TabIndex" type="System.Int32, mscorlib">
     <value>181</value>
@@ -3090,7 +3090,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_brokens2_JRMaxThreshold.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="num_brokens2_JRMaxThreshold.TabIndex" type="System.Int32, mscorlib">
     <value>164</value>
@@ -3123,7 +3123,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label55.Size" type="System.Drawing.Size, System.Drawing">
-    <value>110, 21</value>
+    <value>137, 27</value>
   </data>
   <data name="label55.TabIndex" type="System.Int32, mscorlib">
     <value>163</value>
@@ -3159,7 +3159,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label60.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 16</value>
+    <value>0, 20</value>
   </data>
   <data name="label60.TabIndex" type="System.Int32, mscorlib">
     <value>145</value>
@@ -3219,7 +3219,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_TimeOut.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 29</value>
+    <value>59, 34</value>
   </data>
   <data name="num_TimeOut.TabIndex" type="System.Int32, mscorlib">
     <value>161</value>
@@ -3243,7 +3243,7 @@
     <value>6, 28</value>
   </data>
   <data name="label37.Size" type="System.Drawing.Size, System.Drawing">
-    <value>190, 22</value>
+    <value>238, 27</value>
   </data>
   <data name="label37.TabIndex" type="System.Int32, mscorlib">
     <value>160</value>
@@ -3303,7 +3303,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_JR_PoSun_ModelXld_ShiftLeft_1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="num_JR_PoSun_ModelXld_ShiftLeft_1.TabIndex" type="System.Int32, mscorlib">
     <value>183</value>
@@ -3336,7 +3336,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label36.Size" type="System.Drawing.Size, System.Drawing">
-    <value>151, 21</value>
+    <value>189, 27</value>
   </data>
   <data name="label36.TabIndex" type="System.Int32, mscorlib">
     <value>182</value>
@@ -3372,7 +3372,7 @@
     <value>3, 2, 3, 2</value>
   </data>
   <data name="cb_Show_JR_PoSun_DetectionROI.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 25</value>
+    <value>154, 31</value>
   </data>
   <data name="cb_Show_JR_PoSun_DetectionROI.TabIndex" type="System.Int32, mscorlib">
     <value>181</value>
@@ -3402,7 +3402,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_JR_PoSun_Threshold_Max.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="num_JR_PoSun_Threshold_Max.TabIndex" type="System.Int32, mscorlib">
     <value>164</value>
@@ -3432,7 +3432,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label22.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 21</value>
+    <value>97, 27</value>
   </data>
   <data name="label22.TabIndex" type="System.Int32, mscorlib">
     <value>163</value>
@@ -3459,7 +3459,7 @@
     <value>154, 106</value>
   </data>
   <data name="num_JR_PoSun_MinArea.Size" type="System.Drawing.Size, System.Drawing">
-    <value>68, 29</value>
+    <value>68, 34</value>
   </data>
   <data name="num_JR_PoSun_MinArea.TabIndex" type="System.Int32, mscorlib">
     <value>162</value>
@@ -3486,7 +3486,7 @@
     <value>8, 108</value>
   </data>
   <data name="label23.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 21</value>
+    <value>172, 27</value>
   </data>
   <data name="label23.TabIndex" type="System.Int32, mscorlib">
     <value>161</value>
@@ -3519,7 +3519,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label25.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 16</value>
+    <value>0, 20</value>
   </data>
   <data name="label25.TabIndex" type="System.Int32, mscorlib">
     <value>145</value>
@@ -3546,7 +3546,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_JR_PoSun_Threshold_Min.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="num_JR_PoSun_Threshold_Min.TabIndex" type="System.Int32, mscorlib">
     <value>144</value>
@@ -3576,7 +3576,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label26.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 21</value>
+    <value>97, 27</value>
   </data>
   <data name="label26.TabIndex" type="System.Int32, mscorlib">
     <value>141</value>
@@ -3642,7 +3642,7 @@
     <value>3, 2, 3, 2</value>
   </data>
   <data name="cb_Show_JR_ModelXld.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 25</value>
+    <value>154, 31</value>
   </data>
   <data name="cb_Show_JR_ModelXld.TabIndex" type="System.Int32, mscorlib">
     <value>183</value>
@@ -3675,7 +3675,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_JR_DaiLiao_ModelXld_ShiftRight_2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="num_JR_DaiLiao_ModelXld_ShiftRight_2.TabIndex" type="System.Int32, mscorlib">
     <value>182</value>
@@ -3708,7 +3708,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label35.Size" type="System.Drawing.Size, System.Drawing">
-    <value>151, 21</value>
+    <value>189, 27</value>
   </data>
   <data name="label35.TabIndex" type="System.Int32, mscorlib">
     <value>181</value>
@@ -3741,7 +3741,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_JR_DaiLiao_ModelXld_ShiftRight_1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="num_JR_DaiLiao_ModelXld_ShiftRight_1.TabIndex" type="System.Int32, mscorlib">
     <value>180</value>
@@ -3774,7 +3774,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label34.Size" type="System.Drawing.Size, System.Drawing">
-    <value>151, 21</value>
+    <value>189, 27</value>
   </data>
   <data name="label34.TabIndex" type="System.Int32, mscorlib">
     <value>179</value>
@@ -3810,7 +3810,7 @@
     <value>3, 2, 3, 2</value>
   </data>
   <data name="cb_Show_JR_DaiLiao_DetectionROI.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 25</value>
+    <value>154, 31</value>
   </data>
   <data name="cb_Show_JR_DaiLiao_DetectionROI.TabIndex" type="System.Int32, mscorlib">
     <value>178</value>
@@ -3840,7 +3840,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_JR_DaiLiao_Threshold_Max.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="num_JR_DaiLiao_Threshold_Max.TabIndex" type="System.Int32, mscorlib">
     <value>164</value>
@@ -3870,7 +3870,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label27.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 21</value>
+    <value>97, 27</value>
   </data>
   <data name="label27.TabIndex" type="System.Int32, mscorlib">
     <value>163</value>
@@ -3897,7 +3897,7 @@
     <value>143, 126</value>
   </data>
   <data name="num_JR_DaiLiao_MinArea.Size" type="System.Drawing.Size, System.Drawing">
-    <value>68, 29</value>
+    <value>68, 34</value>
   </data>
   <data name="num_JR_DaiLiao_MinArea.TabIndex" type="System.Int32, mscorlib">
     <value>162</value>
@@ -3924,7 +3924,7 @@
     <value>6, 128</value>
   </data>
   <data name="label31.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 21</value>
+    <value>172, 27</value>
   </data>
   <data name="label31.TabIndex" type="System.Int32, mscorlib">
     <value>161</value>
@@ -3957,7 +3957,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label32.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 16</value>
+    <value>0, 20</value>
   </data>
   <data name="label32.TabIndex" type="System.Int32, mscorlib">
     <value>145</value>
@@ -3984,7 +3984,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_JR_DaiLiao_Threshold_Min.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="num_JR_DaiLiao_Threshold_Min.TabIndex" type="System.Int32, mscorlib">
     <value>144</value>
@@ -4014,7 +4014,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label33.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 21</value>
+    <value>97, 27</value>
   </data>
   <data name="label33.TabIndex" type="System.Int32, mscorlib">
     <value>141</value>
@@ -4077,7 +4077,7 @@
     <value>267, 3</value>
   </data>
   <data name="but_SaveModel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>126, 46</value>
+    <value>126, 41</value>
   </data>
   <data name="but_SaveModel.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -4104,7 +4104,7 @@
     <value>135, 3</value>
   </data>
   <data name="but_CreateModel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>126, 46</value>
+    <value>126, 41</value>
   </data>
   <data name="but_CreateModel.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -4131,7 +4131,7 @@
     <value>3, 3</value>
   </data>
   <data name="but_SelectROI.Size" type="System.Drawing.Size, System.Drawing">
-    <value>126, 46</value>
+    <value>126, 41</value>
   </data>
   <data name="but_SelectROI.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -4155,13 +4155,13 @@
     <value>Fill</value>
   </data>
   <data name="tableLayoutPanel5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 26</value>
+    <value>4, 31</value>
   </data>
   <data name="tableLayoutPanel5.RowCount" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
   <data name="tableLayoutPanel5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>396, 52</value>
+    <value>396, 47</value>
   </data>
   <data name="tableLayoutPanel5.TabIndex" type="System.Int32, mscorlib">
     <value>146</value>
@@ -4194,7 +4194,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label24.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 16</value>
+    <value>0, 20</value>
   </data>
   <data name="label24.TabIndex" type="System.Int32, mscorlib">
     <value>145</value>
@@ -4248,13 +4248,13 @@
     <value>4</value>
   </data>
   <data name="tabPage6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 30</value>
+    <value>4, 36</value>
   </data>
   <data name="tabPage6.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabPage6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>432, 391</value>
+    <value>432, 380</value>
   </data>
   <data name="tabPage6.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -4293,7 +4293,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label76.Size" type="System.Drawing.Size, System.Drawing">
-    <value>17, 21</value>
+    <value>21, 27</value>
   </data>
   <data name="label76.TabIndex" type="System.Int32, mscorlib">
     <value>165</value>
@@ -4329,7 +4329,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label75.Size" type="System.Drawing.Size, System.Drawing">
-    <value>17, 21</value>
+    <value>21, 27</value>
   </data>
   <data name="label75.TabIndex" type="System.Int32, mscorlib">
     <value>164</value>
@@ -4365,7 +4365,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label74.Size" type="System.Drawing.Size, System.Drawing">
-    <value>17, 21</value>
+    <value>21, 27</value>
   </data>
   <data name="label74.TabIndex" type="System.Int32, mscorlib">
     <value>163</value>
@@ -4398,7 +4398,7 @@
     <value>19, 32</value>
   </data>
   <data name="cb_EnStepDefect.Size" type="System.Drawing.Size, System.Drawing">
-    <value>61, 25</value>
+    <value>74, 31</value>
   </data>
   <data name="cb_EnStepDefect.TabIndex" type="System.Int32, mscorlib">
     <value>162</value>
@@ -4428,7 +4428,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="nud_StepDefectAreaRangeFilterMax.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="nud_StepDefectAreaRangeFilterMax.TabIndex" type="System.Int32, mscorlib">
     <value>161</value>
@@ -4455,7 +4455,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="nud_SetpDefectThresholdRangeMax.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="nud_SetpDefectThresholdRangeMax.TabIndex" type="System.Int32, mscorlib">
     <value>160</value>
@@ -4482,7 +4482,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="nud_SetpDefectThresholdRangeMin.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="nud_SetpDefectThresholdRangeMin.TabIndex" type="System.Int32, mscorlib">
     <value>159</value>
@@ -4509,7 +4509,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="nud_StepDefectAreaRangeFilterMin.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="nud_StepDefectAreaRangeFilterMin.TabIndex" type="System.Int32, mscorlib">
     <value>158</value>
@@ -4542,7 +4542,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label73.Size" type="System.Drawing.Size, System.Drawing">
-    <value>188, 21</value>
+    <value>237, 27</value>
   </data>
   <data name="label73.TabIndex" type="System.Int32, mscorlib">
     <value>157</value>
@@ -4578,7 +4578,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label72.Size" type="System.Drawing.Size, System.Drawing">
-    <value>110, 21</value>
+    <value>137, 27</value>
   </data>
   <data name="label72.TabIndex" type="System.Int32, mscorlib">
     <value>155</value>
@@ -4608,7 +4608,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="nud_StepCoatingGrayscaleRangeMax.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="nud_StepCoatingGrayscaleRangeMax.TabIndex" type="System.Int32, mscorlib">
     <value>154</value>
@@ -4635,7 +4635,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="nud_StepCoatingGrayscaleRangeMin.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="nud_StepCoatingGrayscaleRangeMin.TabIndex" type="System.Int32, mscorlib">
     <value>153</value>
@@ -4668,7 +4668,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label71.Size" type="System.Drawing.Size, System.Drawing">
-    <value>142, 21</value>
+    <value>177, 27</value>
   </data>
   <data name="label71.TabIndex" type="System.Int32, mscorlib">
     <value>152</value>
@@ -4698,7 +4698,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="nud_SetpDetectAreaBottomInset.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="nud_SetpDetectAreaBottomInset.TabIndex" type="System.Int32, mscorlib">
     <value>151</value>
@@ -4731,7 +4731,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label69.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 21</value>
+    <value>209, 27</value>
   </data>
   <data name="label69.TabIndex" type="System.Int32, mscorlib">
     <value>150</value>
@@ -4761,7 +4761,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="nud_SetpDetectAreaTopInset.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="nud_SetpDetectAreaTopInset.TabIndex" type="System.Int32, mscorlib">
     <value>149</value>
@@ -4794,7 +4794,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label70.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 21</value>
+    <value>209, 27</value>
   </data>
   <data name="label70.TabIndex" type="System.Int32, mscorlib">
     <value>148</value>
@@ -4824,7 +4824,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="nud_SetpDetectAreaRightInset.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="nud_SetpDetectAreaRightInset.TabIndex" type="System.Int32, mscorlib">
     <value>147</value>
@@ -4857,7 +4857,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label66.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 21</value>
+    <value>209, 27</value>
   </data>
   <data name="label66.TabIndex" type="System.Int32, mscorlib">
     <value>146</value>
@@ -4893,7 +4893,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label67.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 16</value>
+    <value>0, 20</value>
   </data>
   <data name="label67.TabIndex" type="System.Int32, mscorlib">
     <value>145</value>
@@ -4920,7 +4920,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="nud_SetpDetectAreaLeftInset.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="nud_SetpDetectAreaLeftInset.TabIndex" type="System.Int32, mscorlib">
     <value>144</value>
@@ -4953,7 +4953,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label68.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 21</value>
+    <value>209, 27</value>
   </data>
   <data name="label68.TabIndex" type="System.Int32, mscorlib">
     <value>141</value>
@@ -5007,13 +5007,13 @@
     <value>0</value>
   </data>
   <data name="tabPage7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 30</value>
+    <value>4, 36</value>
   </data>
   <data name="tabPage7.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabPage7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>432, 391</value>
+    <value>432, 380</value>
   </data>
   <data name="tabPage7.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -5034,13 +5034,13 @@
     <value>6</value>
   </data>
   <data name="tabPage8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 30</value>
+    <value>4, 36</value>
   </data>
   <data name="tabPage8.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabPage8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>432, 391</value>
+    <value>432, 380</value>
   </data>
   <data name="tabPage8.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -5076,7 +5076,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label63.Size" type="System.Drawing.Size, System.Drawing">
-    <value>111, 21</value>
+    <value>138, 27</value>
   </data>
   <data name="label63.TabIndex" type="System.Int32, mscorlib">
     <value>85</value>
@@ -5103,7 +5103,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_tab_down_Expansion_Y.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 29</value>
+    <value>99, 34</value>
   </data>
   <data name="num_tab_down_Expansion_Y.TabIndex" type="System.Int32, mscorlib">
     <value>86</value>
@@ -5133,7 +5133,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label62.Size" type="System.Drawing.Size, System.Drawing">
-    <value>111, 21</value>
+    <value>138, 27</value>
   </data>
   <data name="label62.TabIndex" type="System.Int32, mscorlib">
     <value>83</value>
@@ -5160,7 +5160,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_tab_up_Expansion_Y.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 29</value>
+    <value>99, 34</value>
   </data>
   <data name="num_tab_up_Expansion_Y.TabIndex" type="System.Int32, mscorlib">
     <value>84</value>
@@ -5190,7 +5190,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label54.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 21</value>
+    <value>171, 27</value>
   </data>
   <data name="label54.TabIndex" type="System.Int32, mscorlib">
     <value>77</value>
@@ -5223,7 +5223,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label56.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 21</value>
+    <value>171, 27</value>
   </data>
   <data name="label56.TabIndex" type="System.Int32, mscorlib">
     <value>81</value>
@@ -5250,7 +5250,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_tabOutside_Expansion_X2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 29</value>
+    <value>99, 34</value>
   </data>
   <data name="num_tabOutside_Expansion_X2.TabIndex" type="System.Int32, mscorlib">
     <value>82</value>
@@ -5274,7 +5274,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_tabInside_Expansion_X1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 29</value>
+    <value>99, 34</value>
   </data>
   <data name="num_tabInside_Expansion_X1.TabIndex" type="System.Int32, mscorlib">
     <value>78</value>
@@ -5298,7 +5298,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_tabOutside_Expansion_X1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 29</value>
+    <value>99, 34</value>
   </data>
   <data name="num_tabOutside_Expansion_X1.TabIndex" type="System.Int32, mscorlib">
     <value>80</value>
@@ -5328,7 +5328,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label59.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 21</value>
+    <value>171, 27</value>
   </data>
   <data name="label59.TabIndex" type="System.Int32, mscorlib">
     <value>79</value>
@@ -5391,7 +5391,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="lab51.Size" type="System.Drawing.Size, System.Drawing">
-    <value>110, 21</value>
+    <value>137, 27</value>
   </data>
   <data name="lab51.TabIndex" type="System.Int32, mscorlib">
     <value>77</value>
@@ -5418,7 +5418,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_topAngleR_Shielded_X1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 29</value>
+    <value>99, 34</value>
   </data>
   <data name="num_topAngleR_Shielded_X1.TabIndex" type="System.Int32, mscorlib">
     <value>68</value>
@@ -5448,7 +5448,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="lab58.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 21</value>
+    <value>97, 27</value>
   </data>
   <data name="lab58.TabIndex" type="System.Int32, mscorlib">
     <value>67</value>
@@ -5481,7 +5481,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="lab47.Size" type="System.Drawing.Size, System.Drawing">
-    <value>110, 21</value>
+    <value>137, 27</value>
   </data>
   <data name="lab47.TabIndex" type="System.Int32, mscorlib">
     <value>81</value>
@@ -5508,7 +5508,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_bottomAngleR_Shielded_X1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 29</value>
+    <value>99, 34</value>
   </data>
   <data name="num_bottomAngleR_Shielded_X1.TabIndex" type="System.Int32, mscorlib">
     <value>71</value>
@@ -5532,7 +5532,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_topAngleR_Shielded_Y1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 29</value>
+    <value>99, 34</value>
   </data>
   <data name="num_topAngleR_Shielded_Y1.TabIndex" type="System.Int32, mscorlib">
     <value>82</value>
@@ -5562,7 +5562,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="lab57.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 21</value>
+    <value>97, 27</value>
   </data>
   <data name="lab57.TabIndex" type="System.Int32, mscorlib">
     <value>69</value>
@@ -5589,7 +5589,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_bottomAngleR_Shielded_Y1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 29</value>
+    <value>99, 34</value>
   </data>
   <data name="num_bottomAngleR_Shielded_Y1.TabIndex" type="System.Int32, mscorlib">
     <value>78</value>
@@ -5613,7 +5613,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_hypotenuse_Shielded_Y1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 29</value>
+    <value>99, 34</value>
   </data>
   <data name="num_hypotenuse_Shielded_Y1.TabIndex" type="System.Int32, mscorlib">
     <value>80</value>
@@ -5643,7 +5643,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="lab50.Size" type="System.Drawing.Size, System.Drawing">
-    <value>110, 21</value>
+    <value>137, 27</value>
   </data>
   <data name="lab50.TabIndex" type="System.Int32, mscorlib">
     <value>79</value>
@@ -5706,7 +5706,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="lab53.Size" type="System.Drawing.Size, System.Drawing">
-    <value>110, 21</value>
+    <value>137, 27</value>
   </data>
   <data name="lab53.TabIndex" type="System.Int32, mscorlib">
     <value>73</value>
@@ -5733,7 +5733,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_bottomAngleR_Shielded_Y.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 29</value>
+    <value>99, 34</value>
   </data>
   <data name="num_bottomAngleR_Shielded_Y.TabIndex" type="System.Int32, mscorlib">
     <value>74</value>
@@ -5763,7 +5763,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="lab46.Size" type="System.Drawing.Size, System.Drawing">
-    <value>110, 21</value>
+    <value>137, 27</value>
   </data>
   <data name="lab46.TabIndex" type="System.Int32, mscorlib">
     <value>83</value>
@@ -5790,7 +5790,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_hypotenuse_Shielded_Y.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 29</value>
+    <value>99, 34</value>
   </data>
   <data name="num_hypotenuse_Shielded_Y.TabIndex" type="System.Int32, mscorlib">
     <value>76</value>
@@ -5814,7 +5814,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_topAngleR_Shielded_Y.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 29</value>
+    <value>99, 34</value>
   </data>
   <data name="num_topAngleR_Shielded_Y.TabIndex" type="System.Int32, mscorlib">
     <value>84</value>
@@ -5844,7 +5844,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="lab52.Size" type="System.Drawing.Size, System.Drawing">
-    <value>110, 21</value>
+    <value>137, 27</value>
   </data>
   <data name="lab52.TabIndex" type="System.Int32, mscorlib">
     <value>75</value>
@@ -5871,7 +5871,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_bottomAngleR_Shielded_X.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 29</value>
+    <value>99, 34</value>
   </data>
   <data name="num_bottomAngleR_Shielded_X.TabIndex" type="System.Int32, mscorlib">
     <value>66</value>
@@ -5895,7 +5895,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_topAngleR_Shielded_X.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 29</value>
+    <value>99, 34</value>
   </data>
   <data name="num_topAngleR_Shielded_X.TabIndex" type="System.Int32, mscorlib">
     <value>72</value>
@@ -5925,7 +5925,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="lab48.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 21</value>
+    <value>97, 27</value>
   </data>
   <data name="lab48.TabIndex" type="System.Int32, mscorlib">
     <value>70</value>
@@ -5958,7 +5958,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="lab49.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 21</value>
+    <value>97, 27</value>
   </data>
   <data name="lab49.TabIndex" type="System.Int32, mscorlib">
     <value>65</value>
@@ -6021,7 +6021,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="lab45.Size" type="System.Drawing.Size, System.Drawing">
-    <value>104, 21</value>
+    <value>130, 27</value>
   </data>
   <data name="lab45.TabIndex" type="System.Int32, mscorlib">
     <value>71</value>
@@ -6048,7 +6048,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_bottomAngleR_ridus.Size" type="System.Drawing.Size, System.Drawing">
-    <value>97, 29</value>
+    <value>97, 34</value>
   </data>
   <data name="num_bottomAngleR_ridus.TabIndex" type="System.Int32, mscorlib">
     <value>72</value>
@@ -6072,7 +6072,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_topAngleR_ridus.Size" type="System.Drawing.Size, System.Drawing">
-    <value>97, 29</value>
+    <value>97, 34</value>
   </data>
   <data name="num_topAngleR_ridus.TabIndex" type="System.Int32, mscorlib">
     <value>74</value>
@@ -6102,7 +6102,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="lab6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>107, 21</value>
+    <value>134, 27</value>
   </data>
   <data name="lab6.TabIndex" type="System.Int32, mscorlib">
     <value>81</value>
@@ -6135,7 +6135,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="lab40.Size" type="System.Drawing.Size, System.Drawing">
-    <value>104, 21</value>
+    <value>130, 27</value>
   </data>
   <data name="lab40.TabIndex" type="System.Int32, mscorlib">
     <value>73</value>
@@ -6162,7 +6162,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_hypotenuse_length.Size" type="System.Drawing.Size, System.Drawing">
-    <value>97, 29</value>
+    <value>97, 34</value>
   </data>
   <data name="num_hypotenuse_length.TabIndex" type="System.Int32, mscorlib">
     <value>82</value>
@@ -6186,7 +6186,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_hypotenuse_angle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>97, 29</value>
+    <value>97, 34</value>
   </data>
   <data name="num_hypotenuse_angle.TabIndex" type="System.Int32, mscorlib">
     <value>76</value>
@@ -6216,7 +6216,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="lab7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>116, 21</value>
+    <value>145, 27</value>
   </data>
   <data name="lab7.TabIndex" type="System.Int32, mscorlib">
     <value>79</value>
@@ -6249,7 +6249,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="lab38.Size" type="System.Drawing.Size, System.Drawing">
-    <value>118, 21</value>
+    <value>149, 27</value>
   </data>
   <data name="lab38.TabIndex" type="System.Int32, mscorlib">
     <value>75</value>
@@ -6276,7 +6276,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_topAngleR_CompensationAngle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>97, 29</value>
+    <value>97, 34</value>
   </data>
   <data name="num_topAngleR_CompensationAngle.TabIndex" type="System.Int32, mscorlib">
     <value>80</value>
@@ -6300,7 +6300,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_bottomAngleR_CompensationAngle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>97, 29</value>
+    <value>97, 34</value>
   </data>
   <data name="num_bottomAngleR_CompensationAngle.TabIndex" type="System.Int32, mscorlib">
     <value>78</value>
@@ -6330,7 +6330,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="lab8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>116, 21</value>
+    <value>145, 27</value>
   </data>
   <data name="lab8.TabIndex" type="System.Int32, mscorlib">
     <value>77</value>
@@ -6363,7 +6363,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="lab556.Size" type="System.Drawing.Size, System.Drawing">
-    <value>118, 21</value>
+    <value>149, 27</value>
   </data>
   <data name="lab556.TabIndex" type="System.Int32, mscorlib">
     <value>67</value>
@@ -6390,7 +6390,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_JR_width.Size" type="System.Drawing.Size, System.Drawing">
-    <value>97, 29</value>
+    <value>97, 34</value>
   </data>
   <data name="num_JR_width.TabIndex" type="System.Int32, mscorlib">
     <value>68</value>
@@ -6432,13 +6432,13 @@
     <value>3</value>
   </data>
   <data name="tabPage9.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 30</value>
+    <value>4, 36</value>
   </data>
   <data name="tabPage9.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabPage9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>432, 391</value>
+    <value>432, 380</value>
   </data>
   <data name="tabPage9.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -6468,7 +6468,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_JRCenter_Row.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 29</value>
+    <value>99, 34</value>
   </data>
   <data name="num_JRCenter_Row.TabIndex" type="System.Int32, mscorlib">
     <value>164</value>
@@ -6498,7 +6498,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label40.Size" type="System.Drawing.Size, System.Drawing">
-    <value>24, 21</value>
+    <value>29, 27</value>
   </data>
   <data name="label40.TabIndex" type="System.Int32, mscorlib">
     <value>163</value>
@@ -6531,7 +6531,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label41.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 16</value>
+    <value>0, 20</value>
   </data>
   <data name="label41.TabIndex" type="System.Int32, mscorlib">
     <value>145</value>
@@ -6558,7 +6558,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_JRCenter_column.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 29</value>
+    <value>99, 34</value>
   </data>
   <data name="num_JRCenter_column.TabIndex" type="System.Int32, mscorlib">
     <value>144</value>
@@ -6588,7 +6588,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label42.Size" type="System.Drawing.Size, System.Drawing">
-    <value>24, 21</value>
+    <value>30, 27</value>
   </data>
   <data name="label42.TabIndex" type="System.Int32, mscorlib">
     <value>141</value>
@@ -6651,7 +6651,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="cb_Enable_SimulationRegion.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 26</value>
+    <value>154, 31</value>
   </data>
   <data name="cb_Enable_SimulationRegion.TabIndex" type="System.Int32, mscorlib">
     <value>179</value>
@@ -6684,7 +6684,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 16</value>
+    <value>0, 20</value>
   </data>
   <data name="label11.TabIndex" type="System.Int32, mscorlib">
     <value>145</value>
@@ -6744,7 +6744,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="Detection_Right_Down_Y.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="Detection_Right_Down_Y.TabIndex" type="System.Int32, mscorlib">
     <value>168</value>
@@ -6774,7 +6774,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>72, 21</value>
+    <value>89, 27</value>
   </data>
   <data name="label8.TabIndex" type="System.Int32, mscorlib">
     <value>167</value>
@@ -6804,7 +6804,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="Detection_Right_Down_X.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="Detection_Right_Down_X.TabIndex" type="System.Int32, mscorlib">
     <value>166</value>
@@ -6834,7 +6834,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>72, 21</value>
+    <value>90, 27</value>
   </data>
   <data name="label12.TabIndex" type="System.Int32, mscorlib">
     <value>165</value>
@@ -6864,7 +6864,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="Detection_Left_UP_Y.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="Detection_Left_UP_Y.TabIndex" type="System.Int32, mscorlib">
     <value>164</value>
@@ -6894,7 +6894,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>72, 21</value>
+    <value>89, 27</value>
   </data>
   <data name="label7.TabIndex" type="System.Int32, mscorlib">
     <value>163</value>
@@ -6927,7 +6927,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 16</value>
+    <value>0, 20</value>
   </data>
   <data name="label9.TabIndex" type="System.Int32, mscorlib">
     <value>145</value>
@@ -6954,7 +6954,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="Detection_Left_UP_X.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 29</value>
+    <value>62, 34</value>
   </data>
   <data name="Detection_Left_UP_X.TabIndex" type="System.Int32, mscorlib">
     <value>144</value>
@@ -6984,7 +6984,7 @@
     <value>4, 0, 4, 0</value>
   </data>
   <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>72, 21</value>
+    <value>90, 27</value>
   </data>
   <data name="label10.TabIndex" type="System.Int32, mscorlib">
     <value>141</value>
@@ -7038,13 +7038,13 @@
     <value>2</value>
   </data>
   <data name="tabPage10.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 30</value>
+    <value>4, 36</value>
   </data>
   <data name="tabPage10.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabPage10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>432, 391</value>
+    <value>432, 380</value>
   </data>
   <data name="tabPage10.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -7074,7 +7074,7 @@
     <value>3, 146</value>
   </data>
   <data name="TB_Params.Size" type="System.Drawing.Size, System.Drawing">
-    <value>440, 425</value>
+    <value>440, 420</value>
   </data>
   <data name="TB_Params.TabIndex" type="System.Int32, mscorlib">
     <value>68</value>
@@ -7101,7 +7101,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="num_timeOutPeriod.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 29</value>
+    <value>59, 34</value>
   </data>
   <data name="num_timeOutPeriod.TabIndex" type="System.Int32, mscorlib">
     <value>160</value>
@@ -7125,7 +7125,7 @@
     <value>145, 108</value>
   </data>
   <data name="label13.Size" type="System.Drawing.Size, System.Drawing">
-    <value>134, 17</value>
+    <value>164, 22</value>
   </data>
   <data name="label13.TabIndex" type="System.Int32, mscorlib">
     <value>159</value>
@@ -7152,7 +7152,7 @@
     <value>6, 34</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>89, 17</value>
+    <value>109, 22</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>158</value>
@@ -7203,7 +7203,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="com_DetectionMethod.Size" type="System.Drawing.Size, System.Drawing">
-    <value>187, 29</value>
+    <value>187, 35</value>
   </data>
   <data name="com_DetectionMethod.TabIndex" type="System.Int32, mscorlib">
     <value>157</value>
@@ -7230,7 +7230,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="cb_Enable_Classify.Size" type="System.Drawing.Size, System.Drawing">
-    <value>117, 21</value>
+    <value>142, 26</value>
   </data>
   <data name="cb_Enable_Classify.TabIndex" type="System.Int32, mscorlib">
     <value>156</value>
@@ -7257,7 +7257,7 @@
     <value>6, 74</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>53, 17</value>
+    <value>65, 22</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>92</value>
@@ -7293,7 +7293,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="com_Cathode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>187, 29</value>
+    <value>187, 35</value>
   </data>
   <data name="com_Cathode.TabIndex" type="System.Int32, mscorlib">
     <value>91</value>
@@ -7341,13 +7341,13 @@
     <value>Fill</value>
   </data>
   <data name="tableLayoutPanel4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 23</value>
+    <value>3, 28</value>
   </data>
   <data name="tableLayoutPanel4.RowCount" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
   <data name="tableLayoutPanel4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>446, 574</value>
+    <value>446, 569</value>
   </data>
   <data name="tableLayoutPanel4.TabIndex" type="System.Int32, mscorlib">
     <value>68</value>
@@ -7467,7 +7467,7 @@
     <value>5, 1, 8, 5</value>
   </data>
   <data name="Label_Image.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 42</value>
+    <value>87, 37</value>
   </data>
   <data name="Label_Image.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -7503,7 +7503,7 @@
     <value>2</value>
   </data>
   <data name="TLP_Image1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>95, 178</value>
+    <value>95, 173</value>
   </data>
   <data name="TLP_Image1.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -7527,13 +7527,13 @@
     <value>Fill</value>
   </data>
   <data name="tableLayoutPanel3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 23</value>
+    <value>3, 28</value>
   </data>
   <data name="tableLayoutPanel3.RowCount" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
   <data name="tableLayoutPanel3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>492, 198</value>
+    <value>492, 193</value>
   </data>
   <data name="tableLayoutPanel3.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -7684,18 +7684,17 @@
         RudN65tdA8sHzg46DF645Xrr8m2v29fvrLwzMBQydHc4cnjkLvvu5L2key/vZ9yff7DpIfph4SOpR+WP
         lR7X/aj3Y+uI5ciZUdfRvidBTx6Mscae/5T+04fx/Kfkp+UTqhONk2aTp6fcp24+W/1s/Hnq8/npgp+l
         f65+ofviu18cf+mbWTUz/pL/cuHX4lfyr468Xva6e9Z/9vGb5Dfzc4Vv5d8efcd41/s+7P3EfOYH7IeK
-        j3ofuz55f3q4kLyw8Bv3hPP74uYdwgAAAAlwSFlzAAAOvAAADrwBlbxySQAAAlVJREFUWEft2c2rTVEc
-        xnEyMTRQ8ha5Yi55jQGJiTJRopTkJXn3XzBQBvJ6L4mMxJ9ABsp7KKIMiJIkeSuyfZ+17++eX6fl7HXO
-        Xt2703nqU3ut1t776Zx77tl33XFFUcgKnMNgg+zAeJVbhQdoWr5jgwpeC8Nm5roKXiyPG5kLKqj32+cG
-        DmEPdlfQmoPQ+n/Zi9i57bT2OHwGYwW3QPNjYTJ8ogUPQPNX8KLCfejT5m/iLcVNxM71nkDr58MnWnA/
-        NP88jNIyFVbKe4PUaP2c8nAkHQveDqO0TIOV8t4iJT+h9XPDqJXkgj/wMOIutsEKtVuEW4id+xGW2gUf
-        w26aywlYahe0H+KcTsJSu+BT2IVzOQ3L/1nwThiV0a8cu3Au52H5Bc0NhFErHQs+C6My72EXzuUyfDSX
-        9AoegeY3hlGZ7bAL57IAX6Ecg+YWhlErHQvKTMx249wmQW+rjZfAp7LgaNMvdp9+wW71C/ZigjteDJ+O
-        BfWJ0vPcO6wenstpBh7hA3YOzyW9gvZEfS+MyryGXTiXM/DR3LzycCTRgvugeT3rWV7CLpyL/2vyDzTX
-        8xN1/2kGmmtUwVOw1C6ovRu7cC5HYald8DOuRlzCSthN202H3srYua9gqV2wKtoRsFJe6q5ZTwW72ZKb
-        BSvlfUFqtL6rJ2ptWfyuoAL2sBmzCXoaj53rfYPWJ72CW+FvMpqmwCda8CzWYRn03diJvq/XQOtj1mI5
-        Yue203pt5fmEgkPlcSMzpILasGxqwhbwZnwKw+ZllwrKejTt3xCHi6KY+BfFh9IEAWrzhgAAAABJRU5E
-        rkJggg==
+        j3ofuz55f3q4kLyw8Bv3hPP74uYdwgAAAAlwSFlzAAAOvAAADrwBlbxySQAAAk9JREFUWEftmd2LTWEU
+        h0duXLpQ8hUh7iWfcUHiRrlRopTkI/n2X3ChXIjBDIlciT+BXCjfoYhyQZQkyVeRR79p7Vqt1ux9znmn
+        sWNWPTWzznrXetr77HPeeacP6ANWAGeBgRaxAxgnuVXAfdoX34ANErwaX2lRXJPghZhtUZyXoO63j+vA
+        IWAPsLsB1Ry0+uHYm6zLUO3x4DKQCW6xB+dvMCm4pIIHrPgy8LyBe/a0xUEVS4EbybrIY6ufH1xSwf1W
+        /Czk62JKIidex8KaUP3skKsVvBXydTE1kRNvYuEw8cPq54Z8x4LfgQcJd4BtiVjFIuBmsk58cP2LBR8l
+        w0s54foXC1Zv4pHkpOtfLPgkGVDKadf/3xS87XL6yIkDSjnn+v+03ByXU9QKPnW5d8mAUi65/grlOrqC
+        R6x4o8ttTwaUsgD4Yv2PWW6hm6moFRQzgFlJ85Fiot3W6vclwaVRcLTRB7uPMcFuGRPshfHu58XBpVZQ
+        T5T2c2+B1UnjUqYDD4H3wE7LdXQFqx31XZd7lQwopd/1Vyg3L+RSwX1WrL1eFS+SAaX4vyZ/W67nHXUr
+        Nwv/veAp179YUGc3cUApR13/YsFPwJWEi8DKZHjFNLuVcZ146foXCzaFTgSinOj01KwnwU6bK2YmcuJz
+        LKwJ1Xe1o9aRxa8GJFBtNjM22W48rot87eYKbk0GjRaTg0sqeAZYByyz78Y69H29xuoz1gLLk3UZqtdR
+        no8hwcGQbFMMSlAHlm2NoSPgzcDH+EpLYlf15lzfwn9DHAYm/AHFh9IE84rihgAAAABJRU5ErkJggg==
 </value>
   </data>
   <data name="ImageReset.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
@@ -7775,21 +7774,20 @@
         RudN65tdA8sHzg46DF645Xrr8m2v29fvrLwzMBQydHc4cnjkLvvu5L2key/vZ9yff7DpIfph4SOpR+WP
         lR7X/aj3Y+uI5ciZUdfRvidBTx6Mscae/5T+04fx/Kfkp+UTqhONk2aTp6fcp24+W/1s/Hnq8/npgp+l
         f65+ofviu18cf+mbWTUz/pL/cuHX4lfyr468Xva6e9Z/9vGb5Dfzc4Vv5d8efcd41/s+7P3EfOYH7IeK
-        j3ofuz55f3q4kLyw8Bv3hPP74uYdwgAAAAlwSFlzAAAXEQAAFxEByibzPwAAAyJJREFUWEft2F2IVGUc
-        x/FFEi+UyswQLzIQ7zJfUEMxs4IuBEUMKr0RxBd8ASMv7EYlCsSiCHq5icAQMrAEI2kjNhBFNMorbywl
-        kWAFxWCTUkuO3+/M/OXh8Sw7M7tzZoV+8GHneWHOn51znvOc01MURZiNr3EVNzBQkb/wD/7AF5iDWk1R
-        2EaMpryGWnHP15r1/Ivv8Tm+rMhBeLxjSPOSxX1V/1z8jVmI/2Y3LEOkz47L9c/F20gnPonnsKiDnsXT
-        GIs47lGYKzY8Ic12xIR37KgwHi+O7U9tBtLiaidhg1fRT5gIr565HeL3f4KzaLo4Lwz/vdHuJI97LmlX
-        VtwEeN7OTPpyr+PXpF1JcbuR5jymIp83YsV5VY3J+srshXkfj2EhrsPlahzSuSNSnD+P8YBpf24KzJtI
-        +x+ByZesYRfnOWNONf7mB07Ng1mJfOw/fJP1Dau4yTC9sL2q1iqKTYj5KZcH8zHS/idg3kDa31ZxBxqf
-        3TFcbHwO22BeQdof/OnMh/A89bZ4C5536d1ALRd3DW6fjsAvHY8YC/tgXkA+pveQxtvkDOTzWi7ujB3E
-        O8U0RH/uMxj3gmXjD+JVLEn6ci0X95sdZDGibzDfwjyOsvGhtFycP6X7umgP5STMwygb1wKkm4vQ1gXR
-        6h3id3iulo1Nh1t/sx/pWCXF6U9cyPq8ZZnD8Pw16VpXWXGxxp2A7QfgKeKVGnPmw8S6uRmVFCcvDHMI
-        Ful3PYR0jhea+RTr8QtirKPF6SlEBnsucYse+Q7R3/HitAZmD8rGtRTmNKKvkuLkfdTsQNm43OV4pUe7
-        suL0FsxalI279nVlmx52wryIfKzl4vrhTmQ5NsDXFe3YgpfhRjWej13XVsPxFfgBP6Pp4tbZMYK5DV8Q
-        3ay17s1WNF2c3CY9ChfW4XKL7lrn05j3X9v2T0K+BjZVXLf8X1y77p/iLtU/Fx8gn9gNP8L02/A9bOQZ
-        5JOr5PoX6bXDp6eIdwa3Or4v87Huowp4nHcRzyKR2mtXuWqPpuzC3bfp8sX1cfg46AuXeBXfaV6QHs/n
-        jz5YB/UUPXcACCCEQVvV4esAAAAASUVORK5CYII=
+        j3ofuz55f3q4kLyw8Bv3hPP74uYdwgAAAAlwSFlzAAAXEQAAFxEByibzPwAAAwVJREFUWEftmFmIj1EY
+        xieRC7KTXKDkzp4lsisXikTZbpQsWYq44AaJEiJluZEihbIUkZFGiYRw5cYWSY0iasiun57pOXU6nan5
+        Zub/zShPPc28y5zzNN8573nPqQKqzBHABeAD8B2oK4mfgW/AW+A0MDJoCsJW0rawIYibHjl/AdeBk8DZ
+        knjG892KdAjzJe68ja/A8OgztwZnReJq5HhnY1eSOASYBkyoIKcA44AO0bxXree9DC1IYX2UsNe+sqD5
+        wtz61EJdLK5+EZraRQ+A7t49oypEjX8UeFJEnDaG/r3BriQ179PILk1cZ6/boZlY4EbgWWSXIm6bxw14
+        AfTL5LWYOO2qdhl/yt0e8wDQBxgPfHG56pjktog4fZ4wYSomZl/n7Uj8PexPS1azxWnNCPf8M5045mjn
+        zM3EfgOXE1+zxPV2vNr2PNurMpOLKg/CkcQ/0P4tib9J4k75d3UMr5MB1/lvFib+QH064ZDXqY7Fn153
+        8WkgFhb30e3TJQ/aKSNgj/9uRiYm7nc8QMfk4ExeYXGPQwIwIDNg4HHnqRdMY2IXYBEwORMLLCzuuX0T
+        M4OlvOLc/plYY1hYnD6l+rp0oIZ412N0y8QCxybNRWBhcWkpaQxfea2mfnGQW3/hRBIrRZz4CXiZ+HRk
+        CRe9foW41pUmLtS4O7bbe4lop4acMc4JdXN1WeJEbQzhnEVqrK5JjjaacAxYDjyKYhUVJw7zmEJD9xK1
+        6AHXIn/FxYlLPO72TCxwqnPuR75SxIk6R4VNmViguhzt9GCXJk7c6fGXZmKial+rtOmBmz3HzEyssLha
+        dyKzgRV+rmgK1wAL3KiG+7Hq2mLH5wA3gIdFxC2zr6Xwxw9EP9KAsbaIOFFtUi8X1uZSLbpqnW5jOn9l
+        y98zUwMbJa61+F9cU/nviHtj42AmsTV403pqZegdNmBSJrlMqv4FVMuh21OATga1Onov07XucAnUPPui
+        u0hA/bOrqKrdlrBVuuJ/qR6ub2sh+sElfZKvFLUhNZ/uHzXWUa/pLwgghEHkyWHPAAAAAElFTkSuQmCC
 </value>
   </data>
   <data name="LoadImage.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
@@ -7874,7 +7872,7 @@
     <value>5, 8, 5, 6</value>
   </data>
   <data name="TB_PositionAndGray.Size" type="System.Drawing.Size, System.Drawing">
-    <value>294, 19</value>
+    <value>294, 23</value>
   </data>
   <data name="TB_PositionAndGray.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>

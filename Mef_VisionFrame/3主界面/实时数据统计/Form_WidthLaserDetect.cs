@@ -229,11 +229,16 @@ namespace Mef_VisionFrame
             Dp_DetectProcessCam2.DataListView.MouseDoubleClick += listView1_DoubleClick;
 
             Timer_Narrow = new Timer();
-            Timer_Narrow.Interval = 1000;
+            Timer_Narrow.Interval = 500;
             // 订阅 Tick 事件
             Timer_Narrow.Tick += (sender, e) =>
             {
+                MyMetrics.GetPrivateWorkingSetMB();
+                MyMetrics.GetCpuPercentLikeTaskManager();
 
+                lbTotallength.Text = $"当前运行内存：{MyMetrics.fWorkingSetMBValue.ToString("00000.00")} MB";
+                lbOklength.Text = $"当前CPU：{MyMetrics.fCpuValue.ToString("0000.00")}%";
+               
                 if (Project.Instance.Is_Run)
                 {
                     tableLayoutPanel1.Enabled = false;

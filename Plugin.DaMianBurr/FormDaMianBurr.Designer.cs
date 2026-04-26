@@ -182,9 +182,9 @@
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView1.FullRowSelect = true;
             this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(3, 23);
+            this.listView1.Location = new System.Drawing.Point(3, 28);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(542, 215);
+            this.listView1.Size = new System.Drawing.Size(542, 210);
             this.listView1.TabIndex = 3;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.Click += new System.EventHandler(this.listView1_Click);
@@ -211,10 +211,10 @@
             this.TB_ROIMoveIndex.Controls.Add(this.tabPage2);
             this.TB_ROIMoveIndex.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TB_ROIMoveIndex.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.TB_ROIMoveIndex.Location = new System.Drawing.Point(3, 23);
+            this.TB_ROIMoveIndex.Location = new System.Drawing.Point(3, 28);
             this.TB_ROIMoveIndex.Name = "TB_ROIMoveIndex";
             this.TB_ROIMoveIndex.SelectedIndex = 0;
-            this.TB_ROIMoveIndex.Size = new System.Drawing.Size(362, 484);
+            this.TB_ROIMoveIndex.Size = new System.Drawing.Size(362, 479);
             this.TB_ROIMoveIndex.TabIndex = 67;
             // 
             // tabPage3
@@ -238,10 +238,10 @@
             this.tabPage3.Controls.Add(this.num_inputMinThreshold);
             this.tabPage3.Controls.Add(this.label4);
             this.tabPage3.Controls.Add(this.linkLabel1);
-            this.tabPage3.Location = new System.Drawing.Point(4, 30);
+            this.tabPage3.Location = new System.Drawing.Point(4, 36);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(354, 450);
+            this.tabPage3.Size = new System.Drawing.Size(354, 439);
             this.tabPage3.TabIndex = 6;
             this.tabPage3.Text = "毛刺参数";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -265,7 +265,7 @@
             0,
             0});
             this.num_DaMianOriginValue.Name = "num_DaMianOriginValue";
-            this.num_DaMianOriginValue.Size = new System.Drawing.Size(112, 22);
+            this.num_DaMianOriginValue.Size = new System.Drawing.Size(112, 26);
             this.num_DaMianOriginValue.TabIndex = 156;
             this.num_DaMianOriginValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_DaMianOriginValue.Value = new decimal(new int[] {
@@ -281,7 +281,7 @@
             this.label1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label1.Location = new System.Drawing.Point(9, 324);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(119, 16);
+            this.label1.Size = new System.Drawing.Size(149, 20);
             this.label1.TabIndex = 155;
             this.label1.Text = "毛刺最小高度：";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -310,7 +310,7 @@
             0,
             196608});
             this.num_DaMianMaoCiMinHeight.Name = "num_DaMianMaoCiMinHeight";
-            this.num_DaMianMaoCiMinHeight.Size = new System.Drawing.Size(112, 22);
+            this.num_DaMianMaoCiMinHeight.Size = new System.Drawing.Size(112, 26);
             this.num_DaMianMaoCiMinHeight.TabIndex = 154;
             this.num_DaMianMaoCiMinHeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_DaMianMaoCiMinHeight.Value = new decimal(new int[] {
@@ -326,7 +326,7 @@
             this.label17.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label17.Location = new System.Drawing.Point(6, 286);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(119, 16);
+            this.label17.Size = new System.Drawing.Size(149, 20);
             this.label17.TabIndex = 153;
             this.label17.Text = "毛刺最小高度：";
             this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -350,7 +350,7 @@
             0,
             0});
             this.num_inputMinArea_DaMian.Name = "num_inputMinArea_DaMian";
-            this.num_inputMinArea_DaMian.Size = new System.Drawing.Size(112, 22);
+            this.num_inputMinArea_DaMian.Size = new System.Drawing.Size(112, 26);
             this.num_inputMinArea_DaMian.TabIndex = 152;
             this.num_inputMinArea_DaMian.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_inputMinArea_DaMian.Value = new decimal(new int[] {
@@ -366,7 +366,7 @@
             this.label12.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label12.Location = new System.Drawing.Point(9, 243);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(119, 16);
+            this.label12.Size = new System.Drawing.Size(149, 20);
             this.label12.TabIndex = 151;
             this.label12.Text = "毛刺最小面积：";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -384,7 +384,7 @@
             0,
             0});
             this.num_inputMaoCiMaxThreshold.Name = "num_inputMaoCiMaxThreshold";
-            this.num_inputMaoCiMaxThreshold.Size = new System.Drawing.Size(112, 22);
+            this.num_inputMaoCiMaxThreshold.Size = new System.Drawing.Size(112, 26);
             this.num_inputMaoCiMaxThreshold.TabIndex = 150;
             this.num_inputMaoCiMaxThreshold.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_inputMaoCiMaxThreshold.Value = new decimal(new int[] {
@@ -400,7 +400,7 @@
             this.label11.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label11.Location = new System.Drawing.Point(9, 204);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(119, 16);
+            this.label11.Size = new System.Drawing.Size(149, 20);
             this.label11.TabIndex = 149;
             this.label11.Text = "毛刺最大阈值：";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -418,7 +418,7 @@
             0,
             0});
             this.num_inputMaoCiMinThreshold.Name = "num_inputMaoCiMinThreshold";
-            this.num_inputMaoCiMinThreshold.Size = new System.Drawing.Size(112, 22);
+            this.num_inputMaoCiMinThreshold.Size = new System.Drawing.Size(112, 26);
             this.num_inputMaoCiMinThreshold.TabIndex = 148;
             this.num_inputMaoCiMinThreshold.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_inputMaoCiMinThreshold.ValueChanged += new System.EventHandler(this.num_inputMaoCiMinThreshold_ValueChanged);
@@ -429,7 +429,7 @@
             this.label8.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label8.Location = new System.Drawing.Point(9, 159);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(119, 16);
+            this.label8.Size = new System.Drawing.Size(149, 20);
             this.label8.TabIndex = 147;
             this.label8.Text = "毛刺最小阈值：";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -458,7 +458,7 @@
             0,
             196608});
             this.num_inputFindMaoCiUP2.Name = "num_inputFindMaoCiUP2";
-            this.num_inputFindMaoCiUP2.Size = new System.Drawing.Size(112, 22);
+            this.num_inputFindMaoCiUP2.Size = new System.Drawing.Size(112, 26);
             this.num_inputFindMaoCiUP2.TabIndex = 146;
             this.num_inputFindMaoCiUP2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_inputFindMaoCiUP2.Value = new decimal(new int[] {
@@ -474,7 +474,7 @@
             this.label7.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label7.Location = new System.Drawing.Point(6, 119);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(119, 16);
+            this.label7.Size = new System.Drawing.Size(149, 20);
             this.label7.TabIndex = 145;
             this.label7.Text = "第二次平移值：";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -503,7 +503,7 @@
             0,
             196608});
             this.num_inputFindMaoCiUP1.Name = "num_inputFindMaoCiUP1";
-            this.num_inputFindMaoCiUP1.Size = new System.Drawing.Size(112, 22);
+            this.num_inputFindMaoCiUP1.Size = new System.Drawing.Size(112, 26);
             this.num_inputFindMaoCiUP1.TabIndex = 144;
             this.num_inputFindMaoCiUP1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_inputFindMaoCiUP1.Value = new decimal(new int[] {
@@ -519,7 +519,7 @@
             this.label5.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label5.Location = new System.Drawing.Point(9, 88);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(119, 16);
+            this.label5.Size = new System.Drawing.Size(149, 20);
             this.label5.TabIndex = 143;
             this.label5.Text = "第一次平移值：";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -542,7 +542,7 @@
             0,
             0});
             this.num_inputMaxThreshold.Name = "num_inputMaxThreshold";
-            this.num_inputMaxThreshold.Size = new System.Drawing.Size(112, 22);
+            this.num_inputMaxThreshold.Size = new System.Drawing.Size(112, 26);
             this.num_inputMaxThreshold.TabIndex = 142;
             this.num_inputMaxThreshold.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_inputMaxThreshold.Value = new decimal(new int[] {
@@ -558,7 +558,7 @@
             this.label14.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label14.Location = new System.Drawing.Point(6, 49);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(119, 16);
+            this.label14.Size = new System.Drawing.Size(149, 20);
             this.label14.TabIndex = 141;
             this.label14.Text = "涂布最大阈值：";
             this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -576,7 +576,7 @@
             0,
             0});
             this.num_inputMinThreshold.Name = "num_inputMinThreshold";
-            this.num_inputMinThreshold.Size = new System.Drawing.Size(112, 22);
+            this.num_inputMinThreshold.Size = new System.Drawing.Size(112, 26);
             this.num_inputMinThreshold.TabIndex = 128;
             this.num_inputMinThreshold.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_inputMinThreshold.ValueChanged += new System.EventHandler(this.inputFitLineMinGray_ValueChanged);
@@ -587,7 +587,7 @@
             this.label4.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label4.Location = new System.Drawing.Point(6, 16);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(119, 16);
+            this.label4.Size = new System.Drawing.Size(149, 20);
             this.label4.TabIndex = 127;
             this.label4.Text = "涂布最小阈值：";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -604,9 +604,9 @@
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.groupBox2);
-            this.tabPage2.Location = new System.Drawing.Point(4, 30);
+            this.tabPage2.Location = new System.Drawing.Point(4, 36);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(354, 450);
+            this.tabPage2.Size = new System.Drawing.Size(354, 439);
             this.tabPage2.TabIndex = 5;
             this.tabPage2.Text = "ROI控制";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -643,7 +643,7 @@
             0,
             0});
             this.NUD_Pix_Y.Name = "NUD_Pix_Y";
-            this.NUD_Pix_Y.Size = new System.Drawing.Size(167, 24);
+            this.NUD_Pix_Y.Size = new System.Drawing.Size(167, 28);
             this.NUD_Pix_Y.TabIndex = 128;
             this.NUD_Pix_Y.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.NUD_Pix_Y.Value = new decimal(new int[] {
@@ -659,7 +659,7 @@
             this.label2.Location = new System.Drawing.Point(26, 53);
             this.label2.Margin = new System.Windows.Forms.Padding(12, 3, 3, 3);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(87, 16);
+            this.label2.Size = new System.Drawing.Size(109, 20);
             this.label2.TabIndex = 127;
             this.label2.Text = "横向当量：";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -671,7 +671,7 @@
             this.label3.Location = new System.Drawing.Point(26, 87);
             this.label3.Margin = new System.Windows.Forms.Padding(12, 3, 3, 3);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(87, 16);
+            this.label3.Size = new System.Drawing.Size(109, 20);
             this.label3.TabIndex = 126;
             this.label3.Text = "纵向当量：";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -699,7 +699,7 @@
             0,
             262144});
             this.NUD_Pix_X.Name = "NUD_Pix_X";
-            this.NUD_Pix_X.Size = new System.Drawing.Size(167, 24);
+            this.NUD_Pix_X.Size = new System.Drawing.Size(167, 28);
             this.NUD_Pix_X.TabIndex = 125;
             this.NUD_Pix_X.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.NUD_Pix_X.Value = new decimal(new int[] {
@@ -738,11 +738,11 @@
             this.tableLayoutPanel3.Controls.Add(this.TLP_Image2, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.TLP_Image1, 0, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 23);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 28);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(434, 215);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(434, 210);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // TLP_Image3
@@ -761,7 +761,7 @@
             this.TLP_Image3.RowCount = 2;
             this.TLP_Image3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.TLP_Image3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.TLP_Image3.Size = new System.Drawing.Size(126, 195);
+            this.TLP_Image3.Size = new System.Drawing.Size(126, 190);
             this.TLP_Image3.TabIndex = 7;
             // 
             // HWC_Image3
@@ -774,9 +774,9 @@
             this.HWC_Image3.Location = new System.Drawing.Point(3, 3);
             this.HWC_Image3.Margin = new System.Windows.Forms.Padding(3, 3, 8, 1);
             this.HWC_Image3.Name = "HWC_Image3";
-            this.HWC_Image3.Size = new System.Drawing.Size(115, 156);
+            this.HWC_Image3.Size = new System.Drawing.Size(115, 151);
             this.HWC_Image3.TabIndex = 2;
-            this.HWC_Image3.WindowSize = new System.Drawing.Size(115, 156);
+            this.HWC_Image3.WindowSize = new System.Drawing.Size(115, 151);
             // 
             // label9
             // 
@@ -784,7 +784,7 @@
             this.label9.BackColor = System.Drawing.Color.Transparent;
             this.label9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label9.Font = new System.Drawing.Font("黑体", 10F);
-            this.label9.Location = new System.Drawing.Point(5, 161);
+            this.label9.Location = new System.Drawing.Point(5, 156);
             this.label9.Margin = new System.Windows.Forms.Padding(5, 1, 8, 5);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(113, 29);
@@ -808,7 +808,7 @@
             this.TLP_Image2.RowCount = 2;
             this.TLP_Image2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.TLP_Image2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.TLP_Image2.Size = new System.Drawing.Size(124, 195);
+            this.TLP_Image2.Size = new System.Drawing.Size(124, 190);
             this.TLP_Image2.TabIndex = 5;
             // 
             // HWC_Image2
@@ -821,9 +821,9 @@
             this.HWC_Image2.Location = new System.Drawing.Point(3, 3);
             this.HWC_Image2.Margin = new System.Windows.Forms.Padding(3, 3, 8, 1);
             this.HWC_Image2.Name = "HWC_Image2";
-            this.HWC_Image2.Size = new System.Drawing.Size(113, 156);
+            this.HWC_Image2.Size = new System.Drawing.Size(113, 151);
             this.HWC_Image2.TabIndex = 2;
-            this.HWC_Image2.WindowSize = new System.Drawing.Size(113, 156);
+            this.HWC_Image2.WindowSize = new System.Drawing.Size(113, 151);
             // 
             // label16
             // 
@@ -831,7 +831,7 @@
             this.label16.BackColor = System.Drawing.Color.Transparent;
             this.label16.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label16.Font = new System.Drawing.Font("黑体", 10F);
-            this.label16.Location = new System.Drawing.Point(5, 161);
+            this.label16.Location = new System.Drawing.Point(5, 156);
             this.label16.Margin = new System.Windows.Forms.Padding(5, 1, 8, 5);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(111, 29);
@@ -855,7 +855,7 @@
             this.TLP_Image1.RowCount = 2;
             this.TLP_Image1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.TLP_Image1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.TLP_Image1.Size = new System.Drawing.Size(124, 195);
+            this.TLP_Image1.Size = new System.Drawing.Size(124, 190);
             this.TLP_Image1.TabIndex = 4;
             // 
             // HWC_Image1
@@ -869,9 +869,9 @@
             this.HWC_Image1.Location = new System.Drawing.Point(3, 3);
             this.HWC_Image1.Margin = new System.Windows.Forms.Padding(3, 3, 8, 1);
             this.HWC_Image1.Name = "HWC_Image1";
-            this.HWC_Image1.Size = new System.Drawing.Size(113, 156);
+            this.HWC_Image1.Size = new System.Drawing.Size(113, 151);
             this.HWC_Image1.TabIndex = 2;
-            this.HWC_Image1.WindowSize = new System.Drawing.Size(113, 156);
+            this.HWC_Image1.WindowSize = new System.Drawing.Size(113, 151);
             // 
             // Label_Image
             // 
@@ -879,7 +879,7 @@
             this.Label_Image.BackColor = System.Drawing.Color.Transparent;
             this.Label_Image.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Label_Image.Font = new System.Drawing.Font("黑体", 10F);
-            this.Label_Image.Location = new System.Drawing.Point(5, 161);
+            this.Label_Image.Location = new System.Drawing.Point(5, 156);
             this.Label_Image.Margin = new System.Windows.Forms.Padding(5, 1, 8, 5);
             this.Label_Image.Name = "Label_Image";
             this.Label_Image.Size = new System.Drawing.Size(111, 29);
@@ -1007,7 +1007,7 @@
             this.TB_PositionAndGray.Margin = new System.Windows.Forms.Padding(5, 8, 5, 6);
             this.TB_PositionAndGray.Name = "TB_PositionAndGray";
             this.TB_PositionAndGray.ShortcutsEnabled = false;
-            this.TB_PositionAndGray.Size = new System.Drawing.Size(294, 19);
+            this.TB_PositionAndGray.Size = new System.Drawing.Size(294, 23);
             this.TB_PositionAndGray.TabIndex = 8;
             this.TB_PositionAndGray.TabStop = false;
             this.TB_PositionAndGray.Text = "R: —  C: —  Value: — ";

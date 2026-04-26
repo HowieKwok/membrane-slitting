@@ -350,7 +350,7 @@
             this.toolBtnLogout.Image = global::Mef_VisionFrame.Properties.Resources.注销;
             this.toolBtnLogout.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolBtnLogout.Name = "toolBtnLogout";
-            this.toolBtnLogout.Size = new System.Drawing.Size(71, 34);
+            this.toolBtnLogout.Size = new System.Drawing.Size(71, 37);
             this.toolBtnLogout.Text = "注销";
             this.toolBtnLogout.Click += new System.EventHandler(this.toolBtnLogout_Click);
             // 

@@ -116,20 +116,20 @@ namespace Frame_Core
         public bool BJ { get; set; } = false;//报警
 
         //--------------停机------------------------------------------
-        [My("停机下公差", false)]
+        [My("停机下公差")]
         [Description("停机下公差")]
         public double StD_TJ_Down { get; set; } = -1;//标准值
-        [My("停机上公差", false)]
+        [My("停机上公差")]
         [Description("停机上公差")]
         public double StD_TJ_Up { get; set; } = 1;//标准值
-        [My("EA累计停机", false)]
+        [My("EA累计停机")]
         [Description("EA累计停机")]
         public int CountNGTJ { get; set; } = 1;//累计NG停机
-        [My("停机", false)]
+        [My("停机")]
         [Description("停机")]
         public bool TJ { get; set; } = false;//停机
 
-        [My("所属分条")]
+        [My("所属分条",false)]
         [Description("所属分条")]
         public double[] ArrayBelongSlice { get; set; } = new double[8];//所属分条
 

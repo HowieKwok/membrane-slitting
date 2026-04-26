@@ -283,7 +283,7 @@
             this.HWC_Image3.ImagePart = new System.Drawing.Rectangle(0, 0, 640, 480);
             this.HWC_Image3.Name = "HWC_Image3";
             this.tableLayoutPanel7.SetRowSpan(this.HWC_Image3, 2);
-            this.HWC_Image3.WindowSize = new System.Drawing.Size(109, 136);
+            this.HWC_Image3.WindowSize = new System.Drawing.Size(109, 130);
             // 
             // HWC_Image2
             // 
@@ -293,7 +293,7 @@
             this.HWC_Image2.ImagePart = new System.Drawing.Rectangle(0, 0, 640, 480);
             this.HWC_Image2.Name = "HWC_Image2";
             this.tableLayoutPanel7.SetRowSpan(this.HWC_Image2, 2);
-            this.HWC_Image2.WindowSize = new System.Drawing.Size(109, 136);
+            this.HWC_Image2.WindowSize = new System.Drawing.Size(109, 130);
             this.HWC_Image2.HMouseDown += new HalconDotNet.HMouseEventHandler(this.HWC_Image2_HMouseDown);
             // 
             // HWC_Image1
@@ -304,7 +304,7 @@
             this.HWC_Image1.ImagePart = new System.Drawing.Rectangle(0, 0, 640, 480);
             this.HWC_Image1.Name = "HWC_Image1";
             this.tableLayoutPanel7.SetRowSpan(this.HWC_Image1, 2);
-            this.HWC_Image1.WindowSize = new System.Drawing.Size(109, 136);
+            this.HWC_Image1.WindowSize = new System.Drawing.Size(109, 130);
             this.HWC_Image1.HMouseDown += new HalconDotNet.HMouseEventHandler(this.HWC_Image1_HMouseDown);
             // 
             // label16

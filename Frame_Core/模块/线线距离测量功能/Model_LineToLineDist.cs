@@ -220,7 +220,7 @@ namespace Frame_Core
                 {
                     HalconColor halconColor = HalconColor.green;
                     if (!sizeInfos[i].executeResult.IsSuccess || !sizeInfos[i].result) halconColor = HalconColor.red;
-                    MessageShowInfo messageShowInfo = new MessageShowInfo() { m_strMessage = sizeInfos[i].name + ":" + sizeInfos[i].value.ToString("0.00") + $"   {sizeInfos[i].executeResult.Message}", m_stuGetColor = halconColor };
+                    MessageShowInfo messageShowInfo = new MessageShowInfo() { m_strMessage = sizeInfos[i].name + ":" + sizeInfos[i].value.ToString("0.000") + $"   {sizeInfos[i].executeResult.Message}", m_stuGetColor = halconColor };
                     messageShowInfos.Add(messageShowInfo);
                 }
             }
@@ -331,7 +331,7 @@ namespace Frame_Core
 
                     }
 
-                    sizeInfo.value = Math.Round(sizeInfo.value, 2);
+                    sizeInfo.value = Math.Round(sizeInfo.value, 3);
                     sizeInfos.Add(sizeInfo);
                 }
             }

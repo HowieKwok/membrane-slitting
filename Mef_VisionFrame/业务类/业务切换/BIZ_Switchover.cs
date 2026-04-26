@@ -106,8 +106,7 @@ namespace Mef_VisionFrame
 
         public static void InitBizDataAndForm()
         {
-            MyMetrics.GetPrivateWorkingSetMB();
-            MyMetrics.GetCpuPercentLikeTaskManager();
+          
 
             Form_Main.FormMain.mark设置ToolStripMenuItem.Visible = false;
             Form_Main.FormMain.相机标定ToolStripMenuItem.Visible = false;
@@ -237,12 +236,12 @@ namespace Mef_VisionFrame
                 //设备PLC
                 NStatusStrip.AddSoftwareState("主副机通讯", Project.Instance.slaveMachineManager.initState ? 1 : 0, ref softwareState);
 
-                MyMetrics.GetPrivateWorkingSetMB();
-                MyMetrics.GetCpuPercentLikeTaskManager();
+                //MyMetrics.GetPrivateWorkingSetMB();
+                //MyMetrics.GetCpuPercentLikeTaskManager();
 
-                NStatusStrip.AddSoftwareState($"当前运行内存：{MyMetrics.fWorkingSetMBValue.ToString("00000.00")} MB", 1, ref softwareState);
+                //NStatusStrip.AddSoftwareState($"当前运行内存：{MyMetrics.fWorkingSetMBValue.ToString("00000.00")} MB", 1, ref softwareState);
 
-                NStatusStrip.AddSoftwareState($"当前CPU：{MyMetrics.fCpuValue.ToString("0000.00")}%", 1, ref softwareState);
+                //NStatusStrip.AddSoftwareState($"当前CPU：{MyMetrics.fCpuValue.ToString("0000.00")}%", 1, ref softwareState);
 
                 //磁盘检测
                 //检测磁盘状态

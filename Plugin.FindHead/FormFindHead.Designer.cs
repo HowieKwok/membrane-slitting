@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.BackColor= System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.TB_ROIMoveIndex = new System.Windows.Forms.TabControl();
@@ -186,10 +187,10 @@
             this.TB_ROIMoveIndex.Controls.Add(this.tabPage3);
             this.TB_ROIMoveIndex.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TB_ROIMoveIndex.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.TB_ROIMoveIndex.Location = new System.Drawing.Point(3, 25);
+            this.TB_ROIMoveIndex.Location = new System.Drawing.Point(3, 30);
             this.TB_ROIMoveIndex.Name = "TB_ROIMoveIndex";
             this.TB_ROIMoveIndex.SelectedIndex = 0;
-            this.TB_ROIMoveIndex.Size = new System.Drawing.Size(398, 474);
+            this.TB_ROIMoveIndex.Size = new System.Drawing.Size(398, 469);
             this.TB_ROIMoveIndex.TabIndex = 68;
             // 
             // tabPage1
@@ -214,10 +215,10 @@
             this.tabPage1.Controls.Add(this.NUD_ColumnStart);
             this.tabPage1.Controls.Add(this.label11);
             this.tabPage1.Controls.Add(this.label12);
-            this.tabPage1.Location = new System.Drawing.Point(4, 30);
+            this.tabPage1.Location = new System.Drawing.Point(4, 36);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(390, 440);
+            this.tabPage1.Size = new System.Drawing.Size(390, 429);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "留白参数";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -229,7 +230,7 @@
             this.LB_HeadLine.LinkColor = System.Drawing.Color.Black;
             this.LB_HeadLine.Location = new System.Drawing.Point(173, 313);
             this.LB_HeadLine.Name = "LB_HeadLine";
-            this.LB_HeadLine.Size = new System.Drawing.Size(77, 14);
+            this.LB_HeadLine.Size = new System.Drawing.Size(98, 18);
             this.LB_HeadLine.TabIndex = 138;
             this.LB_HeadLine.TabStop = true;
             this.LB_HeadLine.Text = "          ";
@@ -241,7 +242,7 @@
             this.LB_HeadLineID.LinkColor = System.Drawing.Color.Black;
             this.LB_HeadLineID.Location = new System.Drawing.Point(173, 288);
             this.LB_HeadLineID.Name = "LB_HeadLineID";
-            this.LB_HeadLineID.Size = new System.Drawing.Size(77, 14);
+            this.LB_HeadLineID.Size = new System.Drawing.Size(98, 18);
             this.LB_HeadLineID.TabIndex = 137;
             this.LB_HeadLineID.TabStop = true;
             this.LB_HeadLineID.Text = "          ";
@@ -252,7 +253,7 @@
             this.label29.Font = new System.Drawing.Font("黑体", 10.5F);
             this.label29.Location = new System.Drawing.Point(48, 289);
             this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(91, 14);
+            this.label29.Size = new System.Drawing.Size(116, 18);
             this.label29.TabIndex = 135;
             this.label29.Text = "料头图像ID：";
             this.label29.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -263,7 +264,7 @@
             this.label30.Font = new System.Drawing.Font("黑体", 10.5F);
             this.label30.Location = new System.Drawing.Point(48, 314);
             this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(91, 14);
+            this.label30.Size = new System.Drawing.Size(116, 18);
             this.label30.TabIndex = 136;
             this.label30.Text = "料头所在行：";
             this.label30.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -315,7 +316,7 @@
             0,
             -2147483648});
             this.num_HeadLineID.Name = "num_HeadLineID";
-            this.num_HeadLineID.Size = new System.Drawing.Size(101, 29);
+            this.num_HeadLineID.Size = new System.Drawing.Size(101, 34);
             this.num_HeadLineID.TabIndex = 131;
             this.num_HeadLineID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_HeadLineID.Value = new decimal(new int[] {
@@ -331,7 +332,7 @@
             this.label10.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label10.Location = new System.Drawing.Point(32, 199);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(107, 21);
+            this.label10.Size = new System.Drawing.Size(133, 27);
             this.label10.TabIndex = 130;
             this.label10.Text = "料头原图ID：";
             this.label10.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -353,7 +354,7 @@
             0,
             -2147483648});
             this.num_HeadLine.Name = "num_HeadLine";
-            this.num_HeadLine.Size = new System.Drawing.Size(102, 29);
+            this.num_HeadLine.Size = new System.Drawing.Size(102, 34);
             this.num_HeadLine.TabIndex = 129;
             this.num_HeadLine.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_HeadLine.Value = new decimal(new int[] {
@@ -369,7 +370,7 @@
             this.label14.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label14.Location = new System.Drawing.Point(33, 234);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(106, 21);
+            this.label14.Size = new System.Drawing.Size(132, 27);
             this.label14.TabIndex = 128;
             this.label14.Text = "料头原图行：";
             this.label14.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -379,7 +380,7 @@
             this.CB_Is_ActiveFindHead.AutoSize = true;
             this.CB_Is_ActiveFindHead.Location = new System.Drawing.Point(25, 171);
             this.CB_Is_ActiveFindHead.Name = "CB_Is_ActiveFindHead";
-            this.CB_Is_ActiveFindHead.Size = new System.Drawing.Size(125, 25);
+            this.CB_Is_ActiveFindHead.Size = new System.Drawing.Size(154, 31);
             this.CB_Is_ActiveFindHead.TabIndex = 126;
             this.CB_Is_ActiveFindHead.Text = "主动检测料头";
             this.CB_Is_ActiveFindHead.UseVisualStyleBackColor = true;
@@ -397,7 +398,7 @@
             0,
             0});
             this.NUD_RegionNum.Name = "NUD_RegionNum";
-            this.NUD_RegionNum.Size = new System.Drawing.Size(101, 29);
+            this.NUD_RegionNum.Size = new System.Drawing.Size(101, 34);
             this.NUD_RegionNum.TabIndex = 125;
             this.NUD_RegionNum.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.NUD_RegionNum.Value = new decimal(new int[] {
@@ -413,7 +414,7 @@
             this.label26.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label26.Location = new System.Drawing.Point(21, 90);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(118, 21);
+            this.label26.Size = new System.Drawing.Size(147, 27);
             this.label26.TabIndex = 124;
             this.label26.Text = "留白ROI密度：";
             this.label26.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -430,7 +431,7 @@
             0,
             0});
             this.NUD_RegionThread.Name = "NUD_RegionThread";
-            this.NUD_RegionThread.Size = new System.Drawing.Size(102, 29);
+            this.NUD_RegionThread.Size = new System.Drawing.Size(102, 34);
             this.NUD_RegionThread.TabIndex = 123;
             this.NUD_RegionThread.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.NUD_RegionThread.Value = new decimal(new int[] {
@@ -446,7 +447,7 @@
             this.label25.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label25.Location = new System.Drawing.Point(21, 123);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(122, 21);
+            this.label25.Size = new System.Drawing.Size(152, 27);
             this.label25.TabIndex = 122;
             this.label25.Text = "留白灰度阈值：";
             this.label25.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -468,7 +469,7 @@
             0,
             0});
             this.NUD_ColumnEnd.Name = "NUD_ColumnEnd";
-            this.NUD_ColumnEnd.Size = new System.Drawing.Size(101, 29);
+            this.NUD_ColumnEnd.Size = new System.Drawing.Size(101, 34);
             this.NUD_ColumnEnd.TabIndex = 121;
             this.NUD_ColumnEnd.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.NUD_ColumnEnd.Value = new decimal(new int[] {
@@ -495,7 +496,7 @@
             0,
             0});
             this.NUD_ColumnStart.Name = "NUD_ColumnStart";
-            this.NUD_ColumnStart.Size = new System.Drawing.Size(101, 29);
+            this.NUD_ColumnStart.Size = new System.Drawing.Size(101, 34);
             this.NUD_ColumnStart.TabIndex = 120;
             this.NUD_ColumnStart.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.NUD_ColumnStart.Value = new decimal(new int[] {
@@ -511,7 +512,7 @@
             this.label11.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label11.Location = new System.Drawing.Point(21, 21);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(134, 21);
+            this.label11.Size = new System.Drawing.Size(167, 27);
             this.label11.TabIndex = 118;
             this.label11.Text = "留白ROI起始列：";
             this.label11.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -522,7 +523,7 @@
             this.label12.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label12.Location = new System.Drawing.Point(21, 54);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(134, 21);
+            this.label12.Size = new System.Drawing.Size(167, 27);
             this.label12.TabIndex = 119;
             this.label12.Text = "留白ROI终止列：";
             this.label12.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -547,10 +548,10 @@
             this.tabPage2.Controls.Add(this.CB_MeasureSelect);
             this.tabPage2.Controls.Add(this.NUD_MeasureMinScore);
             this.tabPage2.Controls.Add(this.label9);
-            this.tabPage2.Location = new System.Drawing.Point(4, 30);
+            this.tabPage2.Location = new System.Drawing.Point(4, 36);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(390, 440);
+            this.tabPage2.Size = new System.Drawing.Size(390, 429);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "料头抓边参数";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -565,7 +566,7 @@
             this.CB_MeasureAngle.Location = new System.Drawing.Point(179, 264);
             this.CB_MeasureAngle.Margin = new System.Windows.Forms.Padding(0);
             this.CB_MeasureAngle.Name = "CB_MeasureAngle";
-            this.CB_MeasureAngle.Size = new System.Drawing.Size(101, 29);
+            this.CB_MeasureAngle.Size = new System.Drawing.Size(101, 35);
             this.CB_MeasureAngle.TabIndex = 144;
             this.CB_MeasureAngle.Text = "从上到下";
             this.CB_MeasureAngle.SelectedIndexChanged += new System.EventHandler(this.CB_MeasureAngle_SelectedIndexChanged);
@@ -577,7 +578,7 @@
             this.label7.Location = new System.Drawing.Point(26, 268);
             this.label7.Margin = new System.Windows.Forms.Padding(0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(122, 21);
+            this.label7.Size = new System.Drawing.Size(152, 27);
             this.label7.TabIndex = 143;
             this.label7.Text = "抓边扫描方向：";
             // 
@@ -598,7 +599,7 @@
             0,
             0});
             this.NUD_MeasLColumnEnd.Name = "NUD_MeasLColumnEnd";
-            this.NUD_MeasLColumnEnd.Size = new System.Drawing.Size(101, 29);
+            this.NUD_MeasLColumnEnd.Size = new System.Drawing.Size(101, 34);
             this.NUD_MeasLColumnEnd.TabIndex = 142;
             this.NUD_MeasLColumnEnd.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.NUD_MeasLColumnEnd.Value = new decimal(new int[] {
@@ -625,7 +626,7 @@
             0,
             0});
             this.NUD_MeasLColumnStart.Name = "NUD_MeasLColumnStart";
-            this.NUD_MeasLColumnStart.Size = new System.Drawing.Size(101, 29);
+            this.NUD_MeasLColumnStart.Size = new System.Drawing.Size(101, 34);
             this.NUD_MeasLColumnStart.TabIndex = 141;
             this.NUD_MeasLColumnStart.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.NUD_MeasLColumnStart.Value = new decimal(new int[] {
@@ -641,7 +642,7 @@
             this.label5.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label5.Location = new System.Drawing.Point(26, 29);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(134, 21);
+            this.label5.Size = new System.Drawing.Size(167, 27);
             this.label5.TabIndex = 139;
             this.label5.Text = "抓边ROI起始列：";
             this.label5.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -652,7 +653,7 @@
             this.label6.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label6.Location = new System.Drawing.Point(26, 66);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(134, 21);
+            this.label6.Size = new System.Drawing.Size(167, 27);
             this.label6.TabIndex = 140;
             this.label6.Text = "抓边ROI终止列：";
             this.label6.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -669,7 +670,7 @@
             0,
             0});
             this.NUD_RoiPointsNum.Name = "NUD_RoiPointsNum";
-            this.NUD_RoiPointsNum.Size = new System.Drawing.Size(101, 29);
+            this.NUD_RoiPointsNum.Size = new System.Drawing.Size(101, 34);
             this.NUD_RoiPointsNum.TabIndex = 138;
             this.NUD_RoiPointsNum.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.NUD_RoiPointsNum.Value = new decimal(new int[] {
@@ -685,7 +686,7 @@
             this.label13.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label13.Location = new System.Drawing.Point(26, 103);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(118, 21);
+            this.label13.Size = new System.Drawing.Size(147, 27);
             this.label13.TabIndex = 137;
             this.label13.Text = "抓边ROI密度：";
             this.label13.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -701,7 +702,7 @@
             this.CB_MeasureTransition.Location = new System.Drawing.Point(179, 305);
             this.CB_MeasureTransition.Margin = new System.Windows.Forms.Padding(0);
             this.CB_MeasureTransition.Name = "CB_MeasureTransition";
-            this.CB_MeasureTransition.Size = new System.Drawing.Size(101, 29);
+            this.CB_MeasureTransition.Size = new System.Drawing.Size(101, 35);
             this.CB_MeasureTransition.TabIndex = 135;
             this.CB_MeasureTransition.Text = "从明到暗";
             this.CB_MeasureTransition.SelectedIndexChanged += new System.EventHandler(this.CB_MeasureTransition_SelectedIndexChanged);
@@ -729,7 +730,7 @@
             0,
             65536});
             this.NUD_MeasureSigma.Name = "NUD_MeasureSigma";
-            this.NUD_MeasureSigma.Size = new System.Drawing.Size(101, 29);
+            this.NUD_MeasureSigma.Size = new System.Drawing.Size(101, 34);
             this.NUD_MeasureSigma.TabIndex = 134;
             this.NUD_MeasureSigma.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.NUD_MeasureSigma.Value = new decimal(new int[] {
@@ -751,7 +752,7 @@
             0,
             0});
             this.NUD_MeasureThreshold.Name = "NUD_MeasureThreshold";
-            this.NUD_MeasureThreshold.Size = new System.Drawing.Size(101, 29);
+            this.NUD_MeasureThreshold.Size = new System.Drawing.Size(101, 34);
             this.NUD_MeasureThreshold.TabIndex = 133;
             this.NUD_MeasureThreshold.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.NUD_MeasureThreshold.Value = new decimal(new int[] {
@@ -768,7 +769,7 @@
             this.label3.Location = new System.Drawing.Point(26, 352);
             this.label3.Margin = new System.Windows.Forms.Padding(0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(122, 21);
+            this.label3.Size = new System.Drawing.Size(152, 27);
             this.label3.TabIndex = 132;
             this.label3.Text = "抓边边缘选取：";
             // 
@@ -779,7 +780,7 @@
             this.label2.Location = new System.Drawing.Point(26, 309);
             this.label2.Margin = new System.Windows.Forms.Padding(0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(122, 21);
+            this.label2.Size = new System.Drawing.Size(152, 27);
             this.label2.TabIndex = 131;
             this.label2.Text = "抓边明暗方向：";
             // 
@@ -790,7 +791,7 @@
             this.label4.Location = new System.Drawing.Point(26, 194);
             this.label4.Margin = new System.Windows.Forms.Padding(0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(122, 21);
+            this.label4.Size = new System.Drawing.Size(152, 27);
             this.label4.TabIndex = 130;
             this.label4.Text = "抓边平滑系数：";
             // 
@@ -801,7 +802,7 @@
             this.label8.Location = new System.Drawing.Point(26, 157);
             this.label8.Margin = new System.Windows.Forms.Padding(0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(122, 21);
+            this.label8.Size = new System.Drawing.Size(152, 27);
             this.label8.TabIndex = 129;
             this.label8.Text = "抓边灰度阈值：";
             // 
@@ -814,10 +815,10 @@
             "第一条边",
             "最后一条边",
             "最强边"});
-            this.CB_MeasureSelect.Location = new System.Drawing.Point(179, 348);
+            this.CB_MeasureSelect.Location = new System.Drawing.Point(179, 342);
             this.CB_MeasureSelect.Margin = new System.Windows.Forms.Padding(0);
             this.CB_MeasureSelect.Name = "CB_MeasureSelect";
-            this.CB_MeasureSelect.Size = new System.Drawing.Size(107, 29);
+            this.CB_MeasureSelect.Size = new System.Drawing.Size(107, 35);
             this.CB_MeasureSelect.TabIndex = 136;
             this.CB_MeasureSelect.Text = "最强边";
             this.CB_MeasureSelect.SelectedIndexChanged += new System.EventHandler(this.CB_MeasureSelect_SelectedIndexChanged);
@@ -845,7 +846,7 @@
             0,
             65536});
             this.NUD_MeasureMinScore.Name = "NUD_MeasureMinScore";
-            this.NUD_MeasureMinScore.Size = new System.Drawing.Size(101, 29);
+            this.NUD_MeasureMinScore.Size = new System.Drawing.Size(101, 34);
             this.NUD_MeasureMinScore.TabIndex = 128;
             this.NUD_MeasureMinScore.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.NUD_MeasureMinScore.Value = new decimal(new int[] {
@@ -862,7 +863,7 @@
             this.label9.Location = new System.Drawing.Point(26, 231);
             this.label9.Margin = new System.Windows.Forms.Padding(0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(122, 21);
+            this.label9.Size = new System.Drawing.Size(152, 27);
             this.label9.TabIndex = 127;
             this.label9.Text = "直线最低得分：";
             // 
@@ -873,10 +874,10 @@
             this.tabPage3.Controls.Add(this.label17);
             this.tabPage3.Controls.Add(this.nud_WhiteRegionGray);
             this.tabPage3.Controls.Add(this.label15);
-            this.tabPage3.Location = new System.Drawing.Point(4, 30);
+            this.tabPage3.Location = new System.Drawing.Point(4, 36);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(390, 440);
+            this.tabPage3.Size = new System.Drawing.Size(390, 429);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "料头预处理";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -886,7 +887,7 @@
             this.cbx_EnStubBar.AutoSize = true;
             this.cbx_EnStubBar.Location = new System.Drawing.Point(26, 29);
             this.cbx_EnStubBar.Name = "cbx_EnStubBar";
-            this.cbx_EnStubBar.Size = new System.Drawing.Size(109, 25);
+            this.cbx_EnStubBar.Size = new System.Drawing.Size(134, 31);
             this.cbx_EnStubBar.TabIndex = 146;
             this.cbx_EnStubBar.Text = "启用预处理";
             this.cbx_EnStubBar.UseVisualStyleBackColor = true;
@@ -909,7 +910,7 @@
             0,
             0});
             this.nud_CoatingRegionGary.Name = "nud_CoatingRegionGary";
-            this.nud_CoatingRegionGary.Size = new System.Drawing.Size(101, 29);
+            this.nud_CoatingRegionGary.Size = new System.Drawing.Size(101, 34);
             this.nud_CoatingRegionGary.TabIndex = 145;
             this.nud_CoatingRegionGary.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.nud_CoatingRegionGary.Value = new decimal(new int[] {
@@ -925,7 +926,7 @@
             this.label17.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label17.Location = new System.Drawing.Point(21, 129);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(138, 21);
+            this.label17.Size = new System.Drawing.Size(172, 27);
             this.label17.TabIndex = 144;
             this.label17.Text = "料头边涂膜区灰度";
             this.label17.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -947,7 +948,7 @@
             0,
             0});
             this.nud_WhiteRegionGray.Name = "nud_WhiteRegionGray";
-            this.nud_WhiteRegionGray.Size = new System.Drawing.Size(101, 29);
+            this.nud_WhiteRegionGray.Size = new System.Drawing.Size(101, 34);
             this.nud_WhiteRegionGray.TabIndex = 143;
             this.nud_WhiteRegionGray.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.nud_WhiteRegionGray.Value = new decimal(new int[] {
@@ -963,7 +964,7 @@
             this.label15.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label15.Location = new System.Drawing.Point(21, 79);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(138, 21);
+            this.label15.Size = new System.Drawing.Size(172, 27);
             this.label15.TabIndex = 142;
             this.label15.Text = "料头边留白区灰度";
             this.label15.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -998,22 +999,22 @@
             this.tableLayoutPanel7.Controls.Add(this.HWC_Image1, 0, 0);
             this.tableLayoutPanel7.Controls.Add(this.label16, 0, 2);
             this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel7.Location = new System.Drawing.Point(8, 27);
+            this.tableLayoutPanel7.Location = new System.Drawing.Point(8, 32);
             this.tableLayoutPanel7.Name = "tableLayoutPanel7";
             this.tableLayoutPanel7.RowCount = 3;
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel7.Size = new System.Drawing.Size(398, 221);
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(398, 216);
             this.tableLayoutPanel7.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(177, 195);
+            this.label1.Location = new System.Drawing.Point(172, 187);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(42, 21);
+            this.label1.Size = new System.Drawing.Size(52, 27);
             this.label1.TabIndex = 9;
             this.label1.Text = "原图";
             // 
@@ -1021,9 +1022,9 @@
             // 
             this.label18.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(302, 195);
+            this.label18.Location = new System.Drawing.Point(295, 187);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(58, 21);
+            this.label18.Size = new System.Drawing.Size(72, 27);
             this.label18.TabIndex = 5;
             this.label18.Text = "料头图";
             // 
@@ -1036,9 +1037,9 @@
             this.HWC_Image3.Location = new System.Drawing.Point(267, 3);
             this.HWC_Image3.Name = "HWC_Image3";
             this.tableLayoutPanel7.SetRowSpan(this.HWC_Image3, 2);
-            this.HWC_Image3.Size = new System.Drawing.Size(128, 184);
+            this.HWC_Image3.Size = new System.Drawing.Size(128, 180);
             this.HWC_Image3.TabIndex = 2;
-            this.HWC_Image3.WindowSize = new System.Drawing.Size(128, 184);
+            this.HWC_Image3.WindowSize = new System.Drawing.Size(128, 180);
             this.HWC_Image3.HMouseDown += new HalconDotNet.HMouseEventHandler(this.HWC_Image3_HMouseDown);
             // 
             // HWC_Image2
@@ -1050,9 +1051,9 @@
             this.HWC_Image2.Location = new System.Drawing.Point(135, 3);
             this.HWC_Image2.Name = "HWC_Image2";
             this.tableLayoutPanel7.SetRowSpan(this.HWC_Image2, 2);
-            this.HWC_Image2.Size = new System.Drawing.Size(126, 184);
+            this.HWC_Image2.Size = new System.Drawing.Size(126, 180);
             this.HWC_Image2.TabIndex = 1;
-            this.HWC_Image2.WindowSize = new System.Drawing.Size(126, 184);
+            this.HWC_Image2.WindowSize = new System.Drawing.Size(126, 180);
             this.HWC_Image2.HMouseDown += new HalconDotNet.HMouseEventHandler(this.HWC_Image2_HMouseDown);
             // 
             // HWC_Image1
@@ -1064,18 +1065,18 @@
             this.HWC_Image1.Location = new System.Drawing.Point(3, 3);
             this.HWC_Image1.Name = "HWC_Image1";
             this.tableLayoutPanel7.SetRowSpan(this.HWC_Image1, 2);
-            this.HWC_Image1.Size = new System.Drawing.Size(126, 184);
+            this.HWC_Image1.Size = new System.Drawing.Size(126, 180);
             this.HWC_Image1.TabIndex = 0;
-            this.HWC_Image1.WindowSize = new System.Drawing.Size(126, 184);
+            this.HWC_Image1.WindowSize = new System.Drawing.Size(126, 180);
             this.HWC_Image1.HMouseDown += new HalconDotNet.HMouseEventHandler(this.HWC_Image1_HMouseDown);
             // 
             // label16
             // 
             this.label16.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(37, 195);
+            this.label16.Location = new System.Drawing.Point(30, 187);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(58, 21);
+            this.label16.Size = new System.Drawing.Size(72, 27);
             this.label16.TabIndex = 3;
             this.label16.Text = "抓边图";
             // 
@@ -1140,7 +1141,7 @@
             this.TB_PositionAndGray.Margin = new System.Windows.Forms.Padding(5, 8, 5, 6);
             this.TB_PositionAndGray.Name = "TB_PositionAndGray";
             this.TB_PositionAndGray.ShortcutsEnabled = false;
-            this.TB_PositionAndGray.Size = new System.Drawing.Size(248, 19);
+            this.TB_PositionAndGray.Size = new System.Drawing.Size(248, 23);
             this.TB_PositionAndGray.TabIndex = 9;
             this.TB_PositionAndGray.TabStop = false;
             this.TB_PositionAndGray.Text = "R: —  C: —  Value: — ";

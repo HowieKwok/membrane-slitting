@@ -9,10 +9,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using AntdUI;
 
 namespace Frame_Core
 {
-    public partial class FormCraftBase : Form
+    public partial class FormCraftBase : AntdUI.Window
     {
         /// <summary>
         /// 窗体语言翻译

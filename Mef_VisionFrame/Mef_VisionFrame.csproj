@@ -102,7 +102,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AntdUI, Version=1.6.13.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\AntdUI.1.6.13\lib\net46\AntdUI.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Release\AntdUI.dll</HintPath>
     </Reference>
     <Reference Include="Basler.Pylon, Version=1.2.0.0, Culture=neutral, PublicKeyToken=e389355f398382ab, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>

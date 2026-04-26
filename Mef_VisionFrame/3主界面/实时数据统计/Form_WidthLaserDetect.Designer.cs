@@ -214,7 +214,6 @@
             this.lbOklength.TabIndex = 1;
             this.lbOklength.Text = "OK长度：0";
             this.lbOklength.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lbOklength.Visible = false;
             // 
             // lbTotallength
             // 
@@ -226,7 +225,6 @@
             this.lbTotallength.TabIndex = 0;
             this.lbTotallength.Text = "总长度：0";
             this.lbTotallength.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lbTotallength.Visible = false;
             // 
             // label15
             // 

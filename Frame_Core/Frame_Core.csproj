@@ -70,6 +70,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AntdUI">
+      <HintPath>..\Mef_VisionFrame\bin\Release\AntdUI.dll</HintPath>
+    </Reference>
     <Reference Include="Basler.Pylon, Version=1.2.0.0, Culture=neutral, PublicKeyToken=e389355f398382ab, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>DLL\Basler.Pylon.dll</HintPath>
@@ -236,6 +239,8 @@
     <Compile Include="pluginParams\ParamsD3MeasureDepth.cs" />
     <Compile Include="pluginParams\ParamsDaMianBurr.cs" />
     <Compile Include="pluginParams\ParamsEndBurr.cs" />
+    <Compile Include="pluginParams\ParamsFindIntersection.cs" />
+    <Compile Include="pluginParams\ParamsFindIntersectionAngle.cs" />
     <Compile Include="pluginParams\ParamsFindMark.cs" />
     <Compile Include="pluginParams\ParamsFindModel.cs" />
     <Compile Include="pluginParams\ParamsHandEyeCalibration.cs" />
@@ -778,6 +783,7 @@
     <Compile Include="模块\账户管理\语言切换\LanguageSwitch.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Plugin\PluginBase\WPF\" />
     <Folder Include="Plugin\ProcessBase\" />
     <Folder Include="模块\外设部分\纠偏\BTS\Model\" />
     <Folder Include="模块\数据显示\" />

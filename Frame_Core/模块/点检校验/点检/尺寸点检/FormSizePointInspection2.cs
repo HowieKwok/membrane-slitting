@@ -1,8 +1,13 @@
 ﻿using Basler.Pylon;
+
 using Frame_Cor;
+
 using HalconDotNet;
+
 using LogTool;
+
 using NPOI.SS.Formula.Functions;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +18,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
 using ViewROI2;
+
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace Frame_Core
@@ -49,11 +56,10 @@ namespace Frame_Core
             ControlTool.SetParamShow(NUD_RoiAngle, ref RoiAngle);
             ControlTool.SetParamShow(NUD_RoiMidRow, ref RoiMidRow);
             ControlTool.SetParamShow(NUD_RoiMidColumn, ref RoiMidColumn);
-
-            if (CurrentLineParam != null)
+            //设置ROISize
+            displayWindow.m_roiRectangle2_Cam.size = (double)nud_ROISize.Value;
+            if ((CurrentLineParam != null) && displayWindow.m_hWndCtrl_Display_Cam.bl_RoiOperateFlag == true)
             {
-                //设置ROISize
-                displayWindow.m_roiRectangle2_Cam.size = (double)nud_ROISize.Value;
 
                 //设置基准点坐标和偏移量
                 ControlTool.SetParamShow(nud_BasePointX, ref CurrentLineParam.BasePointX);
@@ -578,7 +584,7 @@ namespace Frame_Core
         {
             if (MessageBox.Show("", "询问", MessageBoxButtons.YesNo) != DialogResult.Yes) return;
             int rowIndex = lbx_LineItems.SelectedIndex;
-            if (rowIndex < 0) return;    
+            if (rowIndex < 0) return;
             CurrentSizePointInspectionParam.LineParams.RemoveAt(CurrentSizePointInspectionParam.LineParams.Count - 1);
             Refresh_lbx_LineItems(CurrentSizePointInspectionParam.LineParams, CurrentSizePointInspectionParam.LineParams.Count - 1);
         }

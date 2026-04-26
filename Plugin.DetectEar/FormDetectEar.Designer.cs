@@ -154,10 +154,10 @@
             this.TB_ROIMoveIndex.Controls.Add(this.tabPage4);
             this.TB_ROIMoveIndex.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TB_ROIMoveIndex.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.TB_ROIMoveIndex.Location = new System.Drawing.Point(3, 25);
+            this.TB_ROIMoveIndex.Location = new System.Drawing.Point(3, 30);
             this.TB_ROIMoveIndex.Name = "TB_ROIMoveIndex";
             this.TB_ROIMoveIndex.SelectedIndex = 0;
-            this.TB_ROIMoveIndex.Size = new System.Drawing.Size(398, 474);
+            this.TB_ROIMoveIndex.Size = new System.Drawing.Size(398, 469);
             this.TB_ROIMoveIndex.TabIndex = 68;
             // 
             // tabPage4
@@ -181,10 +181,10 @@
             this.tabPage4.Controls.Add(this.num_threshold_Min);
             this.tabPage4.Controls.Add(this.label44);
             this.tabPage4.Controls.Add(this.btn_autoRun);
-            this.tabPage4.Location = new System.Drawing.Point(4, 30);
+            this.tabPage4.Location = new System.Drawing.Point(4, 36);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(390, 440);
+            this.tabPage4.Size = new System.Drawing.Size(390, 429);
             this.tabPage4.TabIndex = 5;
             this.tabPage4.Text = "总设置";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -198,7 +198,7 @@
             0,
             0});
             this.num_Column2.Name = "num_Column2";
-            this.num_Column2.Size = new System.Drawing.Size(86, 29);
+            this.num_Column2.Size = new System.Drawing.Size(86, 34);
             this.num_Column2.TabIndex = 123;
             this.num_Column2.Value = new decimal(new int[] {
             2000,
@@ -216,7 +216,7 @@
             0,
             0});
             this.num_Column1.Name = "num_Column1";
-            this.num_Column1.Size = new System.Drawing.Size(86, 29);
+            this.num_Column1.Size = new System.Drawing.Size(86, 34);
             this.num_Column1.TabIndex = 122;
             this.num_Column1.Value = new decimal(new int[] {
             1000,
@@ -230,7 +230,7 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(34, 178);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(106, 21);
+            this.label5.Size = new System.Drawing.Size(132, 27);
             this.label5.TabIndex = 121;
             this.label5.Text = "定位极耳区域";
             // 
@@ -243,7 +243,7 @@
             0,
             0});
             this.num_JRSizeX.Name = "num_JRSizeX";
-            this.num_JRSizeX.Size = new System.Drawing.Size(86, 29);
+            this.num_JRSizeX.Size = new System.Drawing.Size(86, 34);
             this.num_JRSizeX.TabIndex = 120;
             this.num_JRSizeX.Value = new decimal(new int[] {
             150,
@@ -261,7 +261,7 @@
             0,
             0});
             this.num_JRSizeY.Name = "num_JRSizeY";
-            this.num_JRSizeY.Size = new System.Drawing.Size(86, 29);
+            this.num_JRSizeY.Size = new System.Drawing.Size(86, 34);
             this.num_JRSizeY.TabIndex = 119;
             this.num_JRSizeY.Value = new decimal(new int[] {
             150,
@@ -275,7 +275,7 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(40, 23);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(100, 21);
+            this.label4.Size = new System.Drawing.Size(125, 27);
             this.label4.TabIndex = 118;
             this.label4.Text = "标准极耳高X";
             // 
@@ -284,7 +284,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(40, 61);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(100, 21);
+            this.label3.Size = new System.Drawing.Size(124, 27);
             this.label3.TabIndex = 117;
             this.label3.Text = "标准极耳宽Y";
             // 
@@ -297,7 +297,7 @@
             0,
             0});
             this.num_JRIntervalY.Name = "num_JRIntervalY";
-            this.num_JRIntervalY.Size = new System.Drawing.Size(86, 29);
+            this.num_JRIntervalY.Size = new System.Drawing.Size(86, 34);
             this.num_JRIntervalY.TabIndex = 116;
             this.num_JRIntervalY.Value = new decimal(new int[] {
             150,
@@ -311,7 +311,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(40, 98);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(132, 21);
+            this.label2.Size = new System.Drawing.Size(166, 27);
             this.label2.TabIndex = 115;
             this.label2.Text = "极耳间距(等间距)";
             // 
@@ -335,7 +335,7 @@
             0,
             65536});
             this.num_JRSizeX_PercentMax.Name = "num_JRSizeX_PercentMax";
-            this.num_JRSizeX_PercentMax.Size = new System.Drawing.Size(86, 29);
+            this.num_JRSizeX_PercentMax.Size = new System.Drawing.Size(86, 34);
             this.num_JRSizeX_PercentMax.TabIndex = 101;
             this.num_JRSizeX_PercentMax.Value = new decimal(new int[] {
             12,
@@ -364,7 +364,7 @@
             0,
             65536});
             this.num_JRSizeX_PercentMin.Name = "num_JRSizeX_PercentMin";
-            this.num_JRSizeX_PercentMin.Size = new System.Drawing.Size(86, 29);
+            this.num_JRSizeX_PercentMin.Size = new System.Drawing.Size(86, 34);
             this.num_JRSizeX_PercentMin.TabIndex = 99;
             this.num_JRSizeX_PercentMin.Value = new decimal(new int[] {
             7,
@@ -378,7 +378,7 @@
             this.label46.AutoSize = true;
             this.label46.Location = new System.Drawing.Point(34, 254);
             this.label46.Name = "label46";
-            this.label46.Size = new System.Drawing.Size(100, 21);
+            this.label46.Size = new System.Drawing.Size(125, 27);
             this.label46.TabIndex = 98;
             this.label46.Text = "极耳高X比例";
             // 
@@ -402,7 +402,7 @@
             0,
             65536});
             this.num_JRSizeY_PercentMax.Name = "num_JRSizeY_PercentMax";
-            this.num_JRSizeY_PercentMax.Size = new System.Drawing.Size(86, 29);
+            this.num_JRSizeY_PercentMax.Size = new System.Drawing.Size(86, 34);
             this.num_JRSizeY_PercentMax.TabIndex = 97;
             this.num_JRSizeY_PercentMax.Value = new decimal(new int[] {
             12,
@@ -431,7 +431,7 @@
             0,
             65536});
             this.num_JRSizeY_PercentMin.Name = "num_JRSizeY_PercentMin";
-            this.num_JRSizeY_PercentMin.Size = new System.Drawing.Size(86, 29);
+            this.num_JRSizeY_PercentMin.Size = new System.Drawing.Size(86, 34);
             this.num_JRSizeY_PercentMin.TabIndex = 95;
             this.num_JRSizeY_PercentMin.Value = new decimal(new int[] {
             7,
@@ -445,7 +445,7 @@
             this.label48.AutoSize = true;
             this.label48.Location = new System.Drawing.Point(34, 292);
             this.label48.Name = "label48";
-            this.label48.Size = new System.Drawing.Size(100, 21);
+            this.label48.Size = new System.Drawing.Size(124, 27);
             this.label48.TabIndex = 94;
             this.label48.Text = "极耳宽Y比例";
             // 
@@ -458,7 +458,7 @@
             0,
             0});
             this.num_threshold_Max.Name = "num_threshold_Max";
-            this.num_threshold_Max.Size = new System.Drawing.Size(86, 29);
+            this.num_threshold_Max.Size = new System.Drawing.Size(86, 34);
             this.num_threshold_Max.TabIndex = 93;
             this.num_threshold_Max.Value = new decimal(new int[] {
             255,
@@ -476,7 +476,7 @@
             0,
             0});
             this.num_threshold_Min.Name = "num_threshold_Min";
-            this.num_threshold_Min.Size = new System.Drawing.Size(86, 29);
+            this.num_threshold_Min.Size = new System.Drawing.Size(86, 34);
             this.num_threshold_Min.TabIndex = 91;
             this.num_threshold_Min.Value = new decimal(new int[] {
             128,
@@ -490,7 +490,7 @@
             this.label44.AutoSize = true;
             this.label44.Location = new System.Drawing.Point(34, 216);
             this.label44.Name = "label44";
-            this.label44.Size = new System.Drawing.Size(74, 21);
+            this.label44.Size = new System.Drawing.Size(92, 27);
             this.label44.TabIndex = 90;
             this.label44.Text = "极耳阈值";
             // 
@@ -534,22 +534,22 @@
             this.tableLayoutPanel7.Controls.Add(this.HWC_Image1, 0, 0);
             this.tableLayoutPanel7.Controls.Add(this.label16, 0, 2);
             this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel7.Location = new System.Drawing.Point(8, 27);
+            this.tableLayoutPanel7.Location = new System.Drawing.Point(8, 32);
             this.tableLayoutPanel7.Name = "tableLayoutPanel7";
             this.tableLayoutPanel7.RowCount = 3;
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel7.Size = new System.Drawing.Size(398, 221);
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(398, 216);
             this.tableLayoutPanel7.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(177, 195);
+            this.label1.Location = new System.Drawing.Point(172, 187);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(42, 21);
+            this.label1.Size = new System.Drawing.Size(52, 27);
             this.label1.TabIndex = 9;
             this.label1.Text = "原图";
             // 
@@ -557,9 +557,9 @@
             // 
             this.label18.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(302, 195);
+            this.label18.Location = new System.Drawing.Point(295, 187);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(58, 21);
+            this.label18.Size = new System.Drawing.Size(72, 27);
             this.label18.TabIndex = 5;
             this.label18.Text = "极耳图";
             // 
@@ -572,9 +572,9 @@
             this.HWC_Image3.Location = new System.Drawing.Point(267, 3);
             this.HWC_Image3.Name = "HWC_Image3";
             this.tableLayoutPanel7.SetRowSpan(this.HWC_Image3, 2);
-            this.HWC_Image3.Size = new System.Drawing.Size(128, 184);
+            this.HWC_Image3.Size = new System.Drawing.Size(128, 180);
             this.HWC_Image3.TabIndex = 2;
-            this.HWC_Image3.WindowSize = new System.Drawing.Size(128, 184);
+            this.HWC_Image3.WindowSize = new System.Drawing.Size(128, 180);
             // 
             // HWC_Image2
             // 
@@ -585,9 +585,9 @@
             this.HWC_Image2.Location = new System.Drawing.Point(135, 3);
             this.HWC_Image2.Name = "HWC_Image2";
             this.tableLayoutPanel7.SetRowSpan(this.HWC_Image2, 2);
-            this.HWC_Image2.Size = new System.Drawing.Size(126, 184);
+            this.HWC_Image2.Size = new System.Drawing.Size(126, 180);
             this.HWC_Image2.TabIndex = 1;
-            this.HWC_Image2.WindowSize = new System.Drawing.Size(126, 184);
+            this.HWC_Image2.WindowSize = new System.Drawing.Size(126, 180);
             // 
             // HWC_Image1
             // 
@@ -598,17 +598,17 @@
             this.HWC_Image1.Location = new System.Drawing.Point(3, 3);
             this.HWC_Image1.Name = "HWC_Image1";
             this.tableLayoutPanel7.SetRowSpan(this.HWC_Image1, 2);
-            this.HWC_Image1.Size = new System.Drawing.Size(126, 184);
+            this.HWC_Image1.Size = new System.Drawing.Size(126, 180);
             this.HWC_Image1.TabIndex = 0;
-            this.HWC_Image1.WindowSize = new System.Drawing.Size(126, 184);
+            this.HWC_Image1.WindowSize = new System.Drawing.Size(126, 180);
             // 
             // label16
             // 
             this.label16.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(37, 195);
+            this.label16.Location = new System.Drawing.Point(30, 187);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(58, 21);
+            this.label16.Size = new System.Drawing.Size(72, 27);
             this.label16.TabIndex = 3;
             this.label16.Text = "拼接图";
             // 
@@ -673,7 +673,7 @@
             this.TB_PositionAndGray.Margin = new System.Windows.Forms.Padding(5, 8, 5, 6);
             this.TB_PositionAndGray.Name = "TB_PositionAndGray";
             this.TB_PositionAndGray.ShortcutsEnabled = false;
-            this.TB_PositionAndGray.Size = new System.Drawing.Size(248, 19);
+            this.TB_PositionAndGray.Size = new System.Drawing.Size(248, 23);
             this.TB_PositionAndGray.TabIndex = 9;
             this.TB_PositionAndGray.TabStop = false;
             this.TB_PositionAndGray.Text = "R: —  C: —  Value: — ";
@@ -748,9 +748,9 @@
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView1.FullRowSelect = true;
             this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(3, 25);
+            this.listView1.Location = new System.Drawing.Point(3, 30);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(576, 225);
+            this.listView1.Size = new System.Drawing.Size(576, 220);
             this.listView1.TabIndex = 1;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.Click += new System.EventHandler(this.listView1_Click);

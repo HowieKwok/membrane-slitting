@@ -241,8 +241,9 @@ namespace Frame_Core
 
                 //加载 配方参数 和 流程参数
                 ChnageCraft(systemInfo.CurrentCraft, systemInfo.CurrentMaterial);
-
-
+                //初始化运行内存及CPU读取功能
+                MyMetrics.GetPrivateWorkingSetMB();
+                MyMetrics.GetCpuPercentLikeTaskManager();
                 //加载相机参数
                 //加载相机参数、标定参数
                 string[] sizeCoefficientName = new string[0];//尺寸系数名称

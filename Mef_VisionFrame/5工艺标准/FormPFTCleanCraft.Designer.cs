@@ -110,6 +110,7 @@
             this.nud_EASizeTD = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.checkBox_EnableimprintShield = new System.Windows.Forms.CheckBox();
             this.nud_imprintShieldMDSize = new System.Windows.Forms.NumericUpDown();
             this.label24 = new System.Windows.Forms.Label();
             this.nud_imprintShieldMDis = new System.Windows.Forms.NumericUpDown();
@@ -159,7 +160,6 @@
             this.tSMI_RenameLine = new System.Windows.Forms.ToolStripMenuItem();
             this.tSMI_DeleteLine = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.checkBox_EnableimprintShield = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.gBCraftEdit.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -416,6 +416,7 @@
             // Btn_AddLine
             // 
             this.Btn_AddLine.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Btn_AddLine.Enabled = false;
             this.Btn_AddLine.Location = new System.Drawing.Point(127, 73);
             this.Btn_AddLine.Name = "Btn_AddLine";
             this.Btn_AddLine.Size = new System.Drawing.Size(118, 52);
@@ -1223,6 +1224,16 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "缺陷检测缩进(单位mm)";
             // 
+            // checkBox_EnableimprintShield
+            // 
+            this.checkBox_EnableimprintShield.AutoSize = true;
+            this.checkBox_EnableimprintShield.Location = new System.Drawing.Point(381, 43);
+            this.checkBox_EnableimprintShield.Name = "checkBox_EnableimprintShield";
+            this.checkBox_EnableimprintShield.Size = new System.Drawing.Size(157, 25);
+            this.checkBox_EnableimprintShield.TabIndex = 369;
+            this.checkBox_EnableimprintShield.Text = "是否启用压痕屏蔽";
+            this.checkBox_EnableimprintShield.UseVisualStyleBackColor = true;
+            // 
             // nud_imprintShieldMDSize
             // 
             this.nud_imprintShieldMDSize.DecimalPlaces = 2;
@@ -1818,16 +1829,6 @@
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 218;
             this.pictureBox2.TabStop = false;
-            // 
-            // checkBox_EnableimprintShield
-            // 
-            this.checkBox_EnableimprintShield.AutoSize = true;
-            this.checkBox_EnableimprintShield.Location = new System.Drawing.Point(381, 43);
-            this.checkBox_EnableimprintShield.Name = "checkBox_EnableimprintShield";
-            this.checkBox_EnableimprintShield.Size = new System.Drawing.Size(157, 25);
-            this.checkBox_EnableimprintShield.TabIndex = 369;
-            this.checkBox_EnableimprintShield.Text = "是否启用压痕屏蔽";
-            this.checkBox_EnableimprintShield.UseVisualStyleBackColor = true;
             // 
             // FormPFTCleanCraft
             // 

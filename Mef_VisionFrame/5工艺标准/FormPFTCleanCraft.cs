@@ -950,7 +950,17 @@ namespace Mef_VisionFrame
                     break;
                 }
             } while (true);
+
             pt.Index = id;
+            foreach (SizeItemInfo pte in craft.ListEASizes)
+            {
+                if (pte.Name == Tb_Name.Text)
+                {
+                    MessageBox.Show("检测项已存在");
+                    return;
+                }
+            }
+
             pt.Name = Tb_Name.Text;
             pt.Description = Tb_Description.Text;
             pt.camera = (CameraEnum)comb_SelectCam.SelectedIndex;
@@ -1076,7 +1086,17 @@ namespace Mef_VisionFrame
                     break;
                 }
             } while (true);
+
             pt.Index = id;
+            foreach (DefectItemInfo pte in craft.ListDefectInfos)
+            {
+                if (pte.Name == Tb_Name.Text)
+                {
+                    MessageBox.Show("检测项已存在");
+                    return;
+                }
+            }
+
             pt.Name = Tb_Name.Text;
             pt.Description = Tb_Description.Text;
             pt.camera = (CameraEnum)comb_SelectCam.SelectedIndex;
