@@ -13,8 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <NuGetPackageImportStamp></NuGetPackageImportStamp>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -98,7 +97,7 @@
     <StartupObject />
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>eye_128px_1139205_easyicon.net.ico</ApplicationIcon>
+    <ApplicationIcon>hsvision_plugin.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AntdUI, Version=1.6.13.0, Culture=neutral, processorArchitecture=MSIL">
@@ -281,6 +280,7 @@
     <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />
+    <Content Include="hsvision_plugin.ico" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="1系统设置\Form_BaseSetting.cs">
@@ -542,6 +542,18 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="4调试设置\UC_ProcessSetting.WpfDebug.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="4调试设置\WPF\DebugProcessCardFactory.cs" />
+    <Compile Include="4调试设置\WPF\ModuleRunStateReader.cs" />
+    <Compile Include="4调试设置\WPF\PluginDialogService.cs" />
+    <Compile Include="4调试设置\WPF\WPFDebugProcessView.xaml.cs">
+      <DependentUpon>WPFDebugProcessView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="4调试设置\WPF\WPFDebugProcessWindow.xaml.cs">
+      <DependentUpon>WPFDebugProcessWindow.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -710,4 +722,14 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <Page Include="4调试设置\WPF\WPFDebugProcessView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="4调试设置\WPF\WPFDebugProcessWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
 </Project>

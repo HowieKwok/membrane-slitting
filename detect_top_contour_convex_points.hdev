@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="20.11.0.0">
+<procedure name="main">
+<interface/>
+<body>
+<c>* 功能：模板匹配定位 V 角 ROI 后，在 ROI 内通用识别轮廓过渡段的两个凸点。</c>
+<c>* 重点：不按左、右、上、下写死方向，只看轮廓自身的几何形状。</c>
+<c>*</c>
+<c>* 工程流程：</c>
+<c>* 1. 用模板匹配找到 V 角大致位置和角度，得到 MatchRow/MatchCol/MatchAngle。</c>
+<c>* 2. 根据匹配结果生成一个旋转 ROI，只截取 V 角附近的轮廓。</c>
+<c>* 3. ROI 内提取亚像素 XLD 轮廓。</c>
+<c>* 4. 对主轮廓做 lines_circles 分段，优先找圆弧/过渡段。</c>
+<c>* 5. 圆弧/过渡段的两个端点就是需要的两个轮廓凸点。</c>
+<c>* 6. 如果过渡段不是标准圆弧，则用曲率连续段兜底，仍然输出两个端点。</c>
+<l>dev_update_off ()</l>
+<l>dev_close_window ()</l>
+<l></l>
+<c>* -------------------------- 参数区 --------------------------</c>
+<l>ImagePath := 'C:/Users/1/Desktop/qq.jpg'</l>
+<l>TemplatePath := 'C:/Users/1/Desktop/v_template.png'</l>
+<l>ResultImagePath := 'D:/BaiduNetdiskDownload/宽幅打孔新方案1107/宽幅打孔新方案1017/ProcessWideHoleLaser/detect_top_contour_convex_points_result.png'</l>
+<c>* 0：使用下面的示例匹配结果自检；1：真正读模板并 find_shape_model。</c>
+<l>UseTemplateMatch := 0</l>
+<c>* 模板 ROI 半宽/半高。正式工程里按模板外扩量设置。</c>
+<l>RoiLength1 := 340</l>
+<l>RoiLength2 := 240</l>
+<c>* 当前 qq.jpg 上左上 V 角的示例匹配结果，用来跑通脚本。</c>
+<l>DemoMatchRow := 2390</l>
+<l>DemoMatchCol := 2980</l>
+<l>DemoMatchAngle := 0</l>
+<c>* 边缘提取参数。</c>
+<l>CannyAlpha := 1.2</l>
+<l>CannyLow := 12</l>
+<l>CannyHigh := 35</l>
+<c>* 轮廓选择和分段参数。</c>
+<l>MinContourLength := 80</l>
+<l>UnionMaxDistAbs := 20</l>
+<l>UnionMaxDistRel := 2</l>
+<l>SegmentSmooth := 5</l>
+<l>SegmentMaxLineDist1 := 4</l>
+<l>SegmentMaxLineDist2 := 3</l>
+<c>* 圆弧候选限制。半径范围给宽一点，适配不同 V 角圆角大小。</c>
+<l>MinArcLength := 10</l>
+<l>MinArcRadius := 3</l>
+<l>MaxArcRadius := 300</l>
+<c>* 曲率兜底参数。Step 越大越抗噪，AngleThreshold 越小越敏感。</c>
+<l>CurvatureStep := 8</l>
+<l>CurvatureAngleThreshold := rad(7)</l>
+<l>MinCurveRunPoints := 4</l>
+<c>* ------------------------------------------------------------</c>
+<l></l>
+<c>* 读图，并保证输入为单通道灰度图。</c>
+<l>read_image (Image, ImagePath)</l>
+<l>count_channels (Image, NumChannels)</l>
+<l>if (NumChannels == 1)</l>
+<l>    copy_image (Image, GrayImage)</l>
+<l>else</l>
+<l>    rgb1_to_gray (Image, GrayImage)</l>
+<l>endif</l>
+<l>get_image_size (GrayImage, Width, Height)</l>
+<l></l>
+<c>* ---------------------- 模板匹配定位 ROI ----------------------</c>
+<l>if (UseTemplateMatch == 1)</l>
+<c>    * 生产中建议提前创建并缓存 ShapeModelID，不要每张图都 create。</c>
+<l>    read_image (TemplateImage, TemplatePath)</l>
+<l>    create_shape_model (TemplateImage, 'auto', -rad(180), rad(360), 'auto', 'auto', 'use_polarity', 'auto', 'auto', ShapeModelID)</l>
+<l>    find_shape_model (GrayImage, ShapeModelID, -rad(180), rad(360), 0.5, 1, 0.5, 'least_squares', 0, 0.7, MatchRowTuple, MatchColTuple, MatchAngleTuple, MatchScore)</l>
+<l>    if (|MatchScore| &gt; 0)</l>
+<l>        MatchRow := MatchRowTuple[0]</l>
+<l>        MatchCol := MatchColTuple[0]</l>
+<l>        MatchAngle := MatchAngleTuple[0]</l>
+<l>    else</l>
+<l>        MatchRow := DemoMatchRow</l>
+<l>        MatchCol := DemoMatchCol</l>
+<l>        MatchAngle := DemoMatchAngle</l>
+<l>    endif</l>
+<l>else</l>
+<c>    * 当前示例直接模拟模板匹配输出。你的工程里替换成真实匹配结果即可。</c>
+<l>    MatchRow := DemoMatchRow</l>
+<l>    MatchCol := DemoMatchCol</l>
+<l>    MatchAngle := DemoMatchAngle</l>
+<l>endif</l>
+<l>gen_rectangle2 (SearchROI, MatchRow, MatchCol, MatchAngle, RoiLength1, RoiLength2)</l>
+<l>reduce_domain (GrayImage, SearchROI, ImageROI)</l>
+<l></l>
+<c>* ---------------------- ROI 内提取主轮廓 ----------------------</c>
+<l>edges_sub_pix (ImageROI, Edges, 'canny', CannyAlpha, CannyLow, CannyHigh)</l>
+<l>select_contours_xld (Edges, SelectedEdges, 'contour_length', MinContourLength, 999999, -0.5, 0.5)</l>
+<l>union_adjacent_contours_xld (SelectedEdges, UnionContours, UnionMaxDistAbs, UnionMaxDistRel, 'attr_keep')</l>
+<l>count_obj (UnionContours, NumUnionContours)</l>
+<l></l>
+<l>ResultRows := []</l>
+<l>ResultCols := []</l>
+<l>ResultMode := 'none'</l>
+<l>HasResult := 0</l>
+<l>FoundMainContour := 0</l>
+<l>FoundArc := 0</l>
+<l>gen_empty_obj (MainContour)</l>
+<l>gen_empty_obj (MainContourSmooth)</l>
+<l>gen_empty_obj (ContourParts)</l>
+<l>gen_empty_obj (BestArcContour)</l>
+<l></l>
+<l>if (NumUnionContours &gt; 0)</l>
+<c>    * ROI 已经由模板定位到 V 角附近，所以取最长轮廓作为主轮廓。</c>
+<l>    length_xld (UnionContours, ContourLengths)</l>
+<l>    MainIndex := sort_index(ContourLengths)[|ContourLengths| - 1] + 1</l>
+<l>    select_obj (UnionContours, MainContour, MainIndex)</l>
+<l>    smooth_contours_xld (MainContour, MainContourSmooth, 7)</l>
+<l>    FoundMainContour := 1</l>
+<l></l>
+<c>    * 优先方案：让 HALCON 把轮廓分成直线和圆弧。</c>
+<l>    segment_contours_xld (MainContourSmooth, ContourParts, 'lines_circles', SegmentSmooth, SegmentMaxLineDist1, SegmentMaxLineDist2)</l>
+<l>    count_obj (ContourParts, NumParts)</l>
+<l>    BestArcScore := -1</l>
+<l>    BestArcIndex := -1</l>
+<l>    for PartIndex := 1 to NumParts by 1</l>
+<l>        select_obj (ContourParts, OnePart, PartIndex)</l>
+<l>        get_contour_global_attrib_xld (OnePart, 'cont_approx', ContApprox)</l>
+<l>        if (ContApprox &gt; 0)</l>
+<l>            length_xld (OnePart, ArcLength)</l>
+<l>            fit_circle_contour_xld (OnePart, 'ahuber', -1, 2, 0, 3, 2, ArcRow, ArcCol, ArcRadius, StartPhi, EndPhi, PointOrder)</l>
+<l>            IsGoodArc := ArcLength &gt;= MinArcLength and ArcRadius &gt;= MinArcRadius and ArcRadius &lt;= MaxArcRadius</l>
+<l>            if (IsGoodArc and ArcLength &gt; BestArcScore)</l>
+<l>                BestArcScore := ArcLength</l>
+<l>                BestArcIndex := PartIndex</l>
+<l>            endif</l>
+<l>        endif</l>
+<l>    endfor</l>
+<l></l>
+<l>    if (BestArcIndex &gt; 0)</l>
+<l>        select_obj (ContourParts, BestArcContour, BestArcIndex)</l>
+<l>        get_contour_xld (BestArcContour, ArcRows, ArcCols)</l>
+<l>        if (|ArcRows| &gt;= 2)</l>
+<l>            ResultRows := [ArcRows[0],ArcRows[|ArcRows| - 1]]</l>
+<l>            ResultCols := [ArcCols[0],ArcCols[|ArcCols| - 1]]</l>
+<l>            ResultMode := 'lines_circles_arc'</l>
+<l>            HasResult := 1</l>
+<l>            FoundArc := 1</l>
+<l>        endif</l>
+<l>    endif</l>
+<l></l>
+<c>    * 兜底方案：如果过渡不是标准圆弧，用局部切线角变化找曲率连续段。</c>
+<l>    if (HasResult == 0)</l>
+<l>        get_contour_xld (MainContourSmooth, Rows, Cols)</l>
+<l>        NumPoints := |Rows|</l>
+<l>        BestRunStart := -1</l>
+<l>        BestRunEnd := -1</l>
+<l>        BestRunScore := -1</l>
+<l>        InRun := 0</l>
+<l>        RunStart := -1</l>
+<l>        RunEnd := -1</l>
+<l>        RunScore := 0.0</l>
+<l>        RunCount := 0</l>
+<l>        Pi := acos(0) * 2</l>
+<l>        if (NumPoints &gt; 2 * CurvatureStep + 1)</l>
+<l>            for PointIndex := CurvatureStep to NumPoints - CurvatureStep - 1 by 1</l>
+<l>                RowPrev := Rows[PointIndex - CurvatureStep]</l>
+<l>                ColPrev := Cols[PointIndex - CurvatureStep]</l>
+<l>                RowNow := Rows[PointIndex]</l>
+<l>                ColNow := Cols[PointIndex]</l>
+<l>                RowNext := Rows[PointIndex + CurvatureStep]</l>
+<l>                ColNext := Cols[PointIndex + CurvatureStep]</l>
+<l>                Angle1 := atan2(RowNow - RowPrev, ColNow - ColPrev)</l>
+<l>                Angle2 := atan2(RowNext - RowNow, ColNext - ColNow)</l>
+<l>                AngleDiff := Angle2 - Angle1</l>
+<l>                if (AngleDiff &gt; Pi)</l>
+<l>                    AngleDiff := AngleDiff - 2 * Pi</l>
+<l>                endif</l>
+<l>                if (AngleDiff &lt; -Pi)</l>
+<l>                    AngleDiff := AngleDiff + 2 * Pi</l>
+<l>                endif</l>
+<l>                Curvature := abs(AngleDiff)</l>
+<l>                if (Curvature &gt;= CurvatureAngleThreshold)</l>
+<l>                    if (InRun == 0)</l>
+<l>                        InRun := 1</l>
+<l>                        RunStart := PointIndex</l>
+<l>                        RunScore := 0.0</l>
+<l>                        RunCount := 0</l>
+<l>                    endif</l>
+<l>                    RunEnd := PointIndex</l>
+<l>                    RunScore := RunScore + Curvature</l>
+<l>                    RunCount := RunCount + 1</l>
+<l>                else</l>
+<l>                    if (InRun == 1)</l>
+<l>                        if (RunCount &gt;= MinCurveRunPoints and RunScore &gt; BestRunScore)</l>
+<l>                            BestRunStart := RunStart</l>
+<l>                            BestRunEnd := RunEnd</l>
+<l>                            BestRunScore := RunScore</l>
+<l>                        endif</l>
+<l>                        InRun := 0</l>
+<l>                    endif</l>
+<l>                endif</l>
+<l>            endfor</l>
+<l>            if (InRun == 1)</l>
+<l>                if (RunCount &gt;= MinCurveRunPoints and RunScore &gt; BestRunScore)</l>
+<l>                    BestRunStart := RunStart</l>
+<l>                    BestRunEnd := RunEnd</l>
+<l>                    BestRunScore := RunScore</l>
+<l>                endif</l>
+<l>            endif</l>
+<l>        endif</l>
+<l>        if (BestRunStart &gt;= 0 and BestRunEnd &gt; BestRunStart)</l>
+<l>            ResultRows := [Rows[BestRunStart],Rows[BestRunEnd]]</l>
+<l>            ResultCols := [Cols[BestRunStart],Cols[BestRunEnd]]</l>
+<l>            gen_contour_polygon_xld (BestArcContour, Rows[BestRunStart:BestRunEnd], Cols[BestRunStart:BestRunEnd])</l>
+<l>            ResultMode := 'curvature_run'</l>
+<l>            HasResult := 1</l>
+<l>        endif</l>
+<l>    endif</l>
+<l>endif</l>
+<l></l>
+<c>* ---------------------- 显示和保存结果 ----------------------</c>
+<l>dev_open_window_fit_image (GrayImage, 0, 0, 1200, 850, WindowHandle)</l>
+<l>dev_set_draw ('margin')</l>
+<l>dev_set_line_width (3)</l>
+<l>dev_display (GrayImage)</l>
+<l>dev_set_color ('cyan')</l>
+<l>dev_display (SearchROI)</l>
+<l>if (FoundMainContour == 1)</l>
+<l>    dev_set_color ('orange')</l>
+<l>    dev_display (MainContourSmooth)</l>
+<l>    dev_set_color ('blue')</l>
+<l>    dev_display (ContourParts)</l>
+<l>endif</l>
+<l>if (HasResult == 1)</l>
+<l>    dev_set_color ('green')</l>
+<l>    dev_display (BestArcContour)</l>
+<l>    dev_set_color ('red')</l>
+<l>    gen_cross_contour_xld (Crosses, ResultRows, ResultCols, 45, rad(45))</l>
+<l>    dev_display (Crosses)</l>
+<l>    disp_message (WindowHandle, '找到过渡轮廓两端点，模式=' + ResultMode, 'window', 12, 12, 'black', 'true')</l>
+<l>    disp_message (WindowHandle, 'P1: r=' + ResultRows[0]$'.2f' + ', c=' + ResultCols[0]$'.2f', 'image', ResultRows[0] - 70, ResultCols[0] + 15, 'red', 'false')</l>
+<l>    disp_message (WindowHandle, 'P2: r=' + ResultRows[1]$'.2f' + ', c=' + ResultCols[1]$'.2f', 'image', ResultRows[1] - 70, ResultCols[1] + 15, 'red', 'false')</l>
+<l>else</l>
+<l>    disp_message (WindowHandle, '未找到稳定过渡段：请检查模板 ROI 是否只包含目标 V 角轮廓', 'window', 12, 12, 'black', 'true')</l>
+<l>endif</l>
+<l>disp_message (WindowHandle, '青色=模板ROI，橙色=主轮廓，蓝色=分段，绿色=过渡段，红色=端点', 'window', 48, 12, 'black', 'true')</l>
+<l>dump_window_image (ResultImage, WindowHandle)</l>
+<l>write_image (ResultImage, 'png', 0, ResultImagePath)</l>
+<l></l>
+<c>* 工程集成输出：</c>
+<c>* ResultRows / ResultCols：两个凸点坐标，顺序为过渡段起点、过渡段终点。</c>
+<c>* ResultMode：lines_circles_arc 表示圆弧分段法，curvature_run 表示曲率兜底法。</c>
+<l>dev_update_on ()</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>

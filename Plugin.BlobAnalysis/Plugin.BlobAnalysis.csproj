@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4D78D0B9-6FA4-4F3B-8F38-0FEA4F3573D1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Plugin.BlobAnalysis</RootNamespace>
+    <AssemblyName>Plugin.BlobAnalysis</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Mef_VisionFrame\bin\Debug\Plugins\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Mef_VisionFrame\bin\Release\Plugins\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="halcondotnetxl, Version=20.11.1.0, Culture=neutral, PublicKeyToken=4973bed59ddbf2b8, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Mef_VisionFrame\bin\Release\halcondotnetxl.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BlobAnalysisObj.cs" />
+    <Compile Include="Core\BlobAnalysisEngine.cs" />
+    <Compile Include="Core\BlobAnalysisFollowTransformer.cs" />
+    <Compile Include="Core\BlobParamsMapper.cs" />
+    <Compile Include="Models\BlobAnalysisParams.cs" />
+    <Compile Include="Models\BlobAnalysisResult.cs" />
+    <Compile Include="Models\BlobEnums.cs" />
+    <Compile Include="Models\FilterRuleParam.cs" />
+    <Compile Include="Models\RoiParam.cs" />
+    <Compile Include="Services\HalconViewRoiAdapter.cs" />
+    <Compile Include="Services\RelayCommand.cs" />
+    <Compile Include="ViewModels\BindableBase.cs" />
+    <Compile Include="ViewModels\BlobAnalysisViewModel.cs" />
+    <Compile Include="ViewModels\FilterRuleParamViewModel.cs" />
+    <Compile Include="ViewModels\RoiParamViewModel.cs" />
+    <Compile Include="ViewROI\GraphicsContext.cs" />
+    <Compile Include="ViewROI\HObjectEntry.cs" />
+    <Compile Include="ViewROI\HWndCtrl.cs" />
+    <Compile Include="ViewROI\ROI.cs" />
+    <Compile Include="ViewROI\ROICircle.cs" />
+    <Compile Include="ViewROI\ROICircularArc.cs" />
+    <Compile Include="ViewROI\ROIController.cs" />
+    <Compile Include="ViewROI\ROILine.cs" />
+    <Compile Include="ViewROI\ROIRectangle1.cs" />
+    <Compile Include="ViewROI\ROIRectangle2.cs" />
+    <Compile Include="WPF架构\AddFilterRuleDialog.xaml.cs"><DependentUpon>AddFilterRuleDialog.xaml</DependentUpon></Compile>
+    <Compile Include="WPF架构\WPFBlobAnalysis.xaml.cs"><DependentUpon>WPFBlobAnalysis.xaml</DependentUpon></Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="WPF架构\AddFilterRuleDialog.xaml"><SubType>Designer</SubType><Generator>MSBuild:Compile</Generator></Page>
+    <Page Include="WPF架构\WPFBlobAnalysis.xaml"><SubType>Designer</SubType><Generator>MSBuild:Compile</Generator></Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Frame_Core\Frame_Core.csproj"><Project>{01127398-2CC7-4124-B966-FBFF69A7A0E5}</Project><Name>Frame_Core</Name></ProjectReference>
+    <ProjectReference Include="..\LogTool\LogTool.csproj"><Project>{ee6d8f10-4cb8-4312-8847-5d7568be4fa0}</Project><Name>LogTool</Name></ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

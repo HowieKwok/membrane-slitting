@@ -1,0 +1,31 @@
+V角检测工具位置说明
+==================
+
+1. 双击启动：
+   D:\BaiduNetdiskDownload\宽幅打孔新方案1107\宽幅打孔新方案1017\ProcessWideHoleLaser\启动V角检测工具.bat
+
+2. 程序发布目录：
+   D:\BaiduNetdiskDownload\宽幅打孔新方案1107\宽幅打孔新方案1017\ProcessWideHoleLaser\VCornerWpfTool
+
+3. 程序本体：
+   D:\BaiduNetdiskDownload\宽幅打孔新方案1107\宽幅打孔新方案1017\ProcessWideHoleLaser\VCornerWpfTool\ConvexPeakWpfDemo.exe
+
+4. 源代码目录：
+   D:\BaiduNetdiskDownload\宽幅打孔新方案1107\宽幅打孔新方案1017\ProcessWideHoleLaser\ConvexPeakWpfDemo
+
+5. 主要代码文件：
+   ConvexPeakWpfDemo\MainWindow.xaml              界面
+   ConvexPeakWpfDemo\MainWindow.xaml.cs           WPF交互、多图仿真、物理距离计算
+   ConvexPeakWpfDemo\HalconVCornerDetector.cs     HALCON轮廓/交点/基准边检测算法
+   ConvexPeakWpfDemo\App.xaml.cs                  HALCON环境变量与自检入口
+
+6. 如果双击运行失败：
+   看这个日志：
+   D:\BaiduNetdiskDownload\宽幅打孔新方案1107\宽幅打孔新方案1017\ProcessWideHoleLaser\VCornerWpfTool_run.log
+
+7. 命令行自检：
+   cd /d D:\BaiduNetdiskDownload\宽幅打孔新方案1107\宽幅打孔新方案1017\ProcessWideHoleLaser\VCornerWpfTool
+   ConvexPeakWpfDemo.exe --self-test
+
+8. 自检结果文件：
+   VCornerWpfTool\ConvexPeakWpfDemo_self_test_result.txt

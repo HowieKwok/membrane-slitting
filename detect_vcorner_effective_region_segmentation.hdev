@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="20.11.0.0">
+<procedure name="main">
+<interface/>
+<body>
+<c>* 功能：先做 ROI 内有效区域分割，再从有效区域边界识别 V 角两个交点。</c>
+<c>* 用途：先在 HALCON/HDevelop 生态中验证“背景干扰过滤 + 有效图像提取”路线，跑通后再移植到 WPF。</c>
+<c>* 思路：</c>
+<c>* 1. 读图并生成检测 ROI。</c>
+<c>* 2. mean_image 建局部背景，dyn_threshold 分割 light/dark/both 前景。</c>
+<c>* 3. opening/closing/fill_up 清理区域，connection/select_shape 筛有效区域。</c>
+<c>* 4. 从有效区域边界或有效区域内 Canny 获取主轮廓。</c>
+<c>* 5. 优先 lines_circles 圆弧段；失败则曲率段；再失败则首尾切线离开点。</c>
+<c>* 6. 输出 P1/P2 和调试图。</c>
+<l>dev_update_off ()</l>
+<l>dev_close_window ()</l>
+<l></l>
+<c>* -------------------------- 参数区 --------------------------</c>
+<l>ImagePath := 'C:/Users/1/Desktop/qq.jpg'</l>
+<l>ResultImagePath := 'D:/BaiduNetdiskDownload/宽幅打孔新方案1107/宽幅打孔新方案1017/ProcessWideHoleLaser/detect_vcorner_effective_region_segmentation_result.png'</l>
+<l>ResultTextPath := 'D:/BaiduNetdiskDownload/宽幅打孔新方案1107/宽幅打孔新方案1017/ProcessWideHoleLaser/detect_vcorner_effective_region_segmentation_result.txt'</l>
+<c>* ROI 参数。正式调试时先在 HDevelop 里改这里，或替换成模板匹配输出。</c>
+<l>RoiCenterRow := 2390</l>
+<l>RoiCenterCol := 2980</l>
+<l>RoiPhi := rad(0)</l>
+<l>RoiLength1 := 340</l>
+<l>RoiLength2 := 240</l>
+<c>* 有效区域分割参数。</c>
+<c>* SegmentMode: 'light' 表示目标比背景亮，'dark' 表示目标比背景暗，'both' 同时保留亮/暗偏差。</c>
+<l>EnableSegmentation := 1</l>
+<l>SegmentMode := 'both'</l>
+<l>MeanWidth := 61</l>
+<l>MeanHeight := 61</l>
+<l>DynOffset := 12</l>
+<l>OpenRadius := 2.0</l>
+<l>CloseRadius := 6.0</l>
+<l>MinRegionArea := 800</l>
+<l>MaxRegionArea := 99999999</l>
+<c>* RegionSelectMode: 'center_score' 或 'largest_area' 或 'nearest_center'。</c>
+<l>RegionSelectMode := 'center_score'</l>
+<c>* 轮廓来源：'region_border' 直接使用分割区域边界；'canny_in_region' 在有效区域内再提 Canny。</c>
+<c>* 默认用 canny_in_region：分割只做有效区域掩膜，真实轮廓仍取亚像素边缘，精度比区域边界高。</c>
+<l>ContourSource := 'canny_in_region'</l>
+<c>* Canny 参数。ContourSource='canny_in_region' 或关闭分割时使用。</c>
+<l>CannyAlpha := 1.0</l>
+<l>CannyLow := 5</l>
+<l>CannyHigh := 20</l>
+<l>MinContourLength := 40</l>
+<l>UnionMaxDistAbs := 30</l>
+<l>UnionMaxDistRel := 3</l>
+<c>* 轮廓分段和候选限制。</c>
+<l>SegmentSmooth := 5</l>
+<l>SegmentMaxLineDist1 := 4</l>
+<l>SegmentMaxLineDist2 := 3</l>
+<l>MinArcLength := 10</l>
+<l>MinArcRadius := 3</l>
+<l>MaxArcRadius := 500</l>
+<l>MinPointDistance := 20</l>
+<c>* 曲率兜底。</c>
+<l>CurvatureStep := 8</l>
+<l>CurvatureAngleThreshold := rad(7)</l>
+<l>MinCurveRunPoints := 4</l>
+<c>* 首尾切线离开点兜底，适合长 S 型、非标准圆弧过渡。</c>
+<l>TangentFitPoints := 45</l>
+<l>TangentDepartureDistance := 4</l>
+<l>TangentMinConsecutive := 3</l>
+<c>* ------------------------------------------------------------</c>
+<l></l>
+<c>* -------------------------- 读图 ----------------------------</c>
+<l>read_image (Image, ImagePath)</l>
+<l>count_channels (Image, NumChannels)</l>
+<l>if (NumChannels == 1)</l>
+<l>    copy_image (Image, GrayImage)</l>
+<l>else</l>
+<l>    rgb1_to_gray (Image, GrayImage)</l>
+<l>endif</l>
+<l>get_image_size (GrayImage, Width, Height)</l>
+<l>gen_rectangle2 (SearchROI, RoiCenterRow, RoiCenterCol, RoiPhi, RoiLength1, RoiLength2)</l>
+<l>reduce_domain (GrayImage, SearchROI, ImageROI)</l>
+<l></l>
+<c>* ---------------------- 有效区域分割 ------------------------</c>
+<l>gen_empty_region (TargetRegion)</l>
+<l>gen_empty_region (CandidateRegions)</l>
+<l>TargetFound := 0</l>
+<l>NumCandidateRegions := 0</l>
+<l>if (EnableSegmentation == 1)</l>
+<l>    mean_image (ImageROI, Background, MeanWidth, MeanHeight)</l>
+<l>    gen_empty_region (RegionLight)</l>
+<l>    gen_empty_region (RegionDark)</l>
+<l>    if (SegmentMode == 'light' or SegmentMode == 'both')</l>
+<l>        dyn_threshold (ImageROI, Background, RegionLight, DynOffset, 'light')</l>
+<l>    endif</l>
+<l>    if (SegmentMode == 'dark' or SegmentMode == 'both')</l>
+<l>        dyn_threshold (ImageROI, Background, RegionDark, DynOffset, 'dark')</l>
+<l>    endif</l>
+<l>    if (SegmentMode == 'both')</l>
+<l>        union2 (RegionLight, RegionDark, RegionDyn)</l>
+<l>    elseif (SegmentMode == 'dark')</l>
+<l>        copy_obj (RegionDark, RegionDyn, 1, 1)</l>
+<l>    else</l>
+<l>        copy_obj (RegionLight, RegionDyn, 1, 1)</l>
+<l>    endif</l>
+<l>    opening_circle (RegionDyn, RegionOpen, OpenRadius)</l>
+<l>    closing_circle (RegionOpen, RegionClose, CloseRadius)</l>
+<l>    fill_up (RegionClose, RegionFill)</l>
+<l>    connection (RegionFill, ConnectedRegions)</l>
+<l>    select_shape (ConnectedRegions, CandidateRegions, 'area', 'and', MinRegionArea, MaxRegionArea)</l>
+<l>    count_obj (CandidateRegions, NumCandidateRegions)</l>
+<l>    if (NumCandidateRegions &gt; 0)</l>
+<l>        BestRegionIndex := 1</l>
+<l>        BestScore := -999999999.0</l>
+<l>        for RegionIndex := 1 to NumCandidateRegions by 1</l>
+<l>            select_obj (CandidateRegions, OneRegion, RegionIndex)</l>
+<l>            area_center (OneRegion, RegionArea, RegionRow, RegionCol)</l>
+<l>            CenterDist := sqrt((RegionRow - RoiCenterRow) * (RegionRow - RoiCenterRow) + (RegionCol - RoiCenterCol) * (RegionCol - RoiCenterCol))</l>
+<l>            if (RegionSelectMode == 'largest_area')</l>
+<l>                Score := RegionArea</l>
+<l>            elseif (RegionSelectMode == 'nearest_center')</l>
+<l>                Score := -CenterDist</l>
+<l>            else</l>
+<l>                Score := RegionArea / (1.0 + 0.02 * CenterDist)</l>
+<l>            endif</l>
+<l>            if (Score &gt; BestScore)</l>
+<l>                BestScore := Score</l>
+<l>                BestRegionIndex := RegionIndex</l>
+<l>            endif</l>
+<l>        endfor</l>
+<l>        select_obj (CandidateRegions, TargetRegion, BestRegionIndex)</l>
+<l>        TargetFound := 1</l>
+<l>    endif</l>
+<l>endif</l>
+<l></l>
+<c>* 如果分割没找到区域，则退回原 ROI 内 Canny，便于对比。</c>
+<l>if (TargetFound == 0)</l>
+<l>    copy_obj (SearchROI, TargetRegion, 1, 1)</l>
+<l>endif</l>
+<l></l>
+<c>* ---------------------- 从有效区域取主轮廓 -------------------</c>
+<l>gen_empty_obj (RawContours)</l>
+<l>gen_empty_obj (UnionContours)</l>
+<l>gen_empty_obj (MainContour)</l>
+<l>gen_empty_obj (MainContourSmooth)</l>
+<l>gen_empty_obj (ContourParts)</l>
+<l>gen_empty_obj (FeatureContour)</l>
+<l>FoundMainContour := 0</l>
+<l>NumUnionContours := 0</l>
+<l>NumParts := 0</l>
+<l></l>
+<l>if (EnableSegmentation == 1 and TargetFound == 1 and ContourSource == 'region_border')</l>
+<l>    gen_contour_region_xld (TargetRegion, RawContours, 'border')</l>
+<l>    select_contours_xld (RawContours, UnionContours, 'contour_length', MinContourLength, 999999, -0.5, 0.5)</l>
+<l>else</l>
+<l>    reduce_domain (GrayImage, TargetRegion, TargetImage)</l>
+<l>    edges_sub_pix (TargetImage, Edges, 'canny', CannyAlpha, CannyLow, CannyHigh)</l>
+<l>    select_contours_xld (Edges, SelectedEdges, 'contour_length', MinContourLength, 999999, -0.5, 0.5)</l>
+<l>    union_adjacent_contours_xld (SelectedEdges, UnionContours, UnionMaxDistAbs, UnionMaxDistRel, 'attr_keep')</l>
+<l>endif</l>
+<l>count_obj (UnionContours, NumUnionContours)</l>
+<l></l>
+<l>HasResult := 0</l>
+<l>ResultRows := []</l>
+<l>ResultCols := []</l>
+<l>ResultMode := 'none'</l>
+<l>if (NumUnionContours &gt; 0)</l>
+<l>    length_xld (UnionContours, ContourLengths)</l>
+<l>    MainIndex := sort_index(ContourLengths)[|ContourLengths| - 1] + 1</l>
+<l>    select_obj (UnionContours, MainContour, MainIndex)</l>
+<l>    smooth_contours_xld (MainContour, MainContourSmooth, 7)</l>
+<l>    FoundMainContour := 1</l>
+<l>    get_contour_xld (MainContourSmooth, Rows, Cols)</l>
+<l>    NumPoints := |Rows|</l>
+<l></l>
+<c>    * 方案 1：lines_circles 圆弧段。</c>
+<l>    segment_contours_xld (MainContourSmooth, ContourParts, 'lines_circles', SegmentSmooth, SegmentMaxLineDist1, SegmentMaxLineDist2)</l>
+<l>    count_obj (ContourParts, NumParts)</l>
+<l>    BestArcScore := -1</l>
+<l>    BestArcIndex := -1</l>
+<l>    for PartIndex := 1 to NumParts by 1</l>
+<l>        select_obj (ContourParts, OnePart, PartIndex)</l>
+<l>        get_contour_global_attrib_xld (OnePart, 'cont_approx', ContApprox)</l>
+<l>        if (ContApprox &gt; 0)</l>
+<l>            length_xld (OnePart, ArcLength)</l>
+<l>            fit_circle_contour_xld (OnePart, 'ahuber', -1, 2, 0, 3, 2, ArcRow, ArcCol, ArcRadius, StartPhi, EndPhi, PointOrder)</l>
+<l>            IsGoodArc := ArcLength &gt;= MinArcLength and ArcRadius &gt;= MinArcRadius and ArcRadius &lt;= MaxArcRadius</l>
+<l>            if (IsGoodArc and ArcLength &gt; BestArcScore)</l>
+<l>                BestArcScore := ArcLength</l>
+<l>                BestArcIndex := PartIndex</l>
+<l>            endif</l>
+<l>        endif</l>
+<l>    endfor</l>
+<l>    if (BestArcIndex &gt; 0)</l>
+<l>        select_obj (ContourParts, FeatureContour, BestArcIndex)</l>
+<l>        get_contour_xld (FeatureContour, FeatureRows, FeatureCols)</l>
+<l>        EndPointDist := sqrt((FeatureRows[|FeatureRows| - 1] - FeatureRows[0]) * (FeatureRows[|FeatureRows| - 1] - FeatureRows[0]) + (FeatureCols[|FeatureCols| - 1] - FeatureCols[0]) * (FeatureCols[|FeatureCols| - 1] - FeatureCols[0]))</l>
+<l>        if (|FeatureRows| &gt;= 2 and EndPointDist &gt;= MinPointDistance)</l>
+<l>            ResultRows := [FeatureRows[0],FeatureRows[|FeatureRows| - 1]]</l>
+<l>            ResultCols := [FeatureCols[0],FeatureCols[|FeatureCols| - 1]]</l>
+<l>            ResultMode := 'lines_circles_arc'</l>
+<l>            HasResult := 1</l>
+<l>        endif</l>
+<l>    endif</l>
+<l></l>
+<c>    * 方案 2：曲率连续段。</c>
+<l>    if (HasResult == 0)</l>
+<l>        BestRunStart := -1</l>
+<l>        BestRunEnd := -1</l>
+<l>        BestRunScore := -1</l>
+<l>        InRun := 0</l>
+<l>        RunStart := -1</l>
+<l>        RunEnd := -1</l>
+<l>        RunScore := 0.0</l>
+<l>        RunCount := 0</l>
+<l>        Pi := acos(0) * 2</l>
+<l>        if (NumPoints &gt; 2 * CurvatureStep + 1)</l>
+<l>            for PointIndex := CurvatureStep to NumPoints - CurvatureStep - 1 by 1</l>
+<l>                Angle1 := atan2(Rows[PointIndex] - Rows[PointIndex - CurvatureStep], Cols[PointIndex] - Cols[PointIndex - CurvatureStep])</l>
+<l>                Angle2 := atan2(Rows[PointIndex + CurvatureStep] - Rows[PointIndex], Cols[PointIndex + CurvatureStep] - Cols[PointIndex])</l>
+<l>                AngleDiff := Angle2 - Angle1</l>
+<l>                if (AngleDiff &gt; Pi)</l>
+<l>                    AngleDiff := AngleDiff - 2 * Pi</l>
+<l>                endif</l>
+<l>                if (AngleDiff &lt; -Pi)</l>
+<l>                    AngleDiff := AngleDiff + 2 * Pi</l>
+<l>                endif</l>
+<l>                Curvature := abs(AngleDiff)</l>
+<l>                if (Curvature &gt;= CurvatureAngleThreshold)</l>
+<l>                    if (InRun == 0)</l>
+<l>                        InRun := 1</l>
+<l>                        RunStart := PointIndex</l>
+<l>                        RunScore := 0.0</l>
+<l>                        RunCount := 0</l>
+<l>                    endif</l>
+<l>                    RunEnd := PointIndex</l>
+<l>                    RunScore := RunScore + Curvature</l>
+<l>                    RunCount := RunCount + 1</l>
+<l>                else</l>
+<l>                    if (InRun == 1)</l>
+<l>                        if (RunCount &gt;= MinCurveRunPoints and RunScore &gt; BestRunScore)</l>
+<l>                            BestRunStart := RunStart</l>
+<l>                            BestRunEnd := RunEnd</l>
+<l>                            BestRunScore := RunScore</l>
+<l>                        endif</l>
+<l>                        InRun := 0</l>
+<l>                    endif</l>
+<l>                endif</l>
+<l>            endfor</l>
+<l>            if (InRun == 1)</l>
+<l>                if (RunCount &gt;= MinCurveRunPoints and RunScore &gt; BestRunScore)</l>
+<l>                    BestRunStart := RunStart</l>
+<l>                    BestRunEnd := RunEnd</l>
+<l>                endif</l>
+<l>            endif</l>
+<l>        endif</l>
+<l>        if (BestRunStart &gt;= 0 and BestRunEnd &gt; BestRunStart)</l>
+<l>            EndPointDist := sqrt((Rows[BestRunEnd] - Rows[BestRunStart]) * (Rows[BestRunEnd] - Rows[BestRunStart]) + (Cols[BestRunEnd] - Cols[BestRunStart]) * (Cols[BestRunEnd] - Cols[BestRunStart]))</l>
+<l>            if (EndPointDist &gt;= MinPointDistance)</l>
+<l>                ResultRows := [Rows[BestRunStart],Rows[BestRunEnd]]</l>
+<l>                ResultCols := [Cols[BestRunStart],Cols[BestRunEnd]]</l>
+<l>                gen_contour_polygon_xld (FeatureContour, Rows[BestRunStart:BestRunEnd], Cols[BestRunStart:BestRunEnd])</l>
+<l>                ResultMode := 'curvature_run'</l>
+<l>                HasResult := 1</l>
+<l>            endif</l>
+<l>        endif</l>
+<l>    endif</l>
+<l></l>
+<c>    * 方案 3：首尾切线离开点，适合长 S 型过渡。</c>
+<l>    if (HasResult == 0)</l>
+<l>        FitCount := min([TangentFitPoints, floor(NumPoints / 3)])</l>
+<l>        FitCount := max([FitCount, 8])</l>
+<l>        if (NumPoints &gt; 2 * FitCount + 5)</l>
+<l>            gen_contour_polygon_xld (HeadContour, Rows[0:FitCount - 1], Cols[0:FitCount - 1])</l>
+<l>            gen_contour_polygon_xld (TailContour, Rows[NumPoints - FitCount:NumPoints - 1], Cols[NumPoints - FitCount:NumPoints - 1])</l>
+<l>            fit_line_contour_xld (HeadContour, 'tukey', -1, 0, 5, 2, RowBegin1, ColBegin1, RowEnd1, ColEnd1, Nr1, Nc1, Dist1)</l>
+<l>            fit_line_contour_xld (TailContour, 'tukey', -1, 0, 5, 2, RowBegin2, ColBegin2, RowEnd2, ColEnd2, Nr2, Nc2, Dist2)</l>
+<l>            StartIndex := -1</l>
+<l>            Consecutive := 0</l>
+<l>            for PointIndex := FitCount to NumPoints - FitCount - 1 by 1</l>
+<l>                DistToHead := abs(Nr1 * Rows[PointIndex] + Nc1 * Cols[PointIndex] + Dist1)</l>
+<l>                if (DistToHead &gt;= TangentDepartureDistance)</l>
+<l>                    Consecutive := Consecutive + 1</l>
+<l>                    if (Consecutive &gt;= TangentMinConsecutive)</l>
+<l>                        StartIndex := PointIndex - Consecutive + 1</l>
+<l>                        break</l>
+<l>                    endif</l>
+<l>                else</l>
+<l>                    Consecutive := 0</l>
+<l>                endif</l>
+<l>            endfor</l>
+<l>            EndIndex := -1</l>
+<l>            Consecutive := 0</l>
+<l>            for PointIndex := NumPoints - FitCount - 1 to FitCount by -1</l>
+<l>                DistToTail := abs(Nr2 * Rows[PointIndex] + Nc2 * Cols[PointIndex] + Dist2)</l>
+<l>                if (DistToTail &gt;= TangentDepartureDistance)</l>
+<l>                    Consecutive := Consecutive + 1</l>
+<l>                    if (Consecutive &gt;= TangentMinConsecutive)</l>
+<l>                        EndIndex := PointIndex + Consecutive - 1</l>
+<l>                        break</l>
+<l>                    endif</l>
+<l>                else</l>
+<l>                    Consecutive := 0</l>
+<l>                endif</l>
+<l>            endfor</l>
+<l>            if (StartIndex &gt;= 0 and EndIndex &gt; StartIndex)</l>
+<l>                EndPointDist := sqrt((Rows[EndIndex] - Rows[StartIndex]) * (Rows[EndIndex] - Rows[StartIndex]) + (Cols[EndIndex] - Cols[StartIndex]) * (Cols[EndIndex] - Cols[StartIndex]))</l>
+<l>                if (EndPointDist &gt;= MinPointDistance)</l>
+<l>                    ResultRows := [Rows[StartIndex],Rows[EndIndex]]</l>
+<l>                    ResultCols := [Cols[StartIndex],Cols[EndIndex]]</l>
+<l>                    gen_contour_polygon_xld (FeatureContour, Rows[StartIndex:EndIndex], Cols[StartIndex:EndIndex])</l>
+<l>                    ResultMode := 'tangent_line_departure'</l>
+<l>                    HasResult := 1</l>
+<l>                endif</l>
+<l>            endif</l>
+<l>        endif</l>
+<l>    endif</l>
+<l>endif</l>
+<l></l>
+<c>* ---------------------- 显示调试结果 ------------------------</c>
+<l>dev_open_window_fit_image (GrayImage, 0, 0, 1300, 900, WindowHandle)</l>
+<l>dev_set_draw ('margin')</l>
+<l>dev_set_line_width (2)</l>
+<l>dev_display (GrayImage)</l>
+<l>dev_set_color ('cyan')</l>
+<l>dev_display (SearchROI)</l>
+<l>if (TargetFound == 1)</l>
+<l>    dev_set_color ('green')</l>
+<l>    dev_display (TargetRegion)</l>
+<l>endif</l>
+<l>if (NumCandidateRegions &gt; 0)</l>
+<l>    dev_set_color ('gray')</l>
+<l>    dev_display (CandidateRegions)</l>
+<l>endif</l>
+<l>if (FoundMainContour == 1)</l>
+<l>    dev_set_line_width (3)</l>
+<l>    dev_set_color ('orange')</l>
+<l>    dev_display (MainContourSmooth)</l>
+<l>    dev_set_color ('blue')</l>
+<l>    dev_display (ContourParts)</l>
+<l>endif</l>
+<l>if (HasResult == 1)</l>
+<l>    dev_set_line_width (5)</l>
+<l>    dev_set_color ('green')</l>
+<l>    dev_display (FeatureContour)</l>
+<l>    gen_cross_contour_xld (Crosses, ResultRows, ResultCols, 45, rad(45))</l>
+<l>    dev_set_color ('red')</l>
+<l>    dev_display (Crosses)</l>
+<l>    disp_message (WindowHandle, 'OK Mode=' + ResultMode, 'window', 12, 12, 'black', 'true')</l>
+<l>    disp_message (WindowHandle, 'P1 r=' + ResultRows[0]$'.2f' + ', c=' + ResultCols[0]$'.2f', 'image', ResultRows[0] - 70, ResultCols[0] + 15, 'red', 'false')</l>
+<l>    disp_message (WindowHandle, 'P2 r=' + ResultRows[1]$'.2f' + ', c=' + ResultCols[1]$'.2f', 'image', ResultRows[1] - 70, ResultCols[1] + 15, 'red', 'false')</l>
+<l>else</l>
+<l>    disp_message (WindowHandle, 'NG: no stable feature contour. Check segmentation and ROI.', 'window', 12, 12, 'black', 'true')</l>
+<l>endif</l>
+<l>disp_message (WindowHandle, 'cyan=ROI, gray=candidate regions, green=target/feature, orange=main contour, blue=parts, red=P1/P2', 'window', 48, 12, 'black', 'true')</l>
+<l>disp_message (WindowHandle, 'Candidates=' + NumCandidateRegions + ', Contours=' + NumUnionContours + ', Parts=' + NumParts, 'window', 84, 12, 'black', 'true')</l>
+<l>dump_window_image (ResultImage, WindowHandle)</l>
+<l>write_image (ResultImage, 'png', 0, ResultImagePath)</l>
+<l></l>
+<c>* ---------------------- 输出文本结果 ------------------------</c>
+<l>open_file (ResultTextPath, 'output', FileHandle)</l>
+<l>fwrite_string (FileHandle, 'Image=' + ImagePath)</l>
+<l>fnew_line (FileHandle)</l>
+<l>fwrite_string (FileHandle, 'HasResult=' + HasResult)</l>
+<l>fnew_line (FileHandle)</l>
+<l>fwrite_string (FileHandle, 'Mode=' + ResultMode)</l>
+<l>fnew_line (FileHandle)</l>
+<l>fwrite_string (FileHandle, 'TargetFound=' + TargetFound)</l>
+<l>fnew_line (FileHandle)</l>
+<l>fwrite_string (FileHandle, 'NumCandidateRegions=' + NumCandidateRegions)</l>
+<l>fnew_line (FileHandle)</l>
+<l>fwrite_string (FileHandle, 'NumUnionContours=' + NumUnionContours)</l>
+<l>fnew_line (FileHandle)</l>
+<l>fwrite_string (FileHandle, 'NumParts=' + NumParts)</l>
+<l>fnew_line (FileHandle)</l>
+<l>if (HasResult == 1)</l>
+<l>    fwrite_string (FileHandle, 'P1.Row=' + ResultRows[0]$'.3f')</l>
+<l>    fnew_line (FileHandle)</l>
+<l>    fwrite_string (FileHandle, 'P1.Col=' + ResultCols[0]$'.3f')</l>
+<l>    fnew_line (FileHandle)</l>
+<l>    fwrite_string (FileHandle, 'P2.Row=' + ResultRows[1]$'.3f')</l>
+<l>    fnew_line (FileHandle)</l>
+<l>    fwrite_string (FileHandle, 'P2.Col=' + ResultCols[1]$'.3f')</l>
+<l>    fnew_line (FileHandle)</l>
+<l>endif</l>
+<l>close_file (FileHandle)</l>
+<l></l>
+<l>dev_update_on ()</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>

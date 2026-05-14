@@ -1,0 +1,15 @@
+Image=C:\Users\1\Desktop\qq.jpg
+HasResult=True
+Mode=lines_circles_arc
+P1.Row=2318.656
+P1.Col=2723.267
+P2.Row=2282.474
+P2.Col=2758.181
+ImageDeltaX.Col=34.914
+ImageDeltaY.Row=-36.182
+BaseLine.AngleDeg=0.094
+DistanceX.ParallelBase.UnitPerPixel1=34.854
+DistanceY.PerpendicularBase.UnitPerPixel1=-36.239
+DistanceTotal.UnitPerPixel1=50.280
+NumUnionContours=2
+NumParts=3

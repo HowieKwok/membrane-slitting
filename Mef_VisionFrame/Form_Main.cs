@@ -41,6 +41,7 @@ namespace Mef_VisionFrame
         public Form_Main()
         {
             InitializeComponent();
+            Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
             form_Main = this;
 
             try
@@ -119,9 +120,9 @@ namespace Mef_VisionFrame
                 BIZ_Switchover.InitBizDataAndForm();
 
                 //软件版本显示
-                string MainSlaveMachine = "MainMachine";
+                string MainSlaveMachine = "HSVISONMAIN";
                 if (!Project.Instance.systemInfo.IsHostMachine)
-                    MainSlaveMachine = "SlaveMachine";
+                    MainSlaveMachine = "HSVISONSLAVE";
                 ComStationsanwahlEnum comStationsanwahlEnum = (ComStationsanwahlEnum)Project.Instance.systemInfo.ComStationsanwahl;
                 Init_LatestTimeProgram(comStationsanwahlEnum.ToString());
 
@@ -667,7 +668,7 @@ namespace Mef_VisionFrame
                 //==========【】获取最后编译时间：
                 Str_LatestTimeProgram = System.IO.File.GetLastWriteTime(this.GetType().Assembly.Location).ToString("yyyyMMdd-HHmm");
 
-                Str_LatestTimeProgram = "YH_" + Str_LatestTimeProgram + $"({"PFT_CleaningStation"})";
+                Str_LatestTimeProgram = "HSVISION_" + Str_LatestTimeProgram + $"({"LaserCutMachine"})";
                 this.Text = Str_LatestTimeProgram;
             }
             catch (Exception ex)

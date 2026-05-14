@@ -243,6 +243,8 @@
     <Compile Include="pluginParams\ParamsFindIntersectionAngle.cs" />
     <Compile Include="pluginParams\ParamsFindMark.cs" />
     <Compile Include="pluginParams\ParamsFindModel.cs" />
+    <Compile Include="pluginParams\ParamsBlobAnalysis.cs" />
+    <Compile Include="WPF\IPluginWpfView.cs" />
     <Compile Include="pluginParams\ParamsHandEyeCalibration.cs" />
     <Compile Include="Process\ProcessServices.cs" />
     <Compile Include="StandardData\Image3DClass.cs" />
@@ -367,6 +369,9 @@
     </Compile>
     <Compile Include="Plugin\PluginBase\FormPluginBase.Designer.cs">
       <DependentUpon>FormPluginBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Plugin\PluginBase\WPF\WPFFormPluginBase.xaml.cs">
+      <DependentUpon>WPFFormPluginBase.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataOperation\Binary1\BinarySerialization.cs" />
     <Compile Include="DataOperation\Binary1\BinarySerializationOperation.cs" />
@@ -972,9 +977,18 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LogTool\LogTool.csproj">
-      <Project>{ee6d8f10-4cb8-4312-8847-5d7568be4fa0}</Project>
+      <Project>{ee6d8f10-4cb8-4312-8847-5d7568be4fa0}  </Project>
       <Name>LogTool</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Plugin\PluginBase\WPF\WPFFormPluginBase.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="WPF\Resources\Icons\hsvision_plugin.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -984,4 +998,5 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup></ItemGroup>
 </Project>

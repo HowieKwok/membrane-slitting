@@ -33,7 +33,7 @@ namespace Plugin.MeasureLine
         {
             //HTuple Stime1 = 0, Stime2 = 0, Stime3 = 0, Stime4 = 0, Stime5 = 0;
             //HTuple Stime6 = 0, Stime7 = 0, Stime8 = 0, Stime9 = 0, Stime10 = 0;
-            // HOperatorSet.CountSeconds(out Stime1);
+            HOperatorSet.CountSeconds(out HTuple  start);
             measLineParams = PluginParams as ParamsMeasureLine; //里氏转换
             if (measLineParams.ImageSourceIndex == 1)
             {
@@ -292,6 +292,11 @@ namespace Plugin.MeasureLine
                 measLineParams.bl_FitSuccess = false;
                 // Console.WriteLine("抓边膜宽执行失败！原因：try_catch捕获异常"+e.ToString());
             }
+            HOperatorSet.CountSeconds(out HTuple end);
+            end = (end - start) * 1000;
+            measLineParams.m_bRunSuccess = measLineParams.bl_FitSuccess;
+            measLineParams.m_strRunMessage = measLineParams.m_bRunSuccess ? "抓边完成：执行成功" : "抓边完成：执行失败";
+            measLineParams.m_fElapsedMs = end;
             //HOperatorSet.CountSeconds(out Stime6);
             ho_Rectangle2.Dispose();
             ho_ImagePart.Dispose();
