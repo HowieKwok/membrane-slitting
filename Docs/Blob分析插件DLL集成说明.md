@@ -1653,3 +1653,1034 @@ public bool ExecuteObj()
 - 不要只在界面基类里显示耗时，流程执行不经过插件窗体，必须由插件 `ExecuteObj()` 写回参数类。
 - `PluginViewActionResult.ElapsedMs` 只服务于插件窗体底部显示，不能替代 `PluginParams.m_fElapsedMs`。
 - 调试界面 `WPFDebugProcessView` 只读取参数类显示耗时，不进入插件内部计算耗时。
+### 15.14 ROI 位置跟随强制要求
+
+后续所有带 ROI 的视觉插件，都必须预留位置跟随能力。这里的“基准点”不是“设置 ROI 时顺手记录的点”，而是插件独立维护的基准位姿。使用规则必须和原插件保持一致：图像显示区或 ViewROI 右键可以设置基准点坐标、基准角度，也可以设置当前点坐标、当前角度。
+
+位置跟随开关的作用必须收敛到一件事：执行时，对“输入给算法的参数 ROI”做相应的位姿修正。它不能修改原始 ROI，不能修改 ViewROI 当前编辑坐标，不能修改基准点，也不能把右键设置的当前点当成正式流程输入。
+
+用户必须先设置基准点和基准角度，再设置原始 ROI 参数，例如 `m_fLocalRoiRow1 / m_fLocalRoiCol1 / m_fLocalRoiRow2 / m_fLocalRoiCol2`。执行检测时，如果启用了位置跟随，插件使用流程输入的当前坐标、当前角度和已保存的基准位姿计算平移偏差和角度偏差，然后基于这些已保存的 ROI 参数临时生成本次算法输入 ROI。算法只使用这个算法输入 ROI。
+
+建议参数类至少包含以下字段：
+
+```csharp
+// ROI 是否启用位置跟随。只有启用后，执行时才对算法输入 ROI 做位姿修正。
+public bool m_bEnableRoiFollow = false;
+
+// 插件基准位姿。由用户在插件界面中单独设置，不等同于 ROI 坐标。
+public double m_dBaseRow = 0;
+public double m_dBaseCol = 0;
+public double m_dBaseAngle = 0;
+
+// 基准角度必须由用户设置或从指定基准模块读取，不能默认认为永远是 0。
+// 角度单位必须和上游当前角度保持一致，建议统一使用弧度。
+
+// 当前执行时的流程输入位姿，一般来自上游定位、模板匹配或其它坐标输出模块。
+public double m_dInputRow = 0;
+public double m_dInputCol = 0;
+public double m_dInputAngle = 0;
+public bool m_bInputPoseValid = false;
+
+// 本次位置跟随计算出的偏差输出，包含行、列和角度。
+public double m_dFollowOffsetRow = 0;
+public double m_dFollowOffsetCol = 0;
+public double m_dFollowOffsetAngle = 0;
+
+// 参数类里保存好的原始 ROI 坐标。执行时不修改这些字段，只用它们生成本次算法输入 ROI。
+public double m_fLocalRoiRow1 = 1000;
+public double m_fLocalRoiCol1 = 800;
+public double m_fLocalRoiRow2 = 2600;
+public double m_fLocalRoiCol2 = 3600;
+```
+
+运行时偏差输出统一用相减，不要手写旋转矩阵，不要自己写点坐标旋转公式。ROI 的位姿变换统一使用 HALCON 算子生成变换关系，再用 HALCON 算子生成本次算法输入 ROI。
+
+偏差输出只做这个：
+
+```csharp
+double offsetRow = p.m_dInputRow - p.m_dBaseRow;
+double offsetCol = p.m_dInputCol - p.m_dBaseCol;
+double angleOffset = p.m_dInputAngle - p.m_dBaseAngle;
+
+p.m_dFollowOffsetRow = offsetRow;
+p.m_dFollowOffsetCol = offsetCol;
+p.m_dFollowOffsetAngle = angleOffset;
+```
+
+ROI 跟随生成建议统一使用 HALCON 算子：
+
+```csharp
+HTuple homMat2D = null;
+
+if (p.m_bEnableRoiFollow)
+{
+    if (!p.m_bInputPoseValid)
+    {
+        p.m_bRunSuccess = false;
+        p.m_strRunMessage = "ROI位置跟随失败：流程输入位姿无效";
+        return false;
+    }
+
+    double offsetRow = p.m_dInputRow - p.m_dBaseRow;
+    double offsetCol = p.m_dInputCol - p.m_dBaseCol;
+    double angleOffset = p.m_dInputAngle - p.m_dBaseAngle;
+
+    p.m_dFollowOffsetRow = offsetRow;
+    p.m_dFollowOffsetCol = offsetCol;
+    p.m_dFollowOffsetAngle = angleOffset;
+
+    // 用 HALCON 根据基准位姿和当前输入位姿生成刚性变换。
+    HOperatorSet.VectorAngleToRigid(
+        p.m_dBaseRow,
+        p.m_dBaseCol,
+        p.m_dBaseAngle,
+        p.m_dInputRow,
+        p.m_dInputCol,
+        p.m_dInputAngle,
+        out homMat2D);
+}
+else
+{
+    p.m_dFollowOffsetRow = 0;
+    p.m_dFollowOffsetCol = 0;
+    p.m_dFollowOffsetAngle = 0;
+    HOperatorSet.HomMat2dIdentity(out homMat2D);
+}
+
+// 示例：原始 ROI 参数不改，只生成本次算法输入 ROI。
+HObject rawRoi = null;
+HObject runInputRoi = null;
+HOperatorSet.GenRectangle1(out rawRoi, p.m_fLocalRoiRow1, p.m_fLocalRoiCol1, p.m_fLocalRoiRow2, p.m_fLocalRoiCol2);
+HOperatorSet.AffineTransRegion(rawRoi, out runInputRoi, homMat2D, "nearest_neighbor");
+```
+
+如果插件暂时只支持不旋转的矩形 ROI，也必须在文档和界面上说明“不支持角度跟随”。但框架规范上，新插件应优先支持平移和角度一起跟随。
+
+界面层要求：
+
+- 位置跟随的使用规则必须和原插件保持一致，不能为新插件单独设计一套不同交互。
+- 图像显示区或 ViewROI 右键菜单必须支持“设置基准点坐标 / 基准角度”和“设置当前点坐标 / 当前角度”。
+- 基准点和基准角度必须有独立设置入口，不能把 ROI 左上角、ROI 中心点默认当作基准点，也不能把角度默认固定为 0。
+- ROI 编辑时显示的是参数类里保存好的原始 ROI 坐标，例如 `m_fLocalRoiRow1 / m_fLocalRoiCol1 / m_fLocalRoiRow2 / m_fLocalRoiCol2`。
+- 启用位置跟随时，界面可以预览本次运行输入 ROI，但不能把预览坐标覆盖原始 ROI。
+- 保存参数时只保存原始 ROI 参数、插件基准点、插件基准角度和跟随开关。
+- 执行前必须先 `SaveCurrentViewRoi()` 把 ViewROI 当前编辑值写回原始 ROI 参数，再根据流程输入位姿和插件基准位姿临时生成算法输入 ROI。
+- ViewROI 只负责编辑和显示，不负责决定流程输入坐标和角度。
+- 右键设置的当前点坐标和当前角度主要用于界面调试和手动验证位置跟随；正式流程运行时，当前点坐标和当前角度仍应来自流程输入或上游模块输出。
+- 界面可以显示本次 `m_dFollowOffsetRow`、`m_dFollowOffsetCol`、`m_dFollowOffsetAngle`，方便调试跟随量。
+
+执行层要求：
+
+- `ExecuteObj()` 必须从参数类读取原始 ROI 参数、插件基准位姿、流程输入位姿和跟随开关。
+- 只有 `m_bEnableRoiFollow == true` 时，才对算法输入 ROI 做位姿修正。
+- 未启用位置跟随时，算法输入 ROI 等于原始 ROI 参数生成的区域，并且偏差输出应为 0。
+- 流程输入坐标和角度必须来自上游模块或流程传参，不能只存在界面变量里。支持角度跟随的插件必须明确配置基准角度和读取当前角度。
+- 生成检测区域时使用最终的算法输入 ROI。
+- 必须输出本次偏差坐标，包含 `m_dFollowOffsetRow`、`m_dFollowOffsetCol`、`m_dFollowOffsetAngle`。
+- 输出结果中建议记录本次实际使用的算法输入 ROI，方便调试界面回显。
+
+数据链路建议：
+
+```text
+用户在插件界面右键设置插件基准点和基准角度
+  -> 用户设置原始 ROI
+  -> 调试时可右键设置当前点坐标和当前角度
+  -> 正式流程运行时，上游模块输出当前坐标和当前角度
+  -> 当前插件读取流程输入位姿 m_dInputRow / m_dInputCol / m_dInputAngle
+  -> 如果启用位置跟随：流程输入位姿 - 插件基准位姿 = 偏差坐标 Row / Col / Angle
+  -> 偏差坐标写回参数类，供调试界面、日志和下游模块读取
+  -> 原始 ROI 参数不改，只根据原始 ROI 参数生成经过平移和旋转变换的算法输入 ROI
+  -> 如果未启用位置跟随：算法输入 ROI = 原始 ROI 参数生成的区域，偏差坐标 = 0
+  -> 算法只使用本次算法输入 ROI
+  -> 调试界面显示原始 ROI 参数、本次算法输入 ROI 和本次偏差坐标
+```
+
+必须避免的错误：
+
+- 把位置跟随理解成修改 `m_fLocalRoiRow1 / m_fLocalRoiCol1 / m_fLocalRoiRow2 / m_fLocalRoiCol2` 等原始 ROI 参数。
+- 把位置跟随理解成修改 ViewROI 当前编辑坐标。
+- 只做 Row/Col 平移，不处理角度，导致产品旋转后 ROI 偏离。
+- 把“设置 ROI 时的点”误当作插件基准点。
+- 只保存 ROI 绝对坐标，不保存独立基准位姿。
+- 启用跟随后把原始 ROI 坐标直接改掉，导致多次执行后 ROI 越偏越远。
+- ViewROI 里看起来启用了跟随，但 `ExecuteObj()` 仍然把原始 ROI 直接输入算法。
+- 流程输入坐标和角度只存在界面变量，流程运行时拿不到。
+- 右键设置当前点和当前角度后，把它误当作正式流程输入来源，导致自动运行时没有上游坐标或角度仍继续执行。
+- 未启用位置跟随时仍然套用上游位姿偏移。
+- 上游位姿无效时仍然使用上一帧位姿，不写失败状态。
+- 内部计算了偏差，但没有输出 Row / Col / Angle，导致调试和下游模块无法确认本次跟随量。
+
+一句话要求：后续插件只要有 ROI，就必须按原插件使用规则实现“右键设置基准点和基准角度、右键设置当前点和当前角度、独立基准点、基准角度、流程输入坐标、流程输入角度、偏差坐标输出、跟随开关、原始 ROI 参数、算法输入 ROI”这条链路；启用位置跟随时只根据原始 ROI 参数临时生成跟随后算法输入 ROI，并输出本次 Row / Col / Angle 偏差。
+## 16. 从零新建插件的标准开发流程
+
+本章用于后续开发者按框架新建插件。新插件必须按“参数层、算法层、插件对象层、界面层、宿主基类层”拆开写，不能把算法、界面、流程参数混在一个类里。
+
+### 16.1 插件目录建议
+
+建议新插件目录结构如下：
+
+```text
+Plugin.XXX
+├─ XXXObj.cs                  // 插件对象，实现 IPlugin，是流程执行入口
+├─ XXXWpfView.xaml            // WPF 插件界面，只做显示和编辑
+├─ XXXWpfView.xaml.cs         // 实现 IPluginWpfView，承接基类窗体按钮
+├─ ViewModels
+│  └─ XXXViewModel.cs         // 参数绑定、界面状态、命令
+├─ Core
+│  ├─ XXXEngine.cs            // 算法层，只做算法，不引用 WPF
+│  ├─ XXXRuntimeParams.cs     // 算法运行参数，可选
+│  ├─ XXXResult.cs            // 算法结果，可选
+│  └─ XXXParamsMapper.cs      // 参数类和算法运行参数/结果之间的转换
+├─ Services
+│  └─ XXXViewRoiAdapter.cs    // ViewROI/Halcon 显示适配，可选
+└─ Properties / Resources     // 图标、资源、插件说明
+```
+
+框架参数类建议放在框架统一位置，例如：
+
+```text
+Frame_Core/pluginParams/ParamsXXX.cs
+```
+
+如果项目已有插件参数统一目录，就放到统一目录，避免参数类散在插件界面项目里导致流程保存和加载混乱。
+
+### 16.2 五层职责
+
+| 层级 | 典型类 | 做什么 | 不能做什么 |
+| --- | --- | --- | --- |
+| 参数层 | `ParamsXXX : PluginParamsBase` | 保存流程输入、运行参数、输出结果、运行状态 | 不写界面控件，不释放界面资源 |
+| 算法层 | `XXXEngine` | 接收图像和运行参数，返回算法结果 | 不引用 WPF，不引用 ViewROI，不读写控件 |
+| 插件对象层 | `XXXObj : IPlugin` | 实现 `ExecuteObj()`、`saveParams()`、`DisPoseObj()` | 不直接操作 WPFDebugProcessView |
+| 界面层 | `XXXWpfView`、`XXXViewModel` | 参数编辑、图像显示、ROI 编辑、手动调试 | 不拥有流程输出，不释放流程输入图像 |
+| 宿主基类层 | `WPFFormPluginBase` / `FormPluginBase` | 通用执行按钮、保存按钮、关闭、耗时显示、刷新通知 | 不写具体插件业务逻辑 |
+
+一句话：流程数据在 `PluginParams`，算法逻辑在 `Engine`，执行入口在 `XXXObj.ExecuteObj()`，界面只是编辑和预览。
+
+### 16.3 第一步：创建参数类 ParamsXXX
+
+参数类是流程输入输出载体。后续流程运行、插件窗体、保存加载、状态灯、耗时显示，都围绕它读取数据。
+
+基础模板：
+
+```csharp
+public class ParamsXXX : PluginParamsBase
+{
+    [NonSerialized]
+    [XmlIgnore]
+    public HObject ho_Image;
+
+    // 普通可保存参数。
+    public bool m_bEnable = true;
+    public double m_fThresholdMin = 80;
+    public double m_fThresholdMax = 255;
+
+    // ROI 原始参数。ViewROI 编辑后保存到这里。
+    public double m_fLocalRoiRow1 = 1000;
+    public double m_fLocalRoiCol1 = 800;
+    public double m_fLocalRoiRow2 = 2600;
+    public double m_fLocalRoiCol2 = 3600;
+
+    // 位置跟随参数。
+    public bool m_bEnableRoiFollow = false;
+    public double m_dBaseRow = 0;
+    public double m_dBaseCol = 0;
+    public double m_dBaseAngle = 0;
+    public double m_dInputRow = 0;
+    public double m_dInputCol = 0;
+    public double m_dInputAngle = 0;
+    public bool m_bInputPoseValid = false;
+
+    // 本次跟随偏差输出。
+    [NonSerialized]
+    [XmlIgnore]
+    public double m_dFollowOffsetRow = 0;
+
+    [NonSerialized]
+    [XmlIgnore]
+    public double m_dFollowOffsetCol = 0;
+
+    [NonSerialized]
+    [XmlIgnore]
+    public double m_dFollowOffsetAngle = 0;
+
+    // 插件输出 HObject。
+    [NonSerialized]
+    [XmlIgnore]
+    public HObject m_ho_OutRegion;
+
+    [NonSerialized]
+    [XmlIgnore]
+    public HObject m_ho_OutImgShow;
+
+    // 统一运行状态。调试界面状态灯和耗时读取这里。
+    [NonSerialized]
+    [XmlIgnore]
+    public bool m_bRunSuccess = false;
+
+    [NonSerialized]
+    [XmlIgnore]
+    public double m_fElapsedMs = 0;
+
+    [NonSerialized]
+    [XmlIgnore]
+    public string m_strRunMessage = string.Empty;
+}
+```
+
+规则：
+
+- 输入图像 `ho_Image` 由流程或上游模块提供，当前插件只读，不释放。
+- 原始 ROI 参数必须保存，跟随时不能覆盖这些字段。
+- 输出 HObject 由当前插件创建，当前插件负责释放。
+- 状态字段必须写回，否则 WPF 调试界面看不到成功、失败、耗时。
+- HObject、HTuple、运行状态、输出结果不写 XML，使用 `[NonSerialized]` 和 `[XmlIgnore]`。
+
+### 16.4 第二步：写算法层 XXXEngine
+
+算法层只做算法，不关心 WPF，不关心 ViewROI，不关心按钮。
+
+算法层输入建议是：
+
+```csharp
+public sealed class XXXRuntimeParams
+{
+    public double ThresholdMin;
+    public double ThresholdMax;
+    public HObject RunInputRoi;
+}
+```
+
+算法层输出建议是：
+
+```csharp
+public sealed class XXXResult : IDisposable
+{
+    public bool Success;
+    public string Message;
+    public HObject OutRegion;
+    public HObject OutImgShow;
+
+    public void Dispose()
+    {
+        OutRegion?.Dispose();
+        OutImgShow?.Dispose();
+    }
+}
+```
+
+算法层示例：
+
+```csharp
+public sealed class XXXEngine
+{
+    public XXXResult Run(HObject image, XXXRuntimeParams runtime)
+    {
+        HObject gray = null;
+        HObject region = null;
+        XXXResult result = new XXXResult();
+
+        try
+        {
+            if (image == null || !image.IsInitialized())
+            {
+                result.Success = false;
+                result.Message = "输入图像为空";
+                return result;
+            }
+
+            HOperatorSet.Rgb1ToGray(image, out gray);
+            HOperatorSet.Threshold(gray, out region, runtime.ThresholdMin, runtime.ThresholdMax);
+
+            if (runtime.RunInputRoi != null && runtime.RunInputRoi.IsInitialized())
+            {
+                HObject reduced = null;
+                HOperatorSet.Intersection(region, runtime.RunInputRoi, out reduced);
+                region.Dispose();
+                region = reduced;
+            }
+
+            HOperatorSet.CopyObj(region, out result.OutRegion, 1, -1);
+            result.Success = true;
+            result.Message = "执行完成";
+            return result;
+        }
+        finally
+        {
+            gray?.Dispose();
+            region?.Dispose();
+        }
+    }
+}
+```
+
+注意：算法层内部临时 HObject 必须在 `finally` 释放。要输出给外部的对象必须 `CopyObj` 到结果对象，由结果对象或参数写回逻辑继续管理。
+
+### 16.5 第三步：写参数映射 XXXParamsMapper
+
+`ParamsMapper` 负责三件事：
+
+1. 执行前释放上一轮输出。
+2. 把 `ParamsXXX` 转成算法运行参数。
+3. 把算法结果写回 `ParamsXXX`。
+
+示例：
+
+```csharp
+public static class XXXParamsMapper
+{
+    public static void ReleaseOutputHObjects(ParamsXXX p)
+    {
+        if (p == null) return;
+        p.m_ho_OutRegion?.Dispose();
+        p.m_ho_OutRegion = null;
+        p.m_ho_OutImgShow?.Dispose();
+        p.m_ho_OutImgShow = null;
+    }
+
+    public static XXXRuntimeParams ToRuntime(ParamsXXX p)
+    {
+        XXXRuntimeParams runtime = new XXXRuntimeParams();
+        runtime.ThresholdMin = p.m_fThresholdMin;
+        runtime.ThresholdMax = p.m_fThresholdMax;
+        runtime.RunInputRoi = BuildRunInputRoi(p);
+        return runtime;
+    }
+
+    public static void ApplyResult(ParamsXXX p, XXXResult result)
+    {
+        ReleaseOutputHObjects(p);
+
+        p.m_bRunSuccess = result != null && result.Success;
+        p.m_strRunMessage = result == null ? "执行失败：结果为空" : result.Message;
+
+        if (result != null && result.OutRegion != null && result.OutRegion.IsInitialized())
+        {
+            HOperatorSet.CopyObj(result.OutRegion, out p.m_ho_OutRegion, 1, -1);
+        }
+
+        if (result != null && result.OutImgShow != null && result.OutImgShow.IsInitialized())
+        {
+            HOperatorSet.CopyObj(result.OutImgShow, out p.m_ho_OutImgShow, 1, -1);
+        }
+    }
+}
+```
+
+`ApplyResult()` 写输出前再次释放输出，是为了避免旧输出残留。算法结果对象自己也要在 `finally` 或 `using` 中释放，不能因为写回异常就泄漏。
+
+### 16.6 第四步：生成算法输入 ROI，包含位置跟随
+
+执行时不能直接改原始 ROI 参数。标准做法是：
+
+```text
+原始 ROI 参数
+  -> 生成 rawRoi
+  -> 如果启用跟随，用流程输入位姿和基准位姿生成 HALCON 变换
+  -> AffineTransRegion 生成 runInputRoi
+  -> 算法只使用 runInputRoi
+```
+
+示例：
+
+```csharp
+public static HObject BuildRunInputRoi(ParamsXXX p)
+{
+    HObject rawRoi = null;
+    HObject runInputRoi = null;
+    HTuple homMat2D = null;
+
+    try
+    {
+        HOperatorSet.GenRectangle1(
+            out rawRoi,
+            p.m_fLocalRoiRow1,
+            p.m_fLocalRoiCol1,
+            p.m_fLocalRoiRow2,
+            p.m_fLocalRoiCol2);
+
+        if (p.m_bEnableRoiFollow)
+        {
+            if (!p.m_bInputPoseValid)
+            {
+                throw new InvalidOperationException("ROI位置跟随失败：流程输入位姿无效");
+            }
+
+            p.m_dFollowOffsetRow = p.m_dInputRow - p.m_dBaseRow;
+            p.m_dFollowOffsetCol = p.m_dInputCol - p.m_dBaseCol;
+            p.m_dFollowOffsetAngle = p.m_dInputAngle - p.m_dBaseAngle;
+
+            HOperatorSet.VectorAngleToRigid(
+                p.m_dBaseRow,
+                p.m_dBaseCol,
+                p.m_dBaseAngle,
+                p.m_dInputRow,
+                p.m_dInputCol,
+                p.m_dInputAngle,
+                out homMat2D);
+        }
+        else
+        {
+            p.m_dFollowOffsetRow = 0;
+            p.m_dFollowOffsetCol = 0;
+            p.m_dFollowOffsetAngle = 0;
+            HOperatorSet.HomMat2dIdentity(out homMat2D);
+        }
+
+        HOperatorSet.AffineTransRegion(rawRoi, out runInputRoi, homMat2D, "nearest_neighbor");
+        return runInputRoi;
+    }
+    finally
+    {
+        rawRoi?.Dispose();
+    }
+}
+```
+
+这里输出偏差只用相减，ROI 变换统一用 HALCON 算子。不要手写旋转矩阵，也不要自己写四点旋转公式。
+
+### 16.7 第五步：写插件对象 XXXObj
+
+`XXXObj` 是流程真正执行的入口。WPF 页面按钮、WinForm 页面按钮、流程运行，最终都应该落到 `ExecuteObj()`。
+
+模板：
+
+```csharp
+public class XXXObj : IPlugin
+{
+    public ModuleInfo moduleInfo { get; set; } = new ModuleInfo();
+    public PluginParamsBase PluginParams { get; set; } = new ParamsXXX();
+
+    public bool ExecuteObj()
+    {
+        ParamsXXX p = PluginParams as ParamsXXX;
+        Stopwatch watch = Stopwatch.StartNew();
+        XXXResult result = null;
+
+        try
+        {
+            if (p == null) return false;
+
+            XXXParamsMapper.ReleaseOutputHObjects(p);
+
+            if (!p.m_bEnable)
+            {
+                p.m_bRunSuccess = true;
+                p.m_strRunMessage = "模块未启用，跳过执行";
+                return true;
+            }
+
+            XXXRuntimeParams runtime = XXXParamsMapper.ToRuntime(p);
+            result = new XXXEngine().Run(p.ho_Image, runtime);
+            XXXParamsMapper.ApplyResult(p, result);
+            return p.m_bRunSuccess;
+        }
+        catch (Exception ex)
+        {
+            p.m_bRunSuccess = false;
+            p.m_strRunMessage = ex.Message;
+            return false;
+        }
+        finally
+        {
+            watch.Stop();
+            if (p != null) p.m_fElapsedMs = watch.Elapsed.TotalMilliseconds;
+            result?.Dispose();
+        }
+    }
+
+    public bool saveParams()
+    {
+        PluginParams.filePath = moduleInfo.filePath;
+        return PluginParams.Save();
+    }
+
+    public void DisPoseObj()
+    {
+        XXXParamsMapper.ReleaseOutputHObjects(PluginParams as ParamsXXX);
+    }
+}
+```
+
+强制要求：
+
+- `ExecuteObj()` 必须写 `m_bRunSuccess`。
+- 成功、失败、异常都必须写 `m_fElapsedMs`。
+- 异常必须写 `m_strRunMessage`。
+- 执行前释放上一轮输出 HObject。
+- `DisPoseObj()` 释放最后一轮输出 HObject。
+- 不释放输入图像 `ho_Image`。
+
+### 16.8 第六步：写 ViewModel 参数绑定
+
+ViewModel 的职责是把界面控件值同步到 `ParamsXXX`，并把 `ParamsXXX` 的值显示到界面。
+
+模板：
+
+```csharp
+public sealed class XXXViewModel : INotifyPropertyChanged
+{
+    private ParamsXXX frameParams;
+
+    public double LocalRoiRow1 { get; set; }
+    public double LocalRoiCol1 { get; set; }
+    public double LocalRoiRow2 { get; set; }
+    public double LocalRoiCol2 { get; set; }
+
+    public bool EnableRoiFollow { get; set; }
+    public double BaseRow { get; set; }
+    public double BaseCol { get; set; }
+    public double BaseAngle { get; set; }
+
+    public void BindFrameParams(ParamsXXX source)
+    {
+        frameParams = source;
+        if (frameParams == null) return;
+
+        LocalRoiRow1 = frameParams.m_fLocalRoiRow1;
+        LocalRoiCol1 = frameParams.m_fLocalRoiCol1;
+        LocalRoiRow2 = frameParams.m_fLocalRoiRow2;
+        LocalRoiCol2 = frameParams.m_fLocalRoiCol2;
+        EnableRoiFollow = frameParams.m_bEnableRoiFollow;
+        BaseRow = frameParams.m_dBaseRow;
+        BaseCol = frameParams.m_dBaseCol;
+        BaseAngle = frameParams.m_dBaseAngle;
+
+        OnPropertyChanged(string.Empty);
+    }
+
+    public void CommitToFrameParams()
+    {
+        if (frameParams == null) return;
+
+        frameParams.m_fLocalRoiRow1 = LocalRoiRow1;
+        frameParams.m_fLocalRoiCol1 = LocalRoiCol1;
+        frameParams.m_fLocalRoiRow2 = LocalRoiRow2;
+        frameParams.m_fLocalRoiCol2 = LocalRoiCol2;
+        frameParams.m_bEnableRoiFollow = EnableRoiFollow;
+        frameParams.m_dBaseRow = BaseRow;
+        frameParams.m_dBaseCol = BaseCol;
+        frameParams.m_dBaseAngle = BaseAngle;
+    }
+}
+```
+
+注意：`BindFrameParams()` 不是复制流程参数，而是把 ViewModel 绑定到同一个 `ParamsXXX` 对象。这样插件窗体和流程执行看到的是同一份参数。
+
+### 16.9 第七步：写 WPF 页面和 IPluginWpfView
+
+WPF 页面必须实现 `IPluginWpfView`，由 `WPFFormPluginBase` 调用。
+
+模板：
+
+```csharp
+public partial class XXXWpfView : UserControl, IPluginWpfView
+{
+    private IPlugin pluginObject;
+    private ParamsXXX pluginParams;
+    private readonly XXXViewModel vm = new XXXViewModel();
+
+    public XXXWpfView()
+    {
+        InitializeComponent();
+        DataContext = vm;
+    }
+
+    public void BindPlugin(IPlugin plugin)
+    {
+        pluginObject = plugin;
+        pluginParams = pluginObject == null ? null : pluginObject.PluginParams as ParamsXXX;
+        vm.BindFrameParams(pluginParams);
+        RestoreImageAndRoiFromParams();
+    }
+
+    public PluginViewActionResult RunFromHost()
+    {
+        Stopwatch watch = Stopwatch.StartNew();
+        try
+        {
+            CommitBindings();
+            SaveCurrentViewRoi();
+            vm.CommitToFrameParams();
+
+            bool success = pluginObject != null && pluginObject.ExecuteObj();
+            watch.Stop();
+
+            RefreshResultView();
+            return success
+                ? PluginViewActionResult.Ok("执行完成", watch.ElapsedMilliseconds)
+                : PluginViewActionResult.Fail(pluginParams == null ? "执行失败" : pluginParams.m_strRunMessage, watch.ElapsedMilliseconds);
+        }
+        catch (Exception ex)
+        {
+            watch.Stop();
+            if (pluginParams != null)
+            {
+                pluginParams.m_bRunSuccess = false;
+                pluginParams.m_strRunMessage = ex.Message;
+                pluginParams.m_fElapsedMs = watch.Elapsed.TotalMilliseconds;
+            }
+            return PluginViewActionResult.Fail("执行异常：" + ex.Message, watch.ElapsedMilliseconds);
+        }
+    }
+
+    public PluginViewActionResult SaveFromHost(string filePath)
+    {
+        CommitBindings();
+        SaveCurrentViewRoi();
+        vm.CommitToFrameParams();
+
+        if (pluginObject != null && pluginObject.PluginParams != null)
+        {
+            pluginObject.PluginParams.filePath = filePath;
+        }
+
+        bool ok = pluginObject != null && pluginObject.saveParams();
+        return ok ? PluginViewActionResult.Ok("参数已保存") : PluginViewActionResult.Fail("参数保存失败");
+    }
+
+    public void CloseFromHost()
+    {
+        ReleaseViewResources();
+    }
+}
+```
+
+执行前顺序必须是：
+
+```text
+CommitBindings()
+  -> SaveCurrentViewRoi()
+  -> vm.CommitToFrameParams()
+  -> pluginObject.ExecuteObj()
+  -> RefreshResultView()
+```
+
+不能跳过 `SaveCurrentViewRoi()`，否则界面上拖动后的 ROI 不会写回参数类。
+
+### 16.10 第八步：ViewROI 右键和位置跟随交互
+
+带 ROI 的插件必须保持和原插件一致的交互：
+
+- 右键设置基准点坐标 / 基准角度。
+- 右键设置当前点坐标 / 当前角度。
+- ViewROI 编辑的是原始 ROI 参数。
+- 启用位置跟随后，只在执行时生成算法输入 ROI。
+- 右键当前点只用于调试，正式流程运行时当前位姿必须来自流程输入。
+
+右键设置基准点示意：
+
+```csharp
+private void SetBasePoseFromMouse(double row, double col, double angle)
+{
+    vm.BaseRow = row;
+    vm.BaseCol = col;
+    vm.BaseAngle = angle;
+    vm.CommitToFrameParams();
+}
+```
+
+右键设置当前点示意：
+
+```csharp
+private void SetCurrentPoseForDebug(double row, double col, double angle)
+{
+    if (pluginParams == null) return;
+
+    pluginParams.m_dInputRow = row;
+    pluginParams.m_dInputCol = col;
+    pluginParams.m_dInputAngle = angle;
+    pluginParams.m_bInputPoseValid = true;
+}
+```
+
+这里必须写清楚：调试当前点不是正式流程输入。正式流程运行时，上游模块必须把当前坐标和当前角度写入当前插件参数或通过流程参数链接传入。
+
+### 16.11 第九步：保存、加载和默认参数
+
+保存只保存可序列化参数，例如阈值、ROI 原始参数、基准位姿、开关。
+
+不保存：
+
+- `HObject`。
+- 输出结果。
+- 运行状态。
+- ViewROI 控件状态。
+- 界面临时对象。
+
+保存入口统一走基类窗体：
+
+```text
+WPFFormPluginBase.Btn_Save_Click()
+  -> IPluginWpfView.SaveFromHost(filePath)
+  -> vm.CommitToFrameParams()
+  -> pluginObject.saveParams()
+```
+
+后续如果 DLL 内部调试用“保存/读取”按钮，只作为开发调试功能，正式集成时默认不显示，避免和框架基类保存逻辑冲突。
+
+### 16.12 第十步：执行刷新和状态显示
+
+插件执行后必须写回参数类：
+
+```csharp
+p.m_bRunSuccess = true 或 false;
+p.m_fElapsedMs = watch.Elapsed.TotalMilliseconds;
+p.m_strRunMessage = "执行完成" 或异常信息;
+```
+
+WPF 调试界面刷新链路：
+
+```text
+基类执行按钮
+  -> RunFromHost() / ExecuteObj()
+  -> 写回 PluginParams
+  -> RaiseActionCompleted()
+  -> WPFDebugProcessView.RefreshModuleList()
+  -> ModuleRunStateReader 读取 PluginParams
+```
+
+如果是 WPF 调试界面“运行当前流程”，可以直接遍历当前流程模块：
+
+```csharp
+foreach (IPlugin module in currentProcess.m_ModuleObjList)
+{
+    if (module == null || module.moduleInfo == null) continue;
+    if (!module.moduleInfo.IsUse) continue;
+    module.ExecuteObj();
+}
+```
+
+这和 `Project.Instance.ExecuteOnce()` 不一样。`ExecuteOnce()` 是业务流程线程，需要 `ProcessServices` 绑定 `m_eventRUNProcess` 并 `OpeningThread()` 后才会触发。
+
+### 16.13 第十一步：内存释放清单
+
+每个新插件交付前必须检查：
+
+- 执行前是否释放上一轮输出 HObject。
+- `ApplyResult()` 写入新输出前是否释放旧输出。
+- 算法层临时 HObject 是否 `finally` 释放。
+- 算法结果对象是否 `Dispose()`。
+- `DisPoseObj()` 是否释放最后一轮输出 HObject。
+- 界面关闭是否释放 ViewROI Adapter、HWindowControl、页面临时 HObject。
+- 界面关闭是否解绑事件。
+- 是否没有释放 `ParamsXXX.ho_Image`。
+- 是否没有在界面层释放 `ParamsXXX.m_ho_Out*` 输出结果。
+
+原则：谁创建，谁释放；流程输入不由插件释放；插件输出由插件释放；界面临时对象由界面释放。
+
+### 16.14 新插件交付检查清单
+
+新插件开发完成后，至少检查下面项目：
+
+- 参数类继承 `PluginParamsBase`。
+- 参数类包含运行状态 `m_bRunSuccess / m_fElapsedMs / m_strRunMessage`。
+- 参数类包含必要的输入图像、原始 ROI、基准位姿、流程输入位姿、偏差输出。
+- 算法层不引用 WPF、ViewROI、窗体控件。
+- `ExecuteObj()` 可以在没有打开插件窗体时独立运行。
+- WPF 页面实现 `IPluginWpfView`。
+- `RunFromHost()` 和页面内部执行按钮走同一条逻辑。
+- 执行前提交绑定和 ROI。
+- 启用位置跟随时只生成算法输入 ROI，不修改原始 ROI 参数。
+- 偏差 Row / Col / Angle 写回参数类。
+- 输出 HObject 使用 `CopyObj` 写回参数类。
+- 所有 HObject 释放职责清楚。
+- 编译 Debug / Release 后确认运行的是对应 DLL。
+
+后续开发新插件时，先按这张清单搭骨架，再填算法。这样不破坏框架，也方便调试界面、流程运行和其它插件复用。
+## 17. 两线交点 Demo 封装成 DLL 的落地记录
+
+`E:\FindIntersectionDemo_MVVM` 是可执行参考工程，只用于参考界面交互和算法参数组织，不能把它当成目标工程直接修改。真正交付给框架使用的是当前方案目录下的 `Plugin.FindIntersection` DLL。
+
+### 17.1 本次 DLL 封装目标
+
+目标工程：`ProcessWideHoleLaser\Plugin.FindIntersection`。
+
+输出位置：
+
+```text
+Mef_VisionFrame\bin\Release\Plugins\Plugin.FindIntersection.dll
+```
+
+封装后的插件必须满足：
+
+- MEF 仍通过 `FindIntersectionObj` 导出插件对象。
+- `ExecuteObj()` 在不开窗体时也能独立运行。
+- 图像统一来自 `ParamsFindIntersection.ho_Image`，界面只显示这份参数图像。
+- WPF 页面实现 `IPluginWpfView`，由 `WPFFormPluginBase` 承接执行、保存、关闭。
+- ViewROI 只编辑原始 ROI 参数。
+- 启用位置跟随后，执行时临时生成算法输入 ROI，不覆盖原始 ROI。
+- 输出交点、拟合线段和位置跟随偏差 X/Y/R 到流程输出。
+
+### 17.2 两线交点插件分层
+
+```text
+Plugin.FindIntersection
+├─ Plugin.FindIntersection.cs            // IPlugin 入口，流程执行和输出发布
+├─ Core\FindEngine.cs                    // 算法执行，不引用 WPF，不引用窗体控件
+├─ Core\FollowTransformer.cs             // 位置跟随 ROI 变换
+├─ Services\FindIntersectionRoiBinder.cs // ViewROI 和参数类互相同步
+├─ Services\HalconViewRoiAdapter.cs      // Halcon 显示和 ViewROI 生命周期
+├─ Services\FindIntersectionOverlayPainter.cs // 显示叠加层
+├─ ViewModels\ToolVm.cs                  // WPF 绑定和参数转接
+├─ Controls\NumericBox.cs                // 数字输入控件，未引入第三方包时使用
+└─ WPF架构\FindIntersectionWpfView.xaml(.cs)
+```
+
+核心规则：算法层只认 `ParamsFindIntersection` 和算法 DTO，不认界面；界面只负责参数绑定、ViewROI、右键交互和显示刷新。
+
+### 17.3 执行链路
+
+```text
+WPFFormPluginBase 执行按钮
+  -> FindIntersectionWpfView.RunFromHost()
+  -> BeforeRun()
+  -> CommitBindings()
+  -> ViewROI 保存到 ParamsFindIntersection
+  -> ToolVm.CommitToFrameParams()
+  -> FindIntersectionObj.ExecuteObj()
+  -> FindEngine.Run(pluginParams)
+  -> 写回 PluginParams 运行状态和结果
+  -> PublishResultParams()
+  -> AfterRun()
+  -> WPFFormPluginBase.RaiseActionCompleted()
+  -> WPFDebugProcessView.RefreshModuleList()
+```
+
+页面内部的“运行”按钮也必须调用 `RunFromHost()`，这样底部基类按钮和页面按钮走同一条逻辑。
+
+### 17.4 输入图像绑定规则
+
+`FindIntersectionWpfView.BindPlugin(plugin)` 必须绑定宿主传入的同一个插件对象：
+
+```csharp
+pluginObject = plugin as FindIntersectionObj ?? new FindIntersectionObj();
+pluginParams = EnsurePluginParams();
+vm.BindFrameParams(pluginParams);
+ShowFrameImage(true);
+```
+
+`EnsurePluginParams()` 只保证对象存在，不能创建第二套和宿主脱离的参数对象。界面重新打开时，如果 `pluginParams.ho_Image` 仍然有效，必须主动 `ShowFrameImage(true)` 恢复显示。这样就不会出现“执行模块里有图，界面没有图”的错绑问题。
+
+输入图像所有权：
+
+- `ParamsFindIntersection.ho_Image` 是流程输入图像。
+- 插件和界面都不释放 `ho_Image`。
+- 显示适配器可以创建显示副本，显示副本由适配器自己释放。
+- 从上游模块取图时只把 `HObject` 引用赋给 `findParams.ho_Image`，不复制、不释放上游图。
+
+### 17.5 位置跟随规则
+
+两线交点插件的位置跟随和后续新插件统一按下面规则：
+
+- 基准位姿：`m_fBaseRow / m_fBaseCol / m_fBaseAngle`。
+- 当前输入位姿：`m_fCurrentRow / m_fCurrentCol / m_fCurrentAngle`。
+- 当前位姿有效标志：`m_bCurrentPoseValid`。
+- 跟随开关：`m_bUsePositionFollow`。
+- 输出偏差：`m_fFollowOffsetX / m_fFollowOffsetY / m_fFollowOffsetR`。
+
+启用跟随时：
+
+```text
+X = CurrentColumn - BaseColumn
+Y = CurrentRow - BaseRow
+R = CurrentAngle - BaseAngle
+```
+
+ROI 变换使用 HALCON 算子：
+
+```csharp
+HOperatorSet.VectorAngleToRigid(baseRow, baseCol, baseAngleRad,
+                                currentRow, currentCol, currentAngleRad,
+                                out homMat2D);
+HOperatorSet.AffineTransPoint2d(homMat2D, roiRow, roiCol,
+                                out followRow, out followCol);
+```
+
+这里使用矩阵不是为了自己手算旋转，而是让 HALCON 根据“基准位姿到当前位姿”的刚性变换生成新的算法输入 ROI。角度不是只相减给结果显示，还要参与 ROI 中心点旋转修正；只做 Row/Col 相减会丢掉绕基准点旋转带来的坐标变化。
+
+未启用跟随时：
+
+- 算法输入 ROI 等于原始 ROI。
+- 偏差 X/Y/R 清零。
+- 显示叠加层可以预览 ROI，但不能写输出偏差。
+
+启用跟随但当前位姿无效时：
+
+- `FindEngine.Run()` 直接返回失败。
+- `m_bRunSuccess = false`。
+- `m_strRunMessage = "位置跟随已启用，但当前输入坐标无效"`。
+
+### 17.6 右键菜单规则
+
+图像显示区右键菜单必须支持：
+
+- 设置基坐标基准。
+- 设置当前输入坐标。
+
+右键设置基准时，把鼠标点 Row/Column 和当前激活 ROI 的角度写入基准位姿。右键设置当前输入坐标时，把鼠标点 Row/Column 和当前激活 ROI 的角度写入当前输入位姿，并把 `m_bCurrentPoseValid` 置为 `true`。
+
+正式流程运行时，当前输入位姿应由上游流程写入，不应依赖人工右键。右键当前点主要用于调试位置跟随效果。
+
+### 17.7 流程输出
+
+两线交点插件执行成功后发布下面输出，供下游模块读取：
+
+```text
+IntersectionRow
+IntersectionColumn
+IntersectionAngle
+IsParallel
+Line1RowBegin / Line1ColumnBegin / Line1RowEnd / Line1ColumnEnd
+Line2RowBegin / Line2ColumnBegin / Line2RowEnd / Line2ColumnEnd
+FollowOffsetX / FollowOffsetY / FollowOffsetR
+偏差X / 偏差Y / 偏差R
+```
+
+英文名用于程序链接，中文名用于调试或现场配置时更直观。后续新插件可以同样保留英文输出名，并按需要增加中文别名。
+
+### 17.8 数字输入控件
+
+当前项目没有检测到 `Extended.Wpf.Toolkit` 本地包或 DLL，所以两线交点插件暂时保留 `Controls\NumericBox.cs`，它内部用 WinForms `NumericUpDown` 包一层 WPF 控件，避免当前 DLL 增加第三方依赖后编译失败。
+
+如果后续确定框架统一引入 Xceed Extended WPF Toolkit，可以按下面方式替换：
+
+```xml
+xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+
+<xctk:DoubleUpDown Value="{Binding Params.Line1CenterRow, Mode=TwoWay}"
+                   Increment="1"
+                   FormatString="F2" />
+```
+
+替换原则：
+
+- 先在主框架和插件工程统一添加引用。
+- 再替换 XAML 控件。
+- 最后删除 `Controls\NumericBox.cs` 和 csproj 中对应 Compile 项。
+- 替换后必须重新验证基类保存、执行前提交绑定、ViewROI 回写参数。
+
+### 17.9 本次编译方式
+
+旧式 .NET Framework + WPF 工程建议用 Visual Studio MSBuild 编译，不建议只用 `dotnet build` 判断成败。
+
+本次验证命令：
+
+```powershell
+& 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\MSBuild\Current\Bin\MSBuild.exe' `
+  'D:\BaiduNetdiskDownload\宽幅打孔新方案1107\宽幅打孔新方案1017\ProcessWideHoleLaser\Plugin.FindIntersection\Plugin.FindIntersection.csproj' `
+  /p:Configuration=Release /p:Platform=AnyCPU /m /v:minimal
+```
+
+结果：编译通过，生成 `Mef_VisionFrame\bin\Release\Plugins\Plugin.FindIntersection.dll`。
+
+### 17.10 本次经验总结
+
+- 可执行 Demo 只能作为参考，不要把 Demo 工程当目标工程改。
+- 插件参数类是流程输入输出载体，界面不要乱释放参数类里的输入图像和输出对象。
+- WPF 页面每次打开都要从插件参数类恢复图像和 ROI，不要依赖上一次窗口实例。
+- 基类窗体只做按钮转发、耗时显示和动作完成通知，具体执行和保存由插件页面实现。
+- 外层模块状态灯只读 `PluginParams.m_bRunSuccess / m_fElapsedMs / m_strRunMessage`。
+- 带 ROI 的插件必须预留位置跟随，且跟随只作用于算法输入 ROI。
+- 显示叠加层不能修改输出偏差，输出字段只能由执行链路写入。
+- 旧式 WPF 工程用 VS MSBuild 编译更可靠；`dotnet build` 对 .NET Framework WPF 的 targets 支持可能不完整。
+- 修改中文源码前先确认 UTF-8，发现乱码先恢复干净文本再改。

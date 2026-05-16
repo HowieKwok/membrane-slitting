@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using HalconDotNet;
 using System.Collections;
 
@@ -8,10 +8,10 @@ namespace ViewROI
 {
 
     /// <summary>
-    ///�������һ�����࣬���ڽ�ͼ�λ������ӵ�HALCON����
-    ///ͼ�λ�����һ��hashtable�������ñ�����ͼ��ģʽ�б� (e.g GC_COLOR, GC_LINEWIDTH and GC_PAINT)
-    ///�����Ӧ��ֵ(e.g "blue", "4", "3D-plot")��
-    ///����ʾ����֮ǰ����Щͼ��״̬Ӧ���ڴ��ڡ�
+    ///这个类是一个副类，用于将图形环境链接到HALCON对象。
+    ///图形环境由一个hashtable描述，该表包含图形模式列表 (e.g GC_COLOR, GC_LINEWIDTH and GC_PAINT)
+    ///及其对应的值(e.g "blue", "4", "3D-plot")。
+    ///在显示对象之前，这些图形状态应用于窗口。
     /// </summary>
     public class HObjectEntry
 	{
@@ -48,3 +48,4 @@ namespace ViewROI
 
 	}//end of class
 }//end of namespace
+

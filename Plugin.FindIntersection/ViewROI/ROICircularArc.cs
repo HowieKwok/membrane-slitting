@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using HalconDotNet;
 
 namespace ViewROI
@@ -302,4 +302,5 @@ namespace ViewROI
 
 	}//end of class
 }//end of namespace
+
 

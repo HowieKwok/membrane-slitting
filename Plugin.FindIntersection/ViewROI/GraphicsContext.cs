@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using HalconDotNet;
 
@@ -9,10 +9,10 @@ namespace ViewROI
 	public delegate void GCDelegate(string val);
 
     /// <summary>
-    ///Õâ¸öÀà°üº¬ÁËHALCON¶ÔÏóµÄÍ¼ĞÎ»·¾³¡£
-    ///Õâ×éÍ¼ĞÎÄ£Ê½ÓÉhashlist 'graphicalSettings'¶¨Òå¡£
-    ///Èç¹ûÁĞ±íÎª¿Õ£¬ÔòÓëÏµÍ³Ä¬ÈÏµÄÍ¼ĞÎÉèÖÃÏàÍ¬¡£
-    ///´ËÍâ£¬Ìá¹©µÄHALCON´°¿Ú½«¸ù¾İÌá¹©µÄÍ¼ĞÎ»·¾³µÄÌõÄ¿½øĞĞµ÷Õû(ÔÚµ÷ÓÃapplyContext()Ê±)
+    ///è¿™ä¸ªç±»åŒ…å«äº†HALCONå¯¹è±¡çš„å›¾å½¢ç¯å¢ƒã€‚
+    ///è¿™ç»„å›¾å½¢æ¨¡å¼ç”±hashlist 'graphicalSettings'å®šä¹‰ã€‚
+    ///å¦‚æœåˆ—è¡¨ä¸ºç©ºï¼Œåˆ™ä¸ç³»ç»Ÿé»˜è®¤çš„å›¾å½¢è®¾ç½®ç›¸åŒã€‚
+    ///æ­¤å¤–ï¼Œæä¾›çš„HALCONçª—å£å°†æ ¹æ®æä¾›çš„å›¾å½¢ç¯å¢ƒçš„æ¡ç›®è¿›è¡Œè°ƒæ•´(åœ¨è°ƒç”¨applyContext()æ—¶)
 	/// </summary>
 	public class GraphicsContext
 	{
@@ -413,3 +413,4 @@ namespace ViewROI
 
 	}//end of class
 }//end of namespace
+

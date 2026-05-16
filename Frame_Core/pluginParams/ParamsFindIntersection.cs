@@ -1,351 +1,308 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Frame_Core;
-using HalconDotNet;
+﻿using HalconDotNet;
+using System;
+using System.ComponentModel;
+using System.Xml.Serialization;
+using YYSD.UICore.Control;
 
-namespace Plugin.FindIntersectionAngle
+namespace Frame_Core.pluginParams
 {
     /// <summary>
-    /// 两条抓边找交点参数类
+    /// 两条抓边找交点参数类。
     /// </summary>
     [Serializable]
     public class ParamsFindIntersection : PluginParamsBase
     {
-        #region 1. 输入参数 - 公共部分
+        #region 输入参数
 
         /// <summary>
-        /// 输入变量：原图
+        /// 输入图像，由流程框架或上游模块传入。
         /// </summary>
         [NonSerialized]
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public HObject ho_Image;
 
-        /// <summary>
-        /// 图像来源索引：0=默认 1=指定模块
-        /// </summary>
+        [ShowTextAttribute("图像来源索引")]
+        [Description("0=当前输入图像，1=指定模块输出图像")]
         public int ImageSourceIndex = 0;
 
-        /// <summary>
-        /// 输入变量：源数据导入模块
-        /// </summary>
+        [ShowTextAttribute("图像来源模块")]
+        [Description("图像来源模块名称")]
         public string ImageSourceModule = "default";
 
-        /// <summary>
-        /// 输入变量：源数据导入名称
-        /// </summary>
+        [ShowTextAttribute("图像来源名称")]
+        [Description("图像来源输出参数名称")]
         public string ImageSourceName = "default";
 
-        /// <summary>
-        /// 输入变量：工具名称
-        /// </summary>
+        [ShowTextAttribute("工具名称")]
+        [Description("当前找交点工具名称")]
         public string str_ModelName = "未命名";
 
         #endregion
 
-        #region 2. 输入参数 - 直线1 ROI
+        #region 抓边1 Rectangle2 ROI
 
-        /// <summary>
-        /// 直线1：ROI中点行坐标
-        /// </summary>
+        [ShowTextAttribute("抓边1中心行")]
+        [Description("抓边1 Rectangle2 ROI 中心 Row")]
         public double hv_Line1_RoiMidRow = 200;
 
-        /// <summary>
-        /// 直线1：ROI中点列坐标
-        /// </summary>
+        [ShowTextAttribute("抓边1中心列")]
+        [Description("抓边1 Rectangle2 ROI 中心 Column")]
         public double hv_Line1_RoiMidColumn = 300;
 
-        /// <summary>
-        /// 直线1：ROI旋转角度(度)
-        /// </summary>
+        [ShowTextAttribute("抓边1角度")]
+        [Description("抓边1 Rectangle2 ROI 角度，单位度")]
         public double hv_Line1_RoiAngle = 0;
 
-        /// <summary>
-        /// 直线1：ROI高度
-        /// </summary>
+        [ShowTextAttribute("抓边1高度")]
+        [Description("抓边1 Rectangle2 ROI 高度")]
         public double hv_Line1_RoiHeight = 200;
 
-        /// <summary>
-        /// 直线1：ROI宽度
-        /// </summary>
+        [ShowTextAttribute("抓边1宽度")]
+        [Description("抓边1 Rectangle2 ROI 宽度")]
         public double hv_Line1_RoiWidth = 100;
 
-        /// <summary>
-        /// 直线1：ROI采样密度
-        /// </summary>
+        [ShowTextAttribute("抓边1采样点数")]
+        [Description("抓边1测量采样点数量")]
         public int hv_Line1_RoiPointsNum = 20;
 
-        /// <summary>
-        /// 直线1：平滑系数
-        /// </summary>
+        [ShowTextAttribute("抓边1平滑系数")]
+        [Description("抓边1边缘测量 Sigma")]
         public double hv_Line1_MeasureSigma = 3.0;
 
-        /// <summary>
-        /// 直线1：灰度阈值
-        /// </summary>
+        [ShowTextAttribute("抓边1灰度阈值")]
+        [Description("抓边1边缘测量阈值")]
         public int hv_Line1_MeasureThreshold = 20;
 
-        /// <summary>
-        /// 直线1：拟合数量
-        /// </summary>
+        [ShowTextAttribute("抓边1拟合数量")]
+        [Description("抓边1测量拟合实例数量")]
         public int hv_Line1_MeasureNumInstances = 1;
 
-        /// <summary>
-        /// 直线1：距离剔除阈值
-        /// </summary>
+        [ShowTextAttribute("抓边1距离剔除阈值")]
+        [Description("抓边1拟合距离剔除阈值")]
         public double hv_Line1_MeasureDistThreshold = 3.5;
 
-        /// <summary>
-        /// 直线1：明暗方向 'all','negative','positive','uniform'
-        /// </summary>
+        [ShowTextAttribute("抓边1明暗方向")]
+        [Description("抓边1明暗方向，可选 all、negative、positive、uniform")]
         public string hv_Line1_MeasureTransition = "all";
 
-        /// <summary>
-        /// 直线1：边缘选取 'all','first','last'
-        /// </summary>
+        [ShowTextAttribute("抓边1边缘选取")]
+        [Description("抓边1边缘选取方式，可选 first、last、all")]
         public string hv_Line1_MeasureSelect = "first";
 
-        /// <summary>
-        /// 直线1：最小得分
-        /// </summary>
+        [ShowTextAttribute("抓边1最小得分")]
+        [Description("抓边1拟合最小得分")]
         public double hv_Line1_MeasureMinScore = 0.5;
 
-        /// <summary>
-        /// 直线1：迭代次数
-        /// </summary>
+        [ShowTextAttribute("抓边1迭代次数")]
+        [Description("抓边1最大迭代次数，-1表示使用默认值")]
         public int hv_Line1_MaxNumIterations = -1;
 
-        /// <summary>
-        /// 直线1：插值类型
-        /// </summary>
+        [ShowTextAttribute("抓边1插值类型")]
+        [Description("抓边1测量插值类型")]
         public string hv_Line1_MeasureInterpolation = "nearest_neighbor";
 
-        /// <summary>
-        /// 直线1：测量结果验证
-        /// </summary>
+        [ShowTextAttribute("抓边1显示测量区域")]
+        [Description("抓边1是否输出测量区域")]
         public string hv_Line1_MeasureIORegions = "true";
 
         #endregion
 
-        #region 3. 输入参数 - 直线2 ROI
+        #region 抓边2 Rectangle2 ROI
 
-        /// <summary>
-        /// 直线2：ROI中点行坐标
-        /// </summary>
+        [ShowTextAttribute("抓边2中心行")]
+        [Description("抓边2 Rectangle2 ROI 中心 Row")]
         public double hv_Line2_RoiMidRow = 300;
 
-        /// <summary>
-        /// 直线2：ROI中点列坐标
-        /// </summary>
+        [ShowTextAttribute("抓边2中心列")]
+        [Description("抓边2 Rectangle2 ROI 中心 Column")]
         public double hv_Line2_RoiMidColumn = 400;
 
-        /// <summary>
-        /// 直线2：ROI旋转角度(度)
-        /// </summary>
+        [ShowTextAttribute("抓边2角度")]
+        [Description("抓边2 Rectangle2 ROI 角度，单位度")]
         public double hv_Line2_RoiAngle = -90;
 
-        /// <summary>
-        /// 直线2：ROI高度
-        /// </summary>
+        [ShowTextAttribute("抓边2高度")]
+        [Description("抓边2 Rectangle2 ROI 高度")]
         public double hv_Line2_RoiHeight = 200;
 
-        /// <summary>
-        /// 直线2：ROI宽度
-        /// </summary>
+        [ShowTextAttribute("抓边2宽度")]
+        [Description("抓边2 Rectangle2 ROI 宽度")]
         public double hv_Line2_RoiWidth = 100;
 
-        /// <summary>
-        /// 直线2：ROI采样密度
-        /// </summary>
+        [ShowTextAttribute("抓边2采样点数")]
+        [Description("抓边2测量采样点数量")]
         public int hv_Line2_RoiPointsNum = 20;
 
-        /// <summary>
-        /// 直线2：平滑系数
-        /// </summary>
+        [ShowTextAttribute("抓边2平滑系数")]
+        [Description("抓边2边缘测量 Sigma")]
         public double hv_Line2_MeasureSigma = 3.0;
 
-        /// <summary>
-        /// 直线2：灰度阈值
-        /// </summary>
+        [ShowTextAttribute("抓边2灰度阈值")]
+        [Description("抓边2边缘测量阈值")]
         public int hv_Line2_MeasureThreshold = 20;
 
-        /// <summary>
-        /// 直线2：拟合数量
-        /// </summary>
+        [ShowTextAttribute("抓边2拟合数量")]
+        [Description("抓边2测量拟合实例数量")]
         public int hv_Line2_MeasureNumInstances = 1;
 
-        /// <summary>
-        /// 直线2：距离剔除阈值
-        /// </summary>
+        [ShowTextAttribute("抓边2距离剔除阈值")]
+        [Description("抓边2拟合距离剔除阈值")]
         public double hv_Line2_MeasureDistThreshold = 3.5;
 
-        /// <summary>
-        /// 直线2：明暗方向
-        /// </summary>
+        [ShowTextAttribute("抓边2明暗方向")]
+        [Description("抓边2明暗方向，可选 all、negative、positive、uniform")]
         public string hv_Line2_MeasureTransition = "all";
 
-        /// <summary>
-        /// 直线2：边缘选取
-        /// </summary>
+        [ShowTextAttribute("抓边2边缘选取")]
+        [Description("抓边2边缘选取方式，可选 first、last、all")]
         public string hv_Line2_MeasureSelect = "first";
 
-        /// <summary>
-        /// 直线2：最小得分
-        /// </summary>
+        [ShowTextAttribute("抓边2最小得分")]
+        [Description("抓边2拟合最小得分")]
         public double hv_Line2_MeasureMinScore = 0.5;
 
-        /// <summary>
-        /// 直线2：迭代次数
-        /// </summary>
+        [ShowTextAttribute("抓边2迭代次数")]
+        [Description("抓边2最大迭代次数，-1表示使用默认值")]
         public int hv_Line2_MaxNumIterations = -1;
 
-        /// <summary>
-        /// 直线2：插值类型
-        /// </summary>
+        [ShowTextAttribute("抓边2插值类型")]
+        [Description("抓边2测量插值类型")]
         public string hv_Line2_MeasureInterpolation = "nearest_neighbor";
 
-        /// <summary>
-        /// 直线2：测量结果验证
-        /// </summary>
+        [ShowTextAttribute("抓边2显示测量区域")]
+        [Description("抓边2是否输出测量区域")]
         public string hv_Line2_MeasureIORegions = "true";
 
         #endregion
 
-        #region 4. 输出变量
+        #region 位置跟随
 
-        /// <summary>
-        /// 直线1：拟合点行坐标
-        /// </summary>
+        [ShowTextAttribute("启用位置跟随")]
+        [Description("启用后按基准位置到当前位置的平移和旋转修正两个抓边 ROI")]
+        public bool m_bUsePositionFollow = false;
+
+        [ShowTextAttribute("基准行")]
+        [Description("位置跟随基准 Row")]
+        public double m_fBaseRow = 0;
+
+        [ShowTextAttribute("基准列")]
+        [Description("位置跟随基准 Column")]
+        public double m_fBaseCol = 0;
+
+        [ShowTextAttribute("基准角度")]
+        [Description("位置跟随基准角度，单位度")]
+        public double m_fBaseAngle = 0;
+
+        [ShowTextAttribute("当前行")]
+        [Description("位置跟随当前 Row")]
+        public double m_fCurrentRow = 0;
+
+        [ShowTextAttribute("当前列")]
+        [Description("位置跟随当前 Column")]
+        public double m_fCurrentCol = 0;
+
+        [ShowTextAttribute("当前角度")]
+        [Description("位置跟随当前角度，单位度")]
+        public double m_fCurrentAngle = 0;
+
+
+        [ShowTextAttribute("当前坐标有效")]
+        [Description("当前位置由上游流程或界面右键设置后置为 true；启用跟随时必须有效")]
+        public bool m_bCurrentPoseValid = false;
+        #endregion
+
+        #region 输出变量
+
+        [ShowTextAttribute("跟随偏差Y")]
+        [Description("当前位置 Row - 基准 Row，界面按 Y 显示")]
+        public double m_fFollowOffsetY = 0;
+
+        [ShowTextAttribute("跟随偏差X")]
+        [Description("当前位置 Column - 基准 Column，界面按 X 显示")]
+        public double m_fFollowOffsetX = 0;
+
+        [ShowTextAttribute("跟随偏差R")]
+        [Description("当前角度 - 基准角度，单位度")]
+        public double m_fFollowOffsetR = 0;
+
         [NonSerialized]
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public HTuple hv_Line1_CrossRow = null;
 
-        /// <summary>
-        /// 直线1：拟合点列坐标
-        /// </summary>
         [NonSerialized]
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public HTuple hv_Line1_CrossColumn = null;
 
-        /// <summary>
-        /// 直线1：起始行
-        /// </summary>
         [NonSerialized]
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public HTuple hv_Line1_RowBegin = null;
 
-        /// <summary>
-        /// 直线1：起始列
-        /// </summary>
         [NonSerialized]
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public HTuple hv_Line1_ColumnBegin = null;
 
-        /// <summary>
-        /// 直线1：终止行
-        /// </summary>
         [NonSerialized]
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public HTuple hv_Line1_RowEnd = null;
 
-        /// <summary>
-        /// 直线1：终止列
-        /// </summary>
         [NonSerialized]
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public HTuple hv_Line1_ColumnEnd = null;
 
-        /// <summary>
-        /// 直线2：拟合点行坐标
-        /// </summary>
         [NonSerialized]
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public HTuple hv_Line2_CrossRow = null;
 
-        /// <summary>
-        /// 直线2：拟合点列坐标
-        /// </summary>
         [NonSerialized]
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public HTuple hv_Line2_CrossColumn = null;
 
-        /// <summary>
-        /// 直线2：起始行
-        /// </summary>
         [NonSerialized]
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public HTuple hv_Line2_RowBegin = null;
 
-        /// <summary>
-        /// 直线2：起始列
-        /// </summary>
         [NonSerialized]
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public HTuple hv_Line2_ColumnBegin = null;
 
-        /// <summary>
-        /// 直线2：终止行
-        /// </summary>
         [NonSerialized]
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public HTuple hv_Line2_RowEnd = null;
 
-        /// <summary>
-        /// 直线2：终止列
-        /// </summary>
         [NonSerialized]
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public HTuple hv_Line2_ColumnEnd = null;
 
-        /// <summary>
-        /// 交点行坐标
-        /// </summary>
         [NonSerialized]
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public HTuple hv_IntersectionRow = null;
 
-        /// <summary>
-        /// 交点列坐标
-        /// </summary>
         [NonSerialized]
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public HTuple hv_IntersectionColumn = null;
 
-        /// <summary>
-        /// 两条直线夹角(度)
-        /// </summary>
         [NonSerialized]
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
+        public HTuple hv_IntersectionAngle = null;
+
+        [NonSerialized]
+        [XmlIgnore]
         public HTuple hv_LineAngle = null;
 
-        /// <summary>
-        /// 两直线是否平行(平行则无交点)
-        /// </summary>
         [NonSerialized]
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public HTuple hv_IsParallel = null;
 
-        /// <summary>
-        /// 直线1拟合成功标志
-        /// </summary>
         [NonSerialized]
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public bool bl_Line1_FitSuccess = false;
 
-        /// <summary>
-        /// 直线2拟合成功标志
-        /// </summary>
         [NonSerialized]
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public bool bl_Line2_FitSuccess = false;
 
-        /// <summary>
-        /// 交点计算成功标志
-        /// </summary>
         [NonSerialized]
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public bool bl_IntersectionSuccess = false;
 
         #endregion

@@ -170,7 +170,8 @@ namespace ViewROI
         }
 
         /// <summary>
-        ///获取描述ROI模型的参数信息
+        /// 获取描述 ROI 模型的参数信息。
+        /// </summary>
         public override HTuple getModelData()
         {
             return new HTuple(new double[] { midR, midC, phi, length1, length2 });
@@ -266,3 +267,4 @@ namespace ViewROI
         }
     }//end of class
 }//end of namespace
+

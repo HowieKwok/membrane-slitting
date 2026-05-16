@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using HalconDotNet;
 
 
@@ -6,24 +6,24 @@ namespace ViewROI
 {
 
     /// <summary>
-    ///Õâ¸öÀàÊÇÒ»¸ö»ùÀà£¬°üº¬ÁË´¦ÀíroiµÄĞéÄâ·½·¨¡£Òò´Ë£¬¼Ì³ĞÀàĞèÒª¶¨Òå/¸²¸ÇÕâĞ©·½·¨£¬
-    ///ÒÔ±ãÎªROIControllerÌá¹©¹ØÓÚÆä(ROIs)ĞÎ×´ºÍÎ»ÖÃµÄ±ØÒªĞÅÏ¢¡£
-    ///¸ÃÊ¾ÀıÏîÄ¿Îª¾ØĞÎ¡¢Ö±Ïß¡¢Ô²ºÍÔ²»¡Ìá¹©ÁËÅÉÉúµÄROIĞÎ×´¡£
-    ///ÒªÊ¹ÓÃÆäËûĞÎ×´£¬Äú±ØĞë´Ó»ùÀàROIÅÉÉúÒ»¸öĞÂÀà²¢ÊµÏÖËüµÄ·½·¨¡£
+    ///è¿™ä¸ªç±»æ˜¯ä¸€ä¸ªåŸºç±»ï¼ŒåŒ…å«äº†å¤„ç†roiçš„è™šæ‹Ÿæ–¹æ³•ã€‚å› æ­¤ï¼Œç»§æ‰¿ç±»éœ€è¦å®šä¹‰/è¦†ç›–è¿™äº›æ–¹æ³•ï¼Œ
+    ///ä»¥ä¾¿ä¸ºROIControlleræä¾›å…³äºå…¶(ROIs)å½¢çŠ¶å’Œä½ç½®çš„å¿…è¦ä¿¡æ¯ã€‚
+    ///è¯¥ç¤ºä¾‹é¡¹ç›®ä¸ºçŸ©å½¢ã€ç›´çº¿ã€åœ†å’Œåœ†å¼§æä¾›äº†æ´¾ç”Ÿçš„ROIå½¢çŠ¶ã€‚
+    ///è¦ä½¿ç”¨å…¶ä»–å½¢çŠ¶ï¼Œæ‚¨å¿…é¡»ä»åŸºç±»ROIæ´¾ç”Ÿä¸€ä¸ªæ–°ç±»å¹¶å®ç°å®ƒçš„æ–¹æ³•ã€‚
     /// </summary>    
     public class ROI
 	{
 
-        // ¼Ì³ĞROIÀàµÄÀà³ÉÔ±
+        // ç»§æ‰¿ROIç±»çš„ç±»æˆå‘˜
         protected int   NumHandles;
 		protected int	activeHandleIdx;
 
         /// <summary>
-        /// Flag ½«ROI¶¨ÒåÎª 'positive' or 'negative'.
+        /// Flag å°†ROIå®šä¹‰ä¸º 'positive' or 'negative'.
         /// </summary>
         protected int     OperatorFlag;
 
-        /// <summary>¶¨ÒåROIµÄÏßÌõÑùÊ½µÄ²ÎÊı¡£</summary>
+        /// <summary>å®šä¹‰ROIçš„çº¿æ¡æ ·å¼çš„å‚æ•°ã€‚</summary>
         public HTuple     flagLineStyle;
 
 		/// <summary>Constant for a positive ROI flag.</summary>
@@ -42,10 +42,10 @@ namespace ViewROI
 		protected HTuple  posOperation = new HTuple();
 		protected HTuple  negOperation = new HTuple(new int[] { 2, 2 });
 
-		/// <summary>¹¹Ôìº¯Êı  ROI class.</summary>
+		/// <summary>æ„é€ å‡½æ•°  ROI class.</summary>
 		public ROI() { }
 
-        /// <summary>ÔÚÊó±êÎ»ÖÃ´´½¨Ò»¸öĞÂµÄROIÊµÀı¡£</summary>
+        /// <summary>åœ¨é¼ æ ‡ä½ç½®åˆ›å»ºä¸€ä¸ªæ–°çš„ROIå®ä¾‹ã€‚</summary>
         /// <param name="midX">
         /// x (=column) coordinate for ROI
         /// </param>
@@ -54,12 +54,12 @@ namespace ViewROI
         /// </param>
         public virtual void createROI(double midX, double midY) { }
 
-        /// <summary>½«ROI»æÖÆµ½Ìá¹©µÄ´°¿ÚÖĞ¡£</summary>
+        /// <summary>å°†ROIç»˜åˆ¶åˆ°æä¾›çš„çª—å£ä¸­ã€‚</summary>
         /// <param name="window">HALCON window</param>
         public virtual void draw(HalconDotNet.HWindow window) { }
 
         /// <summary> 
-        /// ·µ»ØROI¾ä±úÓëÍ¼Ïñµã(x,y)µÄ×î½ü¾àÀë
+        /// è¿”å›ROIå¥æŸ„ä¸å›¾åƒç‚¹(x,y)çš„æœ€è¿‘è·ç¦»
         /// </summary>
         /// <param name="x">x (=column) coordinate</param>
         /// <param name="y">y (=row) coordinate</param>
@@ -72,20 +72,20 @@ namespace ViewROI
 		}
 
         /// <summary> 
-        /// ½«ROI¶ÔÏóµÄ»î¶¯ÊÖ±ú»æÖÆµ½Ìá¹©µÄ´°¿ÚÖĞ¡£
+        /// å°†ROIå¯¹è±¡çš„æ´»åŠ¨æ‰‹æŸ„ç»˜åˆ¶åˆ°æä¾›çš„çª—å£ä¸­ã€‚
         /// </summary>
         /// <param name="window">HALCON window</param>
         public virtual void displayActive(HalconDotNet.HWindow window) { }
 
         /// <summary> 
-        ///ÖØĞÂ¼ÆËãROIµÄĞÎ×´¡£
-        ///ÔÚÍ¼Ïñ×ø±ê(x,y)´¦£¬¶Ô´¦ÓÚ»î¶¯×´Ì¬µÄROI¶ÔÏó½øĞĞÖØĞÂÉú³É¡£
+        ///é‡æ–°è®¡ç®—ROIçš„å½¢çŠ¶ã€‚
+        ///åœ¨å›¾åƒåæ ‡(x,y)å¤„ï¼Œå¯¹å¤„äºæ´»åŠ¨çŠ¶æ€çš„ROIå¯¹è±¡è¿›è¡Œé‡æ–°ç”Ÿæˆã€‚
         /// </summary>
         /// <param name="x">x (=column) coordinate</param>
         /// <param name="y">y (=row) coordinate</param>
         public virtual void moveByHandle(double x, double y) { }
 
-        /// <summary>»ñÈ¡ÓÉROI¶ÔÏóÃèÊöµÄHALCONÇøÓò¡£</summary>
+        /// <summary>è·å–ç”±ROIå¯¹è±¡æè¿°çš„HALCONåŒºåŸŸã€‚</summary>
         public virtual HRegion getRegion()
 		{
 			return null;
@@ -96,7 +96,7 @@ namespace ViewROI
 			return 0.0;
 		}
 		/// <summary>
-		/// »ñÈ¡RoiµÄÄ£ĞÍ²ÎÊı¡£
+		/// è·å–Roiçš„æ¨¡å‹å‚æ•°ã€‚
 		/// </summary> 
 		public virtual HTuple getModelData()
 		{
@@ -104,13 +104,13 @@ namespace ViewROI
 		}
 
 		/// <summary>Number of handles defined for the ROI.</summary>
-		/// <returns>¿ØÖÆRoiÊÖ±úµÄÊıÁ¿</returns>
+		/// <returns>æ§åˆ¶Roiæ‰‹æŸ„çš„æ•°é‡</returns>
 		public int getNumHandles()
 		{
 			return NumHandles;
 		}
 
-		/// <summary>»ñÈ¡±»¼¤»îµÄRoi¿ØÖÆÊÖ±úĞÅÏ¢</summary>
+		/// <summary>è·å–è¢«æ¿€æ´»çš„Roiæ§åˆ¶æ‰‹æŸ„ä¿¡æ¯</summary>
 		/// <returns>Index of the active handle (from the handle list)</returns>
 		public int getActHandleIdx()
 		{
@@ -118,7 +118,7 @@ namespace ViewROI
 		}
 
         /// <summary>
-        ///»ñÈ¡ROI¶ÔÏóµÄflag£¬±íÊ¾'positive' or 'negative'.¡£´Ë·ûºÅÓÃÓÚ´´½¨¶ÔÓ¦roiÁĞ±íÖĞµÄÇøÓòÄ£ĞÍ¡£
+        ///è·å–ROIå¯¹è±¡çš„flagï¼Œè¡¨ç¤º'positive' or 'negative'.ã€‚æ­¤ç¬¦å·ç”¨äºåˆ›å»ºå¯¹åº”roiåˆ—è¡¨ä¸­çš„åŒºåŸŸæ¨¡å‹ã€‚
         /// </summary>
         public int getOperatorFlag()
 		{
@@ -126,7 +126,7 @@ namespace ViewROI
 		}
 
         /// <summary>
-        ///½«ROI¶ÔÏóµÄ·ûºÅÉèÖÃÎªpositive o»ònegative. 
+        ///å°†ROIå¯¹è±¡çš„ç¬¦å·è®¾ç½®ä¸ºpositive oæˆ–negative. 
         /// The sign is used when creating a model region for matching
         /// applications by summing up all positive and negative ROI models
         /// created so far.
@@ -151,3 +151,4 @@ namespace ViewROI
 		}
 	}//end of class
 }//end of namespace
+

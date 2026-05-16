@@ -1,7 +1,6 @@
-using System;
+ï»¿using System;
 using HalconDotNet;
 using System.Collections;
-using Frame_Core;
 
 
 
@@ -11,50 +10,50 @@ namespace ViewROI
     public delegate void FuncROIDelegate();
 
     /// <summary>
-    ///Õâ¸öÀà´´½¨²¢¹ÜÀíROI¶ÔÏó¡£ËüµÄ·´Ó¦
-    ///Ê¹ÓÃmouseDownActionºÍ·½·¨ÏòÊó±êÉè±¸ÊäÈë
-    ///Êó±êÖ¸Áî¡£Äã²»ĞèÒªÖªµÀÕâ¸öÀàµÄÏ¸½Ú
-    ///¹¹½¨×Ô¼ºµÄc#ÏîÄ¿¡£µ«ÊÇÄã±ØĞë¿¼ÂÇÒ»Ğ©ÊÂÇé
-    ///ÄãÏëÔÚÄãµÄÓ¦ÓÃ³ÌĞòÖĞÊ¹ÓÃ½»»¥Ê½roi:ÓĞÒ»¸ö
-    ///ÔÚROIControllerºÍHWndCtrlÖ®¼äÓĞºÜÃÜÇĞµÄÁªÏµ
-    ///Àà£¬ÕâÒâÎ¶×ÅÄú±ØĞë¡°×¢²á¡±ROIController
-    ///Ê¹ÓÃHWndCtrl£¬ËùÒÔHWndCtrlÖªµÀËü±ØĞë×ª·¢ÓÃ»§ÊäÈë
-    ///(ÏñÊó±êÊÂ¼ş)µ½ROIControllerÀà¡£ 
-    ///Íê³ÉÁËROI¶ÔÏóµÄ¿ÉÊÓ»¯ºÍ²Ù×÷
-    ///Í¨¹ıROIController¡£
-    ///Õâ¸öÀàÎªÆ¥ÅäÌá¹©ÁËÌØÊâµÄÖ§³Ö
-    ///´ÓroiÁĞ±íÖĞ¼ÆËãÒ»¸öÄ£ĞÍÇøÓò¡£Îª
-    ///Õâ¸ö£¬roiÊÇ¸ù¾İËüÃÇµÄ·ûºÅ¼Ó¼õµÄ¡£
+    ///è¿™ä¸ªç±»åˆ›å»ºå¹¶ç®¡ç†ROIå¯¹è±¡ã€‚å®ƒçš„ååº”
+    ///ä½¿ç”¨mouseDownActionå’Œæ–¹æ³•å‘é¼ æ ‡è®¾å¤‡è¾“å…¥
+    ///é¼ æ ‡æŒ‡ä»¤ã€‚ä½ ä¸éœ€è¦çŸ¥é“è¿™ä¸ªç±»çš„ç»†èŠ‚
+    ///æ„å»ºè‡ªå·±çš„c#é¡¹ç›®ã€‚ä½†æ˜¯ä½ å¿…é¡»è€ƒè™‘ä¸€äº›äº‹æƒ…
+    ///ä½ æƒ³åœ¨ä½ çš„åº”ç”¨ç¨‹åºä¸­ä½¿ç”¨äº¤äº’å¼roi:æœ‰ä¸€ä¸ª
+    ///åœ¨ROIControllerå’ŒHWndCtrlä¹‹é—´æœ‰å¾ˆå¯†åˆ‡çš„è”ç³»
+    ///ç±»ï¼Œè¿™æ„å‘³ç€æ‚¨å¿…é¡»â€œæ³¨å†Œâ€ROIController
+    ///ä½¿ç”¨HWndCtrlï¼Œæ‰€ä»¥HWndCtrlçŸ¥é“å®ƒå¿…é¡»è½¬å‘ç”¨æˆ·è¾“å…¥
+    ///(åƒé¼ æ ‡äº‹ä»¶)åˆ°ROIControllerç±»ã€‚ 
+    ///å®Œæˆäº†ROIå¯¹è±¡çš„å¯è§†åŒ–å’Œæ“ä½œ
+    ///é€šè¿‡ROIControllerã€‚
+    ///è¿™ä¸ªç±»ä¸ºåŒ¹é…æä¾›äº†ç‰¹æ®Šçš„æ”¯æŒ
+    ///ä»roiåˆ—è¡¨ä¸­è®¡ç®—ä¸€ä¸ªæ¨¡å‹åŒºåŸŸã€‚ä¸º
+    ///è¿™ä¸ªï¼Œroiæ˜¯æ ¹æ®å®ƒä»¬çš„ç¬¦å·åŠ å‡çš„ã€‚
     /// </summary>
     public class ROIController
     {
         /// <summary>
-        ///ÉèÖÃROIÄ£Ê½µÄ³£Êı:positive ROI sign.
+        ///è®¾ç½®ROIæ¨¡å¼çš„å¸¸æ•°:positive ROI sign.
         /// </summary>
         public double size = 1;
 
         /// <summary>
-        ///ÉèÖÃROIÄ£Ê½µÄ³£Êı:positive ROI sign.
+        ///è®¾ç½®ROIæ¨¡å¼çš„å¸¸æ•°:positive ROI sign.
         /// </summary>
         public const int MODE_ROI_POS = 21;
 
         /// <summary>
-        ///ÉèÖÃROIÄ£Ê½µÄ³£Êı:negative ROI sign.
+        ///è®¾ç½®ROIæ¨¡å¼çš„å¸¸æ•°:negative ROI sign.
         /// </summary>
         public const int MODE_ROI_NEG = 22;
 
         /// <summary>
-        ///ÉèÖÃROIÄ£Ê½µÄ³£Êı:no model region ±»ÓÃ×÷¼ÆËã
-        /// ËùÓĞRoi¶ÔÏó×ÜºÍ
+        ///è®¾ç½®ROIæ¨¡å¼çš„å¸¸æ•°:no model region è¢«ç”¨ä½œè®¡ç®—
+        /// æ‰€æœ‰Roiå¯¹è±¡æ€»å’Œ
         /// </summary>
         public const int MODE_ROI_NONE = 23;
 
-        /// <summary>ÓÃÓÚÃèÊöÄ£ĞÍÇøÓò¸üĞÂµÄ³£Á¿</summary>
+        /// <summary>ç”¨äºæè¿°æ¨¡å‹åŒºåŸŸæ›´æ–°çš„å¸¸é‡</summary>
         public const int EVENT_UPDATE_ROI = 50;
 
         public const int EVENT_CHANGED_ROI_SIGN = 51;
 
-        /// <summary>ÓÃÓÚÃèÊöÄ£ĞÍÇøÓò¸üĞÂµÄ³£Á¿</summary>
+        /// <summary>ç”¨äºæè¿°æ¨¡å‹åŒºåŸŸæ›´æ–°çš„å¸¸é‡</summary>
         public const int EVENT_MOVING_ROI = 52;
 
         public const int EVENT_DELETED_ACTROI = 53;
@@ -71,15 +70,15 @@ namespace ViewROI
         private double currX, currY;
 
 
-        /// <summary>ActiveROI¶ÔÏóµÄË÷ÒıIndex</summary>
+        /// <summary>ActiveROIå¯¹è±¡çš„ç´¢å¼•Index</summary>
         public int activeROIidx;
         public int deletedIdx;
 
-        /// <summary>ÁĞ±íÖĞ°üº¬µ½Ä¿Ç°ÎªÖ¹´´½¨µÄËùÓĞROI¶ÔÏó</summary>
+        /// <summary>åˆ—è¡¨ä¸­åŒ…å«åˆ°ç›®å‰ä¸ºæ­¢åˆ›å»ºçš„æ‰€æœ‰ROIå¯¹è±¡</summary>
         public ArrayList ROIList;
 
         /// <summary>
-        /// Í¨¹ı»ã×ÜROIListÖĞËùÓĞnegative ROIºÍpositive ROI¶ÔÏóµÃµ½µÄÇøÓò
+        /// é€šè¿‡æ±‡æ€»ROIListä¸­æ‰€æœ‰negative ROIå’Œpositive ROIå¯¹è±¡å¾—åˆ°çš„åŒºåŸŸ
         /// </summary>
         public HRegion ModelROI;
 
@@ -88,16 +87,16 @@ namespace ViewROI
         private string inactiveCol = "blue";
 
         /// <summary>
-        /// µ÷ÓÃ HWndCtrl, ROI Controller ±»ÓÃÓÚ
+        /// è°ƒç”¨ HWndCtrl, ROI Controller è¢«ç”¨äº
         /// </summary>
         public HWndCtrl viewController;
 
         /// <summary>
-        /// Î¯ÍĞÍ¨ÖªÔÚmodel regionÖĞËù×öµÄ¸ü¸Ä
+        /// å§”æ‰˜é€šçŸ¥åœ¨model regionä¸­æ‰€åšçš„æ›´æ”¹
         /// </summary>
         public IconicDelegate NotifyRCObserver;
 
-        /// <summary>¹¹Ôìº¯Êı</summary>
+        /// <summary>æ„é€ å‡½æ•°</summary>
         public ROIController()
         {
             stateROI = MODE_ROI_NONE;
@@ -109,25 +108,25 @@ namespace ViewROI
             currX = currY = -1;
         }
 
-        /// <summary>½«HWndCtrl×¢²áµ½Õâ¸öROIControllerÊµÀı</summary>
+        /// <summary>å°†HWndCtrlæ³¨å†Œåˆ°è¿™ä¸ªROIControllerå®ä¾‹</summary>
         public void setViewController(HWndCtrl view)
         {
             viewController = view;
         }
 
-        /// <summary>»ñÈ¡ModelROI ¶ÔÏó</summary>
+        /// <summary>è·å–ModelROI å¯¹è±¡</summary>
         public HRegion getModelRegion()
         {
             return ModelROI;
         }
 
-        /// <summary>»ñÈ¡µ½Ä¿Ç°ÎªÖ¹´´½¨µÄroiÁĞ±í</summary>
+        /// <summary>è·å–åˆ°ç›®å‰ä¸ºæ­¢åˆ›å»ºçš„roiåˆ—è¡¨</summary>
         public ArrayList getROIList()
         {
             return ROIList;
         }
 
-        /// <summary>»ñÈ¡ the active ROI</summary>
+        /// <summary>è·å– the active ROI</summary>
         public ROI getActiveROI()
         {
             if (activeROIidx != -1)
@@ -152,13 +151,13 @@ namespace ViewROI
         }
 
         /// <summary>
-        ///ÎªÁË´´½¨Ò»¸öĞÂµÄROI¶ÔÏó£¬Ó¦ÓÃ³ÌĞòÀà³õÊ¼»¯ÁËÒ»¸ö
-        ///¡°Seed¡±ROIÊµÀı»¯£¬²¢½«Æä´«µİ¸øROIController¡£
-        /// ROIControllerÏÖÔÚÍ¨¹ı²Ù×İÕâ¸öĞÂµÄROIÀ´»ØÓ¦
-        ///ÊµÀı
+        ///ä¸ºäº†åˆ›å»ºä¸€ä¸ªæ–°çš„ROIå¯¹è±¡ï¼Œåº”ç”¨ç¨‹åºç±»åˆå§‹åŒ–äº†ä¸€ä¸ª
+        ///â€œSeedâ€ROIå®ä¾‹åŒ–ï¼Œå¹¶å°†å…¶ä¼ é€’ç»™ROIControllerã€‚
+        /// ROIControllerç°åœ¨é€šè¿‡æ“çºµè¿™ä¸ªæ–°çš„ROIæ¥å›åº”
+        ///å®ä¾‹
         /// </summary>
         /// <param name="r">
-        ///¡°Seed¡±ROI¶ÔÏóÓÉapplication formsÀà×ª·¢.
+        ///â€œSeedâ€ROIå¯¹è±¡ç”±application formsç±»è½¬å‘.
         /// </param>
         public void setROIShape(ROI r)
         {
@@ -168,7 +167,7 @@ namespace ViewROI
 
 
         /// <summary>
-        /// ½«ROI¶ÔÏóµÄ·ûºÅÉèÖÃÎª¡°mode¡±Öµ(MODE_ROI_NONE, MODE_ROI_POS,MODE_ROI_NEG)
+        /// å°†ROIå¯¹è±¡çš„ç¬¦å·è®¾ç½®ä¸ºâ€œmodeâ€å€¼(MODE_ROI_NONE, MODE_ROI_POS,MODE_ROI_NEG)
         /// </summary>
         public void setROISign(int mode)
         {
@@ -183,8 +182,8 @@ namespace ViewROI
         }
 
         /// <summary>
-        /// ¿ÉÍÏ¶¯±ê¼ÇÎª»î¶¯×´Ì¬µÄROI¶ÔÏó
-        /// ÈôÃ»ÓĞROi¶ÔÏóÎª»î¶¯×´Ì¬£¬ÔòÎŞÊÂ¼ş´¥·¢¡£
+        /// å¯æ‹–åŠ¨æ ‡è®°ä¸ºæ´»åŠ¨çŠ¶æ€çš„ROIå¯¹è±¡
+        /// è‹¥æ²¡æœ‰ROiå¯¹è±¡ä¸ºæ´»åŠ¨çŠ¶æ€ï¼Œåˆ™æ— äº‹ä»¶è§¦å‘ã€‚
         /// </summary>
         public void removeActive()
         {
@@ -200,8 +199,8 @@ namespace ViewROI
 
 
         /// <summary>
-        /// ¼ÆËãROIListÖĞËùÓĞ¶ÔÏóµÄModelROIÇøÓò
-        /// Í¨¹ıÌí¼ÓºÍ¼õÈ¥ the positive and / negativeROI¶ÔÏó¡£
+        /// è®¡ç®—ROIListä¸­æ‰€æœ‰å¯¹è±¡çš„ModelROIåŒºåŸŸ
+        /// é€šè¿‡æ·»åŠ å’Œå‡å» the positive and / negativeROIå¯¹è±¡ã€‚
         /// </summary>
         public bool defineModelROI()
         {
@@ -251,7 +250,7 @@ namespace ViewROI
 
 
         /// <summary>
-        /// Çå³ıËùÓĞ½¨Á¢µÄ ROI¶ÔÏó
+        /// æ¸…é™¤æ‰€æœ‰å»ºç«‹çš„ ROIå¯¹è±¡
         /// </summary>
         public void reset()
         {
@@ -294,7 +293,7 @@ namespace ViewROI
 
 
         /// <summary>
-        /// ½«ROIListÖĞµÄËùÓĞ¶ÔÏó»æÖÆµ½HALCON´°¿Ú
+        /// å°†ROIListä¸­çš„æ‰€æœ‰å¯¹è±¡ç»˜åˆ¶åˆ°HALCONçª—å£
         /// </summary>
         /// <param name="window">HALCON window</param>
         public void paintData(HalconDotNet.HWindow window)
@@ -326,7 +325,7 @@ namespace ViewROI
         }
 
         /// <summary>
-        /// ROI¶ÔÏó¶Ô'mouse button down'ÊÂ¼şµÄ·´Ó¦:¸Ä±äROIµÄĞÎ×´£¬Èç¹ûÊÇ¡°Seed¡±ROI£¬Ôò½«ÆäÌí¼Óµ½ROIListÖĞ¡£
+        /// ROIå¯¹è±¡å¯¹'mouse button down'äº‹ä»¶çš„ååº”:æ”¹å˜ROIçš„å½¢çŠ¶ï¼Œå¦‚æœæ˜¯â€œSeedâ€ROIï¼Œåˆ™å°†å…¶æ·»åŠ åˆ°ROIListä¸­ã€‚
         /// </summary>
         /// <param name="imgX">x coordinate of mouse event</param>
         /// <param name="imgY">y coordinate of mouse event</param>
@@ -335,14 +334,13 @@ namespace ViewROI
         {
             int idxROI = -1;
             double max = 10000, dist = 0;
-            double epsilon = 11 * size;    //µ½Ò»¸öhandlesµÄ×î´óÖ±Ïß¾àÀë
+            double epsilon = 11 * size;    //åˆ°ä¸€ä¸ªhandlesçš„æœ€å¤§ç›´çº¿è·ç¦»
 
 
-            if (roiMode == null)      //´´½¨Ò»¸öĞÂµÄROI¶ÔÏó
+            if (roiMode != null)      //åˆ›å»ºä¸€ä¸ªæ–°çš„ROIå¯¹è±¡
             {
                 try
                 {
-                    //roiMode = new ROI();
                     roiMode.createROI(imgX, imgY);
                     ROIList.Add(roiMode);
                     roiMode = null;
@@ -356,7 +354,7 @@ namespace ViewROI
                 { }
 
             }
-            else if (ROIList.Count > 0)     //»òÕß¶ÔÏÖÓĞµÄÒ»¸öRoi½øĞĞ²Ù¿Ø
+            else if (ROIList.Count > 0)     //æˆ–è€…å¯¹ç°æœ‰çš„ä¸€ä¸ªRoiè¿›è¡Œæ“æ§
             {
                 activeROIidx = -1;
 
@@ -382,7 +380,7 @@ namespace ViewROI
         }
 
         /// <summary>
-        /// ROI¶ÔÏó¶Ô¡° 'mouse button move'ÊÂ¼şµÄ·´Ó¦:ÒÆ¶¯
+        /// ROIå¯¹è±¡å¯¹â€œ 'mouse button move'äº‹ä»¶çš„ååº”:ç§»åŠ¨
         /// the active ROI.
         /// </summary>
         /// <param name="newX">x coordinate of mouse event</param>
@@ -413,3 +411,4 @@ namespace ViewROI
 
     }
 }
+

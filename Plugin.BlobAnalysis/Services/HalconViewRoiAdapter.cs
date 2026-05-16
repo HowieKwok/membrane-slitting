@@ -1,4 +1,4 @@
-﻿using HalconDotNet;
+using HalconDotNet;
 using System;
 using System.Globalization;
 using System.Windows.Forms;
@@ -46,21 +46,12 @@ namespace Plugin.BlobAnalysis.Services
         }
 
         public HWindow HalconWindow => window.HalconWindow;
-
-        private void OnViewRoiRedraw()
-        {
-            Redraw?.Invoke();
-        }
-
-        private void OnViewRoiChanged(int value)
-        {
-            RoiChanged?.Invoke(value);
-        }
         public HWndCtrl ViewCtrl => viewCtrl;
         public ROIController RoiController => roiController;
 
         public void SetRoiOperate(bool enabled)
         {
+            if (disposed) return;
             viewCtrl.bl_RoiOperateFlag = enabled;
             Repaint();
         }
@@ -72,53 +63,32 @@ namespace Plugin.BlobAnalysis.Services
         {
             if (disposed) return;
             image = hoImage;
-            RefreshDisplayImage();
-            if (fit) ResetAndFitImage();
-            else
+
+            if (fit)
             {
-                viewCtrl.addIconicVar(displayImage);
-                viewCtrl.repaint();
+                ResetAndFitImage();
+                return;
             }
+
+            RefreshDisplayImage();
+            if (displayImage == null || !displayImage.IsInitialized()) return;
+
+            viewCtrl.addIconicVar(displayImage);
+            viewCtrl.repaint();
         }
 
         public void FitImage()
         {
             if (disposed) return;
-            if (image != null && image.IsInitialized()) ResetAndFitImage();
-            else
+            if (image != null && image.IsInitialized())
             {
-                ForceWindowSizeRefresh();
-                viewCtrl.resetAll();
-                viewCtrl.repaint();
+                ResetAndFitImage();
+                return;
             }
-        }
 
-        private void ResetAndFitImage()
-        {
             ForceWindowSizeRefresh();
-            RefreshDisplayImage();
             viewCtrl.resetAll();
-            viewCtrl.resetflag = true;
-            viewCtrl.addIconicVar(displayImage);
             viewCtrl.repaint();
-        }
-
-        private void RefreshDisplayImage()
-        {
-            displayImage?.Dispose();
-            displayImage = null;
-            if (image == null || !image.IsInitialized()) return;
-
-            HOperatorSet.GetImagePointer1(image, out HTuple pointer, out HTuple type, out HTuple width, out HTuple height);
-            displayImage = new HImage();
-            displayImage.GenImage1(type, width, height, pointer);
-        }
-
-        private void ForceWindowSizeRefresh()
-        {
-            window.Parent?.Refresh();
-            window.Refresh();
-            Application.DoEvents();
         }
 
         public void ClearRoi()
@@ -183,8 +153,24 @@ namespace Plugin.BlobAnalysis.Services
                 HOperatorSet.GetImageSize(image, out HTuple width, out HTuple height);
                 if (row < 0 || col < 0 || row >= height.I || col >= width.I) return "Row:-  Col:-  Gray:-";
 
-                HOperatorSet.GetGrayval(image, row, col, out HTuple gray);
-                return string.Format(CultureInfo.InvariantCulture, "Row:{0}  Col:{1}  Gray:{2}", row, col, gray.ToString());
+                HObject readImage = image;
+                HObject channel = null;
+                try
+                {
+                    HOperatorSet.CountChannels(image, out HTuple channels);
+                    if (channels.I > 1)
+                    {
+                        HOperatorSet.AccessChannel(image, out channel, 1);
+                        readImage = channel;
+                    }
+
+                    HOperatorSet.GetGrayval(readImage, row, col, out HTuple gray);
+                    return string.Format(CultureInfo.InvariantCulture, "Row:{0}  Col:{1}  Gray:{2}", row, col, gray.ToString());
+                }
+                finally
+                {
+                    channel?.Dispose();
+                }
             }
             catch
             {
@@ -228,6 +214,63 @@ namespace Plugin.BlobAnalysis.Services
             Redraw = null;
         }
 
+        private void ResetAndFitImage()
+        {
+            ForceWindowSizeRefresh();
+            RefreshDisplayImage();
+            if (displayImage == null || !displayImage.IsInitialized()) return;
+
+            viewCtrl.resetAll();
+            viewCtrl.resetflag = true;
+            viewCtrl.addIconicVar(displayImage);
+            viewCtrl.repaint();
+        }
+
+        private void RefreshDisplayImage()
+        {
+            displayImage?.Dispose();
+            displayImage = null;
+            if (image == null || !image.IsInitialized()) return;
+
+            HObject displaySource = image;
+            HObject grayImage = null;
+
+            try
+            {
+                HOperatorSet.CountChannels(image, out HTuple channels);
+                if (channels.I > 1)
+                {
+                    HOperatorSet.Rgb1ToGray(image, out grayImage);
+                    displaySource = grayImage;
+                }
+
+                HOperatorSet.GetImagePointer1(displaySource, out HTuple pointer, out HTuple type, out HTuple width, out HTuple height);
+                displayImage = new HImage();
+                displayImage.GenImage1(type, width, height, pointer);
+            }
+            finally
+            {
+                grayImage?.Dispose();
+            }
+        }
+
+        private void ForceWindowSizeRefresh()
+        {
+            window.Parent?.Refresh();
+            window.Refresh();
+            Application.DoEvents();
+        }
+
+        private void OnViewRoiRedraw()
+        {
+            Redraw?.Invoke();
+        }
+
+        private void OnViewRoiChanged(int value)
+        {
+            RoiChanged?.Invoke(value);
+        }
+
         private static void SetPrivateDouble(object target, string fieldName, double value)
         {
             System.Reflection.FieldInfo field = target.GetType().GetField(fieldName, System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
@@ -235,10 +278,3 @@ namespace Plugin.BlobAnalysis.Services
         }
     }
 }
-
-
-
-
-
-
-
