@@ -33,7 +33,7 @@ namespace Frame_Core
                 hv_MetrologyHandle = mhv_MetrologyHandle;
                 return;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 return;
@@ -273,7 +273,7 @@ namespace Frame_Core
                     outputRadius = hv_Radius.Clone();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //取得当前方法类全名 包括命名空间    
                 var str = string.Format("类{0}  中的  {1}方法错误：", System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.FullName,

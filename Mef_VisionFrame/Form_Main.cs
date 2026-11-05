@@ -1,8 +1,14 @@
-﻿using EHolly.ImageTool;
+﻿using ControlBoard.服务类;
+using DevMgmt.Cameras.View;
+using DevMgmt.Light.View;
+using Eholly.ZChart;
+using EHolly.ImageTool;
 
 using Frame_Core;
+using FrameCommunity.DataOperation;
 using HalconDotNet;
 using LogTool;
+using Mef_VisionFrame.调试设置.WPF;
 using NPOI.SS.Formula.Functions;
 using System;
 using System.Collections.Generic;
@@ -19,6 +25,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace Mef_VisionFrame
 {
     public partial class Form_Main : Form
@@ -27,14 +34,6 @@ namespace Mef_VisionFrame
         /// 获取软件编译时间，作用：用作软件界面版本时间
         /// </summary>
         public string Str_LatestTimeProgram = "20200202-xxxx";
-
-
-
-        //界面
-        public UC_BaseSetting BaseSetting;//系统设置
-        public UC_MainDetection MainDetection;//主界面
-        public UC_ProcessSetting ProcessSetting;//调试界面
-        public Form_CraftSetting CraftSetting;//工艺参数界面
 
         Form_LoadProgressBar form_LoadProgressBar;
         static Form_Main form_Main;
@@ -91,7 +90,6 @@ namespace Mef_VisionFrame
 
         }
 
-
         public static Form_Main FormMain
         {
             get
@@ -111,35 +109,28 @@ namespace Mef_VisionFrame
             EHollyImageTool.StartDeleteService();
             EHollyImageTool.Settings.ImageSaveTimeOut = 4000;
 
-            UIService.Instance.AddAction(() =>
-            {
-                CraftSetting = new Form_CraftSetting();
-                MainDetection = new UC_MainDetection();
-                ProcessSetting = new UC_ProcessSetting();
-                BaseSetting = new UC_BaseSetting();
-                BIZ_Switchover.InitBizDataAndForm();
 
-                //软件版本显示
-                string MainSlaveMachine = "HSVISONMAIN";
-                if (!Project.Instance.systemInfo.IsHostMachine)
-                    MainSlaveMachine = "HSVISONSLAVE";
-                ComStationsanwahlEnum comStationsanwahlEnum = (ComStationsanwahlEnum)Project.Instance.systemInfo.ComStationsanwahl;
-                Init_LatestTimeProgram(comStationsanwahlEnum.ToString());
+            ProjectFactory.Load();
+            uC_StateView1.LoadItems(ProjectFactory.F_Server?.WorkServerBase?.GetStatusBarInfo());
 
-                //翻译
-                MenuStripTranslate();
-
-                //初始化状态
-                InitStateBar_Flag = true;
-                form_LoadProgressBar.closingFlag = true;
-                主界面ToolStripMenuItem_Click(null, null);
-            });
+            panel_Main.Controls.Clear();
+            panel_Main.Controls.Add(ProjectFactory.F_View.ToolView);   //添加窗体  
 
 
+            //软件版本显示
+            string MainSlaveMachine = "HSVISONMAIN";
+            if (!Project.Instance.systemInfo.IsHostMachine)
+                MainSlaveMachine = "HSVISONSLAVE";
 
-
+            Init_LatestTimeProgram("");
+            UapateSimPath();
+            //初始化状态
+            InitStateBar_Flag = true;
+            form_LoadProgressBar.closingFlag = true;
 
         }
+
+
         /// <summary>
         /// 禁用窗体双击放大缩小
         /// </summary>
@@ -175,7 +166,7 @@ namespace Mef_VisionFrame
 
                 Project.Instance.systemInfo.Save();
                 //释放硬件资源
-                Project.Instance.CloseAllDev();
+                Project.Instance.Close_Dev();
 
 
             }
@@ -244,13 +235,12 @@ namespace Mef_VisionFrame
             {
                 try
                 {
-                    SoftwareState[] softwareState = BIZ_Switchover.UpdateStatStrip();
 
-                    if (statusStrip1.IsHandleCreated)
+
+
+                    if (uC_StateView1.IsHandleCreated)
                     {
-                        
-                        NStatusStrip.UpdateStatStrip(statusStrip1, softwareState);
-              
+                        uC_StateView1.RefreshStatus(ProjectFactory.F_Server.WorkServerBase.GetStatusBarInfo());
                     }
                 }
                 catch (Exception)
@@ -272,39 +262,75 @@ namespace Mef_VisionFrame
 
         }
 
-        private void 主界面ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            panel_Main.Controls.Clear();
-            panel_Main.Controls.Add(MainDetection);   //添加窗体
-            MainDetection.Dock = DockStyle.Fill;    //设置填充
-            MainDetection.InitShowForm();
-            MainDetection.Show();
-            Project.Instance.activeObject = MainDetection;
-        }
+        WPFDebugProcessWindow _wpfDebugWindow;
         private void 调试设置ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.调试设置)) { return; }
-            panel_Main.Controls.Clear();
-            panel_Main.Controls.Add(ProcessSetting);   //添加窗体
-            ProcessSetting.Dock = DockStyle.Fill;    //设置填充
-            ProcessSetting.IniUC_ProcessSetting();
-            ProcessSetting.Show();
-            // Project.Instance.activeObject = ProcessSetting;
+
+            //WPFDebugProcessWindow wpfDebugWindow = new WPFDebugProcessWindow
+            //{
+            //    WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen
+            //};
+            //wpfDebugWindow.ShowDialog();
+            //return;
+
+            // 1. 首次初始化窗体 + 拦截关闭行为（关键：关闭改为隐藏，不销毁）
+            if (_wpfDebugWindow == null)
+            {
+                _wpfDebugWindow = new WPFDebugProcessWindow
+                {
+                    WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen
+                };
+
+
+                // 拦截Closing事件：取消原生关闭，改为隐藏窗口（两种关闭方式都会进入该事件）
+                _wpfDebugWindow.Closing += (sender1, cancelArgs) =>
+                {
+                    // 取消系统默认关闭销毁逻辑
+                    cancelArgs.Cancel = true;
+                    // 隐藏窗口，保留实例
+                    _wpfDebugWindow.Hide();
+                    this.Enabled = true;
+                };
+            }
+
+            // 2. 窗口隐藏状态直接唤起弹窗
+            if (!_wpfDebugWindow.IsVisible)
+            {
+                _wpfDebugWindow.Show();
+                this.Enabled = false;
+            }
+
+
+            //// 3. 最小化窗口恢复正常状态
+            //if (_wpfDebugWindow.WindowState == System.Windows.WindowState.Minimized)
+            //{
+            //    _wpfDebugWindow.WindowState = System.Windows.WindowState.Normal;
+            //}
+
+            //// 4. 前置激活置顶
+            //_wpfDebugWindow.Activate();
 
         }
+
         private void 工艺标准ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.工艺设置)) { return; }
-            panel_Main.Controls.Clear();
-            CraftSetting.FormBorderStyle = FormBorderStyle.None;
-            CraftSetting.Dock = DockStyle.Fill;
-            CraftSetting.TopLevel = false;
-            panel_Main.Controls.Add(CraftSetting);   //添加窗体
-            CraftSetting.Ini_CraftSetting();
-            CraftSetting.Show();
-            // Project.Instance.activeObject = CraftSetting;
-            //CraftSetting.StartPosition = FormStartPosition.CenterParent;
-            //CraftSetting.ShowDialog();
+            //panel_Main.Controls.Clear();
+            //CraftSetting.FormBorderStyle = FormBorderStyle.None;
+            //CraftSetting.Dock = DockStyle.Fill;
+            //CraftSetting.TopLevel = false;
+            //panel_Main.Controls.Add(CraftSetting);   //添加窗体
+
+            // CraftSetting.Show();
+            using (Form_CraftFrame form = new Form_CraftFrame(Project.Instance.systemInfo, Project.Instance.craftBase, Project.Instance.paramPathSet.CraftPath))
+            {
+                form.StartPosition = FormStartPosition.CenterParent;
+                form.WindowState = FormWindowState.Maximized;
+                form.ShowDialog();
+            }
+            ProjectFactory.F_Server.WorkServerBase.Udpate();
+
         }
 
 
@@ -327,31 +353,55 @@ namespace Mef_VisionFrame
             }
         }
 
+        public void UapateSimPath()
+        {
+            try
+            {
+                foreach (var item in Project.Instance.M_CameraRelevancies)
+                {
+                    Service_Camera.Get_CameraRelevancy(item.Key).m_ImageSimManage.ReadImageSimPath(Service_Camera.Get_CameraDev(item.Key).CameraParameter.EmulationPath);
+                    Service_Camera.Get_CameraRelevancy(item.Key).m_ImageSimManage.InitSimFlag();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+        }
         private void 相机toolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.相机设置)) { return; }
-            using (Cam_Form cam_Form = new Cam_Form(Project.Instance.cameraManager))
+            try
             {
-                cam_Form.StartPosition = FormStartPosition.CenterScreen;
-                cam_Form.ShowDialog();
+                if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.相机设置)) { return; }
+                WpfCameraDevWindow window = new WpfCameraDevWindow(Project.Instance.M_CamParam);
+                window.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+                window.HideSomeControls();
+                window.ShowDialog();
+
+                UapateSimPath();
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
 
         private void 光源ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.光源设置)) { return; }
-            using (Light_Form light_Form = new Light_Form(Project.Instance.lightManager))
-            {
-                light_Form.StartPosition = FormStartPosition.CenterScreen;
-                light_Form.ShowDialog();
-            }
+            WpfLightDevWindow window = new WpfLightDevWindow(Project.Instance.M_LightControllerParam);
+            window.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+            window.ShowDialog();
+
         }
 
         private void pLC通讯ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.主设备通讯)) { return; }
 
-            using (Form_MainPLC form = new Form_MainPLC(Project.Instance.cutOverlayPLCManage))
+            using (Form_DieCuttingCutPLC form = new Form_DieCuttingCutPLC(Project.Instance.server_DiecuttingCutPLC))
             {
                 form.StartPosition = FormStartPosition.CenterScreen;
                 form.ShowDialog();
@@ -360,21 +410,21 @@ namespace Mef_VisionFrame
 
         private void mark设置ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.Mark设置)) { return; }
+            //if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.Mark设置)) { return; }
 
-            using (Form_MarkSet form = new Form_MarkSet(Project.Instance.cameraManager))
-            {
-                form.StartPosition = FormStartPosition.CenterScreen;
-                form.ShowDialog();
-            }
+            //using (Form_MarkSet form = new Form_MarkSet())
+            //{
+            //    form.StartPosition = FormStartPosition.CenterScreen;
+            //    form.ShowDialog();
+            //}
         }
 
         private void 相机标定ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.相机标定)) { return; }
+            //if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.相机标定)) { return; }
             //if (Project.Instance.systemInfo.CurrentMaterial == MaterialCrafEnum.叠片阳极单面制片CS)
             //{
-            //    using (Form_SelectCamCalibrationPlate form = new Form_SelectCamCalibrationPlate(Project.Instance.cameraManager))
+            //    using (Form_SelectCamCalibrationPlate form = new Form_SelectCamCalibrationPlate(Project.Instance.M_CameraRelevancies))
             //    {
             //        form.StartPosition = FormStartPosition.CenterScreen;
             //        form.ShowDialog();
@@ -382,7 +432,7 @@ namespace Mef_VisionFrame
             //}
             //else if (Project.Instance.systemInfo.CurrentMaterial == MaterialCrafEnum.叠片阳极双面制片CD)
             //{
-            //    using (Form_SelectCamCalibrationPlate form = new Form_SelectCamCalibrationPlate(Project.Instance.cameraManager))
+            //    using (Form_SelectCamCalibrationPlate form = new Form_SelectCamCalibrationPlate(Project.Instance.M_CameraRelevancies))
             //    {
             //        form.StartPosition = FormStartPosition.CenterScreen;
             //        form.ShowDialog();
@@ -390,7 +440,7 @@ namespace Mef_VisionFrame
             //}
             //else if (Project.Instance.systemInfo.CurrentMaterial == MaterialCrafEnum.叠片阴极双面制片AD)
             //{
-            //    using (Form_SelectCamCalibrationPlate form = new Form_SelectCamCalibrationPlate(Project.Instance.cameraManager))
+            //    using (Form_SelectCamCalibrationPlate form = new Form_SelectCamCalibrationPlate(Project.Instance.M_CameraRelevancies))
             //    {
             //        form.StartPosition = FormStartPosition.CenterScreen;
             //        form.ShowDialog();
@@ -398,7 +448,7 @@ namespace Mef_VisionFrame
             //}
             //else if (Project.Instance.systemInfo.CurrentMaterial == MaterialCrafEnum.叠片预定位PP)
             //{
-            //    using (Form_SelectCamCheckerboard form = new Form_SelectCamCheckerboard(Project.Instance.cameraManager))
+            //    using (Form_SelectCamCheckerboard form = new Form_SelectCamCheckerboard(Project.Instance.M_CameraRelevancies))
             //    {
             //        form.StartPosition = FormStartPosition.CenterScreen;
             //        form.ShowDialog();
@@ -406,7 +456,7 @@ namespace Mef_VisionFrame
             //}
             //else if (Project.Instance.systemInfo.CurrentMaterial == MaterialCrafEnum.叠片对齐度OVH)
             //{
-            //    using (Form_SelectCamCheckerboard form = new Form_SelectCamCheckerboard(Project.Instance.cameraManager))
+            //    using (Form_SelectCamCheckerboard form = new Form_SelectCamCheckerboard(Project.Instance.M_CameraRelevancies))
             //    {
             //        form.StartPosition = FormStartPosition.CenterScreen;
             //        form.ShowDialog();
@@ -417,16 +467,16 @@ namespace Mef_VisionFrame
 
         private void 预定位平台标定ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.相机标定)) { return; }
+            //if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.相机标定)) { return; }
             //if (Project.Instance.systemInfo.CurrentMaterial == MaterialCrafEnum.叠片预定位PP)
             //{
-            //    using (Form_PretargetingCalibration form = new Form_PretargetingCalibration(Project.Instance.cameraManager))
+            //    using (Form_PretargetingCalibration form = new Form_PretargetingCalibration(Project.Instance.M_CameraRelevancies))
             //    {
             //        form.StartPosition = FormStartPosition.CenterScreen;
             //        form.ShowDialog();
             //    }
 
-            //    //Form_PretargetingCalibration form = new Form_PretargetingCalibration(Project.Instance.cameraManager);
+            //    //Form_PretargetingCalibration form = new Form_PretargetingCalibration(Project.Instance.M_CameraRelevancies);
             //    // form.StartPosition = FormStartPosition.CenterScreen;
             //    //form.Show();
             //}
@@ -435,6 +485,8 @@ namespace Mef_VisionFrame
 
         private void 打标机软件通讯ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.控制卡)) { return; }
+            ServiceCardManage.Instance.ShowWindow();
             //using (DBJCardForm dBJCardForm = new DBJCardForm(Project.Instance.dbjCardManager))
             //{
             //    dBJCardForm.StartPosition = FormStartPosition.CenterScreen;
@@ -455,170 +507,67 @@ namespace Mef_VisionFrame
 
         private void 纠偏设置ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.纠偏器)) { return; }
-            using (Form_Thick3DSet form = new Form_Thick3DSet(Project.Instance.thick3DManages))
-            {
-                form.StartPosition = FormStartPosition.CenterScreen;
-                form.ShowDialog();
-            }
+            //if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.纠偏器)) { return; }
+            //using (Form_Thick3DSet form = new Form_Thick3DSet(Project.Instance.thick3DManages))
+            //{
+            //    form.StartPosition = FormStartPosition.CenterScreen;
+            //    form.ShowDialog();
+            //}
 
         }
 
         private void 保存设置ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.保存设置)) { return; }
-            using (SaveSetingForm form = new SaveSetingForm(Project.Instance.cameraManager))
-            {
-                form.StartPosition = FormStartPosition.CenterScreen;
-                form.ShowDialog();
-            }
+            //using (SaveSetingForm form = new SaveSetingForm())
+            //{
+            //    form.StartPosition = FormStartPosition.CenterScreen;
+            //    form.ShowDialog();
+            //}
+
+            WindowImageSave window = new WindowImageSave(Project.Instance.M_NewImageSaveParamer);
+            window.ShowDialog();
         }
 
         private void 仿真设置ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.仿真设置)) { return; }
-            using (EmulationSetForm form = new EmulationSetForm(Project.Instance.cameraManager))
-            {
-                form.StartPosition = FormStartPosition.CenterScreen;
-                form.ShowDialog();
-            }
+            相机toolStripMenuItem1_Click(sender, e);
         }
 
         private void 尺寸点检ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.点检)) { return; }
-            using (FormPointInspection form = new FormPointInspection(Project.Instance.systemInfo, Project.Instance.cameraManager))
-            {
-                form.StartPosition = FormStartPosition.CenterScreen;
-                form.ShowDialog();
-            }
+            //if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.点检)) { return; }
+            //using (FormPointInspection form = new FormPointInspection(Project.Instance.M_param_PointInspection))
+            //{
+            //    form.StartPosition = FormStartPosition.CenterScreen;
+            //    form.ShowDialog();
+            //}
         }
 
         private void chineseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Project.Instance.systemInfo.m_CurrentLanguageType = LanguageEnum.Chinese;
             Project.Instance.systemInfo.Save();
-            MenuStripTranslate();
+
         }
 
         private void englishToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Project.Instance.systemInfo.m_CurrentLanguageType = LanguageEnum.English;
             Project.Instance.systemInfo.Save();
-            MenuStripTranslate();
+
         }
 
 
-        /// <summary>
-        /// 菜单栏翻译
-        /// </summary>
-        public void MenuStripTranslate()
-        {
-            系统设置ToolStripMenuItem.Text = "系统设置";
-            保存设置ToolStripMenuItem.Text = "保存设置";
-            仿真设置ToolStripMenuItem.Text = "仿真设置";
-
-            用户设置ToolStripMenuItem.Text = "用户设置";
-            用户登录ToolStripMenuItem.Text = "用户登录";
-            账户管理ToolStripMenuItem.Text = "账户管理";
-
-            主界面ToolStripMenuItem.Text = "主界面";
-
-            调试设置ToolStripMenuItem.Text = "调试设置";
-
-            工艺标准ToolStripMenuItem.Text = "工艺标准";
-
-            外联设置ToolStripMenuItem.Text = "外联设置";
-            相机toolStripMenuItem1.Text = "相机设置";
-            光源ToolStripMenuItem.Text = "光源设置";
-            pLC通讯ToolStripMenuItem.Text = "主设备通讯";
-            打标机软件通讯ToolStripMenuItem.Text = "打标机软件通讯";
-            纠偏设置ToolStripMenuItem.Text = "纠偏设置";
-
-            点检校验ToolStripMenuItem.Text = "点检校验";
-            相机标定ToolStripMenuItem.Text = "相机标定";
-            尺寸点检ToolStripMenuItem.Text = "点检";
-
-            数据分析ToolStripMenuItem.Text = "数据分析";
-            生产统计ToolStripMenuItem.Text = "生产统计";
-
-            语言ToolStripMenuItem.Text = "语言";
-            chineseToolStripMenuItem.Text = "中文";
-            englishToolStripMenuItem.Text = "英文";
-
-            帮助ToolStripMenuItem.Text = " 帮助";
-            if (Project.Instance.systemInfo.m_CurrentLanguageType == LanguageEnum.English)
-            {
-                系统设置ToolStripMenuItem.Text = "SystemSetting";
-                保存设置ToolStripMenuItem.Text = "SaveSetting";
-                仿真设置ToolStripMenuItem.Text = "SimulationSetting";
-
-                用户设置ToolStripMenuItem.Text = "UserSetting";
-                用户登录ToolStripMenuItem.Text = "UserLogin";
-                账户管理ToolStripMenuItem.Text = "AccountManage";
-
-                主界面ToolStripMenuItem.Text = "MainHMI";
-
-                调试设置ToolStripMenuItem.Text = "DebugSetting";
-
-                工艺标准ToolStripMenuItem.Text = "TechnologicalStandard";
-
-                外联设置ToolStripMenuItem.Text = "ExternalConnectionSetting";
-                相机toolStripMenuItem1.Text = "CamSetting";
-                光源ToolStripMenuItem.Text = "LightSetting";
-                pLC通讯ToolStripMenuItem.Text = "MainDevCommumication";
-                打标机软件通讯ToolStripMenuItem.Text = "MarkingMachineCommumication";
-                纠偏设置ToolStripMenuItem.Text = "CorrectSetting";
-
-                点检校验ToolStripMenuItem.Text = "SpotCheck";
-                相机标定ToolStripMenuItem.Text = "CamCalibration";
-                尺寸点检ToolStripMenuItem.Text = "Check";
-
-                数据分析ToolStripMenuItem.Text = "DataAnalyse";
-                生产统计ToolStripMenuItem.Text = "ProductionStatistic";
-
-                语言ToolStripMenuItem.Text = "Language";
-                chineseToolStripMenuItem.Text = "Chinese";
-                englishToolStripMenuItem.Text = "English";
-
-                帮助ToolStripMenuItem.Text = " Help";
-            }
-
-            MainDetection.Translate(Project.Instance.Is_simulation, Project.Instance.Is_MojuanStart);
-        }
-
-        static DateTime lastTime = DateTime.Now;
-        bool isShow = true;
-        /// <summary>
-        /// 生产数据显示
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void timer_DataShow_Tick(object sender, EventArgs e)
-        {
-            //if (true) return;
-            if (!isShow) return;
-            isShow = false;
-            //======================================================================
-            //数据表格显示
-            #region 数据表格显示
-            if (InitStateBar_Flag)
-            {
-                BIZ_Switchover.IBIZWorkerBase?.UpdateForm();
-            }
-
-            isShow = true;
-            #endregion
-        }
 
         private void pC通讯设置ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.PC通讯设置)) { return; }
-            using (MainSlaveMachineForm form = new MainSlaveMachineForm())
-            {
-                form.StartPosition = FormStartPosition.CenterScreen;
-                form.ShowDialog();
-            }
+            //if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.PC通讯设置)) { return; }
+            //using (MainSlaveMachineForm form = new MainSlaveMachineForm())
+            //{
+            //    form.StartPosition = FormStartPosition.CenterScreen;
+            //    form.ShowDialog();
+            //}
         }
 
         /// <summary>
@@ -635,7 +584,7 @@ namespace Mef_VisionFrame
             if (SimLockFlag) return;
 
             SimLockFlag = true;
-            BIZ_Switchover.IBIZWorkerBase?.SimLoadImage(Project.Instance.m_SimAutoFlag, ref Project.Instance.m_SimRunFlag);
+            ProjectFactory.F_Server?.WorkServerBase?.SimLoadImage();
             SimLockFlag = false;
         }
 
@@ -695,22 +644,22 @@ namespace Mef_VisionFrame
 
         private void mSA圆点设置ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.MSA圆点设置)) { return; }
-            using (Form_MsaCircle form = new Form_MsaCircle(Project.Instance.cameraManager))
-            {
-                form.StartPosition = FormStartPosition.CenterScreen;
-                form.ShowDialog();
-            }
+            //if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.MSA圆点设置)) { return; }
+            //using (Form_MsaCircle form = new Form_MsaCircle())
+            //{
+            //    form.StartPosition = FormStartPosition.CenterScreen;
+            //    form.ShowDialog();
+            //}
         }
 
         private void mSA线宽设置ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.MSA线宽设置)) { return; }
-            using (Form_MsaLineWidth form = new Form_MsaLineWidth(Project.Instance.cameraManager))
-            {
-                form.StartPosition = FormStartPosition.CenterScreen;
-                form.ShowDialog();
-            }
+            //if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.MSA线宽设置)) { return; }
+            //using (Form_MsaLineWidth form = new Form_MsaLineWidth())
+            //{
+            //    form.StartPosition = FormStartPosition.CenterScreen;
+            //    form.ShowDialog();
+            //}
         }
 
         private void 数据分析ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -720,44 +669,30 @@ namespace Mef_VisionFrame
 
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-            // 判断点击的菜单项是否是 "主界面ToolStripMenuItem"
-            if (e.ClickedItem != 主界面ToolStripMenuItem)
-            {
-                // 如果不是 "主界面ToolStripMenuItem"，则触发新的方法
-                Project.Instance.activeObject = null;
-            }
-            else
-            {
-                Project.Instance.activeObject = MainDetection;
-            }
+
 
         }
 
         private void mSA棋盘格线宽设置ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.MSA棋盘格线宽设置)) { return; }
-            using (Form_MsaCheckBoardLine form = new Form_MsaCheckBoardLine(Project.Instance.paramPathSet.MsaLineCheckBoradParamPath, Project.Instance.cameraManager))
-            {
-                form.StartPosition = FormStartPosition.CenterScreen;
-                form.ShowDialog();
-            }
+            //if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.MSA棋盘格线宽设置)) { return; }
+            //using (Form_MsaCheckBoardLine form = new Form_MsaCheckBoardLine(Project.Instance.paramPathSet.MsaLineCheckBoradParamPath))
+            //{
+            //    form.StartPosition = FormStartPosition.CenterScreen;
+            //    form.ShowDialog();
+            //}
         }
 
         private void mSA3D测厚ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.MSA测厚3D设置)) { return; }
-            using (Form_MsaMeasureThick3D form = new Form_MsaMeasureThick3D(Project.Instance.cameraManager))
-            {
-                form.StartPosition = FormStartPosition.CenterScreen;
-                form.ShowDialog();
+            //if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.MSA测厚3D设置)) { return; }
 
-            }
         }
 
         private void 基础设置ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.系统设置)) { return; }
-            using (Form_BaseSetting form = new Form_BaseSetting(Project.Instance.systemInfo))
+            if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.基础设置)) { return; }
+            using (Form_BaseSetting form = new Form_BaseSetting(Project.Instance.M_param_PointInspection))
             {
                 form.StartPosition = FormStartPosition.CenterScreen;
                 form.ShowDialog();
@@ -766,17 +701,17 @@ namespace Mef_VisionFrame
 
         private void 主副机通讯ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.主副机通讯)) { return; }
-            using (SlaveMachineForm form = new SlaveMachineForm(Project.Instance.slaveMachineManager))
-            {
-                form.StartPosition = FormStartPosition.CenterScreen;
-                form.ShowDialog();
-            }
+            //if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.主副机通讯)) { return; }
+            //using (SlaveMachineForm form = new SlaveMachineForm(Project.Instance.slaveMachineManager))
+            //{
+            //    form.StartPosition = FormStartPosition.CenterScreen;
+            //    form.ShowDialog();
+            //}
         }
 
         private void 图片管理ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.主副机通讯)) { return; }
+            if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.图片管理)) { return; }
             using (Form_ImageManage form = new Form_ImageManage())
             {
                 form.StartPosition = FormStartPosition.CenterScreen;
@@ -786,7 +721,7 @@ namespace Mef_VisionFrame
 
         private void 数据查询ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string root = @"E:\生产数据";          // 实际路径可配
+            string root = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据");          // 实际路径可配
             using (FrmCsvViewer form = new FrmCsvViewer(root))
             {
                 form.StartPosition = FormStartPosition.CenterScreen;
@@ -796,13 +731,13 @@ namespace Mef_VisionFrame
 
         private void 灰度自适应ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.灰度自适应)) { return; }
-            using (FormGrayScaleAdaptive form = new FormGrayScaleAdaptive(Project.Instance.cameraManager))
-            {
-                LanguageProject.ChangeLanguage(Project.Instance.systemInfo.m_CurrentLanguageType, form);
-                form.StartPosition = FormStartPosition.CenterScreen;
-                form.ShowDialog();
-            }
+            //if (!Project.Instance.purviewManage.GetWhetherPurview(Project.Instance.userManage.userData.CurrentUser, ModelName.灰度自适应)) { return; }
+            //using (FormGrayScaleAdaptive form = new FormGrayScaleAdaptive())
+            //{
+            //    LanguageProject.ChangeLanguage(Project.Instance.systemInfo.m_CurrentLanguageType, form);
+            //    form.StartPosition = FormStartPosition.CenterScreen;
+            //    form.ShowDialog();
+            //}
         }
 
         private void timer_DJ_Tick(object sender, EventArgs e)
@@ -817,6 +752,56 @@ namespace Mef_VisionFrame
             {
                 Log4netRecord.ErrorLog.Error(ex);
             }
+        }
+
+        private void 注销账户ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Project.Instance.userManage.UserLogin(UserType.Null, "用户未登录", "");
+        }
+
+
+        bool backuppState = false;
+        private void timer_CraftBack_Tick(object sender, EventArgs e)
+        {
+            if (backuppState) return;
+            backuppState = true;
+            Task.Run(() => { BackCraftParam(); });
+         
+        }
+
+        public void BackCraftParam()
+        {
+            try
+            {
+
+                string path = CraftExtension.GetRecipeFilePath(Project.Instance.paramPathSet.CraftPath, Project.Instance.systemInfo.CraftType, Project.Instance.systemInfo.RecipeName);
+                string NewPath = Path.Combine(Project.Instance.paramPathSet.CaraftBackPath, Project.Instance.systemInfo.CraftType.ToString());
+                Directory.CreateDirectory(NewPath);
+                NewPath = Path.Combine(NewPath, $"{Project.Instance.systemInfo.RecipeName}.json");
+                File.Copy(path, NewPath, true);
+
+                string DirectoryPath = CraftExtension.GetRecipeFilePath(Project.Instance.paramPathSet.CraftPath, Project.Instance.systemInfo.CraftType, Project.Instance.systemInfo.RecipeName, false);
+                string NewDirectoryPath = Path.Combine(Project.Instance.paramPathSet.CaraftBackPath, Project.Instance.systemInfo.CraftType.ToString(), $"{Project.Instance.systemInfo.RecipeName}");
+                CopyDirectory(DirectoryPath, NewDirectoryPath);
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageNotify.AddErrorLog(ex.Message + "\r\n" + ex.StackTrace);
+            }
+            backuppState = false;
+        }
+        /// <summary>
+        /// 递归复制目录及其所有子文件/文件夹
+        /// </summary>
+        private void CopyDirectory(string sourceDir, string destDir)
+        {
+            Directory.CreateDirectory(destDir);
+            foreach (string file in Directory.GetFiles(sourceDir))
+                File.Copy(file, Path.Combine(destDir, Path.GetFileName(file)), true);
+            foreach (string dir in Directory.GetDirectories(sourceDir))
+                CopyDirectory(dir, Path.Combine(destDir, Path.GetFileName(dir)));
         }
     }
 }

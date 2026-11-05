@@ -1,4 +1,5 @@
-﻿using LogTool;
+﻿using FrameCommunity;
+using LogTool;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -30,7 +31,7 @@ namespace Frame_Core
         }
         public static void AddDebugLog(string log)
         {
-            string time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            string time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fff");
             Log4netRecord.RunLog.Debug(time + "   " + log);
             DebugLogs.Add(time + "   " + log + "\r\n", (uint)ShowCount);
             DebugLogEnable = true;
@@ -38,15 +39,23 @@ namespace Frame_Core
 
         public static void AddErrorLog(string log)
         {
-            string time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            string time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fff");
             Log4netRecord.ErrorLog.Error(time + "   " + log);
             ErrorLogs.Add(time + "   " +log + "\r\n", (uint)ShowCount);
             ErrorLogEnable = true;
         }
 
+        public static void AddErrorLog(string log, Exception ex)
+        {
+            string time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fff");
+            Log4netRecord.ErrorLog.Error(time + "   " + log, ex);
+            ErrorLogs.Add(time + "   " + log + "\r\n", (uint)ShowCount);
+            ErrorLogEnable = true;
+        }
+
         public static void AddCommLog(string log)
         {
-            string time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            string time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fff");
             Log4netRecord.CommLog.Error(time + "   " + log);
             CommLogs.Add(time + "   " + log + "\r\n", (uint)ShowCount);
             CommLogEnable = true;

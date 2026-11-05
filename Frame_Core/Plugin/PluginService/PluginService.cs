@@ -29,17 +29,28 @@ namespace Frame_Core
         public static T GetInstance<T>(string contractName = null)
         {
             var type = default(T);
-            if (container == null) return type;
-            if (!string.IsNullOrWhiteSpace(contractName))
-                type = container.GetExportedValue<T>(contractName);
-            else
-                type = container.GetExportedValue<T>();
-            return type;
+            try
+            {
+                
+                if (container == null) return type;
+                if (!string.IsNullOrWhiteSpace(contractName))
+                    type = container.GetExportedValue<T>(contractName);
+                else
+                    type = container.GetExportedValue<T>();
+                return type;
+            }
+            catch (Exception)
+            {
+                return type;
+                //throw;
+            }
+ 
         }
         public static void BuildContainer()
         {       
             if (Directory.Exists(PlugInsPath) == false) return;
-            DirectoryCatalog catalog = new DirectoryCatalog(PlugInsPath);
+            // DirectoryCatalog catalog = new DirectoryCatalog(PlugInsPath);
+            DirectoryCatalog catalog = new DirectoryCatalog(PlugInsPath, "Plugin.*.dll");
             container = new CompositionContainer(catalog);
            // container.SatisfyImportsOnce(this);
             container.ComposeParts();                           

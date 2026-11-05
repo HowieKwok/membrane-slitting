@@ -19,12 +19,13 @@ using YYSD.UICore.Control;
 using YYSD.UICore;
 using HslCommunication;
 using NLog.Fluent;
+using FrameCommunity;
 
 namespace Frame_Core
 {
     public partial class Form_PretargetingCalibration : Form
     {
-        static Dictionary<CameraEnum, CameraManager> cameraManager;
+     
         CameraEnum currentCameraEnum = CameraEnum.Cam1;
         CalibrationAlgorithmEnum currentCalibAlgorithmEnum = CalibrationAlgorithmEnum.棋盘格;
         Param_PretargetingCalib CurrentParam_PretargetingCalib = new Param_PretargetingCalib();
@@ -95,10 +96,9 @@ namespace Frame_Core
         /// 图片仿真路径数据
         /// </summary>
         public ImageSimManage m_ImageSimManage_Cam4 = new ImageSimManage();
-        public Form_PretargetingCalibration(Dictionary<CameraEnum, CameraManager> _cameraManager)
+        public Form_PretargetingCalibration()
         {
-            InitializeComponent();
-            cameraManager = _cameraManager;
+            InitializeComponent();         
         }
         private void Form_PretargetingCalibration_Load(object sender, EventArgs e)
         {
@@ -144,28 +144,28 @@ namespace Frame_Core
 
 
 
-                LB_Process1.Text = cameraManager[CameraEnum.Cam1].m_CamParam.CameraName;
+                LB_Process1.Text = Service_Camera.GetCam_Name(0);
                 displayWindow_Cam1 = new DisplayWindowClass(HWC1, TB_PositionAndGray1, PB_FitWin1, "PretargetingCalibrationHWC1");
                 displayWindow_Cam1.operation_ImageInfo.showHalconWindow = new ShowHalconWindow();
                 displayWindow_Cam1.operation_ImageInfo.showHalconWindow.m_messageShowInfos = new List<MessageShowInfo>();
                 displayWindow_Cam1.operation_ImageInfo.showHalconWindow.m_regionShowInfos = new List<RegionShowInfo>();
                 displayWindow_Cam1.operation_ImageInfo.showHalconWindow.m_lineShowInfos = new List<LineInfo>();
 
-                LB_Process2.Text = cameraManager[CameraEnum.Cam2].m_CamParam.CameraName;
+                LB_Process2.Text = Service_Camera.GetCam_Name(1);
                 displayWindow_Cam2 = new DisplayWindowClass(HWC2, TB_PositionAndGray2, PB_FitWin2, "PretargetingCalibrationHWC2");
                 displayWindow_Cam2.operation_ImageInfo.showHalconWindow = new ShowHalconWindow();
                 displayWindow_Cam2.operation_ImageInfo.showHalconWindow.m_messageShowInfos = new List<MessageShowInfo>();
                 displayWindow_Cam2.operation_ImageInfo.showHalconWindow.m_regionShowInfos = new List<RegionShowInfo>();
                 displayWindow_Cam2.operation_ImageInfo.showHalconWindow.m_lineShowInfos = new List<LineInfo>();
 
-                LB_Process3.Text = cameraManager[CameraEnum.Cam3].m_CamParam.CameraName;
+                LB_Process3.Text = Service_Camera.GetCam_Name(2);
                 displayWindow_Cam3 = new DisplayWindowClass(HWC3, TB_PositionAndGray3, PB_FitWin3, "PretargetingCalibrationHWC3");
                 displayWindow_Cam3.operation_ImageInfo.showHalconWindow = new ShowHalconWindow();
                 displayWindow_Cam3.operation_ImageInfo.showHalconWindow.m_messageShowInfos = new List<MessageShowInfo>();
                 displayWindow_Cam3.operation_ImageInfo.showHalconWindow.m_regionShowInfos = new List<RegionShowInfo>();
                 displayWindow_Cam3.operation_ImageInfo.showHalconWindow.m_lineShowInfos = new List<LineInfo>();
 
-                LB_Process4.Text = cameraManager[CameraEnum.Cam4].m_CamParam.CameraName;
+                LB_Process4.Text = Service_Camera.GetCam_Name(3);
                 displayWindow_Cam4 = new DisplayWindowClass(HWC4, TB_PositionAndGray4, PB_FitWin4, "PretargetingCalibrationHWC4");
                 displayWindow_Cam4.operation_ImageInfo.showHalconWindow = new ShowHalconWindow();
                 displayWindow_Cam4.operation_ImageInfo.showHalconWindow.m_messageShowInfos = new List<MessageShowInfo>();
@@ -199,11 +199,9 @@ namespace Frame_Core
                 cbx_MeasureSelect.DataSource = Enum.GetNames(typeof(MeasureSelectEnum));
 
                 cbx_CamSelect.Items.Clear();
-                foreach (var item in cameraManager)
-                {
-                    cbx_CamSelect.Items.Add(item.Value.m_CamParam.CameraName.ToString());
-                }
-                cbx_CamSelect.SelectedIndex = (int)Project.Instance.craftBase.BaseCamera;
+                cbx_CamSelect.Items.AddRange(Service_Camera.GetCam_Names());
+
+                //cbx_CamSelect.SelectedIndex = (int)Project.Instance.craftBase.BaseCamera;
 
                 if (Project.Instance.systemInfo.ComStationsanwahl == (int)ComStationsanwahlEnum.A面A极片纠偏工位 ||
                     Project.Instance.systemInfo.ComStationsanwahl == (int)ComStationsanwahlEnum.A面B极片纠偏工位)
@@ -217,23 +215,24 @@ namespace Frame_Core
                     pictureBox2.Image = Frame_Core.Properties.Resources.B面模板图;
                 }
 
-                TempCheckerboardHomMat2D_Cam1 = cameraManager[CameraEnum.Cam1].param_PretargetingCalib.HomMat2D;
-                TempCheckerboardHomMat2D_Cam2 = cameraManager[CameraEnum.Cam2].param_PretargetingCalib.HomMat2D;
-                TempCheckerboardHomMat2D_Cam3 = cameraManager[CameraEnum.Cam3].param_PretargetingCalib.HomMat2D;
-                TempCheckerboardHomMat2D_Cam4 = cameraManager[CameraEnum.Cam4].param_PretargetingCalib.HomMat2D;
 
-                TempCheckerboardModel_handle_Cam1 = cameraManager[CameraEnum.Cam1].param_PretargetingCalib.Model_handle;
-                TempCheckerboardModel_handle_Cam2 = cameraManager[CameraEnum.Cam2].param_PretargetingCalib.Model_handle;
-                TempCheckerboardModel_handle_Cam3 = cameraManager[CameraEnum.Cam3].param_PretargetingCalib.Model_handle;
-                TempCheckerboardModel_handle_Cam4 = cameraManager[CameraEnum.Cam4].param_PretargetingCalib.Model_handle;
+                TempCheckerboardHomMat2D_Cam1 = Service_Camera.Get_CameraRelevancy(0)?.param_PretargetingCalib.HomMat2D;
+                TempCheckerboardHomMat2D_Cam2 = Service_Camera.Get_CameraRelevancy(1)?.param_PretargetingCalib.HomMat2D;
+                TempCheckerboardHomMat2D_Cam3 = Service_Camera.Get_CameraRelevancy(2)?.param_PretargetingCalib.HomMat2D;
+                TempCheckerboardHomMat2D_Cam4 = Service_Camera.Get_CameraRelevancy(3)?.param_PretargetingCalib.HomMat2D;
 
-                TempPlatformHomMat2D = cameraManager[CameraEnum.Cam3].param_PretargetingCalib.HomMat2DPlatform;
-                TempCenterOfRotation_X = cameraManager[CameraEnum.Cam3].param_PretargetingCalib.CenterOfRotationX;
-                TempCenterOfRotation_Y = cameraManager[CameraEnum.Cam3].param_PretargetingCalib.CenterOfRotationY;
+                TempCheckerboardModel_handle_Cam1 = Service_Camera.Get_CameraRelevancy(0).param_PretargetingCalib.Model_handle;
+                TempCheckerboardModel_handle_Cam2 = Service_Camera.Get_CameraRelevancy(1).param_PretargetingCalib.Model_handle;
+                TempCheckerboardModel_handle_Cam3 = Service_Camera.Get_CameraRelevancy(2).param_PretargetingCalib.Model_handle;
+                TempCheckerboardModel_handle_Cam4 = Service_Camera.Get_CameraRelevancy(3).param_PretargetingCalib.Model_handle;
+
+                TempPlatformHomMat2D = Service_Camera.Get_CameraRelevancy(3).param_PretargetingCalib.HomMat2DPlatform;
+                TempCenterOfRotation_X = Service_Camera.Get_CameraRelevancy(3).param_PretargetingCalib.CenterOfRotationX;
+                TempCenterOfRotation_Y = Service_Camera.Get_CameraRelevancy(3).param_PretargetingCalib.CenterOfRotationY;
                 ///读取相机模板图像
-                foreach (var item in cameraManager)
+                foreach (var item in Service_Camera.Get_AllCameraRelevancyList())
                 {
-                    item.Value.param_PretargetingCalib.ReadModelHandle();
+                    item.param_PretargetingCalib.ReadModelHandle();
                 }
 
                 LoadCalibrationImgPath(tb_CalibImgPath.Text, currentCalibAlgorithmEnum);
@@ -282,7 +281,7 @@ namespace Frame_Core
             try
             {
                 currentCameraEnum = (CameraEnum)cbx_CamSelect.SelectedIndex;
-                CurrentParam_PretargetingCalib = cameraManager[(CameraEnum)cbx_CamSelect.SelectedIndex].param_PretargetingCalib;
+                CurrentParam_PretargetingCalib = Service_Camera.Get_CameraRelevancy(cbx_CamSelect.SelectedIndex).param_PretargetingCalib;
                 LoadParam(ref CurrentParam_PretargetingCalib);
             }
             catch (Exception ex)
@@ -1102,10 +1101,10 @@ namespace Frame_Core
             try
             {
                 //（所有相机都保存）
-                foreach (var item in cameraManager)
+                foreach (var item in Service_Camera.Get_AllCameraRelevancyList())
                 {
-                    GetFormParamToAllCam(ref item.Value.param_PretargetingCalib);
-                    item.Value.param_PretargetingCalib.Save();
+                    GetFormParamToAllCam(ref item.param_PretargetingCalib);
+                    item.param_PretargetingCalib.Save();
                 }
                 //(相机单独保存)
                 GetFormParamToOneCam(ref CurrentParam_PretargetingCalib);
@@ -1295,9 +1294,9 @@ namespace Frame_Core
                 return;
             }
 
-            foreach (var item in cameraManager)
+            foreach (var item in Service_Camera.Get_AllCameraRelevancyList())
             {
-                item.Value.param_PretargetingCalib.BaseLines = item.Value.param_PretargetingCalib.BaseLinesTemp.ToList();
+                item.param_PretargetingCalib.BaseLines = item.param_PretargetingCalib.BaseLinesTemp.ToList();
             }
         }
 
@@ -1639,7 +1638,8 @@ namespace Frame_Core
             {
 
                 DisplayWindowClass displayWindow = GetCamHwindow();
-                if (displayWindow.operation_ImageInfo?.showHalconWindow?.m_hImage == null) { MessageBox.Show("请先加载图像！"); return; };
+                if (displayWindow.operation_ImageInfo?.showHalconWindow?.m_hImage == null) { MessageBox.Show("请先加载图像！"); return; }
+                ;
                 //获取图像信息
                 HOperatorSet.CopyObj(displayWindow.operation_ImageInfo.showHalconWindow.m_hImage, out HObject ho_Image, 1, 1);
                 ShowHalconWindow showHalconWindow = new ShowHalconWindow();
@@ -1688,7 +1688,8 @@ namespace Frame_Core
             try
             {
                 DisplayWindowClass displayWindow = GetCamHwindow();
-                if (displayWindow.operation_ImageInfo?.showHalconWindow?.m_hImage == null) { MessageBox.Show("请先加载图像！"); return; };
+                if (displayWindow.operation_ImageInfo?.showHalconWindow?.m_hImage == null) { MessageBox.Show("请先加载图像！"); return; }
+                ;
 
                 //获取图像信息
                 HOperatorSet.CopyObj(displayWindow.operation_ImageInfo.showHalconWindow.m_hImage, out HObject ho_Image, 1, 1);
@@ -1725,7 +1726,8 @@ namespace Frame_Core
             try
             {
                 DisplayWindowClass displayWindow = GetCamHwindow();
-                if (displayWindow.operation_ImageInfo?.showHalconWindow?.m_hImage == null) { MessageBox.Show("请先加载图像！"); return; };
+                if (displayWindow.operation_ImageInfo?.showHalconWindow?.m_hImage == null) { MessageBox.Show("请先加载图像！"); return; }
+                ;
 
                 //获取图像信息
                 HObject ho_Image = displayWindow.operation_ImageInfo.showHalconWindow.m_hImage;
@@ -1814,36 +1816,36 @@ namespace Frame_Core
 
                     if (currentCameraEnum == CameraEnum.Cam1)
                     {
-                        CalculateCheckerboardCalibrationData(cameraManager[CameraEnum.Cam1].m_CamParam.CameraName,
+                        CalculateCheckerboardCalibrationData(Service_Camera.GetCam_Name(0),
                           dataGridView_Cam1, dgv_CheckerboardCalibrationCheckerboardCoord, out TempCheckerboardHomMat2D_Cam1);
                     }
                     else if (currentCameraEnum == CameraEnum.Cam2)
                     {
-                        CalculateCheckerboardCalibrationData(cameraManager[CameraEnum.Cam2].m_CamParam.CameraName,
+                        CalculateCheckerboardCalibrationData(Service_Camera.GetCam_Name(1),
                          dataGridView_Cam2, dgv_CheckerboardCalibrationCheckerboardCoord, out TempCheckerboardHomMat2D_Cam2);
                     }
                     else if (currentCameraEnum == CameraEnum.Cam3)
                     {
-                        CalculateCheckerboardCalibrationData(cameraManager[CameraEnum.Cam3].m_CamParam.CameraName,
+                        CalculateCheckerboardCalibrationData(Service_Camera.GetCam_Name(2),
                          dataGridView_Cam3, dgv_CheckerboardCalibrationCheckerboardCoord, out TempCheckerboardHomMat2D_Cam3);
                     }
                     else if (currentCameraEnum == CameraEnum.Cam4)
                     {
-                        CalculateCheckerboardCalibrationData(cameraManager[CameraEnum.Cam4].m_CamParam.CameraName,
+                        CalculateCheckerboardCalibrationData(Service_Camera.GetCam_Name(3),
                          dataGridView_Cam4, dgv_CheckerboardCalibrationCheckerboardCoord, out TempCheckerboardHomMat2D_Cam4);
                     }
                 }
                 else if (currentCalibAlgorithmEnum == CalibrationAlgorithmEnum.平移)
                 {
-                    CalculatePlatformTranslationCalibrationData(dataGridView_Cam2, cameraManager[CameraEnum.Cam2].param_PretargetingCalib.HomMat2D,
-                                                                dataGridView_Cam3, cameraManager[CameraEnum.Cam3].param_PretargetingCalib.HomMat2D,
+                    CalculatePlatformTranslationCalibrationData(dataGridView_Cam2, Service_Camera.Get_CameraRelevancy(1).param_PretargetingCalib.HomMat2D,
+                                                                dataGridView_Cam3, Service_Camera.Get_CameraRelevancy(2).param_PretargetingCalib.HomMat2D,
                                                                 dgv_PlatformTranslationCalibPlatformCoord, out TempPlatformHomMat2D);
 
                 }
                 else if (currentCalibAlgorithmEnum == CalibrationAlgorithmEnum.旋转)
                 {
-                    CalculatePlatformRotateCalibrationData(dataGridView_Cam2, cameraManager[CameraEnum.Cam2].param_PretargetingCalib.HomMat2D,
-                                                           dataGridView_Cam3, cameraManager[CameraEnum.Cam3].param_PretargetingCalib.HomMat2D,
+                    CalculatePlatformRotateCalibrationData(dataGridView_Cam2, Service_Camera.Get_CameraRelevancy(1).param_PretargetingCalib.HomMat2D,
+                                                           dataGridView_Cam3, Service_Camera.Get_CameraRelevancy(2).param_PretargetingCalib.HomMat2D,
                                                            dgv_PlatformRotateCalibPlatformCoord, out TempCenterOfRotation_X, out TempCenterOfRotation_Y, out double RadiusC);
                     ControlTool.SetParamShow(nud_CenterOfRotationX, ref TempCenterOfRotation_X);
                     ControlTool.SetParamShow(nud_CenterOfRotationY, ref TempCenterOfRotation_Y);
@@ -1863,23 +1865,23 @@ namespace Frame_Core
             {
                 if (currentCameraEnum == CameraEnum.Cam1)
                 {
-                    cameraManager[currentCameraEnum].param_PretargetingCalib.HomMat2D = TempCheckerboardHomMat2D_Cam1;
-                    cameraManager[currentCameraEnum].param_PretargetingCalib.SaveCheckerboardCalibParam();
+                    Service_Camera.Get_CameraRelevancy((int)currentCameraEnum).param_PretargetingCalib.HomMat2D = TempCheckerboardHomMat2D_Cam1;
+                    Service_Camera.Get_CameraRelevancy((int)currentCameraEnum).param_PretargetingCalib.SaveCheckerboardCalibParam();
                 }
                 else if (currentCameraEnum == CameraEnum.Cam2)
                 {
-                    cameraManager[currentCameraEnum].param_PretargetingCalib.HomMat2D = TempCheckerboardHomMat2D_Cam2;
-                    cameraManager[currentCameraEnum].param_PretargetingCalib.SaveCheckerboardCalibParam();
+                    Service_Camera.Get_CameraRelevancy((int)currentCameraEnum).param_PretargetingCalib.HomMat2D = TempCheckerboardHomMat2D_Cam2;
+                    Service_Camera.Get_CameraRelevancy((int)currentCameraEnum).param_PretargetingCalib.SaveCheckerboardCalibParam();
                 }
                 else if (currentCameraEnum == CameraEnum.Cam3)
                 {
-                    cameraManager[currentCameraEnum].param_PretargetingCalib.HomMat2D = TempCheckerboardHomMat2D_Cam3;
-                    cameraManager[currentCameraEnum].param_PretargetingCalib.SaveCheckerboardCalibParam();
+                    Service_Camera.Get_CameraRelevancy((int)currentCameraEnum).param_PretargetingCalib.HomMat2D = TempCheckerboardHomMat2D_Cam3;
+                    Service_Camera.Get_CameraRelevancy((int)currentCameraEnum).param_PretargetingCalib.SaveCheckerboardCalibParam();
                 }
                 else if (currentCameraEnum == CameraEnum.Cam4)
                 {
-                    cameraManager[currentCameraEnum].param_PretargetingCalib.HomMat2D = TempCheckerboardHomMat2D_Cam4;
-                    cameraManager[currentCameraEnum].param_PretargetingCalib.SaveCheckerboardCalibParam();
+                    Service_Camera.Get_CameraRelevancy((int)currentCameraEnum).param_PretargetingCalib.HomMat2D = TempCheckerboardHomMat2D_Cam4;
+                    Service_Camera.Get_CameraRelevancy((int)currentCameraEnum).param_PretargetingCalib.SaveCheckerboardCalibParam();
                 }
                 MessageBox.Show("保存成功");
             }
@@ -1894,10 +1896,10 @@ namespace Frame_Core
         {
             try
             {
-                foreach (var item in cameraManager)
+                foreach (var item in Service_Camera.Get_AllCameraRelevancyList())
                 {
-                    item.Value.param_PretargetingCalib.HomMat2DPlatform = TempPlatformHomMat2D;
-                    item.Value.param_PretargetingCalib.SavePlatformCalibParam();
+                    item.param_PretargetingCalib.HomMat2DPlatform = TempPlatformHomMat2D;
+                    item.param_PretargetingCalib.SavePlatformCalibParam();
                 }
                 MessageBox.Show("保存成功");
             }
@@ -1980,8 +1982,10 @@ namespace Frame_Core
                     double y1 = double.Parse(dgv_Original1.Rows[i].Cells[0].Value.ToString());
                     double x2 = double.Parse(dgv_Original2.Rows[i].Cells[1].Value.ToString());
                     double y2 = double.Parse(dgv_Original2.Rows[i].Cells[0].Value.ToString());
-                    if (!ImageAlgorithm.GetAffinePoints2d(HomMat2D1, x1, y1, out double out_currentX1, out double out_currentY1)) { MessageBox.Show($"第一个矩阵转换失败"); return false; };
-                    if (!ImageAlgorithm.GetAffinePoints2d(HomMat2D1, x2, y2, out double out_currentX2, out double out_currentY2)) { MessageBox.Show($"第二个矩阵转换失败"); return false; };
+                    if (!ImageAlgorithm.GetAffinePoints2d(HomMat2D1, x1, y1, out double out_currentX1, out double out_currentY1)) { MessageBox.Show($"第一个矩阵转换失败"); return false; }
+                    ;
+                    if (!ImageAlgorithm.GetAffinePoints2d(HomMat2D1, x2, y2, out double out_currentX2, out double out_currentY2)) { MessageBox.Show($"第二个矩阵转换失败"); return false; }
+                    ;
                     double x = (out_currentX1 + out_currentX2) / 2;
                     double y = (out_currentY1 + out_currentY2) / 2;
 
@@ -2039,8 +2043,10 @@ namespace Frame_Core
                     double y1 = double.Parse(dgv_Original1.Rows[i].Cells[0].Value.ToString());
                     double x2 = double.Parse(dgv_Original2.Rows[i].Cells[1].Value.ToString());
                     double y2 = double.Parse(dgv_Original2.Rows[i].Cells[0].Value.ToString());
-                    if (!ImageAlgorithm.GetAffinePoints2d(HomMat2D1, x1, y1, out double out_currentX1, out double out_currentY1)) { MessageBox.Show($"第一个矩阵转换失败"); return false; };
-                    if (!ImageAlgorithm.GetAffinePoints2d(HomMat2D1, x2, y2, out double out_currentX2, out double out_currentY2)) { MessageBox.Show($"第二个矩阵转换失败"); return false; };
+                    if (!ImageAlgorithm.GetAffinePoints2d(HomMat2D1, x1, y1, out double out_currentX1, out double out_currentY1)) { MessageBox.Show($"第一个矩阵转换失败"); return false; }
+                    ;
+                    if (!ImageAlgorithm.GetAffinePoints2d(HomMat2D1, x2, y2, out double out_currentX2, out double out_currentY2)) { MessageBox.Show($"第二个矩阵转换失败"); return false; }
+                    ;
 
                     ptxs1 = ptxs1.TupleConcat(out_currentX1);
                     ptys1 = ptys1.TupleConcat(out_currentY1);
@@ -2349,7 +2355,7 @@ namespace Frame_Core
         {
             try
             {
-                HTuple Model_handle = cameraManager[CameraEnum.Cam1].param_PretargetingCalib.Model_handle;
+                HTuple Model_handle = Service_Camera.Get_CameraRelevancy(0).param_PretargetingCalib.Model_handle;
                 CalibrationProcess(camName, ho_image, true, currentCalibAlgorithmEnum, Model_handle, displayWindow_Cam1, dataGridView_Cam1);
                 CamCalibrationFinish_Cam1 = true;
             }
@@ -2364,7 +2370,7 @@ namespace Frame_Core
         {
             try
             {
-                HTuple Model_handle = cameraManager[CameraEnum.Cam2].param_PretargetingCalib.Model_handle;
+                HTuple Model_handle = Service_Camera.Get_CameraRelevancy(1).param_PretargetingCalib.Model_handle;
                 Log4netRecord.RunLog.Error("Cam2已启动");
                 CalibrationProcess(camName, ho_image, true, currentCalibAlgorithmEnum, Model_handle, displayWindow_Cam2, dataGridView_Cam2);
                 Log4netRecord.RunLog.Error("Cam2已结束");
@@ -2381,7 +2387,7 @@ namespace Frame_Core
         {
             try
             {
-                HTuple Model_handle = cameraManager[CameraEnum.Cam3].param_PretargetingCalib.Model_handle;
+                HTuple Model_handle = Service_Camera.Get_CameraRelevancy(2).param_PretargetingCalib.Model_handle;
                 Log4netRecord.RunLog.Error("Cam3已启动");
                 CalibrationProcess(camName, ho_image, true, currentCalibAlgorithmEnum, Model_handle, displayWindow_Cam3, dataGridView_Cam3);
                 Log4netRecord.RunLog.Error("Cam3已结束");
@@ -2398,7 +2404,7 @@ namespace Frame_Core
         {
             try
             {
-                HTuple Model_handle = cameraManager[CameraEnum.Cam4].param_PretargetingCalib.Model_handle;
+                HTuple Model_handle = Service_Camera.Get_CameraRelevancy(3).param_PretargetingCalib.Model_handle;
                 CalibrationProcess(camName, ho_image, true, currentCalibAlgorithmEnum, Model_handle, displayWindow_Cam4, dataGridView_Cam4);
                 CamCalibrationFinish_Cam4 = true;
             }
@@ -2424,10 +2430,10 @@ namespace Frame_Core
             try
             {
                 if (ho_image == null) return;
-
+                int index = (int)camName;
                 //释放之前的图像资源
                 displayWindow.operation_ImageInfo?.Dispose();
-                Param_PretargetingCalib pretargetingCalibParam = cameraManager[camName].param_PretargetingCalib;
+                Param_PretargetingCalib pretargetingCalibParam = Service_Camera.Get_CameraRelevancy(index).param_PretargetingCalib;
                 List<PointRotateInfo> detectionImageCoord = new List<PointRotateInfo>();
                 //string camNameStr = $"{camName}";
 
@@ -3343,7 +3349,8 @@ namespace Frame_Core
                         displayWindowClass = displayWindow_Cam4;
                         break;
                 }
-                if (m_ImageSimManage.ImageEmulationPaths == null || m_ImageSimManage.ImageEmulationPaths.Length == 0) { MessageBox.Show("请先加载图像！"); return; };
+                if (m_ImageSimManage.ImageEmulationPaths == null || m_ImageSimManage.ImageEmulationPaths.Length == 0) { MessageBox.Show("请先加载图像！"); return; }
+                ;
                 m_ImageSimManage.GetCurrentImage(out HObject Load_Image, out string imgPath);
 
 

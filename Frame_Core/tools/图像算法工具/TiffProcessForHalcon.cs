@@ -121,7 +121,7 @@ namespace Frame_Core
                     }
                 }
             }
-            catch (Exception exc)
+            catch (Exception)
             {
                 return null;
             }
@@ -149,7 +149,7 @@ namespace Frame_Core
                     }
                 }
             }
-            catch (Exception exc)
+            catch (Exception)
             {
                 return null;
             }

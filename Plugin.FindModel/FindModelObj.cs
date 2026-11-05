@@ -33,19 +33,18 @@ namespace Plugin.FindModel
         /// </summary>
         private HObject m_hoModelImage = null;
 
-        private Task<bool> m_task = null;
 
         //private HObject m_tempInitage = null;
         /// <summary>
         /// 已创建的模板ID
         /// </summary>
-        private HTuple m_htModelID;
 
         /// <summary>
         /// 模板region
         /// </summary>
         private HObject m_hoRegion;
 
+        public event EventHandler<PluginExecuteCompletedEventArgs> ExecuteCompleted;
 
         public void DisPoseObj()
         {

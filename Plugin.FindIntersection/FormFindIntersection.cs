@@ -220,7 +220,7 @@ namespace Plugin.FindIntersection
         {
             OpenFileDialog fd = new OpenFileDialog();
             fd.Filter = "Image Files|*.bmp;*.jpg;*.jpeg;*.png;*.tif;*.tiff|All Files|*.*";
-            fd.InitialDirectory = "E:\\";
+            fd.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
             if (fd.ShowDialog() == DialogResult.OK)
             {
                 try

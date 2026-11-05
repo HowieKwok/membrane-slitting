@@ -30,8 +30,10 @@ namespace Plugin.MeasureEar
         FittingLine fittingLine = new FittingLine();
         FitCircle fitCircle = new FitCircle();
         public ModuleInfo moduleInfo { get; set; } = new ModuleInfo();
-
+        
         bool fitLine = true;
+
+        public event EventHandler<PluginExecuteCompletedEventArgs> ExecuteCompleted;
 
         public bool ExecuteObj()
         {
@@ -289,7 +291,7 @@ namespace Plugin.MeasureEar
                 }
                 return fitLine;
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 return false;
             }

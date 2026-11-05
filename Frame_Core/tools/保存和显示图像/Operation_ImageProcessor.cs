@@ -1,8 +1,7 @@
 ﻿using Frame_Core;
-
+using FrameCommunity;
 using HalconDotNet;
 
-using IKapBoardClassLibrary;
 
 using LogTool;
 
@@ -121,7 +120,7 @@ namespace Frame_Core
                             isShowOperationInProgress = true;
                             await Task.Run(() =>
                             {
-                                ExecuteImageOperationShowAsync(imageInfo, displayWindowClass, target_SaveQueue, target_SaveScreenshotQueue, text);
+                                _ = ExecuteImageOperationShowAsync(imageInfo, displayWindowClass, target_SaveQueue, target_SaveScreenshotQueue, text);
                                 isShowOperationInProgress = false;
                             });
 
@@ -161,7 +160,7 @@ namespace Frame_Core
                                 {
 
                                 }
-                                ExecuteImageOperationSaveAsync(imageInfo, target_DisposeQueue, text);
+                                _ = ExecuteImageOperationSaveAsync(imageInfo, target_DisposeQueue, text);
                                 isSaveOperationInProgress = false;
                               //  MessageNotify.AddDebugLog($"当前相机：{imageInfo.showHalconWindow.m_strCamName}_模式：{imageInfo.showHalconWindow.m_nMode}_释放队列个数：{target_DisposeQueue.Count}");
                             });
@@ -223,7 +222,7 @@ namespace Frame_Core
                             isSaveScreenshotOperationInProgress = true;
                             await Task.Run(() =>
                             {
-                                ExecuteScreenshotImageOperationSaveDisposeAsync(imageInfo, text);
+                                _ = ExecuteScreenshotImageOperationSaveDisposeAsync(imageInfo, text);
                                 isSaveScreenshotOperationInProgress = false;
                                 MessageNotify.AddDebugLog($"当前相机：{imageInfo.showHalconWindow.m_strCamName}_模式：{imageInfo.showHalconWindow.m_nMode}_截图队列个数：{source_SaveScreenshotQueue.Count}");
                             });

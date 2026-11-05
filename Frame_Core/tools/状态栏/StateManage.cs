@@ -77,8 +77,8 @@ namespace Frame_Core
     public class StateManage
     {
 
-        static int oldDiskInterval = 0;
-        static string oldDiskSpace = "";
+        public static StatusLevel DiskInterval = StatusLevel.Normal;
+        public static string DiskSpace = "";
 
         static bool firstExecute = true;
         static DateTime diskUpdateTime = DateTime.Now;
@@ -88,7 +88,7 @@ namespace Frame_Core
         /// <param name="diskInterval"></param>
         /// <param name="diskSpace"></param>
         /// <returns></returns>
-        public static bool CheckDriveFreeSpace(out int diskInterval, out string diskSpace)
+        public static bool CheckDriveFreeSpace()
         {
             bool disk_flag = false;
             try
@@ -108,21 +108,21 @@ namespace Frame_Core
                         if (di.Name.Equals(Project.Instance.driveParameter.driveName))
                         {
                             double Percent = (double)di.AvailableFreeSpace / (double)di.TotalSize * 100;
-                            oldDiskSpace = Percent.ToString("F2");
-                            oldDiskSpace = $"{oldDiskSpace}%";
+                            DiskSpace = Percent.ToString("F2");
+                            DiskSpace = $"{DiskSpace}%";
                             if (Percent > 30)
                             {
-                                oldDiskInterval = 1;
+                                DiskInterval = StatusLevel.Normal;
                                 disk_flag = true;
                             }
                             else if (Percent <= 30 && Percent > 5)
                             {
-                                oldDiskInterval = 2;
+                                DiskInterval = StatusLevel.Warning;
                                 disk_flag = true;
                             }
                             else if (Percent <= 5)
                             {
-                                oldDiskInterval = 0;
+                                DiskInterval = StatusLevel.Alarm;
                                 disk_flag = true;
                             }
                             if (Project.Instance.driveParameter.IsAlarm)
@@ -144,8 +144,7 @@ namespace Frame_Core
 
 
             }
-            diskInterval = oldDiskInterval;
-            diskSpace = oldDiskSpace;
+       
             return disk_flag;
         }
 

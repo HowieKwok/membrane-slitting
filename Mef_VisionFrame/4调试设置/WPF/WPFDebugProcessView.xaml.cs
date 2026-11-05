@@ -11,6 +11,8 @@ namespace Mef_VisionFrame.调试设置.WPF
 {
     public partial class WPFDebugProcessView : UserControl
     {
+
+        private readonly HashSet<IPlugin> subscribedModules = new HashSet<IPlugin>();
         private readonly List<IPlugin> currentModules = new List<IPlugin>();
         private readonly DebugProcessCardFactory cardFactory;
         private readonly PluginDialogService pluginDialogService;
@@ -270,6 +272,55 @@ namespace Mef_VisionFrame.调试设置.WPF
             RefreshModuleList();
         }
 
+        /// <summary>
+        /// 模块 ExecuteObj() 执行完成后刷新调试页。
+        /// 后台线程触发事件时必须切回 UI 线程。
+        /// </summary>
+        private void OnModuleExecuteCompleted(object sender, PluginExecuteCompletedEventArgs e)
+        {
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                RefreshModuleList();
+                if (!string.IsNullOrWhiteSpace(e.Message))
+                {
+                    SetStatus(e.Message);
+                }
+            }));
+        }
+
+        private void SubscribeModule(IPlugin module)
+        {
+            if (module == null) return;
+            if (subscribedModules.Contains(module)) return;
+
+            module.ExecuteCompleted += OnModuleExecuteCompleted;
+            subscribedModules.Add(module);
+        }
+
+        private void UnsubscribeModule(IPlugin module)
+        {
+            if (module == null) return;
+            if (!subscribedModules.Contains(module)) return;
+
+            try
+            {
+                module.ExecuteCompleted -= OnModuleExecuteCompleted;
+            }
+            catch
+            {
+            }
+
+            subscribedModules.Remove(module);
+        }
+
+        private void UnsubscribeAllModules()
+        {
+            foreach (IPlugin module in subscribedModules.ToList())
+            {
+                UnsubscribeModule(module);
+            }
+        }
+
         //private void BtnRunOnce_Click(object sender, RoutedEventArgs e)
         //{
         //    if (currentProcess == null) return;
@@ -289,11 +340,12 @@ namespace Mef_VisionFrame.调试设置.WPF
                     if (module == null || module.moduleInfo == null) continue;
                     if (!module.moduleInfo.IsUse) continue;
 
+                    SubscribeModule(module);
                     module.ExecuteObj();
                 }
             });
 
-            RefreshModuleList();
+            _ = Dispatcher.BeginInvoke(new Action(RefreshModuleList));
         }
         private void BtnRunLoop_Click(object sender, RoutedEventArgs e)
         {
@@ -328,12 +380,11 @@ namespace Mef_VisionFrame.调试设置.WPF
 
             if (openAfterAdd) OpenPluginDialog(plugin);
         }
-
         private void OpenPluginDialog(IPlugin plugin)
         {
             try
             {
-                pluginDialogService.Open(plugin, Window.GetWindow(this), OnPluginActionCompleted);
+                pluginDialogService.Open(plugin, Window.GetWindow(this));
                 RefreshProcessList(false);
             }
             catch (Exception ex)
@@ -341,6 +392,18 @@ namespace Mef_VisionFrame.调试设置.WPF
                 System.Windows.MessageBox.Show("打开模块界面失败：" + ex.Message, "WPF 调试", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        //private void OpenPluginDialog(IPlugin plugin)
+        //{
+        //    try
+        //    {
+        //        pluginDialogService.Open(plugin, Window.GetWindow(this), OnPluginActionCompleted);
+        //        RefreshProcessList(false);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        System.Windows.MessageBox.Show("打开模块界面失败：" + ex.Message, "WPF 调试", MessageBoxButton.OK, MessageBoxImage.Error);
+        //    }
+        //}
 
         private void OnPluginActionCompleted(PluginViewActionResult result)
         {

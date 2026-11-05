@@ -1,11 +1,12 @@
-﻿using Frame_Core;
+using Frame_Core;
 using Frame_Core.pluginParams;
 using HalconDotNet;
 using LogTool;
+using Plugin.CACRunCalibration.Core;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
-using System.IO;
+using System.Windows.Forms;
 
 namespace Plugin.CACRunCalibration
 {
@@ -16,84 +17,124 @@ namespace Plugin.CACRunCalibration
     [Serializable]
     public class CACRunCalibrationObj : IPlugin
     {
+        private readonly CACRunCalibrationEngine engine = new CACRunCalibrationEngine();
+
+        public event EventHandler<PluginExecuteCompletedEventArgs> ExecuteCompleted;
+
         public ModuleInfo moduleInfo { get; set; } = new ModuleInfo();
-        public PluginParamsBase PluginParams { get; set; } = new ParamsFindModel();
+        public PluginParamsBase PluginParams { get; set; } = new ParamsCACRunCalibration();
 
         public bool ExecuteObj()
         {
-            ParamsFindModel p = PluginParams as ParamsFindModel;
+            ParamsCACRunCalibration p = PluginParams as ParamsCACRunCalibration;
             if (p == null) return false;
 
+            HOperatorSet.CountSeconds(out HTuple start);
             try
             {
-                p.m_strGoalName = "CACRunCalibration";
-                p.m_bOverTime = false;
+                p.m_bRunSuccess = false;
+                p.m_bTransformSuccess = false;
 
-                if (p.ho_Image != null && p.ho_Image.IsInitialized())
+                if (!p.m_bIsEnable)
                 {
-                    p.m_ho_OutImgShow?.Dispose();
-                    p.m_ho_OutImgShow = p.ho_Image.Clone();
-
-                    HTuple width;
-                    HTuple height;
-                    HOperatorSet.GetImageSize(p.ho_Image, out width, out height);
-                    p.m_fGoalX = width.D / 2.0;
-                    p.m_fGoalY = height.D / 2.0;
+                    p.m_bRunSuccess = true;
+                    p.m_strRunMessage = "插件未启用，跳过执行";
+                    return true;
                 }
 
-                p.m_fScoreMatch = 1.0;
-                return true;
+                bool ok = engine.TryPixelToBoard(
+                    p,
+                    p.m_fInputPixelRow,
+                    p.m_fInputPixelCol,
+                    out double boardX,
+                    out double boardY,
+                    out string message);
+
+                p.m_fOutputBoardX = boardX;
+                p.m_fOutputBoardY = boardY;
+                p.m_bTransformSuccess = ok;
+                p.m_bRunSuccess = ok;
+                p.m_strRunMessage = ok ? message : "执行失败：" + message;
+                return ok;
             }
             catch (Exception ex)
             {
                 Log4netRecord.ErrorLog.Debug("CAC运行标定执行失败：" + ex);
+                p.m_bRunSuccess = false;
+                p.m_bTransformSuccess = false;
+                p.m_strRunMessage = "矩阵报错：" + ex.Message;
                 return false;
             }
+            finally
+            {
+                HOperatorSet.CountSeconds(out HTuple end);
+                p.m_fElapsedMs = (end.D - start.D) * 1000.0;
+                ExecuteCompleted?.Invoke(
+                this,
+                new PluginExecuteCompletedEventArgs(
+                    p,
+                    p.m_bRunSuccess,
+                    p.m_strRunMessage,
+                    (long)p.m_fElapsedMs));
+
+                 }
         }
+
+
+
+
 
         public void IniObj()
         {
-            ParamsFindModel p = PluginParams as ParamsFindModel;
+            ParamsCACRunCalibration p = PluginParams as ParamsCACRunCalibration;
             if (p == null) return;
 
-            string filePath = Project.Instance.paramPathSet.ProcessPath;
-            filePath = filePath.Replace("Process", "");
-            filePath = Path.Combine(filePath, moduleInfo.ProcessName ?? string.Empty, moduleInfo.ModuleName ?? string.Empty);
-            p.m_strModelGroupPath = filePath;
             p.filePath = moduleInfo.filePath;
+
+            if (engine.HasValidMatrix(p, out string message))
+            {
+                p.m_bHasValidMatrix = true;
+                p.m_strMatrixStateText = "矩阵有效";
+                p.m_strMatrixCheckMessage = message;
+            }
+            else
+            {
+                p.m_bHasValidMatrix = false;
+                p.m_strMatrixStateText = "无有效矩阵";
+                p.m_strMatrixCheckMessage = message;
+
+            }
         }
 
         public bool saveParams()
         {
-            if (PluginParams == null) return false;
-            PluginParams.filePath = moduleInfo.filePath;
-            return PluginParams.Save();
+            ParamsCACRunCalibration p = PluginParams as ParamsCACRunCalibration;
+            if (p == null) return false;
+
+            p.filePath = moduleInfo.filePath;
+            return p.Save();
         }
 
         public void SetParams(PluginParamsBase param)
         {
-            if (param != null)
-            {
-                PluginParams = param;
-            }
+            if (param != null) PluginParams = param;
         }
 
         public void GetResultParams(string resultParamsName, object obj)
         {
-            // 按现有框架接口保留，具体结果通过 PluginParams 读取。
         }
 
         public void DisPoseObj()
         {
-            ParamsFindModel p = PluginParams as ParamsFindModel;
+            ParamsCACRunCalibration p = PluginParams as ParamsCACRunCalibration;
             if (p == null) return;
 
-            p.m_ho_OutImgShow?.Dispose();
-            p.m_ho_OutCropRegion?.Dispose();
-            p.m_ho_OutRegion?.Dispose();
-            p.m_ho_OutCircleRegion?.Dispose();
+            if (p.m_ho_OutImgShow != null) p.m_ho_OutImgShow.Dispose();
+            if (p.m_ho_OutQrXlds != null) p.m_ho_OutQrXlds.Dispose();
+            p.m_ho_OutImgShow = null;
+            p.m_ho_OutQrXlds = null;
         }
+
+
     }
 }
-
-

@@ -1,4 +1,5 @@
 ﻿using Frame_Core;
+using FrameCommunity.Data;
 using HalconDotNet;
 using System;
 using System.Collections.Generic;
@@ -112,16 +113,10 @@ namespace Plugin.CropPart
 
             HTuple w, h;
             HOperatorSet.GetImageSize(Image_part, out w, out h);
-            if (w > 0 && h > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            bool result = w > 0 && h > 0;
             Image_part0.Dispose();
             Image_part1.Dispose();
+            return result;
         }
         /// <summary>
         /// 两张图图像拼接，要求：数量2，宽度相同。

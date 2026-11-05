@@ -10,6 +10,7 @@ namespace Frame_Core
    public  class ProcessInfo
     {
         public int ProcessID { get; set; }           //流程ID
+        public int CameraID { get; set; } = 0;        //流程ID
         public string ProcessName { get; set; }       //流程  名称
       
     }

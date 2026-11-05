@@ -1,4 +1,5 @@
-﻿using HalconDotNet;
+﻿using FrameCommunity;
+using HalconDotNet;
 using LogTool;
 using System;
 using System.CodeDom.Compiler;

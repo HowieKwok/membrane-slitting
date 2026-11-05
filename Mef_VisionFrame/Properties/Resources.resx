@@ -127,38 +127,47 @@
   <data name="加载" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\加载.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="SAOH" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SAOH.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="删除" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\删除.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="增加子级" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\增加子级.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="自动" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\自动.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="formlogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\formlogo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="图查属性" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\图查属性.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="停止运行" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\stop-o.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="保存" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\保存.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="叠片阳极铜箔" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\阳极铜箔.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="工程建设_增加" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\工程建设-增加.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="文件设置" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\文件设置.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="图查属性" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\图查属性.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="极耳毛刺" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\极耳毛刺.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="裁切定位" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\裁切定位.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="收缩" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\收缩 (1).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="注销" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\注销.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="停止运行" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stop-o.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="左_左" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\左 左.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="保存" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\保存.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ASOVH" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ASOVH.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="文件设置" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\文件设置.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="开关开" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\开关开.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -166,20 +175,20 @@
   <data name="交换机" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\交换机.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="pause" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pause.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="箭头_向右" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\箭头_向右.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="组删除" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\组删除.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="收缩" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\收缩 (1).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="叠片阴极铝箔" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\阴极铝箔.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="箭头_向左" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\箭头_向左.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="叠片阴极铝箔" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\阴极铝箔.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="搜索" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\搜索.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -202,17 +211,26 @@
   <data name="全屏11" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\全屏11.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="SAOH" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SAOH.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="仿真" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\仿真.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="叠片阳极铜箔" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\阳极铜箔.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="自动" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\自动.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="左_左" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\左 左.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="next" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\next.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon-reset" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon-reset.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="展开" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\展开.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="prev" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\prev.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="叠片尺寸示意" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\极片尺寸示意.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -226,16 +244,19 @@
   <data name="单次循环" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\单次循环.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="run" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\run.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="HSVision" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\HSVision.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="开关关" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\开关关.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="极耳毛刺" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\极耳毛刺.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ACOVH" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ACOVH.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="注销" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\注销.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="HSVision1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\HSVision.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

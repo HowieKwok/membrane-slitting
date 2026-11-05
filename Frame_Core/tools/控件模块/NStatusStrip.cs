@@ -104,6 +104,7 @@ namespace Frame_Core
             softwareState[softwareState.Length - 1].state = state;
         }
     }
+
     public class SoftwareState
     {
         public string name = "";

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Frame_Core;
+using FrameCommunity.Data;
 
 namespace Plugin.DetectEar
 {

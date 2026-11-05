@@ -12,6 +12,7 @@ using HalconDotNet;
 using ViewROI;
 using System.IO;
 using HalconAlgorithm;
+using FrameCommunity.Data;
 
 namespace Plugin.RectDetectEar
 {
@@ -69,7 +70,6 @@ namespace Plugin.RectDetectEar
         private RectDetectEarObj pluginsObj { get; set; }
         public ParamsRectDetectEar PluginParams { get; set; }
 
-        ImageInfo imageinfo;
         public HObject ho_Image1 = null;
         public HWndCtrl hWndCtrl_Display;
 
@@ -98,7 +98,7 @@ namespace Plugin.RectDetectEar
                 CB_Is_GrayLevel.Checked = PluginParams.bl_GrayLevel;
 
             }
-            catch (Exception ee)
+            catch (Exception)
             {
 
 
@@ -152,7 +152,7 @@ namespace Plugin.RectDetectEar
                 hWndCtrl_Display.resetAll();
                 hWndCtrl_Display.repaint();
             }
-            catch(Exception ee)
+            catch(Exception)
             {
             }
 
@@ -403,7 +403,7 @@ namespace Plugin.RectDetectEar
                     hWndCtrl_Display.resetAll();
                     hWndCtrl_Display.repaint();
                 }
-                catch (Exception ee)
+                catch (Exception)
                 {
                 }
             }
@@ -439,7 +439,7 @@ namespace Plugin.RectDetectEar
                 str = String.Format("Size  R:{0}   C:{1}", h.ToString(), w.ToString()); //格式化字符串
                 return str;
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 return str;
             }

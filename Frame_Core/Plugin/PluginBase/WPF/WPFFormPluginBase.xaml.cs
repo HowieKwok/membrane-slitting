@@ -1,19 +1,31 @@
+using BitMiracle.LibTiff.Classic;
 using System;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
 
 namespace Frame_Core
 {
+    /// <summary>
+    /// WPF 插件窗体基类。
+    /// 
+    /// 只保留一条执行完成通知链：
+    /// IPlugin.ExecuteCompleted -> WPFFormPluginBase -> IPluginWpfView.OnPluginExecutedFromOutside。
+    /// 
+    /// 不再实现 IPluginActionNotifier，也不再保留 ActionCompleted / RaiseActionCompleted，
+    /// 避免窗口按钮执行和后台执行走两套刷新机制。
+    /// </summary>
     [ContentProperty("PluginContent")]
-    public partial class WPFFormPluginBase : Window, INotifyPropertyChanged, IPluginActionNotifier
+    public partial class WPFFormPluginBase : Window, INotifyPropertyChanged
     {
-        private string costTimeText = "耗时：000ms";
+        private string costTimeText = "耗时：00ms";
         private string statusText = "等待操作";
         private bool beforeCloseCalled;
+        private bool executeCompletedSubscribed;
 
         public LanguageEnum FormLanguage;
         public IPlugin pluginsObjBase { get; set; }
@@ -55,7 +67,6 @@ namespace Frame_Core
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public event EventHandler<PluginViewActionResult> ActionCompleted;
 
         private IPluginWpfView PluginView
         {
@@ -70,6 +81,7 @@ namespace Frame_Core
 
             InitializeComponent();
             Loaded += WPFFormPluginBase_Loaded;
+            Closed += WPFFormPluginBase_Closed;
         }
 
         public virtual void Init()
@@ -78,37 +90,35 @@ namespace Frame_Core
 
             Title = pluginsObjBase.moduleInfo.ModuleName;
             StatusText = "模块：" + pluginsObjBase.moduleInfo.ModuleName;
+            SubscribeExecuteCompleted();
             CommandManager.InvalidateRequerySuggested();
         }
 
         public virtual void Btn_RUN_Click(object sender, EventArgs e)
         {
-            PluginViewActionResult result = null;
             IPluginWpfView view = PluginView;
             if (view == null)
             {
-                result = PluginViewActionResult.Fail("执行失败：插件页面未实现 WPF 接口");
-                StatusText = result.Message;
-                RaiseActionCompleted(result);
+                ApplyActionResult(PluginViewActionResult.Fail("执行失败：插件页面未实现 WPF 接口"), "执行失败");
                 return;
             }
 
             try
             {
-                result = view.RunFromHost();
+                pluginsObjBase.ExecuteObj();
+                // PluginViewActionResult result = view.RunFromHost();
+                PluginViewActionResult result = new PluginViewActionResult();
+                result.Success = pluginsObjBase.PluginParams.m_bRunSuccess;
+                result.Message = pluginsObjBase.PluginParams.m_strRunMessage;
+                result.ElapsedMs = (long)pluginsObjBase.PluginParams.m_fElapsedMs;
                 ApplyActionResult(result, result != null && result.Success ? "执行完成" : "执行失败");
             }
             catch (Exception ex)
             {
-                result = PluginViewActionResult.Fail("执行异常：" + ex.Message);
-                StatusText = result.Message;
-            }
-            finally
-            {
-                // 执行结果由插件写入 PluginParams。基类只通知外层重新读取参数刷新显示。
-                RaiseActionCompleted(result);
+                ApplyActionResult(PluginViewActionResult.Fail("执行异常：" + ex.Message), "执行异常");
             }
         }
+
         public virtual void Btn_Save_Click(object sender, EventArgs e)
         {
             if (pluginsObjBase == null || pluginsObjBase.moduleInfo == null)
@@ -135,6 +145,7 @@ namespace Frame_Core
                 StatusText = "保存异常：" + ex.Message;
             }
         }
+
         public virtual void Btn_Close_Click(object sender, EventArgs e)
         {
             Close();
@@ -155,7 +166,38 @@ namespace Frame_Core
                 }
             }
 
+            // ===== 修复：摘掉并释放所有 WindowsFormsHost，切断 WinForms 控件 → 窗口 的引用链 =====
+            try
+            {
+                DetachWindowsFormsHosts(this);
+            }
+            catch
+            {
+            }
+            PluginContent = null;
+
             base.OnClosing(e);
+        }
+
+
+        private static void DetachWindowsFormsHosts(DependencyObject current)
+        {
+            if (current == null) return;
+
+            System.Windows.Forms.Integration.WindowsFormsHost host =
+                current as System.Windows.Forms.Integration.WindowsFormsHost;
+            if (host != null)
+            {
+                host.Child = null;
+                host.Dispose();
+                return;
+            }
+
+            int count = System.Windows.Media.VisualTreeHelper.GetChildrenCount(current);
+            for (int i = 0; i < count; i++)
+            {
+                DetachWindowsFormsHosts(System.Windows.Media.VisualTreeHelper.GetChild(current, i));
+            }
         }
 
         private string PreparePluginSavePath()
@@ -167,16 +209,11 @@ namespace Frame_Core
             return pluginsObjBase.moduleInfo.filePath;
         }
 
-        protected virtual void RaiseActionCompleted(PluginViewActionResult result)
-        {
-            EventHandler<PluginViewActionResult> handler = ActionCompleted;
-            if (handler != null) handler(this, result);
-        }
         private void ApplyActionResult(PluginViewActionResult result, string defaultMessage)
         {
             if (result == null)
             {
-                CostTimeText = "耗时：000ms";
+                CostTimeText = "耗时：00ms";
                 StatusText = defaultMessage;
                 return;
             }
@@ -188,6 +225,55 @@ namespace Frame_Core
         protected virtual void WPFFormPluginBase_Loaded(object sender, RoutedEventArgs e)
         {
             Init();
+        }
+
+        private void WPFFormPluginBase_Closed(object sender, EventArgs e)
+        {
+            UnsubscribeExecuteCompleted();
+            BindingOperations.ClearAllBindings(this);  // 清除所有子元素的绑定
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
+        }
+
+        private void SubscribeExecuteCompleted()
+        {
+            if (pluginsObjBase == null || executeCompletedSubscribed) return;
+
+            pluginsObjBase.ExecuteCompleted += OnPluginExecuteCompleted;
+            executeCompletedSubscribed = true;
+        }
+
+        private void UnsubscribeExecuteCompleted()
+        {
+            if (pluginsObjBase == null || !executeCompletedSubscribed) return;
+
+            try
+            {
+                pluginsObjBase.ExecuteCompleted -= OnPluginExecuteCompleted;
+            }
+            catch
+            {
+            }
+
+            executeCompletedSubscribed = false;
+        }
+
+        private void OnPluginExecuteCompleted(object sender, PluginExecuteCompletedEventArgs e)
+        {
+            if (!ReferenceEquals(sender, pluginsObjBase)) return;
+
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                CostTimeText = "耗时：" + e.ElapsedMs.ToString("0.0") + "ms";
+                StatusText = string.IsNullOrWhiteSpace(e.Message) ? (e.Success ? "执行完成" : "执行失败") : e.Message;
+
+                IPluginWpfView view = PluginView;
+                if (view != null)
+                {
+                    view.OnPluginExecutedFromOutside(e);
+                }
+            }));
         }
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -225,3 +311,4 @@ namespace Frame_Core
         }
     }
 }
+

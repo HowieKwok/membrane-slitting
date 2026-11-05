@@ -1,4 +1,6 @@
-﻿using Frame_Core.pluginParams;
+﻿using CommunityToolkit.Mvvm.Input;
+using Frame_Core.pluginParams;
+using FrameCommunity.公共类;
 using HalconDotNet;
 using Plugin.BlobAnalysis.Core;
 using Plugin.BlobAnalysis.Models;
@@ -8,6 +10,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
+using System.Linq;
+
+
 
 namespace Plugin.BlobAnalysis.ViewModels
 {
@@ -17,7 +22,7 @@ namespace Plugin.BlobAnalysis.ViewModels
     /// BlobAnalysisParams 只作为算法层运行时 DTO 使用，不负责 XML 保存/读取。
     /// 图像统一使用 frameParams.ho_Image，界面层不释放该输入图像，避免释放上游流程仍在使用的 HObject。
     /// </summary>
-    public sealed class BlobAnalysisViewModel : BindableBase
+    public partial class BlobAnalysisViewModel : BindableBase
     {
         private readonly IBlobAnalysisEngine engine;
         private ParamsBlobAnalysis frameParams;
@@ -40,14 +45,16 @@ namespace Plugin.BlobAnalysis.ViewModels
         {
             this.engine = engine;
             parameters = new BlobAnalysisParams();
-            AddMaskRoiCommand = new RelayCommand(_ => AddMaskRoi());
-            DeleteMaskRoiCommand = new RelayCommand(_ => DeleteSelectedMaskRoi(), _ => SelectedMaskRoi != null);
-            SetBaseFromMouseCommand = new RelayCommand(_ => SetBaseFromMouse(), _ => hasRightPoint);
-            SetCurrentFromMouseCommand = new RelayCommand(_ => SetCurrentFromMouse(), _ => hasRightPoint);
-            AddFilterCommand = new RelayCommand(_ => AddFilterRequested?.Invoke());
-            DeleteFilterCommand = new RelayCommand(_ => DeleteSelectedFilter(), _ => SelectedFilter != null);
+            AddMaskRoiCommand = new RelayCommand(AddMaskRoi);
+            DeleteMaskRoiCommand = new RelayCommand(DeleteSelectedMaskRoi, () => SelectedMaskRoi != null);
+            SetBaseFromMouseCommand = new RelayCommand(SetBaseFromMouse, () => hasRightPoint);
+            SetCurrentFromMouseCommand = new RelayCommand(SetCurrentFromMouse, () => hasRightPoint);
+            AddFilterCommand = new RelayCommand(()=> AddFilterRequested?.Invoke());
+            DeleteFilterCommand = new RelayCommand(DeleteSelectedFilter, () => SelectedFilter != null);
             ReloadCollections();
         }
+
+
 
         public ParamsBlobAnalysis FrameParams { get { return frameParams; } }
 
@@ -70,16 +77,16 @@ namespace Plugin.BlobAnalysis.ViewModels
         public IReadOnlyList<KeyValuePair<string, string>> FilterFeatureItems { get; } = new List<KeyValuePair<string, string>> { new KeyValuePair<string, string>("area", "面积 area"), new KeyValuePair<string, string>("row", "质心Row row"), new KeyValuePair<string, string>("column", "质心Col column"), new KeyValuePair<string, string>("width", "宽度 width"), new KeyValuePair<string, string>("height", "高度 height"), new KeyValuePair<string, string>("circularity", "圆度 circularity"), new KeyValuePair<string, string>("rectangularity", "矩形度 rectangularity"), new KeyValuePair<string, string>("convexity", "凸性 convexity"), new KeyValuePair<string, string>("compactness", "紧凑度 compactness"), new KeyValuePair<string, string>("holes_num", "孔洞数 holes_num"), new KeyValuePair<string, string>("orientation", "方向 orientation"), new KeyValuePair<string, string>("ra", "长轴 ra"), new KeyValuePair<string, string>("rb", "短轴 rb"), new KeyValuePair<string, string>("anisometry", "长宽比 anisometry") };
         public IReadOnlyList<KeyValuePair<string, string>> FilterOperationItems { get; } = new List<KeyValuePair<string, string>> { new KeyValuePair<string, string>("and", "并且 and"), new KeyValuePair<string, string>("or", "或者 or") };
 
-        public RelayCommand AddMaskRoiCommand { get; }
-        public RelayCommand DeleteMaskRoiCommand { get; }
-        public RelayCommand AddFilterCommand { get; }
-        public RelayCommand DeleteFilterCommand { get; }
-        public RelayCommand SetBaseFromMouseCommand { get; }
-        public RelayCommand SetCurrentFromMouseCommand { get; }
+        public RelayCommand AddMaskRoiCommand { get; set; }
+        public RelayCommand DeleteMaskRoiCommand { get; set; }
+        public RelayCommand AddFilterCommand { get; set; }
+        public RelayCommand DeleteFilterCommand { get; set; }
+        public RelayCommand SetBaseFromMouseCommand { get; set; }
+        public RelayCommand SetCurrentFromMouseCommand { get; set; }
 
-        public RoiParamViewModel SelectedMaskRoi { get { return selectedMaskRoi; } set { SetProperty(ref selectedMaskRoi, value); DeleteMaskRoiCommand.RaiseCanExecuteChanged(); } }
+        public RoiParamViewModel SelectedMaskRoi { get { return selectedMaskRoi; } set { SetProperty(ref selectedMaskRoi, value); DeleteMaskRoiCommand.NotifyCanExecuteChanged(); } }
         public BlobRegionFeature SelectedRegion { get { return selectedRegion; } set { SetProperty(ref selectedRegion, value); } }
-        public FilterRuleParamViewModel SelectedFilter { get { return selectedFilter; } set { SetProperty(ref selectedFilter, value); DeleteFilterCommand.RaiseCanExecuteChanged(); } }
+        public FilterRuleParamViewModel SelectedFilter { get { return selectedFilter; } set { SetProperty(ref selectedFilter, value); DeleteFilterCommand.NotifyCanExecuteChanged(); } }
         public string StatusText { get { return statusText; } set { SetProperty(ref statusText, value); } }
         public string ImageInfo { get { return imageInfo; } set { SetProperty(ref imageInfo, value); } }
         public string MouseInfo { get { return mouseInfo; } set { SetProperty(ref mouseInfo, value); } }
@@ -89,6 +96,8 @@ namespace Plugin.BlobAnalysis.ViewModels
 
         public DetectRangeMode DetectMode { get { return parameters.DetectMode; } set { parameters.DetectMode = value; OnPropertyChanged(); } }
         public RoiEditRole EditRole { get { return parameters.EditRole; } set { parameters.EditRole = value; OnPropertyChanged(); } }
+
+        public bool m_bIsEnable { get { return parameters.m_bIsEnable; } set { parameters.m_bIsEnable = value; OnPropertyChanged(); } }
         public bool EnableLocalRoi { get { return parameters.EnableLocalRoi; } set { parameters.EnableLocalRoi = value; OnPropertyChanged(); } }
         public bool EnableMaskRoi { get { return parameters.EnableMaskRoi; } set { parameters.EnableMaskRoi = value; OnPropertyChanged(); } }
         public bool ShowViewRoi { get { return parameters.ShowViewRoi; } set { parameters.ShowViewRoi = value; OnPropertyChanged(); } }
@@ -110,6 +119,22 @@ namespace Plugin.BlobAnalysis.ViewModels
         public double LocalRow2 { get { return parameters.LocalRoi.Row2; } set { parameters.LocalRoi.Row2 = value; OnPropertyChanged(); } }
         public double LocalCol2 { get { return parameters.LocalRoi.Col2; } set { parameters.LocalRoi.Col2 = value; OnPropertyChanged(); } }
 
+        public double TopOffsetRow 
+        { 
+            get 
+            { 
+                return parameters.LocalRoi.TopOffsetRow;
+            } 
+            set 
+            {
+                parameters.LocalRoi.TopOffsetRow = value;
+                OnPropertyChanged();
+            } 
+        }
+        public double BottomOffsetRow { get { return parameters.LocalRoi.BottomOffsetRow; } set { parameters.LocalRoi.BottomOffsetRow = value; OnPropertyChanged(); } }
+        public double LeftOffsetCol { get { return parameters.LocalRoi.LeftOffsetCol; } set { parameters.LocalRoi.LeftOffsetCol = value; OnPropertyChanged(); } }
+        public double RightOffsetCol { get { return parameters.LocalRoi.RightOffsetCol; } set { parameters.LocalRoi.RightOffsetCol = value; OnPropertyChanged(); } }
+
         /// <summary>
         /// 绑定流程参数类。界面显示和保存都以 ParamsBlobAnalysis 为准。
         /// </summary>
@@ -120,6 +145,38 @@ namespace Plugin.BlobAnalysis.ViewModels
             UpdateImageInfo("流程输入图像");
             ReloadCollections();
             OnPropertyChanged(string.Empty);
+           
+        }
+
+        public void clearMethod()
+        {
+            try
+            {
+                DetectModeItems.ToList().Clear();
+                RoiRoleItems.ToList().Clear();
+                MorphModeItems.ToList().Clear();
+                SortFeatureItems.ToList().Clear();
+                SortDirectionItems.ToList().Clear();
+                FilterFeatureItems.ToList().Clear();
+                FilterOperationItems.ToList().Clear();
+                MaskRois.Clear();
+                Filters.Clear();
+                Results.Clear();
+                AddMaskRoiCommand = null;
+                DeleteMaskRoiCommand = null;
+                AddFilterCommand = null; 
+                SetBaseFromMouseCommand = null;
+                 SetCurrentFromMouseCommand = null;
+
+
+
+                 }
+     
+            catch (Exception)
+            {
+
+                //throw;
+            }
         }
 
         /// <summary>
@@ -139,6 +196,7 @@ namespace Plugin.BlobAnalysis.ViewModels
         {
             if (frameParams == null) return;
             HOperatorSet.ReadImage(out HObject image, path);
+            frameParams.ho_Image?.Dispose();
             frameParams.ho_Image = image;
             UpdateImageInfo(Path.GetFileName(path));
             OnPropertyChanged(nameof(Image));
@@ -205,8 +263,8 @@ namespace Plugin.BlobAnalysis.ViewModels
             lastRightCol = col;
             hasRightPoint = true;
             StatusText = string.Format(CultureInfo.InvariantCulture, "右键点 Row:{0:0.0} Col:{1:0.0}", row, col);
-            SetBaseFromMouseCommand.RaiseCanExecuteChanged();
-            SetCurrentFromMouseCommand.RaiseCanExecuteChanged();
+            SetBaseFromMouseCommand.NotifyCanExecuteChanged();
+            SetCurrentFromMouseCommand.NotifyCanExecuteChanged();
         }
 
         /// <summary>

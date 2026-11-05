@@ -31,6 +31,17 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CommunityToolkit.Mvvm">
+      <HintPath>..\Frame_Core\ChartDLL\CommunityToolkit.Mvvm.dll</HintPath>
+    </Reference>
+    <Reference Include="FrameCommunity, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\FrameCommunity\obj\Release\FrameCommunity.dll</HintPath>
+    </Reference>
+    <Reference Include="Frame_Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Frame_Core\bin\Release\Frame_Core.dll</HintPath>
+    </Reference>
     <Reference Include="halcondotnetxl, Version=20.11.1.0, Culture=neutral, PublicKeyToken=4973bed59ddbf2b8, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Mef_VisionFrame\bin\Release\halcondotnetxl.dll</HintPath>
@@ -75,17 +86,29 @@
     <Compile Include="ViewROI\ROILine.cs" />
     <Compile Include="ViewROI\ROIRectangle1.cs" />
     <Compile Include="ViewROI\ROIRectangle2.cs" />
-    <Compile Include="WPF架构\AddFilterRuleDialog.xaml.cs"><DependentUpon>AddFilterRuleDialog.xaml</DependentUpon></Compile>
-    <Compile Include="WPF架构\WPFBlobAnalysis.xaml.cs"><DependentUpon>WPFBlobAnalysis.xaml</DependentUpon></Compile>
+    <Compile Include="WPF架构\AddFilterRuleDialog.xaml.cs">
+      <DependentUpon>AddFilterRuleDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WPF架构\WPFBlobAnalysis.xaml.cs">
+      <DependentUpon>WPFBlobAnalysis.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="WPF架构\AddFilterRuleDialog.xaml"><SubType>Designer</SubType><Generator>MSBuild:Compile</Generator></Page>
-    <Page Include="WPF架构\WPFBlobAnalysis.xaml"><SubType>Designer</SubType><Generator>MSBuild:Compile</Generator></Page>
+    <Page Include="WPF架构\AddFilterRuleDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WPF架构\WPFBlobAnalysis.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Frame_Core\Frame_Core.csproj"><Project>{01127398-2CC7-4124-B966-FBFF69A7A0E5}</Project><Name>Frame_Core</Name></ProjectReference>
-    <ProjectReference Include="..\LogTool\LogTool.csproj"><Project>{ee6d8f10-4cb8-4312-8847-5d7568be4fa0}</Project><Name>LogTool</Name></ProjectReference>
+    <ProjectReference Include="..\LogTool\LogTool.csproj">
+      <Project>{ee6d8f10-4cb8-4312-8847-5d7568be4fa0}</Project>
+      <Name>LogTool</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

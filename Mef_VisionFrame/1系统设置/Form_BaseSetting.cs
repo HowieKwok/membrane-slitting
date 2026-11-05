@@ -14,11 +14,11 @@ namespace Mef_VisionFrame
 {
     public partial class Form_BaseSetting : Form
     {
-        SystemInfo systemInfo;
-        public Form_BaseSetting(SystemInfo _systemInfo)
+        Param_PointInspection param;
+        public Form_BaseSetting(Param_PointInspection _param)
         {
             InitializeComponent();
-            systemInfo = _systemInfo;
+            param = _param;
         }
 
         private void Form_BaseSetting_Load(object sender, EventArgs e)
@@ -26,14 +26,14 @@ namespace Mef_VisionFrame
             try
             {
            
-                dtp_dtCaliTimeBaiban.Value = systemInfo.djCaliTimeBaiban;
-                dtp_dtCaliTimeYeBan.Value = systemInfo.djCaliTimeYeBan;
-                cbx_djEnabled.Checked = systemInfo.djEnabled;
+                dtp_dtCaliTimeBaiban.Value = param.djCaliTimeBaiban;
+                dtp_dtCaliTimeYeBan.Value = param.djCaliTimeYeBan;
+                cbx_djEnabled.Checked = param.djEnabled;
 
 
 
 
-                lb_LastDJTime.Text= systemInfo.djLastOKTime.ToString("yyyy-MM-dd HH:mm:ss");
+                lb_LastDJTime.Text= param.djLastOKTime.ToString("yyyy-MM-dd HH:mm:ss");
             }
             catch (Exception ex)
             {
@@ -47,10 +47,10 @@ namespace Mef_VisionFrame
             try
             {
      
-                systemInfo.djCaliTimeBaiban = dtp_dtCaliTimeBaiban.Value;
-                systemInfo.djCaliTimeYeBan = dtp_dtCaliTimeYeBan.Value;
-                systemInfo.djEnabled = cbx_djEnabled.Checked;
-                systemInfo.Save();
+                param.djCaliTimeBaiban = dtp_dtCaliTimeBaiban.Value;
+                param.djCaliTimeYeBan = dtp_dtCaliTimeYeBan.Value;
+                param.djEnabled = cbx_djEnabled.Checked;
+                param.Save();
             }
             catch (Exception ex)
             {

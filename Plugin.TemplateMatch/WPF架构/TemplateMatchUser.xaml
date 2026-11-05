@@ -1,0 +1,408 @@
+<UserControl x:Class="Plugin.TemplateMatch.Views.TemplateMatchUser"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:wfi="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
+             xmlns:ctrl="clr-namespace:Plugin.TemplateMatch.Controls"
+             xmlns:mask="clr-namespace:FrameCommunity.MaskRoiTool;assembly=FrameCommunity"
+             xmlns:vm="clr-namespace:Plugin.TemplateMatch.ViewModels"
+             Unloaded="UserControl_Unloaded"
+             Background="#05080D"
+             Foreground="#EAFBFF"
+             FontFamily="Microsoft YaHei UI"
+             FontSize="13">
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="PanelBg" Color="#081018"/>
+        <SolidColorBrush x:Key="PanelBg2" Color="#0D1721"/>
+        <SolidColorBrush x:Key="LineCyan" Color="#23D9FF"/>
+        <SolidColorBrush x:Key="LinePink" Color="#FF3FB4"/>
+        <SolidColorBrush x:Key="TextSoft" Color="#B7CCD8"/>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#EAFBFF"/>
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="{StaticResource TextSoft}"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="0,0,8,3"/>
+        </Style>
+        <Style TargetType="CheckBox">
+            <Setter Property="Foreground" Value="#EAFBFF"/>
+            <Setter Property="Margin" Value="0,3,12,3"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="0,0,7,7"/>
+            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="MinHeight" Value="30"/>
+            <Setter Property="Background" Value="#122536"/>
+            <Setter Property="Foreground" Value="#F7FEFF"/>
+            <Setter Property="BorderBrush" Value="#23D9FF"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+        <Style TargetType="GroupBox">
+            <Setter Property="Foreground" Value="#EAFBFF"/>
+            <Setter Property="BorderBrush" Value="#21485A"/>
+            <Setter Property="Background" Value="{StaticResource PanelBg}"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+            <Setter Property="Padding" Value="9"/>
+        </Style>
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="#F7FBFF"/>
+            <Setter Property="Foreground" Value="#111820"/>
+            <Setter Property="RowBackground" Value="#FFFFFF"/>
+            <Setter Property="AlternatingRowBackground" Value="#EEF6FB"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+        </Style>
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#E8F3FA"/>
+            <Setter Property="Foreground" Value="#111820"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        <Style TargetType="DataGridCell">
+            <Setter Property="Foreground" Value="#111820"/>
+        </Style>
+        <Style TargetType="TabItem">
+            <Setter Property="MinWidth" Value="92"/>
+            <Setter Property="Padding" Value="12,5"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*" MinWidth="540"/>
+            <ColumnDefinition Width="2*" MinWidth="380"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0" Margin="0,0,10,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="54"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="100"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" Background="#07111A" BorderBrush="{StaticResource LineCyan}" BorderThickness="1" CornerRadius="4" Padding="12,0">
+                <DockPanel LastChildFill="False">
+                    <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="模板匹配" FontSize="21" FontWeight="Bold"/>
+                        <TextBlock Text="运行图 / 模板图 / ROI绑定" FontSize="12" Foreground="#23D9FF" Margin="14,8,0,0"/>
+                    </StackPanel>
+                    <WrapPanel DockPanel.Dock="Right" VerticalAlignment="Center">
+                        <Button Content="加载图像" Command="{Binding LoadImageCommand}"/>
+                        <Button Content="主图适应" Command="{Binding FitMainCommand}"/>
+                        <Button Content="模板适应" Command="{Binding FitTemplateCommand}"/>
+                        <Button Content="结果适应" Command="{Binding FitMatchCommand}"/>
+                        <Button Content="创建模板" Command="{Binding CreateTemplateCommand}"/>
+                        <Button Content="运行匹配" Command="{Binding RunCommand}"/>
+                        <Button Content="保存参数" Command="{Binding SaveCommand}"/>
+                    </WrapPanel>
+                </DockPanel>
+            </Border>
+
+            <Grid Grid.Row="1" Margin="0,10,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2.2*"/>
+                    <ColumnDefinition Width="1.0*" MinWidth="260"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Background="#010308" BorderBrush="#1D5164" BorderThickness="1" CornerRadius="4" Margin="0,0,10,0">
+                    <Grid>
+                        <Border Background="#06111B" BorderBrush="#23D9FF" BorderThickness="0,0,0,1" Height="28" VerticalAlignment="Top" Panel.ZIndex="2">
+                            <DockPanel>
+                                <TextBlock Text="运行图" FontWeight="Bold" Margin="10,5,0,0"/>
+                                <TextBlock Text="{Binding ImageSizeText}" Foreground="#9FB7C5" HorizontalAlignment="Right" Margin="0,6,12,0"/>
+                            </DockPanel>
+                        </Border>
+                        <wfi:WindowsFormsHost x:Name="MainHost" Margin="0,28,0,0" Background="#010308"/>
+                    </Grid>
+                </Border>
+
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.95*"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="1.05*"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Background="#010308" BorderBrush="#5D315B" BorderThickness="1" CornerRadius="4">
+                        <Grid>
+                            <Border Background="#100A16" BorderBrush="#FF3FB4" BorderThickness="0,0,0,1" Height="26" VerticalAlignment="Top" Panel.ZIndex="2">
+                                <DockPanel>
+                                    <Button Content="适应" DockPanel.Dock="Right" Width="52" Height="22" Margin="0,2,6,2" Padding="4,0" Command="{Binding FitTemplateCommand}"/>
+                                    <TextBlock Text="模板图" FontWeight="Bold" Margin="10,4,0,0"/>
+                                </DockPanel>
+                            </Border>
+                            <wfi:WindowsFormsHost x:Name="TemplateHost" Margin="0,26,0,0" Background="#010308"/>
+                        </Grid>
+                    </Border>
+
+                    <Border Grid.Row="2" Background="#010308" BorderBrush="#23D9FF" BorderThickness="1" CornerRadius="4">
+                        <Grid>
+                            <Border Background="#06111B" BorderBrush="#23D9FF" BorderThickness="0,0,0,1" Height="26" VerticalAlignment="Top" Panel.ZIndex="2">
+                                <DockPanel>
+                                    <Button Content="适应" DockPanel.Dock="Right" Width="52" Height="22" Margin="0,2,6,2" Padding="4,0" Command="{Binding FitMatchCommand}"/>
+                                    <TextBlock Text="结果图" FontWeight="Bold" Margin="10,4,0,0"/>
+                                </DockPanel>
+                            </Border>
+                            <wfi:WindowsFormsHost x:Name="MatchHost" Margin="0,26,0,0" Background="#010308"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.0*"/>
+                    <ColumnDefinition Width="1.0*"/>
+                    <ColumnDefinition Width="1.4*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Background="{StaticResource PanelBg2}" BorderBrush="#1F4253" BorderThickness="1" CornerRadius="4" Padding="10" Margin="0,0,8,0">
+                    <StackPanel>
+                        <TextBlock Text="鼠标 / 图像" FontWeight="Bold" Foreground="#23D9FF"/>
+                        <TextBlock Text="{Binding ImageSizeText}" FontFamily="Consolas" FontSize="14" Margin="0,7,0,0"/>
+                        <TextBlock Text="{Binding MouseInfo}" FontFamily="Consolas" FontSize="14" Margin="0,4,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Column="1" Background="{StaticResource PanelBg2}" BorderBrush="#1F4253" BorderThickness="1" CornerRadius="4" Padding="10" Margin="0,0,8,0">
+                    <StackPanel>
+                        <TextBlock Text="运行状态" FontWeight="Bold" Foreground="#FF3FB4"/>
+                        <TextBlock Text="{Binding ElapsedText}" FontFamily="Consolas" FontSize="14" Margin="0,7,0,0"/>
+                        <TextBlock Text="{Binding SuccessText}" FontFamily="Consolas" FontSize="14" Margin="0,4,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Column="2" Background="{StaticResource PanelBg2}" BorderBrush="#1F4253" BorderThickness="1" CornerRadius="4" Padding="10">
+                    <StackPanel>
+                        <TextBlock Text="提示" FontWeight="Bold" Foreground="#8DFF64"/>
+                        <TextBlock Text="{Binding StatusText}" TextWrapping="Wrap" Foreground="#D7E9F2" FontSize="13" Margin="0,7,0,0"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
+
+        <Border Grid.Column="1" Background="{StaticResource PanelBg}" BorderBrush="{StaticResource LinePink}" BorderThickness="1" CornerRadius="6">
+            <Grid Margin="12">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="模板与参数" FontSize="20" FontWeight="Bold" Margin="0,0,0,8"/>
+
+                <GroupBox Grid.Row="1" Header="模板列表">
+                    <DockPanel>
+                        <WrapPanel DockPanel.Dock="Top" Margin="0,0,0,8">
+                            <Button Content="新增模板" Command="{Binding AddTemplateCommand}"/>
+                            <Button Content="删除模板" Command="{Binding DeleteTemplateCommand}"/>
+                            <Button Content="ROI写入模板" Command="{Binding ApplyRoiCommand}"/>
+                            <Button Content="ROI写入基准点" Command="{Binding SetBaseByRoiCommand}"/>
+                        </WrapPanel>
+                        <DataGrid ItemsSource="{Binding Templates}" SelectedItem="{Binding SelectedTemplate}" AutoGenerateColumns="False" CanUserAddRows="False" Height="150">
+                            <DataGrid.Columns>
+                                <DataGridCheckBoxColumn Header="启用" Binding="{Binding IsEnabled, Mode=TwoWay}" Width="50"/>
+                                <DataGridTextColumn Header="模板名" Binding="{Binding Name, Mode=TwoWay}" Width="95"/>
+                                <DataGridTemplateColumn Header="方式" Width="90">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding MatchMode, Converter={x:Static ctrl:MatchModeTextConverter.Instance}}" VerticalAlignment="Center" Margin="4,0"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate>
+                                            <ComboBox ItemsSource="{Binding DataContext.MatchModes, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                      SelectedItem="{Binding MatchMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      Height="24">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Converter={x:Static ctrl:MatchModeTextConverter.Instance}}"/>
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridCheckBoxColumn Header="已创建" Binding="{Binding IsCreated}" Width="60" IsReadOnly="True"/>
+                                <DataGridTextColumn Header="分数" Binding="{Binding LastScore, StringFormat=0.000}" Width="70" IsReadOnly="True"/>
+                                <DataGridTextColumn Header="基准行" Binding="{Binding BaseRow, StringFormat=0.0}" Width="76"/>
+                                <DataGridTextColumn Header="基准列" Binding="{Binding BaseCol, StringFormat=0.0}" Width="76"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </DockPanel>
+                </GroupBox>
+
+                <TabControl Grid.Row="2" Background="{StaticResource PanelBg}">
+                    <TabItem Header="模板页">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="10">
+                            <StackPanel>
+                                <CheckBox Content="显示ViewROI" IsChecked="{Binding ShowViewRoi, Mode=TwoWay}" Margin="0,0,0,8"/>
+
+                                <GroupBox Header="模板ROI">
+                                    <StackPanel>
+                                        <WrapPanel Margin="0,0,0,8">
+                                            <CheckBox Content="显示" IsChecked="{Binding ShowTemplateRoi, Mode=TwoWay}"/>
+                                            <CheckBox Content="编辑" IsChecked="{Binding EditTemplateRoi, Mode=TwoWay}"/>
+                                            <CheckBox Content="ROI跟随匹配" IsChecked="{Binding RoiFollowMatch, Mode=TwoWay}"/>
+                                            <Button Content="写入模板" Command="{Binding ApplyRoiCommand}"/>
+                                            <Button Content="写入基准点" Command="{Binding SetBaseByRoiCommand}"/>
+                                        </WrapPanel>
+                                        <UniformGrid Columns="2">
+                                            <Label Content="ROI类型"/>
+                                            <ComboBox SelectedValue="{Binding SelectedTemplate.RoiShapeType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      SelectedValuePath="Tag"
+                                                      Height="24">
+                                                <ComboBoxItem Content="直线" Tag="10"/>
+                                                <ComboBoxItem Content="圆" Tag="11"/>
+                                                <ComboBoxItem Content="圆弧" Tag="12"/>
+                                                <ComboBoxItem Content="矩形1" Tag="13"/>
+                                                <ComboBoxItem Content="矩形2" Tag="14"/>
+                                            </ComboBox>
+                                            <Label Content="ROI行1"/><ctrl:NumericBox Value="{Binding SelectedTemplate.RoiRow1, Mode=TwoWay}" Increment="1" DecimalPlaces="2"/>
+                                            <Label Content="ROI列1"/><ctrl:NumericBox Value="{Binding SelectedTemplate.RoiCol1, Mode=TwoWay}" Increment="1" DecimalPlaces="2"/>
+                                            <Label Content="ROI行2"/><ctrl:NumericBox Value="{Binding SelectedTemplate.RoiRow2, Mode=TwoWay}" Increment="1" DecimalPlaces="2"/>
+                                            <Label Content="ROI列2"/><ctrl:NumericBox Value="{Binding SelectedTemplate.RoiCol2, Mode=TwoWay}" Increment="1" DecimalPlaces="2"/>
+                                            <Label Content="基准行"/><ctrl:NumericBox Value="{Binding SelectedTemplate.BaseRow, Mode=TwoWay}" Increment="1" DecimalPlaces="2"/>
+                                            <Label Content="基准列"/><ctrl:NumericBox Value="{Binding SelectedTemplate.BaseCol, Mode=TwoWay}" Increment="1" DecimalPlaces="2"/>
+                                            <Label Content="基准角度"/><ctrl:NumericBox Value="{Binding SelectedTemplate.BaseAngleDeg, Mode=TwoWay}" Increment="1" DecimalPlaces="2"/>
+                                        </UniformGrid>
+                                    </StackPanel>
+                                </GroupBox>
+
+                                <GroupBox Header="局部ROI">
+                                    <StackPanel>
+                                        <WrapPanel Margin="0,0,0,8">
+                                            <CheckBox Content="启用" IsChecked="{Binding UseLocalRoi, Mode=TwoWay}"/>
+                                            <CheckBox Content="显示" IsChecked="{Binding ShowLocalRoi, Mode=TwoWay}"/>
+                                            <CheckBox Content="编辑" IsChecked="{Binding EditLocalRoi, Mode=TwoWay}"/>
+                                        </WrapPanel>
+                                        <UniformGrid Columns="2">
+                                            <Label Content="ROI类型"/>
+                                            <ComboBox SelectedValue="{Binding LocalRoiShapeType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      SelectedValuePath="Tag"
+                                                      Height="24">
+                                                <ComboBoxItem Content="直线" Tag="10"/>
+                                                <ComboBoxItem Content="圆" Tag="11"/>
+                                                <ComboBoxItem Content="圆弧" Tag="12"/>
+                                                <ComboBoxItem Content="矩形1" Tag="13"/>
+                                                <ComboBoxItem Content="矩形2" Tag="14"/>
+                                            </ComboBox>
+                                            <Label Content="Row1"/><ctrl:NumericBox Value="{Binding LocalRoiRow1, Mode=TwoWay}" Increment="1" DecimalPlaces="2"/>
+                                            <Label Content="Col1"/><ctrl:NumericBox Value="{Binding LocalRoiCol1, Mode=TwoWay}" Increment="1" DecimalPlaces="2"/>
+                                            <Label Content="Row2"/><ctrl:NumericBox Value="{Binding LocalRoiRow2, Mode=TwoWay}" Increment="1" DecimalPlaces="2"/>
+                                            <Label Content="Col2"/><ctrl:NumericBox Value="{Binding LocalRoiCol2, Mode=TwoWay}" Increment="1" DecimalPlaces="2"/>
+                                        </UniformGrid>
+                                    </StackPanel>
+                                </GroupBox>
+
+                                <GroupBox Header="屏蔽ROI">
+                                    <mask:MaskRoiEditorControl x:Name="MaskRoiEditor"
+                                                               Options="{Binding MaskRoiOptions}"
+                                                               SelectedMaskRoiParam="{Binding SelectedMaskRoiParam, Mode=TwoWay}"/>
+                                </GroupBox>
+
+                                <TextBlock Text="位置跟随" Foreground="#8DFF64" FontWeight="Bold" Margin="0,12,0,6"/>
+                                <WrapPanel Margin="0,0,0,8">
+                                    <CheckBox Content="启用位置跟随" IsChecked="{Binding UsePositionFollow, Mode=TwoWay}"/>
+                                </WrapPanel>
+                                <UniformGrid Columns="2">
+                                    <Label Content="Base Row"/><ctrl:NumericBox Value="{Binding FollowBaseRow, Mode=TwoWay}" Increment="1" DecimalPlaces="2"/>
+                                    <Label Content="Base Col"/><ctrl:NumericBox Value="{Binding FollowBaseCol, Mode=TwoWay}" Increment="1" DecimalPlaces="2"/>
+                                    <Label Content="Base Angle"/><ctrl:NumericBox Value="{Binding FollowBaseAngleDeg, Mode=TwoWay}" Increment="1" DecimalPlaces="2"/>
+                                    <Label Content="Current Row"/><ctrl:NumericBox Value="{Binding FollowCurrentRow, Mode=TwoWay}" Increment="1" DecimalPlaces="2"/>
+                                    <Label Content="Current Col"/><ctrl:NumericBox Value="{Binding FollowCurrentCol, Mode=TwoWay}" Increment="1" DecimalPlaces="2"/>
+                                    <Label Content="Current Angle"/><ctrl:NumericBox Value="{Binding FollowCurrentAngleDeg, Mode=TwoWay}" Increment="1" DecimalPlaces="2"/>
+                                </UniformGrid>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </TabItem>
+
+                    <TabItem Header="运行页">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="10">
+                            <StackPanel>
+                                <TextBlock Text="创建模板参数" Foreground="#23D9FF" FontWeight="Bold" Margin="0,0,0,6"/>
+                                <UniformGrid Columns="2">
+                                    <Label Content="方式"/><ComboBox SelectedItem="{Binding SelectedTemplate.CreateOptions.MatchMode, Mode=TwoWay}" ItemsSource="{Binding MatchModes}" Height="24"/>
+                                    <Label Content="建模方法"/><ctrl:NumericBox Value="{Binding SelectedTemplate.CreateOptions.ModelCreatingMethod, Mode=TwoWay}" Minimum="0" Increment="1" DecimalPlaces="0"/>
+                                    <Label Content="金字塔层数"/><ctrl:NumericBox Value="{Binding SelectedTemplate.CreateOptions.NumLevels, Mode=TwoWay}" Minimum="0" Increment="1" DecimalPlaces="0"/>
+                                    <Label Content="角度起点"/><ctrl:NumericBox Value="{Binding SelectedTemplate.CreateOptions.AngleStartDeg, Mode=TwoWay}" Increment="1" DecimalPlaces="2"/>
+                                    <Label Content="角度范围"/><ctrl:NumericBox Value="{Binding SelectedTemplate.CreateOptions.AngleExtentDeg, Mode=TwoWay}" Increment="1" DecimalPlaces="2"/>
+                                    <Label Content="角度步长"/><ctrl:NumericBox Value="{Binding SelectedTemplate.CreateOptions.AngleStepDeg, Mode=TwoWay}" Increment="0.1" DecimalPlaces="3"/>
+                                    <Label Content="对比度"/><ctrl:NumericBox Value="{Binding SelectedTemplate.CreateOptions.Contrast, Mode=TwoWay}" Minimum="1" Increment="1" DecimalPlaces="0"/>
+                                    <Label Content="最小对比度"/><ctrl:NumericBox Value="{Binding SelectedTemplate.CreateOptions.MinContrast, Mode=TwoWay}" Minimum="1" Increment="1" DecimalPlaces="0"/>
+                                    <Label Content="优化方式"/><ComboBox SelectedItem="{Binding SelectedTemplate.CreateOptions.Optimization, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding OptimizationOptions}" Height="24"/>
+                                    <Label Content="匹配特征"/><ComboBox SelectedItem="{Binding SelectedTemplate.CreateOptions.Metric, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding MetricOptions}" Height="24"/>
+                                </UniformGrid>
+
+                                <TextBlock Text="匹配参数" Foreground="#FF3FB4" FontWeight="Bold" Margin="0,12,0,6"/>
+                                <UniformGrid Columns="2">
+                                    <Label Content="角度起点"/><ctrl:NumericBox Value="{Binding SelectedTemplate.FindOptions.AngleStartDeg, Mode=TwoWay}" Increment="1" DecimalPlaces="2"/>
+                                    <Label Content="角度范围"/><ctrl:NumericBox Value="{Binding SelectedTemplate.FindOptions.AngleExtentDeg, Mode=TwoWay}" Increment="1" DecimalPlaces="2"/>
+                                    <Label Content="最小分数"/><ctrl:NumericBox Value="{Binding SelectedTemplate.FindOptions.MinScore, Mode=TwoWay}" Minimum="0" Maximum="1" Increment="0.05" DecimalPlaces="2"/>
+                                    <Label Content="匹配个数"/><ctrl:NumericBox Value="{Binding SelectedTemplate.FindOptions.NumMatches, Mode=TwoWay}" Minimum="1" Increment="1" DecimalPlaces="0"/>
+                                    <Label Content="最大重叠"/><ctrl:NumericBox Value="{Binding SelectedTemplate.FindOptions.MaxOverlap, Mode=TwoWay}" Minimum="0" Maximum="1" Increment="0.05" DecimalPlaces="2"/>
+                                    <Label Content="贪婪度"/><ctrl:NumericBox Value="{Binding SelectedTemplate.FindOptions.Greediness, Mode=TwoWay}" Minimum="0" Maximum="1" Increment="0.05" DecimalPlaces="2"/>
+                                    <Label Content="超时 ms"/><ctrl:NumericBox Value="{Binding SelectedTemplate.FindOptions.TimeoutMs, Mode=TwoWay}" Minimum="1" Increment="100" DecimalPlaces="0"/>
+                                    <Label Content="金字塔层数"/><ctrl:NumericBox Value="{Binding SelectedTemplate.FindOptions.NumLevels, Mode=TwoWay}" Minimum="0" Increment="1" DecimalPlaces="0"/>
+                                    <Label Content="亚像素"/><ComboBox SelectedItem="{Binding SelectedTemplate.FindOptions.SubPixel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding SubPixelOptions}" Height="24"/>
+                                </UniformGrid>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </TabItem>
+
+                    <TabItem Header="结果页">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="10">
+                            <StackPanel>
+                                <TextBlock Text="输出概要" Foreground="#8DFF64" FontWeight="Bold" Margin="0,12,0,6"/>
+                                <Border Background="#07111A" BorderBrush="#1F4253" BorderThickness="1" CornerRadius="4" Padding="10">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding SelectedResult.TemplateName}" FontSize="18" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding SelectedResult.StatusText}" Foreground="#23D9FF" Margin="0,4,0,0"/>
+                                            <TextBlock Text="{Binding SelectedResult.MatchMode, Converter={x:Static ctrl:MatchModeTextConverter.Instance}}" Margin="0,4,0,0"/>
+                                            <TextBlock Text="{Binding SelectedResult.Score, StringFormat=分数: {0:0.000}}" Margin="0,4,0,0"/>
+                                            <TextBlock Text="{Binding SelectedResult.AngleDeg, StringFormat=角度: {0:0.000}}" Margin="0,4,0,0"/>
+                                            <TextBlock Text="{Binding SelectedResult.Row, StringFormat=行: {0:0.000}}" Margin="0,4,0,0"/>
+                                            <TextBlock Text="{Binding SelectedResult.Col, StringFormat=列: {0:0.000}}" Margin="0,4,0,0"/>
+                                            <TextBlock Text="{Binding SelectedResult.OffsetX, StringFormat=偏差X: {0:0.000}}" Margin="0,4,0,0"/>
+                                            <TextBlock Text="{Binding SelectedResult.OffsetY, StringFormat=偏差Y: {0:0.000}}" Margin="0,4,0,0"/>
+                                            <TextBlock Text="{Binding SelectedResult.OffsetRDeg, StringFormat=偏差角: {0:0.000}}" Margin="0,4,0,0"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1">
+                                            <TextBlock Text="基准到当前矩阵" Foreground="#23D9FF"/>
+                                            <TextBox Text="{Binding SelectedResult.BaseToCurrentMatrixText}" IsReadOnly="True" TextWrapping="Wrap" Height="52" Margin="0,4,0,8"/>
+                                            <TextBlock Text="当前到基准矩阵" Foreground="#23D9FF"/>
+                                            <TextBox Text="{Binding SelectedResult.CurrentToBaseMatrixText}" IsReadOnly="True" TextWrapping="Wrap" Height="52" Margin="0,4,0,0"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+
+                                <TextBlock Text="匹配明细" Foreground="#8DFF64" FontWeight="Bold" Margin="0,12,0,6"/>
+                                <DataGrid ItemsSource="{Binding Results}" SelectedItem="{Binding SelectedResult}" AutoGenerateColumns="False" CanUserAddRows="False" Height="250">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="模板" Binding="{Binding TemplateName}" Width="110"/>
+                                        <DataGridTextColumn Header="方式" Binding="{Binding MatchMode}" Width="70"/>
+                                        <DataGridTextColumn Header="行" Binding="{Binding Row, StringFormat=0.000}" Width="78"/>
+                                        <DataGridTextColumn Header="列" Binding="{Binding Col, StringFormat=0.000}" Width="78"/>
+                                        <DataGridTextColumn Header="角度" Binding="{Binding AngleDeg, StringFormat=0.000}" Width="78"/>
+                                        <DataGridTextColumn Header="分数" Binding="{Binding Score, StringFormat=0.000}" Width="78"/>
+                                        <DataGridTextColumn Header="偏差X" Binding="{Binding OffsetX, StringFormat=0.000}" Width="80"/>
+                                        <DataGridTextColumn Header="偏差Y" Binding="{Binding OffsetY, StringFormat=0.000}" Width="80"/>
+                                        <DataGridTextColumn Header="偏差角" Binding="{Binding OffsetRDeg, StringFormat=0.000}" Width="80"/>
+                                        <DataGridTextColumn Header="状态" Binding="{Binding StatusText}" Width="70"/>
+                                        <DataGridTextColumn Header="错误" Binding="{Binding ErrorMessage}" Width="150"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </TabItem>
+                </TabControl>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

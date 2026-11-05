@@ -1,5 +1,5 @@
 ﻿using Frame_Core;
-
+using FrameCommunity;
 using HalconDotNet;
 
 using LogTool;
@@ -29,12 +29,12 @@ namespace Frame_Core
         /// <summary>
         /// 发送打标信息路径
         /// </summary>
-        public string SendDBPath = $"E:\\检测数据\\NewProduct\\打标机软件日志记录-打标.ini";
+        public string SendDBPath = $"{AppDomain.CurrentDomain.BaseDirectory}检测数据\\NewProduct\\打标机软件日志记录-打标.ini";
 
         /// <summary>
         /// 发送纠偏信息路径
         /// </summary>
-        public string SendJPPath = $"E:\\检测数据\\NewProduct\\打标机软件日志记录-纠偏.ini";
+        public string SendJPPath = $"{AppDomain.CurrentDomain.BaseDirectory}检测数据\\NewProduct\\打标机软件日志记录-纠偏.ini";
 
         public int ZoneNumber { get; set; } = 8;
 
@@ -125,7 +125,6 @@ namespace Frame_Core
             DBJCardParam dBJCardParam = tcpClientParam as DBJCardParam;
             if (!dBJCardParam.IsConnect) return false;
 
-            bool T = false;
             try
             {
                 if (initState) Close();

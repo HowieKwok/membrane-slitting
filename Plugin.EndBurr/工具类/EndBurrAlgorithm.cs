@@ -542,7 +542,7 @@ namespace Plugin.EndBurr
                 ho_RegionIntersection2.Dispose();
 
             }
-            catch(Exception ex)
+            catch(Exception)
             {
 
                 NgTypeInfo testNgInfo = new NgTypeInfo();

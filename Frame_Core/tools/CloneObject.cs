@@ -37,7 +37,7 @@ namespace Frame_Core.toosls
                 }
                 return (T)retval;
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 return (T)obj;
             }

@@ -225,7 +225,7 @@ namespace Frame_Core
             {
                 re = Convert.ToDouble(inputStr);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 re = -999999;
                 //LogDebug.Debug(ex);

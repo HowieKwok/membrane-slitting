@@ -23,6 +23,8 @@ namespace Plugin.FindIntersection
         public ModuleInfo moduleInfo { get; set; } = new ModuleInfo();
         public bool isExistModel = false;
 
+        public event EventHandler<PluginExecuteCompletedEventArgs> ExecuteCompleted;
+
         public bool ExecuteObj()
         {
             findParams = PluginParams as ParamsFindIntersection;
@@ -44,7 +46,7 @@ namespace Plugin.FindIntersection
                 success = engine.Run(findParams);
                 if (success)
                 {
-                    PublishResultParams();
+                    //PublishResultParams();
                 }
 
                 return success;
@@ -65,7 +67,17 @@ namespace Plugin.FindIntersection
                 {
                     findParams.m_strRunMessage = success ? "运行成功" : "交点计算失败";
                 }
-            }
+
+                ExecuteCompleted?.Invoke(
+                  this,
+                  new PluginExecuteCompletedEventArgs(
+                      findParams,
+                      findParams.m_bRunSuccess,
+                     findParams.m_strRunMessage,
+                      (long)findParams.m_fElapsedMs));
+
+            
+        }
         }
 
         private void PublishResultParams()

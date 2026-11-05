@@ -46,7 +46,7 @@ namespace Frame_Core
                 }
                
             }
-            catch (Exception ee)
+            catch (Exception)
             {
 
                 //throw;
@@ -61,7 +61,7 @@ namespace Frame_Core
                 thick3DManages[cob_SelectCorrect.SelectedIndex].correctParam.Save();
 
             }
-            catch (Exception ee)
+            catch (Exception)
             {
 
                 //throw;

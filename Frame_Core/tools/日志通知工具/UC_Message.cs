@@ -19,7 +19,7 @@ namespace Frame_Core
         /// <summary>
         /// 外界订阅：通知当前 SelectedIndex 变了
         /// </summary>
-        public event Action<int> TabIndexChanged;
+        public new event Action<int> TabIndexChanged;
 
         private int _HeaderHeight = 30;
         #region ① 公开静态文本快照（给弹窗用）
@@ -54,6 +54,8 @@ namespace Frame_Core
 
         private void UC_Message_Load(object sender, EventArgs e)
         {
+            tableLayoutPanel_Main.GetType().GetProperty("DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).SetValue(tableLayoutPanel_Main, true);
+            tabControl1.GetType().GetProperty("DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).SetValue(tabControl1, true);
             dgv_Alarm.GetType().GetProperty("DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).SetValue(dgv_Alarm, true);
             rtbx_Debug.GetType().GetProperty("DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).SetValue(rtbx_Debug, true);
             rtbx_Error.GetType().GetProperty("DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).SetValue(rtbx_Error, true);
@@ -80,9 +82,15 @@ namespace Frame_Core
                     //                      // 快照：把当前行数/最新时间留给弹窗
                     //UC_Message.AlarmRowCount = dgv_Alarm.RowCount;
                     //UC_Message.LastAlarmTime = msgs.LastOrDefault()?.time ?? string.Empty;
-                    host.RefreshRichBox(rtbx_Debug, ref host.LastDebugLen, DebugText);
-                    host.RefreshRichBox(rtbx_Error, ref host.LastErrorLen, ErrorText);
-                    host.RefreshRichBox(rtbx_Comm, ref host.LastCommLen, CommText);
+                    int lastDebugLen = host.LastDebugLen;
+                    host.RefreshRichBox(rtbx_Debug, ref lastDebugLen, DebugText);
+                    host.LastDebugLen = lastDebugLen;
+                    int lastErrorLen = host.LastErrorLen;
+                    host.RefreshRichBox(rtbx_Error, ref lastErrorLen, ErrorText);
+                    host.LastErrorLen = lastErrorLen;
+                    int lastCommLen = host.LastCommLen;
+                    host.RefreshRichBox(rtbx_Comm, ref lastCommLen, CommText);
+                    host.LastCommLen = lastCommLen;
                 });
               
                 timerUpdate.Enabled = true;
@@ -134,6 +142,7 @@ namespace Frame_Core
                 if (index == 0)
                 {
                     rowCount = dgv_Alarm.Rows.Count;
+                    tabControl1.SelectedTab.Text = $"报警({rowCount})";
                 }
                 else if (index == 1)
                 {
@@ -149,6 +158,7 @@ namespace Frame_Core
                     }
 
                     rowCount = rtbx_Debug.Lines.Length;
+                    tabControl1.SelectedTab.Text = $"调试({rowCount})";
                 }
                 else if (index == 2)
                 {
@@ -166,6 +176,7 @@ namespace Frame_Core
                     }
 
                     rowCount = rtbx_Error.Lines.Length;
+                    tabControl1.SelectedTab.Text = $"错误({rowCount})";
                 }
                 else if (index == 3)
                 {
@@ -183,9 +194,10 @@ namespace Frame_Core
                     }
 
                     rowCount = rtbx_Comm.Lines.Length;
+                    tabControl1.SelectedTab.Text = $"通讯({rowCount})";
                 }
 
-                lb_LogRow.Text = $"{LB_Log.Text}({rowCount})";
+                //lb_LogRow.Text = $"{LB_Log.Text}({rowCount})";
 
             }
             catch { }

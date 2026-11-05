@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ViewROI;
 using Frame_Core;
+using FrameCommunity.Data;
 
 namespace Plugin.FindHead
 {
@@ -191,7 +192,7 @@ namespace Plugin.FindHead
 
                 IsLoaded = true;
             }
-            catch (Exception ee)
+            catch (Exception)
             {
             }
 
@@ -348,7 +349,6 @@ namespace Plugin.FindHead
             HOperatorSet.GenEmptyObj(out ho_RegionLines);
             HOperatorSet.GenEmptyObj(out ho_RegionLines_mid);
             HTuple hv_Phi;
-            HTuple hv_Phi1;
             HObject ho_Region;
             HOperatorSet.GenEmptyObj(out ho_Region);
 
@@ -409,7 +409,7 @@ namespace Plugin.FindHead
                 }
 
             }
-            catch (Exception ee)
+            catch (Exception)
             {
             }
 
@@ -447,7 +447,7 @@ namespace Plugin.FindHead
                 str = String.Format("Size  R:{0}   C:{1}", h.ToString(), w.ToString()); //格式化字符串
                 return str;
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 return str;
             }

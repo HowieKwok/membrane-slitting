@@ -1,4 +1,6 @@
 ﻿using Frame_Core;
+using FrameCommunity.Data;
+using HalconDotNet;
 using LogTool;
 using System;
 using System.Collections.Generic;
@@ -24,12 +26,17 @@ namespace Plugin.CropPart
         public ImageInfo imageInfo_now = new ImageInfo();
         CropOperation cropOperation = new CropOperation();
         bool HasImagepart = false;
+
+        public event EventHandler<PluginExecuteCompletedEventArgs> ExecuteCompleted;
+
         public bool ExecuteObj()
         {
+            HasImagepart = false;
+            HOperatorSet.CountSeconds(out HTuple start);
             try
             {
                 croppartParams = PluginParams as ParamsCropPart; //里氏转换
-                HasImagepart = false;
+               
                 if (croppartParams.list_ImageInfo.Count == 0)
                 {
                     Console.WriteLine("--未加载图片--！");
@@ -40,6 +47,9 @@ namespace Plugin.CropPart
                     croppartParams.PartSizeRow, croppartParams.PartSizeCol, croppartParams.CropShaftRow, croppartParams.CropShaftCol, 
                     out croppartParams.Image_part,out croppartParams.hv_ImagePartBeginID,out croppartParams.hv_ImagePartBeginRow,out croppartParams.hv_ImagePartBeginCol,
                     out croppartParams.hv_ImagePartEndID, out croppartParams.hv_ImagePartEndRow, out croppartParams.hv_ImagePartEndCol);
+
+
+
 
                 if (HasImagepart)
                 {
@@ -57,6 +67,20 @@ namespace Plugin.CropPart
                 Log4netRecord.ErrorLog.Debug("裁拼模块异常"+ee.ToString());
                // Console.WriteLine("裁拼小图异常");
                 return false;
+            }
+            finally
+            {
+                HOperatorSet.CountSeconds(out HTuple end);
+                croppartParams.m_fElapsedMs = (end.D - start.D) * 1000.0;
+                croppartParams.m_bRunSuccess = HasImagepart;
+               ExecuteCompleted?.Invoke(
+                this,
+                new PluginExecuteCompletedEventArgs(
+                    croppartParams,
+                    croppartParams.m_bRunSuccess,
+                    croppartParams.m_strRunMessage,
+                    (long)croppartParams.m_fElapsedMs));
+
             }
         }
 
@@ -84,12 +108,46 @@ namespace Plugin.CropPart
 
         public void IniObj()
         {
-           
+            HOperatorSet.GenImageConst(out HObject img1, "byte", 16384, 4000);
+            HOperatorSet.GenImageConst(out HObject img2, "byte", 16384, 4000);
+            ParamsCropPart CropPartParams = PluginParams as ParamsCropPart; //里氏转换
+
+            ImageInfo image1 = new ImageInfo();
+            image1.ho_image = img1;
+            image1.image_ID = 1;
+            image1.imageHeight = 4000;
+            image1.imageWidth = 2000;
+
+            ImageInfo image2 = new ImageInfo();
+            image2.ho_image = img2;
+            image2.image_ID = 2;
+            image2.imageHeight = 4000;
+            image2.imageWidth = 2000;
+            List<ImageInfo> list_ImageInfo = new List<ImageInfo>();
+            list_ImageInfo.Add(image1);
+            list_ImageInfo.Add(image2);
+            ParamsCropPart CropPartParams1 = PluginParams as ParamsCropPart; //里氏转换
+            CropPartParams1.list_ImageInfo = list_ImageInfo;
+            CropPartParams1.PartSizeRow = (4000 * 0.95);
+            CropPartParams1.PartSizeCol = image1.imageWidth;
+            CropPartParams1.PartCenterID = 1;
+            CropPartParams1.PartCenterRow = 4000;
+            CropPartParams1.PartCenterCol = image1.imageWidth / 2;
+            CropPartParams1.CropShaftRow = 0;
+            CropPartParams1.CropShaftCol = 0;
+            bool flag = ExecuteObj();
+
+            image1?.Dispose();
+            image2?.Dispose();
+            list_ImageInfo?.Clear();
+            CropPartParams1.Image_part?.Dispose();
         }
 
         public void DisPoseObj()
         {
            
+
+
         }
     }
 }

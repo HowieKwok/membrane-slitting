@@ -10,7 +10,7 @@ namespace Mef_VisionFrame
 {
     public  class BIZ_ThreadManage_WidthLaser : AThreadManageBase
     {
-        public Thd_WorkClass thd_Communication = new Thd_WorkClass();
+
 
         /// <summary>
         /// 用于任务处理，不影响主流程时序

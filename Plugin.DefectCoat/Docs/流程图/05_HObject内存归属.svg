@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="760" viewBox="0 0 1280 760">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#385069"/>
+    </marker>
+    <style>
+      .title{font:700 28px 'Microsoft YaHei','Segoe UI',Arial;fill:#102030}
+      .box{fill:#f7fbff;stroke:#4b83bd;stroke-width:2;rx:10;ry:10}
+      .warn{fill:#fff7ed;stroke:#f08a24;stroke-width:2;rx:10;ry:10}
+      .ok{fill:#effaf3;stroke:#35a867;stroke-width:2;rx:10;ry:10}
+      .text{font:16px 'Microsoft YaHei','Segoe UI',Arial;fill:#172331}
+      .small{font:14px 'Microsoft YaHei','Segoe UI',Arial;fill:#425466}
+      .line{stroke:#385069;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1280" height="760" fill="#ffffff"/>
+  <text x="40" y="52" class="title">HObject 内存归属与释放流程</text>
+
+  <rect x="70" y="95" width="250" height="80" class="box"/>
+  <text x="195" y="128" text-anchor="middle" class="text">输入图 ho_Image</text>
+  <text x="195" y="152" text-anchor="middle" class="small">宿主传入或 Demo 加载</text>
+
+  <rect x="410" y="70" width="250" height="80" class="warn"/>
+  <text x="535" y="102" text-anchor="middle" class="text">OwnsInputImage=false</text>
+  <text x="535" y="126" text-anchor="middle" class="small">宿主传入，插件不释放</text>
+  <path d="M320 122 H410" class="line"/>
+
+  <rect x="410" y="170" width="250" height="80" class="ok"/>
+  <text x="535" y="202" text-anchor="middle" class="text">OwnsInputImage=true</text>
+  <text x="535" y="226" text-anchor="middle" class="small">Demo 加载，可由插件释放</text>
+  <path d="M320 148 H360 V210 H410" class="line"/>
+
+  <rect x="70" y="310" width="250" height="90" class="box"/>
+  <text x="195" y="342" text-anchor="middle" class="text">检测器临时 HObject</text>
+  <text x="195" y="366" text-anchor="middle" class="small">gray / reduced / connected</text>
+  <text x="195" y="390" text-anchor="middle" class="small">try/finally 内释放</text>
+  <path d="M195 175 V310" class="line"/>
+
+  <rect x="410" y="310" width="250" height="90" class="box"/>
+  <text x="535" y="342" text-anchor="middle" class="text">需要输出时 CopyObj</text>
+  <text x="535" y="366" text-anchor="middle" class="small">外层释放不影响结果</text>
+  <text x="535" y="390" text-anchor="middle" class="small">每个持有者释放自己的副本</text>
+  <path d="M320 355 H410" class="line"/>
+
+  <rect x="750" y="270" width="260" height="120" class="box"/>
+  <text x="880" y="304" text-anchor="middle" class="text">DefectDetectResult 持有</text>
+  <text x="880" y="328" text-anchor="middle" class="small">PreprocessImage / ResultRegion</text>
+  <text x="880" y="352" text-anchor="middle" class="small">DarkRegion / LightRegion</text>
+  <text x="880" y="376" text-anchor="middle" class="small">OverflowRegion / Candidates</text>
+  <path d="M660 355 H750" class="line"/>
+
+  <rect x="70" y="500" width="250" height="96" class="box"/>
+  <text x="195" y="532" text-anchor="middle" class="text">DefectCandidate 持有</text>
+  <text x="195" y="556" text-anchor="middle" class="small">Region / CropImage</text>
+  <text x="195" y="580" text-anchor="middle" class="small">DarkRegion / LightRegion</text>
+  <path d="M750 360 C540 430 330 430 195 500" class="line"/>
+
+  <rect x="410" y="500" width="250" height="96" class="warn"/>
+  <text x="535" y="532" text-anchor="middle" class="text">超限分支</text>
+  <text x="535" y="556" text-anchor="middle" class="small">不生成 Candidate</text>
+  <text x="535" y="580" text-anchor="middle" class="small">只持有 OverflowRegion</text>
+  <path d="M880 390 C770 450 650 470 535 500" class="line"/>
+
+  <rect x="750" y="500" width="260" height="96" class="ok"/>
+  <text x="880" y="532" text-anchor="middle" class="text">Pipeline 复制输出</text>
+  <text x="880" y="556" text-anchor="middle" class="small">NgDefectResult</text>
+  <text x="880" y="580" text-anchor="middle" class="small">Region / CropImage 副本</text>
+  <path d="M880 390 V500" class="line"/>
+
+  <rect x="1040" y="500" width="200" height="96" class="ok"/>
+  <text x="1140" y="532" text-anchor="middle" class="text">Params 输出</text>
+  <text x="1140" y="556" text-anchor="middle" class="small">ho_ResultRegion</text>
+  <text x="1140" y="580" text-anchor="middle" class="small">NgResults</text>
+  <path d="M1010 548 H1040" class="line"/>
+
+  <text x="70" y="680" class="text">释放规则：</text>
+  <text x="150" y="680" class="small">ReleaseOutputHObjects 只释放输出；ReleaseOwnedInputImage 只在 OwnsInputImage=true 时释放输入图。</text>
+  <text x="150" y="710" class="small">关闭插件可视化页面不主动释放宿主传入的 ho_Image。</text>
+</svg>

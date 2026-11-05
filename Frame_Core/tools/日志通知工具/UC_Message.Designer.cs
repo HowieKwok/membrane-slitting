@@ -46,9 +46,6 @@
             this.rtbx_Comm = new System.Windows.Forms.RichTextBox();
             this.timerUpdate = new System.Windows.Forms.Timer(this.components);
             this.tableLayoutPanel_Main = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.lb_LogRow = new System.Windows.Forms.Label();
-            this.LB_Log = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage_LogAlarm.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Alarm)).BeginInit();
@@ -57,7 +54,6 @@
             this.tabPage_LogError.SuspendLayout();
             this.tabPage_LogCommution.SuspendLayout();
             this.tableLayoutPanel_Main.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -182,30 +178,9 @@
             // tableLayoutPanel_Main
             // 
             resources.ApplyResources(this.tableLayoutPanel_Main, "tableLayoutPanel_Main");
-            this.tableLayoutPanel_Main.Controls.Add(this.tabControl1, 0, 1);
-            this.tableLayoutPanel_Main.Controls.Add(this.tableLayoutPanel1, 0, 0);
+            this.tableLayoutPanel_Main.Controls.Add(this.tabControl1, 0, 0);
             this.tableLayoutPanel_Main.Name = "tableLayoutPanel_Main";
             this.tableLayoutPanel_Main.DoubleClick += new System.EventHandler(this.tableLayoutPanel_Main_DoubleClick);
-            // 
-            // tableLayoutPanel1
-            // 
-            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.lb_LogRow, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.LB_Log, 1, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            // 
-            // lb_LogRow
-            // 
-            resources.ApplyResources(this.lb_LogRow, "lb_LogRow");
-            this.lb_LogRow.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.lb_LogRow.Name = "lb_LogRow";
-            // 
-            // LB_Log
-            // 
-            resources.ApplyResources(this.LB_Log, "LB_Log");
-            this.LB_Log.BackColor = System.Drawing.SystemColors.Control;
-            this.LB_Log.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.LB_Log.Name = "LB_Log";
             // 
             // UC_Message
             // 
@@ -222,8 +197,6 @@
             this.tabPage_LogError.ResumeLayout(false);
             this.tabPage_LogCommution.ResumeLayout(false);
             this.tableLayoutPanel_Main.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -234,9 +207,6 @@
         private System.Windows.Forms.TabPage tabPage_LogError;
         private System.Windows.Forms.Timer timerUpdate;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel_Main;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Label LB_Log;
-        private System.Windows.Forms.Label lb_LogRow;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem 清除ToolStripMenuItem;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;

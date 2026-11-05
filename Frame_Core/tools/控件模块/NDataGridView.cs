@@ -1,13 +1,79 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Frame_Core
 {
+    public static class DataGridViewExtension
+    {
+        /// <summary>
+        /// 设置DataGridView双缓冲，解决多列横向滚动、刷新闪烁
+        /// </summary>
+        /// <param name="dgv">表格控件</param>
+        /// <param name="enable">开启/关闭双缓冲</param>
+        public static DataGridView SetDoubleBuffered(this DataGridView dgv, bool enable)
+        {
+            if (dgv == null) return dgv;
+            PropertyInfo prop = dgv.GetType().GetProperty(
+                "DoubleBuffered",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+
+            prop?.SetValue(dgv, enable, null);
+
+            return dgv;
+        }
+
+        /// <summary>
+        /// 一键抗闪烁优化（纯可用属性，无报错）
+        /// </summary>
+        public static void EnableAntiFlicker(this DataGridView dgv)
+        {
+            dgv.SetDoubleBuffered(true);
+            // 固定表头行高、行标题宽度，减少频繁重绘计算
+            dgv.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            // 关闭行列自动尺寸自适应，列数量极多时核心优化
+            dgv.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+        }
+
+        public static void BindingSource<T>(this DataGridView dgv, BindingList<T> dataList)
+        {
+            if (dgv == null) return;
+
+            dgv.Rows.Clear();
+            dgv.Columns.Clear();
+            //BindingSource bindingSource = new BindingSource();
+            //bindingSource.DataSource = dataList;
+            dgv.DataSource = dataList;
+        }
+
+        public static DataGridView SetColumnHeaders(this DataGridView dgv)
+        {
+            foreach (DataGridViewColumn column in dgv.Columns)
+            {
+                // 通过反射获取 DisplayName
+                var property = typeof(QualityData).GetProperty(column.DataPropertyName);
+                if (property != null)
+                {
+                    var displayName = property.GetCustomAttribute<DisplayNameAttribute>();
+                    if (displayName != null)
+                    {
+                        column.HeaderText = displayName.DisplayName;
+                    
+                    }
+                }
+            }
+            return dgv;
+        }
+    }
+
     public class NDataGridView
     {
         /// <summary>
@@ -297,8 +363,8 @@ namespace Frame_Core
             if (dgv == null) throw new ArgumentNullException(nameof(dgv));
             if (colHeaders == null || rowHeaders == null)
                 MessageNotify.AddErrorLog("表头不能为空");
-            
 
+            dgv.EnableAntiFlicker();
             dgv.SuspendLayout();
             dgv.Columns.Clear();
             dgv.Rows.Clear();
@@ -321,6 +387,7 @@ namespace Frame_Core
                                                       // dgv.Rows[r].Cells[c].Style.Alignment = DataGridViewContentAlignment.MiddleCenter; // 设置居中对齐
                 }
             }
+           
             dgv.AllowUserToAddRows = false;
             dgv.AllowUserToDeleteRows = false;
             dgv.RowHeadersVisible = false;

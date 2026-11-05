@@ -13,7 +13,7 @@ namespace Frame_Core
         /// <summary>
         /// 消息日志路径
         /// </summary>
-        public string MsgLog_path = $"E:\\检测数据\\NewProduct\\纠偏器收发信息记录.ini";
+        public string MsgLog_path = $"{AppDomain.CurrentDomain.BaseDirectory}检测数据\\NewProduct\\纠偏器收发信息记录.ini";
 
         /// <summary>
         /// 初始化状态

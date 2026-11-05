@@ -33,6 +33,7 @@
             this.Btn_RUN = new AntdUI.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.Tb_CostTime = new AntdUI.Tag();
+            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -103,11 +104,20 @@
             this.Tb_CostTime.TabIndex = 15;
             this.Tb_CostTime.Text = "耗时：000ms";
             // 
+            // checkedListBox1
+            // 
+            this.checkedListBox1.FormattingEnabled = true;
+            this.checkedListBox1.Location = new System.Drawing.Point(463, 377);
+            this.checkedListBox1.Name = "checkedListBox1";
+            this.checkedListBox1.Size = new System.Drawing.Size(8, 4);
+            this.checkedListBox1.TabIndex = 15;
+            // 
             // FormPluginBase
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1008, 811);
+            this.Controls.Add(this.checkedListBox1);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "FormPluginBase";
             this.Text = "PluginFormBase";
@@ -123,5 +133,6 @@
         private AntdUI.Button Btn_Save;
         private AntdUI.Button Btn_Cancel;
         private AntdUI.Tag Tb_CostTime;
+        private System.Windows.Forms.CheckedListBox checkedListBox1;
     }
 }

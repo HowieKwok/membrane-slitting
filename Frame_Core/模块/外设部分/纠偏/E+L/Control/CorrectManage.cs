@@ -13,7 +13,7 @@ namespace Frame_Core
         /// <summary>
         /// E+L消息日志路径
         /// </summary>
-        public string ELMsgLog_path = $"E:\\检测数据\\NewProduct\\E+L纠偏器收发信息记录.ini";
+        public string ELMsgLog_path = $"{AppDomain.CurrentDomain.BaseDirectory}检测数据\\NewProduct\\E+L纠偏器收发信息记录.ini";
 
         /// <summary>
         /// 初始化状态

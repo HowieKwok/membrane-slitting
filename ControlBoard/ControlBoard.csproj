@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net472</TargetFramework>
+		<Nullable>disable</Nullable>
+		<LangVersion>10.0</LangVersion>
+		<UseWPF>true</UseWPF>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<OutputType>Library</OutputType>
+	</PropertyGroup>
+	
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FrameCommunity\FrameCommunity.csproj" />
+    <ProjectReference Include="..\LogTool\LogTool.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="CommunityToolkit.Mvvm">
+      <HintPath>..\Mef_VisionFrame\bin\Release\Plugins\CommunityToolkit.Mvvm.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\DLL\OtherDLL\log4net.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

@@ -65,7 +65,7 @@ namespace Plugin.DaMianBurr
                 hWndCtrl_Display.resetAll();
                 hWndCtrl_Display.repaint();
             }
-            catch (Exception ee) { }
+            catch (Exception) { }
             //测试存参用
         }
         #region 功能函数
@@ -384,7 +384,7 @@ namespace Plugin.DaMianBurr
         {
             //打开指定路径文件夹，加载图片
             OpenFileDialog FileDialog = new OpenFileDialog();
-            FileDialog.InitialDirectory = "E:\\";
+            FileDialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
             if (FileDialog.ShowDialog() == DialogResult.OK)
             {
                 try
@@ -463,7 +463,7 @@ namespace Plugin.DaMianBurr
                 str = String.Format("Size  R:{0}   C:{1}", h.ToString(), w.ToString()); //格式化字符串
                 return str;
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 return str;
             }

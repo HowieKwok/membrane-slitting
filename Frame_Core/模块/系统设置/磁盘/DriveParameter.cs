@@ -20,7 +20,7 @@ namespace Frame_Core
         public bool IsEnable { set; get; }
 
         [Description("当前盘符")]
-        public string driveName { set; get; } = "E:\\";
+        public string driveName { set; get; } = AppDomain.CurrentDomain.BaseDirectory;
 
         [Description("设定盘符容量上限")]
         public int DriveCapacityLimit { set; get; }=90;

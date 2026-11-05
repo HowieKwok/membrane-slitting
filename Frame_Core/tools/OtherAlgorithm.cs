@@ -271,7 +271,7 @@ namespace Frame_Core
                 }
                 return a2;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //LogName.ErrorLog.Fatal(ex);
             }

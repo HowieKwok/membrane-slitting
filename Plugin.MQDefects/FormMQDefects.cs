@@ -257,7 +257,7 @@ namespace Plugin.MQDefects
                 hWndCtrl_Display.addIconicVar(hImage);
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -308,7 +308,7 @@ namespace Plugin.MQDefects
                     HOperatorSet.SetShapeModelParam(PluginParams.Model, "timeout", PluginParams.num_TimeOut);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -456,7 +456,7 @@ namespace Plugin.MQDefects
                     TB_PositionAndGray.Text = hWndCtrl_Display.Get_Mouseposition_and_Gray(HWC_Display.HalconWindow, hWndCtrl_Display.ho_Image_Changed, e);
                     LB_IMageSize.Text = ShowIMageSize(hWndCtrl_Display.ho_Image_Changed);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
 
                 }
@@ -473,7 +473,7 @@ namespace Plugin.MQDefects
                 str = String.Format("Size  R:{0}   C:{1}", h.ToString(), w.ToString()); //格式化字符串
                 return str;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return str;
             }
@@ -649,7 +649,7 @@ namespace Plugin.MQDefects
                     }
                 }
             }
-            catch (Exception ee)
+            catch (Exception)
             {
 
                 //throw;

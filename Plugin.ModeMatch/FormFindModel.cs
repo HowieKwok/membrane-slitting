@@ -455,7 +455,7 @@ namespace Plugin.FindModel
                 //  throw;
             }
         }
-        string m_strImgPath = "E:\\";
+        string m_strImgPath = AppDomain.CurrentDomain.BaseDirectory;
         private void LoadImage_Click(object sender, EventArgs e)
         {
             //打开指定路径文件夹，加载图片

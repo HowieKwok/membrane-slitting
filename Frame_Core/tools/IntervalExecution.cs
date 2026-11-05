@@ -43,6 +43,27 @@ namespace Frame_Core
 
 
         /// <summary>
+        /// 获取是否达到间隔时间
+        /// </summary>
+        /// <param name="intervalTime">间隔时间（单位：ms）</param>
+        /// <returns></returns>
+        public bool GetWhetherToReachIntervalTime_Heartbeat(int intervalTime)
+        {
+            DateTime date1 = DateTime.Now;
+            if (date1.Subtract(LastTime).TotalMilliseconds > intervalTime)
+            {              
+                return true;
+            }
+            return false;
+        }
+
+        public  void Set_DateTime()
+        {
+            LastTime = DateTime.Now;
+        }
+
+
+        /// <summary>
         /// 超过延时时间后返回
         /// </summary>
         /// <param name="startTime">开始时间</param>

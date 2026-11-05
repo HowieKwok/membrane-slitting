@@ -94,7 +94,7 @@ namespace ClassifyCPU_onnx_test
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                //LogHelper.WriteError(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss ") + ex);
             }

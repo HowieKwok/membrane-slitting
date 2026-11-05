@@ -16,13 +16,18 @@ namespace Frame_Core
         /// <summary>
         /// 初始化点检功能
         /// </summary>
-        /// <param name="cameraManager"></param>
-        public static void InitPointInspectionFunction(Dictionary<CameraEnum, CameraManager> cameraManager)
+        /// <param name="M_CameraRelevancies"></param>
+        public static void InitPointInspectionFunction()
         {
-            cameraManager[CameraEnum.Cam1].m_PointInspectionStateParam.PointInspectionState_Defect = (int)PointInspectionStateEnum.已忽略;
-            cameraManager[CameraEnum.Cam2].m_PointInspectionStateParam.PointInspectionState_Defect = (int)PointInspectionStateEnum.已忽略;
 
-            Project.Instance.systemInfo.InitFinishEN = true;
+            foreach (var cameraRelevancy in Service_Camera.Get_AllCameraRelevancyList())
+            {
+                if (cameraRelevancy?.m_PointInspectionStateParam != null)
+                    cameraRelevancy.m_PointInspectionStateParam.PointInspectionState_Defect = (int)PointInspectionStateEnum.已忽略;
+            }
+
+            if (Project.Instance?.M_param_PointInspection != null)
+                Project.Instance.M_param_PointInspection.InitFinishEN = true;
         }
 
         /// <summary>
@@ -32,35 +37,35 @@ namespace Frame_Core
         {
             try
             {
-                if (!Project.Instance.systemInfo.InitFinishEN) return;
-                if (Project.Instance.systemInfo.djEnabled)
+                if (!Project.Instance.M_param_PointInspection.InitFinishEN) return;
+                if (Project.Instance.M_param_PointInspection.djEnabled)
                 {
                     DateTime currentTime = DateTime.Now;
                     TimeSpan currentTimePart = currentTime.TimeOfDay;
 
-                    TimeSpan BaibanTimePart = Project.Instance.systemInfo.djCaliTimeBaiban.TimeOfDay;
-                    TimeSpan YeBanTimePart = Project.Instance.systemInfo.djCaliTimeYeBan.TimeOfDay;
+                    TimeSpan BaibanTimePart = Project.Instance.M_param_PointInspection.djCaliTimeBaiban.TimeOfDay;
+                    TimeSpan YeBanTimePart = Project.Instance.M_param_PointInspection.djCaliTimeYeBan.TimeOfDay;
 
                     //进入白班时间段
                     if (currentTimePart.Subtract(BaibanTimePart).TotalSeconds > 0 && currentTimePart.Subtract(BaibanTimePart).TotalHours < 1)
                     {
                         //复位点检完成标志
-                        foreach (var item in Project.Instance.cameraManager)
+                        foreach (var item in Service_Camera.Get_AllCameraRelevancyList())
                         {
                             ///上一次点检时间超过1小时，进入白班或夜班时间段判断是否需要点检
-                            DateTime lastOKTime_Size = item.Value.m_PointInspectionStateParam.djLastOKTime_Size;
+                            DateTime lastOKTime_Size = item.m_PointInspectionStateParam.djLastOKTime_Size;
                             if (currentTime.Subtract(lastOKTime_Size).TotalHours >= 1)
                             {
-                                if (item.Value.m_PointInspectionStateParam.PointInspectionState_Size != (int)PointInspectionStateEnum.已忽略)
-                                    item.Value.m_PointInspectionStateParam.PointInspectionState_Size = (int)PointInspectionStateEnum.未点检;
+                                if (item.m_PointInspectionStateParam.PointInspectionState_Size != (int)PointInspectionStateEnum.已忽略)
+                                    item.m_PointInspectionStateParam.PointInspectionState_Size = (int)PointInspectionStateEnum.未点检;
                             }
 
                             ///上一次点检时间超过1小时，进入白班或夜班时间段判断是否需要点检
-                            DateTime lastOKTime_Defect = item.Value.m_PointInspectionStateParam.djLastOKTime_Defect;
+                            DateTime lastOKTime_Defect = item.m_PointInspectionStateParam.djLastOKTime_Defect;
                             if (currentTime.Subtract(lastOKTime_Defect).TotalHours >= 1)
                             {
-                                if (item.Value.m_PointInspectionStateParam.PointInspectionState_Defect != (int)PointInspectionStateEnum.已忽略)
-                                    item.Value.m_PointInspectionStateParam.PointInspectionState_Defect = (int)PointInspectionStateEnum.未点检;
+                                if (item.m_PointInspectionStateParam.PointInspectionState_Defect != (int)PointInspectionStateEnum.已忽略)
+                                    item.m_PointInspectionStateParam.PointInspectionState_Defect = (int)PointInspectionStateEnum.未点检;
                             }
                         }
                     }
@@ -68,22 +73,22 @@ namespace Frame_Core
                     else if (currentTimePart.Subtract(YeBanTimePart).TotalSeconds > 0 && currentTimePart.Subtract(YeBanTimePart).TotalHours < 1)
                     {
                         //复位点检完成标志
-                        foreach (var item in Project.Instance.cameraManager)
+                        foreach (var item in Service_Camera.Get_AllCameraRelevancyList())
                         {
                             ///上一次点检时间超过1小时，进入白班或夜班时间段判断是否需要点检
-                            DateTime lastOKTime_Size = item.Value.m_PointInspectionStateParam.djLastOKTime_Size;
+                            DateTime lastOKTime_Size = item.m_PointInspectionStateParam.djLastOKTime_Size;
                             if (currentTime.Subtract(lastOKTime_Size).TotalHours >= 1)
                             {
-                                if (item.Value.m_PointInspectionStateParam.PointInspectionState_Size != (int)PointInspectionStateEnum.已忽略)
-                                    item.Value.m_PointInspectionStateParam.PointInspectionState_Size = (int)PointInspectionStateEnum.未点检;
+                                if (item.m_PointInspectionStateParam.PointInspectionState_Size != (int)PointInspectionStateEnum.已忽略)
+                                    item.m_PointInspectionStateParam.PointInspectionState_Size = (int)PointInspectionStateEnum.未点检;
                             }
 
                             ///上一次点检时间超过1小时，进入白班或夜班时间段判断是否需要点检
-                            DateTime lastOKTime_Defect = item.Value.m_PointInspectionStateParam.djLastOKTime_Defect;
+                            DateTime lastOKTime_Defect = item.m_PointInspectionStateParam.djLastOKTime_Defect;
                             if (currentTime.Subtract(lastOKTime_Defect).TotalHours >= 1)
                             {
-                                if (item.Value.m_PointInspectionStateParam.PointInspectionState_Defect != (int)PointInspectionStateEnum.已忽略)
-                                    item.Value.m_PointInspectionStateParam.PointInspectionState_Defect = (int)PointInspectionStateEnum.未点检;
+                                if (item.m_PointInspectionStateParam.PointInspectionState_Defect != (int)PointInspectionStateEnum.已忽略)
+                                    item.m_PointInspectionStateParam.PointInspectionState_Defect = (int)PointInspectionStateEnum.未点检;
                             }
                         }
                     }
@@ -121,7 +126,7 @@ namespace Frame_Core
             try
             {
                 ////判断是否点检完成
-                if (Project.Instance.systemInfo.djEnabled)
+                if (Project.Instance.M_param_PointInspection.djEnabled)
                 {
                     return GetSizePointInspectionResult() && GetDefectPointInspectionResult();
                 }
@@ -148,11 +153,11 @@ namespace Frame_Core
             {
               
                 bool result = true;
-                foreach (var item in Project.Instance.cameraManager)
+                foreach (var item in Service_Camera.Get_AllCameraRelevancyList())
                 {
                     bool b = true;
-                    if ((item.Value.m_PointInspectionStateParam.PointInspectionState_Size == (int)PointInspectionStateEnum.已忽略) ||
-                        (item.Value.m_PointInspectionStateParam.PointInspectionState_Size == (int)PointInspectionStateEnum.点检成功))
+                    if ((item.m_PointInspectionStateParam.PointInspectionState_Size == (int)PointInspectionStateEnum.已忽略) ||
+                        (item.m_PointInspectionStateParam.PointInspectionState_Size == (int)PointInspectionStateEnum.点检成功))
                     {
                         b = true;
                     }
@@ -181,11 +186,11 @@ namespace Frame_Core
             {
 
                 bool result = true;
-                foreach (var item in Project.Instance.cameraManager)
+                foreach (var item in Service_Camera.Get_AllCameraRelevancyList())
                 {
                     bool b = true;
-                    if ((item.Value.m_PointInspectionStateParam.PointInspectionState_Defect == (int)PointInspectionStateEnum.已忽略) ||
-                        (item.Value.m_PointInspectionStateParam.PointInspectionState_Defect == (int)PointInspectionStateEnum.点检成功))
+                    if ((item.m_PointInspectionStateParam.PointInspectionState_Defect == (int)PointInspectionStateEnum.已忽略) ||
+                        (item.m_PointInspectionStateParam.PointInspectionState_Defect == (int)PointInspectionStateEnum.点检成功))
                     {
                         b = true;
                     }

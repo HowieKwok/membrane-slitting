@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FrameCommunity.Data;
 
 namespace Plugin.FindHead
 {
@@ -155,7 +156,7 @@ namespace Plugin.FindHead
                 HOperatorSet.CropPart(_Image, out ho_OutImage, Row1, Col1, cW, cH);
                 E_CropImageFanctionInfo = ErrorInfo.SUCCECE;
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 E_CropImageFanctionInfo = ErrorInfo.ERROR;
             }
@@ -264,7 +265,7 @@ namespace Plugin.FindHead
               
                 E_CropImageFanctionInfo = ErrorInfo.SUCCECE;
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 //Console.WriteLine("拼图模块::截图错误" + ee.ToString());
                 E_CropImageFanctionInfo = ErrorInfo.ERROR;

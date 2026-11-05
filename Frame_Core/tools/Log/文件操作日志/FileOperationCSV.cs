@@ -158,6 +158,72 @@ namespace Frame_Core
         /// <param name="dataTitles">数据表头</param>
         /// <param name="data">数据</param>
         /// <param name="source">来源</param>
+        public static void WriteData_CSV(string PATH, string[] dataTitles, List<List<RowData>> data, string source)
+        {
+
+            string fileFullPath = PATH;//csv文件路径
+            if (!fileFullPath.Contains(".csv"))
+            {
+                fileFullPath = fileFullPath + ".csv";//csv文件路径
+            }
+
+
+            //打开文件
+            try
+            {
+                //创建拼接字符串类
+                StringBuilder DstTxtString_tittle = new StringBuilder();
+                StringBuilder DstTxtString = new StringBuilder();
+
+                //写入生产统计数据表头              
+                if (!File.Exists(fileFullPath))
+                {
+                    string tittle = "";
+                    tittle = String.Join(",", dataTitles);
+                    DstTxtString.Append(tittle);
+                    writer.WriteLine(fileFullPath, DstTxtString);
+                }
+
+
+
+                //写入生产统计数据
+                for (int i = 0; i < data.Count; i++)
+                {
+                    //清空字符串
+                    DstTxtString.Clear();
+                    string dataStr = "";
+                    for (int j = 0; j < data[i].Count; j++)
+                    {
+                        dataStr += data[i][j].dataStr + ",";
+                    }
+
+                    DstTxtString.Append(dataStr);
+                    writer.WriteLine(fileFullPath, DstTxtString);
+                }
+
+                File.SetAttributes(fileFullPath, FileAttributes.ReadOnly);
+                //清空字符串
+                DstTxtString.Clear();
+
+
+            }
+            catch (Exception ex)
+            {
+                Log4netRecord.ErrorLog.Debug(source, ex);
+            }
+            finally
+            {
+
+            }
+        }
+
+        /// <summary>
+        /// 写CSV操作生产数据
+        /// </summary>    
+        /// <param name="PATH">路径文件夹</param>
+        /// <param name="dataTitles">数据表头</param>
+        /// <param name="data">数据</param>
+        /// <param name="source">来源</param>
         public static void WriteData_CSV(string PATH, string[] dataTitles, RowData[] data, string source)
         {
 
@@ -458,6 +524,7 @@ namespace Frame_Core
                     writer2.WriteLine(fileFullPath, DstTxtString);
                 }
 
+                File.SetAttributes(fileFullPath, FileAttributes.ReadOnly);
                 //清空字符串
                 DstTxtString.Clear();
 

@@ -50,7 +50,7 @@ namespace Frame_Core
                     serialPort.DataReceived += serialPort_DataReceived;
                 }               
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //LogName.ErrorLog.Fatal(ex);
                 Connected = false;
@@ -167,7 +167,7 @@ namespace Frame_Core
                     }
                     Thread.Sleep(30);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     //LogName.ErrorLog.Fatal(ex);
                 }  

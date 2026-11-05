@@ -77,7 +77,7 @@ namespace Frame_Core
                             }
                             ChannelServices.RegisterChannel(channel, false);
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
                             //LogName.ErrorLog.Error(ex);
                             ChannelServices.RegisterChannel(channel, false);
@@ -183,7 +183,7 @@ namespace Frame_Core
                             marshal_obj.ServerReceive(_Port, eventName, parametersArray);//向服务器发送消息
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     //LogName.ErrorLog.Error(ex);
                 }
@@ -232,7 +232,7 @@ namespace Frame_Core
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //LogName.ErrorLog.Error(ex);
             }

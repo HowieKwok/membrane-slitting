@@ -25,8 +25,6 @@ namespace Frame_Core
         }
 
 
-
-
         // 定义一个公共属性，用于设置灰度
         [Category("Custom Properties")] // 分类显示在属性窗口中
         [Description("灰度信息")] // 属性描述

@@ -6,6 +6,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FrameCommunity.Data;
 
 namespace Plugin.DetectEar
 {
@@ -26,6 +27,9 @@ namespace Plugin.DetectEar
         List<PoleEarsInfo> ProPoleList_tempIn = new List<PoleEarsInfo>();
         List<PoleEarsInfo> ProPoleList_tempTile = new List<PoleEarsInfo>();
         List<PoleEarsInfo> ProPoleList_tempOrign = new List<PoleEarsInfo>();
+
+        public event EventHandler<PluginExecuteCompletedEventArgs> ExecuteCompleted;
+
         public bool ExecuteObj()
         {
             Params = PluginParams as ParamsDetectEar; //里氏转换   4
@@ -73,7 +77,7 @@ namespace Plugin.DetectEar
 
                 Params.bl_ModelRunFlag = true;
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 Params.bl_ModelRunFlag = false;
                 return false;

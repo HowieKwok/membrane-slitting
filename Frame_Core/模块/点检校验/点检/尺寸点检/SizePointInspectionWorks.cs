@@ -59,11 +59,11 @@ namespace Frame_Core
                         }
                         Model_LineToLineDist.FindAllLine(cameraEnum, ho_Image, sizePointInspectionParam.LineParams, out List<LineInfo1> lineInfo1s);
 
-                        Model_LineToLineDist.DetectEdgeValueAssign(cameraEnum, lineInfo1s, ref showHalconWindow.m_messageShowInfos, ref showHalconWindow.m_lineShowInfos, ref showHalconWindow.m_regionShowInfos);
+                        Model_LineToLineDist.DetectEdgeValueAssign(cameraEnum, lineInfo1s,  showHalconWindow.m_messageShowInfos,  showHalconWindow.m_lineShowInfos,  showHalconWindow.m_regionShowInfos);
 
                         Model_LineToLineDist.SizeLogicCalculate(cameraEnum, lineInfo1s, sizePointInspectionParam.LineParams, sizePointInspectionParam.SizeLogicParams_UserDefineds, out List<SizeInfo_P> sizeInfos2);
 
-                        Model_LineToLineDist.DetectEdgeValueAssign(cameraEnum, sizeInfos2, ref showHalconWindow.m_messageShowInfos);
+                        Model_LineToLineDist.DetectEdgeValueAssign(cameraEnum, sizeInfos2,  showHalconWindow.m_messageShowInfos);
 
                         if (sizeInfos2.Count > 0) sizeInfos.Add(sizeInfos2);
 
@@ -128,11 +128,11 @@ namespace Frame_Core
                         }
                         Model_LineToLineDist.FindAllLine(cameraEnum, ho_Image, sizePointInspectionParam.LineParams, out List<LineInfo1> lineInfo1s);
 
-                        Model_LineToLineDist.DetectEdgeValueAssign(cameraEnum, lineInfo1s, ref showHalconWindow.m_messageShowInfos, ref showHalconWindow.m_lineShowInfos, ref showHalconWindow.m_regionShowInfos);
+                        Model_LineToLineDist.DetectEdgeValueAssign(cameraEnum, lineInfo1s,  showHalconWindow.m_messageShowInfos,  showHalconWindow.m_lineShowInfos,  showHalconWindow.m_regionShowInfos);
 
                         Model_LineToLineDist.SizeLogicCalculate(cameraEnum, lineInfo1s, sizePointInspectionParam.LineParams, sizePointInspectionParam.SizeLogicParams_UserDefineds, out List<SizeInfo_P> sizeInfos2);
 
-                        Model_LineToLineDist.DetectEdgeValueAssign(cameraEnum, sizeInfos2, ref showHalconWindow.m_messageShowInfos);
+                        Model_LineToLineDist.DetectEdgeValueAssign(cameraEnum, sizeInfos2,  showHalconWindow.m_messageShowInfos);
 
                         if (sizeInfos2.Count > 0) sizeInfos.Add(sizeInfos2);
 
@@ -291,16 +291,16 @@ namespace Frame_Core
             sizeDatass = new List<RowData[]>();
             try
             {
-                if (Project.Instance.cameraManager[cameraEnum].m_PointInspectionStateParam.PointInspectionState_Size == (int)PointInspectionStateEnum.已忽略) return executeResult;
+               
+                if (Service_Camera.Get_CameraRelevancy((int)cameraEnum).m_PointInspectionStateParam.PointInspectionState_Size == (int)PointInspectionStateEnum.已忽略) return executeResult;
 
 
-                string str = "尺寸点检";
                 string pointCheckResultStr = "尺寸点检结果";
                 string strPass = "通过";
                 string strFail = "不通过";
-                SizePointInspectionParam sizePointInspectionParam = Project.Instance.cameraManager[cameraEnum].m_SizePointInspectionManage.sizePointInspectionParam;
+                SizePointInspectionParam sizePointInspectionParam = Service_Camera.Get_CameraRelevancy((int)cameraEnum).m_SizePointInspectionManage.sizePointInspectionParam;
                 sizePointInspectionParam.sizePointInspectionWorkParam.ResetStartDJ();
-                PointInspectionStateParam pointInspectionStateParam = Project.Instance.cameraManager[cameraEnum].m_PointInspectionStateParam;
+                PointInspectionStateParam pointInspectionStateParam = Service_Camera.Get_CameraRelevancy((int)cameraEnum).m_PointInspectionStateParam;
                 pointInspectionStateParam.PointInspectionState_Size = (int)PointInspectionStateEnum.点检中;
 
                 //加载图像路径
@@ -315,7 +315,6 @@ namespace Frame_Core
                 //图像信息显示
                 ShowHalconWindow currentShowHalconWindow = new ShowHalconWindow();
 
-                bool camResult = true;
                 int imgNum = m_ImageSimManage.ImageEmulationPaths.Length > sizePointInspectionParam.sizePointInspectionWorkParam.CheckNumber ? sizePointInspectionParam.sizePointInspectionWorkParam.CheckNumber : m_ImageSimManage.ImageEmulationPaths.Length; //单相机点检数量
                 for (int i = 0; i < imgNum; i++)
                 {
@@ -391,7 +390,7 @@ namespace Frame_Core
             string strFail = "不通过";
             try
             {
-                SizePointInspectionParam sizePointInspectionParam = Project.Instance.cameraManager[cameraEnum].m_SizePointInspectionManage.sizePointInspectionParam;
+                SizePointInspectionParam sizePointInspectionParam = Service_Camera.Get_CameraRelevancy((int)cameraEnum).m_SizePointInspectionManage.sizePointInspectionParam;
                 //点检流程
                 List<List<SizeInfo_P>> sizeInfoss = new List<List<SizeInfo_P>>();
                 if (sizePointInspectionParam.SizePointInspectionArithmetic == (int)SizePointInspectionArithmeticEnum.矩形菲林片)
@@ -464,41 +463,6 @@ namespace Frame_Core
         #endregion
 
         #region 3D尺寸点检
-        public static void DJ3DProcess(CameraEnum cameraEnum, Param_MsaThick3D param_MsaThick3D, ShowHalconWindow showHalconWindow)
-        {
-            try
-            {
-                if (param_MsaThick3D.LtDictionary.Count() != param_MsaThick3D.LtROIParams.Count())
-                {
-                    TJBJInfo.AlarmWriteState(AlarmName.尺寸点检失败, StopAlarmStateEnum.停机, $"{cameraEnum.ToString()}: 点检参数不匹配,请检查参数设置");
-                    return;
-                }
-
-                for (int i = 0; i < param_MsaThick3D.LtROIParams.Count(); i++)
-                {
-                    ROIParams rOIParams = param_MsaThick3D.LtROIParams[i];
-                    Dictionary<string, System.Windows.Forms.Control> ltDictionary = param_MsaThick3D.LtDictionary[i];
-                    ViewROI3.ROI rOI = new ViewROI3.ROI() { roiParams = rOIParams, ControlDictionary = ltDictionary };
-
-                    if (rOIParams.rOItype != ROIType.矩形1 | ltDictionary.Count() == 0)
-                    {
-                        continue;
-                    }
-                    measureMethod(cameraEnum, rOI, showHalconWindow);
-
-                }
-
-
-            }
-            catch (Exception ee)
-            {
-                MessageNotify.AddErrorLog("3D尺寸点检过程失败：" + ee.Message);
-
-                //throw;
-            }
-
-        }
-
 
         static void measureMethod(CameraEnum cameraEnum, ROI rOI, ShowHalconWindow showHalconWindow)
         {

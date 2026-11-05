@@ -1,0 +1,518 @@
+﻿<Window
+    x:Class="Frame_Core.WindowImageSave"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Frame_Core"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    Width="800"
+    Height="600"
+    MinWidth="800"
+    MinHeight="600"
+    Closed="Window_Closed"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <Style x:Key="LeftMenuButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="70" />
+            <Setter Property="Background" Value="#5C8FEF" />
+            <Setter Property="Foreground" Value="#10233F" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="LabelStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0" />
+        </Style>
+
+        <Style x:Key="ComboBoxStyle" TargetType="ComboBox">
+            <Setter Property="Width" Value="120" />
+            <Setter Property="Height" Value="28" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Padding" Value="6,0,0,0" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ComboBoxItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Left" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="CheckBoxStyle" TargetType="CheckBox">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="FontSize" Value="13" />
+        </Style>
+
+        <Style x:Key="SaveButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="28" />
+            <Setter Property="MinWidth" Value="80" />
+            <Setter Property="Background" Value="#5C8FEF" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Margin" Value="0" />
+        </Style>
+
+        <Style x:Key="ImageSaveRowGridStyle" TargetType="Grid">
+            <Setter Property="Height" Value="45" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style>
+
+        <ObjectDataProvider
+            x:Key="ImageSaveFormatItems"
+            MethodName="GetValues"
+            ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="local:ImageSaveFormat" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+
+        <ObjectDataProvider
+            x:Key="ImageDeepthSaveFormatItems"
+            MethodName="GetValues"
+            ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="local:ImageDeepthSaveFormat" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+
+        <ObjectDataProvider
+            x:Key="ImageSaveSelectItems"
+            MethodName="GetValues"
+            ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="local:ImageSaveSelect" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="122" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Border
+            Grid.Row="0"
+            Grid.Column="0"
+            Background="#5C8FEF"
+            BorderBrush="#D9E3F5"
+            BorderThickness="1,0,4,0">
+            <ListBox
+                x:Name="LeftItemsControl"
+                Background="#5C8FEF"
+                BorderThickness="0"
+                SelectionChanged="LeftItemsControl_SelectionChanged">
+
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Height" Value="79" />
+                        <Setter Property="Margin" Value="3,0,3,0" />
+                        <Setter Property="Padding" Value="0" />
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="Foreground" Value="#10233F" />
+                        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <Border
+                                        x:Name="Bd"
+                                        Background="{TemplateBinding Background}"
+                                        CornerRadius="4">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Border>
+
+                                    <ControlTemplate.Triggers>
+                                        <!--  鼠标经过  -->
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="Bd" Property="Background" Value="#6799F4" />
+                                        </Trigger>
+
+                                        <!--  选中  -->
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="Bd" Property="Background" Value="White" />
+                                            <Setter Property="Foreground" Value="#10233F" />
+                                        </Trigger>
+
+                                        <!--  选中且鼠标经过，保持白色  -->
+                                        <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                                <Condition Property="IsSelected" Value="True" />
+                                                <Condition Property="IsMouseOver" Value="True" />
+                                            </MultiTrigger.Conditions>
+                                            <Setter TargetName="Bd" Property="Background" Value="White" />
+                                        </MultiTrigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Foreground}"
+                            Text="{Binding}"
+                            TextAlignment="Center" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Border>
+
+        <Grid
+            x:Name="RightConfigGrid"
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="20,15,15,15">
+            <StackPanel
+                x:Name="RightConfigPanel"
+                Grid.Row="0"
+                Grid.Column="1"
+                Orientation="Vertical">
+
+                <!--  原图  -->
+                <Grid
+                    x:Name="SourceImageRow"
+                    Grid.Row="0"
+                    Style="{StaticResource ImageSaveRowGridStyle}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="105" />
+                        <ColumnDefinition Width="135" />
+                        <ColumnDefinition Width="135" />
+                        <ColumnDefinition Width="130" />
+                        <ColumnDefinition Width="130" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label
+                        Grid.Column="0"
+                        Content="原图"
+                        Style="{StaticResource LabelStyle}" />
+                    <ComboBox
+                        x:Name="SourceImageFormatComboBox"
+                        Grid.Column="1"
+                        ItemsSource="{Binding Source={StaticResource ImageSaveFormatItems}}"
+                        SelectedItem="{Binding SourceImageSaveParamer.ImageFormat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource ComboBoxStyle}" />
+                    <ComboBox
+                        x:Name="SourceImageSaveModeComboBox"
+                        Grid.Column="2"
+                        ItemsSource="{Binding Source={StaticResource ImageSaveSelectItems}}"
+                        SelectedItem="{Binding SourceImageSaveParamer.SaveMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource ComboBoxStyle}" />
+                    <CheckBox
+                        x:Name="SourceImageShowCheckBox"
+                        Grid.Column="3"
+                        Content="显示原图"
+                        IsChecked="{Binding SourceImageSaveParamer.IsShow, Mode=TwoWay}"
+                        Style="{StaticResource CheckBoxStyle}" />
+                </Grid>
+
+                <!--  截图  -->
+                <Grid
+                    x:Name="ScreenshotRow"
+                    Grid.Row="1"
+                    Style="{StaticResource ImageSaveRowGridStyle}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="105" />
+                        <ColumnDefinition Width="135" />
+                        <ColumnDefinition Width="135" />
+                        <ColumnDefinition Width="130" />
+                        <ColumnDefinition Width="130" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label
+                        Grid.Column="0"
+                        Content="截图"
+                        Style="{StaticResource LabelStyle}" />
+                    <ComboBox
+                        x:Name="ScreenshotFormatComboBox"
+                        Grid.Column="1"
+                        ItemsSource="{Binding Source={StaticResource ImageSaveFormatItems}}"
+                        SelectedItem="{Binding ScreenshotSaveParamer.ImageFormat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource ComboBoxStyle}" />
+                    <ComboBox
+                        x:Name="ScreenshotSaveModeComboBox"
+                        Grid.Column="2"
+                        ItemsSource="{Binding Source={StaticResource ImageSaveSelectItems}}"
+                        SelectedItem="{Binding ScreenshotSaveParamer.SaveMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource ComboBoxStyle}" />
+                    <CheckBox
+                        x:Name="ScreenshotHighDefinitionCheckBox"
+                        Grid.Column="3"
+                        Content="高清晰度截图"
+                        IsChecked="{Binding ScreenshotSaveParamer.IsHighDefinitionCapture, Mode=TwoWay}"
+                        Style="{StaticResource CheckBoxStyle}" />
+                </Grid>
+
+                <!--  大图  -->
+                <Grid
+                    x:Name="BigImageRow"
+                    Grid.Row="4"
+                    Style="{StaticResource ImageSaveRowGridStyle}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="105" />
+                        <ColumnDefinition Width="135" />
+                        <ColumnDefinition Width="135" />
+                        <ColumnDefinition Width="130" />
+                        <ColumnDefinition Width="130" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label
+                        Grid.Column="0"
+                        Content="大图"
+                        Style="{StaticResource LabelStyle}" />
+                    <ComboBox
+                        x:Name="BigImageFormatComboBox"
+                        Grid.Column="1"
+                        ItemsSource="{Binding Source={StaticResource ImageSaveFormatItems}}"
+                        SelectedItem="{Binding BigImageSaveParamer.ImageFormat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource ComboBoxStyle}" />
+                    <ComboBox
+                        x:Name="BigImageSaveModeComboBox"
+                        Grid.Column="2"
+                        ItemsSource="{Binding Source={StaticResource ImageSaveSelectItems}}"
+                        SelectedItem="{Binding BigImageSaveParamer.SaveMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource ComboBoxStyle}" />
+                    <CheckBox
+                        x:Name="BigImageShowCheckBox"
+                        Grid.Column="3"
+                        Content="显示大图"
+                        IsChecked="{Binding BigImageSaveParamer.IsShow, Mode=TwoWay}"
+                        Style="{StaticResource CheckBoxStyle}" />
+                </Grid>
+
+                <!--  大图截图  -->
+                <Grid
+                    x:Name="BigScreenshotRow"
+                    Grid.Row="5"
+                    Style="{StaticResource ImageSaveRowGridStyle}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="105" />
+                        <ColumnDefinition Width="135" />
+                        <ColumnDefinition Width="135" />
+                        <ColumnDefinition Width="130" />
+                        <ColumnDefinition Width="130" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label
+                        Grid.Column="0"
+                        Content="大图截图"
+                        Style="{StaticResource LabelStyle}" />
+                    <ComboBox
+                        x:Name="BigScreenshotFormatComboBox"
+                        Grid.Column="1"
+                        ItemsSource="{Binding Source={StaticResource ImageSaveFormatItems}}"
+                        SelectedItem="{Binding BigScreenshotSaveParamer.ImageFormat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource ComboBoxStyle}" />
+                    <ComboBox
+                        x:Name="BigScreenshotSaveModeComboBox"
+                        Grid.Column="2"
+                        ItemsSource="{Binding Source={StaticResource ImageSaveSelectItems}}"
+                        SelectedItem="{Binding BigScreenshotSaveParamer.SaveMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource ComboBoxStyle}" />
+                    <CheckBox
+                        x:Name="BigScreenshotHighDefinitionCheckBox"
+                        Grid.Column="3"
+                        Content="高清晰度截图"
+                        IsChecked="{Binding BigScreenshotSaveParamer.IsHighDefinitionCapture, Mode=TwoWay}"
+                        Style="{StaticResource CheckBoxStyle}" />
+                </Grid>
+
+                <!--  产品图  -->
+                <Grid
+                    x:Name="ProductImageRow"
+                    Grid.Row="2"
+                    Style="{StaticResource ImageSaveRowGridStyle}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="105" />
+                        <ColumnDefinition Width="135" />
+                        <ColumnDefinition Width="135" />
+                        <ColumnDefinition Width="130" />
+                        <ColumnDefinition Width="130" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label
+                        Grid.Column="0"
+                        Content="产品图"
+                        Style="{StaticResource LabelStyle}" />
+                    <ComboBox
+                        x:Name="ProductImageFormatComboBox"
+                        Grid.Column="1"
+                        ItemsSource="{Binding Source={StaticResource ImageSaveFormatItems}}"
+                        SelectedItem="{Binding EAImageSaveParamer.ImageFormat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource ComboBoxStyle}" />
+                    <ComboBox
+                        x:Name="ProductImageSaveModeComboBox"
+                        Grid.Column="2"
+                        ItemsSource="{Binding Source={StaticResource ImageSaveSelectItems}}"
+                        SelectedItem="{Binding EAImageSaveParamer.SaveMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource ComboBoxStyle}" />
+                    <CheckBox
+                        x:Name="ProductImageShowCheckBox"
+                        Grid.Column="3"
+                        Content="显示产品图"
+                        IsChecked="{Binding EAImageSaveParamer.IsShow, Mode=TwoWay}"
+                        Style="{StaticResource CheckBoxStyle}" />
+                </Grid>
+
+                <!--  产品截图  -->
+                <Grid
+                    x:Name="ProductScreenshotRow"
+                    Grid.Row="3"
+                    Style="{StaticResource ImageSaveRowGridStyle}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="105" />
+                        <ColumnDefinition Width="135" />
+                        <ColumnDefinition Width="135" />
+                        <ColumnDefinition Width="130" />
+                        <ColumnDefinition Width="130" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label
+                        Grid.Column="0"
+                        Content="产品截图"
+                        Style="{StaticResource LabelStyle}" />
+                    <ComboBox
+                        x:Name="ProductScreenshotFormatComboBox"
+                        Grid.Column="1"
+                        ItemsSource="{Binding Source={StaticResource ImageSaveFormatItems}}"
+                        SelectedItem="{Binding EAScreenshotSaveParamer.ImageFormat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource ComboBoxStyle}" />
+                    <ComboBox
+                        x:Name="ProductScreenshotSaveModeComboBox"
+                        Grid.Column="2"
+                        ItemsSource="{Binding Source={StaticResource ImageSaveSelectItems}}"
+                        SelectedItem="{Binding EAScreenshotSaveParamer.SaveMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource ComboBoxStyle}" />
+                    <CheckBox
+                        x:Name="ProductScreenshotHighDefinitionCheckBox"
+                        Grid.Column="3"
+                        Content="高清晰度截图"
+                        IsChecked="{Binding EAScreenshotSaveParamer.IsHighDefinitionCapture, Mode=TwoWay}"
+                        Style="{StaticResource CheckBoxStyle}" />
+                </Grid>
+
+
+
+                <!--  NG小图  -->
+                <Grid
+                    x:Name="NGSmallImageRow"
+                    Grid.Row="6"
+                    Style="{StaticResource ImageSaveRowGridStyle}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="105" />
+                        <ColumnDefinition Width="135" />
+                        <ColumnDefinition Width="135" />
+                        <ColumnDefinition Width="130" />
+                        <ColumnDefinition Width="130" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label
+                        Grid.Column="0"
+                        Content="NG小图"
+                        Style="{StaticResource LabelStyle}" />
+                    <ComboBox
+                        x:Name="NGSmallImageFormatComboBox"
+                        Grid.Column="1"
+                        ItemsSource="{Binding Source={StaticResource ImageSaveFormatItems}}"
+                        SelectedItem="{Binding NGImageSaveParamer.ImageFormat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource ComboBoxStyle}" />
+                    <CheckBox
+                        x:Name="NGSmallImageSaveCheckBox"
+                        Grid.Column="2"
+                        Content="保存NG小图"
+                        IsChecked="{Binding NGImageSaveParamer.IsSave, Mode=TwoWay}"
+                        Style="{StaticResource CheckBoxStyle}" />
+                    <CheckBox
+                        x:Name="NGSmallImageShowCheckBox"
+                        Grid.Column="3"
+                        Content="显示NG小图"
+                        IsChecked="{Binding NGImageSaveParamer.IsShow, Mode=TwoWay}"
+                        Style="{StaticResource CheckBoxStyle}" />
+                </Grid>
+
+                <!--  3D图  -->
+                <Grid
+                    x:Name="Image3DRow"
+                    Grid.Row="7"
+                    Style="{StaticResource ImageSaveRowGridStyle}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="105" />
+                        <ColumnDefinition Width="135" />
+                        <ColumnDefinition Width="135" />
+                        <ColumnDefinition Width="130" />
+                        <ColumnDefinition Width="130" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label
+                        Grid.Column="0"
+                        Content="3D图"
+                        Style="{StaticResource LabelStyle}" />
+                    <ComboBox
+                        x:Name="Image3DFormatComboBox"
+                        Grid.Column="1"
+                        ItemsSource="{Binding Source={StaticResource ImageDeepthSaveFormatItems}}"
+                        SelectedItem="{Binding Image3DSaveParamer.ImageFormat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource ComboBoxStyle}" />
+                    <CheckBox
+                        x:Name="Image3DCompressedCheckBox"
+                        Grid.Column="2"
+                        Content="是否压缩"
+                        IsChecked="{Binding Image3DSaveParamer.IsCompressed, Mode=TwoWay}"
+                        Style="{StaticResource CheckBoxStyle}" />
+                </Grid>
+            </StackPanel>
+        </Grid>
+
+        <Border
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            Padding="0,8,15,8"
+            Background="#FFF5F5F5"
+            BorderBrush="#FFD0D0D0"
+            BorderThickness="0,1,0,0">
+            <Button
+                x:Name="SaveButton"
+                Width="90"
+                HorizontalAlignment="Right"
+                Command="{Binding SaveCommand}"
+                Content="保存"
+                Style="{StaticResource SaveButtonStyle}" />
+        </Border>
+    </Grid>
+</Window>

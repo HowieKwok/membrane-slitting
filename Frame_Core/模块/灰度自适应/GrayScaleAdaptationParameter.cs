@@ -1,5 +1,5 @@
-﻿using HalconDotNet;
-using IKapBoardClassLibrary;
+﻿using FrameCommunity;
+using HalconDotNet;
 using System;
 using System.Collections.Generic;
 using System.Linq;

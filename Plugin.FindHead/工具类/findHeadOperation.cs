@@ -180,7 +180,7 @@ namespace Plugin.FindHead
                     _Params.Cache_imageID = picID;
                 }
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 //Console.WriteLine("找料头失败");
             }
@@ -332,7 +332,7 @@ namespace Plugin.FindHead
                     _Params.Cache_imageID = picID;
                 }
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 //Console.WriteLine("找料尾失败");
             }

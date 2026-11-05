@@ -233,6 +233,43 @@ namespace Frame_Core
         /// </summary>
         [Description("测量结果验证")]
         public bool bl_DefaultLine = false;
+
+        #region 位置跟随
+
+        [ShowTextAttribute("启用位置跟随")]
+        [Description("启用后按基准位置到当前位置的平移和旋转修正两个抓边 ROI")]
+        public bool m_bUsePositionFollow = false;
+
+        [ShowTextAttribute("基准行")]
+        [Description("位置跟随基准 Row")]
+        public double m_fBaseRow = 0;
+
+        [ShowTextAttribute("基准列")]
+        [Description("位置跟随基准 Column")]
+        public double m_fBaseCol = 0;
+
+        [ShowTextAttribute("基准角度")]
+        [Description("位置跟随基准角度，单位度")]
+        public double m_fBaseAngle = 0;
+
+        [ShowTextAttribute("当前行")]
+        [Description("位置跟随当前 Row")]
+        public double m_fCurrentRow = 0;
+
+        [ShowTextAttribute("当前列")]
+        [Description("位置跟随当前 Column")]
+        public double m_fCurrentCol = 0;
+
+        [ShowTextAttribute("当前角度")]
+        [Description("位置跟随当前角度，单位度")]
+        public double m_fCurrentAngle = 0;
+
+        [ShowTextAttribute("当前坐标有效")]
+        [Description("当前位置由上游流程或界面右键设置后置为 true；启用跟随时必须有效")]
+        public bool m_bCurrentPoseValid = false;
+
+        #endregion
+
         #endregion
 
 
@@ -320,6 +357,19 @@ namespace Frame_Core
         [NonSerialized]
         [System.Xml.Serialization.XmlIgnore]
         public HTuple hv_PeakpointColumn = null;
+
+        [ShowTextAttribute("跟随偏差Y")]
+        [Description("当前位置 Row - 基准 Row，界面按 Y 显示")]
+        public double m_fFollowOffsetY = 0;
+
+        [ShowTextAttribute("跟随偏差X")]
+        [Description("当前位置 Column - 基准 Column，界面按 X 显示")]
+        public double m_fFollowOffsetX = 0;
+
+        [ShowTextAttribute("跟随偏差R")]
+        [Description("当前角度 - 基准角度，单位度")]
+        public double m_fFollowOffsetR = 0;
+
         #endregion
         public ParamsMeasureLine()
         {
@@ -330,3 +380,4 @@ namespace Frame_Core
     }
 
 }
+

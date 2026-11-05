@@ -1,4 +1,5 @@
 ﻿using Frame_Core;
+using FrameCommunity.Data;
 using HalconDotNet;
 using LogTool;
 using System;
@@ -27,6 +28,9 @@ namespace Plugin.RectDetectEar
         ImageInfo imageinfo_now = new ImageInfo();
 
         long TempJRID = 0;
+
+        public event EventHandler<PluginExecuteCompletedEventArgs> ExecuteCompleted;
+
         public bool ExecuteObj()
         {
             Params = PluginParams as ParamsRectDetectEar; //里氏转换   4

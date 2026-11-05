@@ -615,17 +615,9 @@ namespace ViewROI2
                     win_Width = viewPort.WindowSize.Width;
                     win_Height = viewPort.WindowSize.Height;
                     HTuple W, H;
-                    if (true)
-                    {
-                        HOperatorSet.GetImageSize(obj, out W, out H);
-                        imageWidth = Convert.ToInt32(W.D);
-                        imageHeight = Convert.ToInt32(H.D);
-                    }
-                    else
-                    {
-
-                        ((HImage)obj).GetImagePointer1(out s, out imageWidth, out imageHeight);
-                    }
+                    HOperatorSet.GetImageSize(obj, out W, out H);
+                    imageWidth = Convert.ToInt32(W.D);
+                    imageHeight = Convert.ToInt32(H.D);
 
 
                     double imgAspectRatio = Convert.ToDouble(imageWidth) / Convert.ToDouble(imageHeight);

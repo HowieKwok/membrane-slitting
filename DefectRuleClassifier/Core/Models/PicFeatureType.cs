@@ -1,0 +1,45 @@
+namespace DefectRuleClassifier.Core.Models
+{
+    public enum PicFeatureType
+    {
+        DefectGray = 0,
+        BrightDarkDiff = 1,
+        DefectContourChange = 2,
+        DarkGray = 3,
+        UltraDarkGray = 4,
+        DarkContourChange = 5,
+        BrightGray = 6,
+        UltraBrightGray = 7,
+        BrightContourChange = 8,
+        WidthHeightRate = 9,
+        HorVerRate = 10,
+        DarkBrightAreaRatio = 11,
+        BrightOfBubbleRate = 12,
+        MinCoateRate = 13,
+        BrightDarkDistanceRate = 14,
+        BrightDarkAreaRate = 15,
+        BrightArea = 16,
+        DarkArea = 17,
+        DecarburizationBlackZone = 18,
+        DarkGradient = 19,
+        BubbleOuterRoundness = 20,
+        BubbleOuterDarkConcentricity = 21,
+        DarkWidthHeightRate = 22,
+        DefectGradient = 23,
+        DefectGradientCount = 24,
+        DefectBright = 25,
+        BrightEdgeGradient = 26,
+        DarkEdgeGradient = 27,
+        DarkBrightWidthHeightRate = 28,
+        BubbleDarkRoundness = 29,
+        Lengthness = 30,
+        Convexity = 31,
+        Holes = 32,
+        Rect2_len1 = 33,
+        Rect2_len2 = 34,
+        DefectRoundness = 35,
+        LightAreaRate = 36,
+        DarkAreaRate = 37
+    }
+
+}

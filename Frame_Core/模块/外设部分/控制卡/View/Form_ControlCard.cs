@@ -185,7 +185,7 @@ namespace Frame_Core
 
                 tbx_StepLength1.Text = ((double)bIZ_ControlCard.param_ControlCard.axis_Param.MovementDistance / bIZ_ControlCard.GetGearRatio()).ToString();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                // Log4netRecord.ErrorLog.Error(ex);
             }

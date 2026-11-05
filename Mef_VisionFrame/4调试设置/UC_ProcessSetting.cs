@@ -119,7 +119,6 @@ namespace Mef_VisionFrame
         public void Update_Information(Process proc)
         {
             if (proc == null) return;
-            string ini_Str = "__________";
             lb_ProcessName.Text = proc.processInfo.ProcessName;
             lb_ProcessID.Text = proc.processInfo.ProcessID.ToString();
             // lb_ProcessRunMode.Text = proc.RunMode.ToString();
@@ -433,22 +432,16 @@ namespace Mef_VisionFrame
         private void toolstripBtn_RunOnce_Click(object sender, EventArgs e)
         {
             return;
-            ((ToolStripButton)sender).Enabled = false;
-            Project.Instance.ExecuteOnce(i_CurProcessID);
         }
 
         private void toolstripBtn_RunLoop_Click(object sender, EventArgs e)
         {
             return;
-            ((ToolStripButton)sender).Enabled = false;
-            Project.Instance.StartRun(i_CurProcessID);
         }
 
         private void toolstripBtn_RunStop_Click(object sender, EventArgs e)
         {
             return;
-            ((ToolStripButton)sender).Enabled = false;
-            Project.Instance.StopRun(i_CurProcessID);
         }
         /// <summary>
         /// 定时器-刷新主流程

@@ -168,15 +168,15 @@ namespace Frame_Core
         //    datass = new List<RowData[]>();
         //    try
         //    {
-        //        if (Project.Instance.cameraManager[cameraEnum].m_PointInspectionStateParam.PointInspectionState_Defect == (int)PointInspectionStateEnum.已忽略) return executeResult;           
+        //        if (Project.Instance.M_CameraRelevancies[cameraEnum].m_PointInspectionStateParam.PointInspectionState_Defect == (int)PointInspectionStateEnum.已忽略) return executeResult;           
 
         //        string str = "缺陷点检";
         //        string pointCheckResultStr = "缺陷点检结果";
         //        string strPass = "通过";
         //        string strFail = "不通过";
 
-        //        DefectPointInspectionParam defectPointInspectionParam = Project.Instance.cameraManager[cameraEnum].m_DefectPointInspectionManage.defectPointInspectionParam;
-        //        PointInspectionStateParam pointInspectionStateParam = Project.Instance.cameraManager[cameraEnum].m_PointInspectionStateParam;
+        //        DefectPointInspectionParam defectPointInspectionParam = Project.Instance.M_CameraRelevancies[cameraEnum].m_DefectPointInspectionManage.defectPointInspectionParam;
+        //        PointInspectionStateParam pointInspectionStateParam = Project.Instance.M_CameraRelevancies[cameraEnum].m_PointInspectionStateParam;
         //        pointInspectionStateParam.PointInspectionState_Defect = (int)PointInspectionStateEnum.点检中;
 
         //        //加载图像路径

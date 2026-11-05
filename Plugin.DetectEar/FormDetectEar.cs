@@ -12,6 +12,7 @@ using HalconDotNet;
 using ViewROI;
 using System.IO;
 using HalconAlgorithm;
+using FrameCommunity.Data;
 
 namespace Plugin.DetectEar
 {
@@ -69,8 +70,6 @@ namespace Plugin.DetectEar
         private Process proc { get; set; }
         public ParamsDetectEar PluginParams { get; set; }
 
-        ImageInfo imageinfo;
-        PoleEarsInfo sd;
         public HObject ho_Image1 = null;
         public HWndCtrl hWndCtrl_Display;
 
@@ -107,7 +106,7 @@ namespace Plugin.DetectEar
                 num_JRSizeX_PercentMin.Value = (decimal)PluginParams.JRSizeX_PercentMin;
                 num_JRSizeX_PercentMax.Value = (decimal)PluginParams.JRSizeX_PercentMax;
             }
-            catch (Exception ee)
+            catch (Exception)
             {
 
 
@@ -355,7 +354,7 @@ namespace Plugin.DetectEar
                     hWndCtrl_Display.resetAll();
                     hWndCtrl_Display.repaint();
                 }
-                catch (Exception ee)
+                catch (Exception)
                 {
                 }
             }
@@ -483,7 +482,7 @@ namespace Plugin.DetectEar
             {
                 ShowMiniImage(PluginParams.ImageInfo.ho_image, PluginParams.ImageInfo.ho_image);
             }
-            catch (Exception ee)
+            catch (Exception)
             {
 
 
@@ -521,7 +520,7 @@ namespace Plugin.DetectEar
                 str = String.Format("Size  R:{0}   C:{1}", h.ToString(), w.ToString()); //格式化字符串
                 return str;
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 return str;
             }

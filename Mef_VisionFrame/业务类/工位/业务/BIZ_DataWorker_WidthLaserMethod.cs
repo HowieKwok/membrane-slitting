@@ -874,7 +874,7 @@ namespace Mef_VisionFrame
             ExecuteMethod(() =>
             {
                 //【1】工艺处理             
-                HOperatorSet.CountSeconds(out pFTImageProduct.Image_StartDataProcessTime);
+                HOperatorSet.CountSeconds(out pFTImageProduct.detectionTime.Image_StartDataProcessTime);
                 ResultType bIsFrameDefectNg = ResultType.NG;
 
                 List<ResultType> resultSliceDefectNg = new List<ResultType>();
@@ -967,12 +967,12 @@ namespace Mef_VisionFrame
 
 
                 pFTImageProduct.showHalconWindow.m_nMode = 0;
-                pFTImageProduct.showHalconWindow.m_strCamName = Project.Instance.cameraManager[cameraEnum].m_CamParam.CameraName;
+                pFTImageProduct.showHalconWindow.m_strCamName = Service_Camera.GetCam_Name((int)cameraEnum);
                 pFTImageProduct.showHalconWindow.m_bIsNG = bIsFrameDefectNg == (ResultType.NG);
                 pFTImageProduct.showHalconWindow.m_messageShowInfos.Insert(0, new MessageShowInfo() { m_strMessage = bIsFrameDefectNg.ToString(), m_stuGetColor = BIZ_General.Color(bIsFrameDefectNg) }); ;
                 PrimitiveTransition(cameraEnum, pFTImageProduct.showHalconWindow, out Operation_ImageInfo operation_ImageInfo);
-                HOperatorSet.CountSeconds(out pFTImageProduct.Image_DataProcessTime);
-                HOperatorSet.CountSeconds(out pFTImageProduct.Image_EndTime);
+                HOperatorSet.CountSeconds(out pFTImageProduct.detectionTime.Image_DataProcessTime);
+                HOperatorSet.CountSeconds(out pFTImageProduct.detectionTime.Image_EndTime);
                 //计算时间
                 BIZ_General.CalculateProcessingTime(pFTImageProduct);
                 displayWindowClass.operation_Image.imageInfosShow.Enqueue(operation_ImageInfo);
@@ -1002,7 +1002,7 @@ namespace Mef_VisionFrame
                 //return;
 
                 //【1】工艺处理             
-                HOperatorSet.CountSeconds(out pFTCleanEAProductInfo.Image_StartDataProcessTime);
+                HOperatorSet.CountSeconds(out pFTCleanEAProductInfo.detectionTime.Image_StartDataProcessTime);
 
 
                 List<ResultType> resultSliceDefectNg = new List<ResultType>();
@@ -1089,7 +1089,7 @@ namespace Mef_VisionFrame
                 }
                 resultTypeAll = pFTCleanEAProductInfo.ListEASlicePD.Max(s => s.resultSliceToltalResult);
                 pFTCleanEAProductInfo.showHalconWindow.m_nMode = 1;
-                pFTCleanEAProductInfo.showHalconWindow.m_strCamName = Project.Instance.cameraManager[cameraEnum].m_CamParam.CameraName;
+                pFTCleanEAProductInfo.showHalconWindow.m_strCamName = Service_Camera.GetCam_Name((int)cameraEnum);
                 pFTCleanEAProductInfo.showHalconWindow.m_bIsNG = resultTypeAll == (ResultType.NG);
                 if (pFTCleanEAProductInfo.EAID == 0)
                 {
@@ -1098,9 +1098,9 @@ namespace Mef_VisionFrame
                 }
                 pFTCleanEAProductInfo.showHalconWindow.m_messageShowInfos.Insert(0, new MessageShowInfo() { m_strMessage = resultTypeAll.ToString(), m_stuGetColor = BIZ_General.Color(resultTypeAll), m_nFontSize = 30 }); ;
                 PrimitiveTransitionEA(cameraEnum, pFTCleanEAProductInfo.showHalconWindow, out Operation_ImageInfo operation_ImageInfo);
-                HOperatorSet.CountSeconds(out pFTCleanEAProductInfo.Image_DataProcessTime);
+                HOperatorSet.CountSeconds(out pFTCleanEAProductInfo.detectionTime.Image_DataProcessTime);
 
-                HOperatorSet.CountSeconds(out pFTCleanEAProductInfo.Image_EndTime);
+                HOperatorSet.CountSeconds(out pFTCleanEAProductInfo.detectionTime.Image_EndTime);
                 //计算时间
                 BIZ_General.CalculateProcessingTime(pFTCleanEAProductInfo);
                 displayWindowClass.operation_Image.imageInfosShow.Enqueue(operation_ImageInfo);
@@ -1643,8 +1643,8 @@ namespace Mef_VisionFrame
             ExecuteMethod(() =>
             {
 
-                double pixelSizeX = Project.Instance.cameraManager[cameraEnum].m_CamParam.CalibrationValue_X;
-                double pixelSizeY = Project.Instance.cameraManager[cameraEnum].m_CamParam.CalibrationValue_Y;
+                double pixelSizeX = Service_Camera.GetCam_CalibrationValue_X((int)cameraEnum);
+                double pixelSizeY = Service_Camera.GetCam_CalibrationValue_Y((int)cameraEnum);
                 /* ====== 2. 扁平化所有槽位 ====== */
                 // 1. 找到分界点（最后一个 Cam1 的索引）
                 int splitIndex = BIZ_Variable.nSpliteIndex;
@@ -1818,8 +1818,8 @@ namespace Mef_VisionFrame
                 for (var cam = CameraEnum.Cam1; cam <= CameraEnum.Cam2; cam++)
                 {
                     var listIdx = (int)cam;
-                    double pixelSizeX = Project.Instance.cameraManager[cam].m_CamParam.CalibrationValue_X;
-                    double pixelSizeY = Project.Instance.cameraManager[cam].m_CamParam.CalibrationValue_Y;
+                    double pixelSizeX = Service_Camera.GetCam_CalibrationValue_X((int)cam);
+                    double pixelSizeY = Service_Camera.GetCam_CalibrationValue_Y((int)cam);
                     ProductInfos[listIdx].ListEASizes?.Clear();
                     ProductInfos[listIdx].ListEASizes = new List<SizeInfo>();
                     for (int i = 0; i < cleanCraft.ListEASizes.Count; i++)
@@ -2540,7 +2540,7 @@ namespace Mef_VisionFrame
             operation_ImageInfo = null;
             try
             {
-                ImageSaveParamer in_imageSaveParamer = Project.Instance.cameraManager[cameraEnum].m_ImageSaveParamer;
+                ImageSaveParamer in_imageSaveParamer = Service_Camera.Get_CameraRelevancy((int)cameraEnum).m_ImageSaveParamer;
                 string imageSavePath = in_imageSaveParamer.ImageSave_Path_Primitive;
                 ImageSaveFormat saveImageFormat = (ImageSaveFormat)in_imageSaveParamer.SaveImageFormat_Primitive;
                 ImageDeepthSaveFormat imageDeepthSaveFormat = (ImageDeepthSaveFormat)in_imageSaveParamer.SaveImageFormat_Deepth;
@@ -2577,7 +2577,7 @@ namespace Mef_VisionFrame
             operation_ImageInfo = null;
             try
             {
-                ImageSaveParamer in_imageSaveParamer = Project.Instance.cameraManager[cameraEnum].m_ImageSaveParamer;
+                ImageSaveParamer in_imageSaveParamer = Service_Camera.Get_CameraRelevancy((int)cameraEnum).m_ImageSaveParamer;
                 string imageSavePath = in_imageSaveParamer.ImageSave_Path_ProdImg;
                 ImageSaveFormat saveImageFormat = (ImageSaveFormat)in_imageSaveParamer.SaveImageFormat_ProdImg;
                 ImageSaveSelect imageSaveSelect = (ImageSaveSelect)in_imageSaveParamer.SaveImageSelect_ProdImg;
@@ -3072,8 +3072,8 @@ namespace Mef_VisionFrame
             ExecuteMethod(() =>
             {
                 List<LineInfo> lineInfos = GetLineInfo(cleanCraft, pFTCleanEAProductInfo, cameraEnum);
-                double pixelSizeX = Project.Instance.cameraManager[cameraEnum].m_CamParam.CalibrationValue_X;
-                double pixelSizeY = Project.Instance.cameraManager[cameraEnum].m_CamParam.CalibrationValue_Y;
+                double pixelSizeX = Service_Camera.GetCam_CalibrationValue_X((int)cameraEnum);
+                double pixelSizeY = Service_Camera.GetCam_CalibrationValue_Y((int)cameraEnum);
                 List<LineInfo>[] lines = cameraEnum == CameraEnum.Cam1 ? new List<LineInfo>[] { lineInfos, new List<LineInfo>() } : new List<LineInfo>[] { new List<LineInfo>(), lineInfos };
 
                 pFTCleanEAProductInfo.ListEASizes?.Clear();

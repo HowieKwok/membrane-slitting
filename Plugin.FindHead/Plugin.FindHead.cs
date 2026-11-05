@@ -1,4 +1,5 @@
 ﻿using Frame_Core;
+using FrameCommunity.Data;
 using HalconAlgorithm;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,8 @@ namespace Plugin.FindHead
         private findHeadOperation findheadOperation = new findHeadOperation();
         int headID = -1;
         double headLine = -1;
+
+        public event EventHandler<PluginExecuteCompletedEventArgs> ExecuteCompleted;
 
         public bool ExecuteObj()
         {

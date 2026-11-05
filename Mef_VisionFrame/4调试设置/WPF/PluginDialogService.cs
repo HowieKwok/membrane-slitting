@@ -9,7 +9,79 @@ namespace Mef_VisionFrame.调试设置.WPF
 {
     internal sealed class PluginDialogService
     {
-        public void Open(IPlugin plugin, Window owner, Action<PluginViewActionResult> actionCompleted)
+        //public void Open(IPlugin plugin, Window owner, Action<PluginViewActionResult> actionCompleted)
+        //{
+        //    if (plugin == null) return;
+
+        //    Type wpfContentType = ResolveWpfContentType(plugin);
+        //    Type formType = PluginService.pluginsDictionary.ContainsKey(plugin.moduleInfo.PluginName)
+        //        ? PluginService.pluginsDictionary[plugin.moduleInfo.PluginName].PluginsFormType
+        //        : null;
+
+        //    if (wpfContentType != null)
+        //    {
+        //        OpenWpfPlugin(plugin, wpfContentType, owner, actionCompleted);
+        //        return;
+        //    }
+
+        //    if (formType != null && typeof(FormPluginBase).IsAssignableFrom(formType))
+        //    {
+        //        OpenWinFormsPlugin(plugin, formType, actionCompleted);
+        //    }
+        //}
+
+        //private void OpenWpfPlugin(IPlugin plugin, Type wpfContentType, Window owner, Action<PluginViewActionResult> actionCompleted)
+        //{
+        //    WPFFormPluginBase window = new WPFFormPluginBase();
+        //    object content = Activator.CreateInstance(wpfContentType);
+        //    TryBindPlugin(content, plugin);
+
+        //    EventHandler<PluginViewActionResult> handler = null;
+        //    if (actionCompleted != null)
+        //    {
+        //        // 执行按钮在 WPFFormPluginBase 上，动作完成通知也由基类窗体发出。
+        //        handler = (sender, result) => actionCompleted(result);
+        //        window.ActionCompleted += handler;
+        //    }
+
+        //    window.pluginsObjBase = plugin;
+        //    window.PluginContent = content;
+        //    window.Init();
+        //    window.Owner = owner;
+
+        //    try
+        //    {
+        //        window.ShowDialog();
+        //    }
+        //    finally
+        //    {
+        //        if (handler != null) window.ActionCompleted -= handler;
+        //    }
+        //}
+        //private void OpenWinFormsPlugin(IPlugin plugin, Type formType, Action<PluginViewActionResult> actionCompleted)
+        //{
+        //    FormPluginBase form = (FormPluginBase)Activator.CreateInstance(formType);
+        //    EventHandler<PluginViewActionResult> handler = null;
+        //    if (actionCompleted != null)
+        //    {
+        //        // WinForm 插件也统一由 FormPluginBase 的执行按钮发出动作完成通知。
+        //        handler = (sender, result) => actionCompleted(result);
+        //        form.ActionCompleted += handler;
+        //    }
+
+        //    try
+        //    {
+        //        form.pluginsObjBase = plugin;
+        //        form.Init();
+        //        form.ShowDialog();
+        //    }
+        //    finally
+        //    {
+        //        if (handler != null) form.ActionCompleted -= handler;
+        //        form.Dispose();
+        //    }
+        //}
+        public void Open(IPlugin plugin, Window owner)
         {
             if (plugin == null) return;
 
@@ -20,55 +92,32 @@ namespace Mef_VisionFrame.调试设置.WPF
 
             if (wpfContentType != null)
             {
-                OpenWpfPlugin(plugin, wpfContentType, owner, actionCompleted);
+                OpenWpfPlugin(plugin, wpfContentType, owner);
                 return;
             }
 
             if (formType != null && typeof(FormPluginBase).IsAssignableFrom(formType))
             {
-                OpenWinFormsPlugin(plugin, formType, actionCompleted);
+                OpenWinFormsPlugin(plugin, formType);
             }
         }
 
-        private void OpenWpfPlugin(IPlugin plugin, Type wpfContentType, Window owner, Action<PluginViewActionResult> actionCompleted)
+        private void OpenWpfPlugin(IPlugin plugin, Type wpfContentType, Window owner)
         {
             WPFFormPluginBase window = new WPFFormPluginBase();
             object content = Activator.CreateInstance(wpfContentType);
             TryBindPlugin(content, plugin);
 
-            EventHandler<PluginViewActionResult> handler = null;
-            if (actionCompleted != null)
-            {
-                // 执行按钮在 WPFFormPluginBase 上，动作完成通知也由基类窗体发出。
-                handler = (sender, result) => actionCompleted(result);
-                window.ActionCompleted += handler;
-            }
-
             window.pluginsObjBase = plugin;
             window.PluginContent = content;
             window.Init();
             window.Owner = owner;
-
-            try
-            {
-                window.ShowDialog();
-            }
-            finally
-            {
-                if (handler != null) window.ActionCompleted -= handler;
-            }
+            window.ShowDialog();
         }
-        private void OpenWinFormsPlugin(IPlugin plugin, Type formType, Action<PluginViewActionResult> actionCompleted)
+
+        private void OpenWinFormsPlugin(IPlugin plugin, Type formType)
         {
             FormPluginBase form = (FormPluginBase)Activator.CreateInstance(formType);
-            EventHandler<PluginViewActionResult> handler = null;
-            if (actionCompleted != null)
-            {
-                // WinForm 插件也统一由 FormPluginBase 的执行按钮发出动作完成通知。
-                handler = (sender, result) => actionCompleted(result);
-                form.ActionCompleted += handler;
-            }
-
             try
             {
                 form.pluginsObjBase = plugin;
@@ -77,10 +126,11 @@ namespace Mef_VisionFrame.调试设置.WPF
             }
             finally
             {
-                if (handler != null) form.ActionCompleted -= handler;
                 form.Dispose();
             }
         }
+
+
         private Type ResolveWpfContentType(IPlugin plugin)
         {
             Assembly assembly = plugin.GetType().Assembly;

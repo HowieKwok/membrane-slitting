@@ -76,8 +76,8 @@ namespace Frame_Core
             sizeInfos = new List<SizeInfo_P>();
             try
             {
-                double calibValueX = Project.Instance.cameraManager[cameraEnum].m_CamParam.CalibrationValue_X;
-                double calibValueY = Project.Instance.cameraManager[cameraEnum].m_CamParam.CalibrationValue_Y;
+                double calibValueX = Service_Camera.GetCam_CalibrationValue_X((int)cameraEnum);
+                double calibValueY = Service_Camera.GetCam_CalibrationValue_Y((int)cameraEnum);
                 for (int i = 0; i < param_LineToLineDist.SizeLogicParams_UserDefineds.Count; i++)
                 {
                     double CalibCompensateValue = 0;
@@ -169,7 +169,7 @@ namespace Frame_Core
         /// <param name="lineShowInfos"></param>
         /// <param name="regionShowInfos"></param>
         /// <returns></returns>
-        public static void DetectEdgeValueAssign(CameraEnum cameraEnum, List<LineInfo1> lineInfo1s, ref List<MessageShowInfo> messageShowInfos, ref List<LineInfo> lineShowInfos, ref List<RegionShowInfo> regionShowInfos)
+        public static void DetectEdgeValueAssign(CameraEnum cameraEnum, List<LineInfo1> lineInfo1s,  List<MessageShowInfo> messageShowInfos,  List<LineInfo> lineShowInfos,  List<RegionShowInfo> regionShowInfos)
         {
             try
             {
@@ -210,7 +210,7 @@ namespace Frame_Core
         /// <param name="lineShowInfos"></param>
         /// <param name="regionShowInfos"></param>
         /// <returns></returns>
-        public static void DetectEdgeValueAssign(CameraEnum cameraEnum, List<SizeInfo_P> sizeInfos, ref List<MessageShowInfo> messageShowInfos)
+        public static void DetectEdgeValueAssign(CameraEnum cameraEnum, List<SizeInfo_P> sizeInfos,  List<MessageShowInfo> messageShowInfos)
         {
             try
             {
@@ -258,8 +258,8 @@ namespace Frame_Core
             sizeInfos = new List<SizeInfo_P>();
             try
             {
-                double calibValueX = Project.Instance.cameraManager[cameraEnum].m_CamParam.CalibrationValue_X;
-                double calibValueY = Project.Instance.cameraManager[cameraEnum].m_CamParam.CalibrationValue_Y;
+                double calibValueX = Service_Camera.GetCam_CalibrationValue_X((int)cameraEnum);
+                double calibValueY = Service_Camera.GetCam_CalibrationValue_Y((int)cameraEnum);
                 for (int i = 0; i < param_SizeLogic_UserDefineds.Count; i++)
                 {
                     double CalibCompensateValue = 0;

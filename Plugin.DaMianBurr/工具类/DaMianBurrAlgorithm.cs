@@ -1067,7 +1067,7 @@ namespace Plugin.DaMianBurr
                 HOperatorSet.Union1(ho_SelectedRegions, out outputMaoCiRegions);
 
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 outputPoint = 0;
                 NgTypeInfo testNgInfo = new NgTypeInfo();

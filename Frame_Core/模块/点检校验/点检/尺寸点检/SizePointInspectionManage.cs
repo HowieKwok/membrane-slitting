@@ -23,7 +23,7 @@ namespace Frame_Core
         /// <summary>
         /// 相机尺寸实时点检数据
         /// </summary>
-        public string SizeRealTimeCheckPointPath = "E:\\生产数据\\生产数据";      //存放点检数据
+        public string SizeRealTimeCheckPointPath = $"{AppDomain.CurrentDomain.BaseDirectory}生产数据\\生产数据";      //存放点检数据
 
 
         /// <summary>

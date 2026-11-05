@@ -1,5 +1,6 @@
 using Frame_Core;
 using Frame_Core.pluginParams;
+using FrameCommunity.公共类;
 using HalconDotNet;
 using Plugin.BlobAnalysis.Core;
 using Plugin.BlobAnalysis.Models;
@@ -15,13 +16,14 @@ using System.Windows.Data;
 using System.Windows.Forms;
 using System.Windows.Media;
 
+
 namespace Plugin.BlobAnalysis.WPFArchitecture
 {
     public partial class WPFBlobAnalysis : System.Windows.Controls.UserControl, IPluginWpfView
     {
         // WPF 页面只绑定 ViewModel；ViewModel 内部的参数源必须来自 ParamsBlobAnalysis。
         // BlobAnalysisParams 只作为算法运行时 DTO，不能作为界面保存/读取对象。
-        private readonly BlobAnalysisViewModel vm = new BlobAnalysisViewModel();
+        private BlobAnalysisViewModel vm = new BlobAnalysisViewModel();
         private HalconViewRoiAdapter mainDisplay;
         private HalconViewRoiAdapter previewDisplay;
         private HalconViewRoiAdapter resultDisplay;
@@ -36,15 +38,18 @@ namespace Plugin.BlobAnalysis.WPFArchitecture
         public PluginParamsBase PluginParams { get; private set; }
         IPlugin IPluginWpfView.PluginObject { get { return PluginObject; } }
         PluginParamsBase IPluginWpfView.PluginParams { get { return PluginParams; } }
-
+   
         public WPFBlobAnalysis()
         {
             InitializeComponent();
+       
             DataContext = vm;
             vm.PropertyChanged += OnViewModelPropertyChanged;
             vm.AddFilterRequested = ShowAddFilterDialog;
         }
 
+
+       
         public void BindPlugin(IPlugin plugin)
         {
             // 宿主 WPFFormPluginBase 打开页面时调用。
@@ -209,7 +214,7 @@ namespace Plugin.BlobAnalysis.WPFArchitecture
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
         {
-            DisposeView();
+            //DisposeView();
         }
 
         private void InitHalconViews()
@@ -432,7 +437,8 @@ namespace Plugin.BlobAnalysis.WPFArchitecture
                 {
                     RoiParam r = transformer.TransformRect(vm.Parameters.LocalRoi);
                     HOperatorSet.SetColor(window, "cyan");
-                    HOperatorSet.DispRectangle1(window, r.Row1, r.Col1, r.Row2, r.Col2);
+                    //HOperatorSet.DispRectangle1(window, r.Row1, r.Col1, r.Row2, r.Col2);
+                    HOperatorSet.DispObj(vm.FrameParams.m_ho_OutLocalRoiRegion,window);
                     HOperatorSet.SetTposition(window, r.Row1 + 8, r.Col1 + 8);
                     HOperatorSet.WriteString(window, "Local ROI");
                 }
@@ -551,9 +557,13 @@ namespace Plugin.BlobAnalysis.WPFArchitecture
             previewHalcon = null;
             resultHalcon = null;
 
+            vm.clearMethod();
             vm.ReleaseViewResources();
             vm.PropertyChanged -= OnViewModelPropertyChanged;
             vm.AddFilterRequested = null;
+            vm = null;
+            this.DataContext = null;
+     
         }
 
         private void CommitBindings()
@@ -593,6 +603,14 @@ namespace Plugin.BlobAnalysis.WPFArchitecture
                 }
                 UpdateBindingSources(child);
             }
+        }
+
+        public void OnPluginExecutedFromOutside(PluginExecuteCompletedEventArgs e)
+        {
+            if (e == null || PluginParams == null) return;
+            if (!ReferenceEquals(e.Param, PluginParams)) return;
+            AfterRun(PluginParams.m_bRunSuccess, (long)PluginParams.m_fElapsedMs);
+            //throw new NotImplementedException();
         }
     }
 }

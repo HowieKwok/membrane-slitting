@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#385069"/>
+    </marker>
+    <style>
+      .title{font:700 28px 'Microsoft YaHei','Segoe UI',Arial;fill:#102030}
+      .box{fill:#f7fbff;stroke:#4b83bd;stroke-width:2;rx:10;ry:10}
+      .warn{fill:#fff7ed;stroke:#f08a24;stroke-width:2;rx:10;ry:10}
+      .ok{fill:#effaf3;stroke:#35a867;stroke-width:2;rx:10;ry:10}
+      .text{font:16px 'Microsoft YaHei','Segoe UI',Arial;fill:#172331}
+      .small{font:14px 'Microsoft YaHei','Segoe UI',Arial;fill:#425466}
+      .line{stroke:#385069;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect x="0" y="0" width="1280" height="720" fill="#ffffff"/>
+  <text x="40" y="52" class="title">Plugin.DefectCoat 总执行流程</text>
+
+  <rect x="70" y="100" width="210" height="74" class="box"/>
+  <text x="175" y="132" text-anchor="middle" class="text">主界面</text>
+  <text x="175" y="156" text-anchor="middle" class="small">DetectCommand</text>
+
+  <rect x="340" y="100" width="240" height="74" class="box"/>
+  <text x="460" y="132" text-anchor="middle" class="text">ViewModel 同步参数</text>
+  <text x="460" y="156" text-anchor="middle" class="small">ROI / 分区 / 分类开关</text>
+
+  <rect x="640" y="100" width="230" height="74" class="box"/>
+  <text x="755" y="132" text-anchor="middle" class="text">DefectCoatObj</text>
+  <text x="755" y="156" text-anchor="middle" class="small">ExecuteObj()</text>
+
+  <rect x="930" y="100" width="230" height="74" class="box"/>
+  <text x="1045" y="132" text-anchor="middle" class="text">Pipeline.Run</text>
+  <text x="1045" y="156" text-anchor="middle" class="small">构造 DetectRequest</text>
+
+  <path d="M280 137 H340" class="line"/>
+  <path d="M580 137 H640" class="line"/>
+  <path d="M870 137 H930" class="line"/>
+
+  <rect x="930" y="245" width="230" height="74" class="box"/>
+  <text x="1045" y="277" text-anchor="middle" class="text">HALCON 检测</text>
+  <text x="1045" y="301" text-anchor="middle" class="small">阈值 / ROI / 分区</text>
+  <path d="M1045 174 V245" class="line"/>
+
+  <rect x="640" y="245" width="230" height="74" class="warn"/>
+  <text x="755" y="277" text-anchor="middle" class="text">候选总数超限？</text>
+  <text x="755" y="301" text-anchor="middle" class="small">检测阶段判断</text>
+  <path d="M930 282 H870" class="line"/>
+
+  <rect x="340" y="220" width="240" height="74" class="warn"/>
+  <text x="460" y="252" text-anchor="middle" class="text">超限合并输出</text>
+  <text x="460" y="276" text-anchor="middle" class="small">OverflowRegion / 涂布不良</text>
+
+  <rect x="340" y="330" width="240" height="74" class="box"/>
+  <text x="460" y="362" text-anchor="middle" class="text">未超限进入分类</text>
+  <text x="460" y="386" text-anchor="middle" class="small">Classify(...)</text>
+
+  <path d="M640 268 H580" class="line"/>
+  <text x="610" y="258" class="small">是</text>
+  <path d="M640 296 C610 330 610 367 580 367" class="line"/>
+  <text x="610" y="348" class="small">否</text>
+
+  <rect x="70" y="330" width="210" height="74" class="box"/>
+  <text x="175" y="362" text-anchor="middle" class="text">特征值分类</text>
+  <text x="175" y="386" text-anchor="middle" class="small">按规则按需取特征</text>
+  <path d="M340 367 H280" class="line"/>
+
+  <rect x="70" y="460" width="210" height="74" class="box"/>
+  <text x="175" y="492" text-anchor="middle" class="text">传统分类器分类</text>
+  <text x="175" y="516" text-anchor="middle" class="small">输入候选 CropImage</text>
+  <path d="M175 404 V460" class="line"/>
+
+  <rect x="340" y="460" width="240" height="74" class="box"/>
+  <text x="460" y="492" text-anchor="middle" class="text">AI 整图分类</text>
+  <text x="460" y="516" text-anchor="middle" class="small">输入原始 ho_Image</text>
+  <path d="M280 497 H340" class="line"/>
+
+  <rect x="640" y="460" width="230" height="74" class="ok"/>
+  <text x="755" y="492" text-anchor="middle" class="text">ApplyOutputsToParams</text>
+  <text x="755" y="516" text-anchor="middle" class="small">回写 Region / 结果 / 耗时</text>
+  <path d="M580 497 H640" class="line"/>
+  <path d="M460 294 V430 C460 450 610 450 640 477" class="line"/>
+
+  <rect x="930" y="460" width="230" height="74" class="ok"/>
+  <text x="1045" y="492" text-anchor="middle" class="text">主界面刷新</text>
+  <text x="1045" y="516" text-anchor="middle" class="small">图像 / Region / 结果表</text>
+  <path d="M870 497 H930" class="line"/>
+</svg>

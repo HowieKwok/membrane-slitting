@@ -281,7 +281,7 @@ namespace EHolly
 
                 return;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                
                 return;
@@ -578,7 +578,7 @@ namespace EHolly
                 return outputRegion;
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //取得当前方法类全名 包括命名空间    
                 var str = string.Format("类{0}  中的  {1}方法错误：", System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.FullName,
@@ -632,7 +632,7 @@ namespace EHolly
 
                 return outputLine;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //取得当前方法类全名 包括命名空间    
                 var str = string.Format("类{0}  中的  {1}方法错误：", System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.FullName,
@@ -724,7 +724,7 @@ namespace EHolly
 
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //取得当前方法类全名 包括命名空间    
                 var str = string.Format("类{0}  中的  {1}方法错误：", System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.FullName,
@@ -774,7 +774,7 @@ namespace EHolly
                 }
                 return IsOverlapping;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 //取得当前方法类全名 包括命名空间    

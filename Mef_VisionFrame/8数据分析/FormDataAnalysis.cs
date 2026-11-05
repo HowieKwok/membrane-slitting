@@ -28,7 +28,6 @@ namespace Mef_VisionFrame
         private string Stype = string.Empty; //原图或者截图。
         private List<string> List_camName = new List<string>(); //相机名 ；N个相机
         private List<int> List_Frame = new List<int>();         //帧号 ；N个相机帧号 
-        private int screenFrame;                                //屏幕截图帧号
         private event Action FormCloseCountEvent;
 
 
@@ -112,17 +111,6 @@ namespace Mef_VisionFrame
 
                     CurrentPath = Imagepath;
                 }
-            }
-            return CurrentPath;
-            //加载屏幕截图
-            string ScreenPath = Path.Combine(path, "ScreenShot");
-            string ScreenImagepath = SearchFile(ScreenPath, screenFrame);
-            list_ImagePath.Add(ScreenImagepath);
-            if (!string.IsNullOrEmpty(ScreenImagepath))
-            {
-                HImage hImage = new HImage(ScreenImagepath);
-                DisplayImage(hImage, HWC_ImageScreen);
-                CurrentPath = ScreenImagepath;
             }
             return CurrentPath;
         }

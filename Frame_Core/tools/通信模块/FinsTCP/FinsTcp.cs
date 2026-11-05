@@ -134,7 +134,7 @@ namespace Frame_Core
                         connected = true;
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
 
                     connected = false;
@@ -159,7 +159,7 @@ namespace Frame_Core
                 }
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
 
@@ -955,8 +955,8 @@ namespace Frame_Core
                 }
                 catch (Exception ex)
                 {
+                    Log4netRecord.ErrorLog.Debug(ex);
                     return iSendSuc;
-                     Log4netRecord.ErrorLog.Debug(ex);
                 }
                 Thread.Sleep(2);
 

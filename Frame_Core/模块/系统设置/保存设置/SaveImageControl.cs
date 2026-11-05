@@ -21,11 +21,11 @@ namespace Frame_Core
         ///// <param name="cameraEnum"></param>
         ///// <param name="CamImage"></param>
         ///// <param name="savePath"></param>
-        //public void WritePrimitiveImage(CameraManager cameraManager, HObject CamImage, string saveDirectoryPath, string saveFileName)
+        //public void WritePrimitiveImage(CameraManager M_CameraRelevancies, HObject CamImage, string saveDirectoryPath, string saveFileName)
         //{
         //    try
         //    {
-        //        ImageSaveParamer imageSaveParamer = cameraManager.m_ImageSaveParamer;
+        //        ImageSaveParamer imageSaveParamer = M_CameraRelevancies.m_ImageSaveParamer;
 
         //        if (!Directory.Exists(saveDirectoryPath))
         //            Directory.CreateDirectory(saveDirectoryPath);
@@ -49,7 +49,7 @@ namespace Frame_Core
         //    }
         //    catch (Exception ex)
         //    {
-        //         Log4netRecord.ErrorLog.Debug(ex + $"{cameraManager.m_CamParam.CameraName}");
+        //         Log4netRecord.ErrorLog.Debug(ex + $"{M_CameraRelevancies.m_CamParam.CameraName}");
         //    }
         //    finally
         //    {
@@ -60,11 +60,11 @@ namespace Frame_Core
         ///// <summary>
         ///// 保存产品图
         ///// </summary>
-        //public void WriteProductImage(CameraManager cameraManager, HObject CamImage, bool imageResult, string saveDirectoryPath, string saveFileName)
+        //public void WriteProductImage(CameraManager M_CameraRelevancies, HObject CamImage, bool imageResult, string saveDirectoryPath, string saveFileName)
         //{
         //    try
         //    {
-        //        ImageSaveParamer imageSaveParamer = cameraManager.m_ImageSaveParamer;
+        //        ImageSaveParamer imageSaveParamer = M_CameraRelevancies.m_ImageSaveParamer;
 
         //        if (!Directory.Exists(saveDirectoryPath))
         //            Directory.CreateDirectory(saveDirectoryPath);
@@ -120,7 +120,7 @@ namespace Frame_Core
         //    }
         //    catch (Exception ex)
         //    {
-        //         Log4netRecord.ErrorLog.Debug(ex + $"{cameraManager.m_CamParam.CameraName}");
+        //         Log4netRecord.ErrorLog.Debug(ex + $"{M_CameraRelevancies.m_CamParam.CameraName}");
         //    }
         //    finally
         //    {
@@ -131,17 +131,17 @@ namespace Frame_Core
         /////// <summary>
         /////// 保存NG产品截图
         /////// </summary>
-        /////// <param name="cameraManager"></param>
+        /////// <param name="M_CameraRelevancies"></param>
         /////// <param name="HalconWinHandle"></param>
         /////// <param name="imageResult"></param>
         /////// <param name="savePath"></param>
-        ////public void WriteNGProductScreenshot(CameraManager cameraManager, HWindow HalconWinHandle, string saveDirectoryPath, string saveFileName)
+        ////public void WriteNGProductScreenshot(CameraManager M_CameraRelevancies, HWindow HalconWinHandle, string saveDirectoryPath, string saveFileName)
         ////{
         ////    HObject Copy_Win_Image;
         ////    HOperatorSet.GenEmptyObj(out Copy_Win_Image);
         ////    try
         ////    {
-        ////        ImageSaveParamer imageSaveParamer = cameraManager.m_ImageSaveParamer;
+        ////        ImageSaveParamer imageSaveParamer = M_CameraRelevancies.m_ImageSaveParamer;
 
         ////        if (!Directory.Exists(saveDirectoryPath))
         ////            Directory.CreateDirectory(saveDirectoryPath);
@@ -153,7 +153,7 @@ namespace Frame_Core
         ////    }
         ////    catch (Exception ex)
         ////    {
-        ////         Log4netRecord.ErrorLog.Debug(ex + $"{cameraManager.m_CamParam.CameraName}");
+        ////         Log4netRecord.ErrorLog.Debug(ex + $"{M_CameraRelevancies.m_CamParam.CameraName}");
         ////    }
         ////    finally
         ////    {
@@ -164,16 +164,16 @@ namespace Frame_Core
         /////// <summary>
         /////// 保存NG截图
         /////// </summary>
-        /////// <param name="cameraManager"></param>
+        /////// <param name="M_CameraRelevancies"></param>
         /////// <param name="CamImage"></param>
         /////// <param name="saveDirectoryPath"></param>
         /////// <param name="saveFileName"></param>
-        ////public void WriteNGCropImage(CameraManager cameraManager, HObject CamImage, string saveDirectoryPath, string saveFileName)
+        ////public void WriteNGCropImage(CameraManager M_CameraRelevancies, HObject CamImage, string saveDirectoryPath, string saveFileName)
         ////{
          
         ////    try
         ////    {
-        ////        ImageSaveParamer imageSaveParamer = cameraManager.m_ImageSaveParamer;
+        ////        ImageSaveParamer imageSaveParamer = M_CameraRelevancies.m_ImageSaveParamer;
 
         ////        if (!Directory.Exists(saveDirectoryPath))
         ////            Directory.CreateDirectory(saveDirectoryPath);
@@ -182,7 +182,7 @@ namespace Frame_Core
         ////    }
         ////    catch (Exception ex)
         ////    {
-        ////        Log4netRecord.ErrorLog.Debug(ex + $"{cameraManager.m_CamParam.CameraName}");
+        ////        Log4netRecord.ErrorLog.Debug(ex + $"{M_CameraRelevancies.m_CamParam.CameraName}");
         ////    }
         ////    finally
         ////    {
@@ -193,14 +193,14 @@ namespace Frame_Core
         ///// <summary>
         ///// 保存NG小图
         ///// </summary>
-        ///// <param name="cameraManager"></param>
+        ///// <param name="M_CameraRelevancies"></param>
         ///// <param name="ngCropImageInfo"></param>
         ///// <param name="savePath"></param>
-        //public void WriteNGSmallImage(CameraManager cameraManager, HObject ngImage, string saveDirectoryPath, string saveFileName)
+        //public void WriteNGSmallImage(CameraManager M_CameraRelevancies, HObject ngImage, string saveDirectoryPath, string saveFileName)
         //{
         //    try
         //    {
-        //        ImageSaveParamer imageSaveParamer = cameraManager.m_ImageSaveParamer;
+        //        ImageSaveParamer imageSaveParamer = M_CameraRelevancies.m_ImageSaveParamer;
 
         //        if (!Directory.Exists(saveDirectoryPath))
         //            Directory.CreateDirectory(saveDirectoryPath);
@@ -217,7 +217,7 @@ namespace Frame_Core
         //    }
         //    catch (Exception ex)
         //    {
-        //         Log4netRecord.ErrorLog.Debug(ex + $"{cameraManager.m_CamParam.CameraName}");
+        //         Log4netRecord.ErrorLog.Debug(ex + $"{M_CameraRelevancies.m_CamParam.CameraName}");
         //    }
         //    finally
         //    {

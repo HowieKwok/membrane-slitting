@@ -65,7 +65,20 @@ namespace Frame_Core
 
 
         }
+        public static void Add(DynamicDataPanel dataPanelViewModel, string[] Titles, List<List<RowData>> strs, bool isBeginInvoke = false)
+        {
+            if (dataPanelViewModel == null) return;
 
+            if ((null == strs) || (strs.Count <= 0))
+            {
+                return;
+            }
+            for (int i = 0; i < strs.Count; i++)
+            {
+                Add(dataPanelViewModel, Titles, strs[i].ToArray(), isBeginInvoke);
+            }
+
+        }
         public static void Add(DynamicDataPanel dataPanelViewModel, string[] Titles, RowData[] strs, bool isBeginInvoke = false)
         {
             if (dataPanelViewModel == null) return;
@@ -88,7 +101,7 @@ namespace Frame_Core
                
                 if (strs[i].resultType == ResultType.OK&& strs[i].mode==0)
                 {
-                    data.SetColor(Titles[i], Color.Green);
+                    data.SetColor(Titles[i], Color.White);
                 }
                 else if (strs[i].resultType == ResultType.Warn)
                 {

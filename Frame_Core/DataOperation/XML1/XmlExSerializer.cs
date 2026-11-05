@@ -34,7 +34,7 @@ namespace Frame_Core
                 //将对象序列化并写入到指定的XML文档中
                 serialize.Serialize(writer, obj);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 
             }

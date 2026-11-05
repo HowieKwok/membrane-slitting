@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B7A4A6A0-7A18-4D1A-92B9-7C3F3F5DBE01}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Plugin.TemplateMatch</RootNamespace>
+    <AssemblyName>Plugin.TemplateMatch</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Mef_VisionFrame\bin\Debug\Plugins\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Mef_VisionFrame\bin\Release\Plugins\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CommunityToolkit.Mvvm, Version=8.1.0.0, Culture=neutral, PublicKeyToken=4aff67a105548ee2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Frame_Core\ChartDLL\CommunityToolkit.Mvvm.dll</HintPath>
+    </Reference>
+    <Reference Include="halcondotnetxl">
+      <HintPath>..\DLL\HalconDLL\halcondotnetxl.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FrameCommunity\FrameCommunity.csproj">
+      <Project>{2e0bc248-e72a-4833-a851-20069a232648}</Project>
+      <Name>FrameCommunity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Frame_Core\Frame_Core.csproj">
+      <Project>{01127398-2cc7-4124-b966-fbff69a7a0e5}</Project>
+      <Name>Frame_Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogTool\LogTool.csproj">
+      <Project>{EE6D8F10-4CB8-4312-8847-5D7568BE4FA0}</Project>
+      <Name>LogTool</Name>
+    </ProjectReference>
+    <Compile Include="Plugin.TemplateMatch.cs" />
+    <Compile Include="Core\HalconObjectGuard.cs" />
+    <Compile Include="Core\Matching\AngleMath.cs" />
+    <Compile Include="Core\Matching\ITemplateMatcher.cs" />
+    <Compile Include="Core\Matching\ShapeTemplateMatcher.cs" />
+    <Compile Include="Core\Matching\GrayNccTemplateMatcher.cs" />
+    <Compile Include="Core\Matching\TemplateMatcherFactory.cs" />
+    <Compile Include="Core\TemplateMatchEngine.cs" />
+    <Compile Include="Core\TemplateCreateParameterAdvisor.cs" />
+    <Compile Include="Core\TemplateMatchParamsMapper.cs" />
+    <Compile Include="Core\TemplateMatchResult.cs" />
+    <Compile Include="Core\TemplateMatchRuntimeParams.cs" />
+    <Compile Include="Core\TemplateStorageService.cs" />
+    <Compile Include="Controls\MatchModeTextConverter.cs" />
+    <Compile Include="Controls\RoiShapeTypeTextConverter.cs" />
+    <Compile Include="Controls\NumericBox.cs" />
+    <Compile Include="Services\HalconViewRoiAdapter.cs" />
+    <Compile Include="ViewROI\GraphicsContext.cs" />
+    <Compile Include="ViewROI\HObjectEntry.cs" />
+    <Compile Include="ViewROI\HWndCtrl.cs" />
+    <Compile Include="ViewROI\ROI.cs" />
+    <Compile Include="ViewROI\ROICircle.cs" />
+    <Compile Include="ViewROI\ROICircularArc.cs" />
+    <Compile Include="ViewROI\ROIController.cs" />
+    <Compile Include="ViewROI\ROILine.cs" />
+    <Compile Include="ViewROI\ROIRectangle1.cs" />
+    <Compile Include="ViewROI\ROIRectangle2.cs" />
+    <Compile Include="ViewModels\BindableBase.cs" />
+    <Compile Include="ViewModels\TemplateCreateParameterDialogVm.cs" />
+    <Compile Include="ViewModels\TemplateModelItemVm.cs" />
+    <Compile Include="ViewModels\TemplateMatchViewModel.cs" />
+    <Compile Include="WPF架构\TemplateCreateParameterDialog.cs" />
+    <Compile Include="WPF架构\TemplateMatchUser.xaml.cs">
+      <DependentUpon>TemplateMatchUser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="WPF架构\TemplateMatchUser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

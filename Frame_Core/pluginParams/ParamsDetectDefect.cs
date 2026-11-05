@@ -207,7 +207,7 @@ namespace Frame_Core
         /// </summary>
         [ShowTextAttribute("模板region路径")]
         [Description("模板region路径")]
-        public string m_strModelGroupPath = "E:\\";
+        public string m_strModelGroupPath = AppDomain.CurrentDomain.BaseDirectory;
 
 
         /// <summary>

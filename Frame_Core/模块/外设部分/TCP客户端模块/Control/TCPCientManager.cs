@@ -19,16 +19,16 @@ namespace Frame_Core
         /// <summary>
         /// 读取信息路径
         /// </summary>
-        public string ReadLogPath = $"E:\\检测数据\\NewProduct\\打标机软件日志记录-接收.ini";
+        public string ReadLogPath = $"{AppDomain.CurrentDomain.BaseDirectory}检测数据\\NewProduct\\打标机软件日志记录-接收.ini";
 
         /// <summary>
         /// 发送信息路径
         /// </summary>
-        public string SendLogPath = $"E:\\检测数据\\NewProduct\\打标机软件日志记录-发送.ini";
+        public string SendLogPath = $"{AppDomain.CurrentDomain.BaseDirectory}检测数据\\NewProduct\\打标机软件日志记录-发送.ini";
         /// <summary>
         /// 发送心跳路径
         /// </summary>
-        public string SendHeartPath = $"E:\\检测数据\\NewProduct\\打标机软件日志记录-心跳.ini";
+        public string SendHeartPath = $"{AppDomain.CurrentDomain.BaseDirectory}检测数据\\NewProduct\\打标机软件日志记录-心跳.ini";
 
         public FinsTcp FinsTCP = new FinsTcp();              //调用FinsTcp协议的类
         public TCP TCPIP = new TCP();               //调用TCPClient里面现有的方法（TCP/IP)通讯     
@@ -59,7 +59,6 @@ namespace Frame_Core
         {
             if (!tcpClientParam.IsConnect) return false;
 
-            bool T = false;
             try
             {
                 if (initState) Close();

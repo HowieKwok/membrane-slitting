@@ -16,6 +16,7 @@ using NPOI.SS.Formula.Functions;
 using NPOI.OpenXmlFormats.Spreadsheet;
 using NPOI.OpenXmlFormats.Vml;
 using System.Windows.Shapes;
+using FrameCommunity;
 
 namespace Frame_Core
 {
@@ -36,13 +37,13 @@ namespace Frame_Core
 
         public Param_MsaCircle Param_MsaCircle;
 
-        Dictionary<CameraEnum, CameraManager> cameraManager;
+     
 
-        public Form_MsaCircle(Dictionary<CameraEnum, CameraManager> _cameraManager)
+        public Form_MsaCircle()
         {
             InitializeComponent();
 
-            cameraManager = _cameraManager;
+        
 
             displayWindow = new DisplayWindowClass(HWC_Display, TB_PositionAndGray, FullScrean, "Form_MsaCircle");
             currentShowHalconWindow.m_messageShowInfos = new List<MessageShowInfo>();
@@ -55,10 +56,7 @@ namespace Frame_Core
         private void Form_MsaCircle_Load(object sender, EventArgs e)
         {
             intCobCam.Items.Clear();
-            foreach (var item in cameraManager)
-            {
-                intCobCam.Items.Add(item.Value.m_CamParam.CameraName.ToString());
-            }
+            intCobCam.Items.AddRange(Service_Camera.GetCam_Names());
             intCobCam.SelectedIndex = 0;
             linkLabel1.Text = Project.Instance.paramPathSet.ProductMojuanPath;
         }
@@ -374,7 +372,7 @@ namespace Frame_Core
             try
             {
 
-                Param_MsaCircle = cameraManager[(CameraEnum)intCobCam.SelectedIndex].param_MsaCircle;
+                Param_MsaCircle =Service_Camera.Get_CameraRelevancy(intCobCam.SelectedIndex).param_MsaCircle;
                 //Param_MsaCircle.backup(Param_MsaCircle);
                 YControlAutobind.Loading<Param_MsaCircle, IYCustomAttribute>(this, Param_MsaCircle);//测试存修改记录
                 if (Param_MsaCircle.pointYRotateInfos == null) Param_MsaCircle.pointYRotateInfos = new List<PointRotateInfo>();
@@ -433,7 +431,7 @@ namespace Frame_Core
                     MessageBox.Show(ex.ToString());
                 }
             }
-            catch (Exception ee)
+            catch (Exception)
             {
 
                //throw;
@@ -533,7 +531,7 @@ namespace Frame_Core
                     MessageBox.Show(ex.ToString());
                 }
             }
-            catch (Exception ee)
+            catch (Exception)
             {
 
                // throw;

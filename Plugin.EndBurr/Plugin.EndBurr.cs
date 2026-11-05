@@ -33,6 +33,7 @@ namespace Plugin.EndBurr
         /// </summary>
         private double AreaCali = 0.003;
 
+        public event EventHandler<PluginExecuteCompletedEventArgs> ExecuteCompleted;
 
         public bool ExecuteObj()
         {
@@ -112,7 +113,7 @@ namespace Plugin.EndBurr
 
                 EarBurrParams.bl_ModelRunFlag = true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 EarBurrParams.bl_ModelRunFlag = false;
             }

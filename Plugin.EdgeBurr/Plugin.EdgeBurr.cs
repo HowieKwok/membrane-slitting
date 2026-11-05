@@ -25,6 +25,8 @@ namespace Plugin.EdgeBurr
         public string grooveName;
         public bool isExistModel = false;
 
+        public event EventHandler<PluginExecuteCompletedEventArgs> ExecuteCompleted;
+
         public bool ExecuteObj()
         {
             EdgeBurrParams = PluginParams as ParamsEdgeBurr; //里氏转换
@@ -129,7 +131,7 @@ namespace Plugin.EdgeBurr
 
                 EdgeBurrParams.bl_ModelRunFlag = true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
                 EdgeBurrParams.bl_ModelRunFlag = false;

@@ -74,7 +74,7 @@ namespace ViewROI
         public bool resetflag = true;
 
         /// <summary>HALCON window</summary>
-        private HWindowControl viewPort;
+        public HWindowControl viewPort;
 
         /// <summary>
         /// Instance of ROIController, which manages ROI interaction
@@ -537,6 +537,64 @@ namespace ViewROI
         /*                      GRAPHICSSTACK                               */
         /********************************************************************/
 
+        ///// <summary>
+        /////将一个图形对象添加到图形堆栈中，类似于为HDevelop图形堆栈定义它的方式。
+        ///// </summary>
+        ///// <param name="obj">Iconic object</param>
+        //public void addIconicVar(HObject obj)
+        //{
+        //    HObjectEntry entry;
+
+        //    if (obj == null)
+        //        return;
+
+        //    if (obj is HImage)
+        //    {
+        //        double win_Width, win_Height;
+        //        string s;
+        //        win_Width = viewPort.WindowSize.Width;
+        //        win_Height = viewPort.WindowSize.Height;
+        //        ((HImage)obj).GetImagePointer1(out s, out imageWidth, out imageHeight);
+        //        //HOperatorSet.GetImageSize(obj, out HTuple _imageWidth, out HTuple _imageHeight);
+        //        //imageWidth=_imageWidth.I; imageHeight=_imageHeight.I;
+        //        double imgAspectRatio = Convert.ToDouble(imageWidth) / Convert.ToDouble(imageHeight);
+        //        double winAspectRatio = Convert.ToDouble(win_Width) / Convert.ToDouble(win_Height);
+
+        //        try
+        //        {
+        //            hv_StartX = hv_StartY = hv_EndX = hv_EndY = 0;
+
+        //            if (imgAspectRatio > winAspectRatio)
+        //            {
+        //                //超宽图像
+        //                hv_StartY = 0;
+        //                zoomWndFactor = imageWidth / win_Width;
+        //                hv_StartX = -(win_Height - imageHeight / zoomWndFactor) / 2 * zoomWndFactor;
+        //            }
+        //            if (imgAspectRatio <= winAspectRatio)
+        //            {
+        //                //超高图像                
+        //                hv_StartX = 0;
+        //                zoomWndFactor = imageHeight / win_Height;
+        //                hv_StartY = -(win_Width - imageWidth / zoomWndFactor) / 2 * zoomWndFactor;
+        //            }
+        //            hv_EndX = imageHeight - hv_StartX * 2;
+        //            hv_EndY = imageWidth - hv_StartY * 2;
+        //            setImagePart((int)hv_StartX, (int)hv_StartY, (int)hv_EndX, (int)hv_EndY);
+
+        //        }
+        //        catch (Exception)
+        //        {
+        //        }
+
+        //    }
+
+        //    entry = new HObjectEntry(obj, mGC.copyContextList());
+
+        //    ho_Image_Changed = ho_Image = entry.HObj;
+
+        //}
+
         /// <summary>
         ///将一个图形对象添加到图形堆栈中，类似于为HDevelop图形堆栈定义它的方式。
         /// </summary>
@@ -548,19 +606,23 @@ namespace ViewROI
             if (obj == null)
                 return;
 
-            if (obj is HImage)
+            if (obj is HObject)
             {
-                double win_Width, win_Height;
-                string s;
-                win_Width = viewPort.WindowSize.Width;
-                win_Height = viewPort.WindowSize.Height;
-                ((HImage)obj).GetImagePointer1(out s, out imageWidth, out imageHeight);
-
-                double imgAspectRatio = Convert.ToDouble(imageWidth) / Convert.ToDouble(imageHeight);
-                double winAspectRatio = Convert.ToDouble(win_Width) / Convert.ToDouble(win_Height);
-
                 try
                 {
+                    double win_Width, win_Height;
+                    string s;
+                    win_Width = viewPort.WindowSize.Width;
+                    win_Height = viewPort.WindowSize.Height;
+                    HTuple W, H;
+                    HOperatorSet.GetImageSize(obj, out W, out H);
+                    imageWidth = Convert.ToInt32(W.D);
+                    imageHeight = Convert.ToInt32(H.D);
+
+
+                    double imgAspectRatio = Convert.ToDouble(imageWidth) / Convert.ToDouble(imageHeight);
+                    double winAspectRatio = Convert.ToDouble(win_Width) / Convert.ToDouble(win_Height);
+
                     hv_StartX = hv_StartY = hv_EndX = hv_EndY = 0;
 
                     if (imgAspectRatio > winAspectRatio)
@@ -593,7 +655,6 @@ namespace ViewROI
             ho_Image_Changed = ho_Image = entry.HObj;
 
         }
-
 
         public string  Get_Mouseposition_and_Gray(HTuple hv_Window, HObject Image, HMouseEventArgs e)
         {

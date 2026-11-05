@@ -26,14 +26,14 @@ namespace Plugin.HandEyeCalibration
         public ModuleInfo moduleInfo { get; set; } = new ModuleInfo();
         public string grooveName;
         public bool isExistModel = false;
-       
 
-      
+  
+
         /// <summary>
         /// 面积标定
         /// </summary>
-        private double AreaCali = 0.003;
 
+        public event EventHandler<PluginExecuteCompletedEventArgs> ExecuteCompleted;
 
         public bool ExecuteObj()
         {
@@ -54,7 +54,7 @@ namespace Plugin.HandEyeCalibration
                 EarBurrParams.outputRobotY = outputRobotY.D;
                 EarBurrParams.bl_ModelRunFlag = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 EarBurrParams.bl_ModelRunFlag = false;
             }
@@ -116,7 +116,7 @@ namespace Plugin.HandEyeCalibration
                     
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }

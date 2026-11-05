@@ -222,7 +222,6 @@ namespace Frame_Core
                     return;
                 }
 
-                string StrDataArray = "";
                 string[] DataArray = new string[1];
 
                 //============================================================================================================

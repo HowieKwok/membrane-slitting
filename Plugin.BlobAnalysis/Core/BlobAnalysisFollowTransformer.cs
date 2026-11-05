@@ -1,4 +1,5 @@
-﻿using Plugin.BlobAnalysis.Models;
+﻿using FrameCommunity.公共类;
+using Plugin.BlobAnalysis.Models;
 using System;
 
 namespace Plugin.BlobAnalysis.Core

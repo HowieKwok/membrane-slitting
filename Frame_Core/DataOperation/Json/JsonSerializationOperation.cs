@@ -33,7 +33,7 @@ namespace Frame_Core
                 fileFullPath = string.Format(filePath + ".json");
                 return JsonSerialization.ObjectToJsonFile(fileFullPath, this);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -61,7 +61,7 @@ namespace Frame_Core
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return result;
             }

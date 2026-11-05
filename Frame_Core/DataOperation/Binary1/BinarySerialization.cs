@@ -41,7 +41,7 @@ namespace Frame_Core
                             binaryFormatter.Serialize(fileStream, sourceObject);
                         }
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         return false;
                     }
@@ -74,7 +74,7 @@ namespace Frame_Core
                             result = binaryFormatter.Deserialize(fileStream);
                         }
                     }
-                    catch(Exception e)
+                    catch(Exception)
                     {
                         return null;
                     }

@@ -204,14 +204,30 @@ namespace Frame_Core
         public double lowerLimitValue = 0;
 
         /// <summary>
+        /// 上公差
+        /// </summary>
+        public double TolUpper = 0;
+        /// <summary>
+        /// 下公差
+        /// </summary>
+        public double TolLower = 0;
+
+        /// <summary>
         /// 结果类型
         /// </summary>
         public ResultType resultType = ResultType.NG;
+
+        public bool IsOverspecification = false;
 
         /// <summary>
         /// 检测结果//true为NG
         /// </summary>
         public bool IsNG = true;
+
+        /// <summary>
+        /// 优先级等级
+        /// </summary>
+        public int Level { get; set; } = 10000;
 
         public AlarmCraftInfo DBInfo = new AlarmCraftInfo();
 

@@ -24,21 +24,21 @@ namespace Frame_Core
         /// <summary>
         /// 读取信息路径
         /// </summary>
-        public string ReadLogPath = $"E:\\检测数据\\NewProduct\\主设备PLC日志记录-接收.ini";
+        public string ReadLogPath = $"{AppDomain.CurrentDomain.BaseDirectory}检测数据\\NewProduct\\主设备PLC日志记录-接收.ini";
 
         /// <summary>
         /// 发送信息路径
         /// </summary>
-        public string SendLogPath = $"E:\\检测数据\\NewProduct\\主设备PLC日志记录-发送.ini";
+        public string SendLogPath = $"{AppDomain.CurrentDomain.BaseDirectory}检测数据\\NewProduct\\主设备PLC日志记录-发送.ini";
         /// <summary>
         /// 发送心跳路径工控机1
         /// </summary>
-        public string SendHeartPath1 = $"E:\\检测数据\\NewProduct\\主设备PLC日志记录-心跳1.ini";
+        public string SendHeartPath1 = $"{AppDomain.CurrentDomain.BaseDirectory}检测数据\\NewProduct\\主设备PLC日志记录-心跳1.ini";
 
         /// <summary>
         /// 发送纠偏数据路径
         /// </summary>
-        public string SendCorrevtDataPath = $"E:\\检测数据\\NewProduct\\主设备PLC日志记录-纠偏.ini";
+        public string SendCorrevtDataPath = $"{AppDomain.CurrentDomain.BaseDirectory}检测数据\\NewProduct\\主设备PLC日志记录-纠偏.ini";
 
         public CorrectTool correctTool = new CorrectTool();
         #region 参数

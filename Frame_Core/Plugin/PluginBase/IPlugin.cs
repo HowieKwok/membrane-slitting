@@ -8,9 +8,40 @@ using System.Threading.Tasks;
 
 namespace Frame_Core
 {
-    
+    /// <summary>
+    /// 插件执行完成事件参数。
+    /// 
+    /// 说明：
+    /// 1. Param 指向执行结束后的参数对象。
+    /// 2. Success 表示本次 ExecuteObj() 是否成功。
+    /// 3. Message 是执行后写回的运行信息。
+    /// 4. ElapsedMs 是执行耗时。
+    /// </summary>
+    public sealed class PluginExecuteCompletedEventArgs : EventArgs
+    {
+        
+
+        public PluginExecuteCompletedEventArgs(PluginParamsBase param, bool success, string message, long elapsedMs)
+        {
+            Param = param;
+            Success = success;
+            Message = message ?? string.Empty;
+            ElapsedMs = elapsedMs;
+        }
+
+        public PluginParamsBase Param { get; private set; }
+        public bool Success { get; private set; }
+        public string Message { get; private set; }
+        public long ElapsedMs { get; private set; }
+    }
+
+
+
+
     public interface IPlugin
     {
+        event EventHandler<PluginExecuteCompletedEventArgs> ExecuteCompleted;
+
         /// <summary> 模块信息参数 </summary>
         ModuleInfo moduleInfo { get; set; }        
         PluginParamsBase PluginParams { get; set; }

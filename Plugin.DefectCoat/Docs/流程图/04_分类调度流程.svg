@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="820" viewBox="0 0 1320 820">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#385069"/>
+    </marker>
+    <style>
+      .title{font:700 28px 'Microsoft YaHei','Segoe UI',Arial;fill:#102030}
+      .box{fill:#f7fbff;stroke:#4b83bd;stroke-width:2;rx:10;ry:10}
+      .rule{fill:#f4f7ff;stroke:#6f7edb;stroke-width:2;rx:10;ry:10}
+      .warn{fill:#fff7ed;stroke:#f08a24;stroke-width:2;rx:10;ry:10}
+      .ok{fill:#effaf3;stroke:#35a867;stroke-width:2;rx:10;ry:10}
+      .text{font:16px 'Microsoft YaHei','Segoe UI',Arial;fill:#172331}
+      .small{font:14px 'Microsoft YaHei','Segoe UI',Arial;fill:#425466}
+      .line{stroke:#385069;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1320" height="820" fill="#ffffff"/>
+  <text x="40" y="52" class="title">分类调度流程</text>
+
+  <rect x="70" y="90" width="230" height="72" class="box"/>
+  <text x="185" y="122" text-anchor="middle" class="text">检测候选列表</text>
+  <text x="185" y="146" text-anchor="middle" class="small">Candidates</text>
+
+  <rect x="380" y="90" width="250" height="72" class="rule"/>
+  <text x="505" y="122" text-anchor="middle" class="text">特征值分类</text>
+  <text x="505" y="146" text-anchor="middle" class="small">按 NgTypes 优先级</text>
+  <path d="M300 126 H380" class="line"/>
+
+  <rect x="710" y="70" width="250" height="112" class="rule"/>
+  <text x="835" y="104" text-anchor="middle" class="text">按需计算特征</text>
+  <text x="835" y="128" text-anchor="middle" class="small">只计算规则需要的 Feature</text>
+  <text x="835" y="152" text-anchor="middle" class="small">命中后再判断尺寸条件</text>
+  <path d="M630 126 H710" class="line"/>
+
+  <rect x="1040" y="90" width="230" height="72" class="ok"/>
+  <text x="1155" y="122" text-anchor="middle" class="text">命中特征规则</text>
+  <text x="1155" y="146" text-anchor="middle" class="small">输出当前类别</text>
+  <path d="M960 126 H1040" class="line"/>
+
+  <rect x="710" y="250" width="250" height="92" class="box"/>
+  <text x="835" y="282" text-anchor="middle" class="text">未命中特征规则</text>
+  <text x="835" y="306" text-anchor="middle" class="small">进入 unresolved</text>
+  <text x="835" y="330" text-anchor="middle" class="small">交给后续分类方式</text>
+  <path d="M835 182 V250" class="line"/>
+
+  <rect x="380" y="250" width="250" height="92" class="box"/>
+  <text x="505" y="282" text-anchor="middle" class="text">传统分类器分类</text>
+  <text x="505" y="306" text-anchor="middle" class="small">EnableModelClassify</text>
+  <text x="505" y="330" text-anchor="middle" class="small">输入：候选 CropImage</text>
+  <path d="M710 296 H630" class="line"/>
+
+  <rect x="70" y="250" width="230" height="92" class="warn"/>
+  <text x="185" y="282" text-anchor="middle" class="text">模型数量管控</text>
+  <text x="185" y="306" text-anchor="middle" class="small">硬上限 / 进入数量限制</text>
+  <text x="185" y="330" text-anchor="middle" class="small">仍由 Pipeline 调度</text>
+  <path d="M380 296 H300" class="line"/>
+
+  <rect x="70" y="440" width="230" height="92" class="ok"/>
+  <text x="185" y="472" text-anchor="middle" class="text">模型命中</text>
+  <text x="185" y="496" text-anchor="middle" class="small">输出模型类别</text>
+  <text x="185" y="520" text-anchor="middle" class="small">未命中继续 unresolved</text>
+  <path d="M185 342 V440" class="line"/>
+
+  <rect x="380" y="440" width="250" height="92" class="box"/>
+  <text x="505" y="472" text-anchor="middle" class="text">AI 整图分类</text>
+  <text x="505" y="496" text-anchor="middle" class="small">EnableAiClassify</text>
+  <text x="505" y="520" text-anchor="middle" class="small">输入：原始 ho_Image</text>
+  <path d="M300 486 H380" class="line"/>
+
+  <rect x="710" y="440" width="250" height="92" class="ok"/>
+  <text x="835" y="472" text-anchor="middle" class="text">AI 命中</text>
+  <text x="835" y="496" text-anchor="middle" class="small">输出 AI 类别</text>
+  <text x="835" y="520" text-anchor="middle" class="small">当前为占位实现</text>
+  <path d="M630 486 H710" class="line"/>
+
+  <rect x="1040" y="440" width="230" height="92" class="warn"/>
+  <text x="1155" y="472" text-anchor="middle" class="text">仍未命中</text>
+  <text x="1155" y="496" text-anchor="middle" class="small">ClassName=未分类</text>
+  <text x="1155" y="520" text-anchor="middle" class="small">Region 显示绿色</text>
+  <path d="M960 486 H1040" class="line"/>
+
+  <text x="70" y="660" class="text">调用顺序：</text>
+  <text x="160" y="660" class="small">特征值分类 -> 传统分类器分类 -> AI 整图分类 -> 未分类</text>
+  <text x="70" y="696" class="text">注意：</text>
+  <text x="130" y="696" class="small">特征值分类的候选总数硬上限已经前移到检测阶段；这里主要处理进入分类数量限制和分类调度。</text>
+</svg>

@@ -96,7 +96,7 @@ namespace Frame_Core
                     //登录成功更改界面显示事件
                     OnLoginChange(userType);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     return UserCtrlStatus.OtherError;
 

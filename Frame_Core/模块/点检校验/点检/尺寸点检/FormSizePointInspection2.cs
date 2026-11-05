@@ -1,5 +1,4 @@
-﻿using Basler.Pylon;
-
+﻿
 using Frame_Cor;
 
 using HalconDotNet;
@@ -80,7 +79,6 @@ namespace Frame_Core
         public void GetRoiParams(ROIRectangle2 roiRectangle2, out int RoiPointsNum, out double RoiMidRow, out double RoiMidColumn, out double RoiAngle, out double RoiLength1, out double RoiLength2)
         {
             roiRectangle2.ROIName = "";
-            HTuple hv_Phi;
             HTuple hv_Angle;
             double d_Angle;
             double w;
@@ -154,15 +152,15 @@ namespace Frame_Core
 
 
         CameraEnum currentCamera = CameraEnum.Cam1;
-        CameraManager currentCameraManager;
+        CameraRelevancy currentCameraManager;
         SizePointInspectionParam CurrentSizePointInspectionParam;
         Param_Line CurrentLineParam = null;
 
-        public FormSizePointInspection2(CameraEnum camera, CameraManager _cameraManager)
+        public FormSizePointInspection2(CameraEnum camera, CameraRelevancy _M_CameraRelevancies)
         {
             InitializeComponent();
             currentCamera = camera;
-            currentCameraManager = _cameraManager;
+            currentCameraManager = _M_CameraRelevancies;
             CurrentSizePointInspectionParam = currentCameraManager.m_SizePointInspectionManage.sizePointInspectionParam;
         }
 
@@ -665,7 +663,7 @@ namespace Frame_Core
             {
                 System.Diagnostics.Process.Start(Project.Instance.paramPathSet.pointCheckRootPath);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }

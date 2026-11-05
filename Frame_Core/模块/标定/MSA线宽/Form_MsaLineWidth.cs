@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using NPOI.SS.Formula.Functions;
 using NPOI.OpenXmlFormats.Vml;
 using LogTool;
+using FrameCommunity;
 
 namespace Frame_Core
 {
@@ -40,14 +41,14 @@ namespace Frame_Core
 
         public Param_MsaLineWidth Param_MsaLineWidth;
 
-        Dictionary<CameraEnum, CameraManager> cameraManager;
+    
 
         FittingLine2 fittingLine = new FittingLine2();
 
-        public Form_MsaLineWidth(Dictionary<CameraEnum, CameraManager> _cameraManager)
+        public Form_MsaLineWidth()
         {
             InitializeComponent();
-            cameraManager = _cameraManager;
+        
             displayWindow = new DisplayWindowClass(HWC_Display, TB_PositionAndGray, FullScrean, "Form_MsaCircle");
          
             displayWindow.m_hWndCtrl_Display_Cam.ImageProcessingEvent += new HWndCtrl.ImageProcessingDelegate(RunFunction);   //更改测量矩形，执行测量方法
@@ -183,7 +184,7 @@ namespace Frame_Core
 
               
             }
-            catch ( Exception eE)
+            catch ( Exception)
             {
 
             }
@@ -241,7 +242,7 @@ namespace Frame_Core
                     }
                 }
             }
-            catch (Exception ee)
+            catch (Exception)
             {
 
             }
@@ -294,10 +295,7 @@ namespace Frame_Core
             
 
             intCobCam.Items.Clear();
-            foreach (var item in cameraManager)
-            {
-                intCobCam.Items.Add(item.Value.m_CamParam.CameraName.ToString());
-            }
+            intCobCam.Items.AddRange(Service_Camera.GetCam_Names());
 
             intCobCam.SelectedIndex = 0;
             iCobInputXorY.Items.Clear();
@@ -336,13 +334,13 @@ namespace Frame_Core
         {
             try
             {
-                Param_MsaLineWidth = cameraManager[(CameraEnum)intCobCam.SelectedIndex].param_MsaLineWidth;
+                Param_MsaLineWidth =Service_Camera.Get_CameraRelevancy(intCobCam.SelectedIndex).param_MsaLineWidth;
                 YControlAutobind.Loading<Param_MsaLineWidth, IYCustomAttribute>(this, Param_MsaLineWidth);//测试存修改记录
                
                 //SetRoiParams(Param_MsaLineWidth.paramsMeasureLine, displayWindow.m_roiRectangle2_Cam, displayWindow.m_roiController_Cam);
                 //ShowFitLineParams(Param_MsaLineWidth.paramsMeasureLine);
             }   
-            catch (Exception ee)
+            catch (Exception)
             {
 
             }

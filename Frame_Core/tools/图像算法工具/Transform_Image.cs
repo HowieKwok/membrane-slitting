@@ -1,4 +1,5 @@
-﻿using HalconDotNet;
+﻿using DevMgmt.Cameras.SDK;
+using HalconDotNet;
 
 using LogTool;
 

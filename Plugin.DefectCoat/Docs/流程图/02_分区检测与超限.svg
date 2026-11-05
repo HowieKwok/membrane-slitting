@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="860" viewBox="0 0 1320 860">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#385069"/>
+    </marker>
+    <style>
+      .title{font:700 28px 'Microsoft YaHei','Segoe UI',Arial;fill:#102030}
+      .box{fill:#f7fbff;stroke:#4b83bd;stroke-width:2;rx:10;ry:10}
+      .raw{fill:#f4f7ff;stroke:#6f7edb;stroke-width:2;rx:10;ry:10}
+      .warn{fill:#fff7ed;stroke:#f08a24;stroke-width:2;rx:10;ry:10}
+      .ok{fill:#effaf3;stroke:#35a867;stroke-width:2;rx:10;ry:10}
+      .text{font:16px 'Microsoft YaHei','Segoe UI',Arial;fill:#172331}
+      .small{font:14px 'Microsoft YaHei','Segoe UI',Arial;fill:#425466}
+      .line{stroke:#385069;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1320" height="860" fill="#ffffff"/>
+  <text x="40" y="52" class="title">分区检测与候选数量超限流程</text>
+
+  <rect x="70" y="90" width="230" height="72" class="box"/>
+  <text x="185" y="122" text-anchor="middle" class="text">Detect 接收输入</text>
+  <text x="185" y="146" text-anchor="middle" class="small">灰度图 + 检测 ROI</text>
+
+  <rect x="380" y="90" width="240" height="72" class="box"/>
+  <text x="500" y="122" text-anchor="middle" class="text">RunPartitionDetection</text>
+  <text x="500" y="146" text-anchor="middle" class="small">PartitionCount=1 也走这里</text>
+  <path d="M300 126 H380" class="line"/>
+
+  <rect x="700" y="90" width="250" height="72" class="box"/>
+  <text x="825" y="122" text-anchor="middle" class="text">NormalizePartitions</text>
+  <text x="825" y="146" text-anchor="middle" class="small">补齐分区 / 换算长度</text>
+  <path d="M620 126 H700" class="line"/>
+
+  <rect x="1010" y="90" width="230" height="72" class="box"/>
+  <text x="1125" y="122" text-anchor="middle" class="text">遍历分区</text>
+  <text x="1125" y="146" text-anchor="middle" class="small">未启用也占长度</text>
+  <path d="M950 126 H1010" class="line"/>
+
+  <rect x="1010" y="220" width="230" height="72" class="box"/>
+  <text x="1125" y="252" text-anchor="middle" class="text">BuildPartitionRoi</text>
+  <text x="1125" y="276" text-anchor="middle" class="small">按原始 Rectangle1 切分</text>
+  <path d="M1125 162 V220" class="line"/>
+
+  <rect x="700" y="220" width="250" height="72" class="box"/>
+  <text x="825" y="252" text-anchor="middle" class="text">CloneRequestForPartition</text>
+  <text x="825" y="276" text-anchor="middle" class="small">写入分区阈值和过滤参数</text>
+  <path d="M1010 256 H950" class="line"/>
+
+  <rect x="380" y="220" width="240" height="72" class="raw"/>
+  <text x="500" y="252" text-anchor="middle" class="text">DetectSingleRegion raw</text>
+  <text x="500" y="276" text-anchor="middle" class="small">appendCandidates=false</text>
+  <path d="M700 256 H620" class="line"/>
+
+  <rect x="70" y="220" width="230" height="72" class="raw"/>
+  <text x="185" y="252" text-anchor="middle" class="text">AppendPartitionRawResult</text>
+  <text x="185" y="276" text-anchor="middle" class="small">只合并 Region 和数量</text>
+  <path d="M380 256 H300" class="line"/>
+
+  <rect x="70" y="360" width="230" height="72" class="raw"/>
+  <text x="185" y="392" text-anchor="middle" class="text">累计 CandidateCount</text>
+  <text x="185" y="416" text-anchor="middle" class="small">所有分区汇总后再判断</text>
+  <path d="M185 292 V360" class="line"/>
+
+  <rect x="380" y="360" width="240" height="72" class="warn"/>
+  <text x="500" y="392" text-anchor="middle" class="text">总数是否超限？</text>
+  <text x="500" y="416" text-anchor="middle" class="small">CandidateCount &gt; MaxCandidateCount</text>
+  <path d="M300 396 H380" class="line"/>
+
+  <rect x="700" y="330" width="250" height="92" class="warn"/>
+  <text x="825" y="364" text-anchor="middle" class="text">超限输出</text>
+  <text x="825" y="388" text-anchor="middle" class="small">不执行 AppendCandidates</text>
+  <text x="825" y="412" text-anchor="middle" class="small">直接复制 OverflowRegion</text>
+  <path d="M620 390 H700" class="line"/>
+  <text x="650" y="382" class="small">是</text>
+
+  <rect x="700" y="500" width="250" height="92" class="ok"/>
+  <text x="825" y="534" text-anchor="middle" class="text">未超限</text>
+  <text x="825" y="558" text-anchor="middle" class="small">逐分区 AppendCandidates</text>
+  <text x="825" y="582" text-anchor="middle" class="small">裁小图 / 复制 Region</text>
+  <path d="M500 432 V545 H700" class="line"/>
+  <text x="530" y="526" class="small">否</text>
+
+  <rect x="1010" y="500" width="230" height="92" class="ok"/>
+  <text x="1125" y="534" text-anchor="middle" class="text">进入分类流程</text>
+  <text x="1125" y="558" text-anchor="middle" class="small">特征值 / 模型 / AI</text>
+  <text x="1125" y="582" text-anchor="middle" class="small">统一处理候选列表</text>
+  <path d="M950 546 H1010" class="line"/>
+
+  <rect x="1010" y="330" width="230" height="92" class="warn"/>
+  <text x="1125" y="364" text-anchor="middle" class="text">Pipeline 生成结果</text>
+  <text x="1125" y="388" text-anchor="middle" class="small">类别：OverflowClassName</text>
+  <text x="1125" y="412" text-anchor="middle" class="small">默认：涂布不良</text>
+  <path d="M950 376 H1010" class="line"/>
+
+  <text x="70" y="680" class="text">关键约束：</text>
+  <text x="90" y="710" class="small">1. 分区必须全部 raw 检测完成后，再按总候选数判断硬上限。</text>
+  <text x="90" y="738" class="small">2. 超限时不能逐个候选 Union，也不能裁小图，否则数量限制无法减少耗时。</text>
+  <text x="90" y="766" class="small">3. 分区切分基于原始 Rectangle1，位置跟随统一由 HALCON 仿射生成实际 Region。</text>
+</svg>

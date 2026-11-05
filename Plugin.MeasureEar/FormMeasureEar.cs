@@ -109,7 +109,7 @@ namespace Plugin.MeasureEar
                 HobjectToHimage(PluginParams.ho_Image, ref hImage);
                 hWndCtrl_Display.addIconicVar(hImage);
             }
-            catch (Exception ee)
+            catch (Exception)
             {
 
             }
@@ -347,7 +347,7 @@ namespace Plugin.MeasureEar
             {
 
             }
-            catch (Exception ee)
+            catch (Exception)
             {
 
             }
@@ -416,7 +416,7 @@ namespace Plugin.MeasureEar
                 HOperatorSet.DispObj(EarParams.ho_Markregion2, hv_HWindowID);
 
             }
-            catch (Exception ee)
+            catch (Exception)
             {
 
             }
@@ -582,7 +582,7 @@ namespace Plugin.MeasureEar
                 ShowFitLineParams(measLineParams);
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
         }
@@ -665,7 +665,7 @@ namespace Plugin.MeasureEar
                         break;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
             }
@@ -859,7 +859,7 @@ namespace Plugin.MeasureEar
                     }
                 }
             }
-            catch (Exception ee)
+            catch (Exception)
             {
 
             }
@@ -956,7 +956,7 @@ namespace Plugin.MeasureEar
                 str = String.Format("Size  R:{0}   C:{1}", h.ToString(), w.ToString()); //格式化字符串
                 return str;
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 return str;
             }
@@ -971,7 +971,7 @@ namespace Plugin.MeasureEar
         {
             //打开指定路径文件夹，加载图片
             OpenFileDialog FileDialog = new OpenFileDialog();
-            FileDialog.InitialDirectory = "E:\\";
+            FileDialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
             if (FileDialog.ShowDialog() == DialogResult.OK)
             {
                 try

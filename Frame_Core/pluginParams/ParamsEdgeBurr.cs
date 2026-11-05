@@ -1,4 +1,6 @@
 ﻿using Frame_Core;
+using FrameCommunity;
+using FrameCommunity.Data;
 using HalconDotNet;
 using System;
 using System.Collections.Generic;

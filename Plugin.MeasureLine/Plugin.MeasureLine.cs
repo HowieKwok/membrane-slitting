@@ -9,6 +9,7 @@ using System.ComponentModel;
 using HalconDotNet;
 using HalconAlgorithm;
 using LogTool;
+using Plugin.MeasureLine.Core;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
@@ -22,6 +23,7 @@ namespace Plugin.MeasureLine
     [Serializable]
     public class MeasLineObj : IPlugin
     {
+        public event EventHandler<PluginExecuteCompletedEventArgs> ExecuteCompleted;
         public PluginParamsBase PluginParams { get; set; } = new ParamsMeasureLine();
         FittingLine fittingLine = new FittingLine();
         ParamsMeasureLine measLineParams;
@@ -31,9 +33,8 @@ namespace Plugin.MeasureLine
 
         public bool ExecuteObj()
         {
-            //HTuple Stime1 = 0, Stime2 = 0, Stime3 = 0, Stime4 = 0, Stime5 = 0;
-            //HTuple Stime6 = 0, Stime7 = 0, Stime8 = 0, Stime9 = 0, Stime10 = 0;
-            HOperatorSet.CountSeconds(out HTuple  start);
+ 
+            HOperatorSet.CountSeconds(out HTuple start);
             measLineParams = PluginParams as ParamsMeasureLine; //里氏转换
             if (measLineParams.ImageSourceIndex == 1)
             {
@@ -43,6 +44,10 @@ namespace Plugin.MeasureLine
             HTuple hv_MeasureRow1, hv_MeasureColumn1, hv_MeasureRow2, hv_MeasureColumn2, hv_RoiPhi;
             HTuple hv_RoiMidRow = measLineParams.hv_RoiMidRow;
             HTuple hv_RoiMidColumn = measLineParams.hv_RoiMidColumn;
+            double roiAngleDeg = measLineParams.hv_RoiAngle;
+            double roiHeight = measLineParams.hv_RoiHeight;
+            double roiWidth = measLineParams.hv_RoiWidth;
+            int roiPointsNum = measLineParams.hv_RoiPointsNum;
             HObject ResultLine;
             HOperatorSet.GenEmptyObj(out ResultLine);
             HObject ho_Rectangle2, ho_ImagePart, ho_ImagePartProcessed;
@@ -59,13 +64,13 @@ namespace Plugin.MeasureLine
             measLineParams.hv_LineColumnBegin = null;
             measLineParams.hv_LineRowEnd = null;
             measLineParams.hv_LineColumnEnd = null;
+            measLineParams.m_bRunSuccess = false;
             measLineParams.bl_FitSuccess = false;
-
+            measLineParams.m_strRunMessage = "";
             // HOperatorSet.CountSeconds(out Stime2);
 
             try
             {
-                HOperatorSet.TupleRad(measLineParams.hv_RoiAngle, out hv_RoiPhi);
                 //ROI运动
                 switch (measLineParams.str_RoiMoveIndex)
                 {
@@ -82,6 +87,28 @@ namespace Plugin.MeasureLine
                         hv_RoiMidColumn = measLineParams.hv_RoiMidColumn + measLineParams.hv_RoiIncreaseColumn * measLineParams.hv_RoiIncreaseNum;
                         break;
                 }
+
+                if (measLineParams.m_bUsePositionFollow)
+                {
+                    //if (!measLineParams.m_bCurrentPoseValid)
+                    //{
+                    //    measLineParams.m_strRunMessage = "位置跟随已启用，但当前坐标无效";
+                    //    measLineParams.bl_FitSuccess = false;
+                    //    ExecuteCompleted?.Invoke(this, new PluginExecuteCompletedEventArgs(PluginParams, false, measLineParams.m_strRunMessage, 0));
+                    //    return false;
+                    //}
+
+                    RoiFollower follower = new RoiFollower(measLineParams);
+                    RoiRect2 followedRoi = follower.Transform(hv_RoiMidRow, hv_RoiMidColumn, roiAngleDeg, roiHeight, roiWidth, roiPointsNum);
+                    hv_RoiMidRow = followedRoi.Row;
+                    hv_RoiMidColumn = followedRoi.Col;
+                    roiAngleDeg = followedRoi.AngleDeg;
+                    roiHeight = followedRoi.Height;
+                    roiWidth = followedRoi.Width;
+                    roiPointsNum = followedRoi.PointCount;
+                }
+
+                HOperatorSet.TupleRad(roiAngleDeg, out hv_RoiPhi);
                 HTuple hv_Channels;
                 //图像预处理
                 if (measLineParams.bl_ImageProcessIndex)
@@ -101,7 +128,7 @@ namespace Plugin.MeasureLine
                     {
                         try
                         {
-                            HOperatorSet.GenRectangle2(out ho_Rectangle2, hv_RoiMidRow, hv_RoiMidColumn, -hv_RoiPhi, measLineParams.hv_RoiHeight / 2, measLineParams.hv_RoiWidth / 2);
+                            HOperatorSet.GenRectangle2(out ho_Rectangle2, hv_RoiMidRow, hv_RoiMidColumn, -hv_RoiPhi, roiHeight / 2, roiWidth / 2);
                             if (measLineParams.hv_ScaleMean < 2)
                             {
                                 measLineParams.hv_ScaleMean = 2;
@@ -138,35 +165,35 @@ namespace Plugin.MeasureLine
                     //DefectDetection.ImageStitching(measLineParams.ho_ImageProcessed, ho_ImagePartProcessed, ho_Rectangle2, out measLineParams.ho_ImageProcessed);
                     // }
                 }
-                hv_MeasureRow1 = hv_RoiMidRow - measLineParams.hv_RoiHeight * Math.Sin(hv_RoiPhi) / 2;
-                hv_MeasureColumn1 = hv_RoiMidColumn - measLineParams.hv_RoiHeight * Math.Cos(hv_RoiPhi) / 2;
-                hv_MeasureRow2 = hv_RoiMidRow + measLineParams.hv_RoiHeight * Math.Sin(hv_RoiPhi) / 2;
-                hv_MeasureColumn2 = hv_RoiMidColumn + measLineParams.hv_RoiHeight * Math.Cos(hv_RoiPhi) / 2;
+                hv_MeasureRow1 = hv_RoiMidRow - roiHeight * Math.Sin(hv_RoiPhi) / 2;
+                hv_MeasureColumn1 = hv_RoiMidColumn - roiHeight * Math.Cos(hv_RoiPhi) / 2;
+                hv_MeasureRow2 = hv_RoiMidRow + roiHeight * Math.Sin(hv_RoiPhi) / 2;
+                hv_MeasureColumn2 = hv_RoiMidColumn + roiHeight * Math.Cos(hv_RoiPhi) / 2;
 
                 //抓边默认输出箭头处ROI边界
-                HTuple hv_StartRow = hv_RoiMidRow + measLineParams.hv_RoiWidth * Math.Cos(hv_RoiPhi) / 2;
-                HTuple hv_StartColumn = hv_RoiMidColumn - measLineParams.hv_RoiWidth * Math.Sin(hv_RoiPhi) / 2;
+                HTuple hv_StartRow = hv_RoiMidRow + roiWidth * Math.Cos(hv_RoiPhi) / 2;
+                HTuple hv_StartColumn = hv_RoiMidColumn - roiWidth * Math.Sin(hv_RoiPhi) / 2;
                 // Console.WriteLine("基准点：" + hv_StartRow.D.ToString() + "--" + hv_StartColumn.D.ToString());
                 //抓边算法
-                if (measLineParams.hv_RoiPointsNum > 1 & measLineParams.ho_Image.CountObj() != 0)
+                if (roiPointsNum > 1 & measLineParams.ho_Image.CountObj() != 0)
                 {
 
 
-                    fittingLine.CreateLineModel(hv_MeasureRow1, hv_MeasureColumn1, hv_MeasureRow2, hv_MeasureColumn2, measLineParams.hv_RoiWidth / 2,
-                             measLineParams.hv_RoiHeight / measLineParams.hv_RoiPointsNum / 2, measLineParams.hv_MeasureSigma, measLineParams.hv_MeasureThreshold, out measLineParams.hv_MetrologyHandle, out measLineParams.hv_Index);
+                    fittingLine.CreateLineModel(hv_MeasureRow1, hv_MeasureColumn1, hv_MeasureRow2, hv_MeasureColumn2, roiWidth / 2,
+                             roiHeight / roiPointsNum / 2, measLineParams.hv_MeasureSigma, measLineParams.hv_MeasureThreshold, out measLineParams.hv_MetrologyHandle, out measLineParams.hv_Index);
 
                     // HOperatorSet.CountSeconds(out Stime3);
 
                     if (measLineParams.bl_ImageProcessIndex & measLineParams.ho_ImageProcessed.CountObj() != 0)
                     {
                         fittingLine.FindLine(measLineParams.ho_ImageProcessed, measLineParams.hv_MetrologyHandle, measLineParams.hv_Index, measLineParams.hv_MeasureNumInstances, measLineParams.hv_MeasureDistThreshold, measLineParams.hv_MeasureTransition, measLineParams.hv_MeasureSelect,
-                                  measLineParams.hv_RoiPointsNum, measLineParams.hv_MeasureMinScore, measLineParams.hv_MaxNumIterations, measLineParams.hv_MeasureInterpolation, measLineParams.hv_MeasureIORegions, out measLineParams.hv_CrossRow,
+                                  roiPointsNum, measLineParams.hv_MeasureMinScore, measLineParams.hv_MaxNumIterations, measLineParams.hv_MeasureInterpolation, measLineParams.hv_MeasureIORegions, out measLineParams.hv_CrossRow,
                                  out measLineParams.hv_CrossColumn, out measLineParams.hv_LineRowBegin, out measLineParams.hv_LineColumnBegin, out measLineParams.hv_LineRowEnd, out measLineParams.hv_LineColumnEnd);
                     }
                     else
                     {
                         fittingLine.FindLine(measLineParams.ho_Image, measLineParams.hv_MetrologyHandle, measLineParams.hv_Index, measLineParams.hv_MeasureNumInstances, measLineParams.hv_MeasureDistThreshold, measLineParams.hv_MeasureTransition, measLineParams.hv_MeasureSelect,
-                             measLineParams.hv_RoiPointsNum, measLineParams.hv_MeasureMinScore, measLineParams.hv_MaxNumIterations, measLineParams.hv_MeasureInterpolation, measLineParams.hv_MeasureIORegions, out measLineParams.hv_CrossRow,
+                             roiPointsNum, measLineParams.hv_MeasureMinScore, measLineParams.hv_MaxNumIterations, measLineParams.hv_MeasureInterpolation, measLineParams.hv_MeasureIORegions, out measLineParams.hv_CrossRow,
                             out measLineParams.hv_CrossColumn, out measLineParams.hv_LineRowBegin, out measLineParams.hv_LineColumnBegin, out measLineParams.hv_LineRowEnd, out measLineParams.hv_LineColumnEnd);
                     }
                     // HOperatorSet.CountSeconds(out Stime4);
@@ -179,13 +206,13 @@ namespace Plugin.MeasureLine
                             int indexPV = 0;
                             int pointsNum = measLineParams.hv_CrossRow.Length;
 
-                            HTuple rectStartRow = hv_RoiMidRow - measLineParams.hv_RoiWidth * Math.Cos(hv_RoiPhi) / 2;
-                            HTuple rectStartColumn = hv_RoiMidColumn + measLineParams.hv_RoiWidth * Math.Sin(hv_RoiPhi) / 2;
+                            HTuple rectStartRow = hv_RoiMidRow - roiWidth * Math.Cos(hv_RoiPhi) / 2;
+                            HTuple rectStartColumn = hv_RoiMidColumn + roiWidth * Math.Sin(hv_RoiPhi) / 2;
 
-                            HTuple rectLineRow1 = rectStartRow - measLineParams.hv_RoiHeight * Math.Sin(hv_RoiPhi) / 2;
-                            HTuple rectLineCol1 = rectStartColumn - measLineParams.hv_RoiHeight * Math.Cos(hv_RoiPhi) / 2;
-                            HTuple rectLineRow2 = rectStartRow + measLineParams.hv_RoiHeight * Math.Sin(hv_RoiPhi) / 2;
-                            HTuple rectLineCol2 = rectStartColumn + measLineParams.hv_RoiHeight * Math.Cos(hv_RoiPhi) / 2;
+                            HTuple rectLineRow1 = rectStartRow - roiHeight * Math.Sin(hv_RoiPhi) / 2;
+                            HTuple rectLineCol1 = rectStartColumn - roiHeight * Math.Cos(hv_RoiPhi) / 2;
+                            HTuple rectLineRow2 = rectStartRow + roiHeight * Math.Sin(hv_RoiPhi) / 2;
+                            HTuple rectLineCol2 = rectStartColumn + roiHeight * Math.Cos(hv_RoiPhi) / 2;
 
 
                             //HTuple rectLineRow1 = hv_RoiMidRow - measLineParams.hv_RoiHeight * Math.Sin(hv_RoiPhi) / 2;
@@ -234,10 +261,10 @@ namespace Plugin.MeasureLine
                             //Console.WriteLine("一次：" + measLineParams.hv_LineRowBegin.D.ToString() + "--" + measLineParams.hv_LineColumnBegin.D.ToString()
                             //    + "--" + measLineParams.hv_LineRowEnd.D.ToString() + "--" + measLineParams.hv_LineColumnEnd.D.ToString());
 
-                            measLineParams.hv_LineRowBegin = measLineParams.hv_PeakpointRow - measLineParams.hv_RoiHeight * Math.Sin(hv_RoiPhi) * indexPV / pointsNum;
-                            measLineParams.hv_LineColumnBegin = measLineParams.hv_PeakpointColumn - measLineParams.hv_RoiHeight * Math.Cos(hv_RoiPhi) * indexPV / pointsNum;
-                            measLineParams.hv_LineRowEnd = measLineParams.hv_PeakpointRow + measLineParams.hv_RoiHeight * Math.Sin(hv_RoiPhi) * (pointsNum - indexPV) / pointsNum;
-                            measLineParams.hv_LineColumnEnd = measLineParams.hv_PeakpointColumn + measLineParams.hv_RoiHeight * Math.Cos(hv_RoiPhi) * (pointsNum - indexPV) / pointsNum;
+                            measLineParams.hv_LineRowBegin = measLineParams.hv_PeakpointRow - roiHeight * Math.Sin(hv_RoiPhi) * indexPV / pointsNum;
+                            measLineParams.hv_LineColumnBegin = measLineParams.hv_PeakpointColumn - roiHeight * Math.Cos(hv_RoiPhi) * indexPV / pointsNum;
+                            measLineParams.hv_LineRowEnd = measLineParams.hv_PeakpointRow + roiHeight * Math.Sin(hv_RoiPhi) * (pointsNum - indexPV) / pointsNum;
+                            measLineParams.hv_LineColumnEnd = measLineParams.hv_PeakpointColumn + roiHeight * Math.Cos(hv_RoiPhi) * (pointsNum - indexPV) / pointsNum;
 
                             if (measLineParams.hv_PeakValleySelect == "RejectionAverage")
                             {
@@ -252,16 +279,17 @@ namespace Plugin.MeasureLine
                                 HTuple rectDisRow = rectStartRow + AverageDis1 * Math.Cos(hv_RoiPhi);
                                 HTuple rectDisColumn = rectStartColumn - AverageDis1 * Math.Sin(hv_RoiPhi);
 
-                                measLineParams.hv_LineRowBegin = rectDisRow - measLineParams.hv_RoiHeight * Math.Sin(hv_RoiPhi) / 2;
-                                measLineParams.hv_LineColumnBegin = rectDisColumn - measLineParams.hv_RoiHeight * Math.Cos(hv_RoiPhi) / 2;
-                                measLineParams.hv_LineRowEnd = rectDisRow + measLineParams.hv_RoiHeight * Math.Sin(hv_RoiPhi) / 2;
-                                measLineParams.hv_LineColumnEnd = rectDisColumn + measLineParams.hv_RoiHeight * Math.Cos(hv_RoiPhi) / 2;
+                                measLineParams.hv_LineRowBegin = rectDisRow - roiHeight * Math.Sin(hv_RoiPhi) / 2;
+                                measLineParams.hv_LineColumnBegin = rectDisColumn - roiHeight * Math.Cos(hv_RoiPhi) / 2;
+                                measLineParams.hv_LineRowEnd = rectDisRow + roiHeight * Math.Sin(hv_RoiPhi) / 2;
+                                measLineParams.hv_LineColumnEnd = rectDisColumn + roiHeight * Math.Cos(hv_RoiPhi) / 2;
 
                                 //   Console.WriteLine("二次：" + measLineParams.hv_LineRowBegin.D.ToString() + "--" + measLineParams.hv_LineColumnBegin.D.ToString()
                                 //+ "--" + measLineParams.hv_LineRowEnd.D.ToString() + "--" + measLineParams.hv_LineColumnEnd.D.ToString());
                             }
                         }
                         measLineParams.bl_FitSuccess = true;
+
                         //HOperatorSet.GenRegionLine(out ResultLine , measLineParams.hv_LineRowBegin, measLineParams.hv_LineColumnBegin, measLineParams.hv_LineRowEnd, measLineParams.hv_LineColumnEnd);
                         //Console.WriteLine("----抓边膜宽执行成功---！");
                         //GetResultParams(measLineParams.str_ModelName, ResultLine);
@@ -270,10 +298,10 @@ namespace Plugin.MeasureLine
                     }
                     else if (measLineParams.bl_DefaultLine == true)
                     {
-                        measLineParams.hv_LineRowBegin = hv_StartRow - measLineParams.hv_RoiHeight * Math.Sin(hv_RoiPhi) / 2;
-                        measLineParams.hv_LineColumnBegin = hv_StartColumn - measLineParams.hv_RoiHeight * Math.Cos(hv_RoiPhi) / 2;
-                        measLineParams.hv_LineRowEnd = hv_StartRow + measLineParams.hv_RoiHeight * Math.Sin(hv_RoiPhi) / 2;
-                        measLineParams.hv_LineColumnEnd = hv_StartColumn + measLineParams.hv_RoiHeight * Math.Cos(hv_RoiPhi) / 2;
+                        measLineParams.hv_LineRowBegin = hv_StartRow - roiHeight * Math.Sin(hv_RoiPhi) / 2;
+                        measLineParams.hv_LineColumnBegin = hv_StartColumn - roiHeight * Math.Cos(hv_RoiPhi) / 2;
+                        measLineParams.hv_LineRowEnd = hv_StartRow + roiHeight * Math.Sin(hv_RoiPhi) / 2;
+                        measLineParams.hv_LineColumnEnd = hv_StartColumn + roiHeight * Math.Cos(hv_RoiPhi) / 2;
                         //返回默认值
                         measLineParams.bl_FitSuccess = true;
                         // Console.WriteLine("抓边膜宽执行失败！原因：抓边参数异常，未抓到边。");
@@ -290,29 +318,21 @@ namespace Plugin.MeasureLine
             {
                 Log4netRecord.ErrorLog.Debug("抓边模块执行失败！原因：try_catch捕获异常" + ee.ToString());
                 measLineParams.bl_FitSuccess = false;
-                // Console.WriteLine("抓边膜宽执行失败！原因：try_catch捕获异常"+e.ToString());
+                
             }
-            HOperatorSet.CountSeconds(out HTuple end);
-            end = (end - start) * 1000;
-            measLineParams.m_bRunSuccess = measLineParams.bl_FitSuccess;
-            measLineParams.m_strRunMessage = measLineParams.m_bRunSuccess ? "抓边完成：执行成功" : "抓边完成：执行失败";
-            measLineParams.m_fElapsedMs = end;
             //HOperatorSet.CountSeconds(out Stime6);
             ho_Rectangle2.Dispose();
             ho_ImagePart.Dispose();
             ho_ImagePartProcessed.Dispose();
 
-            //HOperatorSet.CountSeconds(out Stime7);
-
-            //double tt1 = (Stime2.D - Stime1.D) * 1000;
-            //double tt2 = (Stime3.D - Stime2.D) * 1000;
-            //double tt3 = (Stime4.D - Stime3.D) * 1000;
-            //double tt4 = (Stime5.D - Stime4.D) * 1000;
-            //double tt5 = (Stime6.D - Stime5.D) * 1000;
-            //double tt6 = (Stime7.D - Stime6.D) * 1000;
-            //Console.WriteLine("直线抓边时间：+结果：" + measLineParams.bl_FitSuccess.ToString() + "+初始化：" + tt1.ToString() + "创建句柄：" + tt2.ToString() + "抓边：" + tt3.ToString()+ "结果处理：" + tt4.ToString()
-            //    +"跳出IF：" + tt5.ToString() + "资源回收：" + tt6.ToString());
-            return measLineParams.bl_FitSuccess;
+            bool success = measLineParams.bl_FitSuccess;
+            string message = string.IsNullOrWhiteSpace(measLineParams.m_strRunMessage) ? (success ? "运行成功" : "运行失败") : measLineParams.m_strRunMessage;
+            HOperatorSet.CountSeconds(out HTuple end);
+            end = (end - start) * 1000;
+            PluginParams.m_fElapsedMs = end;
+            PluginParams.m_bRunSuccess = success;
+            ExecuteCompleted?.Invoke(this, new PluginExecuteCompletedEventArgs(PluginParams, success, message, (long)end.D));
+            return success;
 
         }
 
@@ -352,5 +372,6 @@ namespace Plugin.MeasureLine
         {
 
         }
+
     }
 }

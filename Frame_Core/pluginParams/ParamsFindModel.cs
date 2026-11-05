@@ -37,7 +37,7 @@ namespace Frame_Core.pluginParams
         /// </summary>
         [ShowTextAttribute("模板图片路径")]
         [Description("模板图片路径")]
-        public string m_strModelPath = "E:\\";
+        public string m_strModelPath = AppDomain.CurrentDomain.BaseDirectory;
 
 
   
@@ -47,7 +47,7 @@ namespace Frame_Core.pluginParams
         /// </summary>
         [ShowTextAttribute("模板图片组路径")]
         [Description("模板图片组路径")]
-        public string m_strModelGroupPath = "E:\\";
+        public string m_strModelGroupPath = AppDomain.CurrentDomain.BaseDirectory;
 
         /// <summary>
         /// 超时时间//输入变量

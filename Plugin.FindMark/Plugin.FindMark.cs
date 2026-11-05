@@ -20,6 +20,8 @@ namespace Plugin.FindMark
         public string grooveName;
         public bool isExistModel = false;
 
+        public event EventHandler<PluginExecuteCompletedEventArgs> ExecuteCompleted;
+
         public bool ExecuteObj()
         {
 
@@ -109,7 +111,7 @@ namespace Plugin.FindMark
 
 
                     }
-                    catch (Exception ee)
+                    catch (Exception)
                     {
 
                     }
@@ -181,7 +183,7 @@ namespace Plugin.FindMark
                             paramsFindMark.m_fMarkWidth = distW[0].D * paramsFindMark.m_fPixelUnitX;
                             paramsFindMark.m_fMarkHeight = distH[0].D * paramsFindMark.m_fPixelUnitY;
                         }
-                        catch (Exception ee)
+                        catch (Exception)
                         {
 
                         }
@@ -202,7 +204,7 @@ namespace Plugin.FindMark
                             paramsFindMark.bIsFindLineSucess = false;
                         }
                     }
-                    catch (Exception ee)
+                    catch (Exception)
                     {
                         paramsFindMark.bIsFindLineSucess = false;
                     }
@@ -213,7 +215,7 @@ namespace Plugin.FindMark
 
                 return true;
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 return false;
 

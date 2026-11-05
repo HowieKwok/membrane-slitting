@@ -1,13 +1,117 @@
-﻿<Window x:Class="Mef_VisionFrame.调试设置.WPF.WPFDebugProcessWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:local="clr-namespace:Mef_VisionFrame.调试设置.WPF"
-        Title="WPF调试流程界面"
-        Width="1280"
-        Height="820"
-        MinWidth="1040"
-        MinHeight="680"
-        WindowStartupLocation="CenterScreen"
-        Background="#061018">
-    <local:WPFDebugProcessView />
+﻿<Window
+    x:Class="Mef_VisionFrame.调试设置.WPF.WPFDebugProcessWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Mef_VisionFrame.调试设置.WPF"
+    xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
+    Title="WPF调试流程界面"
+    Width="1280"
+    Height="820"
+    MinWidth="1040"
+    MinHeight="680"
+    Background="#061018"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="None">
+
+    <shell:WindowChrome.WindowChrome>
+        <shell:WindowChrome
+            CaptionHeight="36"
+            GlassFrameThickness="0"
+            ResizeBorderThickness="6" />
+    </shell:WindowChrome.WindowChrome>
+
+    <Window.Resources>
+        <!--  增加x:Key，不再全局自动应用  -->
+        <Style x:Key="TitleBarButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="38" />
+            <Setter Property="Height" Value="36" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#2A4058" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <!--  ✅ 重点：最外层Grid承载ViewModel，隔离Window.DataContext，防止上层窗体覆盖  -->
+    <Grid x:Name="RootGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="36" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Background="#102030">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Image
+                Grid.Column="0"
+                Margin="0,0,39,0"
+                Stretch="Fill"
+                StretchDirection="DownOnly">
+                <Image.Source>
+                    <BitmapImage UriSource="pack://application:,,,/Resources/Debug.png" />
+                </Image.Source>
+            </Image>
+
+            <TextBlock
+                Grid.Column="1"
+                Margin="12,0,0,0"
+                VerticalAlignment="Center"
+                FontSize="13"
+                Foreground="White"
+                Text="{Binding WindowTitle}" />
+
+            <StackPanel
+                Grid.Column="2"
+                Margin="0"
+                Orientation="Horizontal">
+                <Button
+                    shell:WindowChrome.IsHitTestVisibleInChrome="True"
+                    Command="{Binding MinimizeCommand}"
+                    Content="─"
+                    Foreground="White"
+                    Style="{StaticResource TitleBarButtonStyle}" />
+
+                <Button
+                    shell:WindowChrome.IsHitTestVisibleInChrome="True"
+                    Command="{Binding ToggleMaxCommand}"
+                    Content="{Binding MaxButtonText}"
+                    Foreground="White"
+                    Style="{StaticResource TitleBarButtonStyle}" />
+
+                <!--<Button
+        Style="{StaticResource TitleBarButtonStyle}"
+        Content="✕"
+        Foreground="#cccccc"
+        Command="{Binding HideWindowCommand}"
+        shell:WindowChrome.IsHitTestVisibleInChrome="True"/>-->
+
+                <Button
+                    shell:WindowChrome.IsHitTestVisibleInChrome="True"
+                    Command="{Binding CloseWindowCommand}"
+                    Content="✕"
+                    Foreground="#ff7777"
+                    Style="{StaticResource TitleBarButtonStyle}" />
+            </StackPanel>
+
+        </Grid>
+
+        <local:WPFDebugProcessView Grid.Row="1" />
+    </Grid>
 </Window>

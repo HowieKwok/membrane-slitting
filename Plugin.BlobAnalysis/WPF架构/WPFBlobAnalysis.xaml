@@ -202,6 +202,7 @@
                                             <TextBlock Grid.Row="1" Grid.Column="0" Text="ROI 功能"/>
                                             <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding RoiRoleItems}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding EditRole, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                             <WrapPanel Grid.Row="2" Grid.ColumnSpan="2" Margin="0,6,0,0">
+                                                <CheckBox Content="模块启用" IsChecked="{Binding m_bIsEnable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                                 <CheckBox Content="启用局部 ROI" IsChecked="{Binding EnableLocalRoi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                                 <CheckBox Content="启用屏蔽 ROI" IsChecked="{Binding EnableMaskRoi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                                 <CheckBox Content="显示 ViewROI" IsChecked="{Binding ShowViewRoi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
@@ -261,11 +262,19 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-                                <UniformGrid Columns="2">
+                                <UniformGrid Columns="4">
                                     <TextBlock Text="局部 Row1"/><TextBox Text="{Binding LocalRow1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                     <TextBlock Text="局部 Col1"/><TextBox Text="{Binding LocalCol1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                     <TextBlock Text="局部 Row2"/><TextBox Text="{Binding LocalRow2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                     <TextBlock Text="局部 Col2"/><TextBox Text="{Binding LocalCol2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBlock Text="上偏移（Row）"/>
+                                    <TextBox Text="{Binding TopOffsetRow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBlock Text="下偏移（Row）"/>
+                                    <TextBox Text="{Binding BottomOffsetRow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBlock Text="左偏移(Col)"/>
+                                    <TextBox Text="{Binding LeftOffsetCol, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBlock Text="右偏移(Col)"/>
+                                    <TextBox Text="{Binding RightOffsetCol, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                 </UniformGrid>
                                 <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,8">
                                     <Button Content="新增屏蔽 ROI" Command="{Binding AddMaskRoiCommand}"/>

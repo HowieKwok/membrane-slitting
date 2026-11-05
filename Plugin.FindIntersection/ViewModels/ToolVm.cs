@@ -1,25 +1,26 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using Frame_Core;
 using Frame_Core.pluginParams;
 using HalconDotNet;
+using Microsoft.Win32;
+using Plugin.FindIntersection.Controls;
+using ViewROI;
 
 namespace Plugin.FindIntersection.ViewModels
 {
-    public interface IToolActions
+    /// <summary>
+    /// 两线交点工具 ViewModel。
+    /// VM 只处理状态、参数、命令、插件生命周期，不引用任何 WPF 控件实例。
+    /// </summary>
+    public sealed class ToolVm : BindableBase, IPluginWpfView
     {
-        void LoadImage();
-        void ToggleCrosshair();
-        void FitImage();
-        void KeepRoi();
-        void Run();
-        void SetBasePose();
-        void SetCurrentPose();
-    }
+        private FindIntersectionObj pluginObject;
+        private ParamsFindIntersection pluginParams;
 
-    public sealed class ToolVm : BindableBase
-    {
-        private readonly IToolActions actions;
         private string statusText = "等待加载图片";
         private string mouseInfo = "图像：--  行：--  列：--  灰度：--";
         private string line1Status = "抓边1拟合：--";
@@ -32,56 +33,444 @@ namespace Plugin.FindIntersection.ViewModels
         private double intersectionRow;
         private double intersectionColumn;
         private double angle;
+        private double menuRow;
+        private double menuCol;
+        private double activeRoiAngle;
+        private double crossRow = -1;
+        private double crossCol = -1;
+        private bool crosshairEnabled;
+        private bool crosshairDragActive;
+        private bool isFollowMenuOpen;
+        private bool showEmptyHint = true;
+        private bool fitOnNextDisplay;
+        private int displayRevision;
+        private HObject displayImage;
+        private HObject ownedLoadedImage;
+        private double[] horizontalProfile;
+        private double[] verticalProfile;
 
-        public ToolVm(IToolActions actions)
+        public ToolVm()
         {
-            this.actions = actions ?? throw new ArgumentNullException(nameof(actions));
-            Params.ParameterChanged += delegate { RoiParameterChanged?.Invoke(this, EventArgs.Empty); };
+            Params.ParameterChanged += OnParameterChanged;
 
-            LoadImageCommand = new RelayCommand(actions.LoadImage);
-            ToggleCrosshairCommand = new RelayCommand(actions.ToggleCrosshair);
-            FitWindowCommand = new RelayCommand(actions.FitImage);
-            KeepRoiCommand = new RelayCommand(actions.KeepRoi);
-            RunCommand = new RelayCommand(actions.Run);
-            SetBasePoseCommand = new RelayCommand(actions.SetBasePose);
-            SetCurrentPoseCommand = new RelayCommand(actions.SetCurrentPose);
+            LoadImageCommand = new RelayCommand<object>(_ => LoadImage());
+            ToggleCrosshairCommand = new RelayCommand<object>(_ => ToggleCrosshair());
+            FitWindowCommand = new RelayCommand<object>(_ => FitImage());
+            KeepRoiCommand = new RelayCommand<object>(_ => KeepRoi());
+            RunCommand = new RelayCommand<object>(_ => Run());
+            SetBasePoseCommand = new RelayCommand<object>(_ => SetBasePose());
+            SetCurrentPoseCommand = new RelayCommand<object>(_ => SetCurrentPose());
+
+            RoiChangedCommand = new RelayCommand<FindIntersectionRoiChangedArgs>(OnRoiChanged);
+            MouseMoveCommand = new RelayCommand<HalconMouseInfoArgs>(OnMouseMove);
+            RightMouseDownCommand = new RelayCommand<HalconMouseInfoArgs>(OnRightMouseDown);
+            RightMouseUpCommand = new RelayCommand<HalconMouseInfoArgs>(OnRightMouseUp);
         }
-
-        public event EventHandler RoiParameterChanged;
 
         public ToolParams Params { get; } = new ToolParams();
-        public ICommand LoadImageCommand { get; }
-        public ICommand ToggleCrosshairCommand { get; }
-        public ICommand FitWindowCommand { get; }
-        public ICommand KeepRoiCommand { get; }
-        public ICommand RunCommand { get; }
-        public ICommand SetBasePoseCommand { get; }
-        public ICommand SetCurrentPoseCommand { get; }
 
-        public double IntersectionRow { get { return intersectionRow; } set { SetProperty(ref intersectionRow, value); } }
-        public double IntersectionColumn { get { return intersectionColumn; } set { SetProperty(ref intersectionColumn, value); } }
-        public double Angle { get { return angle; } set { SetProperty(ref angle, value); } }
-        public string StatusText { get { return statusText; } set { SetProperty(ref statusText, value); } }
-        public string MouseInfo { get { return mouseInfo; } set { SetProperty(ref mouseInfo, value); } }
-        public string Line1Status { get { return line1Status; } set { SetProperty(ref line1Status, value); } }
-        public string Line2Status { get { return line2Status; } set { SetProperty(ref line2Status, value); } }
-        public string Line1Info { get { return line1Info; } set { SetProperty(ref line1Info, value); } }
-        public string Line2Info { get { return line2Info; } set { SetProperty(ref line2Info, value); } }
-        public string ParallelText { get { return parallelText; } set { SetProperty(ref parallelText, value); } }
-        public string IntersectionText { get { return intersectionText; } set { SetProperty(ref intersectionText, value); } }
-        public string FollowOffsetText { get { return followOffsetText; } set { SetProperty(ref followOffsetText, value); } }
+        public ICommand LoadImageCommand { get; private set; }
+        public ICommand ToggleCrosshairCommand { get; private set; }
+        public ICommand FitWindowCommand { get; private set; }
+        public ICommand KeepRoiCommand { get; private set; }
+        public ICommand RunCommand { get; private set; }
+        public ICommand SetBasePoseCommand { get; private set; }
+        public ICommand SetCurrentPoseCommand { get; private set; }
+        public ICommand RoiChangedCommand { get; private set; }
+        public ICommand MouseMoveCommand { get; private set; }
+        public ICommand RightMouseDownCommand { get; private set; }
+        public ICommand RightMouseUpCommand { get; private set; }
 
-        public void BindFrameParams(ParamsFindIntersection parameters)
+        public IPlugin PluginObject { get { return pluginObject; } }
+        public PluginParamsBase PluginParams { get { return pluginParams; } }
+
+        public HObject DisplayImage { get { return displayImage; } private set { SetProperty(ref displayImage, value); } }
+        public int DisplayRevision { get { return displayRevision; } private set { SetProperty(ref displayRevision, value); } }
+        public bool FitOnNextDisplay { get { return fitOnNextDisplay; } private set { SetProperty(ref fitOnNextDisplay, value); } }
+        public bool ShowEmptyHint { get { return showEmptyHint; } private set { SetProperty(ref showEmptyHint, value); } }
+        public double[] HorizontalProfile { get { return horizontalProfile; } private set { SetProperty(ref horizontalProfile, value); } }
+        public double[] VerticalProfile { get { return verticalProfile; } private set { SetProperty(ref verticalProfile, value); } }
+
+        public bool CrosshairEnabled { get { return crosshairEnabled; } private set { SetProperty(ref crosshairEnabled, value); } }
+        public double CrossRow { get { return crossRow; } private set { SetProperty(ref crossRow, value); } }
+        public double CrossCol { get { return crossCol; } private set { SetProperty(ref crossCol, value); } }
+        public bool IsFollowMenuOpen { get { return isFollowMenuOpen; } set { SetProperty(ref isFollowMenuOpen, value); } }
+
+        public double IntersectionRow { get { return intersectionRow; } private set { SetProperty(ref intersectionRow, value); } }
+        public double IntersectionColumn { get { return intersectionColumn; } private set { SetProperty(ref intersectionColumn, value); } }
+        public double Angle { get { return angle; } private set { SetProperty(ref angle, value); } }
+        public string StatusText { get { return statusText; } private set { SetProperty(ref statusText, value); } }
+        public string MouseInfo { get { return mouseInfo; } private set { SetProperty(ref mouseInfo, value); } }
+        public string Line1Status { get { return line1Status; } private set { SetProperty(ref line1Status, value); } }
+        public string Line2Status { get { return line2Status; } private set { SetProperty(ref line2Status, value); } }
+        public string Line1Info { get { return line1Info; } private set { SetProperty(ref line1Info, value); } }
+        public string Line2Info { get { return line2Info; } private set { SetProperty(ref line2Info, value); } }
+        public string ParallelText { get { return parallelText; } private set { SetProperty(ref parallelText, value); } }
+        public string IntersectionText { get { return intersectionText; } private set { SetProperty(ref intersectionText, value); } }
+        public string FollowOffsetText { get { return followOffsetText; } private set { SetProperty(ref followOffsetText, value); } }
+
+        public void BindPlugin(IPlugin plugin)
         {
-            Params.Bind(parameters ?? new ParamsFindIntersection());
+            pluginObject = plugin as FindIntersectionObj ?? new FindIntersectionObj();
+            EnsurePluginParams();
+            PullParamsToViewModel();
+            RefreshFromPluginParams(true);
         }
 
-        public void CommitToFrameParams()
+        public void RefreshBindings()
         {
+            OnPropertyChanged(string.Empty);
+        }
+
+        public PluginViewActionResult RunFromHost()
+        {
+            Stopwatch watch = Stopwatch.StartNew();
+            bool success = false;
+
+            try
+            {
+                BeforeRun();
+                success = pluginObject != null && pluginObject.ExecuteObj();
+                watch.Stop();
+                AfterRun(success, watch.ElapsedMilliseconds);
+
+                string message = success ? "两线交点工具运行完成" : "两线交点工具运行失败：" + GetRunMessage();
+                return new PluginViewActionResult { Success = success, Message = message, ElapsedMs = watch.ElapsedMilliseconds };
+            }
+            catch (Exception ex)
+            {
+                if (watch.IsRunning) watch.Stop();
+                if (pluginParams != null)
+                {
+                    pluginParams.m_bRunSuccess = false;
+                    pluginParams.m_strRunMessage = ex.Message;
+                    pluginParams.m_fElapsedMs = watch.ElapsedMilliseconds;
+                }
+
+                StatusText = "运行异常：" + ex.Message;
+                return PluginViewActionResult.Fail("两线交点工具运行异常：" + ex.Message, watch.ElapsedMilliseconds);
+            }
+        }
+
+        public PluginViewActionResult SaveFromHost(string filePath)
+        {
+            Stopwatch watch = Stopwatch.StartNew();
+            bool success = false;
+
+            try
+            {
+                BeforeSave();
+                if (pluginObject != null)
+                {
+                    pluginObject.moduleInfo.filePath = filePath;
+                    if (pluginObject.PluginParams != null) pluginObject.PluginParams.filePath = filePath;
+                    success = pluginObject.saveParams();
+                }
+                else if (pluginParams != null)
+                {
+                    pluginParams.filePath = filePath;
+                    success = pluginParams.Save();
+                }
+
+                watch.Stop();
+                AfterSave(success);
+                return success
+                    ? PluginViewActionResult.Ok("两线交点参数已保存", watch.ElapsedMilliseconds)
+                    : PluginViewActionResult.Fail("两线交点参数保存失败", watch.ElapsedMilliseconds);
+            }
+            catch (Exception ex)
+            {
+                if (watch.IsRunning) watch.Stop();
+                StatusText = "保存异常：" + ex.Message;
+                return PluginViewActionResult.Fail("两线交点参数保存异常：" + ex.Message, watch.ElapsedMilliseconds);
+            }
+        }
+
+        public void CloseFromHost()
+        {
+            BeforeClose();
+        }
+
+        public void BeforeRun()
+        {
+            CommitToPluginParams();
+        }
+
+        public void AfterRun(bool success, long elapsedMs)
+        {
+            LoadResultsFromParams(pluginParams);
+            StatusText = success ? "运行完成" : "运行失败：" + GetRunMessage();
+            RequestRepaint(false);
+        }
+
+        public void BeforeSave()
+        {
+            CommitToPluginParams();
+        }
+
+        public void AfterSave(bool success)
+        {
+            StatusText = success ? "参数已保存" : "参数保存失败";
+        }
+
+        public void BeforeClose()
+        {
+            IsFollowMenuOpen = false;
+            HorizontalProfile = null;
+            VerticalProfile = null;
+        }
+
+        public void OnPluginExecutedFromOutside(PluginExecuteCompletedEventArgs e)
+        {
+            if (e == null || pluginParams == null) return;
+            if (!ReferenceEquals(e.Param, pluginParams)) return;
+            RefreshFromPluginParams(false);
+            AfterRun(e.Success, e.ElapsedMs);
+        }
+
+        public void LoadImage()
+        {
+            EnsurePluginParams();
+
+            try
+            {
+                OpenFileDialog dialog = new OpenFileDialog
+                {
+                    Filter = "图像文件|*.bmp;*.jpg;*.jpeg;*.png;*.tif;*.tiff|所有文件|*.*"
+                };
+
+                if (dialog.ShowDialog() != true) return;
+
+                ReplaceOwnedImage(new HImage(dialog.FileName));
+                DisplayImage = HasValidImage(pluginParams.ho_Image) ? pluginParams.ho_Image : null;
+                ShowEmptyHint = DisplayImage == null;
+                PullParamsToViewModel();
+                ResetResult();
+                RequestRepaint(true);
+                StatusText = "图片已加载：" + System.IO.Path.GetFileName(dialog.FileName);
+            }
+            catch (Exception ex)
+            {
+                StatusText = "加载图片失败：" + ex.Message;
+            }
+        }
+
+        public void ToggleCrosshair()
+        {
+            CrosshairEnabled = !CrosshairEnabled;
+            StatusText = CrosshairEnabled ? "十字光标已开启，按住右键查看灰度曲线" : "十字光标已关闭";
+            RequestRepaint(false);
+        }
+
+        public void FitImage()
+        {
+            RequestRepaint(true);
+            StatusText = "已适应窗口";
+        }
+
+        public void KeepRoi()
+        {
+            CommitToPluginParams();
+            RequestRepaint(false);
+            StatusText = "ROI 已写入参数，点击运行刷新结果";
+        }
+
+        public void Run()
+        {
+            RunFromHost();
+        }
+
+        public void SetBasePose()
+        {
+            Params.BaseRow = menuRow;
+            Params.BaseColumn = menuCol;
+            Params.BaseAngle = activeRoiAngle;
+            IsFollowMenuOpen = false;
+            CommitToPluginParams();
+            RequestRepaint(false);
+            StatusText = string.Format("已设置基坐标基准：R={0:F2}  C={1:F2}  A={2:F3}", menuRow, menuCol, activeRoiAngle);
+        }
+
+        public void SetCurrentPose()
+        {
+            Params.CurrentRow = menuRow;
+            Params.CurrentColumn = menuCol;
+            Params.CurrentAngle = activeRoiAngle;
+            Params.CurrentPoseValid = true;
+            Params.EnablePositionFollow = true;
+            IsFollowMenuOpen = false;
+            CommitToPluginParams();
+            RequestRepaint(false);
+            StatusText = string.Format("已设置当前输入坐标：R={0:F2}  C={1:F2}  A={2:F3}", menuRow, menuCol, activeRoiAngle);
+        }
+
+        private void OnRoiChanged(FindIntersectionRoiChangedArgs args)
+        {
+            if (args == null) return;
+
+            Params.UpdateFromRoi(1, args.Line1.Row, args.Line1.Column, args.Line1.AngleDegree, args.Line1.Height, args.Line1.Width, args.Line1.PointCount);
+            Params.UpdateFromRoi(2, args.Line2.Row, args.Line2.Column, args.Line2.AngleDegree, args.Line2.Height, args.Line2.Width, args.Line2.PointCount);
+            activeRoiAngle = args.ActiveAngleDegree;
+            CommitToPluginParams();
+            RequestRepaint(false);
+
+            if (args.EventCode == ROIController.EVENT_UPDATE_ROI)
+            {
+                pluginObject.ExecuteObj();
+                StatusText = "ROI 已更新，点击运行刷新结果";
+            }
+        }
+
+        private void OnMouseMove(HalconMouseInfoArgs args)
+        {
+            if (args == null) return;
+            MouseInfo = args.Text;
+
+            if (CrosshairEnabled && crosshairDragActive)
+            {
+                UpdateCrosshair(args.Row, args.Column);
+            }
+        }
+
+        private void OnRightMouseDown(HalconMouseInfoArgs args)
+        {
+            if (args == null) return;
+
+            menuRow = args.Row;
+            menuCol = args.Column;
+
+            if (CrosshairEnabled)
+            {
+                crosshairDragActive = true;
+                UpdateCrosshair(args.Row, args.Column);
+            }
+
+            IsFollowMenuOpen = true;
+        }
+
+        private void OnRightMouseUp(HalconMouseInfoArgs args)
+        {
+            crosshairDragActive = false;
+        }
+
+        private ParamsFindIntersection EnsurePluginParams()
+        {
+            if (pluginObject == null) pluginObject = new FindIntersectionObj();
+            if (pluginObject.PluginParams == null) pluginObject.PluginParams = new ParamsFindIntersection();
+
+            pluginParams = pluginObject.PluginParams as ParamsFindIntersection;
+            if (pluginParams == null)
+            {
+                pluginParams = new ParamsFindIntersection();
+                pluginObject.PluginParams = pluginParams;
+            }
+
+            return pluginParams;
+        }
+
+        private void PullParamsToViewModel()
+        {
+            EnsurePluginParams();
+            Params.Bind(pluginParams);
+        }
+
+        private void CommitToPluginParams()
+        {
+            EnsurePluginParams();
             Params.Apply();
         }
 
-        public void LoadResultsFromParams(ParamsFindIntersection source)
+        private void RefreshFromPluginParams(bool fit)
+        {
+            EnsurePluginParams();
+            PullParamsToViewModel();
+            DisplayImage = HasValidImage(pluginParams.ho_Image) ? pluginParams.ho_Image : null;
+            ShowEmptyHint = DisplayImage == null;
+            LoadResultsFromParams(pluginParams);
+            RequestRepaint(fit);
+        }
+
+        private void RequestRepaint(bool fit)
+        {
+            FitOnNextDisplay = fit;
+            DisplayRevision++;
+            if (fit)
+            {
+                FitOnNextDisplay = false;
+            }
+        }
+
+        private void OnParameterChanged(object sender, EventArgs e)
+        {
+            CommitToPluginParams();
+            RequestRepaint(false);
+        }
+
+        private void UpdateCrosshair(double row, double col)
+        {
+            CrossRow = row;
+            CrossCol = col;
+            ExtractGrayProfiles(row, col);
+            RequestRepaint(false);
+        }
+
+        private void ExtractGrayProfiles(double row, double col)
+        {
+            try
+            {
+                if (pluginParams == null || pluginParams.ho_Image == null || !pluginParams.ho_Image.IsInitialized())
+                {
+                    return;
+                }
+
+                HObject profileImage = pluginParams.ho_Image;
+                HObject channelImage = null;
+
+                try
+                {
+                    HOperatorSet.CountChannels(profileImage, out HTuple channels);
+                    if (channels.I > 1)
+                    {
+                        HOperatorSet.AccessChannel(profileImage, out channelImage, 1);
+                        profileImage = channelImage;
+                    }
+
+                    HOperatorSet.GetImageSize(profileImage, out HTuple width, out HTuple height);
+                    int w = Math.Max(0, width.I);
+                    int h = Math.Max(0, height.I);
+                    if (w <= 0 || h <= 0) return;
+
+                    int r = Math.Max(0, Math.Min(h - 1, (int)Math.Round(row)));
+                    int c = Math.Max(0, Math.Min(w - 1, (int)Math.Round(col)));
+
+                    List<double> hValues = new List<double>(w);
+                    for (int x = 0; x < w; x++)
+                    {
+                        HOperatorSet.GetGrayval(profileImage, r, x, out HTuple gray);
+                        hValues.Add(gray.D);
+                    }
+
+                    List<double> vValues = new List<double>(h);
+                    for (int y = 0; y < h; y++)
+                    {
+                        HOperatorSet.GetGrayval(profileImage, y, c, out HTuple gray);
+                        vValues.Add(gray.D);
+                    }
+
+                    HorizontalProfile = hValues.ToArray();
+                    VerticalProfile = vValues.ToArray();
+                }
+                finally
+                {
+                    channelImage?.Dispose();
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        private void LoadResultsFromParams(ParamsFindIntersection source)
         {
             if (source == null)
             {
@@ -113,7 +502,7 @@ namespace Plugin.FindIntersection.ViewModels
             ParallelText = source.hv_IsParallel != null && source.hv_IsParallel.I != 0 ? "是否平行：是" : "是否平行：--";
         }
 
-        public void ResetResult()
+        private void ResetResult()
         {
             Line1Status = "抓边1拟合：--";
             Line2Status = "抓边2拟合：--";
@@ -127,6 +516,11 @@ namespace Plugin.FindIntersection.ViewModels
             FollowOffsetText = "跟随偏差：X=--  Y=--  R=--";
         }
 
+        private string GetRunMessage()
+        {
+            return pluginParams == null ? string.Empty : pluginParams.m_strRunMessage;
+        }
+
         private static string FormatLine(string name, bool success, HTuple rowBegin, HTuple columnBegin, HTuple rowEnd, HTuple columnEnd)
         {
             if (!success || rowBegin == null || columnBegin == null || rowEnd == null || columnEnd == null)
@@ -136,8 +530,49 @@ namespace Plugin.FindIntersection.ViewModels
 
             return string.Format("{0}：({1:F1},{2:F1}) -> ({3:F1},{4:F1})", name, rowBegin.D, columnBegin.D, rowEnd.D, columnEnd.D);
         }
+
+        private static bool HasValidImage(HObject image)
+        {
+            if (image == null || !image.IsInitialized()) return false;
+
+            try
+            {
+                HOperatorSet.CountObj(image, out HTuple count);
+                if (count.I <= 0) return false;
+                HOperatorSet.GetObjClass(image, out HTuple objClass);
+                return string.Equals(objClass.S, "image", StringComparison.OrdinalIgnoreCase);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private void ReplaceOwnedImage(HObject newImage)
+        {
+            EnsurePluginParams();
+            pluginParams.ho_Image?.Dispose();
+            HObject oldOwned = ownedLoadedImage;
+            ownedLoadedImage = newImage;
+            pluginParams.ho_Image = newImage;
+
+            if (oldOwned != null && !ReferenceEquals(oldOwned, newImage))
+            {
+                try
+                {
+                    oldOwned.Dispose();
+                }
+                catch
+                {
+                }
+            }
+        }
     }
 
+    /// <summary>
+    /// WPF 参数转接类。
+    /// 它承接框架参数，供 XAML 绑定，避免 XAML 直接绑 ParamsFindIntersection 字段。
+    /// </summary>
     public sealed class ToolParams : BindableBase
     {
         private ParamsFindIntersection frameParams;
@@ -185,6 +620,7 @@ namespace Plugin.FindIntersection.ViewModels
         {
             frameParams = source ?? new ParamsFindIntersection();
             syncing = true;
+
             try
             {
                 Line1CenterRow = frameParams.hv_Line1_RoiMidRow;
@@ -279,6 +715,7 @@ namespace Plugin.FindIntersection.ViewModels
         public void UpdateFromRoi(int index, double row, double column, double angleDegree, double height, double width, int pointCount)
         {
             syncing = true;
+
             try
             {
                 if (index == 1)
@@ -340,14 +777,27 @@ namespace Plugin.FindIntersection.ViewModels
         public double BaseRow { get { return baseRow; } set { SetValue(ref baseRow, value); } }
         public double BaseColumn { get { return baseColumn; } set { SetValue(ref baseColumn, value); } }
         public double BaseAngle { get { return baseAngle; } set { SetValue(ref baseAngle, value); } }
-        public double CurrentRow { get { return currentRow; } set { SetValue(ref currentRow, value); } }
-        public double CurrentColumn { get { return currentColumn; } set { SetValue(ref currentColumn, value); } }
-        public double CurrentAngle { get { return currentAngle; } set { SetValue(ref currentAngle, value); } }
+        public double CurrentRow { get { return currentRow; } set { SetCurrentValue(ref currentRow, value); } }
+        public double CurrentColumn { get { return currentColumn; } set { SetCurrentValue(ref currentColumn, value); } }
+        public double CurrentAngle { get { return currentAngle; } set { SetCurrentValue(ref currentAngle, value); } }
         public bool CurrentPoseValid { get { return currentPoseValid; } set { SetValue(ref currentPoseValid, value); } }
 
         private void SetValue<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
         {
             if (!SetProperty(ref storage, value, propertyName)) return;
+            if (!syncing) ParameterChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void SetCurrentValue(ref double storage, double value, [CallerMemberName] string propertyName = null)
+        {
+            if (!SetProperty(ref storage, value, propertyName)) return;
+
+            if (!syncing && !CurrentPoseValid)
+            {
+                CurrentPoseValid = true;
+                return;
+            }
+
             if (!syncing) ParameterChanged?.Invoke(this, EventArgs.Empty);
         }
 
@@ -358,3 +808,18 @@ namespace Plugin.FindIntersection.ViewModels
         }
     }
 }
+
+/*
+ToolVm 改动说明：
+1. ToolVm 不接收 View，不保存任何控件引用，符合 MVVM。
+2. 所有 UI 可变状态都暴露为属性：DisplayImage、DisplayRevision、FitOnNextDisplay、CrossRow、CrossCol、曲线数组、状态文本。
+3. Halcon/ViewROI 的鼠标和 ROI 事件通过 ICommand 传入 VM，不通过控件实例调用。
+4. ROI 改变只更新参数并请求重绘，不直接 ExecuteObj。
+5. RunFromHost 是唯一手动运行入口；外部后台执行完成只刷新显示和结果，不重复运行。
+6. CloseFromHost 不保存，只关闭菜单等轻状态；控件资源由 HalconIntersectionView 自己释放。
+
+ToolParams 改动说明：
+1. 继续作为 ParamsFindIntersection 和 WPF 绑定之间的参数承接类。
+2. XAML 不直接绑定框架参数字段，减少耦合。
+3. 通过 UpdateSourceTrigger=PropertyChanged 实时更新 VM 属性，不再需要 CommitBindings 递归扫控件树。
+*/

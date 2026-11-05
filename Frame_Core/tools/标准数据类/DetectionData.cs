@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FrameCommunity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -242,5 +243,11 @@ namespace Frame_Core
 
 
         }
+    }
+    public class StatisticalDistribution
+    {
+        public string Name = "";
+        public int Count = 0;
+        public double ratio = 0;
     }
 }

@@ -26,6 +26,8 @@ namespace Plugin.DetectDefect
         public string grooveName;
         public bool isExistModel = false;
 
+        public event EventHandler<PluginExecuteCompletedEventArgs> ExecuteCompleted;
+
         public bool ExecuteObj()
         {
             DefectParams = PluginParams as ParamsDetectDefect; //里氏转换
@@ -49,8 +51,6 @@ namespace Plugin.DetectDefect
             HOperatorSet.GenEmptyObj(out ho_RegionOperate);
 
 
-            HTuple Area1;
-            HTuple Area2;
             HTuple hv_Row;
             HTuple hv_Column;
             try
@@ -213,7 +213,7 @@ namespace Plugin.DetectDefect
                 }
                 DefectParams.bl_ModelRunFlag = true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 DefectParams.bl_ModelRunFlag = false;
             }

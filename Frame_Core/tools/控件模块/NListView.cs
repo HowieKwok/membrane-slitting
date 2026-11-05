@@ -487,7 +487,7 @@ namespace Frame_Core
                         listView.Columns[i].Text = temp[i];
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
 
                 }

@@ -1,4 +1,5 @@
 ﻿using Frame_Cor;
+using FrameCommunity;
 using HalconDotNet;
 using LogTool;
 using NPOI.SS.Formula.Functions;
@@ -452,7 +453,7 @@ namespace Frame_Core
                 Row = hv_Parameter[0];
                 return true;
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 Column = hv_Row;
                 Row = hv_Column;
@@ -2289,7 +2290,7 @@ namespace Frame_Core
                 // 如果没有交点，则返回 null
                 return false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
             return false;

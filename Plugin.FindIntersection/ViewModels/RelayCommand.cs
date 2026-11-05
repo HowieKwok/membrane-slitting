@@ -3,12 +3,12 @@ using System.Windows.Input;
 
 namespace Plugin.FindIntersection.ViewModels
 {
-    public sealed class RelayCommand : ICommand
+    public sealed class RelayCommand<T> : ICommand
     {
-        private readonly Action execute;
-        private readonly Func<bool> canExecute;
+        private readonly Action<T> execute;
+        private readonly Func<T, bool> canExecute;
 
-        public RelayCommand(Action execute, Func<bool> canExecute = null)
+        public RelayCommand(Action<T> execute, Func<T, bool> canExecute = null)
         {
             if (execute == null) throw new ArgumentNullException(nameof(execute));
             this.execute = execute;
@@ -19,12 +19,16 @@ namespace Plugin.FindIntersection.ViewModels
 
         public bool CanExecute(object parameter)
         {
-            return canExecute == null || canExecute();
+            if (canExecute == null) return true;
+            if (parameter == null && typeof(T).IsValueType) return canExecute(default(T));
+            return canExecute((T)parameter);
         }
 
         public void Execute(object parameter)
         {
-            execute();
+            T value = default(T);
+            if (parameter != null) value = (T)parameter;
+            execute(value);
         }
 
         public void RaiseCanExecuteChanged()

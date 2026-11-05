@@ -1,5 +1,12 @@
-﻿using LogTool;
-
+﻿using ControlBoard.Model;
+using ControlBoard.服务类;
+using DevMgmt;
+using DevMgmt.Cameras.Models;
+using DevMgmt.Light.Models;
+using Frame_Core.业务类;
+using FrameCommunity.DataOperation;
+using FrameCommunity.错误代码;
+using LogTool;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -60,18 +67,7 @@ namespace Frame_Core
         /// </summary>
         public PurviewManage purviewManage = new PurviewManage();
 
-        //当前活动窗体类型
-        public object activeObject { get; set; }
 
-        /// <summary>
-        /// 相机管理
-        /// </summary>
-        public Dictionary<CameraEnum, CameraManager> cameraManager = new Dictionary<CameraEnum, CameraManager>();
-
-        /// <summary>
-        /// 光源管理
-        /// </summary>
-        public LightManager[] lightManager = new LightManager[0];
 
         /// <summary>
         /// 3D测厚纠偏管理
@@ -105,7 +101,7 @@ namespace Frame_Core
         public bool Is_simulation = false; //项目仿真运行标志位。
 
         public bool Is_bShowStationTiming = false;//是否显示工位时间
-
+        public bool LightOnOff = false;//光源状态开关
         /// <summary>
         /// 自动仿真标志
         /// </summary>
@@ -134,57 +130,98 @@ namespace Frame_Core
         //工艺配方参数
         public CraftBase craftBase = new CraftBase();
 
+        //相机参数
+        public CamParam M_CamParam = new CamParam();
+
+        //图像保存参数
+        public NewImageSaveParamer M_NewImageSaveParamer = new NewImageSaveParamer();
+
+        //光源参数
+        public LightControllerParam M_LightControllerParam = new LightControllerParam();
+
+        //PLC参数
+        public PLCDevParam M_PLCDevParam = new PLCDevParam();
+
+        //PLC服务类
+        public Server_DiecuttingCutPLC server_DiecuttingCutPLC = null;
+
+        //控制卡参数
+        public ParamControlCord M_ParamControlCord = new ParamControlCord();
+
+        //点检参数
+        public Param_PointInspection M_param_PointInspection = new Param_PointInspection();
+        /// <summary>
+        /// 相机相关
+        /// </summary>
+        public Dictionary<int, Tuple<CameraDev, CameraRelevancy>> M_CameraRelevancies = new Dictionary<int, Tuple<CameraDev, CameraRelevancy>>();
 
         //流程类
         public BaseProDevice baseProDevice = new BaseProDevice();
+        /// <summary>
+        /// 流程管理模块，集中管理流程列表、流程保存/读取、运行控制和线程释放。
+        /// Project 保留旧接口作为兼容门面，避免调试界面和插件旧代码大面积修改。
+        /// </summary>
+        public ProcessManager Process流程插件管理者 = new ProcessManager();
 
-        // 流程列表
-        public List<ProcessServices> m_ProcessList = new List<ProcessServices>();
+        /// <summary>
+        /// 流程列表旧入口。
+        /// 为兼容调试界面、业务类和插件中已有的 Project.Instance.m_ProcessList 调用，保留该属性名；
+        /// 实际数据由 Proc.List 统一维护，Project 不再单独保存 instanceList。
+        /// </summary>
+        public List<ProcessServices> m_ProcessList
+        {
+            get { return Process流程插件管理者.List; }
+        }
+
+
         private List<List<ModuleInfo>> instanceList = new List<List<ModuleInfo>>(); //用于保存整个Instance的结构，流程和模块。
 
 
-
-        public void CloseAllDev()
+        public void Init_Dev()
         {
             try
             {
-                foreach (var item in cameraManager.Values)
-                {
-                    if (item != null)
-                    {
-                        item.Close();
-                    }
+                M_CamParam.l_CameraDevs.ConnectAllCam();
+                M_CamParam.l_CameraDevs.StartGrabImage();        
 
-                }
+                M_LightControllerParam.l_LightControllerDevs.ConnectAllDev();
+                M_LightControllerParam.l_LightControllerDevs.OpenAllLight();
+                LightOnOff = M_LightControllerParam.l_LightControllerDevs.GetAllLightOpenState();
 
-                for (int i = 0; i < lightManager.Length; i++)
-                {
-                    if (lightManager[i] != null)
-                    {
-                        lightManager[i].Close();
-                    }
-                }
+                server_DiecuttingCutPLC.Connect(M_PLCDevParam.IsConnect, PLCTypeEnum.Omron, (CommunicationProtocolEnum)M_PLCDevParam.ComType, M_PLCDevParam.PLC_IP, M_PLCDevParam.DevPort, (emDataFormat)M_PLCDevParam.nByteTrans);
 
-                if (cutOverlayPLCManage != null)
-                {
-                    cutOverlayPLCManage.Disconnect();
-                }
+                ServiceCardManage.Instance.InitServiceCard(M_ParamControlCord);
+            }
+            catch (Exception ex)
+            {
+                Log4netRecord.ErrorLog.Debug(ex);
+
+            }
+        }
+        public void Close_Dev()
+        {
+            try
+            {
+                M_CamParam.l_CameraDevs.CloseAllCam();
+                M_LightControllerParam.l_LightControllerDevs.CloseAllDev();
+
+                server_DiecuttingCutPLC?.Disconnect();
+
+                ServiceCardManage.Instance.GetIControlCard()?.Board_Close();
+                //if (cutOverlayPLCManage != null)
+                //{
+                //    cutOverlayPLCManage.Disconnect();
+                //}
 
                 //if (dbjCardManager != null)
                 //{
                 //    dbjCardManager.Close();
                 //}
 
-                if (slaveMachineManager != null)
-                {
-                    slaveMachineManager.Close();
-                }
-
-                //if (correctManage != null)
+                //if (slaveMachineManager != null)
                 //{
-                //    correctManage.Close();
+                //    slaveMachineManager.Close();
                 //}
-
             }
             catch (Exception ex)
             {
@@ -192,8 +229,8 @@ namespace Frame_Core
 
             }
 
-
         }
+
 
         public bool INIProject()
         {
@@ -202,132 +239,96 @@ namespace Frame_Core
             string paramPath = "";
 
             int camNum = 2;
-            int lightNum = 2;
 
             try
             {
-                //初始化路径
-                paramPathSet.InitPath();
-                //加载系统参数              
-                systemInfo.filePath = paramPathSet.SystemSetPathName;
-                systemInfo = (SystemInfo)systemInfo.Read();
-                if (systemInfo == null)
-                {
-                    Log4netRecord.ErrorLog.Fatal("系统配置加载失败");
-                    systemInfo = new SystemInfo();
-                }
-                systemInfo.filePath = paramPathSet.SystemSetPathName;
-                systemInfo.IsHostMachine = true;
+                ErrorWorks.RegisterErrorInfo();
 
-
-
-                //初始化参数路径到生产类型目录下
-                //paramPathSet.InitRelativeParamPath(systemInfo.CurrentMaterial.ToString());
-                ComStationsanwahlEnum comStationsanwahlEnum = (ComStationsanwahlEnum)systemInfo.ComStationsanwahl;
-                paramPathSet.InitRelativeParamPath(comStationsanwahlEnum.ToString());
+                paramPathSet.InitRelativeParamPath();
 
                 //加载日志参数
                 LogParamManage.GetLogParam(paramPathSet.LogParamPath, ref logParam);
                 //加载参数及初始化配置文件和对象
-                Log4netRecord.InitLog4netConfigure(logParam);//初始化软件报错日志                
+                Log4netRecord.InitLog4netConfigure(logParam);//初始化软件报错日志 
+
+                //加载系统参数
+                systemInfo = systemInfo.ReadExtension<SystemInfo>(paramPathSet.SystemPath, $"SystemParam");
+                systemInfo.IsHostMachine = true;
 
 
                 //初始化配方、生产路径
-                paramPathSet.UpdateCraftPath(systemInfo.CurrentCraft, systemInfo.currentMojuanhao, systemInfo.CurrentMaterial);
+                paramPathSet.UpdateCraftPath(systemInfo.RecipeName, systemInfo.currentMojuanhao, systemInfo.CraftType);
 
                 //加载用户管理参数                       
                 paramPath = paramPathSet.UserParamPathName;
                 initParamResult &= userManage.InitUserParam(paramPath);
 
-                //加载 配方参数 和 流程参数
-                ChnageCraft(systemInfo.CurrentCraft, systemInfo.CurrentMaterial);
+
+                //【1】加载相机参数
+                M_CamParam = M_CamParam.ReadExtension<CamParam>(paramPathSet.SystemPath, $"AllCamParam");
+
+                //【2】加载光源参数
+                M_LightControllerParam = M_LightControllerParam.ReadExtension<LightControllerParam>(paramPathSet.SystemPath, $"AllLightControllerParam");
+
+                //【3】加载 配方参数
+                craftBase = Craft_ModelService.GetCraft(paramPathSet.CraftPath, systemInfo.CraftType, systemInfo.RecipeName);
+
+                //【4】加载图像保存参数
+                M_NewImageSaveParamer = M_NewImageSaveParamer.ReadExtension<NewImageSaveParamer>(paramPathSet.SystemPath, $"ImageSaveParamer", M_CamParam.l_CameraDevs.Count);
+
+                //【5】加载PLC参数
+                M_PLCDevParam = M_PLCDevParam.ReadExtension<PLCDevParam>(paramPathSet.SystemPath, $"PLCDevParamr");
+                server_DiecuttingCutPLC = new Server_DiecuttingCutPLC(M_PLCDevParam);
+
+                //【6】加载点检参数
+                M_param_PointInspection = M_param_PointInspection.ReadExtension<Param_PointInspection>(paramPathSet.SystemPath, $"PointInspectionParamer");
+
+                //【7】加载控制卡参数
+                M_ParamControlCord = M_ParamControlCord.ReadExtension<ParamControlCord>(paramPathSet.SystemPath, $"ControlCordParam");
+
                 //初始化运行内存及CPU读取功能
                 MyMetrics.GetPrivateWorkingSetMB();
                 MyMetrics.GetCpuPercentLikeTaskManager();
-                //加载相机参数
-                //加载相机参数、标定参数
-                string[] sizeCoefficientName = new string[0];//尺寸系数名称
 
-                foreach (SizeEnum item in Enum.GetValues(typeof(SizeEnum)))//相机
+                //【100】连接设备
+                Init_Dev();
+
+                //相机相关
+                M_CameraRelevancies.Clear();
+                for (int i = 0; i < M_CamParam.l_CameraDevs.Count; i++)
                 {
-                    Array.Resize(ref sizeCoefficientName, sizeCoefficientName.Length + 1);
-                    sizeCoefficientName[sizeCoefficientName.Length - 1] = item.ToString();
+                    CameraEnum cameraEnum = (CameraEnum)i;
+                    CameraDev cameraDev = M_CamParam.l_CameraDevs[i];
+                    CameraRelevancy cameraRelevancy = new CameraRelevancy();
+                    M_CameraRelevancies.Add(i, new Tuple<CameraDev, CameraRelevancy>(cameraDev, cameraRelevancy));
+                    InitCamRelevancies(i);
                 }
 
-                //主机
-                cameraManager.Clear();
-               if (systemInfo.CurrentMaterial == MaterialCrafEnum.PFT清洗机)
+                if (systemInfo.CraftType == MaterialCrafEnum.激光模切一体机)
                 {
-                    InitCam(2);
-                   // Init3DThickManage(2);
-                    baseProDevice = new PFTCleanProDevice();
 
-                    lightNum = 1;
+                    // Init3DThickManage(2);
+                    baseProDevice = new DieCutProDevice();
+
                 }
-                //注册流程相机图像队列
-                //注册流程相机图像队列
-                //if (systemInfo.CurrentMaterial == MaterialCrafEnum.PFT清洗机)
-                //{
-                //    for (int i = 0; i < baseProDevice.m_DicCamOperaParam.Count; i++)
-                //    {
-                //        if (i == 0 )
-                //        {
-                //            baseProDevice.m_DicCamOperaParam[i].QueueGrabImage = cameraManager[(CameraEnum)i].Camera.QueueGrabImage;
-                //            cameraManager[(CameraEnum)i].Camera.CamCallbackEvent = baseProDevice.m_DicCamOperaParam[i].CallBackImgDataDeal;
-                //        }
-                //        else if (i == 1)
-                //        {
-                //            baseProDevice.m_DicCamOperaParam[i].QueueGrabImage = cameraManager[(CameraEnum)1].Camera.QueueGrabImage;
-                //            cameraManager[(CameraEnum)i].Camera.CamCallbackEvent = baseProDevice.m_DicCamOperaParam[i].CallBackImgDataDeal;
-                //        }
-                //        //留给3D相机使用
 
-                //    }
-                //}
-                //else
-                {
-                    foreach (var item in cameraManager.Keys)
-                    {
-                
-                        //注册流程相机图像队列
-                        if (!cameraManager[item].Camera.bIs3D)
-                        {
-                            baseProDevice.m_DicCamOperaParam[(int)item].QueueGrabImage = cameraManager[item].Camera.QueueGrabImage;
-                        }
-                        else
-                        {
-                            baseProDevice.m_DicCamOperaParam[(int)item].Queue3DImage = cameraManager[item].Camera.QueueGrab3DImage;
-                        }
-
-                        cameraManager[item].Camera.CamCallbackEvent = baseProDevice.m_DicCamOperaParam[(int)item].CallBackImgDataDeal;
-                    }
-                }
 
                 //初始化点检功能
-                PointInspectionWorks.InitPointInspectionFunction(cameraManager);
+                PointInspectionWorks.InitPointInspectionFunction();
 
-                //加载光源参数
-                lightManager = new LightManager[lightNum];
-                for (int i = 0; i < lightManager.Length; i++)
-                {
-                    lightManager[i] = new LightManager();
-                    paramPath = paramPathSet.LightParamPathName + $"{i + 1}";
-                    initParamResult &= lightManager[i].InitLightParam(paramPath);
-                    initObjectResult &= lightManager[i].IniLightSystem();
-                }
-                
+
 
                 ///加载磁盘参数
                 if (driveParameter == null) driveParameter = new DriveParameter();
                 driveParameter.filePath = paramPathSet.DiverParamPathName;
                 driveParameter = (DriveParameter)driveParameter.Read();
 
-                Project.Instance.paramPathSet.initProdDataPath = $"{driveParameter.driveName}\\生产数据\\";
+                Project.Instance.paramPathSet.initProdDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据") + "\\";
 
 
 
                 //初始化主设备参数
-                InitModel_cutOverlayPLCManage();
+                //      InitModel_cutOverlayPLCManage();
 
                 //加载打标机软件参数
                 //dbjCardManager = new DBJCardManager();
@@ -337,21 +338,28 @@ namespace Frame_Core
 
 
                 //加载副机参数
-                slaveMachineManager = new SlaveMachineManager();
-                paramPath = paramPathSet.SlaveParamPathName;
-                initParamResult &= slaveMachineManager.InitParam(paramPath);
-                initObjectResult &= slaveMachineManager.InitPLC();
+                //slaveMachineManager = new SlaveMachineManager();
+                //paramPath = paramPathSet.SlaveParamPathName;
+                //initParamResult &= slaveMachineManager.InitParam(paramPath);
+                //initObjectResult &= slaveMachineManager.InitPLC();
 
 
                 //新建膜卷路径
-                NewMujuanhao(systemInfo.CurrentCraft, systemInfo.currentMojuanhao, systemInfo.CurrentMaterial);
+                initParamResult &= NewMujuanhao(systemInfo.RecipeName, systemInfo.currentMojuanhao, systemInfo.CraftType);
 
+                //插件管理器初始化
+                Process流程插件管理者.SetPath(paramPathSet.ProcessPath, paramPathSet.InstanceParamPath);
 
                 ReadProject(); // 加载配方后，默认添加一个初始编号为0的产品。
                 SaveProject();
 
+
                 baseProDevice.INIPro();
                 baseProDevice.INIProduct();
+
+                BindCamImageSource(baseProDevice.m_DicCamOperaParam);
+
+
 
 
 
@@ -362,7 +370,7 @@ namespace Frame_Core
                 }
                 paramPath = paramPathSet.purviewParamPathName;
                 initParamResult &= purviewManage.InitpurviewParam(paramPath);
-                purviewManage.UpdateModelPurviewParam(modelServiceManage.m_dicModels,ref purviewManage.purviewParam.l_modelPrivilege);
+                purviewManage.UpdateModelPurviewParam(modelServiceManage.m_dicModels, ref purviewManage.purviewParam.l_modelPrivilege);
                 purviewManage.purviewParam.Save();
 
 
@@ -382,34 +390,22 @@ namespace Frame_Core
         /// </summary>
         /// <param name="camNum"></param>
         /// <returns></returns>
-        public bool InitCam(int camNum)
+        public bool InitCamRelevancies(int index)
         {
-            for (int i = 0; i < camNum; i++)
-            {
-                CameraEnum cameraEnum = (CameraEnum)i;
-                cameraManager.Add(cameraEnum, new CameraManager() { CameraNameEnum = cameraEnum });
+            CameraRelevancy cameraRelevancy = Service_Camera.Get_CameraRelevancy(index);
+            cameraRelevancy.InitCalibrationPlateParam(paramPathSet.CalibrationPlateParamPath + $"{index}");
+            cameraRelevancy.InitCheckerboardParam(paramPathSet.CheckerboardParamPath + $"{index}");
+            cameraRelevancy.InitPretargetingCalibParam(paramPathSet.PretargetingCalibParamPath + $"{index}");
+            cameraRelevancy.InitImageSaveParamer(paramPathSet.ImageSaveParamPath + $"{index}");
+            cameraRelevancy.InitOVHMarkParam(paramPathSet.CutOverlayMarkParamPath + $"{index}");
+            cameraRelevancy.InitMsaCircleParam(paramPathSet.MsaCircleParamPath + $"{index}");
+            cameraRelevancy.InitMsaLineWidthParam(paramPathSet.MsaLineWidthParamPath + $"{index}");
 
-                string paramPath = paramPathSet.CamParamPathName + $"{cameraEnum}";
 
-              
-                cameraManager[cameraEnum].InitCameraParam(paramPath);
-                cameraManager[cameraEnum].IniCameraSystem(i);
-
-                cameraManager[cameraEnum].InitCalibrationPlateParam(paramPathSet.CalibrationPlateParamPath + $"{cameraEnum}");
-                cameraManager[cameraEnum].InitCheckerboardParam(paramPathSet.CheckerboardParamPath + $"{cameraEnum}");
-                cameraManager[cameraEnum].InitPretargetingCalibParam(paramPathSet.PretargetingCalibParamPath + $"{cameraEnum}");
-                cameraManager[cameraEnum].InitImageSaveParamer(paramPathSet.ImageSaveParamPath + $"{cameraEnum}");
-                cameraManager[cameraEnum].InitOVHMarkParam(paramPathSet.CutOverlayMarkParamPath + $"{cameraEnum}");
-                cameraManager[cameraEnum].InitMsaCircleParam(paramPathSet.MsaCircleParamPath + $"{cameraEnum}");
-                cameraManager[cameraEnum].InitMsaLineWidthParam(paramPathSet.MsaLineWidthParamPath + $"{cameraEnum}");
-                cameraManager[cameraEnum].InitMsa3DThickDetect(paramPathSet.Msa3DThickParamPath + $"{cameraEnum}");
-              
-                cameraManager[cameraEnum].InitParam_GrayScaleAdaptationParameter(paramPathSet.GrayScaleAdaptationParamPath + $"{cameraEnum}");
-                cameraManager[cameraEnum].m_SizePointInspectionManage.InitParam(paramPathSet.CamSizePointInspectionParamPathName + $"{cameraEnum}");
-                cameraManager[cameraEnum].m_DefectPointInspectionManage.InitParam(paramPathSet.CamDefectPointInspectionParamPathName + $"{cameraEnum}");
-                cameraManager[cameraEnum].InitParam_PointInspectionStateParameter(paramPathSet.CamPointInspectionStateParamPathName + $"{cameraEnum}");
-            }
-
+            cameraRelevancy.InitParam_GrayScaleAdaptationParameter(paramPathSet.GrayScaleAdaptationParamPath + $"{index}");
+            cameraRelevancy.m_SizePointInspectionManage.InitParam(paramPathSet.CamSizePointInspectionParamPathName + $"{index}");
+            cameraRelevancy.m_DefectPointInspectionManage.InitParam(paramPathSet.CamDefectPointInspectionParamPathName + $"{index}");
+            cameraRelevancy.InitParam_PointInspectionStateParameter(paramPathSet.CamPointInspectionStateParamPathName + $"{index}");
             return true;
         }
 
@@ -422,21 +418,21 @@ namespace Frame_Core
             {
 
                 thick3DManages = new Thick3DManage[thickNum];
-                for(int i=0;i<thickNum;i++)
+                for (int i = 0; i < thickNum; i++)
                 {
                     thick3DManages[i] = new Thick3DManage();
-                    thick3DManages[i].InitParam(paramPathSet.CamParamPathName+$"3D{i+1}");
-                    result= true;
+                    thick3DManages[i].InitParam(paramPathSet.CamParamPathName + $"3D{i + 1}");
+                    result = true;
                 }
             }
-            catch (Exception ee)
+            catch (Exception)
             {
 
-                result= false; ;
-             
+                result = false; ;
+
             }
             return result;
-        
+
         }
 
 
@@ -449,57 +445,33 @@ namespace Frame_Core
             ////加载主设备PLC参数  
             if (cutOverlayPLCManage == null) cutOverlayPLCManage = new PFTPLCManage();
             cutOverlayPLCManage.LoadParam(paramPathSet.CutOverlayPLCParamPath);
-            cutOverlayPLCManage.Connect(cutOverlayPLCManage.m_DevParam.IsConnect, PLCTypeEnum.Omron, (CommunicationProtocolEnum)cutOverlayPLCManage.m_DevParam.ComType, cutOverlayPLCManage.m_DevParam.PLC_IP, cutOverlayPLCManage.m_DevParam.DevPort,(emDataFormat)cutOverlayPLCManage.m_DevParam.nByteTrans);
+            cutOverlayPLCManage.Connect(cutOverlayPLCManage.m_DevParam.IsConnect, PLCTypeEnum.Omron, (CommunicationProtocolEnum)cutOverlayPLCManage.m_DevParam.ComType, cutOverlayPLCManage.m_DevParam.PLC_IP, cutOverlayPLCManage.m_DevParam.DevPort, (emDataFormat)cutOverlayPLCManage.m_DevParam.nByteTrans);
         }
 
         public void BindCamImageSource(Dictionary<int, BaseProParam> m_DicCamOperaParam)
         {
             baseProDevice.m_DicCamOperaParam = m_DicCamOperaParam;
-            //if (systemInfo.CurrentMaterial == MaterialCrafEnum.PFT清洗机)
-            //{
-            //    for (int i = 0; i < m_DicCamOperaParam.Count; i++)
-            //    {
-            //        if (i == 0)
-            //        {
-            //            baseProDevice.m_DicCamOperaParam[i].QueueGrabImage = cameraManager[(CameraEnum)i].Camera.QueueGrabImage;
-            //            cameraManager[(CameraEnum)i].Camera.CamCallbackEvent = baseProDevice.m_DicCamOperaParam[i].CallBackImgDataDeal;
-            //        }
-            //        else if (i == 2)
-            //        {
-            //            baseProDevice.m_DicCamOperaParam[i].QueueGrabImage = cameraManager[(CameraEnum)1].Camera.QueueGrabImage;
-            //            cameraManager[(CameraEnum)i].Camera.CamCallbackEvent = baseProDevice.m_DicCamOperaParam[i].CallBackImgDataDeal;
-            //        }
-            //        //留给3D相机使用
-            //    }
-            //}
-            //else
-            {
-                foreach (var item in cameraManager.Keys)
-                {
-                    //注册流程相机图像队列
-                    if (!cameraManager[item].Camera.bIs3D)
-                    {
-                        baseProDevice.m_DicCamOperaParam[(int)item].QueueGrabImage = cameraManager[item].Camera.QueueGrabImage;
-                    }
-                    else
-                    {
-                        baseProDevice.m_DicCamOperaParam[(int)item].Queue3DImage = cameraManager[item].Camera.QueueGrab3DImage;
-                    }
 
-                    cameraManager[item].Camera.CamCallbackEvent = baseProDevice.m_DicCamOperaParam[(int)item].CallBackImgDataDeal;
+            for (int i = 0; i < M_CamParam.l_CameraDevs.Count; i++)
+            {
+                //注册流程相机图像队列
+                if (baseProDevice.m_DicCamOperaParam.Count > i)
+                {
+                    baseProDevice.m_DicCamOperaParam[i].QueueGrabImage = M_CamParam.l_CameraDevs[i].Camera.QueueGrabImage;
+
+                    M_CamParam.l_CameraDevs[i].Camera.CamCallbackEndEvent = null;
+                    M_CamParam.l_CameraDevs[i].Camera.CamCallbackEndEvent = baseProDevice.m_DicCamOperaParam[i].CallBackImgDataDeal;
                 }
             }
-
-
         }
         public void RemoveBindCamImageSource()
         {
-            foreach (var item in cameraManager.Keys)
+            foreach (var item in M_CameraRelevancies.Keys)
             {
                 //注册流程相机图像队列                  
-                // baseProDevice.m_DicCamOperaParam[(int)item].QueueGrabImage = cameraManager[item].Camera.QueueGrabImage;
-                cameraManager[item].Camera.CamCallbackEvent -= baseProDevice.m_DicCamOperaParam[(int)item].CallBackImgDataDeal;
-                //cameraManager[item].Camera.CamCallbackEvent += baseProDevice.m_DicCamOperaParam[(int)item].CallBackImgDataDeal;
+                // baseProDevice.m_DicCamOperaParam[(int)item].QueueGrabImage = M_CameraRelevancies[item].Camera.QueueGrabImage;
+                //M_CameraRelevancies[item].Camera.CamCallbackEvent -= baseProDevice.m_DicCamOperaParam[(int)item].CallBackImgDataDeal;
+                //M_CameraRelevancies[item].Camera.CamCallbackEvent += baseProDevice.m_DicCamOperaParam[(int)item].CallBackImgDataDeal;
             }
         }
 
@@ -515,12 +487,12 @@ namespace Frame_Core
             try
             {
                 //初始化配方流程路径
-                craftBase.filePath = paramPathSet.CraftPath + _Currentmaterial.ToString() + "\\" + _CurrentCraft;
+                craftBase.filePath = paramPathSet.CraftPath + _Currentmaterial.GetDescription() + "\\" + _CurrentCraft;
                 //craftInfo.fileFullPath = paramPathSet.craftParamPath;
                 switch (_Currentmaterial)
                 {
-                   
-                    case MaterialCrafEnum.PFT清洗机:
+
+                    case MaterialCrafEnum.激光模切一体机:
                         craftBase = craftBase.Read<PFTCleanCraft>();
                         if (craftBase == null)
                         {
@@ -528,6 +500,7 @@ namespace Frame_Core
                             craftBase = new PFTCleanCraft();
                             craftBase.Init();
                         }
+
                         break;
 
 
@@ -540,7 +513,7 @@ namespace Frame_Core
                     Log4netRecord.ErrorLog.Fatal("工艺配方加载失败:" + craftBase.fileFullPath);
                     return false;
                 }
-                craftBase.fileFullPath = paramPathSet.CraftPath + _Currentmaterial.ToString() + "\\" + _CurrentCraft + ".json";
+                craftBase.fileFullPath = paramPathSet.CraftPath + _Currentmaterial.GetDescription() + "\\" + _CurrentCraft + ".json";
             }
             // craftBase.fileFullPath = paramPathSet.CraftPath + _Currentmaterial.ToString() + "\\" + _CurrentCraft + ".cfts";
             //加载配方的检测流程。
@@ -555,23 +528,22 @@ namespace Frame_Core
             return flag1;
         }
         object NewMujuanhao_lock = new object();
-        public void NewMujuanhao(string _currentProduct, string _currentMojuanhao, MaterialCrafEnum _materialCrafEnum)
+        public bool NewMujuanhao(string _currentProduct, string _currentMojuanhao, MaterialCrafEnum _materialCrafEnum)
         {
             lock (NewMujuanhao_lock)
             {
-                //初始化配方、生产路径
-                //初始化配方、生产路径        
-                paramPathSet.UpdateParamPath(_currentProduct, _currentMojuanhao, _materialCrafEnum, m_ProcessList, systemInfo.IsHostMachine);
+                try
+                {
+                    paramPathSet.UpdateParamPath(_currentProduct, _currentMojuanhao, _materialCrafEnum, m_ProcessList, systemInfo.IsHostMachine);
 
-                cutOverlayPLCManage.SetLogPath(paramPathSet.ProductMojuanPath);
+                    server_DiecuttingCutPLC?.SetLogPath(paramPathSet.ProductMojuanPath);
+                    cutOverlayPLCManage?.SetLogPath(paramPathSet.ProductMojuanPath);
 
-                string strPath = paramPathSet.ProductMojuanPath;
-                if (!Directory.Exists(strPath))
+                    string strPath = paramPathSet.ProductMojuanPath;
                     Directory.CreateDirectory(strPath);
 
-                TJBJInfo.TJBJInfoPath = strPath + "CCD停机报警信息记录.ini";
-
-                LogWorks.SetGrayScaleAdaptationLoggPath(strPath + "GrayLog");
+                    TJBJInfo.TJBJInfoPath = Path.Combine(strPath, "CCD停机报警信息记录.ini");
+                    LogWorks.SetGrayScaleAdaptationLoggPath(Path.Combine(strPath, "GrayLog"));
 
                 //重开膜卷初始化打标软件参数和信息路径
                 //dbjCardManager.ReadLogPath = strPath + "打标软件接收记录-接收MarkingSoftwareReceiveRecord.ini";
@@ -580,266 +552,183 @@ namespace Frame_Core
                 //dbjCardManager.SendDBPath = strPath + "打标软件发送记录-打标MarkingSoftwareMarkingRecord.ini";
                 //dbjCardManager.SendJPPath = strPath + "打标软件发送记录-纠偏MarkingSoftwareOffsetRecord.ini";
 
-                ////重开膜卷初始化主副机软件参数和信息路径
-                slaveMachineManager.ReadLogPath = strPath + "主副机接收记录-接收MarkingSoftwareReceiveRecord.ini";
-                slaveMachineManager.SendLogPath = strPath + "主副机发送记录-发送MarkingSoftwareSendRecord.ini";
-                slaveMachineManager.SendHeartPath = strPath + "主副机发送记录-心跳MarkingSoftwareHeartbeatRecord.ini";
-                slaveMachineManager.SendDBPath = strPath + "主副机发送记录-打标MarkingSoftwareMarkingRecord.ini";
-
-
-
-            }
-        }
-
-        /// <summary>
-        /// 获取光源状态
-        /// </summary>
-        /// <returns></returns>
-        public bool GetLightState()
-        {
-            bool openOrClosing = true;
-            try
-            {
-                if (lightManager != null)
-                {
-                    for (int i = 0; i < lightManager.Length; i++)
+                    ////重开膜卷初始化主副机软件参数和信息路径
+                    if (slaveMachineManager != null)
                     {
-                        openOrClosing &= lightManager[i].openOrCloseFlag;
+                        slaveMachineManager.ReadLogPath = Path.Combine(strPath, "主副机接收记录-接收MarkingSoftwareReceiveRecord.ini");
+                        slaveMachineManager.SendLogPath = Path.Combine(strPath, "主副机发送记录-发送MarkingSoftwareSendRecord.ini");
+                        slaveMachineManager.SendHeartPath = Path.Combine(strPath, "主副机发送记录-心跳MarkingSoftwareHeartbeatRecord.ini");
+                        slaveMachineManager.SendDBPath = Path.Combine(strPath, "主副机发送记录-打标MarkingSoftwareMarkingRecord.ini");
                     }
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Log4netRecord.ErrorLog.Debug(ex);
+                    return false;
                 }
             }
-            catch (Exception ex)
-            {
-                Log4netRecord.ErrorLog.Error(ex);
-            }
-            return openOrClosing;
         }
+
+
 
         #region Process流程控制
         /// <summary>
-        /// 创建流程
+        /// 创建流程。
+        /// 兼容旧的 Project.CreateProcess() 写法，内部交给 Proc 创建 ProcessServices 并生成不重复 ProcessID。
         /// </summary>
+        /// <returns>新流程 ID。</returns>
         public int CreateProcess()
         {
-            ProcessServices processervice = new ProcessServices();
-            //获取新不重复的id  如果已经存在  1,2,4   那么久获得的id 是 3
-            bool flag = false;
-            int id = 0;
-            do
-            {
-                flag = true;
-
-                foreach (ProcessServices procS in m_ProcessList)
-                {
-                    if (procS.process.processInfo.ProcessID == id)
-                    {
-                        id++;
-                        flag = false;
-                        break;
-                    }
-                }
-
-                if (flag == true)
-                {
-                    break;
-                }
-            } while (true);
-            processervice.process.processInfo.ProcessID = id;
-            processervice.process.processInfo.ProcessName = "流程" + id.ToString();
-            m_ProcessList.Add(processervice);
-            return id;
+            return Process流程插件管理者.Create();
         }
+        /// <summary>
+        /// 按指定 ID 和名称创建流程。
+        /// 兼容旧代码入口，实际创建逻辑由 Proc 管理。
+        /// </summary>
+        /// <param name="ID">流程 ID。</param>
+        /// <param name="Name">流程名称。</param>
         public void CreateProcess(int ID, string Name)
         {
-            ProcessServices processervice = new ProcessServices();
-            processervice.process.processInfo.ProcessID = ID;
-            processervice.process.processInfo.ProcessName = Name;
-            m_ProcessList.Add(processervice);
+            Process流程插件管理者.Create(ID, Name);
         }
         /// <summary>
-        /// 根据id获取对应的Process
+        /// 根据 ID 获取对应的 Process。
+        /// 插件中 GetResultParams 等旧代码仍可通过该入口把结果写回流程输出表。
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">流程 ID。</param>
+        /// <returns>对应 Process；未找到返回 null。</returns>
         public Process GetProcessById(int id)
         {
-            return m_ProcessList.FirstOrDefault(c => c.process.processInfo.ProcessID == id).process;
+            return Process流程插件管理者.GetProcess(id);
         }
         /// <summary>
-        /// 根据id获取对应的ProcessService
+        /// 根据 ID 获取对应的 ProcessServices。
+        /// BuildProcessServiceList 创建流程后会通过该入口取回服务对象并绑定初始化/运行事件。
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">流程 ID。</param>
+        /// <returns>对应 ProcessServices；未找到返回 null。</returns>
         public ProcessServices GetProcessServiceById(int id)
         {
-            return m_ProcessList.FirstOrDefault(c => c.process.processInfo.ProcessID == id);
+            return Process流程插件管理者.GetService(id);
         }
         /// <summary>
-        /// 根据Name获取对应的Process
+        /// 根据流程名称获取对应的 Process。
+        /// 调试设置界面按流程名定位当前流程时使用该旧入口。
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="name">流程名称。</param>
+        /// <returns>对应 Process；未找到返回 null。</returns>
         public Process GetProcessByName(string name)
         {
-            return m_ProcessList.FirstOrDefault(c => c.process.processInfo.ProcessName == name).process;
+            return Process流程插件管理者.GetProcess(name);
         }
         /// <summary>
-        /// 根据Name获取对应的ProcessService
+        /// 根据流程名称获取对应的 ProcessServices。
         /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        /// <param name="name">流程名称。</param>
+        /// <returns>对应 ProcessServices；未找到返回 null。</returns>
         public ProcessServices GetProcessServiceByName(string name)
         {
-            return m_ProcessList.FirstOrDefault(c => c.process.processInfo.ProcessName == name);
+            return Process流程插件管理者.GetService(name);
         }
         /// <summary>
-        /// 删除Process
+        /// 清空指定 Process 下的模块对象。
+        /// 为兼容旧语义，该入口不从流程列表移除 ProcessServices。
         /// </summary>
-        /// <param name="proc"></param>
+        /// <param name="proc">需要清空模块的流程对象。</param>
         public void DeleteProcess(Process proc)
         {
-            if (proc != null)
-            {
-                foreach (IPlugin Obj in proc.m_ModuleObjList)
-                {
-                    Obj.DisPoseObj();
-                }
-                proc.m_ModuleObjList.Clear();
-                GC.Collect();
-            }
+            Process流程插件管理者.Delete(proc);
         }
         /// <summary>
-        /// 删除ProcessService
+        /// 删除指定 ProcessServices。
+        /// 内部会先请求流程线程安全退出，再释放模块并从 Proc.List 移除。
         /// </summary>
-        /// <param name="procS"></param>
+        /// <param name="procS">需要删除的流程服务。</param>
         public void DeleteProcessService(ProcessServices procS)
         {
-            if (procS != null)
-            {
-                foreach (IPlugin Obj in procS.process.m_ModuleObjList)
-                {
-                    Obj.DisPoseObj();
-                }
-                m_ProcessList.Remove(procS);
-                GC.Collect();
-            }
+            Process流程插件管理者.DeleteService(procS);
         }
         /// <summary>
-        /// 清空所有ProcessService和Process
+        /// 清空所有 ProcessServices 和 Process。
+        /// 主要在重新加载流程、切换流程结构前使用；实际线程关闭和模块释放由 Proc.DeleteAll 完成。
         /// </summary>
         public void DeleteALLProcess()
         {
-            foreach (ProcessServices processService in m_ProcessList)
-            {
-                foreach (IPlugin Obj in processService.process.m_ModuleObjList)
-                {
-                    Obj.DisPoseObj();
-                }
-            }
-            m_ProcessList.Clear();
-            GC.Collect();
+            Process流程插件管理者.DeleteAll();
         }
 
         /// <summary>
-        /// 获取所有项目运行状态
+        /// 获取所有流程运行状态。
         /// </summary>
-        /// <returns></returns>
+        /// <returns>任一流程正在运行返回 true。</returns>
         public bool GetStates()
         {
-            foreach (ProcessServices pro in m_ProcessList)
-            {
-                if (pro.GetThreadStatus() == true) return true;
-            }
-            return false;
+            return Process流程插件管理者.GetStates();
         }
 
         /// <summary>
-        /// 连续运行
+        /// 启动指定流程连续运行。
         /// </summary>
-        /// <param name="projectID"></param>
+        /// <param name="processID">流程 ID。</param>
         public void StartRun(int processID)
         {
             Is_Run = true;
-            m_ProcessList.FirstOrDefault(c => c.process.processInfo.ProcessID == processID).RunMode = RunMode.RunCycle;//循环
-            m_ProcessList.FirstOrDefault(c => c.process.processInfo.ProcessID == processID).Start();
+            Process流程插件管理者.Start(processID);
         }
 
         /// <summary>
-        /// 执行一次
+        /// 指定流程执行一次。
         /// </summary>
-        /// <param name="projectID"></param>
+        /// <param name="processID">流程 ID。</param>
         public void ExecuteOnce(int processID)
         {
-            //循环
-            m_ProcessList.FirstOrDefault(c => c.process.processInfo.ProcessID == processID).RunMode = RunMode.RunOnce;
-            m_ProcessList.FirstOrDefault(c => c.process.processInfo.ProcessID == processID).Start();
+            Process流程插件管理者.ExecuteOnce(processID);
         }
 
         /// <summary>
-        /// 停止运行
+        /// 停止指定流程运行。
         /// </summary>
-        /// <param name="projectID"></param>
+        /// <param name="processID">流程 ID。</param>
         public void StopRun(int processID)
         {
             Is_Run = false;
-            m_ProcessList.FirstOrDefault(c => c.process.processInfo.ProcessID == processID).RunMode = RunMode.None;//停止
-            m_ProcessList.FirstOrDefault(c => c.process.processInfo.ProcessID == processID).Stop();
+            Process流程插件管理者.Stop(processID);
         }
 
+        /// <summary>
+        /// 保存当前配方流程。
+        /// Project 层只负责同步当前路径并判断 Proc.Save 返回值；具体模块参数和 Instance.xml 保存由 Proc 统一处理。
+        /// </summary>
         public void SaveProject()
         {
-            instanceList.Clear();
-            foreach (ProcessServices item in m_ProcessList)
+            Process流程插件管理者.SetPath(paramPathSet.ProcessPath, paramPathSet.InstanceParamPath);
+            if (!Process流程插件管理者.Save())
             {
-                instanceList.Add(item.process.m_ModuleObjList.Select(s => s.moduleInfo).ToList());
-                string ProcessPath = Path.Combine(paramPathSet.ProcessPath, item.process.processInfo.ProcessName);
-                item.process.SaveProcess(ProcessPath);
+                Log4netRecord.ErrorLog.Fatal("配方的检测流程保存失败:" + Process流程插件管理者.LastError);
             }
-            bool flag1 = XmlSerialization.ObjectToXml(paramPathSet.InstanceParamPath, instanceList);
         }
 
+        /// <summary>
+        /// 读取当前配方流程。
+        /// 先初始化业务设备基础数据，再把 baseProDevice.BuildProcessServiceList 作为标准流程构建动作传给 Proc.Load；
+        /// Proc 内部完成清理旧流程、构建标准流程、读取 Instance.xml、自检合并、加载插件参数和读后自动保存。
+        /// </summary>
+        /// <returns>流程加载成功返回 true；失败时写 Fatal 并返回 false。</returns>
         public bool ReadProject()
         {
             try
             {
-                //开软件时更具相机型号开启流程，后续所有的切换，只切换process。相当于只切换插件参数
-                // DeleteALLProcess();  
-                if (File.Exists(paramPathSet.InstanceParamPath))
-                {
-                    instanceList = (List<List<ModuleInfo>>)XmlSerialization.XmlToObject(paramPathSet.InstanceParamPath, instanceList.GetType());
-                }
-                else
-                {
-                    instanceList = new List<List<ModuleInfo>>();
-                }
-                int Index = 0;
-                foreach (List<ModuleInfo> item in instanceList)
-                {
-                    DeleteProcess(m_ProcessList[Index].process);
-                    Process process = m_ProcessList[Index].process;
-                    process.processInfo.ProcessID = item[0].ProcessID;
-                    process.processInfo.ProcessName = item[0].ProcessName;
-
-                    string ProcessPath00 = Path.Combine(paramPathSet.ProcessPath, item[0].ProcessName);
-
-                    foreach (var Moduleinfoitem in item)
-                    {
-                        IPlugin PluginLine = PluginService.GetInstance<IPlugin>(PluginService.pluginsDictionary[Moduleinfoitem.PluginName].PluginsBuildName);
-                        PluginLine.moduleInfo = Moduleinfoitem;
-
-                        string ModuleinfoPath00 = Path.Combine(ProcessPath00, Moduleinfoitem.ModuleName);
-                        PluginLine.PluginParams.filePath = ModuleinfoPath00;//Moduleinfoitem.filePath
-                        PluginLine.PluginParams = (PluginParamsBase)PluginLine.PluginParams.Read();
-                        PluginLine.PluginParams.filePath = ModuleinfoPath00;
-                        process.AddModuleObj(PluginLine);
-                    }
-                    //给每个ProcessService绑定process
-
-                    // m_ProcessList[Index].process = process;
-                    Index++;
-                }
                 baseProDevice.INIPro();
-                return true;
+
+                bool ok = Process流程插件管理者.Load(paramPathSet.ProcessPath, paramPathSet.InstanceParamPath, baseProDevice.BuildProcessServiceList);
+                if (!ok)
+                {
+                    Log4netRecord.ErrorLog.Fatal("配方的检测流程加载失败:" + Process流程插件管理者.LastError);
+                }
+
+                return ok;
             }
             catch (Exception ee)
             {

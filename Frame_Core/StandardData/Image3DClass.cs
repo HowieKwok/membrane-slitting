@@ -1,4 +1,5 @@
-﻿using HalconDotNet;
+﻿using DevMgmt.Cameras.SDK;
+using HalconDotNet;
 
 using LogTool;
 
@@ -63,8 +64,8 @@ namespace Frame_Core
             Image3D?.CopyImage(out info.Image3D);
             Image2D?.CopyImage(out info.Image2D);
             Image_Light?.CopyImage(out info.Image_Light);
-            info.Info3D = new CameraObj.Cam_Calibration(Info3D) ;
-            info.Info = new Dictionary<string, string>(Info) ;
+            info.Info3D = new CameraObj.Cam_Calibration(Info3D);
+            info.Info = new Dictionary<string, string>(Info);
             return info;
         }
 
@@ -99,7 +100,7 @@ namespace Frame_Core
                 //{
                 //    strCode = ("ERROR").PadRight(24, '0');
                 //}
-               // Common.CheckFileNameError(strCode, out strCode);
+                // Common.CheckFileNameError(strCode, out strCode);
                 string time = DateTime.Now.ToString("yyyy.MM.dd HH.mm.ss.fff");
                 //string filepath = SavePath + "/" + time + " " + strCode.Substring(0, 24) + "_" + ".dat";
                 string filepath = SavePath + "/" + time + " " + strCode + ".dat";
@@ -125,7 +126,7 @@ namespace Frame_Core
                 string strName = "";
                 string strFilePath = "";
 
-              //  Common.CheckFileNameError(strCode, out strCode);
+                //  Common.CheckFileNameError(strCode, out strCode);
                 strTime = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss-fff");
                 //亮度图
                 strName = strTime + " " + strCode + "_" + ".bmp";
@@ -180,7 +181,7 @@ namespace Frame_Core
                 string strName = "";
                 string strFilePath = "";
 
-               // Common.CheckFileNameError(strCode, out strCode);
+                // Common.CheckFileNameError(strCode, out strCode);
                 strTime = DateTime.Now.ToString("yyyy.MM.dd HH.mm.ss.fff");
                 //亮度图
                 //strName = strTime + " " + strCode + ".bmp";
@@ -198,7 +199,7 @@ namespace Frame_Core
                 strFilePath = strPath + "/" + strName;
                 if (Image3D.IsInitialized() && Image3D != null)
                 {
-                   if (_3DType == 3 || _3DType == 5)
+                    if (_3DType == 3 || _3DType == 5)
                     {
                         Log4netRecord.CamLog.Fatal("进入3D存图:保存深度图");
                         if (CompressTiffImage)
@@ -212,8 +213,8 @@ namespace Frame_Core
                             HOperatorSet.WriteImage(Image3D, "tiff", 0, strFilePath);
                         }
 
-                   }
-                     else
+                    }
+                    else
                     {
                         Log4netRecord.CamLog.Fatal("进入3D存图:未选择保存深度图");
                     }

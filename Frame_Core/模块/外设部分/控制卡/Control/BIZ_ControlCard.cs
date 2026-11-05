@@ -1,5 +1,6 @@
 ﻿using EHolly;
 using Frame_Core;
+using FrameCommunity;
 using HalconDotNet;
 using LogTool;
 using NPOI.Util;

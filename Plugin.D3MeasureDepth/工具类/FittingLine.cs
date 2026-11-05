@@ -34,7 +34,7 @@ namespace HalconAlgorithm
                 hv_MetrologyHandle = mhv_MetrologyHandle;
                 return;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 return;

@@ -1,4 +1,5 @@
-﻿using HalconDotNet;
+﻿using FrameCommunity;
+using HalconDotNet;
 using LogTool;
 using NPOI.OpenXmlFormats.Spreadsheet;
 using NPOI.OpenXmlFormats.Vml;
@@ -397,7 +398,7 @@ namespace Frame_Core
                 Row = hv_Parameter[0];
                 return true;
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 Column = param_Calib.BasePointY;
                 Row = param_Calib.BasePointX;
@@ -514,8 +515,6 @@ namespace Frame_Core
     
         private void Btn_FindMark_Click(object sender, EventArgs e)
         {
-            HObject ho_Contours;
-            HObject ho_ContoursBaseCircle;
             if (m_ImageSimManage.ImageEmulationPaths == null || m_ImageSimManage.ImageEmulationPaths.Length == 0) return;
             m_ImageSimManage.GetPreviewImage(out HObject Load_Image, out string imgPath);
             GetFormParam(ref param_CalibTemp);
@@ -550,8 +549,6 @@ namespace Frame_Core
 
         private void button2_Click(object sender, EventArgs e)
         {
-            HObject ho_Contours;
-            HObject ho_ContoursBaseCircle;
             if (m_ImageSimManage.ImageEmulationPaths == null || m_ImageSimManage.ImageEmulationPaths.Length == 0) return;
             m_ImageSimManage.GetPreviewImage(out HObject Load_Image, out string imgPath);
             GetFormParam(ref param_CalibTemp);

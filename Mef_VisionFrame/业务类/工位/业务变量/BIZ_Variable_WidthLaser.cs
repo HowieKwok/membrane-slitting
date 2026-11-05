@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Frame_Core;
-
+using FrameCommunity;
 using LogTool;
 
 namespace Mef_VisionFrame
@@ -60,7 +60,7 @@ namespace Mef_VisionFrame
         /// <summary>
         /// 原图缺项检测表文件路径
         /// </summary>
-        public string strDeftInitCam1Path { get; set; } = "E:\\相机1原图缺项检测表.csv";
+        public string strDeftInitCam1Path { get; set; } = $"{AppDomain.CurrentDomain.BaseDirectory}相机1原图缺项检测表.csv";
 
 
 
@@ -72,7 +72,7 @@ namespace Mef_VisionFrame
         /// <summary>
         /// 原图缺项检测表文件路径
         /// </summary>
-        public string strDeftInitCam2Path { get; set; } = "E:\\相机1原图缺项检测表.csv";
+        public string strDeftInitCam2Path { get; set; } = $"{AppDomain.CurrentDomain.BaseDirectory}相机1原图缺项检测表.csv";
 
         /// <summary>
         /// 配置尺寸总表
@@ -81,13 +81,13 @@ namespace Mef_VisionFrame
         /// <summary>
         ///  配置尺寸总表文件路径
         /// </summary>
-        public string strEASizeConfigPath { get; set; } = "E:\\配置尺寸总表.csv";
+        public string strEASizeConfigPath { get; set; } = $"{AppDomain.CurrentDomain.BaseDirectory}配置尺寸总表.csv";
 
 
         /// <summary>
         ///  生产统计文件路径
         /// </summary>
-        public string strProductDataPath { get; set; } = "E:\\生产统计文件.csv";
+        public string strProductDataPath { get; set; } = $"{AppDomain.CurrentDomain.BaseDirectory}生产统计文件.csv";
 
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace Mef_VisionFrame
         /// <summary>
         /// 双相机尺寸汇总文件路径
         /// </summary>
-        public string strEASizePath { get; set; } = "E:\\双相机尺寸汇总表.csv";
+        public string strEASizePath { get; set; } = $"{AppDomain.CurrentDomain.BaseDirectory}双相机尺寸汇总表.csv";
 
 
 
@@ -113,7 +113,7 @@ namespace Mef_VisionFrame
         /// <summary>
         /// 双相机缺项汇总文件路径
         /// </summary>
-        public string strEADeftPath { get; set; } = "E:\\双相机缺项汇总表.csv";
+        public string strEADeftPath { get; set; } = $"{AppDomain.CurrentDomain.BaseDirectory}双相机缺项汇总表.csv";
 
         /// <summary>
         /// 双相机尺寸缺项汇总表
@@ -122,7 +122,7 @@ namespace Mef_VisionFrame
         /// <summary>
         ///  双相机尺寸缺项文件路径
         /// </summary>
-        public string strEASizeDeftPath { get; set; } = "E:\\双相机尺寸缺项汇总表.csv";
+        public string strEASizeDeftPath { get; set; } = $"{AppDomain.CurrentDomain.BaseDirectory}双相机尺寸缺项汇总表.csv";
 
 
         public int nSpliteIndex = 2;

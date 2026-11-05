@@ -20,6 +20,8 @@ namespace Plugin.BlobAnalysis
     {
         private readonly IBlobAnalysisEngine engine = new BlobAnalysisEngine();
 
+        public event EventHandler<PluginExecuteCompletedEventArgs> ExecuteCompleted;
+
         public ModuleInfo moduleInfo { get; set; } = new ModuleInfo();
         public PluginParamsBase PluginParams { get; set; } = new ParamsBlobAnalysis();
 
@@ -72,6 +74,14 @@ namespace Plugin.BlobAnalysis
             HOperatorSet.CountSeconds(out HTuple end);
             end = (end - start)*1000;
             p.m_fElapsedMs=end;
+            ExecuteCompleted?.Invoke(
+               this,
+               new PluginExecuteCompletedEventArgs(
+                   p,
+                   p.m_bRunSuccess,
+                   p.m_strRunMessage,
+                   (long)p.m_fElapsedMs));
+
             return p.m_bRunSuccess;
         }
 

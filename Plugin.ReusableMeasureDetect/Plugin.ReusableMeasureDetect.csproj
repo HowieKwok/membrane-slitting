@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{74F072F0-6C7F-4E56-B880-BC9AE3DB7F20}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Plugin.ReusableMeasureDetect</RootNamespace>
+    <AssemblyName>Plugin.ReusableMeasureDetect</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Mef_VisionFrame\bin\Debug\Plugins\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Mef_VisionFrame\bin\Release\Plugins\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="halcondotnetxl">
+      <HintPath>..\DLL\HalconDLL\halcondotnetxl.dll</HintPath>
+    </Reference>
+    <ProjectReference Include="..\Frame_Core\Frame_Core.csproj">
+      <Project>{01127398-2cc7-4124-b966-fbff69a7a0e5}</Project>
+      <Name>Frame_Core</Name>
+    </ProjectReference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Plugin.ReusableMeasureDetect.cs" />
+    <Compile Include="Controls\NumericBox.cs" />
+    <Compile Include="PointFilters\Abstractions\IPointFilterEditor.cs" />
+    <Compile Include="PointFilters\Core\PointFilterPipelineCore.cs" />
+    <Compile Include="PointFilters\Controls\FilterUserControl.xaml.cs">
+      <DependentUpon>FilterUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PointFilters\ViewModels\BindableBase.cs" />
+    <Compile Include="PointFilters\ViewModels\RelayCommand.cs" />
+    <Compile Include="PointFilters\ViewModels\PointFilterEditorViewModel.cs" />
+    <Compile Include="Services\HalconViewRoiAdapter.cs" />
+    <Compile Include="ViewROI\GraphicsContext.cs" />
+    <Compile Include="ViewROI\HObjectEntry.cs" />
+    <Compile Include="ViewROI\HWndCtrl.cs" />
+    <Compile Include="ViewROI\ROI.cs" />
+    <Compile Include="ViewROI\ROICircle.cs" />
+    <Compile Include="ViewROI\ROICircularArc.cs" />
+    <Compile Include="ViewROI\ROIController.cs" />
+    <Compile Include="ViewROI\ROILine.cs" />
+    <Compile Include="ViewROI\ROIRectangle1.cs" />
+    <Compile Include="ViewROI\ROIRectangle2.cs" />
+    <Compile Include="Core\JumpLineDetector.cs" />
+    <Compile Include="Core\ConvexPeakDetectorCore.cs" />
+    <Compile Include="Core\MeasureLineGrabEngine.cs" />
+    <Compile Include="Core\ReusableMeasureRoiFollower.cs" />
+    <Compile Include="ViewModels\BindableBase.cs" />
+    <Compile Include="ViewModels\RelayCommand.cs" />
+    <Compile Include="ViewModels\ReusableMeasureDetectViewModel.cs" />
+    <Compile Include="WPF架构\ReusableMeasureDetectUser.xaml.cs">
+      <DependentUpon>ReusableMeasureDetectUser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="PointFilters\Controls\FilterUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WPF架构\ReusableMeasureDetectUser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

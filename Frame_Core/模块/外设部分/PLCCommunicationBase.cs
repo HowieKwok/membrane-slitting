@@ -99,7 +99,7 @@ namespace Frame_Core
                 Disconnect();
                 Thread.Sleep(200);
 
-                if (networkDeviceBase == null)
+                if (true/*networkDeviceBase == null*/)
                 {
                     switch (protocolEnum)
                     {

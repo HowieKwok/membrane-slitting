@@ -36,6 +36,10 @@ namespace Plugin.FindIntersection.Services
             viewCtrl.setDispLevel(HWndCtrl.MODE_INCLUDE_ROI);
             // MODE_VIEW_MOVE：默认允许图像平移。ViewROI 内部仍会处理滚轮缩放。
             viewCtrl.setViewState(HWndCtrl.MODE_VIEW_MOVE);
+            viewCtrl.ho_Image?.Dispose();
+            viewCtrl.ho_Image_Changed?.Dispose();
+            viewCtrl.ho_Image = null;
+            viewCtrl.ho_Image_Changed = null;
             // bl_RoiOperateFlag 控制是否允许操作 ROI。false 时避免误拖 ROI，只保留图像浏览。
             viewCtrl.bl_RoiOperateFlag = enableRoi;
             roiController.setDrawColor("yellow", "red", "gray");

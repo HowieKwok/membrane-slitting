@@ -17,11 +17,11 @@ namespace Frame_Core
 {
     public partial class SaveSetingForm : Form
     {
-        Dictionary<CameraEnum, CameraManager> cameraManager;
-        public SaveSetingForm(Dictionary<CameraEnum, CameraManager> _cameraManager)
+      
+        public SaveSetingForm()
         {
             InitializeComponent();
-            cameraManager = _cameraManager;
+         
         }
 
         private void BaseSetingForm_Load(object sender, EventArgs e)
@@ -63,9 +63,9 @@ namespace Frame_Core
 
                 //初始化相机节点
                 Tv_Select.Nodes.Clear();
-                foreach (var item in cameraManager)
+                foreach (var item in Service_Camera.GetCam_Names())
                 {
-                    Tv_Select.Nodes.Add(item.Value.m_CamParam.CameraName.ToString());
+                    Tv_Select.Nodes.Add(item);
                 }
 
                 //展开节点
@@ -74,13 +74,13 @@ namespace Frame_Core
                 //初始节点
                 Tv_Select.SelectedNode = Tv_Select.Nodes[0];
 
-                foreach (var item in cameraManager)
+                foreach (var item in Service_Camera.Get_AllCameraRelevancyList())
                 {
-                    item.Value.m_ImageSaveParamer.backup(item.Value.m_ImageSaveParamer);
-                    YControlAutobind.Loading<ImageSaveParamer, IYCustomAttribute>(this, item.Value.m_ImageSaveParamer);//测试存修改记录
+                    item.m_ImageSaveParamer.backup(item.m_ImageSaveParamer);
+                    YControlAutobind.Loading<ImageSaveParamer, IYCustomAttribute>(this, item.m_ImageSaveParamer);//测试存修改记录
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
 
@@ -98,40 +98,40 @@ namespace Frame_Core
             try
             {
                 //保存图片设置参数
-                foreach (var item in cameraManager)
+                foreach (var item in Service_Camera.Get_AllCameraRelevancies())
                 {
                     int index = Tv_Select.SelectedNode.Index;
                     if ((int)item.Key == index)
                     {
-                        ControlTool.GetParamSave(cbx_SaveImageFormat_Primitive, ref item.Value.m_ImageSaveParamer.SaveImageFormat_Primitive);
-                        ControlTool.GetParamSave(cbx_SaveImageSelect_Primitive, ref item.Value.m_ImageSaveParamer.SaveImageSelect_Primitive);
-                        ControlTool.GetParamSave(cbx_SaveImageFormat_Deepth, ref item.Value.m_ImageSaveParamer.SaveImageFormat_Deepth);
-                        ControlTool.GetParamSave(chx_IsCompression, ref item.Value.m_ImageSaveParamer.IsCompression_Deepth);
-                        ControlTool.GetParamSave(cbx_IsShowImage_Primitive, ref item.Value.m_ImageSaveParamer.IsShowImage_Primitive);
-                        ControlTool.GetParamSave(cbx_IsShowImage_Product, ref item.Value.m_ImageSaveParamer.IsShowImage_Product);
-                        ControlTool.GetParamSave(cbx_SaveImageFormat_Screenshot, ref item.Value.m_ImageSaveParamer.SaveImageFormat_Screenshot);
-                        ControlTool.GetParamSave(cbx_SaveImageSelect_Screenshot, ref item.Value.m_ImageSaveParamer.SaveImageSelect_Screenshot);
-                        ControlTool.GetParamSave(cbx_HighDefinition_Screenshot, ref item.Value.m_ImageSaveParamer.HighDefinition_Screenshot);
-                        ControlTool.GetParamSave(cbx_SaveImageFormat_Min, ref item.Value.m_ImageSaveParamer.SaveImageFormat_Min);
-                        ControlTool.GetParamSave(cbx_IsSaveImage_Min, ref item.Value.m_ImageSaveParamer.IsSaveImage_Min);
-                        ControlTool.GetParamSave(cbx_IsShowImage_Min, ref item.Value.m_ImageSaveParamer.IsShowImage_Min);
-                        ControlTool.GetParamSave(cbx_SaveImageFormat_ProdImg, ref item.Value.m_ImageSaveParamer.SaveImageFormat_ProdImg);
-                        ControlTool.GetParamSave(cbx_SaveImageSelect_ProdImg, ref item.Value.m_ImageSaveParamer.SaveImageSelect_ProdImg);
-                        ControlTool.GetParamSave(cbx_SaveImageFormat_ProdScreenshot, ref item.Value.m_ImageSaveParamer.SaveImageFormat_ProdScreenshot);
-                        ControlTool.GetParamSave(cbx_SaveImageSelect_ProdScreenshot, ref item.Value.m_ImageSaveParamer.SaveImageSelect_ProdScreenshot);
-                        ControlTool.GetParamSave(cbx_HighDefinition_ProdScreenshot, ref item.Value.m_ImageSaveParamer.HighDefinition_ProdScreenshot);
-                        ControlTool.GetParamSave(nud_IsDebug, ref item.Value.m_ImageSaveParamer.IsDebug);
-                        ControlTool.GetParamSave(cbx_EnNSaveImage, ref item.Value.m_ImageSaveParamer.EnNSaveImage);
-                        ControlTool.GetParamSave(nud_NSaveImageNum, ref item.Value.m_ImageSaveParamer.NSaveImageNum);
-                        item.Value.m_ImageSaveParamer.Save();
+                        ControlTool.GetParamSave(cbx_SaveImageFormat_Primitive, ref item.Value.Item2.m_ImageSaveParamer.SaveImageFormat_Primitive);
+                        ControlTool.GetParamSave(cbx_SaveImageSelect_Primitive, ref item.Value.Item2.m_ImageSaveParamer.SaveImageSelect_Primitive);
+                        ControlTool.GetParamSave(cbx_SaveImageFormat_Deepth, ref item.Value.Item2.m_ImageSaveParamer.SaveImageFormat_Deepth);
+                        ControlTool.GetParamSave(chx_IsCompression, ref item.Value.Item2.m_ImageSaveParamer.IsCompression_Deepth);
+                        ControlTool.GetParamSave(cbx_IsShowImage_Primitive, ref item.Value.Item2.m_ImageSaveParamer.IsShowImage_Primitive);
+                        ControlTool.GetParamSave(cbx_IsShowImage_Product, ref item.Value.Item2.m_ImageSaveParamer.IsShowImage_Product);
+                        ControlTool.GetParamSave(cbx_SaveImageFormat_Screenshot, ref item.Value.Item2.m_ImageSaveParamer.SaveImageFormat_Screenshot);
+                        ControlTool.GetParamSave(cbx_SaveImageSelect_Screenshot, ref item.Value.Item2.m_ImageSaveParamer.SaveImageSelect_Screenshot);
+                        ControlTool.GetParamSave(cbx_HighDefinition_Screenshot, ref item.Value.Item2.m_ImageSaveParamer.HighDefinition_Screenshot);
+                        ControlTool.GetParamSave(cbx_SaveImageFormat_Min, ref item.Value.Item2.m_ImageSaveParamer.SaveImageFormat_Min);
+                        ControlTool.GetParamSave(cbx_IsSaveImage_Min, ref item.Value.Item2.m_ImageSaveParamer.IsSaveImage_Min);
+                        ControlTool.GetParamSave(cbx_IsShowImage_Min, ref item.Value.Item2.m_ImageSaveParamer.IsShowImage_Min);
+                        ControlTool.GetParamSave(cbx_SaveImageFormat_ProdImg, ref item.Value.Item2.m_ImageSaveParamer.SaveImageFormat_ProdImg);
+                        ControlTool.GetParamSave(cbx_SaveImageSelect_ProdImg, ref item.Value.Item2.m_ImageSaveParamer.SaveImageSelect_ProdImg);
+                        ControlTool.GetParamSave(cbx_SaveImageFormat_ProdScreenshot, ref item.Value.Item2.m_ImageSaveParamer.SaveImageFormat_ProdScreenshot);
+                        ControlTool.GetParamSave(cbx_SaveImageSelect_ProdScreenshot, ref item.Value.Item2.m_ImageSaveParamer.SaveImageSelect_ProdScreenshot);
+                        ControlTool.GetParamSave(cbx_HighDefinition_ProdScreenshot, ref item.Value.Item2.m_ImageSaveParamer.HighDefinition_ProdScreenshot);
+                        ControlTool.GetParamSave(nud_IsDebug, ref item.Value.Item2.m_ImageSaveParamer.IsDebug);
+                        ControlTool.GetParamSave(cbx_EnNSaveImage, ref item.Value.Item2.m_ImageSaveParamer.EnNSaveImage);
+                        ControlTool.GetParamSave(nud_NSaveImageNum, ref item.Value.Item2.m_ImageSaveParamer.NSaveImageNum);
+                        item.Value.Item2.m_ImageSaveParamer.Save();
 
                         //修改记录设置
-                        item.Value.m_ImageSaveParamer.FilePath = Project.Instance.logParam.LogSavePath + "\\ParamsChangeLog\\";
+                        item.Value.Item2.m_ImageSaveParamer.FilePath = Project.Instance.logParam.LogSavePath + "\\ParamsChangeLog\\";
                         // M_craftBase.FilePath = (Application.StartupPath + "\\record\\参数修改记录\\视觉设置\\");
-                        string error = YControlAutobind.Saveing<ImageSaveParamer, IYCustomAttribute>(this, item.Value.m_ImageSaveParamer);
+                        string error = YControlAutobind.Saveing<ImageSaveParamer, IYCustomAttribute>(this, item.Value.Item2.m_ImageSaveParamer);
                         // 保存修改记录，保存后备份
-                        item.Value.m_ImageSaveParamer.saveChangeLog(item.Value.m_ImageSaveParamer, String.Format("相机保存设置:{0} 中 {1}", item.Key.ToString(), ""));
-                        item.Value.m_ImageSaveParamer.backup(item.Value.m_ImageSaveParamer);
+                        item.Value.Item2.m_ImageSaveParamer.saveChangeLog(item.Value.Item2.m_ImageSaveParamer, String.Format("相机保存设置:{0} 中 {1}", item.Key.ToString(), ""));
+                        item.Value.Item2.m_ImageSaveParamer.backup(item.Value.Item2.m_ImageSaveParamer);
                         if (error != "") System.Windows.Forms.MessageBox.Show(error);
                         
 
@@ -192,31 +192,31 @@ namespace Frame_Core
         {
             try
             {
-                foreach (var item in cameraManager)
+                foreach (var item in Service_Camera.Get_AllCameraRelevancies())
                 {
                     int index = Tv_Select.SelectedNode.Index;
                     if ((int)item.Key == index)
                     {
-                        ControlTool.SetParamShow(cbx_SaveImageFormat_Primitive, ref item.Value.m_ImageSaveParamer.SaveImageFormat_Primitive);
-                        ControlTool.SetParamShow(cbx_SaveImageSelect_Primitive, ref item.Value.m_ImageSaveParamer.SaveImageSelect_Primitive);
-                        ControlTool.SetParamShow(cbx_SaveImageFormat_Deepth, ref item.Value.m_ImageSaveParamer.SaveImageFormat_Deepth);
-                        ControlTool.SetParamShow(chx_IsCompression, ref item.Value.m_ImageSaveParamer.IsCompression_Deepth);
-                        ControlTool.SetParamShow(cbx_IsShowImage_Primitive, ref item.Value.m_ImageSaveParamer.IsShowImage_Primitive);
-                        ControlTool.SetParamShow(cbx_IsShowImage_Product, ref item.Value.m_ImageSaveParamer.IsShowImage_Product);
-                        ControlTool.SetParamShow(cbx_SaveImageFormat_Screenshot, ref item.Value.m_ImageSaveParamer.SaveImageFormat_Screenshot);
-                        ControlTool.SetParamShow(cbx_SaveImageSelect_Screenshot, ref item.Value.m_ImageSaveParamer.SaveImageSelect_Screenshot);
-                        ControlTool.SetParamShow(cbx_HighDefinition_Screenshot, ref item.Value.m_ImageSaveParamer.HighDefinition_Screenshot);
-                        ControlTool.SetParamShow(cbx_SaveImageFormat_Min, ref item.Value.m_ImageSaveParamer.SaveImageFormat_Min);
-                        ControlTool.SetParamShow(cbx_IsSaveImage_Min, ref item.Value.m_ImageSaveParamer.IsSaveImage_Min);
-                        ControlTool.SetParamShow(cbx_IsShowImage_Min, ref item.Value.m_ImageSaveParamer.IsShowImage_Min);
-                        ControlTool.SetParamShow(cbx_SaveImageFormat_ProdImg, ref item.Value.m_ImageSaveParamer.SaveImageFormat_ProdImg);
-                        ControlTool.SetParamShow(cbx_SaveImageSelect_ProdImg, ref item.Value.m_ImageSaveParamer.SaveImageSelect_ProdImg);
-                        ControlTool.SetParamShow(cbx_SaveImageFormat_ProdScreenshot, ref item.Value.m_ImageSaveParamer.SaveImageFormat_ProdScreenshot);
-                        ControlTool.SetParamShow(cbx_SaveImageSelect_ProdScreenshot, ref item.Value.m_ImageSaveParamer.SaveImageSelect_ProdScreenshot);
-                        ControlTool.SetParamShow(cbx_HighDefinition_ProdScreenshot, ref item.Value.m_ImageSaveParamer.HighDefinition_ProdScreenshot);
-                        ControlTool.SetParamShow(nud_IsDebug, ref item.Value.m_ImageSaveParamer.IsDebug);
-                        ControlTool.SetParamShow(cbx_EnNSaveImage, ref item.Value.m_ImageSaveParamer.EnNSaveImage);
-                        ControlTool.SetParamShow(nud_NSaveImageNum, ref item.Value.m_ImageSaveParamer.NSaveImageNum);
+                        ControlTool.SetParamShow(cbx_SaveImageFormat_Primitive, ref item.Value.Item2.m_ImageSaveParamer.SaveImageFormat_Primitive);
+                        ControlTool.SetParamShow(cbx_SaveImageSelect_Primitive, ref item.Value.Item2.m_ImageSaveParamer.SaveImageSelect_Primitive);
+                        ControlTool.SetParamShow(cbx_SaveImageFormat_Deepth, ref item.Value.Item2.m_ImageSaveParamer.SaveImageFormat_Deepth);
+                        ControlTool.SetParamShow(chx_IsCompression, ref item.Value.Item2.m_ImageSaveParamer.IsCompression_Deepth);
+                        ControlTool.SetParamShow(cbx_IsShowImage_Primitive, ref item.Value.Item2.m_ImageSaveParamer.IsShowImage_Primitive);
+                        ControlTool.SetParamShow(cbx_IsShowImage_Product, ref item.Value.Item2.m_ImageSaveParamer.IsShowImage_Product);
+                        ControlTool.SetParamShow(cbx_SaveImageFormat_Screenshot, ref item.Value.Item2.m_ImageSaveParamer.SaveImageFormat_Screenshot);
+                        ControlTool.SetParamShow(cbx_SaveImageSelect_Screenshot, ref item.Value.Item2.m_ImageSaveParamer.SaveImageSelect_Screenshot);
+                        ControlTool.SetParamShow(cbx_HighDefinition_Screenshot, ref item.Value.Item2.m_ImageSaveParamer.HighDefinition_Screenshot);
+                        ControlTool.SetParamShow(cbx_SaveImageFormat_Min, ref item.Value.Item2.m_ImageSaveParamer.SaveImageFormat_Min);
+                        ControlTool.SetParamShow(cbx_IsSaveImage_Min, ref item.Value.Item2.m_ImageSaveParamer.IsSaveImage_Min);
+                        ControlTool.SetParamShow(cbx_IsShowImage_Min, ref item.Value.Item2.m_ImageSaveParamer.IsShowImage_Min);
+                        ControlTool.SetParamShow(cbx_SaveImageFormat_ProdImg, ref item.Value.Item2.m_ImageSaveParamer.SaveImageFormat_ProdImg);
+                        ControlTool.SetParamShow(cbx_SaveImageSelect_ProdImg, ref item.Value.Item2.m_ImageSaveParamer.SaveImageSelect_ProdImg);
+                        ControlTool.SetParamShow(cbx_SaveImageFormat_ProdScreenshot, ref item.Value.Item2.m_ImageSaveParamer.SaveImageFormat_ProdScreenshot);
+                        ControlTool.SetParamShow(cbx_SaveImageSelect_ProdScreenshot, ref item.Value.Item2.m_ImageSaveParamer.SaveImageSelect_ProdScreenshot);
+                        ControlTool.SetParamShow(cbx_HighDefinition_ProdScreenshot, ref item.Value.Item2.m_ImageSaveParamer.HighDefinition_ProdScreenshot);
+                        ControlTool.SetParamShow(nud_IsDebug, ref item.Value.Item2.m_ImageSaveParamer.IsDebug);
+                        ControlTool.SetParamShow(cbx_EnNSaveImage, ref item.Value.Item2.m_ImageSaveParamer.EnNSaveImage);
+                        ControlTool.SetParamShow(nud_NSaveImageNum, ref item.Value.Item2.m_ImageSaveParamer.NSaveImageNum);
                         break;
                     }
                 }
@@ -228,5 +228,10 @@ namespace Frame_Core
         }
 
         #endregion
+
+        private void cbx_HighDefinition_ProdScreenshot_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

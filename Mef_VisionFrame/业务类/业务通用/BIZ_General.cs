@@ -1,6 +1,7 @@
 ﻿using Frame_Core;
+using FrameCommunity;
 using HalconDotNet;
-using IKapBoardClassLibrary;
+
 using LogTool;
 using ScottPlot;
 
@@ -127,13 +128,13 @@ namespace Mef_VisionFrame
                 operation_ImageInfo.str_ImageSaveName = imageSaveName + "_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss-fff") + SaveImageTool.GetImageFormat(imageSaveFormat);
                 operation_ImageInfo.imageSaveFormat = imageSaveFormat;
                 operation_ImageInfo.bIsSaveImage = GetIsSaveImage(imageSaveSelect, !showHalconWindow.m_bIsNG);
-                         
+
                 operation_ImageInfo.bIsShowImage = isShowImage;
                 operation_ImageInfo.HighDefinition_Screenshot = screenshotHighDefinition;
                 operation_ImageInfo.bIsSaveScreenshot = GetIsSaveImage(screenshotSaveSelect, !showHalconWindow.m_bIsNG);
                 operation_ImageInfo.str_ScreenshotSaveBasePath = screenshotSaveBasePath;
                 operation_ImageInfo.str_ScreenshotSaveRelativePath = screenshotSaveRelativePath;
-                operation_ImageInfo.str_ScreenshotSaveName = screenshotSaveName + "_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss-fff") + SaveImageTool.GetImageFormat(screenshotSaveFormat); 
+                operation_ImageInfo.str_ScreenshotSaveName = screenshotSaveName + "_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss-fff") + SaveImageTool.GetImageFormat(screenshotSaveFormat);
                 operation_ImageInfo.screenshotSaveFormat = screenshotSaveFormat;
 
 
@@ -239,7 +240,7 @@ namespace Mef_VisionFrame
                 operation_ImageInfo.str_ImageSaveName = imageSaveName + "_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss-fff") + SaveImageTool.GetImageFormat(imageSaveFormat); ;
                 operation_ImageInfo.imageSaveFormat = imageSaveFormat;
                 operation_ImageInfo.bIsSaveImage = GetIsSaveImage(imageSaveSelect, !showHalconWindow.m_bIsNG);
-               
+
 
                 operation_ImageInfo.bIsShowImage = isShowImage;
                 operation_ImageInfo.HighDefinition_Screenshot = screenshotHighDefinition;
@@ -283,7 +284,7 @@ namespace Mef_VisionFrame
 
                 operation_ImageInfo.str_ImageSaveBasePath = imageSaveBasePath;
                 operation_ImageInfo.str_ImageSaveRelativePath = imageSaveRelativePath;
-                operation_ImageInfo.str_ImageSaveName = imageSaveName + "_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss-fff")+$"(H[{ngTypeInfo.m_fNgTypHeight.ToString("0.00")}],W[{ngTypeInfo.m_fNgTypWidth.ToString("0.00")}],A[{ngTypeInfo.m_fNgTypArea.ToString("0.00")}])" + SaveImageTool.GetImageFormat(imageSaveFormat); ;
+                operation_ImageInfo.str_ImageSaveName = imageSaveName + "_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss-fff") + $"(H[{ngTypeInfo.m_fNgTypHeight.ToString("0.00")}],W[{ngTypeInfo.m_fNgTypWidth.ToString("0.00")}],A[{ngTypeInfo.m_fNgTypArea.ToString("0.00")}])" + SaveImageTool.GetImageFormat(imageSaveFormat); ;
                 operation_ImageInfo.imageSaveFormat = imageSaveFormat;
                 operation_ImageInfo.bIsSaveImage = isSaveImage;
                 operation_ImageInfo.bIsShowImage = isShowImage;
@@ -527,7 +528,7 @@ namespace Mef_VisionFrame
             {
                 if (ngTypeInfos == null || ngTypeInfos.Count == 0) return;
 
-                ImageSaveParamer in_imageSaveParamer = Project.Instance.cameraManager[cameraEnum].m_ImageSaveParamer;
+                ImageSaveParamer in_imageSaveParamer = Service_Camera.Get_CameraRelevancy((int)cameraEnum).m_ImageSaveParamer;
                 //获取显示图像
                 int count = ngTypeInfos.Count;
                 for (int i = 0; i < count; i++)
@@ -569,7 +570,7 @@ namespace Mef_VisionFrame
             {
                 if (ngTypeInfos == null || ngTypeInfos.Count == 0) return;
 
-                ImageSaveParamer in_imageSaveParamer = Project.Instance.cameraManager[cameraEnum].m_ImageSaveParamer;
+                ImageSaveParamer in_imageSaveParamer = Service_Camera.Get_CameraRelevancy((int)cameraEnum).m_ImageSaveParamer;
                 //获取显示图像
                 int count = ngTypeInfos.Count;
                 for (int i = 0; i < count; i++)
@@ -613,11 +614,11 @@ namespace Mef_VisionFrame
         /// <param name="productBase"></param>
         public static void CalculateProcessingTime(ProductBase productBase)
         {
-            double hTime1 = ((productBase.Image_FindLineTime - productBase.Image_StartTime) * 1000).D;//抓边算法耗时
-            double hTime2 = ((productBase.Image_FindDefectTime - productBase.Image_FindLineTime) * 1000).D;//缺陷检测耗时
-            double hTime3 = ((productBase.Image_ArithmeticProcessTime - productBase.Image_StartTime) * 1000).D;//算法总耗时
-            double hTime4 = ((productBase.Image_DataProcessTime - productBase.Image_StartDataProcessTime) * 1000).D;//数据处理总耗时
-            double hTime5 = ((productBase.Image_EndTime - productBase.Image_StartTime) * 1000).D;//总耗时
+            double hTime1 = ((productBase.detectionTime.Image_FindLineTime - productBase.detectionTime.Image_StartTime) * 1000).D;//抓边算法耗时
+            double hTime2 = ((productBase.detectionTime.Image_FindDefectTime - productBase.detectionTime.Image_FindLineTime) * 1000).D;//缺陷检测耗时
+            double hTime3 = ((productBase.detectionTime.Image_ArithmeticProcessTime - productBase.detectionTime.Image_StartTime) * 1000).D;//算法总耗时
+            double hTime4 = ((productBase.detectionTime.Image_DataProcessTime - productBase.detectionTime.Image_StartDataProcessTime) * 1000).D;//数据处理总耗时
+            double hTime5 = ((productBase.detectionTime.Image_EndTime - productBase.detectionTime.Image_StartTime) * 1000).D;//总耗时
 
             productBase.showHalconWindow.m_messageShowInfos.Add(new MessageShowInfo { m_strMessage = "抓边处理时长：" + hTime1.ToString("0.00") + "ms", m_stuGetColor = HalconColor.green });
             productBase.showHalconWindow.m_messageShowInfos.Add(new MessageShowInfo { m_strMessage = "缺陷处理时长：" + hTime2.ToString("0.00") + "ms", m_stuGetColor = HalconColor.green });
@@ -1360,8 +1361,8 @@ namespace Mef_VisionFrame
             try
             {
 
-                double calibValueX = Project.Instance.cameraManager[cameraEnum].m_CamParam.CalibrationValue_X;
-                double calibValueY = Project.Instance.cameraManager[cameraEnum].m_CamParam.CalibrationValue_Y;
+                double calibValueX = Service_Camera.GetCam_CalibrationValue_X((int)cameraEnum);
+                double calibValueY = Service_Camera.GetCam_CalibrationValue_Y((int)cameraEnum);
                 if (Edtype == EditorTypeEnum.线距离X.ToString())
                 {
                     double line1midcol = (lineInfo1.ColBegin + lineInfo1.ColEnd) / 2;
@@ -1511,7 +1512,7 @@ namespace Mef_VisionFrame
 
                 MessageNotify.AddErrorLog("AddMessageShowWindow：" + ee.ToString()); ;
             }
-       
+
         }
 
 
@@ -1541,7 +1542,7 @@ namespace Mef_VisionFrame
             // 添加当前控件的名称和类型
             if (!string.IsNullOrEmpty(control.Name))
             {
-                if(control.GetType().Name== "FormsPlot")
+                if (control.GetType().Name == "FormsPlot")
                 {
 
                 }

@@ -120,6 +120,9 @@ namespace Plugin.MQDefects
         /// 分类器是否初始化
         /// </summary>
         bool isInitClassifier = false;
+
+        public event EventHandler<PluginExecuteCompletedEventArgs> ExecuteCompleted;
+
         /// <summary>
         /// 初始化模型
         /// </summary>
@@ -152,7 +155,7 @@ namespace Plugin.MQDefects
                 }
                
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 //System.Windows.Forms.MessageBox.Show(ex.Message);
             }
@@ -188,7 +191,7 @@ namespace Plugin.MQDefects
 
                 }         
             }
-            catch(Exception ex)
+            catch(Exception)
             {
 
             }

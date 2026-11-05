@@ -27,6 +27,8 @@ namespace Plugin.EarBurr
         public bool isExistModel = false;
         BLClassLib Battery = new BLClassLib();
 
+        public event EventHandler<PluginExecuteCompletedEventArgs> ExecuteCompleted;
+
         public bool ExecuteObj()
         {
             EarBurrParams = PluginParams as ParamsEarBurr; //里氏转换
@@ -141,7 +143,7 @@ namespace Plugin.EarBurr
 
                 EarBurrParams.bl_ModelRunFlag = true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 EarBurrParams.bl_ModelRunFlag = false;
             }

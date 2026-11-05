@@ -1,9 +1,10 @@
 <UserControl x:Class="Plugin.FindIntersection.FindIntersectionWpfView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:wfi="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
              xmlns:ctrl="clr-namespace:Plugin.FindIntersection.Controls"
-             Background="#070D14">
+             xmlns:ctrl2="clr-namespace:FrameCommunity.UserControls;assembly=FrameCommunity"
+             Background="#070D14"
+           >
     <UserControl.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="Foreground" Value="#DCF8FF"/>
@@ -71,8 +72,33 @@
 
         <Border Grid.Row="1" BorderBrush="#215D73" BorderThickness="1" Background="#020407" Margin="0,10,12,8">
             <Grid>
-                <wfi:WindowsFormsHost x:Name="HalconElementHost"/>
-                <Popup x:Name="FollowMenu" Placement="MousePoint" StaysOpen="False" AllowsTransparency="True">
+                <ctrl:HalconIntersectionView
+                    Image="{Binding DisplayImage}"
+                    OverlayParams="{Binding PluginParams}"
+                    DisplayRevision="{Binding DisplayRevision}"
+                    FitOnNextDisplay="{Binding FitOnNextDisplay}"
+                    CrosshairEnabled="{Binding CrosshairEnabled}"
+                    CrossRow="{Binding CrossRow}"
+                    CrossCol="{Binding CrossCol}"
+                    Line1CenterRow="{Binding Params.Line1CenterRow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Line1CenterColumn="{Binding Params.Line1CenterColumn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Line1Angle="{Binding Params.Line1Angle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Line1Height="{Binding Params.Line1Height, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Line1Width="{Binding Params.Line1Width, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Line1PointCount="{Binding Params.Line1PointCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Line2CenterRow="{Binding Params.Line2CenterRow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Line2CenterColumn="{Binding Params.Line2CenterColumn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Line2Angle="{Binding Params.Line2Angle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Line2Height="{Binding Params.Line2Height, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Line2Width="{Binding Params.Line2Width, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Line2PointCount="{Binding Params.Line2PointCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    RoiChangedCommand="{Binding RoiChangedCommand}"
+                    MouseMoveCommand="{Binding MouseMoveCommand}"
+                    RightMouseDownCommand="{Binding RightMouseDownCommand}"
+                    RightMouseUpCommand="{Binding RightMouseUpCommand}"/>
+
+                <Popup Placement="MousePoint" StaysOpen="False" AllowsTransparency="True"
+                       IsOpen="{Binding IsFollowMenuOpen, Mode=TwoWay}">
                     <Border Background="#102536" BorderBrush="#00A9C8" BorderThickness="1" Padding="4">
                         <StackPanel>
                             <Button Style="{StaticResource ToolButton}" MinWidth="132" Margin="0,0,0,4"
@@ -82,9 +108,21 @@
                         </StackPanel>
                     </Border>
                 </Popup>
-                <TextBlock x:Name="EmptyHint" HorizontalAlignment="Center" VerticalAlignment="Center"
-                           Text="加载图片后显示 Halcon / ViewROI"
-                           Foreground="#326B7B" FontSize="22"/>
+
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                           Text="加载图片后显示  ViewROI"
+                           Foreground="#326B7B" FontSize="22">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ShowEmptyHint}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
             </Grid>
         </Border>
 
@@ -97,136 +135,238 @@
                 <Border BorderBrush="#1B5264" BorderThickness="1" Margin="0,0,6,0" Background="#050A10">
                     <Grid>
                         <TextBlock Text="H 灰度曲线" Foreground="#7EE6FF" Margin="8,6" Panel.ZIndex="1"/>
-                        <Canvas x:Name="HProfileCanvas" Margin="8,24,8,8"/>
+                        <ctrl:ProfileCurveControl Margin="8,24,8,8" Values="{Binding HorizontalProfile}" Stroke="#00E5FF"/>
                     </Grid>
                 </Border>
                 <Border Grid.Column="1" BorderBrush="#1B5264" BorderThickness="1" Margin="6,0,0,0" Background="#050A10">
                     <Grid>
                         <TextBlock Text="V 灰度曲线" Foreground="#7EE6FF" Margin="8,6" Panel.ZIndex="1"/>
-                        <Canvas x:Name="VProfileCanvas" Margin="8,24,8,8"/>
+                        <ctrl:ProfileCurveControl Margin="8,24,8,8" Values="{Binding VerticalProfile}" Stroke="#83FF72"/>
                     </Grid>
                 </Border>
             </Grid>
         </Border>
 
         <Border Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" BorderBrush="#2F7E98" BorderThickness="1" Background="#111923" Margin="0,10,0,8">
-            <TabControl>
-                <TabItem Header="抓边1">
-                    <ScrollViewer Padding="14" VerticalScrollBarVisibility="Auto">
-                        <StackPanel>
-                            <TextBlock Text="ROI参数" Foreground="#00E5FF" FontWeight="Bold" Margin="0,0,0,8"/>
-                            <UniformGrid Columns="2">
-                                <StackPanel Margin="0,0,8,0"><TextBlock Text="中心行"/><ctrl:NumericBox Value="{Binding Params.Line1CenterRow, Mode=TwoWay}" Increment="1" DecimalPlaces="2"/></StackPanel>
-                                <StackPanel><TextBlock Text="中心列"/><ctrl:NumericBox Value="{Binding Params.Line1CenterColumn, Mode=TwoWay}" Increment="1" DecimalPlaces="2"/></StackPanel>
-                                <StackPanel Margin="0,0,8,0"><TextBlock Text="角度"/><ctrl:NumericBox Value="{Binding Params.Line1Angle, Mode=TwoWay}" Increment="0.1" DecimalPlaces="3"/></StackPanel>
-                                <StackPanel><TextBlock Text="高度"/><ctrl:NumericBox Value="{Binding Params.Line1Height, Mode=TwoWay}" Minimum="1" Increment="1" DecimalPlaces="2"/></StackPanel>
-                                <StackPanel Margin="0,0,8,0"><TextBlock Text="宽度"/><ctrl:NumericBox Value="{Binding Params.Line1Width, Mode=TwoWay}" Minimum="1" Increment="1" DecimalPlaces="2"/></StackPanel>
-                                <StackPanel><TextBlock Text="采样点数"/><ctrl:NumericBox Value="{Binding Params.Line1PointCount, Mode=TwoWay}" Minimum="2" Increment="1" DecimalPlaces="0"/></StackPanel>
-                            </UniformGrid>
-                            <Separator Margin="0,8,0,12" Background="#255F72"/>
-                            <TextBlock Text="抓边参数" Foreground="#00E5FF" FontWeight="Bold" Margin="0,0,0,8"/>
-                            <UniformGrid Columns="2">
-                                <StackPanel Margin="0,0,8,0"><TextBlock Text="平滑系数"/><ctrl:NumericBox Value="{Binding Params.Line1Sigma, Mode=TwoWay}" Minimum="0.1" Increment="0.1" DecimalPlaces="2"/></StackPanel>
-                                <StackPanel><TextBlock Text="灰度阈值"/><ctrl:NumericBox Value="{Binding Params.Line1Threshold, Mode=TwoWay}" Minimum="0" Maximum="255" Increment="1" DecimalPlaces="0"/></StackPanel>
-                                <StackPanel Margin="0,0,8,0"><TextBlock Text="边缘数量"/><ctrl:NumericBox Value="{Binding Params.Line1NumInstances, Mode=TwoWay}" Minimum="1" Increment="1" DecimalPlaces="0"/></StackPanel>
-                                <StackPanel><TextBlock Text="距离阈值"/><ctrl:NumericBox Value="{Binding Params.Line1DistThreshold, Mode=TwoWay}" Minimum="0" Increment="0.1" DecimalPlaces="2"/></StackPanel>
-                                <StackPanel Margin="0,0,8,0"><TextBlock Text="最小得分"/><ctrl:NumericBox Value="{Binding Params.Line1MinScore, Mode=TwoWay}" Minimum="0" Maximum="1" Increment="0.05" DecimalPlaces="2"/></StackPanel>
-                                <StackPanel><TextBlock Text="最大迭代"/><ctrl:NumericBox Value="{Binding Params.Line1MaxIterations, Mode=TwoWay}" Minimum="-1" Increment="1" DecimalPlaces="0"/></StackPanel>
-                            </UniformGrid>
-                            <TextBlock Text="明暗方向"/>
-                            <ComboBox SelectedValue="{Binding Params.Line1Transition, Mode=TwoWay}" SelectedValuePath="Tag">
-                                <ComboBoxItem Content="全部" Tag="all"/>
-                                <ComboBoxItem Content="由暗到亮" Tag="positive"/>
-                                <ComboBoxItem Content="由亮到暗" Tag="negative"/>
-                                <ComboBoxItem Content="一致" Tag="uniform"/>
-                            </ComboBox>
-                            <TextBlock Text="边缘选取"/>
-                            <ComboBox SelectedValue="{Binding Params.Line1Select, Mode=TwoWay}" SelectedValuePath="Tag">
-                                <ComboBoxItem Content="第一条边" Tag="first"/>
-                                <ComboBoxItem Content="最后一条边" Tag="last"/>
-                                <ComboBoxItem Content="全部边" Tag="all"/>
-                            </ComboBox>
-                        </StackPanel>
-                    </ScrollViewer>
-                </TabItem>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="126"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-                <TabItem Header="抓边2">
-                    <ScrollViewer Padding="14" VerticalScrollBarVisibility="Auto">
-                        <StackPanel>
-                            <TextBlock Text="ROI参数" Foreground="#00E5FF" FontWeight="Bold" Margin="0,0,0,8"/>
-                            <UniformGrid Columns="2">
-                                <StackPanel Margin="0,0,8,0"><TextBlock Text="中心行"/><ctrl:NumericBox Value="{Binding Params.Line2CenterRow, Mode=TwoWay}" Increment="1" DecimalPlaces="2"/></StackPanel>
-                                <StackPanel><TextBlock Text="中心列"/><ctrl:NumericBox Value="{Binding Params.Line2CenterColumn, Mode=TwoWay}" Increment="1" DecimalPlaces="2"/></StackPanel>
-                                <StackPanel Margin="0,0,8,0"><TextBlock Text="角度"/><ctrl:NumericBox Value="{Binding Params.Line2Angle, Mode=TwoWay}" Increment="0.1" DecimalPlaces="3"/></StackPanel>
-                                <StackPanel><TextBlock Text="高度"/><ctrl:NumericBox Value="{Binding Params.Line2Height, Mode=TwoWay}" Minimum="1" Increment="1" DecimalPlaces="2"/></StackPanel>
-                                <StackPanel Margin="0,0,8,0"><TextBlock Text="宽度"/><ctrl:NumericBox Value="{Binding Params.Line2Width, Mode=TwoWay}" Minimum="1" Increment="1" DecimalPlaces="2"/></StackPanel>
-                                <StackPanel><TextBlock Text="采样点数"/><ctrl:NumericBox Value="{Binding Params.Line2PointCount, Mode=TwoWay}" Minimum="2" Increment="1" DecimalPlaces="0"/></StackPanel>
-                            </UniformGrid>
-                            <Separator Margin="0,8,0,12" Background="#255F72"/>
-                            <TextBlock Text="抓边参数" Foreground="#00E5FF" FontWeight="Bold" Margin="0,0,0,8"/>
-                            <UniformGrid Columns="2">
-                                <StackPanel Margin="0,0,8,0"><TextBlock Text="平滑系数"/><ctrl:NumericBox Value="{Binding Params.Line2Sigma, Mode=TwoWay}" Minimum="0.1" Increment="0.1" DecimalPlaces="2"/></StackPanel>
-                                <StackPanel><TextBlock Text="灰度阈值"/><ctrl:NumericBox Value="{Binding Params.Line2Threshold, Mode=TwoWay}" Minimum="0" Maximum="255" Increment="1" DecimalPlaces="0"/></StackPanel>
-                                <StackPanel Margin="0,0,8,0"><TextBlock Text="边缘数量"/><ctrl:NumericBox Value="{Binding Params.Line2NumInstances, Mode=TwoWay}" Minimum="1" Increment="1" DecimalPlaces="0"/></StackPanel>
-                                <StackPanel><TextBlock Text="距离阈值"/><ctrl:NumericBox Value="{Binding Params.Line2DistThreshold, Mode=TwoWay}" Minimum="0" Increment="0.1" DecimalPlaces="2"/></StackPanel>
-                                <StackPanel Margin="0,0,8,0"><TextBlock Text="最小得分"/><ctrl:NumericBox Value="{Binding Params.Line2MinScore, Mode=TwoWay}" Minimum="0" Maximum="1" Increment="0.05" DecimalPlaces="2"/></StackPanel>
-                                <StackPanel><TextBlock Text="最大迭代"/><ctrl:NumericBox Value="{Binding Params.Line2MaxIterations, Mode=TwoWay}" Minimum="-1" Increment="1" DecimalPlaces="0"/></StackPanel>
-                            </UniformGrid>
-                            <TextBlock Text="明暗方向"/>
-                            <ComboBox SelectedValue="{Binding Params.Line2Transition, Mode=TwoWay}" SelectedValuePath="Tag">
-                                <ComboBoxItem Content="全部" Tag="all"/>
-                                <ComboBoxItem Content="由暗到亮" Tag="positive"/>
-                                <ComboBoxItem Content="由亮到暗" Tag="negative"/>
-                                <ComboBoxItem Content="一致" Tag="uniform"/>
-                            </ComboBox>
-                            <TextBlock Text="边缘选取"/>
-                            <ComboBox SelectedValue="{Binding Params.Line2Select, Mode=TwoWay}" SelectedValuePath="Tag">
-                                <ComboBoxItem Content="第一条边" Tag="first"/>
-                                <ComboBoxItem Content="最后一条边" Tag="last"/>
-                                <ComboBoxItem Content="全部边" Tag="all"/>
-                            </ComboBox>
-                        </StackPanel>
-                    </ScrollViewer>
-                </TabItem>
+                <Border BorderBrush="#255F72" BorderThickness="0,0,0,1" Background="#0B1520" Padding="12">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
-                <TabItem Header="位置跟随">
-                    <ScrollViewer Padding="14" VerticalScrollBarVisibility="Auto">
-                        <StackPanel>
-                            <CheckBox Content="启用位置跟随" IsChecked="{Binding Params.EnablePositionFollow, Mode=TwoWay}" Foreground="#DCF8FF" Margin="0,0,0,12"/>
-                            <TextBlock Text="基准位置" Foreground="#00E5FF" FontWeight="Bold" Margin="0,0,0,8"/>
-                            <UniformGrid Columns="2">
-                                <StackPanel Margin="0,0,8,0"><TextBlock Text="基准行"/><ctrl:NumericBox Value="{Binding Params.BaseRow, Mode=TwoWay}" Increment="1" DecimalPlaces="2"/></StackPanel>
-                                <StackPanel><TextBlock Text="基准列"/><ctrl:NumericBox Value="{Binding Params.BaseColumn, Mode=TwoWay}" Increment="1" DecimalPlaces="2"/></StackPanel>
-                                <StackPanel Margin="0,0,8,0"><TextBlock Text="基准角度"/><ctrl:NumericBox Value="{Binding Params.BaseAngle, Mode=TwoWay}" Increment="0.1" DecimalPlaces="3"/></StackPanel>
-                            </UniformGrid>
-                            <Separator Margin="0,8,0,12" Background="#255F72"/>
-                            <TextBlock Text="当前输入位置" Foreground="#00E5FF" FontWeight="Bold" Margin="0,0,0,8"/>
-                            <UniformGrid Columns="2">
-                                <StackPanel Margin="0,0,8,0"><TextBlock Text="当前行"/><ctrl:NumericBox Value="{Binding Params.CurrentRow, Mode=TwoWay}" Increment="1" DecimalPlaces="2"/></StackPanel>
-                                <StackPanel><TextBlock Text="当前列"/><ctrl:NumericBox Value="{Binding Params.CurrentColumn, Mode=TwoWay}" Increment="1" DecimalPlaces="2"/></StackPanel>
-                                <StackPanel Margin="0,0,8,0"><TextBlock Text="当前角度"/><ctrl:NumericBox Value="{Binding Params.CurrentAngle, Mode=TwoWay}" Increment="0.1" DecimalPlaces="3"/></StackPanel>
-                            </UniformGrid>
-                        </StackPanel>
-                    </ScrollViewer>
-                </TabItem>
+                        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="运行结果" Foreground="#00E5FF" FontWeight="Bold" Margin="0,0,0,8"/>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Line1Status}" Foreground="#83FF72"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Line2Status}" Foreground="#7EE6FF"/>
+                        <TextBlock Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding IntersectionText}" FontSize="16" FontWeight="Bold" Foreground="#FFD166" Margin="0,7,0,0"/>
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="{Binding ParallelText}" Foreground="#DCF8FF" Margin="0,7,0,0"/>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding FollowOffsetText}" Foreground="#AEC7D3" Margin="0,7,0,0"/>
+                    </Grid>
+                </Border>
 
-                <TabItem Header="结果">
-                    <StackPanel Margin="14">
-                        <Border BorderBrush="#2F7E98" BorderThickness="1" Background="#0B1722" Padding="14" Margin="0,0,0,12">
+                <TabControl Grid.Row="1">
+                    <TabItem Header="抓边1">
+                        <ScrollViewer Padding="14" VerticalScrollBarVisibility="Auto">
                             <StackPanel>
-                                <TextBlock Text="{Binding Angle, StringFormat={}{0:F3} 度}" FontSize="28" FontWeight="Bold" Foreground="#00E5FF"/>
-                                <TextBlock Text="{Binding IntersectionText}" Margin="0,8,0,0"/>
+                                <TextBlock Text="ROI参数" Foreground="#00E5FF" FontWeight="Bold" Margin="0,0,0,8"/>
+                                <UniformGrid Columns="2">
+                                    <StackPanel Margin="0,0,8,0">
+                                        <TextBlock Text="中心行"/>
+                                        <ctrl2:NumericBox Value="{Binding Params.Line1CenterRow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Increment="1" DecimalPlaces="2"/>
+                                    </StackPanel>
+                                    <StackPanel>
+                                        <TextBlock Text="中心列"/>
+                                        <ctrl2:NumericBox Value="{Binding Params.Line1CenterColumn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Increment="1" DecimalPlaces="2"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="0,0,8,0">
+                                        <TextBlock Text="角度"/>
+                                        <ctrl2:NumericBox Value="{Binding Params.Line1Angle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Increment="0.1" DecimalPlaces="3"/>
+                                    </StackPanel>
+                                    <StackPanel>
+                                        <TextBlock Text="高度"/>
+                                        <ctrl2:NumericBox Value="{Binding Params.Line1Height, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Minimum="1" Increment="1" DecimalPlaces="2"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="0,0,8,0">
+                                        <TextBlock Text="宽度"/>
+                                        <ctrl2:NumericBox Value="{Binding Params.Line1Width, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Minimum="1" Increment="1" DecimalPlaces="2"/>
+                                    </StackPanel>
+                                    <StackPanel>
+                                        <TextBlock Text="采样点数"/>
+                                        <ctrl2:NumericBox Value="{Binding Params.Line1PointCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Minimum="2" Increment="1" DecimalPlaces="0"/>
+                                    </StackPanel>
+                                </UniformGrid>
+                                <Separator Margin="0,8,0,12" Background="#255F72"/>
+                                <TextBlock Text="抓边参数" Foreground="#00E5FF" FontWeight="Bold" Margin="0,0,0,8"/>
+                                <UniformGrid Columns="2">
+                                    <StackPanel Margin="0,0,8,0">
+                                        <TextBlock Text="平滑系数"/>
+                                        <ctrl2:NumericBox Value="{Binding Params.Line1Sigma, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Minimum="0.1" Increment="0.1" DecimalPlaces="2"/>
+                                    </StackPanel>
+                                    <StackPanel>
+                                        <TextBlock Text="灰度阈值"/>
+                                        <ctrl2:NumericBox Value="{Binding Params.Line1Threshold, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Maximum="255" Increment="1" DecimalPlaces="0"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="0,0,8,0">
+                                        <TextBlock Text="边缘数量"/>
+                                        <ctrl2:NumericBox Value="{Binding Params.Line1NumInstances, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Minimum="1" Increment="1" DecimalPlaces="0"/>
+                                    </StackPanel>
+                                    <StackPanel>
+                                        <TextBlock Text="距离阈值"/>
+                                        <ctrl2:NumericBox Value="{Binding Params.Line1DistThreshold, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Increment="0.1" DecimalPlaces="2"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="0,0,8,0">
+                                        <TextBlock Text="最小得分"/>
+                                        <ctrl2:NumericBox Value="{Binding Params.Line1MinScore, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Maximum="1" Increment="0.05" DecimalPlaces="2"/>
+                                    </StackPanel>
+                                    <StackPanel>
+                                        <TextBlock Text="最大迭代"/>
+                                        <ctrl2:NumericBox Value="{Binding Params.Line1MaxIterations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Minimum="-1" Increment="1" DecimalPlaces="0"/>
+                                    </StackPanel>
+                                </UniformGrid>
+                                <TextBlock Text="明暗方向"/>
+                                <ComboBox SelectedValue="{Binding Params.Line1Transition, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Tag">
+                                    <ComboBoxItem Content="全部" Tag="all"/>
+                                    <ComboBoxItem Content="由暗到亮" Tag="positive"/>
+                                    <ComboBoxItem Content="由亮到暗" Tag="negative"/>
+                                    <ComboBoxItem Content="一致" Tag="uniform"/>
+                                </ComboBox>
+                                <TextBlock Text="边缘选取"/>
+                                <ComboBox SelectedValue="{Binding Params.Line1Select, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Tag">
+                                    <ComboBoxItem Content="第一条边" Tag="first"/>
+                                    <ComboBoxItem Content="最后一条边" Tag="last"/>
+                                    <ComboBoxItem Content="全部边" Tag="all"/>
+                                </ComboBox>
                             </StackPanel>
-                        </Border>
-                        <TextBlock Text="{Binding Line1Status}" Margin="0,0,0,8"/>
-                        <TextBlock Text="{Binding Line1Info}" Margin="0,0,0,8"/>
-                        <TextBlock Text="{Binding Line2Status}" Margin="0,0,0,8"/>
-                        <TextBlock Text="{Binding Line2Info}" Margin="0,0,0,8"/>
-                        <TextBlock Text="{Binding ParallelText}" Margin="0,0,0,8"/>
-                        <TextBlock Text="{Binding FollowOffsetText}" Margin="0,0,0,8" Foreground="#7EE6FF"/>
-                    </StackPanel>
-                </TabItem>
-            </TabControl>
+                        </ScrollViewer>
+                    </TabItem>
+
+                    <TabItem Header="抓边2">
+                        <ScrollViewer Padding="14" VerticalScrollBarVisibility="Auto">
+                            <StackPanel>
+                                <TextBlock Text="ROI参数" Foreground="#00E5FF" FontWeight="Bold" Margin="0,0,0,8"/>
+                                <UniformGrid Columns="2">
+                                    <StackPanel Margin="0,0,8,0">
+                                        <TextBlock Text="中心行"/>
+                                        <ctrl2:NumericBox Value="{Binding Params.Line2CenterRow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Increment="1" DecimalPlaces="2"/>
+                                    </StackPanel>
+                                    <StackPanel>
+                                        <TextBlock Text="中心列"/>
+                                        <ctrl2:NumericBox Value="{Binding Params.Line2CenterColumn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Increment="1" DecimalPlaces="2"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="0,0,8,0">
+                                        <TextBlock Text="角度"/>
+                                        <ctrl2:NumericBox Value="{Binding Params.Line2Angle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Increment="0.1" DecimalPlaces="3"/>
+                                    </StackPanel>
+                                    <StackPanel>
+                                        <TextBlock Text="高度"/>
+                                        <ctrl2:NumericBox Value="{Binding Params.Line2Height, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Minimum="1" Increment="1" DecimalPlaces="2"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="0,0,8,0">
+                                        <TextBlock Text="宽度"/>
+                                        <ctrl2:NumericBox Value="{Binding Params.Line2Width, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Minimum="1" Increment="1" DecimalPlaces="2"/>
+                                    </StackPanel>
+                                    <StackPanel>
+                                        <TextBlock Text="采样点数"/>
+                                        <ctrl2:NumericBox Value="{Binding Params.Line2PointCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Minimum="2" Increment="1" DecimalPlaces="0"/>
+                                    </StackPanel>
+                                </UniformGrid>
+                                <Separator Margin="0,8,0,12" Background="#255F72"/>
+                                <TextBlock Text="抓边参数" Foreground="#00E5FF" FontWeight="Bold" Margin="0,0,0,8"/>
+                                <UniformGrid Columns="2">
+                                    <StackPanel Margin="0,0,8,0">
+                                        <TextBlock Text="平滑系数"/>
+                                        <ctrl2:NumericBox Value="{Binding Params.Line2Sigma, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Minimum="0.1" Increment="0.1" DecimalPlaces="2"/>
+                                    </StackPanel>
+                                    <StackPanel>
+                                        <TextBlock Text="灰度阈值"/>
+                                        <ctrl2:NumericBox Value="{Binding Params.Line2Threshold, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Maximum="255" Increment="1" DecimalPlaces="0"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="0,0,8,0">
+                                        <TextBlock Text="边缘数量"/>
+                                        <ctrl2:NumericBox Value="{Binding Params.Line2NumInstances, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Minimum="1" Increment="1" DecimalPlaces="0"/>
+                                    </StackPanel>
+                                    <StackPanel>
+                                        <TextBlock Text="距离阈值"/>
+                                        <ctrl2:NumericBox Value="{Binding Params.Line2DistThreshold, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Increment="0.1" DecimalPlaces="2"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="0,0,8,0">
+                                        <TextBlock Text="最小得分"/>
+                                        <ctrl2:NumericBox Value="{Binding Params.Line2MinScore, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Maximum="1" Increment="0.05" DecimalPlaces="2"/>
+                                    </StackPanel>
+                                    <StackPanel>
+                                        <TextBlock Text="最大迭代"/>
+                                        <ctrl2:NumericBox Value="{Binding Params.Line2MaxIterations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Minimum="-1" Increment="1" DecimalPlaces="0"/>
+                                    </StackPanel>
+                                </UniformGrid>
+                                <TextBlock Text="明暗方向"/>
+                                <ComboBox SelectedValue="{Binding Params.Line2Transition, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Tag">
+                                    <ComboBoxItem Content="全部" Tag="all"/>
+                                    <ComboBoxItem Content="由暗到亮" Tag="positive"/>
+                                    <ComboBoxItem Content="由亮到暗" Tag="negative"/>
+                                    <ComboBoxItem Content="一致" Tag="uniform"/>
+                                </ComboBox>
+                                <TextBlock Text="边缘选取"/>
+                                <ComboBox SelectedValue="{Binding Params.Line2Select, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Tag">
+                                    <ComboBoxItem Content="第一条边" Tag="first"/>
+                                    <ComboBoxItem Content="最后一条边" Tag="last"/>
+                                    <ComboBoxItem Content="全部边" Tag="all"/>
+                                </ComboBox>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </TabItem>
+
+                    <TabItem Header="位置跟随">
+                        <ScrollViewer Padding="14" VerticalScrollBarVisibility="Auto">
+                            <StackPanel>
+                                <CheckBox Content="启用位置跟随" IsChecked="{Binding Params.EnablePositionFollow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="#DCF8FF" Margin="0,0,0,12"/>
+                                <TextBlock Text="基准位置" Foreground="#00E5FF" FontWeight="Bold" Margin="0,0,0,8"/>
+                                <UniformGrid Columns="2">
+                                    <StackPanel Margin="0,0,8,0">
+                                        <TextBlock Text="基准行"/>
+                                        <ctrl2:NumericBox Value="{Binding Params.BaseRow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Increment="1" DecimalPlaces="2"/>
+                                    </StackPanel>
+                                    <StackPanel>
+                                        <TextBlock Text="基准列"/>
+                                        <ctrl2:NumericBox Value="{Binding Params.BaseColumn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Increment="1" DecimalPlaces="2"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="0,0,8,0">
+                                        <TextBlock Text="基准角度"/>
+                                        <ctrl2:NumericBox Value="{Binding Params.BaseAngle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Increment="0.1" DecimalPlaces="3"/>
+                                    </StackPanel>
+                                </UniformGrid>
+                                <Separator Margin="0,8,0,12" Background="#255F72"/>
+                                <TextBlock Text="当前输入位置" Foreground="#00E5FF" FontWeight="Bold" Margin="0,0,0,8"/>
+                                <UniformGrid Columns="2">
+                                    <StackPanel Margin="0,0,8,0">
+                                        <TextBlock Text="当前行"/>
+                                        <ctrl2:NumericBox Value="{Binding Params.CurrentRow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Increment="1" DecimalPlaces="2"/>
+                                    </StackPanel>
+                                    <StackPanel>
+                                        <TextBlock Text="当前列"/>
+                                        <ctrl2:NumericBox Value="{Binding Params.CurrentColumn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Increment="1" DecimalPlaces="2"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="0,0,8,0">
+                                        <TextBlock Text="当前角度"/>
+                                        <ctrl2:NumericBox Value="{Binding Params.CurrentAngle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Increment="0.1" DecimalPlaces="3"/>
+                                    </StackPanel>
+                                </UniformGrid>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </TabItem>
+                </TabControl>
+            </Grid>
         </Border>
 
         <Border Grid.Row="3" Grid.ColumnSpan="2" BorderBrush="#255F72" BorderThickness="1" Background="#101923" Padding="12,0">

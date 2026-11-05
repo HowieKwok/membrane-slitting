@@ -1,6 +1,9 @@
 ﻿using Frame_Core.pluginParams;
+using FrameCommunity.公共类;
+using HalconDotNet;
 using Plugin.BlobAnalysis.Models;
 using System.Collections.Generic;
+
 
 namespace Plugin.BlobAnalysis.Core
 {
@@ -14,6 +17,7 @@ namespace Plugin.BlobAnalysis.Core
 
             target.InputImage = source.ho_Image;
             target.DetectMode = source.m_nDetectMode == 0 ? DetectRangeMode.Global : DetectRangeMode.LocalRoi;
+            target.m_bIsEnable = source.m_bIsEnable;
             target.EnableLocalRoi = source.m_bUseLocalRoi;
             target.EnableMaskRoi = source.m_bUseMaskRoi;
             target.ShowViewRoi = source.m_bShowViewRoi;
@@ -22,14 +26,20 @@ namespace Plugin.BlobAnalysis.Core
             {
                 Index = 1,
                 Enabled = source.m_bUseLocalRoi,
-                Name = "灞€閮≧OI",
+                Name = "LocalRoi",
                 Shape = RoiShapeType.Rectangle1,
                 Row1 = source.m_fLocalRoiRow1,
                 Col1 = source.m_fLocalRoiCol1,
                 Row2 = source.m_fLocalRoiRow2,
-                Col2 = source.m_fLocalRoiCol2
+                Col2 = source.m_fLocalRoiCol2,
+                TopOffsetRow= source.TopOffsetRow,
+                BottomOffsetRow=source.BottomOffsetRow,
+                LeftOffsetCol=source.LeftOffsetCol,
+                RightOffsetCol=source.RightOffsetCol
+                
+                
             };
-
+           
             target.ThresholdMin = source.m_fThresholdMin;
             target.ThresholdMax = source.m_fThresholdMax;
             target.MorphMode = (MorphMode)source.m_nMorphMode;
@@ -78,6 +88,7 @@ namespace Plugin.BlobAnalysis.Core
             if (source == null || target == null) return;
 
             target.m_nDetectMode = source.DetectMode == DetectRangeMode.Global ? 0 : 1;
+            target.m_bIsEnable = source.m_bIsEnable;
             target.m_bUseLocalRoi = source.EnableLocalRoi;
             target.m_bUseMaskRoi = source.EnableMaskRoi;
             target.m_bShowViewRoi = source.ShowViewRoi;
@@ -86,6 +97,12 @@ namespace Plugin.BlobAnalysis.Core
             target.m_fLocalRoiCol1 = source.LocalRoi.Col1;
             target.m_fLocalRoiRow2 = source.LocalRoi.Row2;
             target.m_fLocalRoiCol2 = source.LocalRoi.Col2;
+
+            target.TopOffsetRow = source.LocalRoi.TopOffsetRow;
+            target.BottomOffsetRow = source.LocalRoi.BottomOffsetRow;
+            target.LeftOffsetCol = source.LocalRoi.LeftOffsetCol;
+            target.RightOffsetCol = source.LocalRoi.RightOffsetCol;
+
             target.m_fThresholdMin = source.ThresholdMin;
             target.m_fThresholdMax = source.ThresholdMax;
             target.m_nMorphMode = (int)source.MorphMode;
@@ -147,6 +164,7 @@ namespace Plugin.BlobAnalysis.Core
             {
                 target.m_ho_OutLocalRoiRegion = result.LocalRoiRegion.CopyObj(1, -1);
             }
+     
 
             if (result.MaskRoiRegion != null && result.MaskRoiRegion.IsInitialized())
             {
@@ -155,6 +173,7 @@ namespace Plugin.BlobAnalysis.Core
 
             foreach (BlobRegionFeature item in result.Regions)
             {
+             
                 target.m_lOutRegionResults.Add(new BlobRegionResultParam
                 {
                     m_nIndex = item.Index,
@@ -199,6 +218,12 @@ namespace Plugin.BlobAnalysis.Core
 
             target.m_ho_OutMaskRoiRegion?.Dispose();
             target.m_ho_OutMaskRoiRegion = null;
+
+      
+
+
+            target.m_lOutRegionResults.Clear();
+
         }
         private static RoiParam ToRuntime(BlobMaskRoiParam item)
         {

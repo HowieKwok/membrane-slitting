@@ -71,7 +71,7 @@ namespace Plugin.D3MeasureDepth
                 hWndCtrl_Display.resetAll();
                 hWndCtrl_Display.repaint();
             }
-            catch (Exception ee) { }
+            catch (Exception) { }
             //测试存参用
         }
         #region 功能函数
@@ -190,7 +190,7 @@ namespace Plugin.D3MeasureDepth
                 NUD_SharpenSigma.Value = Convert.ToDecimal(DetectResidueParams.hv_SharpenSigma);
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
         }
@@ -485,7 +485,7 @@ namespace Plugin.D3MeasureDepth
         {
             //打开指定路径文件夹，加载图片
             OpenFileDialog FileDialog = new OpenFileDialog();
-            FileDialog.InitialDirectory = "E:\\";
+            FileDialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
             if (FileDialog.ShowDialog() == DialogResult.OK)
             {
                 try
@@ -735,7 +735,7 @@ namespace Plugin.D3MeasureDepth
                 str = String.Format("Size  R:{0}   C:{1}", h.ToString(), w.ToString()); //格式化字符串
                 return str;
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 return str;
             }

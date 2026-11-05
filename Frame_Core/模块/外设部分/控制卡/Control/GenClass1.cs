@@ -431,7 +431,6 @@ namespace EHolly
         {
             if (!axis_State.IsConnected) return ;
             if (!axis_State.AxisEnable) return ;
-            uint PdiValue;
             short rtn = GTN.mc.GTN_ZeroPos(nCore, axis, 1);
             GetPrfPos(axis);
         }
@@ -442,7 +441,6 @@ namespace EHolly
         {
             if (!axis_State.IsConnected) return;
             if (!axis_State.AxisEnable) return;
-            uint PdiValue;
             short rtn = GTN.mc.GTN_ClrSts(nCore, axis, 1);
         }
         /// <summary>

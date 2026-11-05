@@ -1,6 +1,6 @@
 ﻿using Frame_Core;
 using Frame_Core.pluginParams;
-using HalconAlgorithm;
+
 using HalconDotNet;
 using LogTool;
 using Plugin.MeasureEar;
@@ -348,7 +348,6 @@ namespace Plugin.FindModel
 
         public void GetRoiParams(ROIRectangle2 roiRectangle2, ParamsFindModel paramsFindModel)
         {
-            HTuple hv_Phi;
             HTuple hv_Angle;
             paramsFindModel.m_fCenterRow = roiRectangle2.midR;
             paramsFindModel.m_fCenterCol = roiRectangle2.midC;
@@ -418,7 +417,7 @@ namespace Plugin.FindModel
                     }
                 }
             }
-            catch (Exception ee)
+            catch (Exception)
             {
 
                 //throw;
@@ -437,7 +436,7 @@ namespace Plugin.FindModel
                 str = String.Format("Size  R:{0}   C:{1}", h.ToString(), w.ToString()); //格式化字符串
                 return str;
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 return str;
             }
@@ -455,7 +454,7 @@ namespace Plugin.FindModel
                 //  throw;
             }
         }
-        string m_strImgPath = "E:\\";
+        string m_strImgPath = AppDomain.CurrentDomain.BaseDirectory;
         private void LoadImage_Click(object sender, EventArgs e)
         {
             //打开指定路径文件夹，加载图片
@@ -494,7 +493,7 @@ namespace Plugin.FindModel
                 hWndCtrl_Display.addIconicVar(PluginParams.ho_Image);
                 // if()
             }
-            catch (Exception ee)
+            catch (Exception)
             {
 
                 // throw;
@@ -526,7 +525,7 @@ namespace Plugin.FindModel
                 //  HOperatorSet.GetImageSize(ho_ImgModel, out HTuple w, out HTuple h);
 
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 ho_ImgModel?.Dispose();
 

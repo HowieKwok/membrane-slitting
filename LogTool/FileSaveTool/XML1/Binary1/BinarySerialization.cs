@@ -41,7 +41,7 @@ namespace LogTool
                             binaryFormatter.Serialize(fileStream, sourceObject);
                         }
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         return false;
                     }
@@ -74,7 +74,7 @@ namespace LogTool
                             result = binaryFormatter.Deserialize(fileStream);
                         }
                     }
-                    catch(Exception e)
+                    catch(Exception)
                     {
                         return null;
                     }

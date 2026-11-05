@@ -160,7 +160,7 @@ namespace Frame_Core
                     }
                     catch (Exception ex)
                     {
-                        Log4netRecord.ErrorLog.Error(ex);
+                        MessageNotify.AddErrorLog(ex.Message + "\r\n" + ex.StackTrace);
                     }
                 }
             }

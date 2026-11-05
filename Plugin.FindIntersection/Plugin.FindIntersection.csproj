@@ -73,6 +73,8 @@
     <Reference Include="System.Xaml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\HalconIntersectionView.cs" />
+    <Compile Include="Controls\ProfileCurveControl.cs" />
     <Compile Include="Plugin.FindIntersection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewROI\GraphicsContext.cs" />
@@ -88,7 +90,6 @@
     <Compile Include="工具类\FittingLine.cs" />
     <Compile Include="工具类\窗体绘制算子.cs" />
     <Compile Include="工具类\缺陷检测算子.cs" />
-    <Compile Include="Controls\NumericBox.cs" />
     <Compile Include="Core\FindEngine.cs" />
     <Compile Include="Core\FollowTransformer.cs" />
     <Compile Include="Services\FindIntersectionOverlayPainter.cs" />
@@ -102,6 +103,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FrameCommunity\FrameCommunity.csproj">
+      <Project>{2e0bc248-e72a-4833-a851-20069a232648}</Project>
+      <Name>FrameCommunity</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Frame_Core\Frame_Core.csproj">
       <Project>{01127398-2cc7-4124-b966-fbff69a7a0e5}</Project>
       <Name>Frame_Core</Name>
@@ -117,5 +122,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
 </Project>

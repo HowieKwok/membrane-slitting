@@ -300,7 +300,6 @@ namespace Frame_Core
         [System.Xml.Serialization.XmlIgnore]
         public HTuple Model_handle = new HTuple();
 
-        private FindRectangleLineParam[] _findRectangleLineParams;
 
         /// <summary>
         /// 抓边参数类//输入变量
@@ -469,7 +468,6 @@ namespace Frame_Core
         [Description("卡尺ROI长度")]
         public double fInputRoiWidthLen = 5.0;
 
-        private int _iInputAmplitudeThreshold = 30;
 
         [ShowTextAttribute("卡尺阈值")]
         [Description("卡尺阈值")]

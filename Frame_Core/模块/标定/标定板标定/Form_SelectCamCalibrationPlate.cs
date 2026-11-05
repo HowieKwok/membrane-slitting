@@ -13,12 +13,12 @@ namespace Frame_Core
 {
     public partial class Form_SelectCamCalibrationPlate : Form
     {
-        Dictionary<CameraEnum, CameraManager> cameraManager;
+
         Form_CalibrationPlate form_CalibrationPlate = new Form_CalibrationPlate() { FormBorderStyle = FormBorderStyle.None, TopLevel = false, Dock = DockStyle.Fill };
-        public Form_SelectCamCalibrationPlate(Dictionary<CameraEnum, CameraManager> _cameraManager)
+        public Form_SelectCamCalibrationPlate()
         {
             InitializeComponent();
-            cameraManager = _cameraManager;
+        
         }
 
         private void Form_SelectCamCalibrationPlate_Load(object sender, EventArgs e)
@@ -26,10 +26,7 @@ namespace Frame_Core
             try
             {
                 cbx_CamSelect.Items.Clear();
-                foreach (var item in cameraManager)
-                {
-                    cbx_CamSelect.Items.Add(item.Value.m_CamParam.CameraName.ToString());
-                }
+                cbx_CamSelect.Items.AddRange(Service_Camera.GetCam_Names());
                 form_CalibrationPlate.Show();
                 panel2.Controls.Clear();
                 panel2.Controls.Add(form_CalibrationPlate);
@@ -59,7 +56,7 @@ namespace Frame_Core
         {
             try
             {
-                form_CalibrationPlate.SetParam(cameraManager[(CameraEnum)cbx_CamSelect.SelectedIndex].param_CalibrationPlate);
+                form_CalibrationPlate.SetParam(Service_Camera.Get_CameraRelevancy(cbx_CamSelect.SelectedIndex).param_CalibrationPlate);
             }
             catch (Exception ex)
             {

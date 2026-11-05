@@ -11,7 +11,7 @@ namespace Frame_Core
         /// <summary>
         /// 点检图片路径
         /// </summary>
-        public string PointCheckImgPath = @"E:\点检图像\缺陷点检图像";
+        public string PointCheckImgPath = $"{AppDomain.CurrentDomain.BaseDirectory}点检图像\\缺陷点检图像";
 
       
 

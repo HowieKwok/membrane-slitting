@@ -7,27 +7,6 @@ using System.Threading.Tasks;
 
 namespace Frame_Core
 {
-    public class ImageInfo : IDisposable
-    {
-        public HObject ho_image = null;
-        public long image_ID = -1;
-        public string cameraName = "default Camera";
-        public double imageWidth = 16384;//原图高
-        public double imageHeight = 10000;//原图宽
-
-        public int EAID = 0;
-
-        /// <summary>
-        /// 其他信息
-        /// </summary>
-        public OtherInfo otherInfo = new OtherInfo();
-
-        public void Dispose()
-        {
-            ho_image?.DisposeEx();
-            ho_image = null;
-        }
-    }
 
     public class OtherInfo
     {

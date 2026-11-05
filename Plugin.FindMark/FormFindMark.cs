@@ -88,7 +88,7 @@ namespace Plugin.FindMark
                 HobjectToHimage(PluginParams.ho_Image, ref hImage);
                 hWndCtrl_Display.addIconicVar(hImage);
             }
-            catch (Exception ee)
+            catch (Exception)
             {
 
             }
@@ -321,7 +321,7 @@ namespace Plugin.FindMark
 
             PluginParams.backup(PluginParams);
             RefreshParamsFromView(PluginParams);
-            PluginParams.FilePath = Project.Instance.logParam.LogSavePath + "\\ParamsChangeLog\\";
+           // PluginParams.FilePath = Project.Instance.logParam.LogSavePath + "\\ParamsChangeLog\\";
             error = YControlAutobind.Saveing<PluginParamsBase, IYCustomAttribute>(this, PluginParams);
             // 调用父窗体
             base.Btn_Save_Click(sender, e);
@@ -477,7 +477,7 @@ namespace Plugin.FindMark
                     }
                     else if (PluginParams.MarkType == 1)
                     {
-                        if (PluginParams.m_ho_OutRegion?.CountObj() != 0 && PluginParams.m_ho_OutRegion.CountObj() != null)
+                        if (PluginParams.m_ho_OutRegion?.CountObj() != 0)
                         {
                             HOperatorSet.DispObj(PluginParams.m_ho_OutRegion, HWC_Display.HalconWindow);
                         }
@@ -514,7 +514,7 @@ namespace Plugin.FindMark
 
                 }
             }
-            catch (Exception ee)
+            catch (Exception)
             {
 
                 //  throw;
@@ -585,7 +585,7 @@ namespace Plugin.FindMark
                 str = String.Format("Size  R:{0}   C:{1}", h.ToString(), w.ToString()); //格式化字符串
                 return str;
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 return str;
             }

@@ -29,12 +29,8 @@ namespace Mef_VisionFrame
         public FMain()
         {
             InitializeComponent();
-            foreach (var item in Project.Instance.cameraManager)
-            {
-                camName.Add(item.Value.m_CamParam.CameraName);
-                camNameS.Add(item.Key.ToString());
-
-            }
+            camName.AddRange(Service_Camera.GetCam_Names());
+            camNameS.AddRange(Service_Camera.GetCam_Names());
         }
 
 

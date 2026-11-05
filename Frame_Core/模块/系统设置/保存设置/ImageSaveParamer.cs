@@ -20,35 +20,35 @@ namespace Frame_Core
         /// </summary>
         [NonSerialized]
         [System.Xml.Serialization.XmlIgnore]
-        public string ImageSave_Path_Primitive = "E:\\原图保存路径\\";
+        public string ImageSave_Path_Primitive = $"{AppDomain.CurrentDomain.BaseDirectory}原图保存路径\\";
 
         /// <summary>
         /// 截图保存路径
         /// </summary>
         [NonSerialized]
         [System.Xml.Serialization.XmlIgnore]
-        public string ImageSave_Path_Screenshot = "E:\\截图保存路径\\";
+        public string ImageSave_Path_Screenshot = $"{AppDomain.CurrentDomain.BaseDirectory}截图保存路径\\";
 
         /// <summary>
         /// 小图保存路径
         /// </summary>
         [NonSerialized]
         [System.Xml.Serialization.XmlIgnore]
-        public string ImageSave_Path_Min = "E:\\小图保存路径\\";
+        public string ImageSave_Path_Min = $"{AppDomain.CurrentDomain.BaseDirectory}小图保存路径\\";
 
         /// <summary>
         /// 产品图保存路径
         /// </summary>
         [NonSerialized]
         [System.Xml.Serialization.XmlIgnore]
-        public string ImageSave_Path_ProdImg = "E:\\产品图保存路径\\";
+        public string ImageSave_Path_ProdImg = $"{AppDomain.CurrentDomain.BaseDirectory}产品图保存路径\\";
 
         /// <summary>
         /// 产品截图保存路径
         /// </summary>
         [NonSerialized]
         [System.Xml.Serialization.XmlIgnore]
-        public string ImageSave_Path_ProdScreenshot = "E:\\截图保存路径\\";
+        public string ImageSave_Path_ProdScreenshot = $"{AppDomain.CurrentDomain.BaseDirectory}截图保存路径\\";
 
         /// <summary>
         /// 图片保存格式-原图

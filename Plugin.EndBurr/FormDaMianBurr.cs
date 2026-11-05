@@ -366,7 +366,7 @@ namespace Plugin.DaMianBurr
         {
             //打开指定路径文件夹，加载图片
             OpenFileDialog FileDialog = new OpenFileDialog();
-            FileDialog.InitialDirectory = "E:\\";
+            FileDialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
             if (FileDialog.ShowDialog() == DialogResult.OK)
             {
                 try

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,9 +36,13 @@ namespace Frame_Core
     }
     public enum MaterialCrafEnum
     {
-        [Language("宽幅打孔机", "BottomEdge1", "france")]
-        PFT清洗机,
+        [Language("激光模切一体机", "激光模切一体机", "激光模切一体机")]
+        [Description("激光模切一体机")]
+        激光模切一体机,
 
+        //[Language("宽幅打孔机", "BottomEdge1", "france")]
+        //[Description("模切机")]
+        //PFT清洗机,
     }
     public enum JRLineEnum
     {
@@ -191,6 +196,10 @@ namespace Frame_Core
      
         已到点检时间请进行尺寸点检操作,     
         已到点检时间请进行缺陷点检操作,
+        参数获取失败,
+        工位三综合数据超时,
+        工位三没找到上一片数据,
+        数据处理异常
 
     }
 
@@ -333,8 +342,8 @@ namespace Frame_Core
 
     public enum ElectrodeEnum
     {
-        阴极,
-        阳极
+        负极,
+        正极
     }
 
 
@@ -425,10 +434,16 @@ namespace Frame_Core
     {
         [Language("保存设置", "Save Settings", "Sauvegarder les paramètres")]
         保存设置,
-        [Language("仿真设置", "Simulation Settings", "Paramètres de simulation")]
-        仿真设置,
-        [Language("删图设置", "Delete Image Settings", "Paramètres de suppression d'image")]
-        删图设置,
+        [Language("磁盘设置", "磁盘设置", "磁盘设置")]
+        磁盘设置,
+        [Language("基础设置", "基础设置", "基础设置")]
+        基础设置,
+        [Language("图片管理", "图片管理", "图片管理")]
+        图片管理,
+        //[Language("仿真设置", "Simulation Settings", "Paramètres de simulation")]
+        //仿真设置,
+        //[Language("删图设置", "Delete Image Settings", "Paramètres de suppression d'image")]
+        //删图设置,
         [Language("调试设置", "Debug Settings", "Paramètres de débogage")]
         调试设置,
         [Language("工艺设置", "Process Settings", "Paramètres de processus")]
@@ -439,40 +454,38 @@ namespace Frame_Core
         光源设置,
         [Language("主设备通讯", "Main Equipment Communication", " Communication avec l'équipement principal")]
         主设备通讯,
-        [Language("PC通讯设置", "PC Communication Settings", "Paramètres de communication PC")]
-        PC通讯设置,
-        [Language("打标机软件通讯", "Marking Machine Software Communication", "Communication logicielle de la machine de marquage")]
-        打标机软件通讯,
-        [Language("相机标定", "Camera Calibration", "Calibration de la caméra")]
-        相机标定,
-        //[Language("尺寸点检", "Dimension Inspection", "Inspection des dimensions")]
-        //尺寸点检,
-        [Language("点检", "Inspection", "Inspection")]
-        点检,
-        [Language("MES", "MES", "MES")]
-        MES,
         [Language("控制卡", "ControlCard", "ControlCard")]
         控制卡,
-        [Language("纠偏器:", "CorrectDevice:", "CorrectDevice:")]
-        纠偏器,
-        [Language("Mark设置", "Mark Set", "Mark Set")]
-        Mark设置,
-        [Language("MSA圆点设置", "MSA圆点设置", "MSA圆点设置")]
-        MSA圆点设置,
-        [Language("MSA线宽设置", "MSA线宽设置", "MSA线宽设置")]
-        MSA棋盘格线宽设置,
-        [Language("MSA测厚3D设置", "MSA测厚3D设置", "MSA测厚3D设置")]
-        MSA测厚3D设置,
-        [Language("MSA棋盘格线宽设置", "MSA棋盘格线宽设置", "MSA棋盘格线宽设置")]
-        MSA线宽设置,
-        [Language("磁盘设置", "磁盘设置", "磁盘设置")]
-        磁盘设置,
-        [Language("系统设置", "系统设置", "系统设置")]
-        系统设置,
-        [Language("主副机通讯", "主副机通讯", "主副机通讯")]
-        主副机通讯,
-        [Language("灰度自适应", "Grayscale Adaptation", "Adaptation des Niveaux de Gris")]
-        灰度自适应,
+        //[Language("PC通讯设置", "PC Communication Settings", "Paramètres de communication PC")]
+        //PC通讯设置,
+        //[Language("打标机软件通讯", "Marking Machine Software Communication", "Communication logicielle de la machine de marquage")]
+        //打标机软件通讯,
+        //[Language("相机标定", "Camera Calibration", "Calibration de la caméra")]
+        //相机标定,
+        //[Language("尺寸点检", "Dimension Inspection", "Inspection des dimensions")]
+        //尺寸点检,
+        //[Language("点检", "Inspection", "Inspection")]
+        //点检,
+        //[Language("MES", "MES", "MES")]
+        //MES,
+    
+        //[Language("纠偏器:", "CorrectDevice:", "CorrectDevice:")]
+        //纠偏器,
+        //[Language("Mark设置", "Mark Set", "Mark Set")]
+        //Mark设置,
+        //[Language("MSA圆点设置", "MSA圆点设置", "MSA圆点设置")]
+        //MSA圆点设置,
+        //[Language("MSA线宽设置", "MSA线宽设置", "MSA线宽设置")]
+        //MSA棋盘格线宽设置,
+        //[Language("MSA测厚3D设置", "MSA测厚3D设置", "MSA测厚3D设置")]
+        //MSA测厚3D设置,
+        //[Language("MSA棋盘格线宽设置", "MSA棋盘格线宽设置", "MSA棋盘格线宽设置")]
+        //MSA线宽设置,
+    
+        //[Language("主副机通讯", "主副机通讯", "主副机通讯")]
+        //主副机通讯,
+        //[Language("灰度自适应", "Grayscale Adaptation", "Adaptation des Niveaux de Gris")]
+        //灰度自适应,
     }
     /// <summary>
     /// 抓边枚举，明暗方向：
@@ -694,5 +707,18 @@ namespace Frame_Core
         MD错位,
       
 
+    }
+    public enum ModelTypeEnum
+    {
+        Null,
+        OutCrossGroup,
+        PointInfo,
+        LineInfo
+    }
+
+    public enum SizeDirectionEnum
+    {
+        X,
+        Y,
     }
 }

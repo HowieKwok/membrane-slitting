@@ -388,12 +388,6 @@ namespace Frame_Core
                         getValidCode(tmp_Str1, out RedPlcData_str, out PLC_num);
                         //====================================================================================================================
                         //========【】
-                        if (/*UIRecipe.CCDconfig.Machine_type == 0*/false)
-                        {
-                            if (PLC_num != "" && PLC_num.Length < 10)
-                                str_PLC_num = Convert.ToInt64(PLC_num).ToString();
-                        }
-                        else
                         {
                             if (PLC_num != "" && PLC_num.Length <= 20)
                             {
@@ -587,7 +581,7 @@ namespace Frame_Core
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 outStr = "";
                 plcNum = "";

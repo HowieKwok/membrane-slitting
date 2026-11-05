@@ -16,6 +16,11 @@ namespace Frame_Core
         /// 软件工作路径
         /// </summary>
         public readonly string softwareWorkPath = $"{System.Environment.CurrentDirectory}\\";
+
+        /// <summary>
+        /// 软件工作路径
+        /// </summary>
+        public readonly string CaraftBackPath = $"{System.Environment.CurrentDirectory}\\CaraftBackup";
         /// <summary>
         /// //系统配置文件勿动,存放硬件配置参数，系统设置参数。
         /// </summary>
@@ -26,17 +31,17 @@ namespace Frame_Core
         public readonly string CraftPath = System.Environment.CurrentDirectory + "\\ZFormulaFile\\";
 
         //点检记录
-        public readonly string pointCheckRootPath = "E:\\点检数据PointInspectionData\\";
+        public readonly string pointCheckRootPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "点检数据PointInspectionData");
 
         public readonly string SizeCheckPointDataName = "尺寸点检数据SizeCheckPointData.csv";
-       
-        public readonly string CheckPointRecordPath = "E:\\点检数据PointInspectionData\\CheckPoint.ini";      //存放点检数据
+
+        public readonly string CheckPointRecordPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "点检数据PointInspectionData", "CheckPoint.ini");      //存放点检数据
 
 
         /// <summary>
         /// 初始生产数据路径
         /// </summary>
-        public string initProdDataPath = $"E:\\生产数据\\";
+        public string initProdDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据") + "\\";
 
         #endregion
 
@@ -88,81 +93,81 @@ namespace Frame_Core
 
 
         //生产数据
-        public string ProdStatisticsDataPath = "E:\\生产数据\\生产统计数据";
-        public string ProdSizeDataPath = "E:\\生产数据\\生产数据";
-        public string ProdSizeDataPath_ZBMCCam1 = "E:\\生产数据\\生产数据";
-        public string ProdSizeDataPath_JRMCCam1 = "E:\\生产数据\\生产数据";
-        public string ProdSizeDataPath_ZBMCCam2 = "E:\\生产数据\\生产数据";
-        public string ProdSizeDataPath_JRMCCam2 = "E:\\生产数据\\生产数据";
-        public string ProdMeterDataPath = "E:\\生产数据\\生产米数";
-        public string ProdSizeDataPath_DuanMCam1 = "E:\\生产数据\\生产数据";
-        public string ProdSizeDataPath_DaMCam1 = "E:\\生产数据\\生产数据";
-        public string ProdSizeDataPath_Statistics = "E:\\生产数据\\生产统计";
+        public string ProdStatisticsDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "生产统计数据");
+        public string ProdSizeDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "生产数据");
+        public string ProdSizeDataPath_ZBMCCam1 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "生产数据");
+        public string ProdSizeDataPath_JRMCCam1 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "生产数据");
+        public string ProdSizeDataPath_ZBMCCam2 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "生产数据");
+        public string ProdSizeDataPath_JRMCCam2 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "生产数据");
+        public string ProdMeterDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "生产米数");
+        public string ProdSizeDataPath_DuanMCam1 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "生产数据");
+        public string ProdSizeDataPath_DaMCam1 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "生产数据");
+        public string ProdSizeDataPath_Statistics = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "生产统计");
 
-        public string ProdSizeDataPath_Cam1 = "E:\\生产数据\\生产数据";
-        public string ProdSizeDataPath_Cam2 = "E:\\生产数据\\生产数据";
-        public string ProdSizeDataPath_Cam3 = "E:\\生产数据\\生产数据";
-        public string ProdSizeDataPath_Cam4 = "E:\\生产数据\\生产数据";
+        public string ProdSizeDataPath_Cam1 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "生产数据");
+        public string ProdSizeDataPath_Cam2 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "生产数据");
+        public string ProdSizeDataPath_Cam3 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "生产数据");
+        public string ProdSizeDataPath_Cam4 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "生产数据");
 
-        public string DBDataPath = "E:\\打标数据统计\\";
+        public string DBDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "打标数据统计") + "\\";
 
-        public string CamCallbackPathName = "E:\\生产数据\\海康相机记录日志.ini";  //运行调试日志路径名称
-        public string RunLogDebugPathName = "E:\\生产数据\\RunDebugLog.ini";  //运行调试日志路径名称      
-        public string ProductRootPath = "E:\\生产数据\\"; //存放膜卷号数据路径
-        public string ProductMojuanPath = "E:\\生产数据\\"; //生产膜卷路径
-        public string ProductMojuanMESPath = "E:\\生产数据\\"; //生产膜卷路径
-        public string MesRootPath = "E:\\MES文件\\";      //存放MES文件路径。界面可修改
-        public string ProdInfoPath = "E:\\生产数据\\产品信息";
-        public string AreaDataPath = "E:\\生产数据\\面阵相机检测数据";
-        public string Cam1_DetectionTimePath = "E:\\生产数据\\图像处理耗时相机1";
-        public string Cam2_DetectionTimePath = "E:\\生产数据\\图像处理耗时相机2";
-        public string Cam3_DetectionTimePath = "E:\\生产数据\\图像处理耗时相机3";
-        public string Cam4_DetectionTimePath = "E:\\生产数据\\图像处理耗时相机4";
+        public string CamCallbackPathName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "海康相机记录日志.ini");  //运行调试日志路径名称
+        public string RunLogDebugPathName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "RunDebugLog.ini");  //运行调试日志路径名称
+        public string ProductRootPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据") + "\\"; //存放膜卷号数据路径
+        public string ProductMojuanPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据") + "\\"; //生产膜卷路径
+        public string ProductMojuanMESPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据") + "\\"; //生产膜卷路径
+        public string MesRootPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MES文件") + "\\";      //存放MES文件路径。界面可修改
+        public string ProdInfoPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "产品信息");
+        public string AreaDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "面阵相机检测数据");
+        public string Cam1_DetectionTimePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "图像处理耗时相机1");
+        public string Cam2_DetectionTimePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "图像处理耗时相机2");
+        public string Cam3_DetectionTimePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "图像处理耗时相机3");
+        public string Cam4_DetectionTimePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "图像处理耗时相机4");
 
-        public string LogPath_DB1 = "E:\\生产数据\\打标日志记录1.ini";
-        public string LogPath_DB2 = "E:\\生产数据\\打标日志记录2.ini";
-        public string LogPath_DB3 = "E:\\生产数据\\打标日志记录3.ini";
-        public string LogPath_DB4 = "E:\\生产数据\\打标日志记录4.ini";
+        public string LogPath_DB1 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "打标日志记录1.ini");
+        public string LogPath_DB2 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "打标日志记录2.ini");
+        public string LogPath_DB3 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "打标日志记录3.ini");
+        public string LogPath_DB4 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "打标日志记录4.ini");
 
-        public string LogPath_Correct = "E:\\生产数据\\纠偏日志记录.ini";
+        public string LogPath_Correct = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "纠偏日志记录.ini");
 
         //点检数据
-        public string CamSizeCheckPointPath = $"E:\\点检数据\\{DateTime.Now.ToString("yyyy.MM.dd")}\\";      //存放点检数据
+        public string CamSizeCheckPointPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "点检数据", DateTime.Now.ToString("yyyy.MM.dd")) + "\\";      //存放点检数据
 
         //赞不使用
-        public string LogRootPath = "E:\\日志文件\\";     //存放系统日志，修改记录日志，软件报错日志路径。界面可修改
+        public string LogRootPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "日志文件") + "\\";     //存放系统日志，修改记录日志，软件报错日志路径。界面可修改
 
 
         #region 切叠项目路径
-        public string OVHDataScreenshotRelativePath = "E:\\生产数据\\生产数据";
+        public string OVHDataScreenshotRelativePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "生产数据");
 
-        public string OVHProdDataPath_Cam1 = "E:\\生产数据\\生产数据";
-        public string OVHProdDataPath_Cam2 = "E:\\生产数据\\生产数据";
-        public string OVHProdDataPath_Cam3 = "E:\\生产数据\\生产数据";
-        public string OVHProdDataPath_Cam4 = "E:\\生产数据\\生产数据";
-        public string OVHProdDataPath_Cam5 = "E:\\生产数据\\生产数据";
-        public string OVHProdDataPath_Cam6 = "E:\\生产数据\\生产数据";
-        public string OVHProdDataPath_Cam7 = "E:\\生产数据\\生产数据";
-        public string OVHProdDataPath_Cam8 = "E:\\生产数据\\生产数据";
+        public string OVHProdDataPath_Cam1 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "生产数据");
+        public string OVHProdDataPath_Cam2 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "生产数据");
+        public string OVHProdDataPath_Cam3 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "生产数据");
+        public string OVHProdDataPath_Cam4 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "生产数据");
+        public string OVHProdDataPath_Cam5 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "生产数据");
+        public string OVHProdDataPath_Cam6 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "生产数据");
+        public string OVHProdDataPath_Cam7 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "生产数据");
+        public string OVHProdDataPath_Cam8 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "生产数据");
 
-        public string OVHProdDataSizeDiaphragmLogPath = "E:\\生产数据\\尺寸日志";
-        public string OVHProdDataSizeLogPath = "E:\\生产数据\\尺寸日志";
-        public string OVHProdDataSizeMonitorLogPath = "E:\\生产数据\\尺寸日志";
-        public string OVHProdDataPath_AllACCam = "E:\\生产数据\\AC生产数据";
-        public string OVHProdDataPath_AllCACam = "E:\\生产数据\\CA生产数据";
-        public string OVHProdDataPath_AllAACam = "E:\\生产数据\\AA生产数据";
-        public string OVHProdDataPath_AllCCCam = "E:\\生产数据\\CC生产数据";
-        public string OVHProdDataPath_AllCam = "E:\\生产数据\\CA生产数据";
-        public string OVHProdDataPath_PieSize = "E:\\生产数据\\CA生产数据";
-        public string OVHProdNGDataPath_AllCam = "E:\\生产数据\\CA生产数据";
+        public string OVHProdDataSizeDiaphragmLogPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "尺寸日志");
+        public string OVHProdDataSizeLogPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "尺寸日志");
+        public string OVHProdDataSizeMonitorLogPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "尺寸日志");
+        public string OVHProdDataPath_AllACCam = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "AC生产数据");
+        public string OVHProdDataPath_AllCACam = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "CA生产数据");
+        public string OVHProdDataPath_AllAACam = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "AA生产数据");
+        public string OVHProdDataPath_AllCCCam = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "CC生产数据");
+        public string OVHProdDataPath_AllCam = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "CA生产数据");
+        public string OVHProdDataPath_PieSize = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "CA生产数据");
+        public string OVHProdNGDataPath_AllCam = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "CA生产数据");
 
-        public string PretargetingProdDataPath = "E:\\生产数据\\生产数据";
-        public string PretargetingProdSizeDataPath = "E:\\生产数据\\生产数据";
+        public string PretargetingProdDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "生产数据");
+        public string PretargetingProdSizeDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "生产数据");
 
         //模切工位读取PLC纠偏记录日志
-        public string DieCutCorrectOffsetValueLogPath = "E:\\生产数据\\生产数据";
+        public string DieCutCorrectOffsetValueLogPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "生产数据");
 
-        public string PretargetingCalibrationPath = "E:\\标定\\";
+        public string PretargetingCalibrationPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "标定") + "\\";
 
 
 
@@ -170,136 +175,125 @@ namespace Frame_Core
 
 
         #region 窄幅清洗机路径
-        public string PFTProdSizeDataPath_Cam1 = "E:\\生产数据\\生产尺寸数据";
-        public string PFTProdSizeDataPath_Cam2 = "E:\\生产数据\\生产尺寸数据";
-        public string PFTProdSizeDataPath_Cam3 = "E:\\生产数据\\生产尺寸数据";
-        public string PFTProdSizeDataPath_Cam4 = "E:\\生产数据\\生产尺寸数据";
+        public string PFTProdSizeDataPath_Cam1 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "生产尺寸数据");
+        public string PFTProdSizeDataPath_Cam2 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "生产尺寸数据");
+        public string PFTProdSizeDataPath_Cam3 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "生产尺寸数据");
+        public string PFTProdSizeDataPath_Cam4 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "生产尺寸数据");
 
-        public string PFTProdSizeDataLinePath = "E:\\生产数据\\线扫尺寸日志";
-
-
-        public string PFTProdDeftDataPath_Cam1 = "E:\\生产数据\\生产缺项数据";
-        public string PFTProdDeftDataPath_Cam2 = "E:\\生产数据\\生产缺项数据";
-        public string PFTProdDeftDataPath_Cam3 = "E:\\生产数据\\生产缺项数据";
-        public string PFTProdDeftDataPath_Cam4 = "E:\\生产数据\\生产缺陷数据";
+        public string PFTProdSizeDataLinePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "线扫尺寸日志");
 
 
-        public string PFTProdEADataPath_A = "E:\\生产数据\\PFT_A面EA生产数据";
-        public string PFTProdEADataPath_B = "E:\\生产数据\\PFT_B面EA生产数据";
-        public string PFTProdEADataPath_AB = "E:\\生产数据\\PFT_AB面EA生产数据";
+        public string PFTProdDeftDataPath_Cam1 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "生产缺项数据");
+        public string PFTProdDeftDataPath_Cam2 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "生产缺项数据");
+        public string PFTProdDeftDataPath_Cam3 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "生产缺项数据");
+        public string PFTProdDeftDataPath_Cam4 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "生产缺陷数据");
 
-        #endregion
+
+        public string PFTProdEADataPath_A = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "PFT_A面EA生产数据");
+        public string PFTProdEADataPath_B = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "PFT_B面EA生产数据");
+        public string PFTProdEADataPath_AB = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "生产数据", "PFT_AB面EA生产数据");
 
         #endregion
 
-        /// <summary>
-        /// 初始化系统文件路径
-        /// </summary>
-        /// <param name="camNum"></param>
-        /// <param name="lightNum"></param>
-        /// <param name="uniteCalibNum"></param>
-        public void InitPath()
-        {
-            //系统配置文件路径
-            SystemSetPathName = SystemPath + "systemparams";
+        #endregion
 
-        }
-        public void InitRelativeParamPath(string relativePath)
+
+        public void InitRelativeParamPath()
         {
-            CutOverlayProjectBasePath = SystemPath + $"\\{relativePath}";
+            CutOverlayProjectBasePath = SystemPath ;
 
             //系统配置文件路径    
-            purviewParamPathName = SystemPath + $"\\{relativePath}" + "\\PurviewParam";
-            UserParamPathName = SystemPath + $"\\{relativePath}" + "\\UserParam";
+            purviewParamPathName = SystemPath + "\\PurviewParam";
+            UserParamPathName = SystemPath + "\\UserParam";
 
             //日志参数路径
-            LogParamPath = SystemPath + $"\\{relativePath}" + "\\LogParam";
+            LogParamPath = SystemPath + "\\LogParam";
 
             //相机配置参数路径
-            CamParamPathName = SystemPath + $"\\{relativePath}" + "\\CameraParam";
+            CamParamPathName = SystemPath + "\\CameraParam";
 
             //相机标定参数路径
-            CamCalibParamPathName = SystemPath + $"\\{relativePath}" + "\\CameraCalibParam";
+            CamCalibParamPathName = SystemPath + "\\CameraCalibParam";
 
             //相机尺寸点检参数路径
-            CamSizeCheckPointParamPathName = SystemPath + $"\\{relativePath}" + "\\CamSizeCheckPointParam";
+            CamSizeCheckPointParamPathName = SystemPath + "\\CamSizeCheckPointParam";
 
             //相机距离参数路径
-            CamDistParamPathName = SystemPath + $"\\{relativePath}" + "\\CameraDistParam";
+            CamDistParamPathName = SystemPath + "\\CameraDistParam";
 
             //基础参数保存路径
-            BaseSetParamPathName = SystemPath + $"\\{relativePath}" + "\\BaseSetParam";
+            BaseSetParamPathName = SystemPath + "\\BaseSetParam";
 
             //仿真参数保存路径
-            EmulationParamPath = SystemPath + $"\\{relativePath}" + "\\EmulationParam";
+            EmulationParamPath = SystemPath + "\\EmulationParam";
 
             //系统设置参数
-            SystemSetParamPath = SystemPath + $"\\{relativePath}" + "\\SystemSetParam";
+            SystemSetParamPath = SystemPath + "\\SystemSetParam";
 
             //光源参数保存路径名称
-            LightParamPathName = SystemPath + $"\\{relativePath}" + "\\LightParam";
+            LightParamPathName = SystemPath + "\\LightParam";
 
             //磁盘参数保存路径名称
-            DiverParamPathName = SystemPath + $"\\{relativePath}" + "\\DiverParam";
+            DiverParamPathName = SystemPath + "\\DiverParam";
 
             //主副机参数保存路径名称
-            MainSlaveMachineParamePath = SystemPath + $"\\{relativePath}" + "\\MainSlaveMachineParame";
+            MainSlaveMachineParamePath = SystemPath + "\\MainSlaveMachineParame";
 
             //自动删除文件参数路径
-            AutoDeleteFileManageParamePath = SystemPath + $"\\{relativePath}" + "\\AutoDeleteFileManageParame";
+            AutoDeleteFileManageParamePath = SystemPath + "\\AutoDeleteFileManageParame";
 
             //MES参数路径
-            MESParamPath = SystemPath + $"\\{relativePath}" + "\\MESParam";
+            MESParamPath = SystemPath + "\\MESParam";
 
             //控制卡参数路径
-            ControlCardParamPath = SystemPath + $"\\{relativePath}" + "\\ControlCardParam";
+            ControlCardParamPath = SystemPath + "\\ControlCardParam";
 
-            DevtParamPathName = SystemPath + $"\\{relativePath}" + "\\mDevPLCParam";
-            DevtParamPathName_Pocket = SystemPath + $"\\{relativePath}" + "\\mDevPLCParamPocket";
-            DBJParamPathName = SystemPath + $"\\{relativePath}" + "\\DBJPLCParam";
-            SlaveParamPathName = SystemPath + $"\\{relativePath}" + "\\SlaveParamPathName";
-            JPParamPathName = SystemPath + $"\\{relativePath}" + "\\JPParam";
+            DevtParamPathName = SystemPath + "\\mDevPLCParam";
+            DevtParamPathName_Pocket = SystemPath + "\\mDevPLCParamPocket";
+            DBJParamPathName = SystemPath + "\\DBJPLCParam";
+            SlaveParamPathName = SystemPath + "\\SlaveParamPathName";
+            JPParamPathName = SystemPath + "\\JPParam";
 
             //图像保存参数路径
-            ImageSaveParamPath = SystemPath + $"\\{relativePath}" + "\\ImageSaveParam";
+            ImageSaveParamPath = SystemPath + "\\ImageSaveParam";
 
             //切叠主设备参数保存路径
-            CutOverlayPLCParamPath = SystemPath + $"\\{relativePath}" + "\\CutOverlayPLCParam";
+            CutOverlayPLCParamPath = SystemPath + "\\CutOverlayPLCParam";
 
             //切叠Mark参数保存路径
-            CutOverlayMarkParamPath = SystemPath + $"\\{relativePath}" + "\\CutOverlayMarkParam";
+            CutOverlayMarkParamPath = SystemPath + "\\CutOverlayMarkParam";
 
             //灰度自适应参数
-            GrayScaleAdaptationParamPath = SystemPath + $"\\{relativePath}" +"\\GrayScaleAdaptationParam";
+            GrayScaleAdaptationParamPath = SystemPath + "\\GrayScaleAdaptationParam";
 
             //相机尺寸点检参数路径
-            CamSizePointInspectionParamPathName = SystemPath + $"\\{relativePath}" + "\\CamSizePointInspectionParam";
+            CamSizePointInspectionParamPathName = SystemPath + "\\CamSizePointInspectionParam";
 
             //相机缺陷点检参数路径
-            CamDefectPointInspectionParamPathName = SystemPath + $"\\{relativePath}" + "\\CamDefectPointInspectionParam";
+            CamDefectPointInspectionParamPathName = SystemPath + "\\CamDefectPointInspectionParam";
 
             //相机点检状态参数路径
-            CamPointInspectionStateParamPathName = SystemPath + $"\\{relativePath}" + "\\CamPointInspectionStateParam";
+            CamPointInspectionStateParamPathName = SystemPath + "\\CamPointInspectionStateParam";
 
-            CalibrationPlateParamPath = SystemPath + $"\\{relativePath}" + "\\CalibrationPlateParam";
-            CheckerboardParamPath = SystemPath + $"\\{relativePath}" + "\\CheckerboardParam";
-            PretargetingCalibParamPath = SystemPath + $"\\{relativePath}" + "\\PretargetingCalibParam";
+            CalibrationPlateParamPath = SystemPath + "\\CalibrationPlateParam";
+            CheckerboardParamPath = SystemPath + "\\CheckerboardParam";
+            PretargetingCalibParamPath = SystemPath + "\\PretargetingCalibParam";
 
 
-            MsaCircleParamPath = SystemPath + $"\\{relativePath}" + "\\MsaCircleParamPath";
-            MsaLineWidthParamPath = SystemPath + $"\\{relativePath}" + "\\MsaLineWidthParamPath";
-            MsaLineCheckBoradParamPath = SystemPath + $"\\{relativePath}" + "\\MsaLineCheckBoradParamPath";
-            Msa3DThickParamPath = SystemPath + $"\\{relativePath}" + "\\Msa3DThickParamPath";
-            CheckDJParamPath = SystemPath + $"\\{relativePath}" + "\\CheckDJParamPath";
+            MsaCircleParamPath = SystemPath + "\\MsaCircleParamPath";
+            MsaLineWidthParamPath = SystemPath + "\\MsaLineWidthParamPath";
+            MsaLineCheckBoradParamPath = SystemPath + "\\MsaLineCheckBoradParamPath";
+            Msa3DThickParamPath = SystemPath + "\\Msa3DThickParamPath";
+            CheckDJParamPath = SystemPath + "\\CheckDJParamPath";
 
 
         }
         public void UpdateCraftPath(string _currentCraft, string _currentMojuanhao, MaterialCrafEnum _CurrentMaterial)
         {
             //配方路径
-            ProcessPath = CraftPath + _CurrentMaterial.ToString() + "\\" + _currentCraft + "\\Process"; ;
+            ProcessPath = CraftPath + _CurrentMaterial.GetDescription() + "\\" + _currentCraft + "\\Process"; ;
             InstanceParamPath = ProcessPath + "\\Instance.xml";
-            craftParamPath = CraftPath + _CurrentMaterial.ToString() + "\\" + _currentCraft + ".json";
+            craftParamPath = CraftPath + _CurrentMaterial.GetDescription() + "\\" + _currentCraft + ".json";
             //craftParamPath = CraftPath + _CurrentMaterial.ToString() + "\\" + _currentCraft + ".cfts";
             if (!Directory.Exists(ProcessPath))
                 Directory.CreateDirectory(ProcessPath);
@@ -323,7 +317,7 @@ namespace Frame_Core
             string mainSlaveMachineName = "MainMachine";
             if (!isMainMachine) mainSlaveMachineName = "SlaveMachine";
 
-            string proDataPathStr = initProdDataPath + $"{productionDate}{mainSlaveMachineName}" + "\\" + _CurrentMaterial.ToString() + "\\" + _currentProduct + "\\";
+            string proDataPathStr = initProdDataPath + $"{productionDate}{mainSlaveMachineName}" + "\\" + _CurrentMaterial.GetDescription() + "\\" + _currentProduct + "\\";
             ProductRootPath = proDataPathStr;
             ProductMojuanPath = proDataPathStr + _currentMojuanhao + "\\";
             ProductMojuanMESPath = proDataPathStr + _currentMojuanhao;
@@ -340,54 +334,62 @@ namespace Frame_Core
             ProdSizeDataPath_DuanMCam1 = ProductMojuanPath + $"{_currentMojuanhao}-端面-生产数据.csv";
             ProdSizeDataPath_DaMCam1 = ProductMojuanPath + $"{_currentMojuanhao}-大面-生产数据.csv";
             ProdSizeDataPath_Statistics = ProductMojuanPath + $"{_currentMojuanhao}-生产统计.csv";
-
-            if (Project.Instance.cameraManager != null)
+         
+            if (Project.Instance.M_CameraRelevancies != null)
             {
-                if (Project.Instance.cameraManager.ContainsKey(CameraEnum.Cam1))
+                if (Project.Instance.M_CamParam.l_CameraDevs.Count > 0)
                 {
-                    string camName = Project.Instance.cameraManager[CameraEnum.Cam1].m_CamParam.CameraName;
+                    string camName = Service_Camera.GetCam_Name(0);
                     ProdSizeDataPath_Cam1 = ProductMojuanPath + $"{_currentMojuanhao}-{camName}-生产数据.csv";
                     LogPath_DB1 = ProductMojuanPath + $"{camName}-打标日志记录.ini";
                 }
-                if (Project.Instance.cameraManager.ContainsKey(CameraEnum.Cam2))
+                if (Project.Instance.M_CamParam.l_CameraDevs.Count > 1)
                 {
-                    string camName = Project.Instance.cameraManager[CameraEnum.Cam2].m_CamParam.CameraName;
+                    string camName = Service_Camera.GetCam_Name(1);
                     ProdSizeDataPath_Cam2 = ProductMojuanPath + $"{_currentMojuanhao}-{camName}-生产数据.csv";
                     LogPath_DB2 = ProductMojuanPath + $"{camName}-打标日志记录.ini";
                 }
-                if (Project.Instance.cameraManager.ContainsKey(CameraEnum.Cam3))
+                if (Project.Instance.M_CamParam.l_CameraDevs.Count > 2)
                 {
-                    string camName = Project.Instance.cameraManager[CameraEnum.Cam3].m_CamParam.CameraName;
+                    string camName = Service_Camera.GetCam_Name(2);
                     ProdSizeDataPath_Cam3 = ProductMojuanPath + $"{_currentMojuanhao}-{camName}-生产数据.csv";
                     LogPath_DB3 = ProductMojuanPath + $"{camName}-打标日志记录.ini";
                 }
-                if (Project.Instance.cameraManager.ContainsKey(CameraEnum.Cam4))
+                if (Project.Instance.M_CamParam.l_CameraDevs.Count > 3)
                 {
-                    string camName = Project.Instance.cameraManager[CameraEnum.Cam4].m_CamParam.CameraName;
+                    string camName = Service_Camera.GetCam_Name(3);
                     ProdSizeDataPath_Cam4 = ProductMojuanPath + $"{_currentMojuanhao}-{camName}-生产数据.csv";
                     LogPath_DB4 = ProductMojuanPath + $"{camName}-打标日志记录.ini";
                 }
 
                 //生产数据图片保存路径
-                foreach (var item in Project.Instance.cameraManager)
+
+                for (int i = 0; i < Project.Instance.M_CamParam.l_CameraDevs.Count; i++)
                 {
-                    item.Value.m_ImageSaveParamer.ImageSave_Path_Primitive = $"\\{item.Value.m_CamParam.CameraName}\\" + "原图";
-                    item.Value.m_ImageSaveParamer.ImageSave_Path_Screenshot = $"\\{item.Value.m_CamParam.CameraName}\\" + "截图";
-                    item.Value.m_ImageSaveParamer.ImageSave_Path_Min = $"\\{item.Value.m_CamParam.CameraName}\\" + "NG小图";
-                    item.Value.m_ImageSaveParamer.ImageSave_Path_ProdImg = $"\\{item.Value.m_CamParam.CameraName}\\" + "产品图";
-                    item.Value.m_ImageSaveParamer.ImageSave_Path_ProdScreenshot = $"\\{item.Value.m_CamParam.CameraName}\\" + "产品截图";
-
-                    item.Value.m_CamDetectionVariable.ProdDataPath = ProductMojuanPath + $"{_currentMojuanhao}-{item.Value.m_CamParam.CameraName}-生产数据.csv";
-
-                    item.Value.m_CamDetectionVariable.ProdSizeDataPath = ProductMojuanPath + $"{_currentMojuanhao}-{item.Value.m_CamParam.CameraName}-尺寸过程数据.csv";
-                    item.Value.m_CamDetectionVariable.ProdDeftDataPath = ProductMojuanPath + $"{_currentMojuanhao}-{item.Value.m_CamParam.CameraName}-缺项过程数据.csv";
-                    item.Value.m_CamDetectionVariable.ProdEADataPath = ProductMojuanPath + $"{_currentMojuanhao}-{item.Value.m_CamParam.CameraName}-EA过程数据.csv";
-
-                    item.Value.m_SizePointInspectionManage.SizeRealTimeCheckPointPath = ProductMojuanPath + $"{_currentMojuanhao}-{item.Value.m_CamParam.CameraName}-实时点检数据.csv";
+                    
+                }
+            
+                foreach (var item in Project.Instance.M_CameraRelevancies)
+                {
+                    string camName = Service_Camera.GetCam_Name(item.Key);
+                    CameraRelevancy cameraRelevancy= Service_Camera.Get_CameraRelevancy(item.Key);
+                    cameraRelevancy.m_ImageSaveParamer.ImageSave_Path_Primitive = $"\\{camName}\\" + "原图";
+                    cameraRelevancy.m_ImageSaveParamer.ImageSave_Path_Screenshot = $"\\{camName}\\" + "截图";
+                    cameraRelevancy.m_ImageSaveParamer.ImageSave_Path_Min = $"\\{camName}\\" + "NG小图";
+                    cameraRelevancy.m_ImageSaveParamer.ImageSave_Path_ProdImg = $"\\{camName}\\" + "产品图";
+                    cameraRelevancy.m_ImageSaveParamer.ImageSave_Path_ProdScreenshot = $"\\{camName}\\" + "产品截图";
+                
+                    cameraRelevancy.m_CamDetectionVariable.ProdDataPath = ProductMojuanPath + $"{_currentMojuanhao}-{camName}-生产数据.csv";
+                 
+                    cameraRelevancy.m_CamDetectionVariable.ProdSizeDataPath = ProductMojuanPath + $"{_currentMojuanhao}-{camName}-尺寸过程数据.csv";
+                    cameraRelevancy.m_CamDetectionVariable.ProdDeftDataPath = ProductMojuanPath + $"{_currentMojuanhao}-{camName}-缺项过程数据.csv";
+                    cameraRelevancy.m_CamDetectionVariable.ProdEADataPath = ProductMojuanPath + $"{_currentMojuanhao}-{camName}-EA过程数据.csv";
+                  
+                    cameraRelevancy.m_SizePointInspectionManage.SizeRealTimeCheckPointPath = ProductMojuanPath + $"{_currentMojuanhao}-{camName}-实时点检数据.csv";
                 }
             }
 
-
+        
             OVHDataScreenshotRelativePath = "\\OVH数据NG截图\\";
 
             OVHProdDataPath_Cam1 = ProductMojuanPath + $"{_currentMojuanhao}-主相机1-生产数据.csv";
@@ -413,7 +415,7 @@ namespace Frame_Core
             PretargetingProdSizeDataPath = ProductMojuanPath + $"{_currentMojuanhao}-预定位-尺寸数据.csv";
 
 
-            PFTProdSizeDataPath_Cam1 = ProductMojuanPath + $"{_currentMojuanhao}-相机1-PFT_生产过程尺寸数据.csv" ;
+            PFTProdSizeDataPath_Cam1 = ProductMojuanPath + $"{_currentMojuanhao}-相机1-PFT_生产过程尺寸数据.csv";
             PFTProdSizeDataPath_Cam2 = ProductMojuanPath + $"{_currentMojuanhao}-相机2-PFT_生产过程尺寸数据.csv";
             PFTProdSizeDataPath_Cam3 = ProductMojuanPath + $"{_currentMojuanhao}-相机3-PFT_生产过程尺寸数据.csv";
             PFTProdSizeDataPath_Cam4 = ProductMojuanPath + $"{_currentMojuanhao}-相机4-PFT_生产过程尺寸数据.csv";
@@ -445,18 +447,15 @@ namespace Frame_Core
             Cam4_DetectionTimePath = ProductMojuanPath + $"{_currentMojuanhao}-图像处理耗时相机4.csv";
             LogPath_Correct = ProductMojuanPath + $"纠偏日志记录.ini";
 
-            if (!Directory.Exists(PretargetingCalibrationPath))
-                Directory.CreateDirectory(PretargetingCalibrationPath);
+            Directory.CreateDirectory(PretargetingCalibrationPath);
 
-            if (!Directory.Exists(ProductMojuanPath))
-                Directory.CreateDirectory(ProductMojuanPath);
+            Directory.CreateDirectory(ProductMojuanPath);
 
 
 
             //点检数据路径
-            CamSizeCheckPointPath = "E:\\点检数据\\" + productionDate + "\\";
-            if (!Directory.Exists(CamSizeCheckPointPath))
-                Directory.CreateDirectory(CamSizeCheckPointPath);
+            CamSizeCheckPointPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "点检数据", productionDate) + "\\";
+            Directory.CreateDirectory(CamSizeCheckPointPath);
 
             Log4netRecord.ChangeProdLogPath(ProductMojuanPath);//初始化相机回调日志路径
 

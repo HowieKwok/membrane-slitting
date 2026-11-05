@@ -1,7 +1,7 @@
 using System;
 using HalconDotNet;
 using System.Collections;
-using FlyCapture2Managed;
+
 using Frame_Core;
 using NPOI.SS.Formula.Functions;
 using System.Collections.Generic;

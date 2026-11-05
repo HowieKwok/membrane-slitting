@@ -31,6 +31,8 @@ namespace Frame_Core
                     purviewParam.filePath = path;
                     purviewParam.init();
                     purviewParam = (PurviewParam)purviewParam.Read();
+                    if (purviewParam == null) purviewParam = new PurviewParam();
+                    if (purviewParam.l_modelPrivilege == null) purviewParam.l_modelPrivilege = new List<ModelPrivilege>();
                     purviewParam.filePath = path;
 
                 }
@@ -94,10 +96,11 @@ namespace Frame_Core
                 if (File.Exists(avoidVerificationFileName)) return true;
 
 
-                if (purviewParam.l_modelPrivilege.Where(p => p.ModelName == modelName.ToString()).Count() != 0)
+                if (purviewParam?.l_modelPrivilege == null) return result;
+
+                ModelPrivilege modelPrivilege = purviewParam.l_modelPrivilege.Find(p => p != null && p.ModelName == modelName.ToString());
+                if (modelPrivilege != null)
                 {
-                    ModelPrivilege modelPrivilege = purviewParam.l_modelPrivilege.Find(p => p.ModelName == modelName.ToString());
-                    if (modelPrivilege == null) return result;
                     switch (userType)
                     {
                         case UserType.Operator:

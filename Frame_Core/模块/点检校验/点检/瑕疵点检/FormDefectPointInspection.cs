@@ -50,7 +50,6 @@ namespace Frame_Core
         public void GetRoiParams(ROIRectangle2 roiRectangle2, out int RoiPointsNum, out double RoiMidRow, out double RoiMidColumn, out double RoiAngle, out double RoiLength1, out double RoiLength2)
         {
             roiRectangle2.ROIName = "";
-            HTuple hv_Phi;
             HTuple hv_Angle;
             double d_Angle;
             double w;
@@ -124,12 +123,12 @@ namespace Frame_Core
 
       
         CameraEnum currentCamera = CameraEnum.Cam1;
-        CameraManager currentCameraManager;    
-        public FormDefectPointInspection(CameraEnum camera, CameraManager _cameraManager)
+        CameraRelevancy currentCameraManager;    
+        public FormDefectPointInspection(CameraEnum camera, CameraRelevancy _M_CameraRelevancies)
         {
             InitializeComponent();
             currentCamera = camera;
-            currentCameraManager = _cameraManager;
+            currentCameraManager = _M_CameraRelevancies;
         }
 
         private void Form_DefectPointInspection_Load(object sender, EventArgs e)
@@ -261,7 +260,7 @@ namespace Frame_Core
             {
                 System.Diagnostics.Process.Start(Project.Instance.paramPathSet.pointCheckRootPath);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }

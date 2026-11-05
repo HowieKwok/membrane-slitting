@@ -38,7 +38,7 @@ namespace Frame_Core
                 var result = XmlSerialization.ObjectToXml(fileFullPath, this);
                 return result;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -65,7 +65,7 @@ namespace Frame_Core
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }

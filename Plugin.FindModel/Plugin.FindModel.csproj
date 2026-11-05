@@ -80,10 +80,6 @@
       <Project>{ee6d8f10-4cb8-4312-8847-5d7568be4fa0}</Project>
       <Name>LogTool</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Plugin.CropPart\Plugin.CropPart.csproj">
-      <Project>{FD84C2A1-9B4A-4B4F-AFEF-20ED249A8CD7}</Project>
-      <Name>Plugin.CropPart</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="FormFindModel.en.resx">
@@ -98,6 +94,9 @@
     <EmbeddedResource Include="FormFindModel.resx">
       <DependentUpon>FormFindModel.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

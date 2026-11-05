@@ -17,14 +17,14 @@ namespace Frame_Core
 {
     public partial class FormPointInspection : Form
     {
-        Dictionary<CameraEnum, CameraManager> cameraManager;
-        SystemInfo systemInfo;
 
-        public FormPointInspection(SystemInfo _systemInfo, Dictionary<CameraEnum, CameraManager> _cameraManager)
+        Param_PointInspection param;
+
+        public FormPointInspection(Param_PointInspection _param)
         {
             InitializeComponent();
-            cameraManager = _cameraManager;
-            systemInfo = _systemInfo;
+     
+            param = _param;
         }
         private void FormPointInspection_Load(object sender, EventArgs e)
         {
@@ -61,28 +61,28 @@ namespace Frame_Core
             {
                 System.Diagnostics.Process.Start(Project.Instance.paramPathSet.pointCheckRootPath);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
         }
         public static void UpdateUCCameraCard(CameraEnum cameraEnum, UCCameraCard ucCameraCard)
         {
-            ucCameraCard.Init(cameraEnum, Project.Instance.cameraManager[cameraEnum]);
+            ucCameraCard.Init(cameraEnum, Service_Camera.Get_CameraRelevancy((int)cameraEnum));
             ucCameraCard.lb_CamName.Text = cameraEnum.ToString();
 
             ucCameraCard.lb_SizePointInspection.Text = "尺寸点检";
-            ucCameraCard.lb_SizePointInspectionTime.Text = Project.Instance.cameraManager[cameraEnum].m_PointInspectionStateParam.djLastOKTime_Size.ToString("yyyy-MM-dd HH:mm:ss");
-            ucCameraCard.lb_SizePointInspectionState.Text = LanguageProject.GetLangeuageAttribute((PointInspectionStateEnum)Project.Instance.cameraManager[cameraEnum].m_PointInspectionStateParam.PointInspectionState_Size, Project.Instance.systemInfo.m_CurrentLanguageType);
-            if (Project.Instance.cameraManager[cameraEnum].m_PointInspectionStateParam.PointInspectionState_Size == (int)PointInspectionStateEnum.已忽略)
+            ucCameraCard.lb_SizePointInspectionTime.Text = Service_Camera.Get_CameraRelevancy((int)cameraEnum).m_PointInspectionStateParam.djLastOKTime_Size.ToString("yyyy-MM-dd HH:mm:ss");
+            ucCameraCard.lb_SizePointInspectionState.Text = LanguageProject.GetLangeuageAttribute((PointInspectionStateEnum)Service_Camera.Get_CameraRelevancy((int)cameraEnum).m_PointInspectionStateParam.PointInspectionState_Size, Project.Instance.systemInfo.m_CurrentLanguageType);
+            if (Service_Camera.Get_CameraRelevancy((int)cameraEnum).m_PointInspectionStateParam.PointInspectionState_Size == (int)PointInspectionStateEnum.已忽略)
             {
                 ucCameraCard.HidSizePointInspectionFunction();
             }
 
             ucCameraCard.lb_DefectPointInspection.Text = "缺陷点检";
-            ucCameraCard.lb_DefectPointInspectionTime.Text = Project.Instance.cameraManager[cameraEnum].m_PointInspectionStateParam.djLastOKTime_Defect.ToString("yyyy-MM-dd HH:mm:ss");
-            ucCameraCard.lb_DefectPointInspectionState.Text = LanguageProject.GetLangeuageAttribute((PointInspectionStateEnum)Project.Instance.cameraManager[cameraEnum].m_PointInspectionStateParam.PointInspectionState_Defect, Project.Instance.systemInfo.m_CurrentLanguageType);
-            if (Project.Instance.cameraManager[cameraEnum].m_PointInspectionStateParam.PointInspectionState_Defect == (int)PointInspectionStateEnum.已忽略)
+            ucCameraCard.lb_DefectPointInspectionTime.Text = Service_Camera.Get_CameraRelevancy((int)cameraEnum).m_PointInspectionStateParam.djLastOKTime_Defect.ToString("yyyy-MM-dd HH:mm:ss");
+            ucCameraCard.lb_DefectPointInspectionState.Text = LanguageProject.GetLangeuageAttribute((PointInspectionStateEnum)Service_Camera.Get_CameraRelevancy((int)cameraEnum).m_PointInspectionStateParam.PointInspectionState_Defect, Project.Instance.systemInfo.m_CurrentLanguageType);
+            if (Service_Camera.Get_CameraRelevancy((int)cameraEnum).m_PointInspectionStateParam.PointInspectionState_Defect == (int)PointInspectionStateEnum.已忽略)
             {
                 ucCameraCard.HideDefectPointInspectionFunction();
             }
@@ -107,9 +107,6 @@ namespace Frame_Core
             try
             {
                 string str = "尺寸点检";
-                string pointCheckResultStr = "尺寸点检结果";
-                string strPass = "通过";
-                string strFail = "不通过";
 
                 string filePath = Project.Instance.paramPathSet.pointCheckRootPath + DateTime.Now.ToString("yyyy.MM.dd_HH-mm-ss-fff") + str;
                 if (!Directory.Exists(filePath)) Directory.CreateDirectory(filePath);
@@ -153,9 +150,9 @@ namespace Frame_Core
             HOperatorSet.CountSeconds(out start);
             try
             {
-                //DefectPointInspectionManage.CreationDefectFolder(cameraManager[CameraEnum.Cam1].m_DefectPointInspectionManage.defectPointInspectionParam.PointCheckImgPath, CameraEnum.Cam1, Project.Instance.craftInfo);
-                //DefectPointInspectionManage.CreationDefectFolder(cameraManager[CameraEnum.Cam2].m_DefectPointInspectionManage.defectPointInspectionParam.PointCheckImgPath, CameraEnum.Cam2, Project.Instance.craftInfo);
-                //DefectPointInspectionManage.CreationDefectFolder(cameraManager[CameraEnum.Cam3].m_DefectPointInspectionManage.defectPointInspectionParam.PointCheckImgPath, CameraEnum.Cam3, Project.Instance.craftInfo);
+                //DefectPointInspectionManage.CreationDefectFolder(M_CameraRelevancies[CameraEnum.Cam1].m_DefectPointInspectionManage.defectPointInspectionParam.PointCheckImgPath, CameraEnum.Cam1, Project.Instance.craftInfo);
+                //DefectPointInspectionManage.CreationDefectFolder(M_CameraRelevancies[CameraEnum.Cam2].m_DefectPointInspectionManage.defectPointInspectionParam.PointCheckImgPath, CameraEnum.Cam2, Project.Instance.craftInfo);
+                //DefectPointInspectionManage.CreationDefectFolder(M_CameraRelevancies[CameraEnum.Cam3].m_DefectPointInspectionManage.defectPointInspectionParam.PointCheckImgPath, CameraEnum.Cam3, Project.Instance.craftInfo);
 
                 //string str = LanguageProject.GetLangeuageAttribute_ChineseAndCurrentLanguage(PointInspectionTypeEnum.缺陷点检, Project.Instance.m_SystemSettingParamter.m_CurrentLanguageType);
                 //string filePath = Project.Instance.paramPathSet.pointCheckRootPath + DateTime.Now.ToString("yyyy.MM.dd_HH-mm-ss-fff") + str;
@@ -187,22 +184,22 @@ namespace Frame_Core
 
         public void ShowFormParam()
         {
-            ControlTool.SetParamShow(dtp_dtCaliTimeBaiban, ref systemInfo.djCaliTimeBaiban);
-            ControlTool.SetParamShow(dtp_dtCaliTimeYeBan, ref systemInfo.djCaliTimeYeBan);
-            ControlTool.SetParamShow(cbx_djEnabled, ref systemInfo.djEnabled);
+            ControlTool.SetParamShow(dtp_dtCaliTimeBaiban, ref param.djCaliTimeBaiban);
+            ControlTool.SetParamShow(dtp_dtCaliTimeYeBan, ref param.djCaliTimeYeBan);
+            ControlTool.SetParamShow(cbx_djEnabled, ref param.djEnabled);
         }
 
         public void GetFormParam()
         {
-            ControlTool.GetParamSave(dtp_dtCaliTimeBaiban, ref systemInfo.djCaliTimeBaiban);
-            ControlTool.GetParamSave(dtp_dtCaliTimeYeBan, ref systemInfo.djCaliTimeYeBan);
-            ControlTool.GetParamSave(cbx_djEnabled, ref systemInfo.djEnabled);
+            ControlTool.GetParamSave(dtp_dtCaliTimeBaiban, ref param.djCaliTimeBaiban);
+            ControlTool.GetParamSave(dtp_dtCaliTimeYeBan, ref param.djCaliTimeYeBan);
+            ControlTool.GetParamSave(cbx_djEnabled, ref param.djEnabled);
         }
 
         private void btn_SaveParam_Click(object sender, EventArgs e)
         {
             GetFormParam();
-            systemInfo.Save();
+            param.Save();
         }
     }
 

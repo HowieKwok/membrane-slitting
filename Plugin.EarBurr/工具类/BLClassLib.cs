@@ -242,7 +242,7 @@ namespace BatteryLugClassLibrary
 
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
             }
@@ -1967,7 +1967,7 @@ namespace BatteryLugClassLibrary
                     }
                 }
             }
-            catch (Exception E)
+            catch (Exception)
             {
 
             }
@@ -2151,7 +2151,7 @@ namespace BatteryLugClassLibrary
                 }
                 ho_outRegion = new HObject(ho_ObjectsConcat);
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
             }

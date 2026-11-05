@@ -1,0 +1,287 @@
+﻿<Window
+    x:Class="DevMgmt.Cameras.View.WpfCameraDevWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Tool="clr-namespace:DevMgmt.Cameras.Tool"
+    xmlns:ctrl="clr-namespace:FrameCommunity.UserControls;assembly=FrameCommunity"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:DevMgmt.Cameras.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:wfi="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
+    Title="相机管理"
+    Width="1280"
+    Height="900"
+    Closing="Window_Closing"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#DCF8FF" />
+            <Setter Property="FontFamily" Value="Microsoft YaHei UI" />
+            <Setter Property="FontSize" Value="13" />
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Height" Value="28" />
+            <Setter Property="Margin" Value="0,2,0,8" />
+            <Setter Property="Foreground" Value="#E9FBFF" />
+            <Setter Property="Background" Value="#102536" />
+            <Setter Property="BorderBrush" Value="#2F7E98" />
+        </Style>
+        <Style x:Key="ToolButton" TargetType="Button">
+            <Setter Property="Height" Value="32" />
+            <Setter Property="MinWidth" Value="82" />
+            <Setter Property="Margin" Value="4,0" />
+            <Setter Property="Foreground" Value="#E9FBFF" />
+            <Setter Property="Background" Value="#102536" />
+            <Setter Property="BorderBrush" Value="#00A9C8" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+        </Style>
+
+        <!--  相机列表项 未选中样式  -->
+        <Style x:Key="CameraItemStyle" TargetType="Button">
+            <Setter Property="Background" Value="#102536" />
+            <Setter Property="Foreground" Value="#DCF8FF" />
+            <Setter Property="BorderBrush" Value="#2F7E98" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="10,6" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Margin" Value="0,3" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+
+        <!--  选中颜色  -->
+        <SolidColorBrush x:Key="SelectedBrush" Color="#2F7E98" />
+        <SolidColorBrush x:Key="UnSelectedBrush" Color="#102536" />
+
+        <!--  相机列表右键菜单  -->
+        <ContextMenu x:Key="CameraItemMenu" StaysOpen="true">
+            <MenuItem Click="Menu_Rename_Click" Header="重命名" />
+            <Separator />
+            <MenuItem Click="Menu_Delete_Click" Header="删除" />
+        </ContextMenu>
+    </Window.Resources>
+
+    <Grid Background="#08111B">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="34" />
+        </Grid.RowDefinitions>
+        <!--  列定义不变：左200 / 自适应 / 右420  -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="420" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!--  左侧：设备列表 (Column 0 保持不变)  -->
+        <Border
+            Grid.Row="0"
+            Grid.Column="0"
+            Padding="1,0"
+            Background="#101A26"
+            BorderBrush="#2F7E98"
+            BorderThickness="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="54" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <!--  标题 + +号按钮  -->
+                <Grid Grid.Row="0">
+                    <TextBlock
+                        Padding="14,0"
+                        VerticalAlignment="Center"
+                        FontSize="21"
+                        FontWeight="Bold"
+                        Foreground="#E0F7FF"
+                        Text="设备列表" />
+                    <Button
+                        Width="30"
+                        Margin="150,12,0,12"
+                        HorizontalAlignment="Left"
+                        Background="#102536"
+                        BorderBrush="#00A9C8"
+                        BorderThickness="1"
+                        Click="AddDeviceBtn_Click"
+                        Content="+"
+                        FontSize="18"
+                        FontWeight="Bold"
+                        Foreground="#00E5FF" />
+                </Grid>
+
+                <!--  相机列表容器  -->
+                <Border
+                    Grid.Row="1"
+                    Background="#102536"
+                    BorderBrush="#2F7E98"
+                    BorderThickness="1">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel x:Name="CameraItemPanel" Margin="5" />
+                    </ScrollViewer>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!--  中间列：原右侧【图像参数】区域  Column 1  -->
+        <Border
+            Grid.Row="0"
+            Grid.Column="1"
+            Padding="1,0"
+            Background="#101A26"
+            BorderBrush="#2F7E98"
+            BorderThickness="1">
+
+            <Grid Background="#08111B">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="54" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <TextBlock
+                    Padding="14,0"
+                    VerticalAlignment="Center"
+                    FontSize="21"
+                    FontWeight="Bold"
+                    Foreground="#E0F7FF"
+                    Text="图像参数" />
+
+                <Border
+                    Grid.Row="1"
+                    Padding="0,0"
+                    Background="#101A26"
+                    BorderBrush="#2F7E98"
+                    BorderThickness="1">
+
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel x:Name="DevParameterPanel" />
+                    </ScrollViewer>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!--  最右侧：原中间【按钮+图像】区域  Column 2  -->
+        <Grid Grid.Row="0" Grid.Column="2">
+            <Grid.RowDefinitions>
+                <!--  第一行：按钮栏  -->
+                <RowDefinition Height="54" />
+                <!--  第二行：图像显示  -->
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!--  顶部按钮区域  -->
+            <Border
+                Grid.Row="0"
+                Background="#101A26"
+                BorderBrush="#2F7E98"
+                BorderThickness="1">
+                <StackPanel
+                    Margin="10,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button
+                        Name="OpenCam"
+                        Width="100"
+                        Height="30"
+                        Margin="5"
+                        Background="#102536"
+                        BorderBrush="#00A9C8"
+                        Click="Button_Click_3"
+                        Content="打开相机"
+                        FontSize="13"
+                        Foreground="#E9FBFF" />
+                    <Button
+                        Name="CloseCam"
+                        Width="100"
+                        Height="30"
+                        Margin="5"
+                        Background="#102536"
+                        BorderBrush="#00A9C8"
+                        Click="Button_Click_4"
+                        Content="关闭相机"
+                        FontSize="13"
+                        Foreground="#E9FBFF" />
+                    <Button
+                        Name="StartCollecting"
+                        Width="100"
+                        Height="30"
+                        Margin="5"
+                        Background="#102536"
+                        BorderBrush="#00A9C8"
+                        Click="Button_Click"
+                        Content="开始采集"
+                        FontSize="13"
+                        Foreground="#E9FBFF" />
+
+                    <Button
+                        Name="StopCollecting"
+                        Width="100"
+                        Height="30"
+                        Margin="5"
+                        Background="#102536"
+                        BorderBrush="#00A9C8"
+                        Click="Button_Click_1"
+                        Content="停止采集"
+                        FontSize="13"
+                        Foreground="#E9FBFF" />
+
+                    <Button
+                        Name="ResetWindow"
+                        Width="150"
+                        Height="30"
+                        Margin="5"
+                        Background="#102536"
+                        BorderBrush="#00A9C8"
+                        Click="Button_Click_2"
+                        Content="重置图像窗口布局"
+                        FontSize="13"
+                        Foreground="#E9FBFF" />
+                </StackPanel>
+            </Border>
+
+            <!--  图像显示区域  -->
+            <Border
+                Grid.Row="1"
+                Margin="1,1,1,1"
+                Background="#020407"
+                BorderBrush="#215D73"
+                BorderThickness="1">
+                <wfi:WindowsFormsHost x:Name="HalconHost" Background="#020407" />
+            </Border>
+        </Grid>
+
+        <!--  底部信息栏 (整行跨列)  -->
+        <Border
+            Grid.Row="1"
+            Grid.ColumnSpan="3"
+            Padding="12,0"
+            Background="#101923"
+            BorderBrush="#255F72"
+            BorderThickness="1">
+
+            <DockPanel LastChildFill="True">
+                <Button
+                    x:Name="Btn_Save"
+                    Width="90"
+                    Height="28"
+                    Margin="0,0,5,0"
+                    Background="#102536"
+                    BorderBrush="#00A9C8"
+                    BorderThickness="1"
+                    Command="{Binding SaveCommand}"
+                    Content="保存"
+                    DockPanel.Dock="Right"
+                    FontSize="13"
+                    FontWeight="SemiBold"
+                    Foreground="#E9FBFF" />
+
+                <TextBlock
+                    VerticalAlignment="Center"
+                    Foreground="#AEC7D3"
+                    Text="{Binding MouseInfo}" />
+            </DockPanel>
+        </Border>
+
+    </Grid>
+</Window>

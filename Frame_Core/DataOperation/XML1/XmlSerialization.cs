@@ -45,7 +45,7 @@ namespace Frame_Core
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         return false;
                     }
@@ -79,7 +79,7 @@ namespace Frame_Core
                             result = CreateXMLSerial(type).Deserialize(streamWriter);
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         return null;
                     }

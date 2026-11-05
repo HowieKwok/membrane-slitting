@@ -18,7 +18,7 @@ namespace Frame_Core
 
         public PurviewParam()
         {
-            //init();
+            init();
         }
         public void init()
         {

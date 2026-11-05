@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using HalconDotNet;
 using LogTool;
 using System.Windows.Forms;
-using IKapBoardClassLibrary;
 using Frame_Core;
 using NPOI.XSSF.Model;
 using System.Threading;
@@ -20,7 +19,6 @@ namespace Frame_Core
         /// <summary>
         /// 检测结果图像显示窗体对象
         /// </summary>
-        private HWndCtrl m_hWndCtrl_Display_Process_Cam;
         private ROIController m_roiController_Process_Cam = new ROIController();
         private ROIRectangle2 m_roiRectangle2_Process_Cam = new ROIRectangle2();
 
@@ -35,7 +33,6 @@ namespace Frame_Core
         public HWindowControl m_hWindowControl_Cam;
 
         private HTuple hv_dumpWindowHandle;//保存高清截图窗口
-        HWindow HWindowDump;
 
         private bool m_bIsWindowShow = true;
         private int m_nLineWidth = 2;
@@ -339,7 +336,8 @@ namespace Frame_Core
             return executeResult;
         }
 
-       public  object obj = new object();
+
+        public  object obj = new object();
         
         public ExecuteResult HightDefinition_Screenshot(Operation_ImageInfo imageInfo, out Operation_ImageInfo screenshotImage)
         {
@@ -633,7 +631,7 @@ namespace Frame_Core
                                         }
 
                                     }
-                                    catch (Exception ex)
+                                    catch (Exception)
                                     {
                                         int index = operation_ImageInfo.showHalconWindow.m_regionShowInfos.IndexOf(item);
                                     }

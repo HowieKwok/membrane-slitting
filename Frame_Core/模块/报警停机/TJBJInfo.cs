@@ -1,4 +1,5 @@
-﻿using LogTool;
+﻿using FrameCommunity;
+using LogTool;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,7 @@ namespace Frame_Core
         /// <summary>
         /// 停机报警路径
         /// </summary>
-        public static string TJBJInfoPath = $"E:\\检测数据\\NewProduct\\停机报警.ini";
+        public static string TJBJInfoPath = $"{AppDomain.CurrentDomain.BaseDirectory}检测数据\\NewProduct\\停机报警.ini";
 
 
         /// <summary>

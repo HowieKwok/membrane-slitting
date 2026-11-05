@@ -3,7 +3,9 @@ using HalconDotNet;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-
+using Frame_Core.pluginParams;
+using static FrameCommunity.公共类.EnumToltal;
+using FrameCommunity.公共类;
 namespace Plugin.BlobAnalysis.Core
 {
     public interface IBlobAnalysisEngine
@@ -49,6 +51,14 @@ namespace Plugin.BlobAnalysis.Core
                 if (parameters.DetectMode == DetectRangeMode.LocalRoi && parameters.EnableLocalRoi)
                 {
                     RoiParam roi = transformer.TransformRect(parameters.LocalRoi);
+                    double row1 = roi.Row1 + parameters.LocalRoi.TopOffsetRow;
+                    double row2 = roi.Row2 + parameters.LocalRoi.BottomOffsetRow;
+                    double col1 = roi.Col1 + parameters.LocalRoi.LeftOffsetCol;
+                    double col2 = roi.Col2 + parameters.LocalRoi.RightOffsetCol;
+                    roi.Row1 = Math.Min(row1, row2);
+                    roi.Row2 = Math.Max(row1, row2);
+                    roi.Col1 = Math.Min(col1, col2);
+                    roi.Col2 = Math.Max(col1, col2);
                     HOperatorSet.GenRectangle1(out domain, roi.Row1, roi.Col1, roi.Row2, roi.Col2);
                     result.LocalRoiRegion = domain.CopyObj(1, -1);
                     HOperatorSet.ReduceDomain(gray, domain, out reduced);
@@ -80,8 +90,9 @@ namespace Plugin.BlobAnalysis.Core
 
                 ApplyRegionSort(selected, parameters, out sorted);
                 result.ResultRegions = sorted.CopyObj(1, -1);
+          
                 FillFeatures(sorted, gray, result);
-                result.Success = result.Regions.Count > 0;
+                result.Success =true;
                 result.Message = result.Success ? "OK" : "No region passed filters.";
                 return result;
             }

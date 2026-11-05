@@ -70,6 +70,40 @@ namespace Frame_Core
 
     }
 
+    /// <summary>
+    /// 交点输出类
+    /// </summary>
+    public class OutCrossGroup
+    {
+
+        [Description("是否成功")]
+        public bool bIsSuccess = false;
+
+        [Description("流程ID")]
+        public int nProcessID = -1;
+
+        [Description("模块名")]
+        public string ModuleName = "";
+
+
+        [Description("交点线段1")]
+        public LineInfo LineInfo1 { get; set; }
+
+
+        [Description("交点线段2")]
+        public LineInfo LineInfo2 { get; set; }
+
+        [Description("交点")]
+        public PointInfo point { get; set; }
+
+        public OutCrossGroup Copy()
+        {
+            OutCrossGroup outCrossGroup= (OutCrossGroup)MemberwiseClone();
+            return outCrossGroup;
+        }
+
+    }
+
 
     public class RectangleInfo
     {
@@ -348,7 +382,7 @@ namespace Frame_Core
         /// <summary>
         /// 圆轮廓
         /// </summary>
-       public HObject ho_Contours = null;
+        public HObject ho_Contours = null;
         /// <summary>
         /// 圆心交叉点
         /// </summary>
@@ -376,8 +410,16 @@ namespace Frame_Core
 
     public class PointInfo
     {
-        public double Row = 0;
-        public double Col = 0;
+        public int nProcessID = 0;
+        public string ModuleName = "";
+        public double Row = -999;
+        public double Col = -999;
+        public bool bIsSuccess = false;
+
+        public PointInfo Copy()
+        {
+            return (PointInfo)MemberwiseClone();
+        }
     }
 
     [Serializable]
@@ -401,7 +443,7 @@ namespace Frame_Core
 
         public bool IsRotate = false;
     }
-    
+
     public class LineInfo1
     {
         public string StrLineName = "";
@@ -528,5 +570,5 @@ namespace Frame_Core
         最强边
     }
 
-   
+
 }

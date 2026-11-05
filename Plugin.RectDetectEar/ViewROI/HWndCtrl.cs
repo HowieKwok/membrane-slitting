@@ -496,7 +496,7 @@ namespace ViewROI
                 viewPort.ImagePart = rect;
                 repaint(viewPort.HalconWindow);
             }
-            catch (Exception ee)
+            catch (Exception)
             { }
 
         }

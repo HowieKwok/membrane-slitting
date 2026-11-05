@@ -14,7 +14,7 @@ namespace HalconAlgorithm
         ///<summary>
         ///创建直线检测模板（无仿射变换）
         ///</summary>
-        public  void CreateLineModel(HTuple hv_MeasureRow1, HTuple hv_MeasureColumn1, HTuple hv_MeasureRow2, HTuple hv_MeasureColumn2,
+        public void CreateLineModel(HTuple hv_MeasureRow1, HTuple hv_MeasureColumn1, HTuple hv_MeasureRow2, HTuple hv_MeasureColumn2,
                                     HTuple hv_MeasureLength1, HTuple hv_MeasureLength2, HTuple hv_MeasureSigma, HTuple hv_MeasureThreshold, out HTuple hv_MetrologyHandle, out HTuple hv_Index)
         {
             HTuple mhv_MetrologyHandle = new HTuple();
@@ -46,10 +46,10 @@ namespace HalconAlgorithm
         ///<summary>
         ///创建直线检测模板（仿射变换）
         ///</summary>
-        public  void CreateLineModel(HTuple hv_HomMat2D, HTuple hv_MeasureRow1, HTuple hv_MeasureColumn1, HTuple hv_MeasureRow2, HTuple hv_MeasureColumn2,
+        public void CreateLineModel(HTuple hv_HomMat2D, HTuple hv_MeasureRow1, HTuple hv_MeasureColumn1, HTuple hv_MeasureRow2, HTuple hv_MeasureColumn2,
                                     HTuple hv_MeasureLength1, HTuple hv_MeasureLength2, HTuple hv_MeasureSigma, HTuple hv_MeasureThreshold, out HTuple hv_MetrologyHandle, out HTuple hv_Index)
         {
-           
+
             HTuple mhv_Row1;
             HTuple mhv_Column1;
             HTuple mhv_Row2;
@@ -67,7 +67,7 @@ namespace HalconAlgorithm
                 HOperatorSet.AffineTransPixel(hv_HomMat2D, hv_MeasureRow1, hv_MeasureColumn1, out mhv_Row1, out mhv_Column1);
                 HOperatorSet.AffineTransPixel(hv_HomMat2D, hv_MeasureRow2, hv_MeasureColumn2, out mhv_Row2, out mhv_Column2);
 
-                HOperatorSet.DistancePp(mhv_Row1, mhv_Column1, mhv_Row2, mhv_Column2, out  DistancePp);
+                HOperatorSet.DistancePp(mhv_Row1, mhv_Column1, mhv_Row2, mhv_Column2, out DistancePp);
                 hv_MeasureLength2 = DistancePp / 2;
                 HOperatorSet.AddMetrologyObjectLineMeasure(mhv_MetrologyHandle, mhv_Row1, mhv_Column1, mhv_Row2, mhv_Column2,
                              hv_MeasureLength1, hv_MeasureLength2, hv_MeasureSigma, hv_MeasureThreshold,
@@ -86,9 +86,9 @@ namespace HalconAlgorithm
         ///<summary>
         ///直线拟合（无仿射变换）
         ///</summary>
-        public  void FindLine(HObject ho_Image,HTuple hv_MetrologyHandle, HTuple hv_Index, HTuple hv_MeasureNumInstances, HTuple hv_MeasureDistThreshold, HTuple hv_MeasureTransition, HTuple hv_MeasureSelect,
-                             HTuple hv_MeasurePointsNum, HTuple hv_MeasureMinScore, HTuple hv_MaxNumIterations, HTuple hv_MeasureInterpolation, HTuple hv_MeasureIORegions, out HTuple hv_CrossRow, 
-                             out HTuple hv_CrossColumn,out HTuple hv_LineRowBegin, out HTuple hv_LineColumnBegin, out HTuple hv_LineRowEnd, out HTuple hv_LineColumnEnd)
+        public void FindLine(HObject ho_Image, HTuple hv_MetrologyHandle, HTuple hv_Index, HTuple hv_MeasureNumInstances, HTuple hv_MeasureDistThreshold, HTuple hv_MeasureTransition, HTuple hv_MeasureSelect,
+                             HTuple hv_MeasurePointsNum, HTuple hv_MeasureMinScore, HTuple hv_MaxNumIterations, HTuple hv_MeasureInterpolation, HTuple hv_MeasureIORegions, out HTuple hv_CrossRow,
+                             out HTuple hv_CrossColumn, out HTuple hv_LineRowBegin, out HTuple hv_LineColumnBegin, out HTuple hv_LineRowEnd, out HTuple hv_LineColumnEnd)
         {
             HObject ho_Contours = new HObject();
             hv_LineRowBegin = new HTuple();
@@ -125,15 +125,34 @@ namespace HalconAlgorithm
                 HOperatorSet.GetMetrologyObjectResult(hv_MetrologyHandle, "all", "all", "result_type", "column_begin", out hv_LineColumnBegin);
                 HOperatorSet.GetMetrologyObjectResult(hv_MetrologyHandle, "all", "all", "result_type", "row_end", out hv_LineRowEnd);
                 HOperatorSet.GetMetrologyObjectResult(hv_MetrologyHandle, "all", "all", "result_type", "column_end", out hv_LineColumnEnd);
-                
-                //清除测量模型
-                ho_Contours.Dispose();
-                HOperatorSet.ClearMetrologyModel(hv_MetrologyHandle);
-                
             }
             catch (Exception ex)
             {
                 Log4netRecord.ErrorLog.Debug("直线拟合异常" + ex.ToString());
+            }
+            finally
+            {
+                try
+                {
+                    if (ho_Contours != null)
+                    {
+                        ho_Contours.Dispose();
+                    }
+                }
+                catch
+                {
+                }
+
+                try
+                {
+                    if (hv_MetrologyHandle != null && hv_MetrologyHandle.Length > 0)
+                    {
+                        HOperatorSet.ClearMetrologyModel(hv_MetrologyHandle);
+                    }
+                }
+                catch
+                {
+                }
             }
         }
 
@@ -141,9 +160,9 @@ namespace HalconAlgorithm
         ///<summary>
         ///直线拟合（仿射变换）
         ///</summary>
-        public  void FindLine(HTuple hv_HomMat2DPix, HObject ho_Image, HTuple hv_MetrologyHandle, HTuple hv_Index, HTuple hv_MeasureNumInstances, HTuple hv_MeasureDistThreshold, HTuple hv_MeasureTransition,
-                             HTuple hv_MeasureSelect, HTuple hv_MeasurePointsNum,HTuple hv_MeasureMinScore, HTuple hv_MaxNumIterations, HTuple hv_MeasureInterpolation, HTuple hv_MeasureIORegions, 
-                             out HTuple hv_CrossRow, out HTuple hv_CrossColumn,out HTuple hv_LineRowBegin_Real, out HTuple hv_LineColumnBegin_Real, out HTuple hv_LineRowEnd_Real, out HTuple hv_LineColumnEnd_Real)
+        public void FindLine(HTuple hv_HomMat2DPix, HObject ho_Image, HTuple hv_MetrologyHandle, HTuple hv_Index, HTuple hv_MeasureNumInstances, HTuple hv_MeasureDistThreshold, HTuple hv_MeasureTransition,
+                             HTuple hv_MeasureSelect, HTuple hv_MeasurePointsNum, HTuple hv_MeasureMinScore, HTuple hv_MaxNumIterations, HTuple hv_MeasureInterpolation, HTuple hv_MeasureIORegions,
+                             out HTuple hv_CrossRow, out HTuple hv_CrossColumn, out HTuple hv_LineRowBegin_Real, out HTuple hv_LineColumnBegin_Real, out HTuple hv_LineRowEnd_Real, out HTuple hv_LineColumnEnd_Real)
         {
             HObject ho_Contours = new HObject();
             HTuple hv_LineRowBegin = new HTuple();
@@ -187,16 +206,36 @@ namespace HalconAlgorithm
 
                 HOperatorSet.AffineTransPixel(hv_HomMat2DPix, hv_LineRowBegin, hv_LineColumnBegin, out hv_LineRowBegin_Real, out hv_LineColumnBegin_Real);
                 HOperatorSet.AffineTransPixel(hv_HomMat2DPix, hv_LineRowEnd, hv_LineColumnEnd, out hv_LineRowEnd_Real, out hv_LineColumnEnd_Real);
-
-                //清除测量模型
-                ho_Contours.Dispose();
-                HOperatorSet.ClearMetrologyModel(hv_MetrologyHandle);
                 return;
             }
-            catch (Exception)
+            catch (Exception  ee)
             {
-
+                Log4netRecord.ErrorLog.Debug("直线拟合异常" + ee.ToString());
                 return;
+            }
+            finally
+            {
+                try
+                {
+                    if (ho_Contours != null)
+                    {
+                        ho_Contours.Dispose();
+                    }
+                }
+                catch
+                {
+                }
+
+                try
+                {
+                    if (hv_MetrologyHandle != null && hv_MetrologyHandle.Length > 0)
+                    {
+                        HOperatorSet.ClearMetrologyModel(hv_MetrologyHandle);
+                    }
+                }
+                catch
+                {
+                }
             }
         }
 

@@ -87,7 +87,7 @@ namespace HalconAlgorithm
                     halconWindowWidth - 1 + hv_StartY);//设置居中显示
                 HOperatorSet.DispObj(ho_zoomImage, hWindowControl.HalconWindow);
             }
-            catch (Exception exc)
+            catch (Exception)
             {
                 return false;
             }
@@ -152,7 +152,7 @@ namespace HalconAlgorithm
 
                 ho_ModelContours.Dispose();
             }
-            catch (Exception exc)
+            catch (Exception)
             {
                 return false;
             }
@@ -217,7 +217,7 @@ namespace HalconAlgorithm
 
                 ho_Modelho_Region.Dispose();
             }
-            catch (Exception exc)
+            catch (Exception)
             {
                 return false;
             }

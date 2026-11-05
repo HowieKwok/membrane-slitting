@@ -98,6 +98,7 @@ namespace Plugin.FindIntersection.Services
                 roiController.setROIShape(roi);
                 roiController.roiMode.createROI(roi.midC, roi.midR);
                 roiController.ROIList.Add(roiController.roiMode);
+                roiController.resetROI();
             }
 
             roi.updateHandlePos();

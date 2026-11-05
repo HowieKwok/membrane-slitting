@@ -42,6 +42,10 @@ namespace Plugin.BlobAnalysis.Services
             redrawHandler = OnViewRoiRedraw;
             roiChangedHandler = OnViewRoiChanged;
             viewCtrl.ReDrawEvent += redrawHandler;
+            viewCtrl.ho_Image?.Dispose();
+            viewCtrl.ho_Image_Changed?.Dispose();
+            viewCtrl.ho_Image=null;
+            viewCtrl.ho_Image_Changed=null;
             roiController.NotifyRCObserver += roiChangedHandler;
         }
 

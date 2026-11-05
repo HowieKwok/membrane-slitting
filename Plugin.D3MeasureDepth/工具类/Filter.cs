@@ -79,7 +79,7 @@ namespace Plugin.D3MeasureDepth
                 }
                 return a1;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return pointDic;
                 //LogName.ErrorLog.Fatal(ex);
@@ -126,7 +126,7 @@ namespace Plugin.D3MeasureDepth
                 }
                 return a2;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //LogName.ErrorLog.Fatal(ex);
             }

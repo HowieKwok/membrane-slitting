@@ -338,7 +338,7 @@ namespace ViewROI
             double epsilon = 11 * size;    //到一个handles的最大直线距离
 
 
-            if (roiMode == null)      //创建一个新的ROI对象
+            if (roiMode != null)      //创建一个新的ROI对象
             {
                 try
                 {

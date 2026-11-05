@@ -1,0 +1,98 @@
+---
+description: 本仓库的编译入口，以及 Agent 终端（PowerShell 包装脚本）失效时的标准处置流程
+alwaysApply: true
+---
+
+# 编译与终端约定（模切视觉框架 / Mef_VisionFrame.sln）
+
+## 1. 编译一律走 `build_debug.bat`
+
+无论 Agent 终端当下是否可用，都用这个脚本，保证编译方式一致、结果可比。
+
+- 脚本：仓库根目录 `build_debug.bat`，内部用 `vswhere` 自动定位已安装的 Visual Studio。
+- 本机 VS 是 **VS 2026**（`C:\Program Files\Microsoft Visual Studio\18\Community`），
+  不要把路径写死成 `2022`。
+- 配置固定为 **Debug | Any CPU**，全程 x64 工具链（Halcon 用的是 `halcondotnetxl`，x64）。
+- 日志写到仓库根目录 `build_debug.log`（UTF-8），用 Read/Grep 工具读取，不要靠肉眼看控制台。
+
+```
+build_debug.bat            :: 增量编译
+build_debug.bat rebuild    :: 清理后全量编译
+```
+
+## 2. Agent 终端失效的识别（一次判定，不要重试）
+
+出现下列任一现象，直接判定为"Agent 终端不可用"，**不要重复执行同一条命令**：
+
+- `Shell` 工具返回 `ParserError`，报错位置固定在类似
+  `C:\Users\<user>\AppData\Local\Temp\ps-script-<guid>.ps1:8 字符: 4082`，
+  并在错误摘要里出现 `?/?C?.?jZ{?|?Y?*S\` 这类乱码。
+- 同一命令第一次能跑、之后全部失败。
+- 报错 `cannot verify working directory ...\Programs\cursor\...` 且路径含乱码。
+
+判定依据（可复核）：Cursor 写到 `%TEMP%` 的 `ps-script-*.ps1` 被第三方改写。
+在原生命令行里执行：
+
+```
+certutil -encodehex -f "%LOCALAPPDATA%\Temp\ps-script-<guid>.ps1" dump_ps.txt
+```
+
+如果转储里出现 `ef bf bd`（U+FFFD 替换字符）紧跟大段 `00`（NUL），
+说明是**安全软件/加密客户端把文本读错编码后写回**，与 PowerShell 语法无关，
+换一台机器或换一个终端就正常。
+
+## 3. 失效后的处置：改用原生 x64 命令行
+
+1. 用 computer use 打开 Start → 搜索 `x64 Native Tools` → 回车。
+2. 进入仓库（**不要手输中文路径**，用下面的循环自动定位）：
+
+```
+for /d %i in (D:\*) do @for /d %j in ("%i\*") do @if exist "%j\combine\Mef_VisionFrame.sln" cd /d "%j\combine"
+```
+
+3. 执行 `build_debug.bat`，然后用 Grep 工具读 `build_debug.log` 里的
+   `error [A-Z]+[0-9]+` 和 `个错误` 行。
+4. 用完后可以再跑一次 `cmd /c echo hi` 验证 Agent 终端是否自行恢复；
+   仍是 `ParserError` 就不要再尝试，继续用原生命令行。
+5. 已实测：把 Cursor 的 TEMP 换到 `D:\CursorTemp`（`restart-cursor.cmd` + 重启）
+   **无效**——`ps-script-*.ps1` 仍在同一偏移（第 8 行、字符 4095）被改写，
+   说明改写者按进程/文件类型生效，不按目录。不要再用这个方案。
+6. `Shell` 是**间歇性**可用（刚重启的少数几次容易成功，之后基本都坏）。
+   不要因为某条命令偶然成功就认为已修复；编译无论终端是否可用都走
+   `build_debug.bat`。根治只能靠 IT 白名单或排除 `*.ps1` 实时扫描
+   （见 `Docs/编译与终端环境说明.md` 第 4 节）。
+
+## 4. 改 csproj 的硬性要求
+- **禁止**出现 `..\..\..\combine\...`、`D:\BaiduNetdiskDownload\...`、
+  `..\..\..\..\宽幅打孔新方案1107\...` 这类跨机器/跨目录的 `HintPath`
+  或 `ProcessWideHoleLaser` 残留路径。
+- 第三方原生库统一指向仓库内 `DLL\`：
+  - Halcon：`..\DLL\HalconDLL\halcondotnetxl.dll`（Frame_Core 自身用 `ChartDLL\...`）
+  - 相机/光源 SDK：`..\DLL\CamDLL\...`、`..\DLL\LightDLL\...`
+- 项目之间的引用一律用 `ProjectReference`，不要用 `HintPath` 指到别人 `bin\Release` 的 dll。
+- 新增/修改 `PropertyGroup` 时，**Debug 和 Release 两个配置必须同时**包含
+  `AllowUnsafeBlocks`（本项目大量 P/Invoke 需要 `/unsafe`，只写在 Release 会导致
+  "Debug 编译不通过"）。
+- 插件工程（`Plugin.*`）的 `OutputPath` 两个配置都要指向
+  `..\Mef_VisionFrame\bin\<Debug|Release>\Plugins\`，否则运行期扫不到该插件。
+
+## 5. 批量改写源文件（清理警告等）的硬性要求
+
+本机装有文件加密客户端（DLP），它会把**非白名单进程写出的文件**包成加密容器，
+MSBuild/编译器读不到明文，表现为 `error CS2015: 是二进制文件而非文本文件`。
+2026-10-29 批量清理警告时，`Mef_VisionFrame\Form_Main.cs` 就是这样被毁的
+（磁盘上只剩 `88 7d 1c 92 0c 00 01 00 ...` 开头的密文，备份副本同样是密文）。
+
+因此任何"批量改写 `.cs`"的脚本必须同时满足：
+
+1. **先探测编码，再回写**：本仓库混有 UTF-8(带/不带 BOM)、GBK(936)、UTF-16。
+   用 UTF-16 探测（`FF FE` / `FE FF`）→ UTF-8 严格解码 → GBK 兜底，顺序不能反；
+   解码失败不要猜，直接跳过该文件。
+2. **写回前校验"像不像 C# 源码"**：文本里不能有 NUL，前 400 字符要包含
+   `using|namespace|class|public|//` 之类的标记。不满足就跳过（很可能是 DLP 容器）。
+3. **写回后回读比对**：内容不一致立即从备份还原该文件。
+4. **备份放工作区外**（如 `%TEMP%\mef_warn_backup`），并保留相对路径。
+5. **逐类小步验证**：一次只改一类警告，改完立刻编译，确认 0 错误再继续。
+   本项目已踩过的坑：`Type a = null, b = null;` 这类一行多变量声明会被误改，
+   批量脚本必须用"顶层逗号计数"排除多声明行。
+

@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FrameCommunity;
+using FrameCommunity.Data;
 using HalconDotNet;
 
 namespace Frame_Core

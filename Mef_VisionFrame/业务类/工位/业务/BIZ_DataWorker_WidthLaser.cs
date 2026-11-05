@@ -21,7 +21,7 @@ using AntdUI;
 using Extensions;
 
 using Frame_Core;
-
+using FrameCommunity;
 using HalconDotNet;
 
 using HslCommunication.Profinet.OpenProtocol;
@@ -67,8 +67,8 @@ namespace Mef_VisionFrame
 
 
 
-        CombinationHWindowControl CombinationHWindowControl_cam1;
-        CombinationHWindowControl CombinationHWindowControl_cam2;
+        CombinationHWindowControl<DisplayWindowClass> CombinationHWindowControl_cam1;
+        CombinationHWindowControl<DisplayWindowClass> CombinationHWindowControl_cam2;
         IntervalExecution intervalExecution = new IntervalExecution();
         IntervalExecution intervalExecutionStas = new IntervalExecution();
 
@@ -88,8 +88,8 @@ namespace Mef_VisionFrame
             DisplayWindowClass4 = new DisplayWindowClass(form.hWindowControl4, "Cam2_MinImage1");
             DisplayWindowClass5 = new DisplayWindowClass(form.hWindowControl5, "Cam2_MinImage2");
             DisplayWindowClass6 = new DisplayWindowClass(form.hWindowControl6, "Cam2_MinImage3");
-            CombinationHWindowControl_cam1 = new CombinationHWindowControl(CameraEnum.Cam1.ToString(), new List<DisplayWindowClass>() { DisplayWindowClass1, DisplayWindowClass2, DisplayWindowClass3 });
-            CombinationHWindowControl_cam2 = new CombinationHWindowControl(CameraEnum.Cam2.ToString(), new List<DisplayWindowClass>() { DisplayWindowClass4, DisplayWindowClass5, DisplayWindowClass6 });
+            CombinationHWindowControl_cam1 = new CombinationHWindowControl<DisplayWindowClass>(CameraEnum.Cam1.ToString(), new List<DisplayWindowClass>() { DisplayWindowClass1, DisplayWindowClass2, DisplayWindowClass3 });
+            CombinationHWindowControl_cam2 = new CombinationHWindowControl<DisplayWindowClass>(CameraEnum.Cam2.ToString(), new List<DisplayWindowClass>() { DisplayWindowClass4, DisplayWindowClass5, DisplayWindowClass6 });
 
             InitVariable();
 
@@ -117,8 +117,8 @@ namespace Mef_VisionFrame
                 CameraEnum cameraEnum = CameraEnum.Cam1;
                 ConcurrentDictionary<int, PFTCleanEAProductInfo> dic_EAproductsInfo_A = Project.Instance.Is_simulation ? BIZ_Variable.dic_EAproductsInfo_SimA : BIZ_Variable.dic_EAproductsInfo_A;
                 ConcurrentDictionary<int, PFTCleanEAProductInfo> dic_EAproductsInfo_B = Project.Instance.Is_simulation ? BIZ_Variable.dic_EAproductsInfo_SimB : BIZ_Variable.dic_EAproductsInfo_B;
-                double Calipix_x = Project.Instance.cameraManager[cameraEnum].m_CamParam.CalibrationValue_X;
-                double Calipix_y = Project.Instance.cameraManager[cameraEnum].m_CamParam.CalibrationValue_Y;
+                double Calipix_x = Service_Camera.GetCam_CalibrationValue_X((int)cameraEnum);
+                double Calipix_y = Service_Camera.GetCam_CalibrationValue_Y((int)cameraEnum);
 
                 PFTImageProduct pFTImageProduct = camEAProduct as PFTImageProduct;
                 //原图处理
@@ -153,8 +153,8 @@ namespace Mef_VisionFrame
                 CameraEnum cameraEnum = CameraEnum.Cam2;
                 ConcurrentDictionary<int, PFTCleanEAProductInfo> dic_EAproductsInfo_A = Project.Instance.Is_simulation ? BIZ_Variable.dic_EAproductsInfo_SimA : BIZ_Variable.dic_EAproductsInfo_A;
                 ConcurrentDictionary<int, PFTCleanEAProductInfo> dic_EAproductsInfo_B = Project.Instance.Is_simulation ? BIZ_Variable.dic_EAproductsInfo_SimB : BIZ_Variable.dic_EAproductsInfo_B;
-                double Calipix_x = Project.Instance.cameraManager[cameraEnum].m_CamParam.CalibrationValue_X;
-                double Calipix_y = Project.Instance.cameraManager[cameraEnum].m_CamParam.CalibrationValue_Y;
+                double Calipix_x = Service_Camera.GetCam_CalibrationValue_X((int)cameraEnum);
+                double Calipix_y = Service_Camera.GetCam_CalibrationValue_Y((int)cameraEnum);
 
                 PFTImageProduct pFTImageProduct = camEAProduct as PFTImageProduct;
 
@@ -233,7 +233,7 @@ namespace Mef_VisionFrame
             {
                 CameraEnum cameraEnum = CameraEnum.Cam1;
                 ConcurrentDictionary<int, PFTCleanEAProductInfo> dic_EAproductsInfo_A = Project.Instance.Is_simulation ? BIZ_Variable.dic_EAproductsInfo_SimA : BIZ_Variable.dic_EAproductsInfo_A;
-                HOperatorSet.CountSeconds(out camEAProduct.Image_StartDataProcessTime);
+                HOperatorSet.CountSeconds(out camEAProduct.detectionTime.Image_StartDataProcessTime);
                 PFTCleanEAProductInfo pFTCleanEAProductInfo = camEAProduct as PFTCleanEAProductInfo;
 
                 MessageNotify.AddDebugLog($"Cam1_EA数据刚开始，EAID:{pFTCleanEAProductInfo.EAID}");
@@ -276,7 +276,7 @@ namespace Mef_VisionFrame
                 CameraEnum cameraEnum = CameraEnum.Cam2;
                 ConcurrentDictionary<int, PFTCleanEAProductInfo> dic_EAproductsInfo_A = Project.Instance.Is_simulation ? BIZ_Variable.dic_EAproductsInfo_SimA : BIZ_Variable.dic_EAproductsInfo_A;
                 ConcurrentDictionary<int, PFTCleanEAProductInfo> dic_EAproductsInfo_B = Project.Instance.Is_simulation ? BIZ_Variable.dic_EAproductsInfo_SimB : BIZ_Variable.dic_EAproductsInfo_B;
-                HOperatorSet.CountSeconds(out camEAProduct.Image_StartDataProcessTime);
+                HOperatorSet.CountSeconds(out camEAProduct.detectionTime.Image_StartDataProcessTime);
                 PFTCleanEAProductInfo pFTCleanEAProductInfo = camEAProduct as PFTCleanEAProductInfo;
                 MessageNotify.AddDebugLog($"Cam2_EA数据刚开始，EAID:{pFTCleanEAProductInfo.EAID}");
                 EAFrameMethord(cameraEnum, pFTCleanEAProductInfo, HWC_EACam2);
@@ -434,8 +434,8 @@ namespace Mef_VisionFrame
                 form.Invoke(new Action(() =>
                 {
                     NDataGridView.InitGrid(form.Dgv_StatsEA, BIZ_Variable.DgvColumnheaders, BIZ_Variable.DgvRowheaders);
-                    NLabel.UpdateControls(form.LB_Formula, Project.Instance.systemInfo.CurrentCraft);
-                    NLabel.UpdateControls(form.LB_DetectionType, LanguageProject.GetLangeuageAttribute(Project.Instance.craftBase.materialCrafEnum, LanguageEnum.Chinese));
+                    NLabel.UpdateControls(form.LB_Formula, Project.Instance.systemInfo.RecipeName);
+                    NLabel.UpdateControls(form.LB_DetectionType, LanguageProject.GetLangeuageAttribute(Project.Instance.craftBase.CraftType, LanguageEnum.Chinese));
 
                     NDataPanelViewModel.Init(form.DpModelDetectProcessCam1, BIZ_Variable.strDeftInitCam1Title.ToArray(), 80, 20);
                     NDataPanelViewModel.Init(form.DpModelDetectProcessCam2, BIZ_Variable.strDeftInitCam2Title.ToArray(), 80, 20);
@@ -493,9 +493,9 @@ namespace Mef_VisionFrame
                 BIZ_Variable.DgvRowheaders = new List<string> { "产量", "良率", "OK数", "NG数", "DB数" };
                 BIZ_Variable.DgvColumnheaders.Add("条数/统计");
                 BIZ_Variable.strDeftInitCam1Title = new List<string>() { "时间", "帧号", "EA号", "条号", "NG类型", "宽度","高度","面积","是否保存","是否打标","路径"};
-                BIZ_Variable.strDeftInitCam1Path = Project.Instance.paramPathSet.ProductMojuanPath + $"{Project.Instance.cameraManager[CameraEnum.Cam1].m_CamParam.CameraName}_原图缺项检测表.csv";
+                BIZ_Variable.strDeftInitCam1Path = Project.Instance.paramPathSet.ProductMojuanPath + $"{Service_Camera.GetCam_Name(0)}_原图缺项检测表.csv";
                 BIZ_Variable.strDeftInitCam2Title = new List<string>() { "时间", "帧号", "EA号", "条号", "NG类型", "宽度", "高度", "面积", "是否保存", "是否打标", "路径" };
-                BIZ_Variable.strDeftInitCam2Path = Project.Instance.paramPathSet.ProductMojuanPath + $"{Project.Instance.cameraManager[CameraEnum.Cam2].m_CamParam.CameraName}_原图缺项检测表.csv";
+                BIZ_Variable.strDeftInitCam2Path = Project.Instance.paramPathSet.ProductMojuanPath + $"{Service_Camera.GetCam_Name(1)}_原图缺项检测表.csv";
                 BIZ_Variable.strEASizeConfigTitle = new List<string>() { "时间", "相机索引", "EA号" };
                 BIZ_Variable.strEASizeConfigPath = Project.Instance.paramPathSet.ProductMojuanPath + $"配置文件总表.csv";
 
@@ -658,7 +658,7 @@ namespace Mef_VisionFrame
                         CameraEnum cameraEnum = (CameraEnum)item.Key;
                         bool flag = false;
 
-                        flag = SimControl.LoadImage_Sim(Project.Instance.cameraManager[cameraEnum].m_ImageSimManage,
+                        flag = SimControl.LoadImage_Sim(Service_Camera.Get_CameraRelevancy((int)cameraEnum).m_ImageSimManage,
                                      ref item.Value.QueueGrabImage, $"{(cameraEnum).ToString()}仿真加载图片");
 
                         if (flag)

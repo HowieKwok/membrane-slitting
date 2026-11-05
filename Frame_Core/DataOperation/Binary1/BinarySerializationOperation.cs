@@ -33,7 +33,7 @@ namespace Frame_Core
             {
                 return BinarySerialization.ObjectToBinaryFile(fileFullPath, this);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 
                 return false;
@@ -62,7 +62,7 @@ namespace Frame_Core
                     return BinarySerialization.BinaryFileToObject(fileFullPath);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }

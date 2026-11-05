@@ -23,12 +23,12 @@ namespace Plugin.FindIntersection.Core
                 return false;
             }
 
-            if (p.m_bUsePositionFollow && !p.m_bCurrentPoseValid)
-            {
-                p.m_strRunMessage = "位置跟随已启用，但当前输入坐标无效";
-                Log4netRecord.ErrorLog.Debug("两线交点工具：位置跟随已启用，但当前输入坐标无效");
-                return false;
-            }
+            //if (p.m_bUsePositionFollow && !p.m_bCurrentPoseValid)
+            //{
+            //    p.m_strRunMessage = "位置跟随已启用，但当前输入坐标无效";
+            //    Log4netRecord.ErrorLog.Debug("两线交点工具：位置跟随已启用，但当前输入坐标无效");
+            //    return false;
+            //}
 
             RoiFollower follower = new RoiFollower(p);
             RoiRect2 line1 = follower.Transform(

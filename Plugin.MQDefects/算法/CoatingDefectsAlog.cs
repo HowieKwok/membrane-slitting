@@ -2606,7 +2606,6 @@ namespace Plugin.MQDefects
                 #region >>>错位相减求取差异值
                 //错位相减求取差异值
                 int iSubHeight = 200;
-                int step = 1;
                 int iSubHorProHeight = HorProjection.Length - iSubHeight - 1;
                 HTuple HorProjection3;
                 HOperatorSet.TupleSelectRange(HorProjection, 0, iSubHorProHeight, out HorProjection1);

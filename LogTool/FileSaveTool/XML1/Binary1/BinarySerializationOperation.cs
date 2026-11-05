@@ -32,7 +32,7 @@ namespace LogTool
             {
                 return BinarySerialization.ObjectToBinaryFile(fileFullPath, this);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 
                 return false;
@@ -61,7 +61,7 @@ namespace LogTool
                     return BinarySerialization.BinaryFileToObject(fileFullPath);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }

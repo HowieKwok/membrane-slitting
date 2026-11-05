@@ -140,7 +140,7 @@ namespace Frame_Core
                     this.lvwUserList.Items.Add(userItem);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
         }
@@ -212,7 +212,7 @@ namespace Frame_Core
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
         }

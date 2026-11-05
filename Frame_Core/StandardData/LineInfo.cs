@@ -37,7 +37,13 @@ namespace Frame_Core
     public class LineInfo
     {
         public CameraEnum m_camera;
-
+        /// <summary>
+        /// 0:正常 1：EA失败 2:首片NG
+        /// </summary>
+        public int NgType = 0;
+        public int nProcessID = 0;
+        public long EAID = 0;
+        public string strMoudleName = "DefaultMoudleName";
         public String StrLineName = "默认边";   //直线名称，string
 
         public bool IsStandLine = false;       //直线是否为基准边,默认为插件抓边。 //OverHang工位为是否为隔膜边，
@@ -53,11 +59,14 @@ namespace Frame_Core
         public bool IsAdd = false;
 
         public int RowBeginID = 0;
-        public double RowBegin = 0;
-        public double ColBegin = 0;
+        public double RowBegin = -999;
+        public double ColBegin = -999;
         public int RowEndID = 0;
-        public double RowEnd = 0;
-        public double ColEnd = 0;
+        public double RowEnd = -999;
+        public double ColEnd = -999;
+
+
+
 
         /// <summary>
         /// 线颜色
@@ -89,8 +98,15 @@ namespace Frame_Core
             RELine.Color = line.Color;
             RELine.m_nLineWidth = line.m_nLineWidth;
 
-            return RELine;
+            return (LineInfo)MemberwiseClone();
+        }
+
+        public LineInfo Copy()
+        {
+            return (LineInfo)MemberwiseClone();
         }
     }
+
+  
 
 }

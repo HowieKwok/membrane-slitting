@@ -29,7 +29,7 @@
     <OutputPath>..\Mef_VisionFrame\bin\Release\Plugins\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>5</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
@@ -57,8 +57,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CACRunCalibrationObj.cs" />
-    <Compile Include="MatclTool.cs" />
+    <Compile Include="Core\CACRunCalibrationEngine.cs" />
+    <Compile Include="Models\CACRunCalibrationModel.cs" />
+    <Compile Include="Models\CalibrationPointRow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\HalconViewRoiAdapter.cs" />
+    <Compile Include="Services\RelayCommand.cs" />
+    <Compile Include="ViewModels\BindableBase.cs" />
+    <Compile Include="ViewModels\CACRunCalibrationViewModel.cs" />
     <Compile Include="ViewROI\GraphicsContext.cs" />
     <Compile Include="ViewROI\HObjectEntry.cs" />
     <Compile Include="ViewROI\HWndCtrl.cs" />
@@ -72,7 +78,6 @@
     <Compile Include="WPF架构\WPFRunCalibration.xaml.cs">
       <DependentUpon>WPFRunCalibration.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WPF架构\WPFRunCalibrationHost.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="WPF架构\WPFRunCalibration.xaml">
@@ -81,6 +86,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FrameCommunity\FrameCommunity.csproj">
+      <Project>{2e0bc248-e72a-4833-a851-20069a232648}</Project>
+      <Name>FrameCommunity</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Frame_Core\Frame_Core.csproj">
       <Project>{01127398-2CC7-4124-B966-FBFF69A7A0E5}</Project>
       <Name>Frame_Core</Name>
@@ -89,10 +98,9 @@
       <Project>{ee6d8f10-4cb8-4312-8847-5d7568be4fa0}</Project>
       <Name>LogTool</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Plugin.CropPart\Plugin.CropPart.csproj">
-      <Project>{FD84C2A1-9B4A-4B4F-AFEF-20ED249A8CD7}</Project>
-      <Name>Plugin.CropPart</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

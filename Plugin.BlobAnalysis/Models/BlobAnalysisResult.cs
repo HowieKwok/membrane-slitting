@@ -45,6 +45,8 @@ namespace Plugin.BlobAnalysis.Models
         [XmlIgnore]
         public HObject ResultRegions { get; set; }
 
+   
+
         [XmlIgnore]
         public HObject ThresholdRegions { get; set; }
 
@@ -67,6 +69,8 @@ namespace Plugin.BlobAnalysis.Models
 
             MaskRoiRegion?.Dispose();
             MaskRoiRegion = null;
+
+     
         }
     }
 }

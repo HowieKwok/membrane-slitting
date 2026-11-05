@@ -20,17 +20,6 @@ namespace Frame_Core
         public List<IPlugin> m_ModuleObjList = new List<IPlugin>();//模块列表
 
 
-
-
-
-
-        public ProductBase ProductInfo = new ProductBase();
-
-    
-        public QueuePackage<ShowHalconWindow> ShowHalconWindows = new QueuePackage<ShowHalconWindow>();
-        public QueuePackage<NgTypeInfo> NGTypeInfos = new QueuePackage<NgTypeInfo>();
-
-
         //输出容器 每个模块 都把自己的输出放到该容器中
         public Dictionary<string, Dictionary<string, object>> m_OutPutMap = new Dictionary<string, Dictionary<string, object>>();
 
@@ -146,6 +135,7 @@ namespace Frame_Core
             }
             Dictionary<string, object> dic = m_OutPutMap[moduleName];
             dic[varName] = obj;
+            
         }
         /// <summary>
         /// 根据名称获取对应的模块的输出
@@ -193,7 +183,7 @@ namespace Frame_Core
                 }
                 return null;
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 return null;
             }
@@ -215,16 +205,7 @@ namespace Frame_Core
 
         public void Dispose()
         {
-            while(ShowHalconWindows.Count>0)
-            {
-                ShowHalconWindows.Dequeue()?.Dispose();
-            }
-            while(NGTypeInfos.Count>0)
-            {
-                NGTypeInfos.Dequeue()?.Dispose();
-            }
-            ProductInfo?.Dispose();
-           // throw new NotImplementedException();
+            
         }
     }
 }

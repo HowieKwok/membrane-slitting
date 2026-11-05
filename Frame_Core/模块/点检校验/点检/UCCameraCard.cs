@@ -1,4 +1,4 @@
-﻿using Basler.Pylon;
+﻿
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,15 +14,15 @@ namespace Frame_Core
     public partial class UCCameraCard : UserControl
     {
         CameraEnum currentCamera = CameraEnum.Cam1;
-        CameraManager currentCameraManager;
+        CameraRelevancy currentCameraManager;
         public UCCameraCard()
         {
             InitializeComponent();      
         }
-        public void Init(CameraEnum camera, CameraManager _cameraManager)
+        public void Init(CameraEnum camera, CameraRelevancy _M_CameraRelevancies)
         {
             currentCamera = camera;
-            currentCameraManager = _cameraManager;
+            currentCameraManager = _M_CameraRelevancies;
         }
         private void UCCameraCard_Load(object sender, EventArgs e)
         {

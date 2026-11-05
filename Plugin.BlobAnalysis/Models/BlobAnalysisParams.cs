@@ -1,4 +1,6 @@
-﻿using HalconDotNet;
+﻿using Frame_Core.pluginParams;
+using FrameCommunity.公共类;
+using HalconDotNet;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
@@ -15,6 +17,7 @@ namespace Plugin.BlobAnalysis.Models
 
         public DetectRangeMode DetectMode { get; set; } = DetectRangeMode.LocalRoi;
         public RoiEditRole EditRole { get; set; } = RoiEditRole.Local;
+        public bool m_bIsEnable { get; set; } = true;
         public bool EnableLocalRoi { get; set; } = true;
         public bool EnableMaskRoi { get; set; } = true;
         public bool ShowViewRoi { get; set; } = true;

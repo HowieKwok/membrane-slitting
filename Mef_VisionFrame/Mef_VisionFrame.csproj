@@ -13,7 +13,8 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
-    <NuGetPackageImportStamp></NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -31,7 +32,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -43,7 +44,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -97,16 +98,12 @@
     <StartupObject />
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>hsvision_plugin.ico</ApplicationIcon>
+    <ApplicationIcon>HS.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AntdUI, Version=1.6.13.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Release\AntdUI.dll</HintPath>
-    </Reference>
-    <Reference Include="Basler.Pylon, Version=1.2.0.0, Culture=neutral, PublicKeyToken=e389355f398382ab, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Frame_Core\DLL\Basler.Pylon.dll</HintPath>
     </Reference>
     <Reference Include="CommunityToolkit.Mvvm">
       <HintPath>..\Frame_Core\ChartDLL\CommunityToolkit.Mvvm.dll</HintPath>
@@ -129,10 +126,6 @@
     <Reference Include="Eholly.ZChart">
       <HintPath>..\Frame_Core\ChartDLL\Eholly.ZChart.dll</HintPath>
     </Reference>
-    <Reference Include="FlyCapture2Managed_v100, Version=2.11.3.121, Culture=neutral, PublicKeyToken=76c6583b4a4585f4, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Frame_Core\DLL\FlyCapture2Managed_v100.dll</HintPath>
-    </Reference>
     <Reference Include="halcondotnetxl, Version=20.11.1.0, Culture=neutral, PublicKeyToken=4973bed59ddbf2b8, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Release\halcondotnetxl.dll</HintPath>
@@ -143,10 +136,6 @@
     <Reference Include="HslCommunication, Version=10.4.2.0, Culture=neutral, PublicKeyToken=3d72ad3b6b5ec0e3, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Frame_Core\DLL\CommunicationDLL\HslCommunication.dll</HintPath>
-    </Reference>
-    <Reference Include="IKapBoardClassLibrary, Version=1.8.5.2, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Frame_Core\DLL\IKapBoardClassLibrary.dll</HintPath>
     </Reference>
     <Reference Include="LiveChartsCore">
       <HintPath>..\Frame_Core\ChartDLL\LiveChartsCore.dll</HintPath>
@@ -160,10 +149,6 @@
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Frame_Core\DLL\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="MvCameraControl.Net, Version=3.4.0.1, Culture=neutral, PublicKeyToken=52fddfb3f94be800, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Frame_Core\DLL\MvCameraControl.Net.dll</HintPath>
     </Reference>
     <Reference Include="netstandard" />
     <Reference Include="Newtonsoft.Json">
@@ -234,8 +219,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    <Reference Include="System.Buffers">
+      <HintPath>..\packages\System.Buffers.4.6.1\lib\net462\System.Buffers.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
@@ -245,17 +231,20 @@
       <HintPath>..\packages\System.Drawing.Common.4.7.3\lib\net461\System.Drawing.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    <Reference Include="System.Memory">
+      <HintPath>..\packages\System.Memory.4.6.3\lib\net462\System.Memory.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    <Reference Include="System.Numerics.Vectors">
+      <HintPath>..\packages\System.Numerics.Vectors.4.6.1\lib\net462\System.Numerics.Vectors.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.1.2\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -280,6 +269,10 @@
     <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />
+    <Content Include="4调试设置\WPF\hsvision_plugin.ico" />
+    <Content Include="4调试设置\WPF\stop-o.png" />
+    <Content Include="4调试设置\WPF\阳极铜箔.png" />
+    <Content Include="HS.ico" />
     <Content Include="hsvision_plugin.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -295,26 +288,12 @@
     <Compile Include="1系统设置\Form_ImageManage.Designer.cs">
       <DependentUpon>Form_ImageManage.cs</DependentUpon>
     </Compile>
-    <Compile Include="3主界面\实时数据统计\Form_WidthLaserDetect.cs">
+    <Compile Include="4调试设置\WPF\ViewModel\WPFDebugProcessViewModel.cs" />
+    <Compile Include="3主界面\Form_WidthLaserDetect.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="3主界面\实时数据统计\Form_WidthLaserDetect.Designer.cs">
+    <Compile Include="3主界面\Form_WidthLaserDetect.Designer.cs">
       <DependentUpon>Form_WidthLaserDetect.cs</DependentUpon>
-    </Compile>
-    <Compile Include="3主界面\历史数据查询\CamImageData.cs" />
-    <Compile Include="3主界面\历史数据查询\CamImageDataForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="3主界面\历史数据查询\CamImageDataForm.Designer.cs">
-      <DependentUpon>CamImageDataForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="3主界面\历史数据查询\ProdDataRecord.cs" />
-    <Compile Include="3主界面\历史数据查询\ProdImageData.cs" />
-    <Compile Include="3主界面\历史数据查询\SliceDataForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="3主界面\历史数据查询\SliceDataForm.Designer.cs">
-      <DependentUpon>SliceDataForm.cs</DependentUpon>
     </Compile>
     <Compile Include="3主界面\实时数据统计\曲线图\ChartForm.cs">
       <SubType>Form</SubType>
@@ -324,53 +303,44 @@
     </Compile>
     <Compile Include="3主界面\实时数据统计\曲线图\ChartUIParam.cs" />
     <Compile Include="3主界面\实时数据统计\曲线图\EHGraph.cs" />
-    <Compile Include="3主界面\实时数据统计\缺陷图片\CamMinImageForm.cs">
+    <Compile Include="5工艺标准\Service\Craft_ViewService.cs" />
+    <Compile Include="5工艺标准\ViewModel\ViewModel_CraftBase\VM_Craft.cs" />
+    <Compile Include="5工艺标准\ViewModel\模切裁片一体机\VM_CraftDieCuttingCut.cs" />
+    <Compile Include="5工艺标准\View\View_CraftBase\FormCraftBase.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="3主界面\实时数据统计\缺陷图片\CamMinImageForm.Designer.cs">
-      <DependentUpon>CamMinImageForm.cs</DependentUpon>
+    <Compile Include="5工艺标准\View\View_CraftBase\FormCraftBase.Designer.cs">
+      <DependentUpon>FormCraftBase.cs</DependentUpon>
     </Compile>
-    <Compile Include="3主界面\实时数据统计\缺陷图片\Form_NGMinImage.cs">
+    <Compile Include="5工艺标准\View\View_CraftBase\Form_CraftFrame.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="3主界面\实时数据统计\缺陷图片\Form_NGMinImage.Designer.cs">
-      <DependentUpon>Form_NGMinImage.cs</DependentUpon>
+    <Compile Include="5工艺标准\View\View_CraftBase\Form_CraftFrame.Designer.cs">
+      <DependentUpon>Form_CraftFrame.cs</DependentUpon>
     </Compile>
-    <Compile Include="3主界面\实时数据统计\缺陷图片\MinImageShowForm.cs">
+    <Compile Include="5工艺标准\View\模切裁片一体机\Form_DefectRules.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="3主界面\实时数据统计\缺陷图片\MinImageShowForm.Designer.cs">
-      <DependentUpon>MinImageShowForm.cs</DependentUpon>
+    <Compile Include="5工艺标准\View\模切裁片一体机\Form_DefectRules.Designer.cs">
+      <DependentUpon>Form_DefectRules.cs</DependentUpon>
     </Compile>
-    <Compile Include="3主界面\实时数据统计\缺陷图片\RealTimeMinImageForm.cs">
+    <Compile Include="5工艺标准\View\模切裁片一体机\Form_DieCuttingCut.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="3主界面\实时数据统计\缺陷图片\RealTimeMinImageForm.Designer.cs">
-      <DependentUpon>RealTimeMinImageForm.cs</DependentUpon>
+    <Compile Include="5工艺标准\View\模切裁片一体机\Form_DieCuttingCut.Designer.cs">
+      <DependentUpon>Form_DieCuttingCut.cs</DependentUpon>
     </Compile>
-    <Compile Include="5工艺标准\FormLimitAlarmFix.cs">
+    <Compile Include="5工艺标准\View\模切裁片一体机\Form_SizeEdit.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="5工艺标准\FormLimitAlarmFix.Designer.cs">
-      <DependentUpon>FormLimitAlarmFix.cs</DependentUpon>
+    <Compile Include="5工艺标准\View\模切裁片一体机\Form_SizeEdit.Designer.cs">
+      <DependentUpon>Form_SizeEdit.cs</DependentUpon>
     </Compile>
-    <Compile Include="5工艺标准\FormPFTCleanCraft.cs">
+    <Compile Include="5工艺标准\View\模切裁片一体机\Form_SizeStationEdit.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="5工艺标准\FormPFTCleanCraft.designer.cs">
-      <DependentUpon>FormPFTCleanCraft.cs</DependentUpon>
-    </Compile>
-    <Compile Include="5工艺标准\FormSizeFix.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="5工艺标准\FormSizeFix.Designer.cs">
-      <DependentUpon>FormSizeFix.cs</DependentUpon>
-    </Compile>
-    <Compile Include="5工艺标准\FormSlotFix.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="5工艺标准\FormSlotFix.Designer.cs">
-      <DependentUpon>FormSlotFix.cs</DependentUpon>
+    <Compile Include="5工艺标准\View\模切裁片一体机\Form_SizeStationEdit.Designer.cs">
+      <DependentUpon>Form_SizeStationEdit.cs</DependentUpon>
     </Compile>
     <Compile Include="8数据分析\ConfigModel.cs" />
     <Compile Include="8数据分析\FMain.cs">
@@ -391,15 +361,9 @@
     <Compile Include="8数据分析\FormMessagebox.Designer.cs">
       <DependentUpon>FormMessagebox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form_Main.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form_Main.Designer.cs">
-      <DependentUpon>Form_Main.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources1.Designer.cs">
+    <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -407,15 +371,7 @@
     <Compile Include="业务类\工位\业务\BIZ_DataWorker_WidthLaser.cs" />
     <Compile Include="业务类\工位\业务\BIZ_DataWorker_WidthLaserMethod.cs" />
     <Compile Include="业务类\工位\业务\BIZ_ThreadManage_WidthLaser.cs" />
-    <Compile Include="业务类\业务切换\AThreadManageBase.cs" />
-    <Compile Include="业务类\业务切换\IBizWorkerBase.cs" />
     <Compile Include="业务类\业务通用\BIZ_General.cs" />
-    <Compile Include="3主界面\UC_MainDetection.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="3主界面\UC_MainDetection.Designer.cs">
-      <DependentUpon>UC_MainDetection.cs</DependentUpon>
-    </Compile>
     <Compile Include="1系统设置\UC_BaseSetting.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -428,12 +384,6 @@
     <Compile Include="4调试设置\UC_ProcessSetting.Designer.cs">
       <DependentUpon>UC_ProcessSetting.cs</DependentUpon>
     </Compile>
-    <Compile Include="5工艺标准\Form_CraftSetting.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="5工艺标准\Form_CraftSetting.Designer.cs">
-      <DependentUpon>Form_CraftSetting.cs</DependentUpon>
-    </Compile>
     <Compile Include="业务类\业务切换\BIZ_Switchover.cs" />
     <Compile Include="业务类\工位\业务变量\BIZ_Variable_WidthLaser.cs" />
     <Compile Include="加载进度界面\Form_LoadProgressBar.cs">
@@ -442,11 +392,75 @@
     <Compile Include="加载进度界面\Form_LoadProgressBar.Designer.cs">
       <DependentUpon>Form_LoadProgressBar.cs</DependentUpon>
     </Compile>
-    <Compile Include="用户控件UI\UC_HWCshow.cs">
+    <Compile Include="项目工厂\Factory\ModelFactory.cs" />
+    <Compile Include="项目工厂\Factory\ProjectFactory.cs" />
+    <Compile Include="项目工厂\Factory\ServerFactory.cs" />
+    <Compile Include="项目工厂\Factory\ViewFactory.cs" />
+    <Compile Include="项目工厂\Factory\VMFactory.cs" />
+    <Compile Include="项目工厂\Model\ModelBase.cs" />
+    <Compile Include="项目工厂\Server\AThreadManageBase.cs" />
+    <Compile Include="项目工厂\Server\IBizWorkerBase.cs" />
+    <Compile Include="项目工厂\Server\ServerBase.cs" />
+    <Compile Include="项目工厂\ViewModel\VMBase.cs" />
+    <Compile Include="Form_Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_Main.Designer.cs">
+      <DependentUpon>Form_Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="项目工厂\View\UCViewBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="用户控件UI\UC_HWCshow.Designer.cs">
-      <DependentUpon>UC_HWCshow.cs</DependentUpon>
+    <Compile Include="项目工厂\View\UCViewBase.Designer.cs">
+      <DependentUpon>UCViewBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="项目工厂\View\UC_StateView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="项目工厂\View\UC_StateView.Designer.cs">
+      <DependentUpon>UC_StateView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="项目工厂\View\UC_ToolView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="项目工厂\View\UC_ToolView.Designer.cs">
+      <DependentUpon>UC_ToolView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="项目工厂\接口\IModelFactory.cs" />
+    <Compile Include="项目工厂\接口\IServerFactory.cs" />
+    <Compile Include="项目工厂\接口\IViewFactory.cs" />
+    <Compile Include="项目工厂\接口\IViewModel.cs" />
+    <Compile Include="项目模切裁切机\Model\Model_DieCuttingCut.cs" />
+    <Compile Include="项目模切裁切机\Server\Server_DieCuttingCut.cs" />
+    <Compile Include="项目模切裁切机\Server\SizeComputationalFormula.cs" />
+    <Compile Include="项目模切裁切机\ViewModel\VM_DieCuttingCut.cs" />
+    <Compile Include="项目模切裁切机\View\UC_DieCuttingCut.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="项目模切裁切机\View\UC_DieCuttingCut.Designer.cs">
+      <DependentUpon>UC_DieCuttingCut.cs</DependentUpon>
+    </Compile>
+    <Compile Include="项目模切裁切机\功能\曲线图\NScotPotUIUser.cs" />
+    <Compile Include="项目模切裁切机\功能\曲线图\ScotPotUIUser.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="项目模切裁切机\功能\曲线图\ScotPotUIUser.Designer.cs">
+      <DependentUpon>ScotPotUIUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="项目模切裁切机\功能\纠偏动态刷新\CorrecInfo.cs" />
+    <Compile Include="项目模切裁切机\功能\纠偏动态刷新\CorrectLogic.cs" />
+    <Compile Include="项目模切裁切机\功能\纠偏动态刷新\CorrectPosDeal.cs" />
+    <Compile Include="项目模切裁切机\功能\纠偏动态刷新\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="项目模切裁切机\功能\纠偏动态刷新\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="项目模切裁切机\功能\纠偏动态刷新\MonitorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="项目模切裁切机\功能\纠偏动态刷新\MonitorForm.Designer.cs">
+      <DependentUpon>MonitorForm.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="1系统设置\Form_BaseSetting.en.resx">
       <DependentUpon>Form_BaseSetting.cs</DependentUpon>
@@ -460,44 +474,32 @@
     <EmbeddedResource Include="1系统设置\Form_ImageManage.resx">
       <DependentUpon>Form_ImageManage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="3主界面\历史数据查询\CamImageDataForm.resx">
-      <DependentUpon>CamImageDataForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="3主界面\历史数据查询\SliceDataForm.resx">
-      <DependentUpon>SliceDataForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="3主界面\实时数据统计\Form_WidthLaserDetect.resx">
+    <EmbeddedResource Include="3主界面\Form_WidthLaserDetect.resx">
       <DependentUpon>Form_WidthLaserDetect.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="3主界面\实时数据统计\曲线图\ChartForm.resx">
       <DependentUpon>ChartForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="3主界面\实时数据统计\缺陷图片\CamMinImageForm.resx">
-      <DependentUpon>CamMinImageForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="3主界面\实时数据统计\缺陷图片\Form_NGMinImage.resx">
-      <DependentUpon>Form_NGMinImage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="3主界面\实时数据统计\缺陷图片\MinImageShowForm.resx">
-      <DependentUpon>MinImageShowForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="3主界面\实时数据统计\缺陷图片\RealTimeMinImageForm.resx">
-      <DependentUpon>RealTimeMinImageForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="4调试设置\UC_ProcessSetting.en.resx">
       <DependentUpon>UC_ProcessSetting.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="5工艺标准\FormLimitAlarmFix.resx">
-      <DependentUpon>FormLimitAlarmFix.cs</DependentUpon>
+    <EmbeddedResource Include="5工艺标准\View\View_CraftBase\FormCraftBase.resx">
+      <DependentUpon>FormCraftBase.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="5工艺标准\FormPFTCleanCraft.resx">
-      <DependentUpon>FormPFTCleanCraft.cs</DependentUpon>
+    <EmbeddedResource Include="5工艺标准\View\View_CraftBase\Form_CraftFrame.resx">
+      <DependentUpon>Form_CraftFrame.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="5工艺标准\FormSizeFix.resx">
-      <DependentUpon>FormSizeFix.cs</DependentUpon>
+    <EmbeddedResource Include="5工艺标准\View\模切裁片一体机\Form_DefectRules.resx">
+      <DependentUpon>Form_DefectRules.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="5工艺标准\FormSlotFix.resx">
-      <DependentUpon>FormSlotFix.cs</DependentUpon>
+    <EmbeddedResource Include="5工艺标准\View\模切裁片一体机\Form_DieCuttingCut.resx">
+      <DependentUpon>Form_DieCuttingCut.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="5工艺标准\View\模切裁片一体机\Form_SizeEdit.resx">
+      <DependentUpon>Form_SizeEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="5工艺标准\View\模切裁片一体机\Form_SizeStationEdit.resx">
+      <DependentUpon>Form_SizeStationEdit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="8数据分析\FMain.resx">
       <DependentUpon>FMain.cs</DependentUpon>
@@ -505,32 +507,37 @@
     <EmbeddedResource Include="8数据分析\FormDataAnalysis.resx">
       <DependentUpon>FormDataAnalysis.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form_Main.resx">
-      <DependentUpon>Form_Main.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="3主界面\UC_MainDetection.resx">
-      <DependentUpon>UC_MainDetection.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="1系统设置\UC_BaseSetting.resx">
       <DependentUpon>UC_BaseSetting.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="4调试设置\UC_ProcessSetting.resx">
       <DependentUpon>UC_ProcessSetting.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="5工艺标准\Form_CraftSetting.resx">
-      <DependentUpon>Form_CraftSetting.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="加载进度界面\Form_LoadProgressBar.resx">
       <DependentUpon>Form_LoadProgressBar.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="用户控件UI\UC_HWCshow.resx">
-      <DependentUpon>UC_HWCshow.cs</DependentUpon>
+    <EmbeddedResource Include="Form_Main.resx">
+      <DependentUpon>Form_Main.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="111.cft" />
+    <EmbeddedResource Include="项目工厂\View\UC_StateView.resx">
+      <DependentUpon>UC_StateView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="项目工厂\View\UC_ToolView.resx">
+      <DependentUpon>UC_ToolView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="项目模切裁切机\View\UC_DieCuttingCut.resx">
+      <DependentUpon>UC_DieCuttingCut.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="项目模切裁切机\功能\纠偏动态刷新\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="项目模切裁切机\功能\纠偏动态刷新\MonitorForm.resx">
+      <DependentUpon>MonitorForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -559,6 +566,26 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ControlBoard\ControlBoard.csproj">
+      <Project>{3beb8ecc-a9b8-da42-824a-b8a321569cf3}</Project>
+      <Name>ControlBoard</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DefectRuleClassifier\DefectRuleClassifier.csproj">
+      <Project>{79981de2-6002-e880-e3a2-58dfe3f57688}</Project>
+      <Name>DefectRuleClassifier</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DevMgmt.Cameras\DevMgmt.Cameras.csproj">
+      <Project>{29318e87-d676-4fe7-9a18-310fdf9fbab2}</Project>
+      <Name>DevMgmt.Cameras</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DevMgmt.Light\DevMgmt.Light.csproj">
+      <Project>{8c683f1c-7c80-4303-9938-148c15015619}</Project>
+      <Name>DevMgmt.Light</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FrameCommunity\FrameCommunity.csproj">
+      <Project>{2e0bc248-e72a-4833-a851-20069a232648}</Project>
+      <Name>FrameCommunity</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Frame_Core\Frame_Core.csproj">
       <Project>{01127398-2cc7-4124-b966-fbff69a7a0e5}</Project>
       <Name>Frame_Core</Name>
@@ -619,59 +646,24 @@
   <ItemGroup>
     <None Include="Resources\箭头_向左.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="2用户设置\" />
-    <Folder Include="6外联设置\" />
-    <Folder Include="7点检设置\" />
-    <Folder Include="9帮助\" />
-    <Folder Include="新建配方\" />
-    <Folder Include="模块界面\" />
-    <Folder Include="语言\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Resources\ACOVH.png" />
     <None Include="Resources\ASOVH.png" />
     <None Include="Resources\Tabneck示意图.png" />
     <None Include="Resources\注销.png" />
+    <None Include="Resources\prev.png" />
+    <None Include="Resources\next.png" />
+    <None Include="Resources\icon-reset.png" />
+    <None Include="Resources\run.png" />
+    <None Include="Resources\HSVision.png" />
+    <Content Include="Resources\pause.png" />
+    <Content Include="Resources\Debug.png" />
+    <Content Include="Resources\裁切定位.png" />
     <Content Include="更新日志\更新日志.txt" />
     <None Include="Resources\阴极铝箔.png" />
     <None Include="Resources\阳极铜箔.png" />
     <None Include="Resources\交换机.png" />
-    <Content Include="111\Cam1\分片裁切.xml" />
-    <Content Include="111\Cam1\右侧极片边缘抓边.xml" />
-    <Content Include="111\Cam1\左侧极片边缘抓边.xml" />
-    <Content Include="111\Cam1\查找拼接极耳.xml" />
-    <Content Include="111\Cam1\测量极耳.xml" />
-    <Content Include="111\Cam2\分片裁切.xml" />
-    <Content Include="111\Cam2\右侧极片边缘抓边.xml" />
-    <Content Include="111\Cam2\左侧极片边缘抓边.xml" />
-    <Content Include="111\Cam2\测量极耳.xml" />
-    <Content Include="111\Cam3\分片裁切.xml" />
-    <Content Include="111\Cam3\右侧极片边缘抓边.xml" />
-    <Content Include="111\Cam3\左侧极片边缘抓边.xml" />
-    <Content Include="111\Cam3\测量极耳.xml" />
-    <Content Include="111\Cam4\分片裁切.xml" />
-    <Content Include="111\Instance.xml" />
-    <Content Include="222\Cam1\AT9边缘抓边.xml" />
-    <Content Include="222\Cam1\分片裁切.xml" />
-    <Content Include="222\Cam1\右侧极片边缘抓边.xml" />
-    <Content Include="222\Cam1\左侧极片边缘抓边.xml" />
-    <Content Include="222\Cam1\查找拼接极耳.xml" />
-    <Content Include="222\Cam1\测量极耳.xml" />
-    <Content Include="222\Cam2\AT9边缘抓边.xml" />
-    <Content Include="222\Cam2\分片裁切.xml" />
-    <Content Include="222\Cam2\右侧极片边缘抓边.xml" />
-    <Content Include="222\Cam2\左侧极片边缘抓边.xml" />
-    <Content Include="222\Cam2\测量极耳.xml" />
-    <Content Include="222\Cam3\AT9边缘抓边.xml" />
-    <Content Include="222\Cam3\分片裁切.xml" />
-    <Content Include="222\Cam3\右侧极片边缘抓边.xml" />
-    <Content Include="222\Cam3\左侧极片边缘抓边.xml" />
-    <Content Include="222\Cam3\测量极耳.xml" />
-    <Content Include="222\Cam4\分片裁切.xml" />
-    <Content Include="222\Instance.xml" />
-    <Content Include="eye_128px_1139205_easyicon.net.ico" />
-    <None Include="Resources\formlogo.png" />
     <None Include="Resources\ACOH.jpg" />
     <None Include="Resources\SAOH.jpg" />
     <Content Include="Resources\仿真.png" />

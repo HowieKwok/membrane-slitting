@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="720" viewBox="0 0 1180 720">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#385069"/>
+    </marker>
+    <style>
+      .title{font:700 28px 'Microsoft YaHei','Segoe UI',Arial;fill:#102030}
+      .box{fill:#f7fbff;stroke:#4b83bd;stroke-width:2;rx:10;ry:10}
+      .warn{fill:#fff7ed;stroke:#f08a24;stroke-width:2;rx:10;ry:10}
+      .ok{fill:#effaf3;stroke:#35a867;stroke-width:2;rx:10;ry:10}
+      .text{font:16px 'Microsoft YaHei','Segoe UI',Arial;fill:#172331}
+      .small{font:14px 'Microsoft YaHei','Segoe UI',Arial;fill:#425466}
+      .line{stroke:#385069;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1180" height="720" fill="#ffffff"/>
+  <text x="40" y="52" class="title">候选总数硬上限处理流程</text>
+
+  <rect x="80" y="95" width="250" height="78" class="box"/>
+  <text x="205" y="128" text-anchor="middle" class="text">SelectShape 后统计数量</text>
+  <text x="205" y="152" text-anchor="middle" class="small">CandidateCount</text>
+
+  <rect x="460" y="95" width="260" height="78" class="box"/>
+  <text x="590" y="128" text-anchor="middle" class="text">是否启用硬上限</text>
+  <text x="590" y="152" text-anchor="middle" class="small">EnableCandidateCountLimit</text>
+  <path d="M330 134 H460" class="line"/>
+
+  <rect x="850" y="95" width="250" height="78" class="box"/>
+  <text x="975" y="128" text-anchor="middle" class="text">是否超过上限</text>
+  <text x="975" y="152" text-anchor="middle" class="small">CandidateCount &gt; MaxCandidateCount</text>
+  <path d="M720 134 H850" class="line"/>
+
+  <rect x="850" y="250" width="250" height="78" class="ok"/>
+  <text x="975" y="282" text-anchor="middle" class="text">未超限</text>
+  <text x="975" y="306" text-anchor="middle" class="small">执行 AppendCandidates</text>
+  <path d="M975 173 V250" class="line"/>
+  <text x="990" y="215" class="small">否</text>
+
+  <rect x="460" y="250" width="260" height="98" class="warn"/>
+  <text x="590" y="282" text-anchor="middle" class="text">超限：停止生成候选</text>
+  <text x="590" y="306" text-anchor="middle" class="small">不裁 NG 小图</text>
+  <text x="590" y="330" text-anchor="middle" class="small">不生成 DefectCandidate</text>
+  <path d="M850 134 C780 134 760 299 720 299" class="line"/>
+  <text x="760" y="245" class="small">是</text>
+
+  <rect x="80" y="250" width="250" height="98" class="warn"/>
+  <text x="205" y="282" text-anchor="middle" class="text">复制合并区域</text>
+  <text x="205" y="306" text-anchor="middle" class="small">closed 或分区 OverflowRegion</text>
+  <text x="205" y="330" text-anchor="middle" class="small">写入 DetectResult.OverflowRegion</text>
+  <path d="M460 299 H330" class="line"/>
+
+  <rect x="80" y="440" width="250" height="98" class="warn"/>
+  <text x="205" y="472" text-anchor="middle" class="text">Pipeline 组装结果</text>
+  <text x="205" y="496" text-anchor="middle" class="small">CreateOverflowRuleForRuntime</text>
+  <text x="205" y="520" text-anchor="middle" class="small">默认类别：涂布不良</text>
+  <path d="M205 348 V440" class="line"/>
+
+  <rect x="460" y="440" width="260" height="98" class="warn"/>
+  <text x="590" y="472" text-anchor="middle" class="text">尺寸判定</text>
+  <text x="590" y="496" text-anchor="middle" class="small">启用则判断长宽面积</text>
+  <text x="590" y="520" text-anchor="middle" class="small">不通过：来源=未达到设定要求</text>
+  <path d="M330 489 H460" class="line"/>
+
+  <rect x="850" y="440" width="250" height="98" class="ok"/>
+  <text x="975" y="472" text-anchor="middle" class="text">输出一条合并结果</text>
+  <text x="975" y="496" text-anchor="middle" class="small">Region = OverflowRegion 副本</text>
+  <text x="975" y="520" text-anchor="middle" class="small">结束本次分类流程</text>
+  <path d="M720 489 H850" class="line"/>
+
+  <text x="80" y="630" class="text">注意：</text>
+  <text x="130" y="630" class="small">硬上限发生在检测阶段，必须早于 AppendCandidates。进入特征分类后再判断已经太晚。</text>
+</svg>

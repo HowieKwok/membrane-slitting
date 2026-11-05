@@ -1,4 +1,5 @@
-﻿using HalconDotNet;
+﻿using BitMiracle.LibTiff.Classic;
+using HalconDotNet;
 
 using NPOI.OpenXmlFormats.Wordprocessing;
 
@@ -18,6 +19,18 @@ namespace Frame_Core
     /// </summary>
     public class ImageSimManage
     {
+        public delegate void delegateCallBack();
+        public delegate void delegateDeviceEventGrabed(long currentFrame);
+        /// <summary>
+        /// 相机回调结束事件
+        /// </summary>
+        public delegateCallBack CamCallbackEndEvent;
+
+        /// <summary>
+        /// 相机回调开始事件
+        /// </summary>
+        public delegateDeviceEventGrabed CamCallbackStartEvent;
+
         /// <summary>
         /// 当前图像ID
         /// </summary>
@@ -33,11 +46,17 @@ namespace Frame_Core
         /// </summary>
         public int currentImageIndex = 0;
 
+        /// <summary>
+        /// 从索引0开始获取图像
+        /// </summary>
+        private bool ZeroIndexStart = true;
+
         public void InitSimFlag()
         {
             currentImageID = 0;
             currentImageIndex = 0;
             ImageStartLoadFinishFlag = false;
+            ZeroIndexStart = true;
         }
 
         /// <summary>
@@ -107,6 +126,7 @@ namespace Frame_Core
                 ImageEmulationPaths = new string[0];
                 currentImageIndex = 0;
                 if (string.IsNullOrEmpty(EmulationPath)) return;
+                if (!Directory.Exists(EmulationPath)) return;
 
                 string[] extensions = { "*.bmp", "*.jpg", "*.jpeg", "*.tiff", "*.dat" };
 
@@ -177,6 +197,12 @@ namespace Frame_Core
                 {
                     if (currentImageIndex == 0)
                     {
+                        if (GetZeroIndexStartNext())
+                        {
+                            result = GetImage(out EmulationImage, out imgPath);
+                            return result;
+                        }
+
                         currentImageIndex = ImageEmulationPaths.Length - 1;
                     }
                     else
@@ -186,13 +212,26 @@ namespace Frame_Core
                     result = GetImage(out EmulationImage, out imgPath);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 result = false;
             }
             return result;
         }
 
+        /// <summary>
+        /// 是否获取第0张
+        /// </summary>
+        /// <returns></returns>
+        public bool GetZeroIndexStartNext()
+        {    
+            if (ZeroIndexStart)
+            {
+                ZeroIndexStart = false;
+                return true;
+            }
+            return false;
+        }
         /// <summary>
         /// 获取当前图像
         /// </summary>
@@ -205,10 +244,11 @@ namespace Frame_Core
             {
                 if (ImageEmulationPaths != null && ImageEmulationPaths.Length > 0)
                 {
+                    GetZeroIndexStartNext();
                     result = GetImage(out EmulationImage, out imgPath);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 result = false;
             }
@@ -227,6 +267,15 @@ namespace Frame_Core
             {
                 if (ImageEmulationPaths != null && ImageEmulationPaths.Length > 0)
                 {
+                    if (currentImageIndex == 0)
+                    {
+                        if (GetZeroIndexStartNext())
+                        {
+                            result = GetImage(out EmulationImage, out imgPath);
+                            return result;
+                        }        
+                    }
+
                     if (currentImageIndex == ImageEmulationPaths.Length - 1)
                     {
                         currentImageIndex = 0;
@@ -238,7 +287,7 @@ namespace Frame_Core
                     result = GetImage(out EmulationImage, out imgPath);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 result = false;
             }
@@ -261,7 +310,7 @@ namespace Frame_Core
                     result = GetImage3D(out image3DClass);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 result = false;
             }
@@ -289,7 +338,7 @@ namespace Frame_Core
                     result = GetImage3D(out image3DClass);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 result = false;
             }
@@ -310,9 +359,15 @@ namespace Frame_Core
                 if (ImageEmulationPaths.Length > 0 && ImageEmulationPaths.Length > currentImageIndex)
                 {
                     imgPath = ImageEmulationPaths[currentImageIndex];
+                    if (!File.Exists(imgPath)) return false;
                     HOperatorSet.ReadImage(out EmulationImage, imgPath);
+                    if (EmulationImage == null || !EmulationImage.IsInitialized() || EmulationImage.CountObj() == 0)
+                    {
+                        EmulationImage.Dispose();
+                        return false;
+                    }
+                    result = true;
                 }
-                result = true;
             }
             catch (Exception)
             {
@@ -345,7 +400,7 @@ namespace Frame_Core
                 }
 
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 result = false;
             }
@@ -377,7 +432,7 @@ namespace Frame_Core
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 result = false;
             }
@@ -409,7 +464,7 @@ namespace Frame_Core
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 result = false;
@@ -439,7 +494,7 @@ namespace Frame_Core
                     result = true;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 result = false;
             }

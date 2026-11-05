@@ -1,0 +1,16 @@
+<Project>
+  <!--
+    本解决方案的全部可执行/库都按 x64 编译：
+    Halcon 用的是 halcondotnetxl(x64)，相机/光源 SDK（Basler/DALSA/FlyCapture/GoSdk/IKap/kApi）、
+    EHolly.ImageTool、EHAI2CS 等原生依赖也都是 AMD64。
+    统一在这里设置，避免逐个 csproj 维护 PlatformTarget，
+    也消除 MSB3270（MSIL 与 AMD64 引用不匹配）与随后的连锁警告。
+
+    注意：某个工程若在自己的 PropertyGroup 里显式写了 PlatformTarget，
+    仍然以工程内的值为准（本次已把 Frame_Core / Mef_VisionFrame /
+    DevMgmt.Cameras / Plugin.MQDefects 显式改为 x64）。
+  -->
+  <PropertyGroup>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+</Project>

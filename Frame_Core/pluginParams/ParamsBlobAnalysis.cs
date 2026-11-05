@@ -47,6 +47,27 @@ namespace Frame_Core.pluginParams
         public double m_fLocalRoiRow2 = 2600;
         public double m_fLocalRoiCol2 = 3600;
 
+        /// <summary>
+        /// 上偏移(Row)
+        /// </summary>
+        [Description("上偏移(Row)")]
+        public double TopOffsetRow { get; set; } = 0;
+        /// <summary>
+        /// 下偏移(Row)
+        /// </summary>
+        [Description("下偏移(Row)")]
+        public double BottomOffsetRow { get; set; } = 0;
+        /// <summary>
+        /// 左偏移(Col)
+        /// </summary>
+        [Description("左偏移(Col)")]
+        public double LeftOffsetCol { get; set; } = 0;
+        /// <summary>
+        /// 右偏移(Col)
+        /// </summary>
+        [Description("右偏移(Col)")]
+        public double RightOffsetCol { get; set; } = 0;
+
         public double m_fThresholdMin = 0;
         public double m_fThresholdMax = 180;
         public int m_nMorphMode = 4;
@@ -85,7 +106,8 @@ namespace Frame_Core.pluginParams
         [XmlIgnore]
         public HObject m_ho_OutMaskRoiRegion;
 
-        [NonSerialized]
+
+       [NonSerialized]
         [XmlIgnore]
         public List<BlobRegionResultParam> m_lOutRegionResults = new List<BlobRegionResultParam>();
 

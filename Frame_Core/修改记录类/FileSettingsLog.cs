@@ -169,9 +169,9 @@ namespace Extensions
                     {
                         try
                         {
-                            list1name = Project.Instance.cameraManager[(CameraEnum)i].m_CamParam.CameraName;
+                            list1name = Service_Camera.GetCam_Name(i);
                         }
-                        catch (Exception ee)
+                        catch (Exception)
                         {
                             list1name = (i + 1).ToString();
                         }

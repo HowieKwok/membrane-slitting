@@ -1,4 +1,9 @@
-﻿using System;
+﻿using DevMgmt.Cameras.Models;
+using Extensions;
+using HalconDotNet;
+using LogTool;
+using NPOI.OpenXmlFormats.Vml;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,17 +15,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Forms;
-
-using Extensions;
-
-using HalconDotNet;
-
-using LogTool;
-
-using NPOI.OpenXmlFormats.Vml;
-
 using ViewROI3;
-
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Frame_Core
@@ -33,7 +28,7 @@ namespace Frame_Core
         public ROIRectangle2 roiRectangle;
         HObject ho_Image = null;
         ROIFormBase ROIForm = new ROIFormBase();
-        Dictionary<CameraEnum, CameraManager> cameraManager;
+     
 
         List<MessageShowInfo> messageShowInfos = new List<MessageShowInfo>();
         List<RegionShowInfo> regionShowInfos = new List<RegionShowInfo>();
@@ -47,17 +42,12 @@ namespace Frame_Core
 
 
 
-        public Form_MsaCheckBoardLine(String _path,Dictionary<CameraEnum, CameraManager> _cameraManager)
+        public Form_MsaCheckBoardLine(String _path)
         {
             InitializeComponent();
             string strLRoiParaPath= _path + "\\LRoiPara.xml";
             string strLRoiMesureParaPath = _path + "\\LRoiMesurePara.xml";
-            cameraManager=_cameraManager;
-            foreach (var item in cameraManager)
-            {
-                cbx_CamSelect.Items.Add(item.Value.m_CamParam.CameraName);
-            }
-          
+            cbx_CamSelect.Items.AddRange(Service_Camera.GetCam_Names());
 
             cbx_CamSelect.SelectedIndex = 0;
             cobSelect3D.SelectedIndex = 0;
@@ -208,7 +198,7 @@ namespace Frame_Core
                             }
 
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
                            // int index = operation_ImageInfo.showHalconWindow.m_regionShowInfos.IndexOf(item);
                         }
@@ -423,7 +413,7 @@ namespace Frame_Core
 
 
                             }
-                            catch (Exception ee)
+                            catch (Exception)
                             {
 
                                 // throw;
@@ -560,7 +550,7 @@ namespace Frame_Core
                             regionShowInfos.Add(new RegionShowInfo() { m_hRegion = ho_Contours, m_stuGetColor = HalconColor.orange });
                            // HOperatorSet.DispObj(ho_Contours, hWndCtrl_Display.GetHWindow());
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
                            
                             //LogName.ErrorLog.Info(ex.Message);
@@ -621,7 +611,7 @@ namespace Frame_Core
                             }
 
                         }
-                        catch (Exception ee)
+                        catch (Exception)
                         {
 
                             //throw;
@@ -692,7 +682,7 @@ namespace Frame_Core
                 str = String.Format("Size  R:{0}   C:{1}", h.ToString(), w.ToString()); //格式化字符串
                 return str;
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 return str;
             }
@@ -860,7 +850,7 @@ namespace Frame_Core
                 }
 
             }
-            catch (Exception ee)
+            catch (Exception)
             {
 
                // throw;
@@ -920,7 +910,7 @@ namespace Frame_Core
                     }
                 }
             }
-            catch (Exception ee)
+            catch (Exception)
             {
 
                 //throw;

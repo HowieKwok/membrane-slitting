@@ -37,7 +37,7 @@ namespace LogTool
                 var result = XmlSerialization.ObjectToXml(fileFullPath, this);
                 return result;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -64,7 +64,7 @@ namespace LogTool
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }

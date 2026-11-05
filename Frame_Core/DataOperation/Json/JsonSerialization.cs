@@ -44,7 +44,7 @@ namespace Frame_Core
                             fileWriter.Write(jsonOutput);
                         }
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         return false;
                     }
@@ -81,7 +81,7 @@ namespace Frame_Core
                             result = JsonConvert.DeserializeObject<T>(jsonContent);
                         }
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         return result;
                     }

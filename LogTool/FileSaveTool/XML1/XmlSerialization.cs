@@ -45,7 +45,7 @@ namespace LogTool
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         return false;
                     }
@@ -79,7 +79,7 @@ namespace LogTool
                             result = CreateXMLSerial(type).Deserialize(streamWriter);
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         return null;
                     }

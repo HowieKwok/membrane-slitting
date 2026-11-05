@@ -1,4 +1,6 @@
 ﻿using Frame_Core;
+using FrameCommunity;
+using FrameCommunity.Data;
 using HalconDotNet;
 using System;
 using System.Collections.Generic;
@@ -57,12 +59,12 @@ namespace Frame_Core
         /// 输入变量：图像裁切偏移尺寸-行：
         /// </summary>
         [Description("图像裁切偏移尺寸-行")]
-        public double CropShaftRow = 300;
+        public double CropShaftRow = 0;
         /// <summary>
         /// 输入变量：图像裁切偏移尺寸-列：
         /// </summary>
         [Description("图像裁切偏移尺寸-列")]
-        public double CropShaftCol = 300;
+        public double CropShaftCol = 0;
 
         /// <summary>
         /// 输出变量：裁切图像

@@ -1,4 +1,6 @@
-﻿using HalconDotNet;
+﻿using FrameCommunity;
+using FrameCommunity.Data;
+using HalconDotNet;
 
 using LogTool;
 
@@ -28,6 +30,72 @@ namespace Frame_Core
             }
         }
 
+        public static bool LoadPrevImage_Sim(ImageSimManage imageSimManage, ref QueuePackage<ImageInfo> queueGrabImage_Sim, string source)
+        {
+            bool readRsult = false;
+            try
+            {
+                ImageInfo image = new ImageInfo();
+                readRsult = imageSimManage.GetPreviewImage(out HObject tempImage, out string imgPath);          
+                if (readRsult && image != null && tempImage != null && tempImage.IsInitialized() && tempImage.CountObj() > 0)
+                {
+                    image.ho_image = tempImage;
+                    HOperatorSet.GetImageSize(image.ho_image, out HTuple width, out HTuple height);
+                    image.imageWidth = width.I;
+                    image.imageHeight = height.I;
+                    image.image_ID = ++imageSimManage.currentImageID;
+                    imageSimManage.CamCallbackStartEvent?.Invoke(image.image_ID);
+                    queueGrabImage_Sim.Enqueue(image);
+                
+                    readRsult = true;
+                }
+                else
+                {
+                    if (image != null) image.Dispose();
+                    readRsult = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                readRsult = false;
+                Log4netRecord.ErrorLog.Error("加载仿真图像报错" + $"来源：{source}", ex);
+            }
+            return readRsult;
+        }
+
+        public static bool LoadNextImage_Sim(ImageSimManage imageSimManage, ref QueuePackage<ImageInfo> queueGrabImage_Sim, string source)
+        {
+            bool readRsult = false;
+            try
+            {
+                ImageInfo image = new ImageInfo();
+                readRsult = imageSimManage.GetNextImage(out HObject tempImage, out string imgPath);
+                if (readRsult && image != null && tempImage != null && tempImage.IsInitialized() && tempImage.CountObj() > 0)
+                {
+                    image.ho_image = tempImage;
+                    HOperatorSet.GetImageSize(image.ho_image, out HTuple width, out HTuple height);
+                    image.imageWidth = width.I;
+                    image.imageHeight = height.I;
+                    image.image_ID = ++imageSimManage.currentImageID;
+                    imageSimManage.CamCallbackStartEvent?.Invoke(image.image_ID);
+                    queueGrabImage_Sim.Enqueue(image);
+                
+                    readRsult = true;
+                }
+                else
+                {
+                    if (image != null) image.Dispose();
+                    readRsult = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                readRsult = false;
+                Log4netRecord.ErrorLog.Error("加载仿真图像报错" + $"来源：{source}", ex);
+            }
+            return readRsult;
+        }
+
         public static bool LoadImage_Sim(ImageSimManage imageSimManage, ref QueuePackage<ImageInfo> queueGrabImage_Sim, string source)
         {
             bool readRsult = false;
@@ -35,13 +103,14 @@ namespace Frame_Core
             {
                 ImageInfo image = new ImageInfo();
                 readRsult = imageSimManage.GetZeroIndexStartNextImage(out HObject tempImage,out string imgPath);
-                if (readRsult && image != null)
+                if (readRsult && image != null && tempImage != null && tempImage.IsInitialized() && tempImage.CountObj() > 0)
                 {
                     image.ho_image = tempImage;
                     HOperatorSet.GetImageSize(image.ho_image, out HTuple width, out HTuple height);
                     image.imageWidth = width.I;
                     image.imageHeight = height.I;
                     image.image_ID = ++imageSimManage.currentImageID;
+                    imageSimManage.CamCallbackStartEvent?.Invoke(image.image_ID);
                     queueGrabImage_Sim.Enqueue(image);
 
                     readRsult = true;
@@ -98,7 +167,7 @@ namespace Frame_Core
             {
                 ImageInfo image = new ImageInfo();
                 readRsult = imageSimManage.GetZeroIndexStartNextImage(out HObject tempImage, out string imgPath);
-                if (readRsult && image != null)
+                if (readRsult && image != null && tempImage != null && tempImage.IsInitialized() && tempImage.CountObj() > 0)
                 {
                     image.ho_image = tempImage;
                     HOperatorSet.GetImageSize(image.ho_image, out HTuple width, out HTuple height);

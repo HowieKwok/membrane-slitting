@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-
+using FrameCommunity;
 using HalconDotNet;
 
 using LogTool;
@@ -17,7 +17,7 @@ namespace Frame_Core
         /// <summary>
         /// 发送打标信息路径
         /// </summary>
-        public string SendDBPath = $"E:\\检测数据\\NewProduct\\打标机软件日志记录-打标.ini";
+        public string SendDBPath = $"{AppDomain.CurrentDomain.BaseDirectory}检测数据\\NewProduct\\打标机软件日志记录-打标.ini";
 
 
         public BindingList<CoatingZone> Zones()
@@ -87,7 +87,6 @@ namespace Frame_Core
             SlaveMachineParam dBJCardParam = tcpClientParam as SlaveMachineParam;
             if (!dBJCardParam.IsConnect) return false;
 
-            bool T = false;
             try
             {
                 if (initState) Close();
@@ -169,7 +168,6 @@ namespace Frame_Core
 
                 if (strArr.Length > 0)
                 {
-                    StopAlarmMessage stopAlarmMessage;
                     UserManage userManage = Project.Instance.userManage;
                     switch (strArr[0])
                     {

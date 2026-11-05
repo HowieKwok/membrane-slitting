@@ -50,7 +50,7 @@ namespace Frame_Core
                     fs.Close();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Log4netRecord.ErrorLog.Fatal("读取dat文件失败");
             }
@@ -130,7 +130,7 @@ namespace Frame_Core
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 //  LogName.ErrorLog.Fatal(ex);

@@ -37,6 +37,24 @@ namespace Frame_Core
         /// 读取不同状态标志
         /// </summary>
         public bool ReadDifferentStateFlag = false;
+
+        /// <summary>
+        /// 设置地址（支持链式调用）
+        /// </summary>
+        public CommunicationData<T> SetAddress(string address)
+        {
+            Address = address;
+            return this;
+        }
+
+        /// <summary>
+        /// 设置名称（支持链式调用）
+        /// </summary>
+        public CommunicationData<T> SetName(string name)
+        {
+            Name = name;
+            return this;
+        }
     }
 
     public enum ReadLogSaveType

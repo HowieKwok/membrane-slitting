@@ -22,6 +22,46 @@ namespace Frame_Core
 
        
     }
+
+    public static class EnumExtensions
+    {
+        /// <summary>
+        /// 获取枚举值的 Description 特性文本，若没有则返回枚举名称。
+        /// </summary>
+        public static string GetDescription(this Enum value)
+        {
+            FieldInfo field = value.GetType().GetField(value.ToString());
+            if (field == null) return value.ToString();
+
+            var attribute = field.GetCustomAttribute<DescriptionAttribute>();
+            return attribute?.Description ?? value.ToString();
+        }
+
+
+        /// <summary>
+        /// 将字符串转换为枚举，优先匹配 Description，否则按枚举名称解析。
+        /// </summary>
+        public static TEnum ToEnum<TEnum>(this string value, bool ignoreCase = true) where TEnum : struct, Enum
+        {
+            if (string.IsNullOrEmpty(value))
+                throw new ArgumentException("输入字符串不能为空");
+
+            // 1. 尝试通过 [Description] 特性文本匹配
+            foreach (TEnum item in Enum.GetValues(typeof(TEnum)))
+            {
+                FieldInfo field = typeof(TEnum).GetField(item.ToString());
+                var descAttr = field?.GetCustomAttribute<DescriptionAttribute>();
+                if (descAttr != null && string.Equals(descAttr.Description, value,
+                    ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal))
+                    return item;
+            }
+
+            // 2. 回退到按枚举名称解析
+            return (TEnum)Enum.Parse(typeof(TEnum), value, ignoreCase);
+        }
+    }
+
+
     /// <summary>
     /// 语言项目
     /// </summary>

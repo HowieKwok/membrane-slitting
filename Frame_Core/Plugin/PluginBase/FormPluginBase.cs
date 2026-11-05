@@ -1,117 +1,167 @@
 using Frame_Core.toosls;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
-using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Frame_Core
 {
-    public partial class FormPluginBase : Form, IPluginActionNotifier
+    /// <summary>
+    /// WinForm 插件窗体基类。
+    /// 
+    /// 与 WPFFormPluginBase 一样，WinForm 基类也不再通过 ActionCompleted / RaiseActionCompleted
+    /// 通知调试界面刷新。统一由插件对象的 IPlugin.ExecuteCompleted 事件通知外部。
+    /// 
+    /// 保留原来的按钮功能：
+    /// 1. 执行按钮仍然调用 pluginsObjBase.ExecuteObj()。
+    /// 2. 保存按钮仍然调用 pluginsObjBase.saveParams()。
+    /// 3. 耗时标签仍然由基类显示。
+    /// </summary>
+    public partial class FormPluginBase : Form
     {
+        private bool executeCompletedSubscribed;
 
         /// <summary>
-        /// 窗体语言翻译
+        /// 窗体语言翻译。
         /// </summary>
-        public LanguageEnum FormLanguage /*= Project.Instance.m_SystemSettingParamter.m_CurrentLanguageType*/;
+        public LanguageEnum FormLanguage;
+
         /// <summary>
-        /// ui对应的moduleobj
+        /// 当前窗体绑定的插件对象。
         /// </summary>
         public IPlugin pluginsObjBase { get; set; }
+
         /// <summary>
-        /// 备份 取消的时候还原
+        /// 备份参数，保留原字段，避免破坏旧窗体逻辑。
         /// </summary>
-        public PluginParamsBase pluginsObjParams_Back { get; set; } //域内缓存参数，也可做备份参数
-        public event EventHandler<PluginViewActionResult> ActionCompleted;
+        public PluginParamsBase pluginsObjParams_Back { get; set; }
+
         public FormPluginBase()
         {
             InitializeComponent();
-
+            FormClosed += FormPluginBase_FormClosed;
         }
+
         public virtual void Init()
         {
-            //使用pluginsObjParams刷新插件，参数控件。。。之类。                      
-            this.Text = pluginsObjBase.moduleInfo.ModuleName;
+            if (pluginsObjBase == null || pluginsObjBase.moduleInfo == null) return;
+
+            Text = pluginsObjBase.moduleInfo.ModuleName;
+            SubscribeExecuteCompleted();
         }
 
         private void FormPluginBase_Load(object sender, EventArgs e)
         {
             if (pluginsObjBase == null) return;
-            //深拷贝对象，可提供撤销操作，暂时使用参数备份，如果引用类型有干扰，就使用深拷贝-2023.03.03 by：QM。
-            // pluginsObjParams_Back = CloneObject.DeepCopy(pluginsObjBase.PluginParams);
-            // pluginsObjParams_Back = pluginsObjBase.PluginParams;//初始时更新备份参数        
+
             Init();
-            //插件翻译
             LanguageProject.ChangeLanguage(FormLanguage, this);
         }
 
         public virtual void Btn_RUN_Click(object sender, EventArgs e)
         {
-            // 插件 ExecuteObj() 负责把真实运行结果写入 PluginParams。
-            // 基类只负责显示本窗体耗时，并通知外层调试界面重新读取 PluginParams。
-            Stopwatch watch = new Stopwatch();
-            PluginViewActionResult result = null;
+            if (pluginsObjBase == null)
+            {
+                Tb_CostTime.Text = "耗时：000ms";
+                return;
+            }
+
+            Stopwatch watch = Stopwatch.StartNew();
             try
             {
-                watch.Start();
                 bool success = pluginsObjBase.ExecuteObj();
                 watch.Stop();
 
-                long mSeconds = watch.ElapsedMilliseconds;
-                Tb_CostTime.Text = "耗时：" + mSeconds.ToString("0.0") + "ms";
-                result = success ? PluginViewActionResult.Ok("执行完成", mSeconds) : PluginViewActionResult.Fail("执行失败", mSeconds);
-                pluginsObjBase.PluginParams.m_bRunSuccess = result.Success;
-                pluginsObjBase.PluginParams.m_fElapsedMs = result.ElapsedMs;
-                pluginsObjBase.PluginParams.m_strRunMessage=result.Message;
+                long elapsedMs = watch.ElapsedMilliseconds;
+                Tb_CostTime.Text = "耗时：" + elapsedMs.ToString("0.0") + "ms";
+
+                if (pluginsObjBase.PluginParams != null)
+                {
+                    pluginsObjBase.PluginParams.m_bRunSuccess = success;
+                    pluginsObjBase.PluginParams.m_fElapsedMs = elapsedMs;
+                    if (string.IsNullOrWhiteSpace(pluginsObjBase.PluginParams.m_strRunMessage))
+                    {
+                        pluginsObjBase.PluginParams.m_strRunMessage = success ? "执行完成" : "执行失败";
+                    }
+                }
             }
             catch (Exception ex)
             {
                 if (watch.IsRunning) watch.Stop();
-                long mSeconds = watch.ElapsedMilliseconds;
-                Tb_CostTime.Text = "耗时：" + mSeconds.ToString("0.0") + "ms";
-                result = PluginViewActionResult.Fail("执行异常：" + ex.Message, mSeconds);
-            }
-            finally
-            {
-                RaiseActionCompleted(result);
+                Tb_CostTime.Text = "耗时：" + watch.ElapsedMilliseconds.ToString("0.0") + "ms";
+
+                if (pluginsObjBase.PluginParams != null)
+                {
+                    pluginsObjBase.PluginParams.m_bRunSuccess = false;
+                    pluginsObjBase.PluginParams.m_fElapsedMs = watch.ElapsedMilliseconds;
+                    pluginsObjBase.PluginParams.m_strRunMessage = "执行异常：" + ex.Message;
+                }
             }
         }
 
-        protected virtual void RaiseActionCompleted(PluginViewActionResult result)
-        {
-            EventHandler<PluginViewActionResult> handler = ActionCompleted;
-            if (handler != null) handler(this, result);
-        }
         public virtual void Btn_Save_Click(object sender, EventArgs e)
         {
-            pluginsObjParams_Back = pluginsObjBase.PluginParams; //保存时更新备份参数
-            string ProcessPath = Path.Combine(Project.Instance.paramPathSet.ProcessPath, pluginsObjBase.moduleInfo.ProcessName);
-            pluginsObjBase.moduleInfo.filePath = Path.Combine(ProcessPath, pluginsObjBase.moduleInfo.ModuleName);
+            if (pluginsObjBase == null || pluginsObjBase.moduleInfo == null) return;
+
+            pluginsObjParams_Back = pluginsObjBase.PluginParams;
+            string processPath = Path.Combine(Project.Instance.paramPathSet.ProcessPath, pluginsObjBase.moduleInfo.ProcessName);
+            pluginsObjBase.moduleInfo.filePath = Path.Combine(processPath, pluginsObjBase.moduleInfo.ModuleName);
+            if (pluginsObjBase.PluginParams != null) pluginsObjBase.PluginParams.filePath = pluginsObjBase.moduleInfo.filePath;
             pluginsObjBase.saveParams();
         }
 
         private void Btn_Cancel_Click(object sender, EventArgs e)
         {
-            //pluginsObjBase.PluginParams = pluginsObjParams_Back;//保存时更新备份参数
-            //Init();//刷新插件
         }
 
-        // 窗体翻译
-        //protected override void OnLoad(EventArgs e)
-        //{
-        //    base.OnLoad(e);
-        //    // 在窗体加载时切换资源
-        //    LanguageProject.ChangeLanguage(FormLanguage, this);
-        //}
+        private void SubscribeExecuteCompleted()
+        {
+            if (pluginsObjBase == null || executeCompletedSubscribed) return;
 
+            pluginsObjBase.ExecuteCompleted += OnPluginExecuteCompleted;
+            executeCompletedSubscribed = true;
+        }
+
+        private void UnsubscribeExecuteCompleted()
+        {
+            if (pluginsObjBase == null || !executeCompletedSubscribed) return;
+
+            try
+            {
+                pluginsObjBase.ExecuteCompleted -= OnPluginExecuteCompleted;
+            }
+            catch
+            {
+            }
+
+            executeCompletedSubscribed = false;
+        }
+
+        private void OnPluginExecuteCompleted(object sender, PluginExecuteCompletedEventArgs e)
+        {
+            if (!ReferenceEquals(sender, pluginsObjBase)) return;
+
+            if (IsHandleCreated && InvokeRequired)
+            {
+                BeginInvoke(new Action(() => OnPluginExecuteCompleted(sender, e)));
+                return;
+            }
+
+            Tb_CostTime.Text = "耗时：" + e.ElapsedMs.ToString("0.0") + "ms";
+            OnPluginExecutedFromOutside(e);
+        }
+
+        /// <summary>
+        /// WinForm 插件外部执行完成后的扩展刷新点。
+        /// 旧 WinForm 插件不重写也不影响原功能；需要后台刷新界面的 WinForm 插件可以重写此方法。
+        /// </summary>
+        protected virtual void OnPluginExecutedFromOutside(PluginExecuteCompletedEventArgs e)
+        {
+        }
+
+        private void FormPluginBase_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            UnsubscribeExecuteCompleted();
+        }
     }
 }

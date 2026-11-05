@@ -13,13 +13,12 @@ namespace Frame_Core
 {
     public partial class FormGrayScaleAdaptive : Form
     {
-        CameraEnum currentCamera = CameraEnum.Cam1;
-        CameraManager currentCameraManager;
-        Dictionary<CameraEnum, CameraManager> cameraManager;
-        public FormGrayScaleAdaptive(Dictionary<CameraEnum, CameraManager> _cameraManager)
+      
+        CameraRelevancy currentCameraManager;
+        public FormGrayScaleAdaptive()
         {
             InitializeComponent();
-            cameraManager = _cameraManager;
+          
         }
 
         private void FormGrayScaleAdaptive_Load(object sender, EventArgs e)
@@ -37,11 +36,11 @@ namespace Frame_Core
 
                 //初始化相机节点
                 Tv_Select.Nodes.Clear();
-                foreach (var item in cameraManager)
+                foreach (var item in Service_Camera.Get_AllCameraRelevancies())
                 {
-                    if(item.Key==CameraEnum.Cam1|| item.Key == CameraEnum.Cam2) 
+                    if(item.Key==0|| item.Key == 1) 
                     {
-                        Tv_Select.Nodes.Add(item.Key.ToString());
+                        Tv_Select.Nodes.Add(Service_Camera.GetCam_Name(item.Key));
                     }
                    
                 }
@@ -106,12 +105,12 @@ namespace Frame_Core
             try
             {
 
-                foreach (var item in cameraManager)
+                foreach (var item in Service_Camera.Get_AllCameraRelevancies())
                 {
-                    if (Tv_Select.SelectedNode.Text == item.Key.ToString())
+                    if (Tv_Select.SelectedNode.Text ==Service_Camera.GetCam_Name(item.Key))
                     {
-                        currentCamera = item.Key;
-                        currentCameraManager = item.Value;
+                     
+                        currentCameraManager = Service_Camera.Get_CameraRelevancy(item.Key);
                         break;
                     }
                 }

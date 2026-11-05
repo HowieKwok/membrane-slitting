@@ -45,7 +45,6 @@ namespace Frame_Core
                     index++;
                     if (index == 9)
                     {
-                        Single dsf = 0;
                     }
                     if (field.FieldType.IsGenericType && field.FieldType.GetGenericTypeDefinition() == typeof(CommunicationData<>))
                     {

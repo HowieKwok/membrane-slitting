@@ -39,9 +39,7 @@
             treeNode5});
             System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("节点0");
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.chx_IsCompression = new System.Windows.Forms.CheckBox();
-            this.cbx_SaveImageFormat_Deepth = new System.Windows.Forms.ComboBox();
-            this.label7 = new System.Windows.Forms.Label();
+            this.cbx_IsShowImage_Product = new System.Windows.Forms.CheckBox();
             this.cbx_HighDefinition_ProdScreenshot = new System.Windows.Forms.CheckBox();
             this.cbx_SaveImageSelect_ProdScreenshot = new System.Windows.Forms.ComboBox();
             this.cbx_SaveImageSelect_Screenshot = new System.Windows.Forms.ComboBox();
@@ -50,8 +48,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.cbx_SaveImageSelect_ProdImg = new System.Windows.Forms.ComboBox();
             this.cbx_SaveImageFormat_ProdImg = new System.Windows.Forms.ComboBox();
-            this.nud_NSaveImageNum = new System.Windows.Forms.NumericUpDown();
-            this.cbx_EnNSaveImage = new System.Windows.Forms.CheckBox();
             this.cbx_HighDefinition_Screenshot = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -62,25 +58,33 @@
             this.cbx_IsShowImage_Min = new System.Windows.Forms.CheckBox();
             this.cbx_SaveImageFormat_Screenshot = new System.Windows.Forms.ComboBox();
             this.cbx_IsShowImage_Primitive = new System.Windows.Forms.CheckBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.nud_IsDebug = new System.Windows.Forms.NumericUpDown();
             this.btn_SaveSystemInfo = new System.Windows.Forms.Button();
             this.cbx_SaveImageFormat_Primitive = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.Tv_Select = new System.Windows.Forms.TreeView();
-            this.cbx_IsShowImage_Product = new System.Windows.Forms.CheckBox();
+            this.chx_IsCompression = new System.Windows.Forms.CheckBox();
+            this.cbx_SaveImageFormat_Deepth = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.nud_NSaveImageNum = new System.Windows.Forms.NumericUpDown();
+            this.cbx_EnNSaveImage = new System.Windows.Forms.CheckBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.nud_IsDebug = new System.Windows.Forms.NumericUpDown();
             this.groupBox1.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_NSaveImageNum)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_IsDebug)).BeginInit();
-            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.cbx_IsShowImage_Product);
             this.groupBox1.Controls.Add(this.chx_IsCompression);
             this.groupBox1.Controls.Add(this.cbx_SaveImageFormat_Deepth);
             this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.nud_NSaveImageNum);
+            this.groupBox1.Controls.Add(this.cbx_EnNSaveImage);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.nud_IsDebug);
+            this.groupBox1.Controls.Add(this.cbx_IsShowImage_Product);
             this.groupBox1.Controls.Add(this.cbx_HighDefinition_ProdScreenshot);
             this.groupBox1.Controls.Add(this.cbx_SaveImageSelect_ProdScreenshot);
             this.groupBox1.Controls.Add(this.cbx_SaveImageSelect_Screenshot);
@@ -89,8 +93,6 @@
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.cbx_SaveImageSelect_ProdImg);
             this.groupBox1.Controls.Add(this.cbx_SaveImageFormat_ProdImg);
-            this.groupBox1.Controls.Add(this.nud_NSaveImageNum);
-            this.groupBox1.Controls.Add(this.cbx_EnNSaveImage);
             this.groupBox1.Controls.Add(this.cbx_HighDefinition_Screenshot);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label3);
@@ -101,8 +103,6 @@
             this.groupBox1.Controls.Add(this.cbx_IsShowImage_Min);
             this.groupBox1.Controls.Add(this.cbx_SaveImageFormat_Screenshot);
             this.groupBox1.Controls.Add(this.cbx_IsShowImage_Primitive);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.nud_IsDebug);
             this.groupBox1.Controls.Add(this.btn_SaveSystemInfo);
             this.groupBox1.Controls.Add(this.cbx_SaveImageFormat_Primitive);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -115,36 +115,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "图像保存";
             // 
-            // chx_IsCompression
+            // cbx_IsShowImage_Product
             // 
-            this.chx_IsCompression.AutoSize = true;
-            this.chx_IsCompression.Location = new System.Drawing.Point(276, 61);
-            this.chx_IsCompression.Margin = new System.Windows.Forms.Padding(2);
-            this.chx_IsCompression.Name = "chx_IsCompression";
-            this.chx_IsCompression.Size = new System.Drawing.Size(72, 16);
-            this.chx_IsCompression.TabIndex = 180;
-            this.chx_IsCompression.Text = "是否压缩";
-            this.chx_IsCompression.UseVisualStyleBackColor = true;
-            // 
-            // cbx_SaveImageFormat_Deepth
-            // 
-            this.cbx_SaveImageFormat_Deepth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbx_SaveImageFormat_Deepth.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.cbx_SaveImageFormat_Deepth.FormattingEnabled = true;
-            this.cbx_SaveImageFormat_Deepth.Location = new System.Drawing.Point(141, 59);
-            this.cbx_SaveImageFormat_Deepth.Name = "cbx_SaveImageFormat_Deepth";
-            this.cbx_SaveImageFormat_Deepth.Size = new System.Drawing.Size(120, 22);
-            this.cbx_SaveImageFormat_Deepth.TabIndex = 179;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label7.Location = new System.Drawing.Point(25, 59);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(63, 14);
-            this.label7.TabIndex = 178;
-            this.label7.Text = "3D深度图";
+            this.cbx_IsShowImage_Product.AutoSize = true;
+            this.cbx_IsShowImage_Product.Location = new System.Drawing.Point(408, 170);
+            this.cbx_IsShowImage_Product.Margin = new System.Windows.Forms.Padding(2);
+            this.cbx_IsShowImage_Product.Name = "cbx_IsShowImage_Product";
+            this.cbx_IsShowImage_Product.Size = new System.Drawing.Size(84, 16);
+            this.cbx_IsShowImage_Product.TabIndex = 181;
+            this.cbx_IsShowImage_Product.Text = "显示产品图";
+            this.cbx_IsShowImage_Product.UseVisualStyleBackColor = true;
             // 
             // cbx_HighDefinition_ProdScreenshot
             // 
@@ -156,6 +136,7 @@
             this.cbx_HighDefinition_ProdScreenshot.TabIndex = 177;
             this.cbx_HighDefinition_ProdScreenshot.Text = "高清晰度截图";
             this.cbx_HighDefinition_ProdScreenshot.UseVisualStyleBackColor = true;
+            this.cbx_HighDefinition_ProdScreenshot.CheckedChanged += new System.EventHandler(this.cbx_HighDefinition_ProdScreenshot_CheckedChanged);
             // 
             // cbx_SaveImageSelect_ProdScreenshot
             // 
@@ -227,27 +208,6 @@
             this.cbx_SaveImageFormat_ProdImg.Size = new System.Drawing.Size(120, 22);
             this.cbx_SaveImageFormat_ProdImg.TabIndex = 169;
             // 
-            // nud_NSaveImageNum
-            // 
-            this.nud_NSaveImageNum.Location = new System.Drawing.Point(171, 286);
-            this.nud_NSaveImageNum.Margin = new System.Windows.Forms.Padding(2);
-            this.nud_NSaveImageNum.Name = "nud_NSaveImageNum";
-            this.nud_NSaveImageNum.Size = new System.Drawing.Size(90, 21);
-            this.nud_NSaveImageNum.TabIndex = 168;
-            this.nud_NSaveImageNum.Visible = false;
-            // 
-            // cbx_EnNSaveImage
-            // 
-            this.cbx_EnNSaveImage.AutoSize = true;
-            this.cbx_EnNSaveImage.Location = new System.Drawing.Point(28, 291);
-            this.cbx_EnNSaveImage.Margin = new System.Windows.Forms.Padding(2);
-            this.cbx_EnNSaveImage.Name = "cbx_EnNSaveImage";
-            this.cbx_EnNSaveImage.Size = new System.Drawing.Size(126, 16);
-            this.cbx_EnNSaveImage.TabIndex = 167;
-            this.cbx_EnNSaveImage.Text = "每N张图像保存一次";
-            this.cbx_EnNSaveImage.UseVisualStyleBackColor = true;
-            this.cbx_EnNSaveImage.Visible = false;
-            // 
             // cbx_HighDefinition_Screenshot
             // 
             this.cbx_HighDefinition_Screenshot.AutoSize = true;
@@ -263,7 +223,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label5.Location = new System.Drawing.Point(25, 133);
+            this.label5.Location = new System.Drawing.Point(24, 133);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(49, 14);
             this.label5.TabIndex = 164;
@@ -273,7 +233,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label3.Location = new System.Drawing.Point(25, 93);
+            this.label3.Location = new System.Drawing.Point(24, 87);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(35, 14);
             this.label3.TabIndex = 162;
@@ -302,7 +262,7 @@
             // cbx_IsSaveImage_Min
             // 
             this.cbx_IsSaveImage_Min.AutoSize = true;
-            this.cbx_IsSaveImage_Min.Location = new System.Drawing.Point(276, 133);
+            this.cbx_IsSaveImage_Min.Location = new System.Drawing.Point(275, 133);
             this.cbx_IsSaveImage_Min.Margin = new System.Windows.Forms.Padding(2);
             this.cbx_IsSaveImage_Min.Name = "cbx_IsSaveImage_Min";
             this.cbx_IsSaveImage_Min.Size = new System.Drawing.Size(84, 16);
@@ -315,7 +275,7 @@
             this.cbx_SaveImageFormat_Min.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbx_SaveImageFormat_Min.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.cbx_SaveImageFormat_Min.FormattingEnabled = true;
-            this.cbx_SaveImageFormat_Min.Location = new System.Drawing.Point(141, 130);
+            this.cbx_SaveImageFormat_Min.Location = new System.Drawing.Point(140, 130);
             this.cbx_SaveImageFormat_Min.Name = "cbx_SaveImageFormat_Min";
             this.cbx_SaveImageFormat_Min.Size = new System.Drawing.Size(120, 22);
             this.cbx_SaveImageFormat_Min.TabIndex = 154;
@@ -323,7 +283,7 @@
             // cbx_IsShowImage_Min
             // 
             this.cbx_IsShowImage_Min.AutoSize = true;
-            this.cbx_IsShowImage_Min.Location = new System.Drawing.Point(409, 132);
+            this.cbx_IsShowImage_Min.Location = new System.Drawing.Point(408, 132);
             this.cbx_IsShowImage_Min.Margin = new System.Windows.Forms.Padding(2);
             this.cbx_IsShowImage_Min.Name = "cbx_IsShowImage_Min";
             this.cbx_IsShowImage_Min.Size = new System.Drawing.Size(84, 16);
@@ -351,24 +311,6 @@
             this.cbx_IsShowImage_Primitive.TabIndex = 145;
             this.cbx_IsShowImage_Primitive.Text = "显示原图";
             this.cbx_IsShowImage_Primitive.UseVisualStyleBackColor = true;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.Location = new System.Drawing.Point(25, 254);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(63, 14);
-            this.label2.TabIndex = 142;
-            this.label2.Text = "调试模式";
-            // 
-            // nud_IsDebug
-            // 
-            this.nud_IsDebug.Location = new System.Drawing.Point(141, 250);
-            this.nud_IsDebug.Margin = new System.Windows.Forms.Padding(2);
-            this.nud_IsDebug.Name = "nud_IsDebug";
-            this.nud_IsDebug.Size = new System.Drawing.Size(90, 21);
-            this.nud_IsDebug.TabIndex = 140;
             // 
             // btn_SaveSystemInfo
             // 
@@ -437,16 +379,75 @@
             this.Tv_Select.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.Tv_Select_DrawNode);
             this.Tv_Select.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.Tv_Select_AfterSelect);
             // 
-            // cbx_IsShowImage_Product
+            // chx_IsCompression
             // 
-            this.cbx_IsShowImage_Product.AutoSize = true;
-            this.cbx_IsShowImage_Product.Location = new System.Drawing.Point(408, 170);
-            this.cbx_IsShowImage_Product.Margin = new System.Windows.Forms.Padding(2);
-            this.cbx_IsShowImage_Product.Name = "cbx_IsShowImage_Product";
-            this.cbx_IsShowImage_Product.Size = new System.Drawing.Size(84, 16);
-            this.cbx_IsShowImage_Product.TabIndex = 181;
-            this.cbx_IsShowImage_Product.Text = "显示产品图";
-            this.cbx_IsShowImage_Product.UseVisualStyleBackColor = true;
+            this.chx_IsCompression.AutoSize = true;
+            this.chx_IsCompression.Location = new System.Drawing.Point(275, 59);
+            this.chx_IsCompression.Margin = new System.Windows.Forms.Padding(2);
+            this.chx_IsCompression.Name = "chx_IsCompression";
+            this.chx_IsCompression.Size = new System.Drawing.Size(72, 16);
+            this.chx_IsCompression.TabIndex = 188;
+            this.chx_IsCompression.Text = "是否压缩";
+            this.chx_IsCompression.UseVisualStyleBackColor = true;
+            // 
+            // cbx_SaveImageFormat_Deepth
+            // 
+            this.cbx_SaveImageFormat_Deepth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbx_SaveImageFormat_Deepth.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cbx_SaveImageFormat_Deepth.FormattingEnabled = true;
+            this.cbx_SaveImageFormat_Deepth.Location = new System.Drawing.Point(140, 57);
+            this.cbx_SaveImageFormat_Deepth.Name = "cbx_SaveImageFormat_Deepth";
+            this.cbx_SaveImageFormat_Deepth.Size = new System.Drawing.Size(120, 22);
+            this.cbx_SaveImageFormat_Deepth.TabIndex = 187;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label7.Location = new System.Drawing.Point(24, 57);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(63, 14);
+            this.label7.TabIndex = 186;
+            this.label7.Text = "3D深度图";
+            // 
+            // nud_NSaveImageNum
+            // 
+            this.nud_NSaveImageNum.Location = new System.Drawing.Point(170, 288);
+            this.nud_NSaveImageNum.Margin = new System.Windows.Forms.Padding(2);
+            this.nud_NSaveImageNum.Name = "nud_NSaveImageNum";
+            this.nud_NSaveImageNum.Size = new System.Drawing.Size(90, 21);
+            this.nud_NSaveImageNum.TabIndex = 185;
+            this.nud_NSaveImageNum.Visible = false;
+            // 
+            // cbx_EnNSaveImage
+            // 
+            this.cbx_EnNSaveImage.AutoSize = true;
+            this.cbx_EnNSaveImage.Location = new System.Drawing.Point(27, 293);
+            this.cbx_EnNSaveImage.Margin = new System.Windows.Forms.Padding(2);
+            this.cbx_EnNSaveImage.Name = "cbx_EnNSaveImage";
+            this.cbx_EnNSaveImage.Size = new System.Drawing.Size(126, 16);
+            this.cbx_EnNSaveImage.TabIndex = 184;
+            this.cbx_EnNSaveImage.Text = "每N张图像保存一次";
+            this.cbx_EnNSaveImage.UseVisualStyleBackColor = true;
+            this.cbx_EnNSaveImage.Visible = false;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label2.Location = new System.Drawing.Point(24, 256);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(63, 14);
+            this.label2.TabIndex = 183;
+            this.label2.Text = "调试模式";
+            // 
+            // nud_IsDebug
+            // 
+            this.nud_IsDebug.Location = new System.Drawing.Point(140, 252);
+            this.nud_IsDebug.Margin = new System.Windows.Forms.Padding(2);
+            this.nud_IsDebug.Name = "nud_IsDebug";
+            this.nud_IsDebug.Size = new System.Drawing.Size(90, 21);
+            this.nud_IsDebug.TabIndex = 182;
             // 
             // SaveSetingForm
             // 
@@ -462,9 +463,9 @@
             this.Load += new System.EventHandler(this.BaseSetingForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.nud_NSaveImageNum)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_IsDebug)).EndInit();
-            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -472,12 +473,10 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.NumericUpDown nud_IsDebug;
         private System.Windows.Forms.Button btn_SaveSystemInfo;
         private System.Windows.Forms.ComboBox cbx_SaveImageFormat_Primitive;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TreeView Tv_Select;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox cbx_IsShowImage_Primitive;
         private System.Windows.Forms.ComboBox cbx_SaveImageFormat_Screenshot;
         private System.Windows.Forms.CheckBox cbx_IsShowImage_Min;
@@ -488,19 +487,21 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox cbx_HighDefinition_Screenshot;
-        private System.Windows.Forms.CheckBox cbx_EnNSaveImage;
-        private System.Windows.Forms.NumericUpDown nud_NSaveImageNum;
+        private System.Windows.Forms.ComboBox cbx_SaveImageSelect_Screenshot;
+        private System.Windows.Forms.CheckBox cbx_IsShowImage_Product;
+        private System.Windows.Forms.CheckBox cbx_HighDefinition_ProdScreenshot;
+        private System.Windows.Forms.ComboBox cbx_SaveImageSelect_ProdScreenshot;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox cbx_SaveImageFormat_ProdScreenshot;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox cbx_SaveImageSelect_ProdImg;
         private System.Windows.Forms.ComboBox cbx_SaveImageFormat_ProdImg;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.ComboBox cbx_SaveImageFormat_ProdScreenshot;
-        private System.Windows.Forms.ComboBox cbx_SaveImageSelect_Screenshot;
-        private System.Windows.Forms.ComboBox cbx_SaveImageSelect_ProdScreenshot;
-        private System.Windows.Forms.CheckBox cbx_HighDefinition_ProdScreenshot;
+        private System.Windows.Forms.CheckBox chx_IsCompression;
         private System.Windows.Forms.ComboBox cbx_SaveImageFormat_Deepth;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.CheckBox chx_IsCompression;
-        private System.Windows.Forms.CheckBox cbx_IsShowImage_Product;
+        private System.Windows.Forms.NumericUpDown nud_NSaveImageNum;
+        private System.Windows.Forms.CheckBox cbx_EnNSaveImage;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.NumericUpDown nud_IsDebug;
     }
 }
